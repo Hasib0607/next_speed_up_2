@@ -21,6 +21,7 @@ export default function RootLayout({
     useGetDesignQuery({});
     useGetHeaderSettingsQuery({});
     useGetMenuQuery({});
+    // need
 
     const home = useSelector((state: any) => state?.home);
     const { design } = home || {};
