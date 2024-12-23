@@ -10,7 +10,7 @@ const RenderSection = dynamic(
     () => import('@/components/_homepage/render-section')
 );
 
-const HomePage = () => {
+const HomePage = ({design}:any) => {
     const {
         data: layoutData,
         isLoading,
@@ -24,7 +24,7 @@ const HomePage = () => {
     }
 
     if (isLoading && !isError) {
-        return <Loading/>;
+        return <Loading design={design}/>;
     }
 
     let content = (
@@ -32,7 +32,7 @@ const HomePage = () => {
             {layout &&
                 layout?.length > 0 &&
                 layout?.map((item: any, index: number) => (
-                    <RenderSection key={index} component={item} />
+                    <RenderSection key={index} component={item} design={design} />
                 ))}
         </>
     );

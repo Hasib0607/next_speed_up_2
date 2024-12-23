@@ -40,13 +40,13 @@ const Seven = ({ store_id }: any) => {
 
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
+    const [colors, setColors] = useState<any[]>([]);
 
     const encodedColor = encodeURIComponent(activeColor);
 
     const {
         data: shopPageProductsData,
         isLoading: shopPageProductsLoading,
-        isError,
         isSuccess: shopPageProductsSuccess,
         refetch,
     } = useGetShopPageProductsQuery({ page, encodedColor, priceValue, sort });
@@ -67,21 +67,30 @@ const Seven = ({ store_id }: any) => {
 
     useEffect(() => {
         if (shopPageProductsSuccess) {
-            const productsData = shopPageProductsData?.data?.data || [];
+            const productsData = shopPageProductsData?.data || [];
             if (isPagination) {
-                setProducts(productsData || []);
+                setProducts(productsData?.products || []);
             } else {
                 setProducts((prev) =>
                     Array.isArray(prev)
-                        ? [...prev, ...(productsData || [])]
-                        : productsData || []
+                        ? [...prev, ...(productsData?.products || [])]
+                        : productsData?.products || []
                 );
                 setPage(1);
             }
-        } else if (shopPageProductsData?.data?.current_page === 1) {
+        } else if (shopPageProductsData?.data?.pagination?.current_page === 1) {
             setHasMore(false);
         }
     }, [shopPageProductsData, isPagination, shopPageProductsSuccess]);
+
+    useEffect(() => {
+        if (shopPageProductsSuccess) {
+            const productsData = shopPageProductsData?.data || [];
+            if (productsData?.colors) {
+                setColors(productsData?.colors);
+            }
+        }
+    }, [shopPageProductsData, shopPageProductsSuccess]);
 
     return (
         <div className="grid grid-cols-5 lg:gap-8 sm:container px-5 bg-white mb-10">
@@ -112,7 +121,7 @@ const Seven = ({ store_id }: any) => {
                 {/* Filter By Color New */}
                 <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
                     <FilterByColorNew
-                        colors={shopPageProductsData?.data?.colors}
+                        colors={colors}
                         setActiveColor={setActiveColor}
                         activeColor={activeColor}
                         setPage={setPage}

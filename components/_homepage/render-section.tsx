@@ -29,12 +29,11 @@ type ComponentType =
 
 interface RenderSectionProps {
     component: ComponentType;
+    design: any;
 }
 
-const RenderSection = ({ component }: RenderSectionProps) => {
-    const home = useSelector((state: any) => state?.home);
-    const { design } = home || {};
-
+const RenderSection = ({ component,design }: RenderSectionProps) => {
+    
     const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
     const store_id = store?.id || null;
 

@@ -14,9 +14,10 @@ const Header = dynamic(() => import('@/components/Header'), { ssr: false });
 const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
 
 export default function RootLayout({
-    children,
+    children
 }: Readonly<{
     children: React.ReactNode;
+    // design:any
 }>) {
     useGetDesignQuery({});
     useGetHeaderSettingsQuery({});
@@ -25,9 +26,11 @@ export default function RootLayout({
 
     const home = useSelector((state: any) => state?.home);
     const { design } = home || {};
+    
 
     return (
         <>
+        <Announcement design={design} />
             <Header design={design} />
             {children}
             <Footer design={design} />
