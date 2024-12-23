@@ -11,18 +11,25 @@ export const pageApi = apiSlice.injectEndpoints({
                 method: 'GET',
             }),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                const res = await queryFulfilled;
+                const resData = res?.data || null
                 try {
-                    const { data } = await queryFulfilled;
-                    if (data) {
-                        dispatch(setPage(data?.data)); // Dispatch the action with the received data
+                    if (resData?.status) {
+                        dispatch(setPage(resData?.data)); // Dispatch the action with the received data
                     }
                 } catch (error) {
                     dispatch(setPage(null));
                 }
             },
         }),
+        getPageData: builder.query<any, any>({
+            query: ({ store_id, slug }) => ({
+                url: `page/${store_id}/${slug}`,
+                method: 'GET',
+            }),
+        }),
     }),
     overrideExisting: false, // Optional: prevents overwriting if already defined
 });
 
-export const { useGetPageQuery } = pageApi;
+export const { useGetPageQuery,useGetPageDataQuery } = pageApi;

@@ -9,7 +9,7 @@ export const pageSlice = createSlice({
     initialState,
     reducers: {
         setPage: (state, action: PayloadAction<any>) => {
-            state.data = action.payload;
+            state.page = action.payload;
         },
     },
 });

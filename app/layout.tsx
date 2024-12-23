@@ -4,6 +4,8 @@ import './globals.css';
 // import NextTopLoader from "nextjs-toploader";
 import Announcement from '@/components/Announcement';
 import getDesign from '@/utils/fetcher/getDesign';
+import { headers } from 'next/headers';
+import { GetServerSideProps } from 'next';
 import AppWrapper from './AppWrapper';
 
 const geistSans = localFont({
@@ -23,20 +25,37 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
-    children,
+    children,currentUrl
 }: Readonly<{
-    children: React.ReactNode;
+    children: React.ReactNode;currentUrl: any
 }>) {
+    // const headersList = await headers();
     const design = await getDesign();
+
+    // Check if the current route is the homepage
+    // const pathname = headersList.get('x-nextjs-route');
+    // const isHomepage = pathname;
+
     return (
         <html lang="en">
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
                 {/* <NextTopLoader /> */}
-                <Announcement design={design}/>
+                {/* <Announcement design={design} /> */}
                 <AppWrapper design={design}>{children}</AppWrapper>
             </body>
         </html>
     );
 }
+
+
+// export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+//     const currentUrl = req.url; // Get the full URL
+
+//     return {
+//         props: {
+//             currentUrl,
+//         },
+//     };
+// };
