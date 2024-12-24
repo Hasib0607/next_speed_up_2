@@ -8,11 +8,7 @@ import Card12 from '@/components/card/card12';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ThreeDots } from 'react-loader-spinner';
 
-import {
-    ArrowLeftIcon,
-    MinusIcon,
-    PlusIcon,
-} from '@heroicons/react/24/outline';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 import Skeleton from '@/components/loaders/skeleton';
 import Link from 'next/link';
@@ -29,9 +25,18 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { RootState } from '@/redux/store';
+import SingleCategory from './components/single-category';
+import Filters from './components/filters';
+import { usePathname } from 'next/navigation';
+import { getPathName, getSecondPathName } from '@/helpers/littleSpicy';
+import { numberParser } from '@/helpers/numberParser';
 
 const Seven = ({ catId, store_id }: any) => {
     const dispatch = useDispatch();
+    const pathName = usePathname();
+    const currentPath = getPathName(pathName);
+    const currentSecondPath = numberParser(getSecondPathName(pathName));
+
     const { data: modulesData } = useGetModulesQuery({ store_id });
     const modules = modulesData?.data || [];
 
@@ -48,17 +53,17 @@ const Seven = ({ catId, store_id }: any) => {
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
 
-    const nextPageFetch = () => {
-        setPage((prev) => prev + 1);
-        categoryPageProductsRefetch();
-    };
-
     const {
         data: categoryPageProductsData,
         isLoading: categoryPageProductsLoading,
         isSuccess: categoryPageProductsSuccess,
         refetch: categoryPageProductsRefetch,
     } = useGetCategoryPageProductsQuery({ catId, page, filtersData });
+
+    const nextPageFetch = () => {
+        setPage((prev) => prev + 1);
+        categoryPageProductsRefetch();
+    };
 
     const {
         data: colorsData,
@@ -78,21 +83,26 @@ const Seven = ({ catId, store_id }: any) => {
 
     useEffect(() => {
         if (categoryPageProductsSuccess) {
-            const categoryData = categoryPageProductsData?.data?.data || [];
+            const categoryData = categoryPageProductsData?.data || [];
+
             if (isPagination) {
-                setProducts(categoryData || []);
+                setProducts(categoryData?.products || []);
             } else {
                 setProducts((prev) =>
                     Array.isArray(prev)
-                        ? [...prev, ...(categoryData || [])]
-                        : categoryData || []
+                        ? [...prev, ...(categoryData?.products || [])]
+                        : categoryData?.products || []
                 );
                 setPage(1);
             }
-        } else if (categoryPageProductsData?.data?.current_page === 1) {
+        } else if (categoryPageProductsData?.data?.pagination?.current_page === 1) {
             setHasMore(false);
         }
     }, [categoryPageProductsData, isPagination, categoryPageProductsSuccess]);
+
+    const currentCatName = category?.find(
+        (item: any) => item?.id == currentSecondPath
+    );
 
     return (
         <div className="grid grid-cols-5 lg:gap-8 sm:container px-5 bg-white mb-10">
@@ -105,7 +115,9 @@ const Seven = ({ catId, store_id }: any) => {
                         /
                     </span>
                     <span className="text-base text-gray-600 font-bold">
-                        Category
+                        {currentPath == 'category'
+                            ? currentCatName?.name
+                            : currentPath}
                     </span>
                 </div>
 
@@ -116,7 +128,7 @@ const Seven = ({ catId, store_id }: any) => {
 
                     {category?.map((item: any) => (
                         <div key={item.id} className="">
-                            <SingleCat item={item} />
+                            <SingleCategory item={item} />
                         </div>
                     ))}
                 </div>
@@ -144,7 +156,7 @@ const Seven = ({ catId, store_id }: any) => {
                 <div className="flex justify-between py-10">
                     <div>
                         <h1 className="text-3xl lg:block hidden font-semibold">
-                            Product
+                            Products
                         </h1>
                         <div
                             onClick={() => setOpen(!open)}
@@ -156,7 +168,7 @@ const Seven = ({ catId, store_id }: any) => {
                     </div>
                     {/* Filter By Price and name */}
                     <div>
-                        <Filter
+                        <Filters
                             onChange={(e: any) => {
                                 dispatch(setSort(e.target.value));
                                 setPage(1);
@@ -199,16 +211,15 @@ const Seven = ({ catId, store_id }: any) => {
                         >
                             <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-3 md:gap-3 xl:grid-cols-4 grid-cols-2 gap-2">
                                 {products?.length &&
-                                    products?.map(
-                                        (product: any, index: any) => (
+                                    products
+                                        ?.map((product: any, index: any) => (
                                             <Card12
                                                 item={product}
                                                 key={index}
                                                 store_id={store_id}
                                                 productId={product?.id}
                                             />
-                                        )
-                                    )}
+                                        ))}
                             </div>
                         </InfiniteScroll>
                     </>
@@ -216,14 +227,15 @@ const Seven = ({ catId, store_id }: any) => {
                     <>
                         {products?.length > 0 ? (
                             <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-3 md:gap-3 xl:grid-cols-4 grid-cols-2 gap-2">
-                                {products?.map((product: any, index: any) => (
-                                    <Card12
-                                        item={product}
-                                        key={index}
-                                        productId={product?.id}
-                                        store_id={store_id}
-                                    />
-                                ))}
+                                {products
+                                    ?.map((product: any, index: any) => (
+                                        <Card12
+                                            item={product}
+                                            key={index}
+                                            productId={product?.id}
+                                            store_id={store_id}
+                                        />
+                                    ))}
                             </div>
                         ) : (
                             <div className="flex justify-center h-[400px] items-center">
@@ -235,15 +247,12 @@ const Seven = ({ catId, store_id }: any) => {
                     </>
                 )}
 
-                {isPagination && products?.length > 0 ? (
+                {isPagination && categoryPageProductsData?.data?.total > 7 ? (
                     <div className="md:mt-12 flex justify-center">
                         <PaginationComponent
-                            lastPage={categoryPageProductsData?.data?.last_page}
-                            setPage={setPage}
-                            currentPage={
-                                categoryPageProductsData?.data?.current_page
-                            }
                             initialPage={page}
+                            setPage={setPage}
+                            lastPage={categoryPageProductsData?.data?.last_page}
                         />
                     </div>
                 ) : null}
@@ -273,7 +282,7 @@ const Seven = ({ catId, store_id }: any) => {
                         </h1>
                         {category?.map((item: any) => (
                             <div key={item.id} className="">
-                                <SingleCat item={item} />
+                                <SingleCategory item={item} />
                             </div>
                         ))}
                     </div>
@@ -284,89 +293,3 @@ const Seven = ({ catId, store_id }: any) => {
 };
 
 export default Seven;
-
-const Filter = ({ onChange }: any) => {
-    return (
-        <div>
-            <div className="flex py-0 px-0 rounded-xl lg:px-3 justify-between items-center gap-2">
-                <div className="md:block hidden lg:mr-28 xl:mr-0">Sort By:</div>
-                <div className="flex items-center gap-3 lg:-ml-28 xl:-ml-0 md:-ml-0 ml-2 justify-center">
-                    {/* Short by  */}
-                    <div className="relative">
-                        <select
-                            onChange={onChange}
-                            className="selectdd w-48 font-medium lg:cursor-pointer h-12 text-md  rounded-md  focus:ring-transparent outline-none focus:outline-none bg-transparent border border-gray-500 appearance-none pl-3"
-                            id="category"
-                            name="category"
-                        >
-                            <option className="lg:cursor-pointer">
-                                Sorting Options
-                            </option>
-                            <option className="lg:cursor-pointer" value="az">
-                                Name, A to Z
-                            </option>
-                            <option className="lg:cursor-pointer" value="za">
-                                Name, Z to A
-                            </option>
-                            <option className="lg:cursor-pointer" value="lh">
-                                Price, Low to High
-                            </option>
-                            <option className="lg:cursor-pointer" value="hl">
-                                Price, High to Low
-                            </option>
-                        </select>
-                        {/* Custom caret on the left */}
-                        <span className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                            ▼
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const SingleCat = ({ item }: any) => {
-    const [show, setShow] = useState(false);
-    return (
-        <>
-            <div className="w-full flex py-3 lg:cursor-pointer">
-                <Link
-                    onClick={() => setShow(!show)}
-                    href={'/category/' + item.id}
-                    className="flex-1 text-sm text-gray-900 font-medium"
-                >
-                    <p>{item.name}</p>
-                </Link>
-                {item?.cat ? (
-                    <div onClick={() => setShow(!show)} className="px-4 h-full">
-                        {show ? (
-                            <MinusIcon className="h-4 w-4 text-gray-800" />
-                        ) : (
-                            <PlusIcon className="h-4 w-4 text-gray-800" />
-                        )}
-                    </div>
-                ) : null}
-            </div>
-
-            {show && (
-                <>
-                    <div className="ml-8">
-                        {item?.cat?.map((sub: any) => (
-                            <div className="py-2" key={sub.id}>
-                                <Link href={'/category/' + sub?.id}>
-                                    <p className="pb-2 text-sm text-red-500">
-                                        {sub?.name + 1}
-                                    </p>
-                                </Link>
-                                <div className="pr-4">
-                                    <div className="h-[1px] bg-gray-200 w-full"></div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </>
-            )}
-        </>
-    );
-};

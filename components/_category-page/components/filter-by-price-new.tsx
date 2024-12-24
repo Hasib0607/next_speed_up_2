@@ -1,7 +1,7 @@
 "use client"
 
 import { setPrice } from '@/redux/features/filters/filterSlice';
-import Taka from '@/utils/Taka';
+import BDT from '@/utils/bdt';
 
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
@@ -23,10 +23,10 @@ const FilterByPriceNew = ({ priceValue, setHasMore, setPage }: any) => {
             </h1>
             <div className="flex justify-between items-center">
                 <label htmlFor="range" className=" mb-2 text-sm font-semibold">
-                    <Taka tk={0} />
+                    <BDT price={0} />
                 </label>
                 <label htmlFor="range" className=" mb-2 text-sm font-semibold">
-                    <Taka tk={priceValue} />
+                    <BDT price={priceValue} />
                 </label>
             </div>
             <input

@@ -1,4 +1,5 @@
 'use client';
+
 import { setColor } from '@/redux/features/filters/filterSlice';
 import React from 'react';
 import { useDispatch } from 'react-redux';
@@ -24,7 +25,7 @@ const FilterByColorNew = ({
             <div className="flex flex-wrap gap-2 mt-3">
                 <div
                     onClick={() => handleClick(null)}
-                    className="h-6 w-6 rounded-full bg-white border-2 border-red-500 hover:cursor-pointer relative overflow-hidden "
+                    className={`h-6 w-6 rounded-full bg-white border-2 border-red-500 hover:cursor-pointer relative overflow-hidden ${activeColor === null && 'ring-1 ring-offset-2 ring-red-500'}`}
                 >
                     <p className="absolute left-1/2 -translate-x-1/2 top-0 h-full w-[2px] text-center mx-auto bg-red-500 rotate-45 "></p>
                 </div>
