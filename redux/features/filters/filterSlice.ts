@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const initialState: any = {
     color: "",
     price: null,
-    sort: 'az',
+    sort: null,
     statusBtn:'All'
 };
 

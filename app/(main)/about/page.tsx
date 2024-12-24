@@ -1,14 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import parse from 'html-react-parser';
 import OvalLoader from '@/components/loaders/oval-loader';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 import { useGetPageDataQuery } from '@/redux/features/page/pageApi';
+import { RootState } from '@/redux/store';
+import parse from 'html-react-parser';
+import { useSelector } from 'react-redux';
+import { getPathName } from '@/helpers/littleSpicy';
 
 // Define the type for the `data` you are fetching
 interface PageData {
@@ -29,8 +30,8 @@ const AboutPage = () => {
     const store_id = store?.id || null;
 
     const [slug, setSlug] = useState(null);
-    const pathname = usePathname();
-    const currentPath = pathname?.toLowerCase().split('/')[1];
+    const pathName = usePathname();
+    const currentPath = getPathName(pathName);
 
     const {
         data: pageDetailsData,
@@ -45,7 +46,8 @@ const AboutPage = () => {
         if (result) {
             setSlug(result?.slug);
         }
-    }, [page, pathname, store_id]);
+
+    }, [page, pathName, store_id,currentPath]);
 
     useEffect(() => {
         if (pageDetailsSuccess) {

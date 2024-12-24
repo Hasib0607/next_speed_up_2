@@ -14,44 +14,23 @@ export const shopApi = apiSlice.injectEndpoints({
             }),
         }),
         getShopPageProducts: builder.query<any, any>({
-            query: ({ page, encodedColor, priceValue, sort }) => ({
-                url: `shoppage/products?name=${name}&page=${page}&colorFilter=${encodedColor}&priceFilter=${priceValue}&filter=${sort}`,
-                method: 'GET',
-            }),
+            query: ({ page, filtersData }) => {
+                let queryString = getQueryString(filtersData);
+                return {
+                    url: `shoppage/products?name=${name}&page=${page}${queryString}`,
+                    method: 'GET',
+                };
+            },
         }),
         getCategoryPageProducts: builder.query<any, any>({
             query: ({ catId, page, filtersData }) => {
-                let queryString = '';
-                if (filtersData) {
-                    const {
-                        color: activeColor,
-                        price: priceValue,
-                        sort,
-                    } = filtersData || {};
-                    queryString = getQueryString(activeColor, priceValue, sort);
-                }
+                let queryString = getQueryString(filtersData);
                 return {
                     url: `getcatproducts/${catId}?page=${page}${queryString}`,
                     method: 'GET',
                 };
             },
         }),
-        // getHeaderSettings: builder.query<any, any>({
-        //     query: () => ({
-        //         url: `header-settings/${name}`,
-        //         method: 'GET',
-        //     }),
-        //     async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        //         try {
-        //             const { data } = await queryFulfilled;
-        //             if (data) {
-        //                 dispatch(setHeader(data?.data)); // Dispatch the action with the received data
-        //             }
-        //         } catch (error) {
-        //             dispatch(setHeader(null));
-        //         }
-        //     },
-        // }),
     }),
     overrideExisting: false, // Optional: prevents overwriting if already defined
 });

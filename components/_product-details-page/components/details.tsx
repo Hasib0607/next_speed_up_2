@@ -176,6 +176,7 @@ const Details = ({ product, productDetailLoading, children }: any) => {
 
     const price = productCurrentPrice(product);
     const priceLineThrough = isRegularPriceLineThrough(product);
+    const parsedRating = numberParser(product?.number_rating, true);
 
     const handleAddToCart = () => {
         addToCart({
@@ -230,13 +231,9 @@ const Details = ({ product, productDetailLoading, children }: any) => {
                     </div>
                     <div className="flex justify-start items-center gap-2">
                         <div className="text-xs">
-                            <Rate rating={product?.rating} />
+                            <Rate rating={parsedRating} />
                         </div>
-                        <p>
-                            {product?.number_rating
-                                ? product?.number_rating
-                                : 0}
-                        </p>
+                        <p>({parsedRating})</p>
                     </div>
                 </div>
                 <div className="md:divider mt-2"></div>
@@ -271,6 +268,7 @@ const Details = ({ product, productDetailLoading, children }: any) => {
                     <VscCreditCard size={20} />
                     <p>Cash on Delivery available</p>
                 </div>
+
                 {/* color and size  */}
                 {vrcolor && sizeV !== undefined && (
                     <>

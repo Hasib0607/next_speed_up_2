@@ -18,8 +18,13 @@ export const isRegularPriceLineThrough = (product: any) => {
     );
 
     if (product?.product_offer?.status) {
-        return offerPrice != calculateRegularPrice
+        return offerPrice != calculateRegularPrice;
     } else {
         return regularPrice != calculateRegularPrice;
     }
 };
+
+export const getPathName = (pathname: any): string =>
+    pathname?.toLowerCase().split('/')[1];
+export const getSecondPathName = (pathname: any): string =>
+    pathname?.toLowerCase().split('/')[2];
