@@ -7,9 +7,9 @@ import {
     removeFromCartList,
 } from '@/redux/features/cart/cartSlice';
 
-import { toast } from 'react-toastify';
 import { AppDispatch } from '@/redux/store';
 import { sendGTMEvent } from '@next/third-parties/google';
+import { toast } from 'react-toastify';
 
 export const handleIncrement = (dispatch: AppDispatch, item: any): void => {
     if (item?.qty >= item?.availability) {
@@ -19,7 +19,7 @@ export const handleIncrement = (dispatch: AppDispatch, item: any): void => {
     } else {
         dispatch(increaseQuantity(item?.cartId));
         toast.success('Successfully added to cart', {
-            toastId: item?.qty,
+            toastId: item?.cartId,
         });
     }
 };
@@ -80,7 +80,7 @@ export const isQtyLeft = (
     }
 };
 
-export const isEqlQty = (product: any, variantId: any,  cartList: any) => {
+export const isEqlQty = (product: any, variantId: any, cartList: any) => {
     const cartItem = cartList?.find((item: any) => {
         if (product?.variant?.length > 0) {
             if (variantId == item?.variant_id && item?.id == product?.id) {
@@ -124,8 +124,6 @@ export const grandTotal = (
     return gTotal;
 };
 
-
-
 // add to cart
 export const addToCart = ({
     dispatch,
@@ -135,6 +133,7 @@ export const addToCart = ({
     qty,
     variant = [],
     variantId = null,
+    currentVariation,
     unit = null,
     size = null,
     color = null,
@@ -147,15 +146,38 @@ export const addToCart = ({
     price: number;
     qty: number;
     variant?: any[];
+    currentVariation?: any;
     variantId?: any;
     unit?: any;
     size?: any;
     color?: any;
     filterV?: any[];
-    productQuantity?: number;
+    productQuantity: number;
 }) => {
     const hasInCartList = isActiveCart(variantId, product, cartList);
     const isAbleToCart = isQtyLeft(product, variantId, qty, cartList);
+
+    const addOnBoard = () => {
+        dispatch(
+            addToCartList({
+                price,
+                qty,
+                availability: productQuantity,
+                variant_id: variantId,
+                ...product,
+            })
+        );
+        sendGTMEvent({
+            event: 'add_to_cart',
+            value: {
+                price,
+                qty,
+                availability: productQuantity,
+                variant_id: variantId,
+                ...product,
+            },
+        });
+    };
 
     if (hasInCartList && !isAbleToCart) {
         toast.warning('Cannot add more than available stock', {
@@ -163,116 +185,76 @@ export const addToCart = ({
         });
         return;
     } else {
-        if (variant?.length) {
-            // unit with offer
-            if (unit) {
-                dispatch(
-                    addToCartList({
-                        price,
-                        qty,
-                        availability: productQuantity,
-                        variant_id: variantId,
-                        ...product,
-                    })
-                );
-                sendGTMEvent({
-                    event: 'add_to_cart',
-                    value: {
-                        price,
-                        qty,
-                        availability: productQuantity,
-                        variant_id: variantId,
-                        ...product,
-                    },
-                });
+        if (variant?.length > 0) {
+            // size and color
+            if (currentVariation?.colorsAndSizes) {
+                // alert variant add
+                if (filterV?.length === 0) {
+                    toast.warning('Please Select Variant', {
+                        toastId: filterV?.length,
+                    });
+                    return;
+                } else if (size === null) {
+                    toast.warning('Please Select Size', {
+                        toastId: product?.id,
+                    });
+                    return;
+                }
+                addOnBoard();
                 toast.success('Successfully you added to cart', {
                     toastId: variantId,
                 });
             }
 
-            // size and color also with offer
-            else if (size && filterV) {
-                dispatch(
-                    addToCartList({
-                        price,
-                        qty,
-                        availability: productQuantity,
-                        variant_id: variantId,
-                        ...product,
-                    })
-                );
-                sendGTMEvent({
-                    event: 'add_to_cart',
-                    value: {
-                        price,
-                        qty,
-                        availability: productQuantity,
-                        variant_id: variantId,
-                        ...product,
-                    },
-                });
+            // unit only
+            else if (currentVariation?.unitsOnly) {
+                // alert variant add
+                if (unit === null) {
+                    toast.warning('Please Select Unit', {
+                        toastId: product?.id,
+                    });
+                    return;
+                }
+                addOnBoard();
                 toast.success('Successfully you added to cart', {
-                    toastId: variantId,
+                    toastId: unit?.id,
                 });
             }
 
-            // color with offer
-            else if (color && filterV.length === 0) {
-                dispatch(
-                    addToCartList({
-                        price,
-                        qty,
-                        availability: productQuantity,
-                        variant_id: variantId,
-                        ...product,
-                    })
-                );
-                sendGTMEvent({
-                    event: 'add_to_cart',
-                    value: {
-                        price,
-                        qty,
-                        availability: productQuantity,
-                        variant_id: variantId,
-                        ...product,
-                    },
-                });
+            // size only
+            else if (currentVariation?.sizesOnly) {
+                // alert variant add
+                if (size === null) {
+                    toast.warning('Please Select Size', {
+                        toastId: product?.id,
+                    });
+                    return;
+                }
+                addOnBoard();
                 toast.success('Successfully you added to cart', {
-                    toastId: variantId,
+                    toastId: size?.id,
                 });
             }
 
-            // alert variant add
-            else if (filterV?.length === 0) {
-                toast.warning('Please Select Variant', {
-                    toastId: filterV?.length,
-                });
-            } else if (size === null) {
-                toast.warning('Please Select Size', {
-                    toastId: size,
+            // color only
+            else if (currentVariation?.colorsOnly) {
+                // alert variant add
+                if (color === null) {
+                    toast.warning('Please Select color', {
+                        toastId: product?.id,
+                    });
+                    return;
+                }
+                addOnBoard();
+                toast.success('Successfully you added to cart', {
+                    toastId: color?.id,
                 });
             }
         } else {
-            dispatch(
-                addToCartList({
-                    price,
-                    qty,
-                    availability: productQuantity,
-                    variant_id: variantId,
-                    ...product,
-                })
-            );
-            sendGTMEvent({
-                event: 'add_to_cart',
-                value: {
-                    price,
-                    qty,
-                    availability: productQuantity,
-                    variant_id: variantId,
-                    ...product,
-                },
+            addOnBoard();
+            toast.success('Successfully you added to cart', {
+                toastId: product?.id,
             });
-            toast.success('Successfully you added to cart');
         }
     }
 };

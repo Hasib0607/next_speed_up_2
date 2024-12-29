@@ -65,6 +65,7 @@ const Card44 = ({ item }: any) => {
             cartList,
             price,
             qty: 1,
+            productQuantity: item?.quantity,
         });
     };
 
@@ -128,7 +129,7 @@ const Card44 = ({ item }: any) => {
                         onClick={handleAddToCart}
                         className="font-medium border px-3 py-2 w-max lg:cursor-pointer border-hover searchHover duration-500"
                     >
-                        {store_id === 3144 ? 'ORDER NOW' : 'ADD TO CART'}
+                        {'ADD TO CART'}
                     </div>
                 </div>
             </div>

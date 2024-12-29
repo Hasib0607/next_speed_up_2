@@ -31,6 +31,8 @@ const Card5 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    
+    const parsedRating = numberParser(item?.number_rating, true);
 
     const handleAddToCart = () => {
         addToCart({
@@ -39,6 +41,7 @@ const Card5 = ({ item }: any) => {
             cartList,
             price,
             qty: 1,
+            productQuantity: item?.quantity,
         });
     };
 
@@ -76,10 +79,10 @@ const Card5 = ({ item }: any) => {
 
                     <div className="flex gap-x-1">
                         <div>
-                            <Rate rating={item?.rating} />
+                            <Rate rating={parsedRating} />
                         </div>
                         <div className="text-gray-500 sm:text-sm text-xs">
-                            ({item?.number_rating})
+                            ({parsedRating})
                         </div>
                     </div>
 

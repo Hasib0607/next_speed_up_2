@@ -1,18 +1,18 @@
 "use client";
+
 import React from "react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useEffect } from "react";
 
-
 import { productImg } from "@/site-settings/siteUrl";
 import Link from "next/link";
 
-
 import { useSelector } from "react-redux";
 import { useGetSearchProductQuery } from "@/redux/features/home/homeApi";
-import { getPrice } from "@/helpers/getPrice";
+
 import BDT from "@/utils/bdt";
+import { productCurrentPrice } from "@/helpers/littleSpicy";
 
 const Search = ({ search, setSearch }: any) => {
 
@@ -66,11 +66,7 @@ const Search = ({ search, setSearch }: any) => {
 export default Search;
 
 const Single = ({ item, setSearch }: any) => {
-  const price = getPrice(
-    item?.regular_price,
-    item?.discount_price,
-    item?.discount_type
-  );
+   const price = productCurrentPrice(item);
 
   return (
     <motion.div
@@ -93,7 +89,7 @@ const Single = ({ item, setSearch }: any) => {
           {item.name.slice(0, 100)}
         </Link>
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-          <BDT tk={price} />
+          <BDT price={price} />
         </p>
       </div>
     </motion.div>

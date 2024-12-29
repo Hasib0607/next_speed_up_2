@@ -1,13 +1,8 @@
-// import getAnnouncement from '@/utils/fetcher/getAnnouncement';
 import { useGetAnnouncementQuery } from '@/redux/features/home/homeApi';
-import { RootState } from '@/redux/store';
 import Marquee from 'react-fast-marquee';
-import { useSelector } from 'react-redux';
 
-const Announcement = ({ design }: any) => {
-    // const announcements = await getAnnouncement();
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+const Announcement = ({ design,store_id }: any) => {
+
     const { data: announcementsData, isSuccess: announcementsSuccess } =
         useGetAnnouncementQuery({ store_id });
 

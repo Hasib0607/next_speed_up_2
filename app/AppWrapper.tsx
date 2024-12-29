@@ -9,11 +9,12 @@ import StoreLayer from './StoreLayer';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const AppWrapper = ({ children,design }: any) => {
+const AppWrapper = ({ children,design,appStore }: any) => {
+
     return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <StoreLayer design={design}>{children}</StoreLayer>
+                <StoreLayer design={design} appStore={appStore}>{children}</StoreLayer>
                 <ToastContainer position="top-right" newestOnTop />
             </PersistGate>
         </Provider>

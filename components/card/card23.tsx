@@ -52,6 +52,8 @@ const Card23 = ({ item }: any) => {
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
 
+    const parsedRating = numberParser(item?.number_rating, true);
+
     const handleAddToCart = () => {
         addToCart({
             dispatch,
@@ -59,6 +61,7 @@ const Card23 = ({ item }: any) => {
             cartList,
             price,
             qty: 1,
+            productQuantity: item?.quantity,
         });
     };
 
@@ -122,7 +125,7 @@ const Card23 = ({ item }: any) => {
                         </p>
                     </div>
                     <div className="flex justify-center">
-                        <Rate rating={item?.rating} />
+                        <Rate rating={parsedRating} />
                     </div>
                     <div className="flex justify-center items-center ">
                         <div className="flex gap-x-2 px-2">

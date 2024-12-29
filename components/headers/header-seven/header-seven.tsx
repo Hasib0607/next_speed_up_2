@@ -3,16 +3,16 @@
 import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
 
+import defaultUserImage from '@/assets/default-user-image.png';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { BsSearch } from 'react-icons/bs';
 import { CgMenuLeft, CgShoppingBag } from 'react-icons/cg';
-import defaultUserImage from '@/assets/default-user-image.png';
 import SideMenu from '../components/side-menu';
 import CategorySeven from './category-seven';
-import Search from '../components/search';
+import Search from './search';
 
 import { REDUX_PERSIST } from '@/consts';
 import { removeFromLocalStorage } from '@/helpers/localStorage';

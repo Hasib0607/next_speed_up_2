@@ -545,8 +545,10 @@ const Single = ({ item, setIsOpen, files, cartId }: any) => {
                         src={productImg + item.image[0]}
                         alt=""
                     />
-                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-gray-500 text-white text-xs rounded-full flex justify-center items-center">
-                        <p>{item?.qty}</p>
+                    <div className="absolute -top-1 -right-1 min-w-5 h-5 bg-gray-500 text-white text-xs rounded-full center">
+                        <p className='px-1'>
+                            {item?.qty}
+                        </p>
                     </div>
                 </div>
                 <div className="flex flex-col gap-x-2 gap-y-1 pl-2 justify-start">

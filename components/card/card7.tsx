@@ -21,6 +21,7 @@ import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import { numberParser } from '@/helpers/numberParser';
 import QuikView from '@/utils/quick-view';
 import Details from '../_product-details-page/components/details';
+import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 
 const Card7 = ({ item }: any) => {
     const [open, setOpen] = useState(false);
@@ -75,6 +76,7 @@ const Card7 = ({ item }: any) => {
             cartList,
             price,
             qty: 1,
+            productQuantity: item?.quantity,
         });
     };
 
@@ -137,8 +139,7 @@ const Card7 = ({ item }: any) => {
                             textOverflow: 'ellipsis',
                         }}
                     >
-                        {item?.name.charAt(0).toUpperCase() +
-                            item?.name.slice(1)}
+                        {capitalizeFirstLetter(item?.name)}
                     </h5>
                     <div className="font-six font-bold text-gray-700 text-sm flex items-center gap-2">
                         <div className="text-base font-semibold">

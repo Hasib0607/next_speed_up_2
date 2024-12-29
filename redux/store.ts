@@ -1,4 +1,5 @@
 'use client';
+
 import { configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';

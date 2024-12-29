@@ -22,14 +22,13 @@ import {
     useGetShopPageProductsQuery,
 } from '@/redux/features/shop/shopApi';
 
-import { RootState } from '@/redux/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import SingleCategory from '@/components/_category-page/components/single-category';
 import Filters from '@/components/_category-page/components/filters';
-import { usePathname } from 'next/navigation';
+import SingleCategory from '@/components/_category-page/components/single-category';
 import { getPathName } from '@/helpers/littleSpicy';
-import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { RootState } from '@/redux/store';
+import { usePathname } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Seven = ({ store_id }: any) => {
     const dispatch = useDispatch();
@@ -46,7 +45,7 @@ const Seven = ({ store_id }: any) => {
     const [page, setPage] = useState(1);
 
     const filtersData = useSelector((state: RootState) => state.filters);
-    
+
     // get the activecolor, pricevalue, selectedSort
     const { color: activeColor, price: priceValue } = filtersData || {};
 
@@ -56,7 +55,9 @@ const Seven = ({ store_id }: any) => {
     const {
         data: shopPageProductsData,
         isLoading: shopPageProductsLoading,
+        isFetching: shopPageProductsFetching,
         isSuccess: shopPageProductsSuccess,
+        isError: shopPageProductsError,
         refetch,
     } = useGetShopPageProductsQuery({ page, filtersData });
 
@@ -177,10 +178,12 @@ const Seven = ({ store_id }: any) => {
                 </div>
 
                 {/* show loading */}
-                {shopPageProductsLoading &&
-                    Array.from({ length: 8 }).map((_, index) => (
-                        <Skeleton key={index} />
-                    ))}
+                {(shopPageProductsLoading && !shopPageProductsError) ||
+                shopPageProductsFetching
+                    ? Array.from({ length: 8 }).map((_, index) => (
+                          <Skeleton key={index} />
+                      ))
+                    : null}
 
                 {/* show products */}
                 {!isPagination ? (
@@ -212,13 +215,14 @@ const Seven = ({ store_id }: any) => {
                         >
                             <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-3 md:gap-3 xl:grid-cols-4 grid-cols-2 gap-2">
                                 {products?.length &&
-                                    products
-                                        ?.map((product: any, index: any) => (
+                                    products?.map(
+                                        (product: any, index: any) => (
                                             <Card12
                                                 item={product}
                                                 key={index}
                                             />
-                                        ))}
+                                        )
+                                    )}
                             </div>
                         </InfiniteScroll>
                     </>
@@ -226,10 +230,9 @@ const Seven = ({ store_id }: any) => {
                     <>
                         {products?.length > 0 ? (
                             <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-3 md:gap-3 xl:grid-cols-4 grid-cols-2 gap-2">
-                                {products
-                                    ?.map((product: any, index: any) => (
-                                        <Card12 item={product} key={index} />
-                                    ))}
+                                {products?.map((product: any, index: any) => (
+                                    <Card12 item={product} key={index} />
+                                ))}
                             </div>
                         ) : (
                             <div className="flex justify-center h-[400px] items-center">

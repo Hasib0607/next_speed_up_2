@@ -50,6 +50,7 @@ export const ColorsOnly = ({ color, setColor, variant, setActiveImg }: any) => {
 };
 
 export const Sizes = ({ size, setSize, variant, setActiveImg }: any) => {
+    
     return (
         <>
             {variant?.length > 0 && (
@@ -114,7 +115,7 @@ export const Unit = ({ item, select, setSelect, setActiveImg }: any) => {
                 setSelect(item);
                 setActiveImg(item?.image);
             }}
-            className={`border px-1 w-auto h-10 flex justify-center items-center font-sans text-sm rounded ${
+            className={`border px-1 w-auto h-10 flex justify-center items-center font-sans text-sm rounded cursor-pointer ${
                 item === select ? 'border-gray-900' : 'border-gray-300'
             }`}
         >
@@ -181,9 +182,11 @@ export const ColorSet = ({
         <div
             onClick={() => {
                 setSelect(text);
-                setActiveImg(itemImage);
+                if (itemImage != null) {
+                    setActiveImg(itemImage);
+                }
             }}
-            className={`border w-10 h-10 flex justify-center items-center font-sans font-medium rounded bg-white ${
+            className={`border w-10 h-10 flex justify-center items-center font-sans font-medium rounded bg-white cursor-pointer ${
                 text === select ? 'border-gray-900' : 'border-gray-300'
             }`}
         >

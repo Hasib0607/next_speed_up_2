@@ -237,10 +237,14 @@ const Single = ({
 
     useEffect(() => {
         if (productDetailSuccess) {
-            const product = productDetailsData?.data?.product || {};
+            const product = productDetailsData?.data || {};
             setProduct(product);
         }
     }, [productDetailSuccess, productDetailsData]);
+
+    // console.log("order",order);
+    // console.log("item ",item);
+    
 
     useEffect(() => {
         let copyText = document.querySelector('.copy-text');

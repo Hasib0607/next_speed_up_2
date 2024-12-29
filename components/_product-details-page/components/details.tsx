@@ -34,8 +34,10 @@ import {
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
+
 import { saveToLocalStorage } from '@/helpers/localStorage';
 import { AppDispatch, RootState } from '@/redux/store';
+
 import AddCart from './add-cart';
 
 const Details = ({ product, productDetailLoading, children }: any) => {
@@ -60,7 +62,7 @@ const Details = ({ product, productDetailLoading, children }: any) => {
 
     const [filterV, setFilterV] = useState<any>([]);
 
-    // select all variant state
+    // all selected state
     const [variantId, setVariantId] = useState<any>(null);
     const [color, setColor] = useState<any>(null);
     const [size, setSize] = useState<any>(null);
@@ -81,6 +83,21 @@ const Details = ({ product, productDetailLoading, children }: any) => {
         () => getProductQuantity({ product, size, color, unit }),
         [product, size, color, unit]
     );
+
+    const currentVariation = useMemo(() => {
+        const colorsAndSizes = vrcolor?.length > 0 && sizeV !== undefined;
+        const colorsOnly = vrcolor?.length > 0 && sizeV === undefined;
+        const sizesOnly = vrcolor?.length === 0 && sizeV !== undefined;
+        const unitsOnly =
+            vrcolor?.length === 0 && variant?.[0]?.unit ? true : false;
+
+        return {
+            colorsAndSizes,
+            colorsOnly,
+            sizesOnly,
+            unitsOnly,
+        };
+    }, [vrcolor, sizeV, variant]);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -133,7 +150,7 @@ const Details = ({ product, productDetailLoading, children }: any) => {
             {
                 /* color and size  */
             }
-            if (vrcolor && sizeV !== undefined) {
+            if (currentVariation?.colorsAndSizes) {
                 if (item?.color === color?.color && item?.size === size?.size) {
                     setVariantId(item?.id);
                 }
@@ -141,12 +158,7 @@ const Details = ({ product, productDetailLoading, children }: any) => {
             {
                 /* unit only */
             }
-            if (
-                !vrcolor &&
-                variant &&
-                variant?.length !== 0 &&
-                variant[0]?.unit
-            ) {
+            if (currentVariation?.unitsOnly) {
                 if (item?.unit === unit?.unit) {
                     setVariantId(item?.id);
                 }
@@ -154,7 +166,7 @@ const Details = ({ product, productDetailLoading, children }: any) => {
             {
                 /* color only  */
             }
-            if (vrcolor && sizeV === undefined) {
+            if (currentVariation?.colorsOnly) {
                 if (item?.color === color?.color) {
                     setVariantId(item?.id);
                 }
@@ -162,13 +174,13 @@ const Details = ({ product, productDetailLoading, children }: any) => {
             {
                 /* size only  */
             }
-            if (!vrcolor?.length && sizeV !== undefined) {
+            if (currentVariation?.sizesOnly) {
                 if (item?.size === size?.size) {
                     setVariantId(item?.id);
                 }
             }
         });
-    }, [variant, size, color, unit, vrcolor, sizeV]);
+    }, [variant, size, color, unit, currentVariation]);
 
     if (productDetailLoading) {
         return <Skeleton />;
@@ -176,6 +188,7 @@ const Details = ({ product, productDetailLoading, children }: any) => {
 
     const price = productCurrentPrice(product);
     const priceLineThrough = isRegularPriceLineThrough(product);
+
     const parsedRating = numberParser(product?.number_rating, true);
 
     const handleAddToCart = () => {
@@ -186,6 +199,7 @@ const Details = ({ product, productDetailLoading, children }: any) => {
             price,
             qty,
             variant,
+            currentVariation,
             variantId,
             unit,
             size,
@@ -270,7 +284,7 @@ const Details = ({ product, productDetailLoading, children }: any) => {
                 </div>
 
                 {/* color and size  */}
-                {vrcolor && sizeV !== undefined && (
+                {currentVariation?.colorsAndSizes && (
                     <>
                         {' '}
                         <Colors
@@ -280,33 +294,27 @@ const Details = ({ product, productDetailLoading, children }: any) => {
                             setSize={setSize}
                             setActiveImg={setActiveImg}
                         />
-                    </>
-                )}
-                {filterV &&
-                    filterV?.length !== 0 &&
-                    filterV[0]?.size &&
-                    vrcolor && (
                         <Sizes
                             size={size}
                             setSize={setSize}
                             variant={filterV}
                             setActiveImg={setActiveImg}
                         />
-                    )}
+                    </>
+                )}
+
                 {/* unit only */}
-                {!vrcolor &&
-                    variant &&
-                    variant?.length !== 0 &&
-                    variant[0]?.unit && (
-                        <Units
-                            unit={unit}
-                            setUnit={setUnit}
-                            variant={variant}
-                            setActiveImg={setActiveImg}
-                        />
-                    )}
+                {currentVariation?.unitsOnly && (
+                    <Units
+                        unit={unit}
+                        setUnit={setUnit}
+                        variant={variant}
+                        setActiveImg={setActiveImg}
+                    />
+                )}
+
                 {/* color only  */}
-                {vrcolor && sizeV === undefined && (
+                {currentVariation?.colorsOnly && (
                     <>
                         {' '}
                         <ColorsOnly
@@ -317,12 +325,13 @@ const Details = ({ product, productDetailLoading, children }: any) => {
                         />
                     </>
                 )}
+
                 {/* size only  */}
-                {!vrcolor?.length && sizeV !== undefined && (
+                {currentVariation?.sizesOnly && (
                     <Sizes
                         size={size}
                         setSize={setSize}
-                        variant={filterV}
+                        variant={variant}
                         setActiveImg={setActiveImg}
                     />
                 )}
@@ -340,7 +349,13 @@ const Details = ({ product, productDetailLoading, children }: any) => {
                     <AddCart
                         qty={qty}
                         setQty={setQty}
+                        variant={variant}
                         variantId={variantId}
+                        productQuantity={productQuantity}
+                        currentVariation={currentVariation}
+                        color={color}
+                        size={size}
+                        unit={unit}
                         filterV={filterV}
                         product={product}
                         onClick={handleAddToCart}

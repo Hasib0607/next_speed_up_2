@@ -1,35 +1,21 @@
-'use client';
-
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-
 // components
-import CartPopUp from "@/components/CartPopUp";
-import { RootState } from '@/redux/store';
+import CartPopUp from '@/components/CartPopUp';
+import NotFound from './not-found';
 // import AllMobileBottomMenu from "./mobileBottomMenu";
 
-const StoreLayer = ({ children }: any) => {
-    const router = useRouter();
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-
-    useEffect(() => {
-        // Redirect to 404 page
-        if (store === undefined) {
-            router.replace('/not-found');
-        }
-    }, [store, router]);
-
-    if (store === undefined) {
-        return null;
-    }
-    
+const StoreLayer = ({ children, appStore }: any) => {
 
     return (
         <>
-            {children}
-            {/* <AllMobileBottomMenu/> */}
-            <CartPopUp />
+            {appStore ? (
+                <>
+                    {children}
+                    {/* <AllMobileBottomMenu/> */}
+                    <CartPopUp />
+                </>
+            ) : (
+                <NotFound />
+            )}
         </>
     );
 };

@@ -7,6 +7,7 @@ import getDesign from '@/utils/fetcher/getDesign';
 import { headers } from 'next/headers';
 import { GetServerSideProps } from 'next';
 import AppWrapper from './AppWrapper';
+import getStore from '@/utils/fetcher/getStore';
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -25,10 +26,13 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
-    children,currentUrl
+    children,
+    currentUrl,
 }: Readonly<{
-    children: React.ReactNode;currentUrl: any
+    children: React.ReactNode;
+    currentUrl: any;
 }>) {
+    const appStore = await getStore();
     // const headersList = await headers();
     const design = await getDesign();
 
@@ -43,12 +47,13 @@ export default async function RootLayout({
             >
                 {/* <NextTopLoader /> */}
                 {/* <Announcement design={design} /> */}
-                <AppWrapper design={design}>{children}</AppWrapper>
+                <AppWrapper design={design} appStore={appStore}>
+                    {children}
+                </AppWrapper>
             </body>
         </html>
     );
 }
-
 
 // export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 //     const currentUrl = req.url; // Get the full URL
