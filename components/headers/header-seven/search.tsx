@@ -1,7 +1,7 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 
-import { getPrice } from '@/helpers/getPrice';
 import { useGetSearchProductQuery } from '@/redux/features/home/homeApi';
 import { productImg } from '@/site-settings/siteUrl';
 
@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import BDT from '@/utils/bdt';
+import { productCurrentPrice } from '@/helpers/littleSpicy';
 
 const Search = ({ search, setSearch, setSearchInput }: any) => {
     const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state 
@@ -69,11 +70,8 @@ const Search = ({ search, setSearch, setSearchInput }: any) => {
 export default Search;
 
 const Single = ({ item, setSearch, setSearchInput }: any) => {
-    const price = getPrice(
-        item?.regular_price,
-        item?.discount_price,
-        item?.discount_type
-    );
+   
+    const price = productCurrentPrice(item);
 
     return (
         <Link
@@ -99,7 +97,7 @@ const Single = ({ item, setSearch, setSearchInput }: any) => {
                         {item.name.slice(0, 100)}
                     </h1>
                     <p className="mb-3 font-normal text-gray-700">
-                        <BDT tk={price} />
+                        <BDT price={price} />
                     </p>
                 </div>
             </motion.div>

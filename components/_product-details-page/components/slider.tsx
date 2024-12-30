@@ -62,7 +62,6 @@ export const HSlider = ({design, product, variant, activeImg, setActiveImg }: an
 
   // style css
   const styleCss = `
-
     .icon-color:hover {
         color:${design?.header_color};
         }
@@ -74,9 +73,8 @@ export const HSlider = ({design, product, variant, activeImg, setActiveImg }: an
     .arrow-slick-color {
         color:${design?.header_color};
     }
- 
-
     `;
+    
   // slider settings for image
   const settings = {
     infinite: images.length > 5 && true,

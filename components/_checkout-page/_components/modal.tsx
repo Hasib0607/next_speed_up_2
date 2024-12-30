@@ -3,7 +3,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useRef } from 'react';
 
-export function Modal({ open, setOpen, children, design }: any) {
+export function Modal({ open, setOpen, children, design,focus }: any) {
     const cancelButtonRef = useRef(null);
 
     return (
@@ -11,7 +11,7 @@ export function Modal({ open, setOpen, children, design }: any) {
             <Dialog
                 as="div"
                 className="relative z-10"
-                initialFocus={cancelButtonRef}
+                initialFocus={focus ?? cancelButtonRef}
                 onClose={setOpen}
             >
                 <Transition.Child
@@ -42,14 +42,14 @@ export function Modal({ open, setOpen, children, design }: any) {
                                     design?.template_id === '34'
                                         ? 'bg-thirty-one border border-white'
                                         : 'bg-white'
-                                }  rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full`}
+                                }  rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full`}
                             >
                                 <div
                                     className={`${
                                         design?.template_id === '34'
                                             ? 'bg-thirty-one border border-white'
                                             : 'bg-white'
-                                    }  px-4 pt-5 pb-4 sm:p-6 sm:pb-4`}
+                                    }  px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full h-auto`}
                                 >
                                     {children}
                                 </div>

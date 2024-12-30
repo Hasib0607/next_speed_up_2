@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import 'react-loading-skeleton/dist/skeleton.css';
 import ReactSkeleton from 'react-loading-skeleton';
 interface SkeletonProps {
-    height?: string; // Make height optional
+    count?: number; // Make height optional
 }
-const Skeleton: React.FC<SkeletonProps> = ({ height }) => {
+const Skeleton: React.FC<SkeletonProps> = ({ count }) => {
     
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -22,10 +22,12 @@ const Skeleton: React.FC<SkeletonProps> = ({ height }) => {
             page = 'category';
         } else if (url.includes('/shop')) {
             page = 'shop';
+        } else if (url.includes('/')) {
+            page = 'home';
         } else page = 'other';
     };
     checkPage();
-
+    
     if (page == 'product') {
         return (
             <div className="container gap-5 md:gap-20 flex items-start md:justify-center md:items-center flex-col md:flex-row">
@@ -51,7 +53,25 @@ const Skeleton: React.FC<SkeletonProps> = ({ height }) => {
             <div className="w-full">
                     <section className="animate-pulse">
                         <div className="grid grid-cols-1 gap-8 mt-8 xl:grid-cols-4 xl:mt-2 xl:gap-16 sm:grid-cols-2 lg:grid-cols-3">
-                            {Array.from({ length: 8 }).map((_, index) => (
+                            {Array.from({ length: count ?? 8 }).map((_, index) => (
+                                <div key={index} className="w-full h-96">
+                                    <div className="w-full h-72 bg-gray-300 rounded-lg dark:bg-gray-600"></div>
+                                    <p className="w-60 h-2 mt-4 bg-gray-200 rounded-lg dark:bg-gray-700"></p>
+                                    <p className="w-32 h-2 mt-4 bg-gray-200 rounded-lg dark:bg-gray-700"></p>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+            </div>
+        );
+    }
+
+    if (page === 'home') {
+        return (
+            <div className="w-full">
+                    <section className="animate-pulse">
+                        <div className="grid grid-cols-1 gap-8 mt-8 xl:grid-cols-4 xl:mt-2 xl:gap-16 sm:grid-cols-2 lg:grid-cols-3">
+                            {Array.from({ length: count ?? 8 }).map((_, index) => (
                                 <div key={index} className="w-full h-96">
                                     <div className="w-full h-72 bg-gray-300 rounded-lg dark:bg-gray-600"></div>
                                     <p className="w-60 h-2 mt-4 bg-gray-200 rounded-lg dark:bg-gray-700"></p>

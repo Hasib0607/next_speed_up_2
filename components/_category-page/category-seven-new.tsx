@@ -23,13 +23,13 @@ import {
 } from '@/redux/features/shop/shopApi';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { RootState } from '@/redux/store';
-import SingleCategory from './components/single-category';
-import Filters from './components/filters';
-import { usePathname } from 'next/navigation';
 import { getPathName, getSecondPathName } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { RootState } from '@/redux/store';
+import { usePathname } from 'next/navigation';
+import Filters from './components/filters';
+import SingleCategory from './components/single-category';
 
 const Seven = ({ catId, store_id }: any) => {
     const dispatch = useDispatch();
@@ -56,6 +56,8 @@ const Seven = ({ catId, store_id }: any) => {
     const {
         data: categoryPageProductsData,
         isLoading: categoryPageProductsLoading,
+        isFetching: categoryPageProductsFetching,
+        isError: categoryPageProductsError,
         isSuccess: categoryPageProductsSuccess,
         refetch: categoryPageProductsRefetch,
     } = useGetCategoryPageProductsQuery({ catId, page, filtersData });
@@ -95,7 +97,9 @@ const Seven = ({ catId, store_id }: any) => {
                 );
                 setPage(1);
             }
-        } else if (categoryPageProductsData?.data?.pagination?.current_page === 1) {
+        } else if (
+            categoryPageProductsData?.data?.pagination?.current_page === 1
+        ) {
             setHasMore(false);
         }
     }, [categoryPageProductsData, isPagination, categoryPageProductsSuccess]);
@@ -176,11 +180,15 @@ const Seven = ({ catId, store_id }: any) => {
                         />
                     </div>
                 </div>
+
                 {/* show loading */}
-                {categoryPageProductsLoading &&
-                    Array.from({ length: 8 }).map((_, index) => (
-                        <Skeleton key={index} />
-                    ))}
+                {(categoryPageProductsLoading && !categoryPageProductsError) ||
+                categoryPageProductsFetching
+                    ? Array.from({ length: 8 }).map((_, index) => (
+                          <Skeleton key={index} />
+                      ))
+                    : null}
+
                 {/* show products */}
                 {!isPagination ? (
                     <>
@@ -211,15 +219,16 @@ const Seven = ({ catId, store_id }: any) => {
                         >
                             <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-3 md:gap-3 xl:grid-cols-4 grid-cols-2 gap-2">
                                 {products?.length &&
-                                    products
-                                        ?.map((product: any, index: any) => (
+                                    products?.map(
+                                        (product: any, index: any) => (
                                             <Card12
                                                 item={product}
                                                 key={index}
                                                 store_id={store_id}
                                                 productId={product?.id}
                                             />
-                                        ))}
+                                        )
+                                    )}
                             </div>
                         </InfiniteScroll>
                     </>
@@ -227,15 +236,14 @@ const Seven = ({ catId, store_id }: any) => {
                     <>
                         {products?.length > 0 ? (
                             <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-3 md:gap-3 xl:grid-cols-4 grid-cols-2 gap-2">
-                                {products
-                                    ?.map((product: any, index: any) => (
-                                        <Card12
-                                            item={product}
-                                            key={index}
-                                            productId={product?.id}
-                                            store_id={store_id}
-                                        />
-                                    ))}
+                                {products?.map((product: any, index: any) => (
+                                    <Card12
+                                        item={product}
+                                        key={index}
+                                        productId={product?.id}
+                                        store_id={store_id}
+                                    />
+                                ))}
                             </div>
                         ) : (
                             <div className="flex justify-center h-[400px] items-center">

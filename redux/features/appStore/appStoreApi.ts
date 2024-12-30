@@ -1,5 +1,7 @@
 'use client';
+
 import { name } from '@/consts';
+
 import { apiSlice } from '../api/apiSlice';
 import { setStore } from './appStoreSlice';
 
@@ -13,9 +15,13 @@ export const storeApi = apiSlice.injectEndpoints({
             }),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
-                    const { data } = await queryFulfilled;
-                    if (data) {
-                        dispatch(setStore(data?.data)); // Dispatch the action with the received data
+                    const res = await queryFulfilled;
+
+                    if (res?.data?.status) {
+                        dispatch(setStore(res?.data?.data)); // Dispatch the action with the received data
+                    } else {
+                        // not found
+                        dispatch(setStore(undefined))
                     }
                 } catch (error) {
                     // console.error("Error in getHome mutation:", error);

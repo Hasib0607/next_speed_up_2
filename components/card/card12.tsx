@@ -13,7 +13,7 @@ import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 const Card12 = ({ item }: any) => {
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
-
+    
     return (
         <div className="max-w-sm bg-white rounded hover:rounded-xl hover:shadow-md hover:-translate-y-2 transition-all duration-300 ease-linear border">
             <div>

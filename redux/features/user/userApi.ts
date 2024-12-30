@@ -56,12 +56,13 @@ export const userApi = apiSlice.injectEndpoints({
                 url: `getorder/${store_id}`,
                 method: 'GET',
             }),
+            providesTags: () => [{ type: 'AllOrders' }],
         }),
         userReview: builder.mutation<any, any>({
             query: (data) => ({
                 url: `review`,
                 method: 'POST',
-                body:data
+                body: data,
             }),
         }),
         orderDetails: builder.query<any, any>({
@@ -97,5 +98,5 @@ export const {
     useOrderDetailsQuery,
     useOrderStatusQuery,
     useOrderCancelMutation,
-    useUserReviewMutation
+    useUserReviewMutation,
 } = userApi;

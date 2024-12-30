@@ -15,6 +15,8 @@ const Card20 = ({ item }: any) => {
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
 
+    const parsedRating = numberParser(item?.number_rating, true);
+
     return (
         <Link
             href={'/product/' + item?.id + '/' + item?.slug}
@@ -50,10 +52,10 @@ const Card20 = ({ item }: any) => {
                 ) : null}
                 <div className="flex gap-x-1">
                     <div>
-                        <Rate rating={item?.rating} />
+                        <Rate rating={parsedRating} />
                     </div>
                     <div className="text-gray-500 sm:text-sm text-xs">
-                        ({item?.number_rating})
+                        ({parsedRating})
                     </div>
                 </div>
             </div>

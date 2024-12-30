@@ -22,16 +22,14 @@ const Card44 = ({ item }: any) => {
     const dispatch = useDispatch();
 
     const home = useSelector((state: RootState) => state?.home);
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
     const { cartList } = useSelector((state: RootState) => state.cart);
 
     const { design } = home || {};
-    const store_id = store?.id || null;
 
     const bgColor = design?.header_color;
     const textColor = design?.text_color;
 
-    const [view, setView] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const styleCss = `
     .searchHover {
@@ -59,13 +57,18 @@ const Card44 = ({ item }: any) => {
     const priceLineThrough = isRegularPriceLineThrough(item);
 
     const handleAddToCart = () => {
-        addToCart({
-            dispatch,
-            product: item,
-            cartList,
-            price,
-            qty: 1,
-        });
+        if(item?.variant?.length > 0){
+            setOpen(!open)
+        }else{
+            addToCart({
+                dispatch,
+                product: item,
+                cartList,
+                price,
+                qty: 1,
+                productQuantity: item?.quantity,
+            });
+        }
     };
 
     return (
@@ -91,7 +94,7 @@ const Card44 = ({ item }: any) => {
                         />
                     </Link>
                     <div
-                        onClick={() => setView(!view)}
+                        onClick={() => setOpen(!open)}
                         className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 bg-color items-center lg:cursor-pointer bg-white flex justify-center absolute duration-500"
                     >
                         <button className="md:px-8 px-5 py-3 font-semibold hover:bg-gray-300 bg text-sm">
@@ -128,11 +131,11 @@ const Card44 = ({ item }: any) => {
                         onClick={handleAddToCart}
                         className="font-medium border px-3 py-2 w-max lg:cursor-pointer border-hover searchHover duration-500"
                     >
-                        {store_id === 3144 ? 'ORDER NOW' : 'ADD TO CART'}
+                        {'ADD TO CART'}
                     </div>
                 </div>
             </div>
-            <QuikView open={view} setOpen={setView}>
+            <QuikView open={open} setOpen={setOpen}>
                 <Details product={item} />
             </QuikView>
         </div>

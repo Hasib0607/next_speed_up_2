@@ -12,13 +12,13 @@ const Product = ({ store_id, design }: any) => {
     const products = useSelector((state: RootState) => state?.products);
     const home = useSelector((state: RootState) => state?.home);
 
-    const category = categoryStore?.category || [];
+    const category = categoryStore?.categories || [];
     const { headersetting } = home || {};
 
     const product = products?.product || [];
     const best_sell_product = products?.bestSellProduct || [];
     const feature_product = products?.featureProduct || [];
-
+    
     return (
         <>
             {category?.length > 0 && ProductComponent && (

@@ -72,7 +72,7 @@ export const checkOutApi = apiSlice.injectEndpoints({
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const response = await queryFulfilled;
-                    const userData=  response?.data?.data?.userData || {};
+                    const userData = response?.data?.data?.userData || {};
                     if (userData && userData?.token) {
                         dispatch(
                             userLoggedIn({
@@ -82,6 +82,12 @@ export const checkOutApi = apiSlice.injectEndpoints({
                             }) // Dispatch the action with the received data
                         );
                     }
+                    // Invalidate a specific tag to trigger a refetch
+                    dispatch(
+                        apiSlice.util.invalidateTags([
+                            { type: 'AllOrders' },
+                        ])
+                    );
                 } catch (error) {
                     // console.error("Error in getHome mutation:", error);
                 }
@@ -99,5 +105,7 @@ export const {
     useEasyOrderAddressSaveMutation,
     useUserAddressSaveMutation,
     useUserAddressDeleteMutation,
-    useUserPlaceOrderMutation, useCheckCouponAvailabilityQuery,useCheckCouponValidationQuery
+    useUserPlaceOrderMutation,
+    useCheckCouponAvailabilityQuery,
+    useCheckCouponValidationQuery,
 } = checkOutApi;

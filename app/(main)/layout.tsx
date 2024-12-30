@@ -6,6 +6,7 @@ import {
     useGetHeaderSettingsQuery,
     useGetMenuQuery,
 } from '@/redux/features/home/homeApi';
+import { RootState } from '@/redux/store';
 
 import dynamic from 'next/dynamic';
 import { useSelector } from 'react-redux';
@@ -16,21 +17,24 @@ const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
 export default function RootLayout({
     children
 }: Readonly<{
-    children: React.ReactNode;
-    // design:any
+    children: React.ReactNode
 }>) {
     useGetDesignQuery({});
     useGetHeaderSettingsQuery({});
     useGetMenuQuery({});
     // need
 
-    const home = useSelector((state: any) => state?.home);
+    const home = useSelector((state: RootState) => state?.home);
     const { design } = home || {};
-    
+
+    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
+    const store_id = store?.id || null;
 
     return (
         <>
-        <Announcement design={design} />
+            {store_id && design && (
+                <Announcement design={design} store_id={store_id} />
+            )}
             <Header design={design} />
             {children}
             <Footer design={design} />

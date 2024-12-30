@@ -45,14 +45,21 @@ const Card4 = ({ item }: any) => {
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
 
+    const parsedRating = numberParser(item?.number_rating, true);
+
     const handleAddToCart = () => {
-        addToCart({
-            dispatch,
-            product: item,
-            cartList,
-            price,
-            qty: 1,
-        });
+        if(item?.variant?.length > 0){
+            setOpen(!open)
+        }else{
+            addToCart({
+                dispatch,
+                product: item,
+                cartList,
+                price,
+                qty: 1,
+                productQuantity: item?.quantity,
+            });
+        }
     };
 
     return (
@@ -107,10 +114,10 @@ const Card4 = ({ item }: any) => {
 
                         <div className="flex gap-x-1 items-center">
                             <div>
-                                <Rate rating={item?.rating} />
+                                <Rate rating={parsedRating} />
                             </div>
                             <div className="text-gray-500 sm:text-sm text-xs">
-                                ({item?.number_rating})
+                                ({parsedRating})
                             </div>
                         </div>
 
