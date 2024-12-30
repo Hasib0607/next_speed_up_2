@@ -30,6 +30,7 @@ import PaymentGateway from '../payment-gateway/payment-gateway';
 import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
 import { getFromLocalStorage } from '@/helpers/localStorage';
 
+
 const YourOrders = ({
     couponDis,
     setCouponDis,
@@ -280,7 +281,6 @@ const YourOrders = ({
                                 `Your #${order?.reference_no} order complete successfully!`
                             );
                             setIsLoading(false);
-                            // setOrderPlaced(true);
                             router.push('/thank-you');
                         }
                     } else {
@@ -288,8 +288,18 @@ const YourOrders = ({
                         setIsLoading(false);
                     }
                 })
-                .catch(() => {
-                    toast.error('Something went wrong! Please try again.');
+                .catch((error) => {
+                    if ('data' in error) {
+                        const errorData = error as any;
+                        if (errorData?.status == 404) {
+                            toast.error(errorData?.data?.message);
+                        } else {
+                            toast.error(
+                                'Something went wrong! Please try again.'
+                            );
+                        }
+                    }
+                    setIsLoading(false);
                 });
         };
 
@@ -497,14 +507,14 @@ const YourOrders = ({
                         : 'Place Order'}
                 </button>
             )}
-
-            <FileUploadModal
-                files={files}
-                setFiles={setFiles}
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                cartId={cartId}
-            />
+                <FileUploadModal
+                    files={files}
+                    setFiles={setFiles}
+                    isOpen={isOpen}
+                    design={design}
+                    setIsOpen={setIsOpen}
+                    cartId={cartId}
+                />
         </div>
     );
 };
@@ -546,9 +556,7 @@ const Single = ({ item, setIsOpen, files, cartId }: any) => {
                         alt=""
                     />
                     <div className="absolute -top-1 -right-1 min-w-5 h-5 bg-gray-500 text-white text-xs rounded-full center">
-                        <p className='px-1'>
-                            {item?.qty}
-                        </p>
+                        <p className="px-1">{item?.qty}</p>
                     </div>
                 </div>
                 <div className="flex flex-col gap-x-2 gap-y-1 pl-2 justify-start">

@@ -53,16 +53,20 @@ const Card23 = ({ item }: any) => {
     const priceLineThrough = isRegularPriceLineThrough(item);
 
     const parsedRating = numberParser(item?.number_rating, true);
-
+    
     const handleAddToCart = () => {
-        addToCart({
-            dispatch,
-            product: item,
-            cartList,
-            price,
-            qty: 1,
-            productQuantity: item?.quantity,
-        });
+        if(item?.variant?.length > 0){
+            setOpen(!open)
+        }else{
+            addToCart({
+                dispatch,
+                product: item,
+                cartList,
+                price,
+                qty: 1,
+                productQuantity: item?.quantity,
+            });
+        }
     };
 
     return (
@@ -85,7 +89,7 @@ const Card23 = ({ item }: any) => {
                     </Link>
                 )}
                 <style>{card7CustomStyle}</style>
-                <div className="w-full   block relative rounded overflow-hidden ">
+                <div className="w-full block relative rounded overflow-hidden ">
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <img
                             className="min-w-full h-auto scale-110"

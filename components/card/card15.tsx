@@ -49,14 +49,18 @@ const Card15 = ({ item }: any) => {
     const parsedRating = numberParser(item?.number_rating, true);
 
     const handleAddToCart = () => {
-        addToCart({
-            dispatch,
-            product: item,
-            cartList,
-            price,
-            qty: 1,
-            productQuantity: item?.quantity,
-        });
+        if(item?.variant?.length > 0){
+            setOpen(!open)
+        }else{
+            addToCart({
+                dispatch,
+                product: item,
+                cartList,
+                price,
+                qty: 1,
+                productQuantity: item?.quantity,
+            });
+        }
     };
 
     return (

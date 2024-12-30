@@ -34,7 +34,7 @@ export const apiSlice = createApi({
 
         return result;
     },
-    tagTypes: ['homeCategoryProduct', 'initializeApp'] as string[],
+    tagTypes: ['HomeCategoryProduct', 'initializeApp', "AllOrders"] as string[],
     // tagTypes: [...cacher.defaultTags],
     keepUnusedDataFor: 900, // Default cache duration for all queries
     endpoints: (builder) => ({

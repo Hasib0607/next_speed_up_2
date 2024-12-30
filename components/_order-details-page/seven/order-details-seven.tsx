@@ -242,10 +242,6 @@ const Single = ({
         }
     }, [productDetailSuccess, productDetailsData]);
 
-    // console.log("order",order);
-    // console.log("item ",item);
-    
-
     useEffect(() => {
         let copyText = document.querySelector('.copy-text');
         if (copyText !== null) {
@@ -349,14 +345,15 @@ const Single = ({
                         }
                     />
                 </div>
-                {order?.status === 'Delivered' && !item?.review ? (
+                {order?.status === 'Delivered' && item?.review === 0 && (
                     <button
                         onClick={() => setOpen(true)}
                         className="py-1 px-1 mt-1 border border-transparent text-xs rounded-sm text-white bg-green-500 hover:bg-green-700 focus:outline-none focus:ring-0"
                     >
                         {'Review'}
                     </button>
-                ) : (
+                )}
+                {order?.status === 'Delivered' && item?.review === 1 && (
                     <p className="py-1 px-1 mt-1 text-xs text-white bg-green-500 rounded-sm text-center cursor-default">
                         Review submitted
                     </p>

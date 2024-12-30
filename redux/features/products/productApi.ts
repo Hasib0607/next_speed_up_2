@@ -87,8 +87,8 @@ export const productApi = apiSlice.injectEndpoints({
                 method: 'GET',
             }),
             // configuration for an individual endpoint, overriding the api setting
-            // providesTags:  (result, error, id) => [{ type: 'Category', id }],
-            providesTags: ['homeCategoryProduct'],
+            providesTags:  (id) => [{ type: 'HomeCategoryProduct', id }],
+            // providesTags: ['HomeCategoryProduct'],
             keepUnusedDataFor: 600,
         }),
     }),

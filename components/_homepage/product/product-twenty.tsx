@@ -11,6 +11,7 @@ const SectionHeadingTwentyFour = dynamic(
 
 import { useEffect, useState } from 'react';
 
+import Skeleton from '@/components/loaders/skeleton';
 import { useGetCategoryProductQuery } from '@/redux/features/products/productApi';
 import { useSelector } from 'react-redux';
 
@@ -25,18 +26,19 @@ const ProductTwenty = ({ category, design, categoryId }: any) => {
     const product = custom_design?.product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = product || {};
 
-    const { data, isLoading, isSuccess } = useGetCategoryProductQuery(
-        { id },
-        {
-            // pollingInterval: 3000,
-            // refetchOnMountOrArgChange: false,
-            // skip:false
-        }
-    );
+    const { data, isLoading, isFetching, isError, isSuccess } =
+        useGetCategoryProductQuery(
+            { id },
+            {
+                // pollingInterval: 3000,
+                // refetchOnMountOrArgChange: false,
+                // skip:false
+            }
+        );
 
     useEffect(() => {
-        if (data) {
-            setProducts(data?.data?.data);
+        if (isSuccess && data) {
+            setProducts(data?.data?.products);
         }
     }, [data, isSuccess]);
 
@@ -47,10 +49,31 @@ const ProductTwenty = ({ category, design, categoryId }: any) => {
     }
  `;
 
-    // const { title, title_color } = data?.data?.custom_design?.product?.[0] || {};
-    // if (error) {
-    //   return <p> error from headersettings</p>;
-    // }
+    let content;
+
+    if ((isLoading || isFetching) && !isError) {
+        content = <Skeleton count={3} />;
+    }
+
+    if (isSuccess && products?.length > 0) {
+        content = (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+                {products?.slice(0, 8)?.map((productData: any) => (
+                    <div key={productData.id}>
+                        <Card44 item={productData} productId={productData.id} />
+                    </div>
+                ))}
+            </div>
+        );
+    }
+
+    if (isSuccess && products?.length == 0) {
+        content = (
+            <div className="text-red-500 text-center py-10 text-4xl">
+                No Products Available
+            </div>
+        );
+    }
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5 w-full mx-auto">
@@ -82,24 +105,7 @@ const ProductTwenty = ({ category, design, categoryId }: any) => {
                 ))}
             </div>
             <div className="h-[2px] w-full bg-gray-300 mb-5 -mt-0.5"></div>
-            {products?.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
-                    {products?.slice(0, 8).map((productData: any) => (
-                        <div key={productData.id}>
-                            {/* <p>ol</p> */}
-                            <Card44
-                                item={productData}
-                                productId={productData.id}
-                            />
-                            {/* <Card50 item={productData} /> */}
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <div className="text-red-500 text-center py-10 text-4xl">
-                    No Products Available
-                </div>
-            )}
+            {content}
         </div>
     );
 };

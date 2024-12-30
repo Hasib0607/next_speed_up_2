@@ -27,7 +27,7 @@ const Card5 = ({ item }: any) => {
     const store_id = store?.id || null;
     const dispatch = useDispatch();
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState<boolean>(false);
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
@@ -35,14 +35,18 @@ const Card5 = ({ item }: any) => {
     const parsedRating = numberParser(item?.number_rating, true);
 
     const handleAddToCart = () => {
-        addToCart({
-            dispatch,
-            product: item,
-            cartList,
-            price,
-            qty: 1,
-            productQuantity: item?.quantity,
-        });
+        if(item?.variant?.length > 0){
+            setOpen(!open)
+        }else{
+            addToCart({
+                dispatch,
+                product: item,
+                cartList,
+                price,
+                qty: 1,
+                productQuantity: item?.quantity,
+            });
+        }
     };
 
     return (

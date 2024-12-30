@@ -30,7 +30,7 @@ const Card6 = ({ item }: any) => {
     const store_id = store?.id || null;
     const dispatch = useDispatch();
 
-    const [view, setView] = useState(false);
+    const [open, setOpen] = useState<boolean>(false);
 
     const bgColor = design?.header_color;
     const textColor = design?.text_color;
@@ -54,14 +54,18 @@ const Card6 = ({ item }: any) => {
     const parsedRating = numberParser(item?.number_rating, true);
 
     const handleAddToCart = () => {
-        addToCart({
-            dispatch,
-            product: item,
-            cartList,
-            price,
-            qty: 1,
-            productQuantity: item?.quantity,
-        });
+        if(item?.variant?.length > 0){
+            setOpen(!open)
+        }else{
+            addToCart({
+                dispatch,
+                product: item,
+                cartList,
+                price,
+                qty: 1,
+                productQuantity: item?.quantity,
+            });
+        }
     };
 
     return (
@@ -78,7 +82,7 @@ const Card6 = ({ item }: any) => {
                         NEW
                     </p>
                     <div
-                        onClick={() => setView(!view)}
+                        onClick={() => setOpen(!open)}
                         className="bg-white hidden border border-gray-300 rounded-full h-10 w-10 absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] group-hover:flex  items-center justify-center search-icon font-thin lg:cursor-pointer"
                     >
                         <IoSearchCircleOutline className=" h-4" />
@@ -128,7 +132,7 @@ const Card6 = ({ item }: any) => {
                     </p>
                 </div>
             </div>
-            <QuikView open={view} setOpen={setView}>
+            <QuikView open={open} setOpen={setOpen}>
                 <Details product={item} />
             </QuikView>
         </div>

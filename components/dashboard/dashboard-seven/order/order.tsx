@@ -50,14 +50,12 @@ const Order = () => {
 
     const dispatch = useDispatch();
     
-
     const {
         data: userOrdersData,
         isLoading: userOrdersLoading,
         isSuccess: userOrdersSuccess,
         refetch: userOrdersRefetch,
     } = useUserOrdersQuery({ store_id });
-    const userOrders = userOrdersData?.data || [];
 
     const {
         data: orderStatusData,
@@ -79,13 +77,13 @@ const Order = () => {
         };
 
     useEffect(() => {
+        
         if (userOrdersSuccess) {
+        const userOrders = userOrdersData?.data || [];
             setOrders(userOrders);
             setFilter([...userOrders]);
         }
-    }, [userOrders, userOrdersSuccess]);
-
-    
+    }, [userOrdersData, userOrdersSuccess]);
 
     return (
         <>
@@ -223,8 +221,6 @@ type Status =
 const OrderItem = ({ item, userOrdersRefetch }: any) => {
     const [orderCancel] = useOrderCancelMutation();
     const [callCancel, setCallCancel] = useState<boolean>(false);
-
-
 
     const formattedDate = moment(item?.created_at).format("DD-MM-YYYY, hh:mm:ss"); 
 

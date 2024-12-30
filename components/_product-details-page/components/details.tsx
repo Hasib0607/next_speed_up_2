@@ -213,7 +213,7 @@ const Details = ({ product, productDetailLoading, children }: any) => {
         'font-bold text-white bg-gray-600 rounded-md w-60 py-3 text-center';
 
     return (
-        <div className="grid md:grid-cols-8 grid-cols-1 gap-4 w-full overflow-hidden">
+        <div className="grid md:grid-cols-8 grid-cols-1 gap-4 w-full">
             <div className="md:col-span-4 lg2:col-span-3 col-span-1 h-full overflow-hidden">
                 <div className="md:col-span-5">
                     <HSlider

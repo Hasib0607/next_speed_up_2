@@ -31,14 +31,18 @@ const Card22 = ({ item }: any) => {
     const priceLineThrough = isRegularPriceLineThrough(item);
 
     const handleAddToCart = () => {
-        addToCart({
-            dispatch,
-            product: item,
-            cartList,
-            price,
-            qty: 1,
-            productQuantity: item?.quantity,
-        });
+        if(item?.variant?.length > 0){
+            setOpen(!open)
+        }else{
+            addToCart({
+                dispatch,
+                product: item,
+                cartList,
+                price,
+                qty: 1,
+                productQuantity: item?.quantity,
+            });
+        }
     };
 
     const bgColor = design?.header_color;
