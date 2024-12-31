@@ -45,7 +45,7 @@ const Card8 = ({ item }: any) => {
                                     <BDT />
                                     {price}
                                 </div>
-                                {priceLineThrough ? (
+                                {priceLineThrough && (
                                     <p className="line-through text-gray-400">
                                         {' '}
                                         <BDT
@@ -54,7 +54,7 @@ const Card8 = ({ item }: any) => {
                                             )}
                                         />
                                     </p>
-                                ) : null}
+                                )}
                             </div>
                         </div>
                     </div>

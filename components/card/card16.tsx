@@ -10,6 +10,8 @@ import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import QuikView from '@/utils/quick-view';
 import Rate from '@/utils/rate';
 
+import { numberParser } from '@/helpers/numberParser';
+import BDT from '@/utils/bdt';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -17,8 +19,6 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { BsPlusLg } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import Details from '../_product-details-page/components/details';
-import { numberParser } from '@/helpers/numberParser';
-import BDT from '@/utils/bdt';
 
 const Card16 = ({ item }: any) => {
     const home = useSelector((state: RootState) => state?.home);
@@ -47,12 +47,12 @@ const Card16 = ({ item }: any) => {
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
 
-    const parsedRating = numberParser(item?.number_rating, true);
+    const parsedRating = numberParser(item?.rating, true);
 
     const handleAddToCart = () => {
-        if(item?.variant?.length > 0){
-            setOpen(!open)
-        }else{
+        if (item?.variant?.length > 0) {
+            setOpen(!open);
+        } else {
             addToCart({
                 dispatch,
                 product: item,
@@ -109,7 +109,7 @@ const Card16 = ({ item }: any) => {
                                 <BDT />
                                 {price}
                             </div>
-                            {priceLineThrough ? (
+                            {priceLineThrough && (
                                 <p className="line-through text-gray-400">
                                     {' '}
                                     <BDT
@@ -118,7 +118,7 @@ const Card16 = ({ item }: any) => {
                                         )}
                                     />
                                 </p>
-                            ) : null}
+                            )}
                         </div>
                         <div className="duration-5000 cart mb-2 lg:hidden lg:group-hover:flex flex flex-row flex-wrap justify-between sm:gap-0 gap-2">
                             <div

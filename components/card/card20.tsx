@@ -15,7 +15,8 @@ const Card20 = ({ item }: any) => {
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
 
-    const parsedRating = numberParser(item?.number_rating, true);
+    const parsedNumberRating = numberParser(item?.number_rating);
+    const parsedRating = numberParser(item?.rating, true);
 
     return (
         <Link
@@ -44,18 +45,18 @@ const Card20 = ({ item }: any) => {
                 <p className="text-[#40af64] text-lg font-semibold">
                     <BDT price={price} />
                 </p>
-                {priceLineThrough ? (
+                {priceLineThrough && (
                     <p className="line-through text-gray-400 text-sm">
                         {' '}
                         <BDT price={numberParser(item?.regular_price)} />
                     </p>
-                ) : null}
+                )}
                 <div className="flex gap-x-1">
                     <div>
                         <Rate rating={parsedRating} />
                     </div>
                     <div className="text-gray-500 sm:text-sm text-xs">
-                        ({parsedRating})
+                        ({parsedNumberRating})
                     </div>
                 </div>
             </div>

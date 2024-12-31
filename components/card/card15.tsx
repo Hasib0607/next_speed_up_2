@@ -2,28 +2,30 @@
 
 import { useState } from 'react';
 
-import { productImg } from '@/site-settings/siteUrl';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { AiOutlineSearch } from 'react-icons/ai';
-import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import {
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import QuikView from '@/utils/quick-view';
-import Details from '../_product-details-page/components/details';
-import Rate from '@/utils/rate';
 import { numberParser } from '@/helpers/numberParser';
+import { RootState } from '@/redux/store';
+import { productImg } from '@/site-settings/siteUrl';
+import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import BDT from '@/utils/bdt';
+import QuikView from '@/utils/quick-view';
+import Rate from '@/utils/rate';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { useDispatch, useSelector } from 'react-redux';
+import Details from '../_product-details-page/components/details';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card15 = ({ item }: any) => {
     const home = useSelector((state: RootState) => state?.home);
     const { cartList } = useSelector((state: RootState) => state.cart);
 
     const { design } = home || {};
+    const category = item?.category || [];
 
     const dispatch = useDispatch();
 
@@ -46,12 +48,13 @@ const Card15 = ({ item }: any) => {
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
 
-    const parsedRating = numberParser(item?.number_rating, true);
+    const parsedNumberRating = numberParser(item?.number_rating);
+    const parsedRating = numberParser(item?.rating, true);
 
     const handleAddToCart = () => {
-        if(item?.variant?.length > 0){
-            setOpen(!open)
-        }else{
+        if (item?.variant?.length > 0) {
+            setOpen(!open);
+        } else {
             addToCart({
                 dispatch,
                 product: item,
@@ -108,11 +111,14 @@ const Card15 = ({ item }: any) => {
                 </div>
 
                 <div className="py-6 px-3 space-y-2 flex justify-center flex-col items-center">
-                    <Link href={'/category/' + item?.category_id}>
+                    {/* <Link href={'/category/' + item?.category_id}>
                         <p className="text-sm font-light antialiased mb-2">
                             {item?.category}
                         </p>
-                    </Link>
+                    </Link> */}
+                    {Array.isArray(category) && category?.length > 0 && (
+                        <ProdMultiCategory category={category} />
+                    )}
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <h3 className="text-sm text-gray-800 font-bold antialiased whitespace-nowrap overflow-hidden text-ellipsis sm:max-w-[170px] max-w-[150px]">
                             {item?.name}
@@ -124,7 +130,7 @@ const Card15 = ({ item }: any) => {
                             <Rate rating={parsedRating} />
                         </div>
                         <div className="text-gray-500 sm:text-sm text-xs">
-                            ({parsedRating})
+                            ({parsedNumberRating})
                         </div>
                     </div>
 
@@ -133,14 +139,14 @@ const Card15 = ({ item }: any) => {
                             <BDT />
                             {price}
                         </div>
-                        {priceLineThrough ? (
+                        {priceLineThrough && (
                             <p className="line-through text-gray-400">
                                 {' '}
                                 <BDT
                                     price={numberParser(item?.regular_price)}
                                 />
                             </p>
-                        ) : null}
+                        )}
                     </div>
                     <div
                         className="transition-all text-hover ease-in-out delay-500 hover:-translate-y-1 group-hover:scale-110 duration-1000 lg:cursor-pointer hidden group-hover:block text-xs font-semibold underline"

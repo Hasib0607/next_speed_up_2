@@ -3,18 +3,18 @@
 import { productImg } from '@/site-settings/siteUrl';
 import Rate from '@/utils/rate';
 
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { IoSearchCircleOutline } from 'react-icons/io5';
-import './card.css';
 import {
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
-import BDT from '@/utils/bdt';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import BDT from '@/utils/bdt';
+import Link from 'next/link';
+import { useState } from 'react';
+import { IoSearchCircleOutline } from 'react-icons/io5';
+import { useSelector } from 'react-redux';
+import './card.css';
 
 const Card24 = ({ item }: any) => {
     const home = useSelector((state: RootState) => state?.home);
@@ -32,7 +32,7 @@ const Card24 = ({ item }: any) => {
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
 
-    const parsedRating = numberParser(item?.number_rating, true);
+    const parsedRating = numberParser(item?.rating, true);
 
     return (
         <>
@@ -93,7 +93,7 @@ const Card24 = ({ item }: any) => {
                                         <BDT />
                                         {price}
                                     </div>
-                                    {priceLineThrough ? (
+                                    {priceLineThrough && (
                                         <p className="line-through text-gray-400">
                                             {' '}
                                             <BDT
@@ -102,7 +102,7 @@ const Card24 = ({ item }: any) => {
                                                 )}
                                             />
                                         </p>
-                                    ) : null}
+                                    )}
                                 </div>
                             </div>
                         </div>

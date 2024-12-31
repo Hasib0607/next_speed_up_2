@@ -4,22 +4,22 @@ import {
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
+import { numberParser } from '@/helpers/numberParser';
 import { RootState } from '@/redux/store';
 import { productImg } from '@/site-settings/siteUrl';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
+import BDT from '@/utils/bdt';
 import QuickView from '@/utils/quick-view';
 
 import Rate from '@/utils/rate';
 import Link from 'next/link';
 import { useState } from 'react';
+
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { numberParser } from '@/helpers/numberParser';
-import BDT from '@/utils/bdt';
 import Details from '../_product-details-page/components/details';
 
-const Card31 = ({ item }: any) => {
+const Card35 = ({ item }: any) => {
     const dispatch = useDispatch();
 
     const home = useSelector((state: RootState) => state?.home);
@@ -32,7 +32,7 @@ const Card31 = ({ item }: any) => {
     const styleCss = `
     .search-bg{
         background: ${design?.header_color} ;
-        color : white ;
+        color : white;
     } 
   `;
 
@@ -58,29 +58,18 @@ const Card31 = ({ item }: any) => {
     };
 
     return (
-        <div className="group flex flex-col justify-between bg-white relative">
+        <div className="group flex flex-col justify-between ">
             <style>{styleCss}</style>
-            {/* out of stock  */}
-            {item?.quantity === '0' && (
-                <Link href={'/product/' + item?.id + '/' + item?.slug}>
-                    <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-[1]">
-                        <p className="bg-red-600 text-white px-2 py-1 w-max">
-                            Out of Stock
-                        </p>
-                    </div>
-                </Link>
-            )}
-
-            <div className=" w-full h-full overflow-hidden">
-                {/* image  */}
+            <div className=" w-full h-full border-4 border-[#F4F4F4] overflow-hidden">
                 <div className="flex justify-center relative overflow-hidden">
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <img
                             src={productImg + item?.image[0]}
-                            className="block h-auto min-w-[100%] group-hover:scale-125  transition-all duration-700 ease-linear group-hover:rotate-6"
+                            className="block h-auto min-w-[100%] mx-auto mt-auto group-hover:scale-125  transition-all duration-700 ease-linear group-hover:rotate-6"
                             alt=""
                         />
                     </Link>
+
                     {item.discount_type === 'no_discount' ||
                     item.discount_price === '0.00' ? (
                         ''
@@ -109,16 +98,17 @@ const Card31 = ({ item }: any) => {
                         </div>
                     </div>
                 </div>
-                {/* details  */}
-                <div className="py-5">
+
+                <div className="bg-white pb-5">
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div>
-                            <div className="flex justify-center">
-                                <h2 className="md:text-xl text-gray-700 whitespace-nowrap overflow-hidden text-ellipsis sm:max-w-[170px] max-w-[150px] px-2">
+                            <div className="flex justify-center bg-[#F4F4F4] py-3">
+                                <h2 className="text-xl text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis sm:max-w-[170px] max-w-[150px] px-2">
                                     {item?.name}
                                 </h2>
                             </div>
-                            <div className="text-gray-600 text-lg font-semibold flex flex-wrap gap-1 px-5 pt-2 justify-center items-center">
+
+                            <div className="text-gray-600 text-lg font-semibold flex flex-wrap items-center gap-1 px-5 pt-2 justify-center">
                                 <div className="text-base font-semibold">
                                     <BDT />
                                     {price}
@@ -134,6 +124,7 @@ const Card31 = ({ item }: any) => {
                                     </p>
                                 )}
                             </div>
+
                             <div className="flex justify-center items-center gap-x-1 pt-2">
                                 <div>
                                     <Rate rating={parsedRating} />
@@ -144,22 +135,15 @@ const Card31 = ({ item }: any) => {
                             </div>
                         </div>
                     </Link>
-                    {item?.quantity > 0 ? (
-                        <div
+
+                    <div className="flex justify-center pt-2 ">
+                        <button
+                            className="border py-2 px-4 rounded-lg search-bg hover:bg-blue-300 duration-300"
                             onClick={handleAddToCart}
-                            className="flex justify-center pt-2 "
                         >
-                            <p className="border py-2 px-4 rounded-lg search-bg hover:bg-blue-300 duration-300 lg:cursor-pointer">
-                                Add to Cart
-                            </p>
-                        </div>
-                    ) : (
-                        <div className="flex justify-center pt-2 ">
-                            <p className="border py-2 px-4 rounded-lg search-bg hover:bg-blue-300 duration-300 lg:cursor-pointer">
-                                Out of Stock
-                            </p>
-                        </div>
-                    )}
+                            Add to Cart
+                        </button>
+                    </div>
                 </div>
             </div>
             <QuickView open={open} setOpen={setOpen}>
@@ -169,4 +153,4 @@ const Card31 = ({ item }: any) => {
     );
 };
 
-export default Card31;
+export default Card35;

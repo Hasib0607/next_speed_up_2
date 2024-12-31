@@ -18,8 +18,8 @@ import { useState } from 'react';
 import { IoSearchCircleOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Details from '../_product-details-page/components/details';
 import BDT from '@/utils/bdt';
+import Details from '../_product-details-page/components/details';
 
 const Card6 = ({ item }: any) => {
     const home = useSelector((state: RootState) => state?.home);
@@ -51,12 +51,13 @@ const Card6 = ({ item }: any) => {
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
 
-    const parsedRating = numberParser(item?.number_rating, true);
+    const parsedNumberRating = numberParser(item?.number_rating);
+    const parsedRating = numberParser(item?.rating, true);
 
     const handleAddToCart = () => {
-        if(item?.variant?.length > 0){
-            setOpen(!open)
-        }else{
+        if (item?.variant?.length > 0) {
+            setOpen(!open);
+        } else {
             addToCart({
                 dispatch,
                 product: item,
@@ -105,7 +106,7 @@ const Card6 = ({ item }: any) => {
                             <Rate rating={parsedRating} />
                         </div>
                         <div className="text-gray-500 sm:text-sm text-xs">
-                            ({parsedRating})
+                            ({parsedNumberRating})
                         </div>
                     </div>
                     <div className="text-xl text-gray-500 flex items-center gap-2">
@@ -113,14 +114,14 @@ const Card6 = ({ item }: any) => {
                             <BDT />
                             {price}
                         </div>
-                        {priceLineThrough ? (
+                        {priceLineThrough && (
                             <p className="line-through text-gray-400">
                                 {' '}
                                 <BDT
                                     price={numberParser(item?.regular_price)}
                                 />
                             </p>
-                        ) : null}
+                        )}
                     </div>
                 </div>
                 <div>
