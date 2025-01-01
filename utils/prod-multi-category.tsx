@@ -1,24 +1,46 @@
 import Link from 'next/link';
 import React from 'react';
 
-const ProdMultiCategory = ({ category, classes, color }: any) => {
+const ProdMultiCategory = ({
+    category,
+    className,
+    design,
+    count,
+    commaColor,
+    linkOff,
+}: any) => {
+    // Dynamically slice the category array based on count
+    const slicedCategory = category?.slice(0, count ?? category?.length);
+
     return (
         <>
-            {category?.map((cat: any, index: number) => (
-                <span key={index} className={classes}>
-                    <Link
-                        href={'/category/' + cat.id}
-                        style={{
-                            color: color ? color : "#212121",
-                        }}
-                    >
-                        {cat.name}
-                    </Link>
-                    {index < category.length - 1 && ', '}
+            {slicedCategory?.slice(0, count)?.map((cat: any, index: number) => (
+                <span
+                    key={index}
+                    style={
+                        {
+                            '--header-color': design
+                                ? design?.header_color
+                                : '',
+                            '--text-color': design ? design?.text_color : '',
+                        } as React.CSSProperties
+                    }
+                >
+                    <span className={className}>
+                        {linkOff ? (
+                            <span className="cursor-default">{cat.name}</span>
+                        ) : (
+                            <Link href={'/category/' + cat.id}>{cat.name}</Link>
+                        )}
+                        <span
+                            className={`cursor-default ${commaColor ? commaColor : className}`}
+                        >
+                            {index < slicedCategory.length - 1 && ', '}
+                        </span>
+                    </span>
                 </span>
             ))}
         </>
     );
 };
-
 export default ProdMultiCategory;

@@ -4,29 +4,27 @@ import {
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
+import { numberParser } from '@/helpers/numberParser';
 import { RootState } from '@/redux/store';
 import { productImg } from '@/site-settings/siteUrl';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
-
 import BDT from '@/utils/bdt';
-import QuikView from '@/utils/quick-view';
-
+import QuickView from '@/utils/quick-view';
 import { LinkIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useState } from 'react';
 import { IoSearchCircleOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { numberParser } from '@/helpers/numberParser';
 import Details from '../_product-details-page/components/details';
 import ProdMultiCategory from '@/utils/prod-multi-category';
 
-const Card14 = ({ item }: any) => {
-    const [open, setOpen] = useState<any>(false);
+const Card41 = ({ item }: any) => {
+    const dispatch = useDispatch();
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const category = item?.category || [];
-    const dispatch = useDispatch();
+
+    const [open, setOpen] = useState(false);
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
@@ -80,7 +78,7 @@ const Card14 = ({ item }: any) => {
                                     />
                                 </p>
                             )}
-                            <div className="">
+                            <div className="text-base font-semibold">
                                 <BDT />
                                 {price}
                             </div>
@@ -95,7 +93,6 @@ const Card14 = ({ item }: any) => {
                             onClick={handleAddToCart}
                         >
                             <ShoppingBagIcon
-                                className=""
                                 width={20}
                                 height={20}
                             />
@@ -130,11 +127,11 @@ const Card14 = ({ item }: any) => {
                     </Link>
                 </div>
             </div>
-            <QuikView open={open} setOpen={setOpen}>
+            <QuickView open={open} setOpen={setOpen}>
                 <Details product={item} />
-            </QuikView>
+            </QuickView>
         </div>
     );
 };
 
-export default Card14;
+export default Card41;

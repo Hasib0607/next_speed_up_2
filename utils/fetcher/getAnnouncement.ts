@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import getStore from './getStore';
 
 export default async function getAnnouncement() {
@@ -17,7 +18,8 @@ export default async function getAnnouncement() {
     const announcementDetails = resData?.data;
 
     if (!res.ok) {
-        throw new Error('Failed to fetch data!');
+        // throw new Error('Failed to fetch data!');
+        redirect('/not-found')
     }
 
     return announcementDetails;

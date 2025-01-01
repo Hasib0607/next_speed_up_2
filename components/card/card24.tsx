@@ -15,12 +15,14 @@ import { useState } from 'react';
 import { IoSearchCircleOutline } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
 import './card.css';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card24 = ({ item }: any) => {
     const home = useSelector((state: RootState) => state?.home);
     const { design } = home || {};
 
     const [cardBorder, setCardBorder] = useState(false);
+    const category = item?.category || [];
 
     const customStyle = `
 .searchIconCard24:hover{
@@ -72,8 +74,18 @@ const Card24 = ({ item }: any) => {
                                         textOverflow: 'ellipsis',
                                     }}
                                 >
-                                    {item.category}
+                                    {Array.isArray(category) &&
+                                        category?.length > 0 && (
+                                            <p className="text-sm font-medium">
+                                                <ProdMultiCategory
+                                                    category={category}
+                                                    className={'text-gray-500'}
+                                                    count={1}
+                                                />
+                                            </p>
+                                        )}
                                 </div>
+
                                 <div
                                     className=" text-base antialiased  font-semibold"
                                     style={{

@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import BDT from '@/utils/bdt';
 import Details from '../_product-details-page/components/details';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card6 = ({ item }: any) => {
     const home = useSelector((state: RootState) => state?.home);
@@ -28,6 +29,7 @@ const Card6 = ({ item }: any) => {
 
     const { design } = home || {};
     const store_id = store?.id || null;
+    const category = item?.category || [];
     const dispatch = useDispatch();
 
     const [open, setOpen] = useState<boolean>(false);
@@ -92,9 +94,15 @@ const Card6 = ({ item }: any) => {
             </div>
 
             <div className="p-4 flex flex-col gap-3 col-span-2 lg2:col-span-3">
-                <p className="text-sm text-gray-400 uppercase menu-hover">
-                    {item.category}
-                </p>
+                {Array.isArray(category) && category?.length > 0 && (
+                    <p className="text-sm uppercase menu-hover">
+                        <ProdMultiCategory
+                            category={category}
+                            className={'text-gray-400'}
+                            count={1}
+                        />
+                    </p>
+                )}
                 <Link href={'/product/' + item?.id + '/' + item?.slug}>
                     <h1 className="text-md text-hover font-bold text-gray-700 menu-hover capitalize whitespace-nowrap overflow-hidden text-ellipsis sm:max-w-[170px] max-w-[150px]">
                         {item?.name}

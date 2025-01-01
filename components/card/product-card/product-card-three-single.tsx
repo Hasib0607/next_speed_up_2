@@ -63,12 +63,15 @@ const ProductCardThreeSingleCard = ({ item, productId, store_id }: any) => {
                                     {item?.name?.length > 12 && '...'}
                                 </p>{' '}
                             </Link>
-                            {/* <Link href={`/category/${item?.category_id}`}>
-                                <p className="text-sm">{item.category}</p>
-                            </Link> */}
                             {Array.isArray(category) &&
                                 category?.length > 0 && (
-                                    <ProdMultiCategory category={category} />
+                                    <p className="text-sm">
+                                        <ProdMultiCategory
+                                            category={category}
+                                            className={'text-gray-500'}
+                                            count={1}
+                                        />
+                                    </p>
                                 )}
                         </div>
                         <div>

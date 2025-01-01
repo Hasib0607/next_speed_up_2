@@ -15,14 +15,16 @@ import QuickView from '@/utils/quick-view';
 
 import { LinkIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Details from '../_product-details-page/components/details';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card40 = ({ item }: any) => {
     const dispatch = useDispatch();
 
     const { cartList } = useSelector((state: RootState) => state.cart);
+    const category = item?.category || []
 
     const [open, setOpen] = useState(false);
 
@@ -112,9 +114,15 @@ const Card40 = ({ item }: any) => {
                     </div>
                 </div>
                 <div className="py-4">
-                    <p className="text-gray-500 text-sm font-medium ">
-                        {item.category}
+                    {Array.isArray(category) && category?.length > 0 && (
+                    <p className="text-sm font-medium">
+                        <ProdMultiCategory
+                            category={category}
+                            className={'text-gray-500'}
+                            count={1}
+                        />
                     </p>
+                    )}
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <p className="font-semibold text-base text-gray-700 whitespace-nowrap overflow-hidden text-ellipsis sm:max-w-[170px] max-w-[150px]">
                             {item?.name}

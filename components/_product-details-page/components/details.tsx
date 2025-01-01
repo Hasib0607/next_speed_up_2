@@ -38,9 +38,8 @@ import {
 import { saveToLocalStorage } from '@/helpers/localStorage';
 import { AppDispatch, RootState } from '@/redux/store';
 
-import AddCart from './add-cart';
-import Link from 'next/link';
 import ProdMultiCategory from '@/utils/prod-multi-category';
+import AddCart from './add-cart';
 
 const Details = ({ product, productDetailLoading, children }: any) => {
     const { headersetting, design } = useSelector(
@@ -245,10 +244,14 @@ const Details = ({ product, productDetailLoading, children }: any) => {
                                     Category:{' '}
                                 </span>{' '}
                             </p>
+                            <div className='flex flex-wrap gap-2'>
                             <ProdMultiCategory
                                 category={category}
-                                color={design?.header_color}
+                                design={design}
+                                className={'text-[var(--header-color)]'}
+                                commaColor={'text-black'}
                             />
+                            </div>
                         </div>
                     )}
                     {/* copy from here */}
