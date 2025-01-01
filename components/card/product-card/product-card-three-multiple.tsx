@@ -18,6 +18,7 @@ const ProductCardThreeMultipleCard = ({
 }: any) => {
     const category1 = item1?.category || [];
     const category3 = item3?.category || [];
+    
     const [camp, setCamp] = useState<any>(null);
     const [campThree, setCampThree] = useState<any>(null);
 
@@ -119,18 +120,17 @@ const ProductCardThreeMultipleCard = ({
                                                     '...'}
                                             </p>
                                         </Link>
-                                        {/* <Link
-                                            href={`/category/${item1?.category_id}`}
-                                        >
-                                            <p className="text-sm ">
-                                                {item1?.category}
-                                            </p>
-                                        </Link> */}
                                         {Array.isArray(category1) &&
                                             category1?.length > 0 && (
-                                                <ProdMultiCategory
-                                                    category={category1}
-                                                />
+                                                <p className="text-sm">
+                                                    <ProdMultiCategory
+                                                        category={category1}
+                                                        className={
+                                                            'text-gray-500'
+                                                        }
+                                                        count={1}
+                                                    />
+                                                </p>
                                             )}
                                     </div>
                                     <div>
@@ -214,18 +214,17 @@ const ProductCardThreeMultipleCard = ({
                                                     '...'}
                                             </p>
                                         </Link>
-                                        {/* <Link
-                                            href={`/category/${item3?.category_id}`}
-                                        >
-                                            <p className="text-sm">
-                                                {item3?.category}
-                                            </p>
-                                        </Link> */}
                                         {Array.isArray(category3) &&
                                             category3?.length > 0 && (
-                                                <ProdMultiCategory
-                                                    category={category3}
-                                                />
+                                                <p className="text-sm">
+                                                    <ProdMultiCategory
+                                                        category={category3}
+                                                        className={
+                                                            'text-gray-500'
+                                                        }
+                                                        count={1}
+                                                    />
+                                                </p>
                                             )}
                                     </div>
                                     <div>

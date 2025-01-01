@@ -3,7 +3,6 @@
 import { productImg } from '@/site-settings/siteUrl';
 
 import Rate from '@/utils/rate';
-
 import Link from 'next/link';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,12 +18,14 @@ import BDT from '@/utils/bdt';
 import QuikView from '@/utils/quick-view';
 import Details from '../_product-details-page/components/details';
 import './card.css';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card5 = ({ item }: any) => {
     const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
     const { cartList } = useSelector((state: RootState) => state.cart);
 
     const store_id = store?.id || null;
+    const category = item?.category || [];
     const dispatch = useDispatch();
 
     const [open, setOpen] = useState<boolean>(false);
@@ -73,9 +74,15 @@ const Card5 = ({ item }: any) => {
                 </div>
 
                 <div className="px-5 flex flex-col justify-start mt-6">
-                    <div className="font-sans text-sm font-normal antialiased card5itemCategory">
-                        {item.category}
-                    </div>
+                    {Array.isArray(category) && category?.length > 0 && (
+                    <p className="font-sans text-sm font-normal antialiased card5itemCategory">
+                        <ProdMultiCategory
+                            category={category}
+                            className={'text-gray-500'}
+                            count={1}
+                        />
+                    </p>
+                    )}
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className=" text-base antialiased capitalize font-semibold truncate">
                             {item?.name}
