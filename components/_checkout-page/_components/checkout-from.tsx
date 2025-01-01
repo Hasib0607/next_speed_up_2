@@ -295,7 +295,7 @@ const CheckoutFrom = ({
                             : handleSubmit(addAddress)
                     }
                 >
-                    <div className="shadow overflow-hidden sm:rounded-md w-full">
+                    <div className="shadow overflow-hidden sm:rounded-md w-128">
                         <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                             {fields?.length > 0 &&
                                 fields?.map((item: any, index: number) => (

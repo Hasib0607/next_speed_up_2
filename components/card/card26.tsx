@@ -117,12 +117,12 @@ const Card26 = ({ item }: any) => {
                 </Link>
 
                 <div className="text-gray-600 text-lg font-semibold flex gap-1 pb-6 px-5">
-                    {priceLineThrough ? (
+                    {priceLineThrough && (
                         <p className="line-through text-gray-400">
                             {' '}
                             <BDT price={numberParser(item?.regular_price)} />
                         </p>
-                    ) : null}
+                    )}
                     <div className="text-base font-semibold">
                         <BDT />
                         {price}

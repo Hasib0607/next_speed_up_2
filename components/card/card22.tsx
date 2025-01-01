@@ -107,12 +107,12 @@ const Card22 = ({ item }: any) => {
                         <BDT />
                         {price}
                     </div>
-                    {priceLineThrough ? (
+                    {priceLineThrough && (
                         <p className="line-through text-gray-400">
                             {' '}
                             <BDT price={numberParser(item?.regular_price)} />
                         </p>
-                    ) : null}
+                    )}
                 </div>
             </div>
             <QuikView open={open} setOpen={setOpen}>

@@ -11,9 +11,10 @@ import { RotatingLines } from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
 
 import CheckoutFrom from '@/components/_checkout-page/_components/checkout-from';
-import { Modal } from '@/components/_checkout-page/_components/modal';
+
 import SingleAddress from '@/components/_checkout-page/twentyone/single-address/single-address';
 import useAuth from '@/hooks/useAuth';
+import QuickView from '@/utils/quick-view';
 
 const Address = ({ selectAddress, setSelectAddress, design }: any) => {
     const isAuthenticated = useAuth();
@@ -158,7 +159,7 @@ const Address = ({ selectAddress, setSelectAddress, design }: any) => {
                     </div>
                 </div>
             </div>
-            <Modal open={open} setOpen={setOpen} design={design}>
+            <QuickView open={open} setOpen={setOpen} design={design} auto>
                 <>
                     {edit && editItem ? (
                         <CheckoutFrom
@@ -176,7 +177,7 @@ const Address = ({ selectAddress, setSelectAddress, design }: any) => {
                         />
                     )}
                 </>
-            </Modal>
+            </QuickView>
         </>
     );
 };

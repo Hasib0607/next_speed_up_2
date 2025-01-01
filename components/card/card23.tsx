@@ -52,12 +52,12 @@ const Card23 = ({ item }: any) => {
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
 
-    const parsedRating = numberParser(item?.number_rating, true);
-    
+    const parsedRating = numberParser(item?.rating, true);
+
     const handleAddToCart = () => {
-        if(item?.variant?.length > 0){
-            setOpen(!open)
-        }else{
+        if (item?.variant?.length > 0) {
+            setOpen(!open);
+        } else {
             addToCart({
                 dispatch,
                 product: item,
@@ -137,7 +137,7 @@ const Card23 = ({ item }: any) => {
                                 <BDT />
                                 {price}
                             </div>
-                            {priceLineThrough ? (
+                            {priceLineThrough && (
                                 <p className="line-through text-gray-400">
                                     {' '}
                                     <BDT
@@ -146,7 +146,7 @@ const Card23 = ({ item }: any) => {
                                         )}
                                     />
                                 </p>
-                            ) : null}
+                            )}
                         </div>
                     </div>
                 </Link>

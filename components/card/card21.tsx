@@ -2,29 +2,27 @@ import { productImg } from '@/site-settings/siteUrl';
 import BDT from '@/utils/bdt';
 import QuikView from '@/utils/quick-view';
 
-import Rate from '@/utils/rate';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { AiOutlineEye, AiOutlineShoppingCart } from 'react-icons/ai';
-import { useDispatch, useSelector } from 'react-redux';
-import Details from '../_product-details-page/components/details';
 import {
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
-import { addToCart } from '@/utils/_cart-utils/cart-utils';
-import { RootState } from '@/redux/store';
 import { numberParser } from '@/helpers/numberParser';
+import { RootState } from '@/redux/store';
+import { addToCart } from '@/utils/_cart-utils/cart-utils';
+import Rate from '@/utils/rate';
+import Link from 'next/link';
+import { useState } from 'react';
+import { AiOutlineEye, AiOutlineShoppingCart } from 'react-icons/ai';
+import { useDispatch, useSelector } from 'react-redux';
+import Details from '../_product-details-page/components/details';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card21 = ({ item }: any) => {
     const home = useSelector((state: RootState) => state?.home);
     const { cartList } = useSelector((state: RootState) => state.cart);
 
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
-
     const { design } = home || {};
+    const category = item?.category || [];
 
     const dispatch = useDispatch();
 
@@ -33,12 +31,12 @@ const Card21 = ({ item }: any) => {
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
 
-    const parsedRating = numberParser(item?.number_rating, true);
+    const parsedRating = numberParser(item?.rating, true);
 
     const handleAddToCart = () => {
-        if(item?.variant?.length > 0){
-            setOpen(!open)
-        }else{
+        if (item?.variant?.length > 0) {
+            setOpen(!open);
+        } else {
             addToCart({
                 dispatch,
                 product: item,
@@ -58,6 +56,7 @@ const Card21 = ({ item }: any) => {
         transform: translateY(-20px)
     }
     `;
+    console.log('yse');
 
     return (
         <>
@@ -107,18 +106,23 @@ const Card21 = ({ item }: any) => {
                             >
                                 {item?.name}
                             </h6>
-                            <p
-                                className="text-sm "
-                                style={{
-                                    height: '30px',
-                                    overflow: 'hidden',
-                                    whiteSpace: 'nowrap',
-                                    width: '130px',
-                                    textOverflow: 'ellipsis',
-                                }}
-                            >
-                                {item?.category}
-                            </p>
+                            {Array.isArray(category) &&
+                                category?.length > 0 && (
+                                    <p
+                                        className="text-sm"
+                                        style={{
+                                            height: '30px',
+                                            overflow: 'hidden',
+                                            whiteSpace: 'nowrap',
+                                            width: '130px',
+                                            textOverflow: 'ellipsis',
+                                        }}
+                                    >
+                                        <ProdMultiCategory
+                                            category={category}
+                                        />
+                                    </p>
+                                )}
                         </Link>
 
                         <Rate rating={parsedRating} />
@@ -128,7 +132,7 @@ const Card21 = ({ item }: any) => {
                                     <BDT />
                                     {price}
                                 </div>
-                                {priceLineThrough ? (
+                                {priceLineThrough && (
                                     <p className="line-through text-gray-400">
                                         {' '}
                                         <BDT
@@ -137,7 +141,7 @@ const Card21 = ({ item }: any) => {
                                             )}
                                         />
                                     </p>
-                                ) : null}
+                                )}
                             </div>
                             <div>
                                 <button

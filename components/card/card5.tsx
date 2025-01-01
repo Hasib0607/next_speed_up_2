@@ -8,17 +8,17 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import './card.css';
-import { RootState } from '@/redux/store';
 import {
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
-import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import { numberParser } from '@/helpers/numberParser';
+import { RootState } from '@/redux/store';
+import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import BDT from '@/utils/bdt';
 import QuikView from '@/utils/quick-view';
 import Details from '../_product-details-page/components/details';
+import './card.css';
 
 const Card5 = ({ item }: any) => {
     const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
@@ -31,13 +31,14 @@ const Card5 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
-    
-    const parsedRating = numberParser(item?.number_rating, true);
+
+    const parsedNumberRating = numberParser(item?.number_rating);
+    const parsedRating = numberParser(item?.rating, true);
 
     const handleAddToCart = () => {
-        if(item?.variant?.length > 0){
-            setOpen(!open)
-        }else{
+        if (item?.variant?.length > 0) {
+            setOpen(!open);
+        } else {
             addToCart({
                 dispatch,
                 product: item,
@@ -86,7 +87,7 @@ const Card5 = ({ item }: any) => {
                             <Rate rating={parsedRating} />
                         </div>
                         <div className="text-gray-500 sm:text-sm text-xs">
-                            ({parsedRating})
+                            ({parsedNumberRating})
                         </div>
                     </div>
 
@@ -95,14 +96,14 @@ const Card5 = ({ item }: any) => {
                             <BDT />
                             {price}
                         </div>
-                        {priceLineThrough ? (
+                        {priceLineThrough && (
                             <p className="line-through text-gray-400">
                                 {' '}
                                 <BDT
                                     price={numberParser(item?.regular_price)}
                                 />
                             </p>
-                        ) : null}
+                        )}
                     </div>
                     <div
                         onClick={handleAddToCart}

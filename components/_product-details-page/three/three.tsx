@@ -25,8 +25,10 @@ import {
     useGetRelatedProductsQuery,
     useGetReviewsQuery,
 } from '@/redux/features/products/productApi';
+import { useEffect, useState } from 'react';
 import Details from '../components/details';
 import VideoPlayer from '../components/video-player';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Three = ({ store_id, productId }: any) => {
     const {
@@ -47,12 +49,20 @@ const Three = ({ store_id, productId }: any) => {
         isSuccess: reviewsSuccess,
     } = useGetReviewsQuery({ productId });
 
-    const product = productDetailsData?.data || {};
+    const [product, setProduct] = useState<any>({});
+
+    useEffect(() => {
+        if (productDetailSuccess && productDetailsData) {
+            const productData = productDetailsData?.data || {};
+            setProduct(productData);
+        }
+    }, [productDetailsData, productDetailSuccess]);
 
     const relatedProductsArr = relatedProductsData?.data || [];
+    const category = product?.category || [];
 
     // const reviewsArr = reviewsData?.data;
-    // console.log("sds",variant);
+    // console.log("product before prop",product);
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
@@ -67,12 +77,14 @@ const Three = ({ store_id, productId }: any) => {
                         </span>{' '}
                         {product?.SKU}
                     </p>
-                    <p className="text-sm text-[#5a5a5a] font-seven">
-                        <span className="font-semibold text-[#212121] font-seven">
-                            Category:
-                        </span>{' '}
-                        {product?.category}
-                    </p>
+                    {Array.isArray(category) && category?.length > 0 && (
+                        <p className="text-sm text-[#5a5a5a] font-seven">
+                            <span className="font-semibold text-[#212121] font-seven">
+                                Category:
+                            </span>{' '}
+                            <ProdMultiCategory category={category} />
+                        </p>
+                    )}
                     {product?.tags && (
                         <p className="text-sm text-[#5a5a5a] font-seven">
                             <span className="font-semibold text-[#212121] font-seven">

@@ -10,12 +10,13 @@ import {
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
+import { numberParser } from '@/helpers/numberParser';
 import { RootState } from '@/redux/store';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
+import BDT from '@/utils/bdt';
 import QuikView from '@/utils/quick-view';
 import Details from '../_product-details-page/components/details';
-import BDT from '@/utils/bdt';
-import { numberParser } from '@/helpers/numberParser';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card4 = ({ item }: any) => {
     const [open, setOpen] = useState(false);
@@ -26,6 +27,8 @@ const Card4 = ({ item }: any) => {
 
     const { design } = home || {};
     const store_id = store?.id || null;
+    const category = item?.category || [];
+
     const dispatch = useDispatch();
 
     const styleCss = `
@@ -45,12 +48,13 @@ const Card4 = ({ item }: any) => {
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
 
-    const parsedRating = numberParser(item?.number_rating, true);
+    const parsedNumberRating = numberParser(item?.number_rating);
+    const parsedRating = numberParser(item?.rating, true);
 
     const handleAddToCart = () => {
-        if(item?.variant?.length > 0){
-            setOpen(!open)
-        }else{
+        if (item?.variant?.length > 0) {
+            setOpen(!open);
+        } else {
             addToCart({
                 dispatch,
                 product: item,
@@ -101,11 +105,16 @@ const Card4 = ({ item }: any) => {
                         </div>
                     </div>
                     <div className="py-6 px-3 space-y-2 relative">
-                        <Link href={'/category/' + item?.category_id}>
+                        {/* <Link href={'/category/' + item?.category_id}>
                             <p className="text-sm font-semibold uppercase antialiased mb-2 text-gray-600">
-                                {item?.category}
                             </p>
-                        </Link>
+                            </Link> */}
+                        {Array.isArray(category) && category?.length > 0 && (
+                            <ProdMultiCategory
+                                category={category}
+                                color={design?.header_color}
+                            />
+                        )}
                         <Link href={'/product/' + item?.id + '/' + item?.slug}>
                             <h3 className="lg:text-lg text-sm font-medium text-hover text-gray-800 lg:font-bold antialiased capitalize truncate">
                                 {item?.name}
@@ -117,7 +126,7 @@ const Card4 = ({ item }: any) => {
                                 <Rate rating={parsedRating} />
                             </div>
                             <div className="text-gray-500 sm:text-sm text-xs">
-                                ({parsedRating})
+                                ({parsedNumberRating})
                             </div>
                         </div>
 
@@ -126,7 +135,7 @@ const Card4 = ({ item }: any) => {
                                 <BDT />
                                 {price}
                             </div>
-                            {priceLineThrough ? (
+                            {priceLineThrough && (
                                 <p className="line-through text-gray-400">
                                     {' '}
                                     <BDT
@@ -135,7 +144,7 @@ const Card4 = ({ item }: any) => {
                                         )}
                                     />
                                 </p>
-                            ) : null}
+                            )}
                         </div>
                         <div
                             className="menu-hover lg:absolute bottom-6 left-4 hover:-translate-y-1 lg:group-hover:scale-110 lg:cursor-pointer duration-500 lg:opacity-0 lg:group-hover:opacity-100 font-semibold text-sm underline"

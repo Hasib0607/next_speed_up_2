@@ -3,6 +3,7 @@
 import { getPrice } from '@/helpers/getPrice';
 import { useGetSingleProductQuery } from '@/redux/features/products/productApi';
 import { productImg } from '@/site-settings/siteUrl';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 import Taka from '@/utils/Taka';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -12,7 +13,7 @@ const ProductCardThreeSecondSinglePage = ({
     productId,
     store_id,
 }: any) => {
-    // const productId = item?.id;
+    const category = item?.category || [];
     const [camp, setCamp] = useState<any>(null);
 
     const productGetPrice = getPrice(
@@ -65,9 +66,13 @@ const ProductCardThreeSecondSinglePage = ({
                                     {item?.name?.length > 15 && '...'}
                                 </p>
                             </Link>
-                            <Link href={`/category/${item?.category_id}`}>
+                            {/* <Link href={`/category/${item?.category_id}`}>
                                 <p className="text-sm">{item?.category}</p>
-                            </Link>
+                            </Link> */}
+                            {Array.isArray(category) &&
+                                category?.length > 0 && (
+                                    <ProdMultiCategory category={category} />
+                                )}
                         </div>
                         <div>
                             <div className="line-through text-gray-400 text-sm">

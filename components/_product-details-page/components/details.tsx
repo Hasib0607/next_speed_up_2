@@ -8,7 +8,7 @@ import CallForPrice from '@/utils/call-for-price';
 import Rate from '@/utils/rate';
 
 import parse from 'html-react-parser';
-import Link from 'next/link';
+
 import { useEffect, useMemo, useState } from 'react';
 import { VscCreditCard } from 'react-icons/vsc';
 import {
@@ -39,6 +39,8 @@ import { saveToLocalStorage } from '@/helpers/localStorage';
 import { AppDispatch, RootState } from '@/redux/store';
 
 import AddCart from './add-cart';
+import Link from 'next/link';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Details = ({ product, productDetailLoading, children }: any) => {
     const { headersetting, design } = useSelector(
@@ -189,7 +191,8 @@ const Details = ({ product, productDetailLoading, children }: any) => {
     const price = productCurrentPrice(product);
     const priceLineThrough = isRegularPriceLineThrough(product);
 
-    const parsedRating = numberParser(product?.number_rating, true);
+    const parsedNumberRating = numberParser(product?.number_rating);
+    const parsedRating = numberParser(product?.rating, true);
 
     const handleAddToCart = () => {
         addToCart({
@@ -212,6 +215,8 @@ const Details = ({ product, productDetailLoading, children }: any) => {
     const buttonOne =
         'font-bold text-white bg-gray-600 rounded-md w-60 py-3 text-center';
 
+    const category = product?.category || [];
+
     return (
         <div className="grid md:grid-cols-8 grid-cols-1 gap-4 w-full">
             <div className="md:col-span-4 lg2:col-span-3 col-span-1 h-full overflow-hidden">
@@ -231,23 +236,27 @@ const Details = ({ product, productDetailLoading, children }: any) => {
                     {product?.name}
                 </h2>
                 <div className="flex flex-col gap-3 sm:mt-6 mt-1">
-                    <div className="flex items-center gap-2">
-                        <p className="capitalize">
-                            {' '}
-                            <span className="text-black">Category: </span>{' '}
-                        </p>
-                        <Link
-                            href={'/category/' + product?.category_id}
-                            style={{ color: design?.header_color }}
-                        >
-                            {product?.category}
-                        </Link>
-                    </div>
+                    {/* copy from here */}
+                    {Array.isArray(category) && category?.length > 0 && (
+                        <div className="flex items-center gap-2">
+                            <p className="capitalize">
+                                {' '}
+                                <span className="text-black">
+                                    Category:{' '}
+                                </span>{' '}
+                            </p>
+                            <ProdMultiCategory
+                                category={category}
+                                color={design?.header_color}
+                            />
+                        </div>
+                    )}
+                    {/* copy from here */}
                     <div className="flex justify-start items-center gap-2">
                         <div className="text-xs">
                             <Rate rating={parsedRating} />
                         </div>
-                        <p>({parsedRating})</p>
+                        <p>({parsedNumberRating})</p>
                     </div>
                 </div>
                 <div className="md:divider mt-2"></div>
@@ -255,12 +264,12 @@ const Details = ({ product, productDetailLoading, children }: any) => {
                     <div className="text-[#212121] text-2xl font-seven font-bold flex justify-start items-center gap-4">
                         <BDT />
                         {price}{' '}
-                        {priceLineThrough ? (
+                        {priceLineThrough && (
                             <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                 <BDT />
                                 {numberParser(product?.regular_price)}
                             </span>
-                        ) : null}{' '}
+                        )}{' '}
                     </div>
 
                     {product?.discount_type === 'percent' &&

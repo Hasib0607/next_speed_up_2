@@ -4,6 +4,7 @@ import { useGetSingleProductQuery } from '@/redux/features/products/productApi';
 
 import { getPrice } from '@/helpers/getPrice';
 import { productImg } from '@/site-settings/siteUrl';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 import Taka from '@/utils/Taka';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -15,6 +16,8 @@ const ProductCardThreeMultipleCard = ({
     productThreeId,
     store_id,
 }: any) => {
+    const category1 = item1?.category || [];
+    const category3 = item3?.category || [];
     const [camp, setCamp] = useState<any>(null);
     const [campThree, setCampThree] = useState<any>(null);
 
@@ -116,13 +119,19 @@ const ProductCardThreeMultipleCard = ({
                                                     '...'}
                                             </p>
                                         </Link>
-                                        <Link
+                                        {/* <Link
                                             href={`/category/${item1?.category_id}`}
                                         >
                                             <p className="text-sm ">
                                                 {item1?.category}
                                             </p>
-                                        </Link>
+                                        </Link> */}
+                                        {Array.isArray(category1) &&
+                                            category1?.length > 0 && (
+                                                <ProdMultiCategory
+                                                    category={category1}
+                                                />
+                                            )}
                                     </div>
                                     <div>
                                         <div className="line-through text-gray-400 text-sm">
@@ -205,13 +214,19 @@ const ProductCardThreeMultipleCard = ({
                                                     '...'}
                                             </p>
                                         </Link>
-                                        <Link
+                                        {/* <Link
                                             href={`/category/${item3?.category_id}`}
                                         >
                                             <p className="text-sm">
                                                 {item3?.category}
                                             </p>
-                                        </Link>
+                                        </Link> */}
+                                        {Array.isArray(category3) &&
+                                            category3?.length > 0 && (
+                                                <ProdMultiCategory
+                                                    category={category3}
+                                                />
+                                            )}
                                     </div>
                                     <div>
                                         <div className="line-through text-gray-400 text-sm">

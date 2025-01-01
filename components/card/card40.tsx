@@ -1,38 +1,38 @@
 'use client';
 
+import { SearchIcon } from '@/assets/svgComp';
 import {
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
+import { numberParser } from '@/helpers/numberParser';
 import { RootState } from '@/redux/store';
+
 import { productImg } from '@/site-settings/siteUrl';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
-
 import BDT from '@/utils/bdt';
-import QuikView from '@/utils/quick-view';
+import QuickView from '@/utils/quick-view';
 
 import { LinkIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { useState } from 'react';
-import { IoSearchCircleOutline } from 'react-icons/io5';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { numberParser } from '@/helpers/numberParser';
 import Details from '../_product-details-page/components/details';
 
-const Card14 = ({ item }: any) => {
-    const [open, setOpen] = useState<any>(false);
+const Card40 = ({ item }: any) => {
+    const dispatch = useDispatch();
 
     const { cartList } = useSelector((state: RootState) => state.cart);
-    const dispatch = useDispatch();
+
+    const [open, setOpen] = useState(false);
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
 
     const handleAddToCart = () => {
-        if(item?.variant?.length > 0){
-            setOpen(!open)
-        }else{
+        if (item?.variant?.length > 0) {
+            setOpen(!open);
+        } else {
             addToCart({
                 dispatch,
                 product: item,
@@ -43,7 +43,7 @@ const Card14 = ({ item }: any) => {
             });
         }
     };
-    
+
     return (
         <div>
             <div className="relative overflow-hidden group">
@@ -59,7 +59,7 @@ const Card14 = ({ item }: any) => {
                 )}
                 <Link href={'/product/' + item?.id + '/' + item?.slug}>
                     <div className="relative">
-                        <span className="absolute bg-gray-800 text-white px-12 py-2 -rotate-45 overflow-clip -ml-12 -mt-1">
+                        <span className="absolute bg-gray-800 text-white px-12 py-2 -rotate-45  overflow-clip -ml-12 -mt-1">
                             New
                         </span>
                         <img
@@ -78,7 +78,7 @@ const Card14 = ({ item }: any) => {
                                     />
                                 </p>
                             )}
-                            <div className="">
+                            <div className="text-base font-semibold">
                                 <BDT />
                                 {price}
                             </div>
@@ -87,7 +87,7 @@ const Card14 = ({ item }: any) => {
                 </Link>
 
                 <div className="absolute right-2 top-8 translate-x-12  group-hover:-translate-x-0  transition-transform duration-500 ease-linear">
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 ">
                         <div
                             className="p-3 border-0 bg-white rounded-full all-icon translate-x-6 lg:cursor-pointer  group-hover:-translate-x-2  transition-all group-hover:duration-300 ease-linear"
                             onClick={handleAddToCart}
@@ -102,7 +102,7 @@ const Card14 = ({ item }: any) => {
                             className="p-3 border-0 bg-white rounded-full all-icon translate-x-6 lg:cursor-pointer group-hover:-translate-x-2  transition-all  group-hover:duration-500 ease-linear"
                             onClick={() => setOpen(!open)}
                         >
-                            <IoSearchCircleOutline width={20} height={20} />
+                            <SearchIcon />
                         </div>
                         <Link href={'/product/' + item?.id + '/' + item?.slug}>
                             <div className="p-3 border-0 bg-white rounded-full all-icon translate-x-6 lg:cursor-pointer group-hover:-translate-x-2  transition-all  group-hover:duration-1000 ease-linear">
@@ -122,11 +122,11 @@ const Card14 = ({ item }: any) => {
                     </Link>
                 </div>
             </div>
-            <QuikView open={open} setOpen={setOpen}>
+            <QuickView open={open} setOpen={setOpen}>
                 <Details product={item} />
-            </QuikView>
+            </QuickView>
         </div>
     );
 };
 
-export default Card14;
+export default Card40;

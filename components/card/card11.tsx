@@ -6,8 +6,11 @@ import {
 } from '@/helpers/littleSpicy';
 import { productImg } from '@/site-settings/siteUrl';
 import BDT from '@/utils/bdt';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card11 = ({ item }: any) => {
+    const category = item?.category || [];
+
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
 
@@ -32,18 +35,22 @@ const Card11 = ({ item }: any) => {
                             {item?.name}
                         </h6>{' '}
                     </Link>
-                    <Link href={`/category/${item.category_id}`}>
+                    {/* <Link href={`/category/${item.category_id}`}>
                         <p className="text-sm capitalize text-gray-500 pb-3">
                             {item?.category}
                         </p>
-                    </Link>
+
+                    </Link> */}
+                    {Array.isArray(category) && category?.length > 0 && (
+                        <ProdMultiCategory category={category} />
+                    )}
                     <div className="flex flex-wrap items-center gap-y-1 gap-x-4 xl:gap-4 md:gap-4 lg:gap-4">
                         <div className="text-base font-semibold">
                             <BDT price={price} />{' '}
                         </div>
                         <div className="line-through text-gray-400 text-sm">
                             <h1 className="">
-                                {priceLineThrough ? (
+                                {priceLineThrough && (
                                     <div>
                                         <BDT
                                             price={Math.trunc(
@@ -51,7 +58,7 @@ const Card11 = ({ item }: any) => {
                                             )}
                                         />
                                     </div>
-                                ) : null}
+                                )}
                             </h1>
                         </div>
                     </div>
