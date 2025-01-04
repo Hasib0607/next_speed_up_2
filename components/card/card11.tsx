@@ -35,12 +35,6 @@ const Card11 = ({ item }: any) => {
                             {item?.name}
                         </h6>{' '}
                     </Link>
-                    {/* <Link href={`/category/${item.category_id}`}>
-                        <p className="text-sm capitalize text-gray-500 pb-3">
-                            {item?.category}
-                        </p>
-
-                    </Link> */}
                     {Array.isArray(category) && category?.length > 0 && (
                         <ProdMultiCategory category={category} />
                     )}

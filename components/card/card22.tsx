@@ -1,6 +1,7 @@
 'use client';
 
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -29,11 +30,12 @@ const Card22 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    const productAvailablity = isAvailable(item);
 
     const handleAddToCart = () => {
-        if(item?.variant?.length > 0){
-            setOpen(!open)
-        }else{
+        if (item?.variant?.length > 0) {
+            setOpen(!open);
+        } else {
             addToCart({
                 dispatch,
                 product: item,
@@ -58,7 +60,7 @@ const Card22 = ({ item }: any) => {
     return (
         <div className="relative">
             {/* out of stock  */}
-            {item?.quantity === '0' && (
+            {!productAvailablity && (
                 <Link href={'/product/' + item?.id + '/' + item?.slug}>
                     <div className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-50 z-[1]">
                         <p className="bg-red-600 text-white px-2 py-1 w-max absolute right-0">
@@ -86,13 +88,15 @@ const Card22 = ({ item }: any) => {
                     >
                         <AiOutlineSearch className="text-2xl mt-3 ml-[14px]" />
                     </div>
-                    <div
-                        onClick={handleAddToCart}
-                        className="flex searchHover lg:cursor-pointer text-lg flex-row items-center scale-100 opacity-0 group-hover:opacity-100 duration-1000 gap-1 bg-white text-black px-2 w-max py-1 absolute left-[50%] -translate-x-1/2 bottom-6 "
-                    >
-                        <BsPlusLg className="text-xs " />
-                        <p>Add To Cart</p>
-                    </div>
+                    {productAvailablity && (
+                        <div
+                            onClick={handleAddToCart}
+                            className="flex searchHover lg:cursor-pointer text-lg flex-row items-center scale-100 opacity-0 group-hover:opacity-100 duration-1000 gap-1 bg-white text-black px-2 w-max py-1 absolute left-[50%] -translate-x-1/2 bottom-6 "
+                        >
+                            <BsPlusLg className="text-xs " />
+                            <p>Add To Cart</p>
+                        </div>
+                    )}
                 </div>
 
                 <Link href={'/product/' + item?.id + '/' + item?.slug}>

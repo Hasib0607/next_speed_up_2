@@ -7,6 +7,7 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -21,12 +22,10 @@ import ProdMultiCategory from '@/utils/prod-multi-category';
 const Card4 = ({ item }: any) => {
     const [open, setOpen] = useState(false);
 
-    const home = useSelector((state: RootState) => state?.home);
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
+    const home = useSelector((state: RootState) => state.home);
     const { cartList } = useSelector((state: RootState) => state.cart);
 
     const { design } = home || {};
-    const store_id = store?.id || null;
     const category = item?.category || [];
 
     const dispatch = useDispatch();
@@ -42,11 +41,11 @@ const Card4 = ({ item }: any) => {
   .border-hover:hover {
     border: 1px solid  ${design?.header_color};
   }
-
   `;
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    const productAvailablity = isAvailable(item);
 
     const parsedNumberRating = numberParser(item?.number_rating);
     const parsedRating = numberParser(item?.rating, true);
@@ -71,8 +70,8 @@ const Card4 = ({ item }: any) => {
             <div className="rounded overflow-hidden shadow-sm group border border-hover">
                 <style>{styleCss}</style>
                 <div className="relative">
-                    {/* out of stock  */}
-                    {item?.quantity === '0' && (
+                    {/* out of stock */}
+                    {!productAvailablity && (
                         <Link href={'/product/' + item?.id + '/' + item?.slug}>
                             <div className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-50 z-[1]">
                                 <p className="bg-red-600 text-white px-2 py-1 w-max absolute right-0">
@@ -81,7 +80,6 @@ const Card4 = ({ item }: any) => {
                             </div>
                         </Link>
                     )}
-
                     <div className="absolute w-48 text-center bg-black text-white text-xs px-10 py-2 top-6 -left-10 rounded-md -rotate-45 z-[1]">
                         <p>
                             {item?.product_offer?.status
@@ -105,10 +103,6 @@ const Card4 = ({ item }: any) => {
                         </div>
                     </div>
                     <div className="py-6 px-3 space-y-2 relative">
-                        {/* <Link href={'/category/' + item?.category_id}>
-                            <p className="text-sm font-semibold uppercase antialiased mb-2 text-gray-600">
-                            </p>
-                            </Link> */}
                         {Array.isArray(category) && category?.length > 0 && (
                             <ProdMultiCategory
                                 category={category}
@@ -147,12 +141,14 @@ const Card4 = ({ item }: any) => {
                                 </p>
                             )}
                         </div>
-                        <div
-                            className="menu-hover lg:absolute bottom-6 left-4 hover:-translate-y-1 lg:group-hover:scale-110 lg:cursor-pointer duration-500 lg:opacity-0 lg:group-hover:opacity-100 font-semibold text-sm underline"
-                            onClick={handleAddToCart}
-                        >
-                            {store_id === 2669 ? 'Buy Now' : 'ADD TO CART'}
-                        </div>
+                        {productAvailablity && (
+                            <div
+                                className="menu-hover lg:absolute bottom-6 left-4 hover:-translate-y-1 lg:group-hover:scale-110 lg:cursor-pointer duration-500 lg:opacity-0 lg:group-hover:opacity-100 font-semibold text-sm underline"
+                                onClick={handleAddToCart}
+                            >
+                                {'ADD TO CART'}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

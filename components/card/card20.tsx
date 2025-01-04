@@ -1,6 +1,7 @@
 'use client';
 
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -14,6 +15,7 @@ import Link from 'next/link';
 const Card20 = ({ item }: any) => {
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    const productAvailablity = isAvailable(item);
 
     const parsedNumberRating = numberParser(item?.number_rating);
     const parsedRating = numberParser(item?.rating, true);
@@ -24,7 +26,7 @@ const Card20 = ({ item }: any) => {
             className="h-[100px] w-[270px] flex relative"
         >
             {/* out of stock  */}
-            {item?.quantity === '0' && (
+            {!productAvailablity && (
                 <div className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-50 z-[1]">
                     <p className="bg-red-600 text-white px-2 py-1 w-max absolute right-0">
                         Sold Out

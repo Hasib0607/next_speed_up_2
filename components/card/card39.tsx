@@ -7,6 +7,7 @@ import Link from 'next/link';
 
 import Details from '../_product-details-page/components/details';
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -25,6 +26,7 @@ const Card39 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    const productAvailablity = isAvailable(item);
 
     const handleAddToCart = () => {
         if (item?.variant?.length > 0) {
@@ -66,13 +68,14 @@ const Card39 = ({ item }: any) => {
                         >
                             QUICK VIEW
                         </div>
-
-                        <div
-                            onClick={handleAddToCart}
-                            className="lg:cursor-pointer lg:translate-y-14 lg:group-hover:translate-y-3 duration-700 lg:group-hover:opacity-100 lg:opacity-0 py-2 px-3 tracking-wider hover:bg-[#f7f3e3] bg-[#F1EBD1] text-[#312e21] border border-black text-sm text-center"
-                        >
-                            ADD TO CART
-                        </div>
+                        {productAvailablity && (
+                            <div
+                                onClick={handleAddToCart}
+                                className="lg:cursor-pointer lg:translate-y-14 lg:group-hover:translate-y-3 duration-700 lg:group-hover:opacity-100 lg:opacity-0 py-2 px-3 tracking-wider hover:bg-[#f7f3e3] bg-[#F1EBD1] text-[#312e21] border border-black text-sm text-center"
+                            >
+                                ADD TO CART
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

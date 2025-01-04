@@ -24,6 +24,25 @@ export const isRegularPriceLineThrough = (product: any) => {
     }
 };
 
+export const isAvailable = (product: any) => {
+    const productQty = numberParser(product?.quantity);
+    return productQty > 0;
+};
+
+export const howMuchSave = (product: any) => {
+    const offerPrice = numberParser(product?.product_offer?.offer_price);
+    const regularPrice = numberParser(product?.regular_price);
+    const calculateRegularPrice = numberParser(
+        product?.calculate_regular_price
+    );
+
+    if (product?.product_offer?.status) {
+        return numberParser(offerPrice - calculateRegularPrice);
+    } else {
+        return numberParser(regularPrice - calculateRegularPrice);
+    }
+};
+
 export const getPathName = (pathname: any): string =>
     pathname?.toLowerCase().split('/')[1];
 export const getSecondPathName = (pathname: any): string =>

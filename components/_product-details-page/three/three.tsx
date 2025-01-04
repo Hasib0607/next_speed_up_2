@@ -1,7 +1,6 @@
 'use client';
 
 import Card23 from '@/components/card/card23';
-
 import SectionHeadingSeven from '@/components/section-heading/section-heading-seven';
 import DefaultSlider from '@/components/slider/default-slider';
 
@@ -211,7 +210,7 @@ const Related = ({ product }: any) => {
                     nextEl={next}
                 >
                     {product?.length > 0 &&
-                        product?.slice(0, 10).map((item: any, index: any) => (
+                        product?.slice(0, 10)?.map((item: any, index: any) => (
                             <SwiperSlide key={index}>
                                 <Card23 item={item} />
                             </SwiperSlide>

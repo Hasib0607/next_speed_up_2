@@ -3,6 +3,7 @@ import BDT from '@/utils/bdt';
 import QuikView from '@/utils/quick-view';
 
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -30,6 +31,7 @@ const Card21 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    const productAvailablity = isAvailable(item);
 
     const parsedRating = numberParser(item?.rating, true);
 
@@ -56,13 +58,12 @@ const Card21 = ({ item }: any) => {
         transform: translateY(-20px)
     }
     `;
-    console.log('yse');
 
     return (
         <>
             <div className="group relative overflow-hidden rounded-[20px] h-fit border hover:shadow-lg ">
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="absolute top-0 right-0 w-full h bg-black bg-opacity-50 z-[1]">
                             <p className="bg-red-600 text-white px-2 py-1 w-max absolute right-0">
@@ -143,19 +144,23 @@ const Card21 = ({ item }: any) => {
                                     </p>
                                 )}
                             </div>
-                            <div>
-                                <button
-                                    className="rounded-lg py-2 px-6 btnCustom font-bold flex gap-4 justify-between item-center"
-                                    onClick={handleAddToCart}
-                                    style={{
-                                        background: design?.header_color,
-                                        color: design?.text_color,
-                                    }}
-                                >
-                                    <AiOutlineShoppingCart className="mt-1 ml-2 xl:ml-0  text-base" />{' '}
-                                    {'Add'}{' '}
-                                </button>
-                            </div>
+                            
+                            {productAvailablity && (
+                                <div>
+                                    <button
+                                        className="rounded-lg py-2 px-6 btnCustom font-bold flex gap-4 justify-between item-center"
+                                        onClick={handleAddToCart}
+                                        style={{
+                                            background: design?.header_color,
+                                            color: design?.text_color,
+                                        }}
+                                    >
+                                        <AiOutlineShoppingCart className="mt-1 ml-2 xl:ml-0  text-base" />{' '}
+                                        {'Add'}{' '}
+                                    </button>
+                                </div>
+                            )}
+
                             {/* show unit range in card bottom */}
                             <div>
                                 {item?.variant?.length > 0 &&

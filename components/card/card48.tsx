@@ -1,7 +1,8 @@
 'use client';
 
 import {
-    isRegularPriceLineThrough,
+    howMuchSave,
+    isAvailable,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { RootState } from '@/redux/store';
@@ -25,7 +26,8 @@ const Card48 = ({ item }: any) => {
     const [open, setOpen] = useState(false);
 
     const price = productCurrentPrice(item);
-    const priceLineThrough = isRegularPriceLineThrough(item);
+    const save = howMuchSave(item);
+    const productAvailablity = isAvailable(item);
 
     const handleAddToCart = () => {
         if (item?.variant?.length > 0) {
@@ -49,7 +51,7 @@ const Card48 = ({ item }: any) => {
                 key={item?.id}
             >
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-50 z-[3]">
                             <p className="bg-red-600 text-white px-2 py-1 w-max absolute left-0">
@@ -78,20 +80,22 @@ const Card48 = ({ item }: any) => {
                         </h2>
                     </div>
                     <div className="flex justify-center items-center">
-                        <div
-                            onClick={handleAddToCart}
-                            className="lg:cursor-pointer group-hover:opacity-100 opacity-0 -translate-x-10 group-hover:translate-x-0 duration-700 flex items-start justify-between text-sm"
-                        >
-                            <p>Add to cart </p>{' '}
-                            <AiOutlineArrowRight className="ml-2 mt-1" />
-                        </div>
+                        {productAvailablity && (
+                            <div
+                                onClick={handleAddToCart}
+                                className="lg:cursor-pointer group-hover:opacity-100 opacity-0 -translate-x-10 group-hover:translate-x-0 duration-700 flex items-start justify-between text-sm"
+                            >
+                                <p>Add to cart </p>{' '}
+                                <AiOutlineArrowRight className="ml-2 mt-1" />
+                            </div>
+                        )}
 
                         <div className="flex items-center gap-2 group-hover:opacity-0 opacity-100 -translate-x-12 group-hover:translate-x-40 duration-700 ">
                             <div className="text-base font-semibold">
                                 <BDT />
                                 {price}
                             </div>
-                            {priceLineThrough && (
+                            {save > 0 && (
                                 <p className="line-through text-gray-400">
                                     {' '}
                                     <BDT

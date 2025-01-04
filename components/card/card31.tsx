@@ -1,7 +1,8 @@
 'use client';
 
 import {
-    isRegularPriceLineThrough,
+    howMuchSave,
+    isAvailable,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { RootState } from '@/redux/store';
@@ -37,7 +38,8 @@ const Card31 = ({ item }: any) => {
   `;
 
     const price = productCurrentPrice(item);
-    const priceLineThrough = isRegularPriceLineThrough(item);
+    const save = howMuchSave(item);
+    const productAvailablity = isAvailable(item);
 
     const parsedNumberRating = numberParser(item?.number_rating);
     const parsedRating = numberParser(item?.rating, true);
@@ -61,7 +63,7 @@ const Card31 = ({ item }: any) => {
         <div className="group flex flex-col justify-between bg-white relative">
             <style>{styleCss}</style>
             {/* out of stock  */}
-            {item?.quantity === '0' && (
+            {!productAvailablity && (
                 <Link href={'/product/' + item?.id + '/' + item?.slug}>
                     <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-[1]">
                         <p className="bg-red-600 text-white px-2 py-1 w-max">
@@ -70,7 +72,6 @@ const Card31 = ({ item }: any) => {
                     </div>
                 </Link>
             )}
-
             <div className=" w-full h-full overflow-hidden">
                 {/* image  */}
                 <div className="flex justify-center relative overflow-hidden">
@@ -81,10 +82,7 @@ const Card31 = ({ item }: any) => {
                             alt=""
                         />
                     </Link>
-                    {item.discount_type === 'no_discount' ||
-                    item.discount_price === '0.00' ? (
-                        ''
-                    ) : (
+                    {save > 0 && (
                         <div
                             className="absolute text-xs px-2  py-2 top-2 right-2 rounded-md"
                             style={{
@@ -95,7 +93,7 @@ const Card31 = ({ item }: any) => {
                             <p>
                                 Save{' '}
                                 {item.discount_type === 'fixed' ? 'BDT' : ''}{' '}
-                                {Math.trunc(item.discount_price)}{' '}
+                                {numberParser(item.discount_price)}{' '}
                                 {item.discount_type === 'percent' ? '%' : ''}
                             </p>
                         </div>
@@ -123,7 +121,7 @@ const Card31 = ({ item }: any) => {
                                     <BDT />
                                     {price}
                                 </div>
-                                {priceLineThrough && (
+                                {save > 0 && (
                                     <p className="line-through text-gray-400">
                                         {' '}
                                         <BDT
@@ -144,7 +142,7 @@ const Card31 = ({ item }: any) => {
                             </div>
                         </div>
                     </Link>
-                    {item?.quantity > 0 ? (
+                    {productAvailablity ? (
                         <div
                             onClick={handleAddToCart}
                             className="flex justify-center pt-2 "

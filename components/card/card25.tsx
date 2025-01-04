@@ -1,6 +1,7 @@
 'use client';
 
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -46,6 +47,7 @@ const Card25 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    const productAvailablity = isAvailable(item);
 
     const handleAddToCart = () => {
         if (item?.variant?.length > 0) {
@@ -66,7 +68,7 @@ const Card25 = ({ item }: any) => {
         <div>
             <div className="group border-hover border-[1px] rounded-lg overflow-hidden w-full relative">
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-50 z-[2]">
                             <p className="bg-blue-600 text-white px-2 py-1 w-max absolute right-0 rounded-bl-lg">
@@ -108,13 +110,20 @@ const Card25 = ({ item }: any) => {
                 </div>
 
                 <div className="relative overflow-hidden h-10 mb-2 mx-[10px] hidden lg:block">
-                    <div className=" lg:cursor-pointer text-sm group-hover:translate-x-[100%] duration-1000 gap-1 bg-blue-400 text-black px-10 py-2 absolute -left-[100%] bottom-0 h-10 w-full z-[1] "></div>
-                    <div className=" lg:cursor-pointer text-sm group-hover:translate-x-[100%] duration-200 gap-1 bg-red-400 text-black absolute  bottom-0 -left-[100%] h-10 w-full "></div>
-                    <div className="searchHover lg:cursor-pointer text-sm group-hover:translate-x-[-100%] duration-200 gap-1 text-center w-full py-2 absolute  -right-[100%] bottom-0 h-10 z-50">
-                        <p className="font-medium" onClick={handleAddToCart}>
-                            ADD IN CART
-                        </p>
-                    </div>
+                    {productAvailablity && (
+                        <>
+                            <div className=" lg:cursor-pointer text-sm group-hover:translate-x-[100%] duration-1000 gap-1 bg-blue-400 text-black px-10 py-2 absolute -left-[100%] bottom-0 h-10 w-full z-[1] "></div>
+                            <div className=" lg:cursor-pointer text-sm group-hover:translate-x-[100%] duration-200 gap-1 bg-red-400 text-black absolute  bottom-0 -left-[100%] h-10 w-full "></div>
+                            <div className="searchHover lg:cursor-pointer text-sm group-hover:translate-x-[-100%] duration-200 gap-1 text-center w-full py-2 absolute  -right-[100%] bottom-0 h-10 z-50">
+                                <p
+                                    className="font-medium"
+                                    onClick={handleAddToCart}
+                                >
+                                    ADD IN CART
+                                </p>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
             <QuickView open={open} setOpen={setOpen}>

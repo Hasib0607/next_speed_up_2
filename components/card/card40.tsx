@@ -2,6 +2,7 @@
 
 import { SearchIcon } from '@/assets/svgComp';
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -24,12 +25,13 @@ const Card40 = ({ item }: any) => {
     const dispatch = useDispatch();
 
     const { cartList } = useSelector((state: RootState) => state.cart);
-    const category = item?.category || []
+    const category = item?.category || [];
 
     const [open, setOpen] = useState(false);
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    const productAvailablity = isAvailable(item);
 
     const handleAddToCart = () => {
         if (item?.variant?.length > 0) {
@@ -50,7 +52,7 @@ const Card40 = ({ item }: any) => {
         <div>
             <div className="relative overflow-hidden group">
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-50 z-[1]">
                             <p className="bg-red-600 text-white px-2 py-1 w-max absolute right-0">
@@ -90,16 +92,18 @@ const Card40 = ({ item }: any) => {
 
                 <div className="absolute right-2 top-8 translate-x-12  group-hover:-translate-x-0  transition-transform duration-500 ease-linear">
                     <div className="flex flex-col gap-4 ">
-                        <div
-                            className="p-3 border-0 bg-white rounded-full all-icon translate-x-6 lg:cursor-pointer  group-hover:-translate-x-2  transition-all group-hover:duration-300 ease-linear"
-                            onClick={handleAddToCart}
-                        >
-                            <ShoppingBagIcon
-                                className=""
-                                width={20}
-                                height={20}
-                            />
-                        </div>
+                        {productAvailablity && (
+                            <div
+                                className="p-3 border-0 bg-white rounded-full all-icon translate-x-6 lg:cursor-pointer  group-hover:-translate-x-2  transition-all group-hover:duration-300 ease-linear"
+                                onClick={handleAddToCart}
+                            >
+                                <ShoppingBagIcon
+                                    className=""
+                                    width={20}
+                                    height={20}
+                                />
+                            </div>
+                        )}
                         <div
                             className="p-3 border-0 bg-white rounded-full all-icon translate-x-6 lg:cursor-pointer group-hover:-translate-x-2  transition-all  group-hover:duration-500 ease-linear"
                             onClick={() => setOpen(!open)}
@@ -115,13 +119,13 @@ const Card40 = ({ item }: any) => {
                 </div>
                 <div className="py-4">
                     {Array.isArray(category) && category?.length > 0 && (
-                    <p className="text-sm font-medium">
-                        <ProdMultiCategory
-                            category={category}
-                            className={'text-gray-500'}
-                            count={1}
-                        />
-                    </p>
+                        <p className="text-sm font-medium">
+                            <ProdMultiCategory
+                                category={category}
+                                className={'text-gray-500'}
+                                count={1}
+                            />
+                        </p>
                     )}
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <p className="font-semibold text-base text-gray-700 whitespace-nowrap overflow-hidden text-ellipsis sm:max-w-[170px] max-w-[150px]">

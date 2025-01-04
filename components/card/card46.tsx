@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -26,6 +27,8 @@ const Card46 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+
+    const productAvailablity = isAvailable(item);
 
     const handleAddToCart = () => {
         if (item?.variant?.length > 0) {
@@ -46,7 +49,7 @@ const Card46 = ({ item }: any) => {
         <>
             <div className="group flex flex-col justify-between overflow-hidden relative">
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-50 z-[3]">
                             <p className="bg-red-600 text-white px-2 py-1 w-max absolute left-0">
@@ -85,13 +88,15 @@ const Card46 = ({ item }: any) => {
                         </h2>
                     </Link>
                     <div className="flex justify-between items-center">
-                        <div
-                            onClick={handleAddToCart}
-                            className="lg:cursor-pointer hover:touch-pinch-zoom hover:text-green-600 group-hover:opacity-100 opacity-0 -translate-x-20 group-hover:translate-x-0 duration-700 flex items-start justify-between text-sm"
-                        >
-                            <p>Add to cart </p>{' '}
-                            <AiOutlineArrowRight className="ml-2 mt-1" />
-                        </div>
+                        {productAvailablity && (
+                            <div
+                                onClick={handleAddToCart}
+                                className="lg:cursor-pointer hover:touch-pinch-zoom hover:text-green-600 group-hover:opacity-100 opacity-0 -translate-x-20 group-hover:translate-x-0 duration-700 flex items-start justify-between text-sm"
+                            >
+                                <p>Add to cart </p>{' '}
+                                <AiOutlineArrowRight className="ml-2 mt-1" />
+                            </div>
+                        )}
 
                         <div className="flex group-hover:opacity-0 opacity-100 translate-x-0 group-hover:translate-x-20 duration-700 group-hover:hidden">
                             {priceLineThrough && (

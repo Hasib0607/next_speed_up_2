@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '@/redux/store';
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -68,6 +69,7 @@ const Card7 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    const productAvailablity = isAvailable(item);
 
     const handleAddToCart = () => {
         addToCart({
@@ -90,7 +92,7 @@ const Card7 = ({ item }: any) => {
                 style={{ width: '100%' }}
             >
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-50 z-[1]">
                             <p className="bg-red-600 text-white px-2 py-1 w-max absolute right-0">
@@ -109,12 +111,14 @@ const Card7 = ({ item }: any) => {
                     />
                     <div className="w-full absolute -bottom-5 mx-auto px-1 quick7 font-normal text-md pb-2 text-black text-md bg-gray-600 items-center">
                         <div className="flex justify-between">
-                            <div
-                                className="testShoppingBagDiv7 lg:cursor-pointer"
-                                onClick={handleAddToCart}
-                            >
-                                <ShoppingBagIcon className="card7SearchIcon" />
-                            </div>
+                            {productAvailablity && (
+                                <div
+                                    className="testShoppingBagDiv7 lg:cursor-pointer"
+                                    onClick={handleAddToCart}
+                                >
+                                    <ShoppingBagIcon className="card7SearchIcon" />
+                                </div>
+                            )}
                             <div
                                 className="testDiv7 lg:cursor-pointer"
                                 onClick={() => setOpen(!open)}

@@ -8,6 +8,7 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -32,6 +33,7 @@ const Card42 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    const productAvailablity = isAvailable(item);
 
     const parsedNumberRating = numberParser(item?.number_rating);
     const parsedRating = numberParser(item?.rating, true);
@@ -69,7 +71,7 @@ const Card42 = ({ item }: any) => {
         <>
             <div className="rounded overflow-hidden shadow-sm group border border-hover relative">
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-[1]">
                             <p className="bg-red-600 text-white px-2 py-1 w-max">
@@ -133,12 +135,14 @@ const Card42 = ({ item }: any) => {
                                 </p>
                             )}
                         </div>
-                        <div
-                            className="menu-hover lg:absolute bottom-6 left-4 lg:hover:-translate-y-1 lg:group-hover:scale-110 lg:cursor-pointer duration-500 lg:opacity-0 lg:group-hover:opacity-100 font-sans  font-semibold text-sm underline"
-                            onClick={handleAddToCart}
-                        >
-                            {'Add to Cart'}
-                        </div>
+                        {productAvailablity && (
+                            <div
+                                className="menu-hover lg:absolute bottom-6 left-4 lg:hover:-translate-y-1 lg:group-hover:scale-110 lg:cursor-pointer duration-500 lg:opacity-0 lg:group-hover:opacity-100 font-sans  font-semibold text-sm underline"
+                                onClick={handleAddToCart}
+                            >
+                                {'Add to Cart'}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
