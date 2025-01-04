@@ -14,6 +14,7 @@ import QuikView from '../../utils/quick-view';
 import './card.css';
 
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -51,6 +52,7 @@ const Card23 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    const productAvailablity = isAvailable(item);
 
     const parsedRating = numberParser(item?.rating, true);
 
@@ -79,7 +81,7 @@ const Card23 = ({ item }: any) => {
                 style={{ width: '100%' }}
             >
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="absolute bottom-0 right-0 w-full h-full bg-black bg-opacity-50 z-[1]">
                             <p className="bg-red-400 text-white px-2 py-1 w-max absolute bottom-0">
@@ -101,13 +103,17 @@ const Card23 = ({ item }: any) => {
                     <div className="justify-center hidden lg:flex">
                         <div className="w-[60%] lg:absolute -bottom-2   mx-auto  px-1 quick3 font-normal text-md pb-2 text-black text-md border rounded-full items-center">
                             <div className="flex justify-center items-center">
-                                <div
-                                    className="mr-2 lg:cursor-pointer"
-                                    onClick={handleAddToCart}
-                                >
-                                    <ShoppingBagIcon className="card7SearchIcon" />
-                                </div>
-                                <div className="border-r-2 border-gray-500 h-[20px]"></div>
+                                {productAvailablity && (
+                                    <>
+                                        <div
+                                            className="mr-2 lg:cursor-pointer"
+                                            onClick={handleAddToCart}
+                                        >
+                                            <ShoppingBagIcon className="card7SearchIcon" />
+                                        </div>
+                                        <div className="border-r-2 border-gray-500 h-[20px]"></div>
+                                    </>
+                                )}
                                 <div
                                     className="lg:cursor-pointer"
                                     onClick={() => setOpen(!open)}

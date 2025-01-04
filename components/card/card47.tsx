@@ -1,7 +1,8 @@
 'use client';
 
 import {
-    isRegularPriceLineThrough,
+    howMuchSave,
+    isAvailable,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { RootState } from '@/redux/store';
@@ -77,7 +78,8 @@ const Card47 = ({ item, stopAutoplay }: any) => {
     const [id, setId] = useState(0);
 
     const price = productCurrentPrice(item);
-    const priceLineThrough = isRegularPriceLineThrough(item);
+    const save = howMuchSave(item);
+    const productAvailablity = isAvailable(item);
 
     const handleAddToCart = () => {
         if (item?.variant?.length > 0) {
@@ -99,7 +101,7 @@ const Card47 = ({ item, stopAutoplay }: any) => {
             <div className="group relative">
                 <style>{styleCss}</style>
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-[2]">
                             <p className="bg-red-600 text-white px-2 py-1 w-max">
@@ -133,19 +135,19 @@ const Card47 = ({ item, stopAutoplay }: any) => {
                             Quick View
                         </p>
                     </div>
-                    <div
-                        onClick={handleAddToCart}
-                        className="w-full lg:absolute lg:group-hover:bottom-0 lg:-bottom-20 lg:opacity-0 lg:group-hover:opacity-100 duration-500 z-[1]"
-                    >
-                        <p className="w-full text-center cart-btn duration-500 border border-transparent lg:cursor-pointer text-base font-bold py-2">
-                            ADD TO CART
-                        </p>
-                    </div>
+                    {productAvailablity && (
+                        <div
+                            onClick={handleAddToCart}
+                            className="w-full lg:absolute lg:group-hover:bottom-0 lg:-bottom-20 lg:opacity-0 lg:group-hover:opacity-100 duration-500 z-[1]"
+                        >
+                            <p className="w-full text-center cart-btn duration-500 border border-transparent lg:cursor-pointer text-base font-bold py-2">
+                                ADD TO CART
+                            </p>
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex flex-col items-center gap-2 px-4 py-3">
-                    <Link href={'/category/' + item?.category_id}>
-                        {' '}
                         {Array.isArray(category) && category?.length > 0 && (
                             <p className="text-xs uppercase font-bold text-center">
                                 <ProdMultiCategory
@@ -155,7 +157,6 @@ const Card47 = ({ item, stopAutoplay }: any) => {
                                 />
                             </p>
                         )}
-                    </Link>
                     <div className="text-gray-700 text-sm font-extralight">
                         <Link href={'/product/' + item?.id + '/' + item?.slug}>
                             {' '}
@@ -170,7 +171,7 @@ const Card47 = ({ item, stopAutoplay }: any) => {
                             <BDT />
                             {price}
                         </div>
-                        {priceLineThrough && (
+                        {save > 0 && (
                             <p className="line-through text-gray-400">
                                 {' '}
                                 <BDT

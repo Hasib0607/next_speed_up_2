@@ -13,7 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useState } from 'react';
 import {
-    isRegularPriceLineThrough,
+    howMuchSave,
+    isAvailable,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
@@ -53,16 +54,14 @@ const Card45 = ({ item }: any) => {
     }
   `;
 
-    // check discount
-    let discountPrefix = item.discount_type === 'fixed' ? 'TK' : '';
-
     const [open, setOpen] = useState<any>(false);
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const dispatch = useDispatch();
 
     const price = productCurrentPrice(item);
-    const priceLineThrough = isRegularPriceLineThrough(item);
+    const save = howMuchSave(item);
+    const productAvailablity = isAvailable(item);
 
     const parsedNumberRating = numberParser(item?.number_rating);
     const parsedRating = numberParser(item?.rating, true);
@@ -87,7 +86,7 @@ const Card45 = ({ item }: any) => {
             <div className=" relative overflow-hidden border rounded-md duration-500">
                 <style>{styleCss}</style>
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-[2]">
                         <p className="bg-red-600 text-white px-2 py-1 w-max absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                             Out of Stock
@@ -113,15 +112,12 @@ const Card45 = ({ item }: any) => {
                         >
                             <BiSearch className="text-xl text-center" />
                         </div>
-                        {item?.discount_type === 'no_discount' ||
-                        item.discount_price === '0.00' ? (
-                            ''
-                        ) : (
+                        {save > 0 && (
                             <>
                                 <div className="absolute text-center text-xs h-12 w-12 rounded-full flex flex-wrap justify-center items-center bg-color text-white top-2 right-2 ">
                                     <p className="">
-                                        Dis.{Math.trunc(item.discount_price)}
-                                        {discountPrefix}
+                                        Dis.{numberParser(item.discount_price)}
+                                        {item.discount_type === 'fixed' ? 'TK' : ''}
                                         {item.discount_type === 'percent'
                                             ? '%'
                                             : ''}
@@ -155,7 +151,7 @@ const Card45 = ({ item }: any) => {
                             <BDT />
                             {price}
                         </div>
-                        {priceLineThrough && (
+                        {save > 0 && (
                             <p className="line-through text-gray-400">
                                 {' '}
                                 <BDT
@@ -165,7 +161,7 @@ const Card45 = ({ item }: any) => {
                         )}
                     </div>
                 </div>
-                {item?.regular_price !== '0' ? (
+                {productAvailablity ? (
                     <div
                         onClick={handleAddToCart}
                         className="w-full lg:py-2 pb-2 lg:absolute lg:group-hover:bottom-1 lg:bottom-10 lg:opacity-0 lg:group-hover:opacity-100 duration-500 z-[1] px-4"

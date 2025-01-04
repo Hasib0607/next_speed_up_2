@@ -12,6 +12,8 @@ import Details from '../_product-details-page/components/details';
 import QuickView from '@/utils/quick-view';
 
 import {
+    howMuchSave,
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -51,7 +53,8 @@ const Card26 = ({ item }: any) => {
   `;
 
     const price = productCurrentPrice(item);
-    const priceLineThrough = isRegularPriceLineThrough(item);
+    const save = howMuchSave(item);
+    const productAvailablity = isAvailable(item);
 
     const handleAddToCart = () => {
         if (item?.variant?.length > 0) {
@@ -72,7 +75,7 @@ const Card26 = ({ item }: any) => {
         <div>
             <div className="group cardHover border-[1px] rounded-lg relative overflow-hidden lg:hover:-translate-y-2 duration-700">
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-50 z-[2]">
                             <p className="bg-blue-600 text-white px-2 py-1 w-max absolute right-0 rounded-bl-lg">
@@ -91,19 +94,14 @@ const Card26 = ({ item }: any) => {
                         />
                     </div>
                 </Link>
-                {item?.discount_type === 'no_discount' ||
-                item.discount_price === '0.00' ? (
-                    ''
-                ) : (
+                {save > 0 && (
                     <div className="absolute text-xs px-2 py-1 bg-color text-white top-2 left-2 rounded-md">
                         <p>
-                            {item.discount_type === 'fixed' ? (
-                                <BDT price={Math.trunc(item.discount_price)} />
-                            ) : (
-                                ''
+                            {item?.discount_type === 'fixed' && (
+                                <BDT price={save} />
                             )}
-                            {Math.trunc(item.discount_price)}
-                            {item.discount_type === 'percent' ? '%' : ''}
+                            {item?.discount_type === 'percent' &&
+                                `${item?.discount_price}%`}
                         </p>
                     </div>
                 )}
@@ -117,7 +115,7 @@ const Card26 = ({ item }: any) => {
                 </Link>
 
                 <div className="text-gray-600 text-lg font-semibold flex gap-1 pb-6 px-5">
-                    {priceLineThrough && (
+                    {save > 0 && (
                         <p className="line-through text-gray-400">
                             {' '}
                             <BDT price={numberParser(item?.regular_price)} />
@@ -128,15 +126,16 @@ const Card26 = ({ item }: any) => {
                         {price}
                     </div>
                 </div>
-
-                <div
-                    onClick={handleAddToCart}
-                    className="searchHover w-full lg:cursor-pointer text-base  text-center lg:w-max lg:px-16 bg-blue-400 py-2 lg:absolute lg:top-32  z-[1] lg:group-hover:translate-x-[-50%] lg:group-hover:left-[50%] lg:translate-x-[-100%] lg:left-[-100%] duration-700 rounded-sm"
-                >
-                    <p className="text-white font-medium sm:text-base text-xs">
-                        ADD IN CART
-                    </p>
-                </div>
+                {productAvailablity && (
+                    <div
+                        onClick={handleAddToCart}
+                        className="searchHover w-full lg:cursor-pointer text-base  text-center lg:w-max lg:px-16 bg-blue-400 py-2 lg:absolute lg:top-32  z-[1] lg:group-hover:translate-x-[-50%] lg:group-hover:left-[50%] lg:translate-x-[-100%] lg:left-[-100%] duration-700 rounded-sm"
+                    >
+                        <p className="text-white font-medium sm:text-base text-xs">
+                            ADD IN CART
+                        </p>
+                    </div>
+                )}
             </div>
             <QuickView open={open} setOpen={setOpen}>
                 <Details product={item} />

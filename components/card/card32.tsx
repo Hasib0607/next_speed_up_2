@@ -10,7 +10,8 @@ import { BiSearch } from 'react-icons/bi';
 import { GiShoppingBag } from 'react-icons/gi';
 import Details from '../_product-details-page/components/details';
 import {
-    isRegularPriceLineThrough,
+    howMuchSave,
+    isAvailable,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
@@ -58,7 +59,8 @@ const Card32 = ({ item }: any) => {
   `;
 
     const price = productCurrentPrice(item);
-    const priceLineThrough = isRegularPriceLineThrough(item);
+    const save = howMuchSave(item);
+    const productAvailablity = isAvailable(item);
 
     const handleAddToCart = () => {
         if (item?.variant?.length > 0) {
@@ -78,7 +80,7 @@ const Card32 = ({ item }: any) => {
     return (
         <div className="relative">
             {/* out of stock  */}
-            {item?.quantity === '0' && (
+            {!productAvailablity && (
                 <div className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-50 z-[2]">
                     <p className="bg-red-600 text-white px-2 py-1 w-max absolute right-0">
                         Sold Out
@@ -97,10 +99,7 @@ const Card32 = ({ item }: any) => {
                         />
                     </Link>
 
-                    {item.discount_type === 'no_discount' ||
-                    item.discount_price === '0.00' ? (
-                        ''
-                    ) : (
+                    {save > 0 && (
                         <div className="absolute text-xs px-2 py-1 bg-color text-white top-2 right-2 ">
                             <p>
                                 - {item.discount_type === 'fixed' ? 'BDT' : ''}{' '}
@@ -126,7 +125,7 @@ const Card32 = ({ item }: any) => {
                             <BDT />
                             {price}
                         </div>
-                        {priceLineThrough && (
+                        {save > 0 && (
                             <p className="line-through text-gray-400">
                                 {' '}
                                 <BDT
@@ -162,12 +161,14 @@ const Card32 = ({ item }: any) => {
                         >
                             <BiSearch className="text-2xl text-center" />
                         </div>
-                        <div
-                            onClick={handleAddToCart}
-                            className="w-max lg:cursor-pointer bg-white searchHover py-3 px-3 drop-shadow-2xl"
-                        >
-                            <GiShoppingBag className="text-2xl text-center" />
-                        </div>
+                        {productAvailablity && (
+                            <div
+                                onClick={handleAddToCart}
+                                className="w-max lg:cursor-pointer bg-white searchHover py-3 px-3 drop-shadow-2xl"
+                            >
+                                <GiShoppingBag className="text-2xl text-center" />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

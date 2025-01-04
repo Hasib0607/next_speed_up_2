@@ -1,6 +1,7 @@
 'use client';
 
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -46,6 +47,7 @@ const Card16 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    const productAvailablity = isAvailable(item);
 
     const parsedRating = numberParser(item?.rating, true);
 
@@ -73,7 +75,7 @@ const Card16 = ({ item }: any) => {
                 className="max-w-sm rounded overflow-hidden shadow-xl group relative border border-transparent "
             >
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-[1]">
                             <p className="bg-red-600 text-white px-2 py-1 w-max absolute right-0">
@@ -121,15 +123,17 @@ const Card16 = ({ item }: any) => {
                             )}
                         </div>
                         <div className="duration-5000 cart mb-2 lg:hidden lg:group-hover:flex flex flex-row flex-wrap justify-between sm:gap-0 gap-2">
-                            <div
-                                className="flex gap-1 items-center border-b-2 border-black lg:cursor-pointer w-max"
-                                onClick={handleAddToCart}
-                            >
-                                <BsPlusLg className="text-xs " />
-                                <p className="text-xs font-medium">
-                                    ADD TO CART
-                                </p>
-                            </div>
+                            {productAvailablity && (
+                                <div
+                                    className="flex gap-1 items-center border-b-2 border-black lg:cursor-pointer w-max"
+                                    onClick={handleAddToCart}
+                                >
+                                    <BsPlusLg className="text-xs " />
+                                    <p className="text-xs font-medium">
+                                        ADD TO CART
+                                    </p>
+                                </div>
+                            )}
                             <Rate rating={parsedRating} />
                         </div>
                     </div>

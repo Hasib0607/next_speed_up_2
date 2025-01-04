@@ -1,6 +1,7 @@
 'use client';
 
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -52,6 +53,7 @@ const Card6 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    const productAvailablity = isAvailable(item);
 
     const parsedNumberRating = numberParser(item?.number_rating);
     const parsedRating = numberParser(item?.rating, true);
@@ -132,14 +134,14 @@ const Card6 = ({ item }: any) => {
                         )}
                     </div>
                 </div>
-                <div>
-                    <p
+                {productAvailablity && (
+                    <div
                         onClick={handleAddToCart}
                         className="lg:cursor-pointer w-max text-hover text-sm font-bold text-gray-700 border-b-2 pb-1 border-black border-color menu-hover border-hover-bottom"
                     >
-                        {store_id === 2669 ? 'Buy Now' : 'ADD TO CART'}
-                    </p>
-                </div>
+                        {'ADD TO CART'}
+                    </div>
+                )}
             </div>
             <QuikView open={open} setOpen={setOpen}>
                 <Details product={item} />

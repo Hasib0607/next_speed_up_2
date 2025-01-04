@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -47,6 +48,7 @@ const Card15 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    const productAvailablity = isAvailable(item);
 
     const parsedNumberRating = numberParser(item?.number_rating);
     const parsedRating = numberParser(item?.rating, true);
@@ -81,7 +83,7 @@ const Card15 = ({ item }: any) => {
                 className="rounded overflow-hidden shadow-sm group border border-transparent relative"
             >
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-[1]">
                             <p className="bg-red-600 text-white px-2 py-1 w-max">
@@ -90,7 +92,6 @@ const Card15 = ({ item }: any) => {
                         </div>
                     </Link>
                 )}
-
                 <div className="absolute top-2 left-2 text-white bg-black rounded-sm px-2 text-xs py-1">
                     <p>{item?.product_offer?.status ? 'OFFER' : 'NEW'}</p>
                 </div>
@@ -111,11 +112,6 @@ const Card15 = ({ item }: any) => {
                 </div>
 
                 <div className="py-6 px-3 space-y-2 flex justify-center flex-col items-center">
-                    {/* <Link href={'/category/' + item?.category_id}>
-                        <p className="text-sm font-light antialiased mb-2">
-                            {item?.category}
-                        </p>
-                    </Link> */}
                     {Array.isArray(category) && category?.length > 0 && (
                         <ProdMultiCategory category={category} />
                     )}
@@ -148,12 +144,14 @@ const Card15 = ({ item }: any) => {
                             </p>
                         )}
                     </div>
-                    <div
-                        className="transition-all text-hover ease-in-out delay-500 hover:-translate-y-1 group-hover:scale-110 duration-1000 lg:cursor-pointer hidden group-hover:block text-xs font-semibold underline"
-                        onClick={handleAddToCart}
-                    >
-                        ADD TO CART
-                    </div>
+                    {productAvailablity && (
+                        <div
+                            className="transition-all text-hover ease-in-out delay-500 hover:-translate-y-1 group-hover:scale-110 duration-1000 lg:cursor-pointer hidden group-hover:block text-xs font-semibold underline"
+                            onClick={handleAddToCart}
+                        >
+                            ADD TO CART
+                        </div>
+                    )}
                 </div>
             </motion.div>
             <QuikView open={open} setOpen={setOpen}>

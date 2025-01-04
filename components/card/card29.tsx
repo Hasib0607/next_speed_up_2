@@ -1,7 +1,8 @@
 'use client';
 
 import {
-    isRegularPriceLineThrough,
+    howMuchSave,
+    isAvailable,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { RootState } from '@/redux/store';
@@ -59,7 +60,8 @@ const Card29 = ({ item }: any) => {
   `;
 
     const price = productCurrentPrice(item);
-    const priceLineThrough = isRegularPriceLineThrough(item);
+    const save = howMuchSave(item);
+    const productAvailablity = isAvailable(item);
 
     const handleAddToCart = () => {
         if (item?.variant?.length > 0) {
@@ -80,7 +82,7 @@ const Card29 = ({ item }: any) => {
         <div>
             <div className="group relative overflow-hidden">
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <div className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-50 z-[2]">
                         <p className="bg-red-600 text-white px-2 py-1 w-max absolute right-0">
                             Sold Out
@@ -116,13 +118,11 @@ const Card29 = ({ item }: any) => {
                     >
                         <BiSearch className="text-2xl text-center" />
                     </div>
-                    {item?.product_offer?.status ? (
-                        ''
-                    ) : (
+                    {save > 0 && (
                         <div className="absolute sm:text-xs text-[10px] px-1 sm:px-2 sm:py-1 py-0 bg-color text-white top-2 right-2 ">
                             <p>
                                 {item.discount_type === 'fixed' ? 'BDT' : ''}{' '}
-                                {Math.trunc(item.discount_price)}{' '}
+                                {numberParser(item.discount_price)}{' '}
                                 {item.discount_type === 'percent' ? '%' : ''}
                             </p>
                         </div>
@@ -143,22 +143,23 @@ const Card29 = ({ item }: any) => {
                         <BDT />
                         {price}
                     </div>
-                    {priceLineThrough && (
+                    {save > 0 && (
                         <p className="line-through text-gray-400">
                             {' '}
                             <BDT price={numberParser(item?.regular_price)} />
                         </p>
                     )}
                 </div>
-
-                <div
-                    onClick={handleAddToCart}
-                    className="px-2 lg:cursor-pointer text-xs gap-1 w-full absolute group-hover:bottom-4 -bottom-12 duration-500 bg-white z-[1]"
-                >
-                    <p className=" font-medium border-b-2 px-2 py-1 w-max cart-color">
-                        ADD IN CART
-                    </p>
-                </div>
+                {productAvailablity && (
+                    <div
+                        onClick={handleAddToCart}
+                        className="px-2 lg:cursor-pointer text-xs gap-1 w-full absolute group-hover:bottom-4 -bottom-12 duration-500 bg-white z-[1]"
+                    >
+                        <p className=" font-medium border-b-2 px-2 py-1 w-max cart-color">
+                            ADD IN CART
+                        </p>
+                    </div>
+                )}
             </div>
             <QuickView open={open} setOpen={setOpen}>
                 <Details product={item} />

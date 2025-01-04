@@ -1,7 +1,8 @@
 'use client';
 
 import {
-    isRegularPriceLineThrough,
+    howMuchSave,
+    isAvailable,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
@@ -37,7 +38,8 @@ const Card33 = ({ item }: any) => {
   `;
 
     const price = productCurrentPrice(item);
-    const priceLineThrough = isRegularPriceLineThrough(item);
+    const save = howMuchSave(item);
+    const productAvailablity = isAvailable(item);
 
     const parsedNumberRating = numberParser(item?.number_rating);
     const parsedRating = numberParser(item?.rating, true);
@@ -83,7 +85,7 @@ const Card33 = ({ item }: any) => {
                             <BDT />
                             {price}
                         </div>
-                        {priceLineThrough && (
+                        {save > 0 && (
                             <p className="line-through text-gray-400">
                                 {' '}
                                 <BDT
@@ -92,21 +94,22 @@ const Card33 = ({ item }: any) => {
                             </p>
                         )}
                     </div>
-
-                    <div className="flex justify-start lg:mt-44 mt-3">
-                        <button
-                            className="border py-2 px-8 rounded-lg flex items-center gap-2 search-bg hover:bg-blue-300 duration-300"
-                            onClick={handleAddToCart}
-                        >
-                            <ShoppingCartIcon height={15} width={15} /> Add to
-                            Cart
-                        </button>
-                    </div>
+                    {productAvailablity && (
+                        <div className="flex justify-start lg:mt-44 mt-3">
+                            <button
+                                className="border py-2 px-8 rounded-lg flex items-center gap-2 search-bg hover:bg-blue-300 duration-300"
+                                onClick={handleAddToCart}
+                            >
+                                <ShoppingCartIcon height={15} width={15} /> Add
+                                to Cart
+                            </button>
+                        </div>
+                    )}
                 </div>
 
                 <div className="md:flex md:justify-center relative overflow-hidden order-first lg:order-last">
                     {/* out of stock  */}
-                    {item?.quantity === '0' && (
+                    {!productAvailablity && (
                         <Link href={'/product/' + item?.id + '/' + item?.slug}>
                             <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-[1]">
                                 <p className="bg-red-600 text-white px-2 py-1 w-max">
@@ -124,25 +127,26 @@ const Card33 = ({ item }: any) => {
                             alt=""
                         />
                     </Link>
-                    {item.discount_type === 'no_discount' ||
-                    item.discount_price === '0.00' ? (
-                        ''
-                    ) : (
-                        <div
-                            className="absolute text-xs px-2  py-2 top-3 right-2 rounded-md"
-                            style={{
-                                background: `${design?.header_color}`,
-                                color: `${design?.text_color}`,
-                            }}
-                        >
-                            <p>
-                                Save{' '}
-                                {item.discount_type === 'fixed' ? 'BDT' : ''}{' '}
-                                {Math.trunc(item.discount_price)}{' '}
-                                {item.discount_type === 'percent' ? '%' : ''}
-                            </p>
-                        </div>
-                    )}
+                    {save > 0 && (
+                            <div
+                                className="absolute text-xs px-2  py-2 top-3 right-2 rounded-md"
+                                style={{
+                                    background: `${design?.header_color}`,
+                                    color: `${design?.text_color}`,
+                                }}
+                            >
+                                <p>
+                                    Save{' '}
+                                    {item.discount_type === 'fixed'
+                                        ? 'BDT'
+                                        : ''}{' '}
+                                    {numberParser(item.discount_price)}{' '}
+                                    {item.discount_type === 'percent'
+                                        ? '%'
+                                        : ''}
+                                </p>
+                            </div>
+                        )}
                     <div className="h-[80px]  absolute opacity-0 group-hover:opacity-100 bottom-0 left-[50%] translate-x-[-50%] translate-y-10 group-hover:translate-y-0 transition-all duration-500 ease-linear flex divide-x-2 lg:cursor-pointer gap-4  ">
                         <div
                             className="border-4 border-white h-12 w-12 flex justify-center items-center rounded-full search-bg hover:bg-blue-300 duration-300"

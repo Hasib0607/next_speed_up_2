@@ -51,7 +51,7 @@ const Card24 = ({ item }: any) => {
                 >
                     <style>{customStyle}</style>
                     <div className="flex justify-center ">
-                        <div className="flex sm:flex-row flex-col md:max-w-xl   ">
+                        <div className="flex sm:flex-row flex-col md:max-w-xl">
                             <div className=" border flex items-center relative">
                                 <img
                                     className="h-48 w-48  "
@@ -81,6 +81,7 @@ const Card24 = ({ item }: any) => {
                                                     category={category}
                                                     className={'text-gray-500'}
                                                     count={1}
+                                                    linkOff
                                                 />
                                             </p>
                                         )}

@@ -1,7 +1,8 @@
 'use client';
 
 import {
-    isRegularPriceLineThrough,
+    howMuchSave,
+    isAvailable,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
@@ -33,7 +34,8 @@ const Card34 = ({ item }: any) => {
   `;
 
     const price = productCurrentPrice(item);
-    const priceLineThrough = isRegularPriceLineThrough(item);
+    const save = howMuchSave(item);
+    const productAvailablity = isAvailable(item);
 
     const parsedNumberRating = numberParser(item?.number_rating);
     const parsedRating = numberParser(item?.rating, true);
@@ -41,10 +43,7 @@ const Card34 = ({ item }: any) => {
     return (
         <div className="group flex flex-col justify-between relative">
             <style>{styleCss}</style>
-            {item.discount_type === 'no_discount' ||
-            item.discount_price === '0.00' ? (
-                ''
-            ) : (
+            {productAvailablity && (
                 <div
                     className="absolute text-xs px-2  py-2 top-2 right-2 rounded-md"
                     style={{
@@ -93,7 +92,7 @@ const Card34 = ({ item }: any) => {
                                 <BDT />
                                 {price}
                             </div>
-                            {priceLineThrough && (
+                            {save > 0 && (
                                 <p className="line-through text-gray-400">
                                     {' '}
                                     <BDT

@@ -44,27 +44,9 @@ const AddCart = ({
     );
 
     const hasInCartList = useMemo(
-        () => isActiveCart(variantId, product, cartList),
+        () => isActiveCart( product, cartList,variantId),
         [variantId, product, cartList]
     );
-
-    // const quantityAddition = (isAbleToAdd: boolean) => {
-    //     if (hasInCartList) {
-    //         if (isAbleToAdd) {
-    //             setQty((prevCount: number) => prevCount + 1);
-    //         } else {
-    //             toast.warning('Cannot add more than available stock', {
-    //                 toastId: variantId,
-    //             });
-    //         }
-    //     } else if (qty + 1 <= productQuantity) {
-    //         setQty((prevCount: number) => prevCount + 1);
-    //     } else {
-    //         toast.warning('Cannot add more than available stock', {
-    //             toastId: product?.id,
-    //         });
-    //     }
-    // };
 
     const updateQuantity = (
         isAbleToAddOrChange: boolean,
@@ -89,23 +71,6 @@ const AddCart = ({
         }
     };
 
-    // const quantityAdditionCng = (isAbleQtyChange: boolean,inputValue:number) => {
-    //     if (hasInCartList) {
-    //         if (isAbleQtyChange) {
-    //             setQty(inputValue);
-    //         } else {
-    //             toast.warning('Cannot add more than available stock', {
-    //                 toastId: variantId,
-    //             });
-    //         }
-    //     } else if (inputValue <= productQuantity) {
-    //         setQty(inputValue);
-    //     } else {
-    //         toast.warning('Cannot add more than available stock', {
-    //             toastId: product?.id,
-    //         });
-    //     }
-    // };
 
     const incNum = () => {
         const isAbleToAdd = isQtyLeft(product, variantId, qty + 1, cartList);

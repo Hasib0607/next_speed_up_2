@@ -38,7 +38,7 @@ export const handleDecrement = (dispatch: AppDispatch, item: any): void => {
     }
 };
 
-export const isActiveCart = (variantId: any, product: any, cartList: any) => {
+export const isActiveCart = (product: any, cartList: any, variantId?: any) => {
     let isProductInList = false;
     cartList?.map((item: any) => {
         if (product?.variant?.length > 0) {
@@ -154,7 +154,7 @@ export const addToCart = ({
     filterV?: any[];
     productQuantity: number;
 }) => {
-    const hasInCartList = isActiveCart(variantId, product, cartList);
+    const hasInCartList = isActiveCart( product, cartList,variantId);
     const isAbleToCart = isQtyLeft(product, variantId, qty, cartList);
 
     const addOnBoard = () => {

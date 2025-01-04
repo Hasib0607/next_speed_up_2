@@ -10,6 +10,7 @@ import QuikView from '../../utils/quick-view';
 import Details from '../_product-details-page/components/details';
 
 import {
+    isAvailable,
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
@@ -55,11 +56,12 @@ const Card44 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
+    const productAvailablity = isAvailable(item);
 
     const handleAddToCart = () => {
-        if(item?.variant?.length > 0){
-            setOpen(!open)
-        }else{
+        if (item?.variant?.length > 0) {
+            setOpen(!open);
+        } else {
             addToCart({
                 dispatch,
                 product: item,
@@ -76,7 +78,7 @@ const Card44 = ({ item }: any) => {
             <div className="group relative overflow-hidden">
                 <style>{styleCss}</style>
                 {/* out of stock  */}
-                {item?.quantity === '0' && (
+                {!productAvailablity && (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-50 z-[1]">
                             <p className="bg-red-600 text-white px-2 py-1 w-max absolute right-0">
@@ -126,13 +128,14 @@ const Card44 = ({ item }: any) => {
                             <BDT price={price} />{' '}
                         </p>
                     </div>
-
-                    <div
-                        onClick={handleAddToCart}
-                        className="font-medium border px-3 py-2 w-max lg:cursor-pointer border-hover searchHover duration-500"
-                    >
-                        {'ADD TO CART'}
-                    </div>
+                    {productAvailablity && (
+                        <div
+                            onClick={handleAddToCart}
+                            className="font-medium border px-3 py-2 w-max lg:cursor-pointer border-hover searchHover duration-500"
+                        >
+                            {'ADD TO CART'}
+                        </div>
+                    )}
                 </div>
             </div>
             <QuikView open={open} setOpen={setOpen}>

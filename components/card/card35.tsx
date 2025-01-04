@@ -1,7 +1,8 @@
 'use client';
 
 import {
-    isRegularPriceLineThrough,
+    howMuchSave,
+    isAvailable,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
@@ -37,7 +38,8 @@ const Card35 = ({ item }: any) => {
   `;
 
     const price = productCurrentPrice(item);
-    const priceLineThrough = isRegularPriceLineThrough(item);
+    const save = howMuchSave(item);
+    const productAvailablity = isAvailable(item);
 
     const parsedNumberRating = numberParser(item?.number_rating);
     const parsedRating = numberParser(item?.rating, true);
@@ -70,10 +72,7 @@ const Card35 = ({ item }: any) => {
                         />
                     </Link>
 
-                    {item.discount_type === 'no_discount' ||
-                    item.discount_price === '0.00' ? (
-                        ''
-                    ) : (
+                    {productAvailablity && (
                         <div
                             className="absolute text-xs px-2  py-2 top-2 right-2 rounded-md"
                             style={{
@@ -84,7 +83,7 @@ const Card35 = ({ item }: any) => {
                             <p>
                                 Save{' '}
                                 {item.discount_type === 'fixed' ? 'BDT' : ''}{' '}
-                                {Math.trunc(item.discount_price)}{' '}
+                                {numberParser(item.discount_price)}{' '}
                                 {item.discount_type === 'percent' ? '%' : ''}
                             </p>
                         </div>
@@ -113,7 +112,7 @@ const Card35 = ({ item }: any) => {
                                     <BDT />
                                     {price}
                                 </div>
-                                {priceLineThrough && (
+                                {save > 0 && (
                                     <p className="line-through text-gray-400">
                                         {' '}
                                         <BDT
@@ -135,15 +134,16 @@ const Card35 = ({ item }: any) => {
                             </div>
                         </div>
                     </Link>
-
-                    <div className="flex justify-center pt-2 ">
-                        <button
-                            className="border py-2 px-4 rounded-lg search-bg hover:bg-blue-300 duration-300"
-                            onClick={handleAddToCart}
-                        >
-                            Add to Cart
-                        </button>
-                    </div>
+                    {productAvailablity && (
+                        <div className="flex justify-center pt-2 ">
+                            <button
+                                className="border py-2 px-4 rounded-lg search-bg hover:bg-blue-300 duration-300"
+                                onClick={handleAddToCart}
+                            >
+                                Add to Cart
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
             <QuickView open={open} setOpen={setOpen}>
