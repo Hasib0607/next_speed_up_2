@@ -47,3 +47,7 @@ export const getPathName = (pathname: any): string =>
     pathname?.toLowerCase().split('/')[1];
 export const getSecondPathName = (pathname: any): string =>
     pathname?.toLowerCase().split('/')[2];
+
+export const classNames = (
+    ...classes: (string | boolean | null | undefined)[]
+): string => classes.filter(Boolean).join(' ');

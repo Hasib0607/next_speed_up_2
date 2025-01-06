@@ -5,14 +5,93 @@ import { useEffect, useState } from 'react';
 import { useGetSearchProductQuery } from '@/redux/features/home/homeApi';
 import { productImg } from '@/site-settings/siteUrl';
 
-import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
 import BDT from '@/utils/bdt';
+import { motion } from 'framer-motion';
+import { useSelector } from 'react-redux';
 import { productCurrentPrice } from '@/helpers/littleSpicy';
+import { BsSearch } from 'react-icons/bs';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { IoSearchCircleOutline } from 'react-icons/io5';
 
-const Search = ({ search, setSearch, setSearchInput }: any) => {
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state 
+const Search = ({
+    searchInput,
+    setSearchInput,
+    btnOn,
+    className,
+    screen,
+    backdrop,
+}: any) => {
+    const [search, setSearch] = useState<any>('');
+
+    const handleClose = () => {
+        setSearchInput(false);
+        setSearch('');
+    };
+
+    return (
+        <>
+            {searchInput && (
+                <>
+                    {screen && (
+                        <>
+                            <div
+                                onClick={handleClose}
+                                className="h-screen left-0 fixed top-0 w-screen z-40"
+                            ></div>
+                        </>
+                    )}
+                    <div
+                        className={
+                            className
+                                ? className
+                                : 'absolute rounded-lg overflow-hidden z-50 left-[50%] bg-[rgba(255,255,255,.8)] top-3 translate-x-[-50%]'
+                        }
+                    >
+                        <BsSearch className="text-[16px] lg:cursor-pointer absolute top-5 left-3 text-black" />
+                        <input
+                            autoFocus
+                            type="text"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="Search your products"
+                            className="md:px-14 px-10 py-4 lg:w-[500px] xl:w-[800px] md:w-[350px] w-[400px] border-gray-200 outline-none focus:outline-none focus:border-gray-200 focus:ring-0 text-black "
+                        />
+                        <XMarkIcon
+                            onClick={handleClose}
+                            className="absolute top-5 lg:cursor-pointer h-5 right-3 text-black"
+                        />
+                    </div>
+                    {backdrop && (
+                        <>
+                            <div className="absolute top-0 left-0 w-screen opacity-50 h-screen bg-[#444] z-30"></div>
+                        </>
+                    )}
+                </>
+            )}
+            {search && (
+                <div className="lg:w-[500px] md:w-[350px] w-[400px] xl:w-[800px] absolute left-[50%] top-16 translate-x-[-50%] z-50 ">
+                    <SearchBox
+                        search={search}
+                        setSearch={setSearch}
+                        setSearchInput={setSearchInput}
+                    />
+                </div>
+            )}
+            {btnOn && (
+                <IoSearchCircleOutline
+                    onClick={() => setSearchInput(!searchInput)}
+                    className="h-5 w-5 sm:h-7 sm:w-7 lg:cursor-pointer"
+                />
+            )}
+        </>
+    );
+};
+
+export default Search;
+
+export const SearchBox = ({ search, setSearch, setSearchInput }: any) => {
+    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
     const store_id = store?.id || null;
 
     const [result, setResult] = useState([]);
@@ -67,10 +146,7 @@ const Search = ({ search, setSearch, setSearchInput }: any) => {
     );
 };
 
-export default Search;
-
 const Single = ({ item, setSearch, setSearchInput }: any) => {
-   
     const price = productCurrentPrice(item);
 
     return (
