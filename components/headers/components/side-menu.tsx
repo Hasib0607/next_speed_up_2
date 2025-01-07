@@ -1,14 +1,25 @@
 'use client';
 
-import { RootState } from '@/redux/store';
+import { REDUX_PERSIST } from '@/consts';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
+import useAuth from '@/hooks/useAuth';
+import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { btnhover } from '@/site-settings/style';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 const SideMenu = React.memo(({ setOpen, design, menu, menuLoading }: any) => {
-    const authStore = useSelector((state: RootState) => state?.auth);
-    const user = authStore?.user || {};
+    const isAuthenticated = useAuth();
+    const router = useRouter();
+
+    const [logOut] = useLogOutMutation();
+
+    const handleLogOut = () => {
+        logOut({});
+        removeFromLocalStorage(REDUX_PERSIST);
+        router.push('/');
+    };
 
     const bgColor = design?.header_color;
 
@@ -17,14 +28,6 @@ const SideMenu = React.memo(({ setOpen, design, menu, menuLoading }: any) => {
       color:  ${bgColor};
   }
     `;
-
-    const handleClick = () => {
-        if (window !== undefined) {
-            window.localStorage.removeItem('persist:root');
-
-            window.location.href = '/';
-        }
-    };
 
     return (
         <div className="lg:hidden mt-5 z-50">
@@ -51,10 +54,10 @@ const SideMenu = React.memo(({ setOpen, design, menu, menuLoading }: any) => {
                 )}
             </div>
             <div className="mt-24 pr-4">
-                {user?.verify ? (
+                {isAuthenticated ? (
                     <p
                         onClick={() => {
-                            handleClick();
+                            handleLogOut();
                             setOpen(false);
                         }}
                         style={{
@@ -63,7 +66,7 @@ const SideMenu = React.memo(({ setOpen, design, menu, menuLoading }: any) => {
                         }}
                         className={`w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium ${btnhover}`}
                     >
-                        <button>Logout</button>
+                        Logout
                     </p>
                 ) : (
                     <Link
@@ -78,7 +81,7 @@ const SideMenu = React.memo(({ setOpen, design, menu, menuLoading }: any) => {
                         <button>Sign up</button>
                     </Link>
                 )}
-                {user?.verify ? null : (
+                {isAuthenticated ? null : (
                     <p className="mt-6 text-center text-base font-medium text-gray-500">
                         Existing customer?{' '}
                         <Link
@@ -86,7 +89,7 @@ const SideMenu = React.memo(({ setOpen, design, menu, menuLoading }: any) => {
                             href="/login"
                             className="text-indigo-600 hover:text-indigo-500"
                         >
-                            <button>Sign in</button>
+                            Sign in
                         </Link>
                     </p>
                 )}

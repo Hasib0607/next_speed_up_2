@@ -2,11 +2,13 @@
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Popover, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image';
+
 import Link from 'next/link';
 import { Fragment } from 'react';
 
 const HeaderDefault = ({ navigation, headersetting, menu }: any) => {
+    console.log("HeaderDefault");
+    
     return (
         <div className="relative bg-white sm:container px-5">
             <div className="mx-auto">
@@ -20,7 +22,7 @@ const HeaderDefault = ({ navigation, headersetting, menu }: any) => {
                                 <div className="">
                                     <Link href="/">
                                         {headersetting?.logo ? (
-                                            <Image
+                                            <img
                                                 className="h-auto hidden lg:block w-48 text-white"
                                                 src={
                                                     imgUrl + headersetting?.logo
@@ -57,12 +59,18 @@ const HeaderDefault = ({ navigation, headersetting, menu }: any) => {
                                           ))}
                                 </div>
                                 <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-3">
+                                     <Link
+                                        href="/login">
                                     <button className="py-2 px-4 bg-[#f1593A] text-white font-semibold rounded-lg shadow-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
                                         Login
                                     </button>
+                                        </Link>
+                                        <Link
+                                        href="/sign-up">
                                     <button className="py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
                                         Register
                                     </button>
+                                        </Link>
                                 </div>
                             </nav>
                         </div>
@@ -124,13 +132,13 @@ const HeaderDefault = ({ navigation, headersetting, menu }: any) => {
                                         ))}
                                     </div>
                                     <Link
-                                        href="/"
+                                        href="/login"
                                         className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
                                     >
                                         Log in
                                     </Link>
                                     <Link
-                                        href="/"
+                                        href="/sign-up"
                                         className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
                                     >
                                         Register
