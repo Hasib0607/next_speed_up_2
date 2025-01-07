@@ -11,7 +11,7 @@ const SignIn = () => {
     const home = useSelector((state: RootState) => state?.home);
     const { design } = home || {};
 
-    
+
     const SignInComponent =
         login_pages[design?.login_page] || login_pages[DEFAULT];
 
@@ -21,5 +21,7 @@ const SignIn = () => {
         </GuestLayer>
     );
 };
+
+
 
 export default SignIn;
