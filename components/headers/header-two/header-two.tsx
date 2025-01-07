@@ -18,21 +18,21 @@ import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
-import { useSelector } from 'react-redux';
 import Search from '../components/search';
 import SideCategory from './side-category';
 import SideMenu from './side-menu';
+import { useGetCategoryQuery, useGetSubCategoryQuery } from '@/redux/features/category/categoryApi';
 
 const HeaderTwo = ({ headersetting, design, menu, user, cartList }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
-    const categoryStore = useSelector((state: RootState) => state?.category);
+    const { data: categoryData } = useGetCategoryQuery({});
+    const { data: subCategoryData } = useGetSubCategoryQuery({});
 
-    const category = categoryStore?.categories || [];
-    const subCategory = categoryStore?.subcategories || [];
+    const category = categoryData?.data || [];
+    const subCategory = subCategoryData?.data || [];
 
     const [open, setOpen] = useState(false);
     const [searchInput, setSearchInput] = useState(false);

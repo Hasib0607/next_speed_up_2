@@ -3,7 +3,7 @@
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useState } from "react";
-import SideCategory from "./side-category";
+import SideCategory from "../components/side-category";
 
 const SideMenu = ({ setOpen,menu, design }: any) => {
   const [heading, setHeading] = useState("");
