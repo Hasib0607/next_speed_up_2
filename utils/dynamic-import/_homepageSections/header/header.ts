@@ -40,41 +40,41 @@ export const headers: any = {
         () => import('@/components/headers/header-seventeen/header-seventeen')
     ),
     eighteen: dynamic(
-      () => import("@/components/headers/header-eighteen/header-eighteen")
+        () => import('@/components/headers/header-eighteen/header-eighteen')
     ),
     nineteen: dynamic(
-      () => import("@/components/headers/header-nineteen/header-nineteen")
+        () => import('@/components/headers/header-nineteen/header-nineteen')
     ),
     twenty: dynamic(
-      () => import("@/components/headers/header-twenty/header-twenty")
+        () => import('@/components/headers/header-twenty/header-twenty')
     ),
     twentyone: dynamic(
-      () => import("@/components/headers/header-twentyone/header-twentyone")
+        () => import('@/components/headers/header-twentyone/header-twentyone')
     ),
-    // twentytwo: dynamic(
-    //   () => import("@/components/headers/header-twentytwo/header-twentytwo")
-    // ),
-    // twentythree: dynamic(
-    //   () => import("@/components/headers/header-twentythree/header-twentythree")
-    // ),
-    // twentyfour: dynamic(
-    //   () => import("@/components/headers/header-twentyfour/header-twentyfour")
-    // ),
-    // twentyfive: dynamic(
-    //   () => import("@/components/headers/header-twentyfive/header-twentyfive")
-    // ),
-    // twentysix: dynamic(
-    //   () => import("@/components/headers/header-twentysix/header-twentysix")
-    // ),
-    // twentyseven: dynamic(
-    //   () => import("@/components/headers/header-twentyseven/header-twentyseven")
-    // ),
-    // twentyeight: dynamic(
-    //   () => import("@/components/headers/header-twentyeight/header-twentyeight")
-    // ),
-    // twentynine: dynamic(
-    //   () => import("@/components/headers/header-twentynine/header-twentynine")
-    // ),
+    twentytwo: dynamic(
+        () => import('@/components/headers/header-twentytwo/header-twentytwo')
+    ),
+    twentythree: dynamic(
+      () => import("@/components/headers/header-twentythree/header-twentythree")
+    ),
+    twentyfour: dynamic(
+      () => import("@/components/headers/header-twentyfour/header-twentyfour")
+    ),
+    twentyfive: dynamic(
+      () => import("@/components/headers/header-twentyfive/header-twentyfive")
+    ),
+    twentysix: dynamic(
+      () => import("@/components/headers/header-twentysix/header-twentysix")
+    ),
+    twentyseven: dynamic(
+      () => import("@/components/headers/header-twentyseven/header-twentyseven")
+    ),
+    twentyeight: dynamic(
+      () => import("@/components/headers/header-twentyeight/header-twentyeight")
+    ),
+    twentynine: dynamic(
+      () => import("@/components/headers/header-twentynine/header-twentynine")
+    ),
     // thirty: dynamic(
     //   () => import("@/components/headers/header-thirty/header-thirty")
     // ),

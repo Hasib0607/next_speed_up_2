@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { Fragment } from 'react';
 
 const HeaderDefault = ({ navigation, headersetting, menu }: any) => {
-    console.log("HeaderDefault");
     
     return (
         <div className="relative bg-white sm:container px-5">
