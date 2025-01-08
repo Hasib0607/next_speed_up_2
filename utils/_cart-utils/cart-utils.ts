@@ -102,7 +102,7 @@ export const isEqlQty = (product: any, variantId: any, cartList: any) => {
 
 export const subTotal = (cartList: any) => {
     const priceList = cartList?.map((item: any) => item.price * item.qty);
-    const total = priceList.reduce(
+    const total = priceList?.reduce(
         (previousValue: any, currentValue: any) => previousValue + currentValue,
         0
     );
