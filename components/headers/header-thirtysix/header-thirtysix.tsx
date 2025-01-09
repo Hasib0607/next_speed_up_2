@@ -1,44 +1,33 @@
 'use client';
 
-import { imgUrl, profileImg } from '@/site-settings/siteUrl';
+import { imgUrl } from '@/site-settings/siteUrl';
 import useAnnouncementScroll from '@/utils/use-annoucement-height';
 import { Menu, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Fragment, useState } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs';
-import { CgMenuLeft } from 'react-icons/cg';
-import { HiOutlineShoppingBag } from 'react-icons/hi';
+import { FaBars } from 'react-icons/fa';
+import { HiOutlineLocationMarker } from 'react-icons/hi';
 
 import defaultUserImage from '@/assets/default-user-image.png';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { REDUX_PERSIST } from '@/consts';
+import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
+
 import { useRouter } from 'next/navigation';
 import Search3 from '../components/search3';
-import SideMenu from '../components/side-menu';
+import SideCategory from '../components/side-category';
 
-const HeaderThirtyFive = ({
-    design,
-    headersetting,
-    menu,
-    user,
-    cartList,
-}: any) => {
+const HeaderThirtySix = ({ headersetting, design, user }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
+
     const [open, setOpen] = useState(false);
     const [searchTxt, setSearch] = useState('');
-    const [searchInput, setSearchInput] = useState(false);
-    const [openCart, setOpenCart] = useState(false);
-
-    const bgColor = design?.header_color;
-
-    const handleClose = () => {
-        setSearch('');
-    };
+    const { announcementHeight, scrollPassed } = useAnnouncementScroll();
 
     const [logOut] = useLogOutMutation();
 
@@ -48,92 +37,25 @@ const HeaderThirtyFive = ({
         router.push('/');
     };
 
-    const styleCss = `
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
- 
-     .navbarSeven.openMenu {
-        display: block;
-        position: fixed;
-        width: 100%;
-        background: ${design?.header_color};
-        z-index: 10;
-        /* opacity: 0; */
-        animation: fadeIn 0.6s ease-in both;
-      }
-     .bg-seven-header {
-       color:  ${design?.text_color};
-       background: ${design?.header_color};
-    }
-     .all-hover:hover {
-       color:  ${design?.text_color};
-       background: ${design?.header_color};
-    }
-     .menu-hover:hover {
-        color:  ${design?.header_color};     
-    }
-    .thirty-five-menu .active {
-        border-bottom : 1px solid black;
-    }
-    
-     .font-thirty-five {
-        font-family: 'Orbitron', sans-serif;
-    }
-    h1, h2, h3, h4, h5, h6, li, ul, a, p, span, button, option, select, input, div {
-        font-family: 'Orbitron', sans-serif;
-    }
-     `;
-
-    const { announcementHeight, scrollPassed } = useAnnouncementScroll();
+    const handleClose = () => {
+        setSearch('');
+    };
 
     return (
-        <div>
+        <>
             <div
-                className={`bg-white fixed z-[5] w-full border-b shadow-xl lg:border-b-2 border-black h-20 flex items-center ${scrollPassed ? 'top-0' : `top-[${announcementHeight}px]`}`}
+                style={{ top: scrollPassed ? 0 : announcementHeight }}
+                className="bg-[#FDD670] h-20 fixed w-full  left-0 z-[6] flex items-center"
             >
-                <style>{styleCss}</style>
-                <div className="w-full flex flex-row justify-between items-center nav-menu sm:container px-5 lg:py-0 py-1">
-                    {searchInput && (
+                <div className="sm:container px-5 flex justify-between items-center gap-x-5 w-full">
+                    <div className="flex gap-5 justify-between items-center w-full lg:w-max">
                         <div
-                            onClick={() => {
-                                setSearchInput(false);
-                                setSearch('');
-                            }}
-                            className="h-screen left-0 fixed top-0 w-screen z-40"
-                        ></div>
-                    )}
-                    {searchInput && (
-                        <div className="absolute rounded-lg overflow-hidden z-50 left-[50%] bg-[rgba(255,255,255,.8)] top-3 translate-x-[-50%]">
-                            <BsSearch className="text-[16px] lg:cursor-pointer absolute top-5 left-3 text-black" />
-                            <input
-                                autoFocus
-                                type="text"
-                                value={searchTxt}
-                                onChange={(e) => setSearch(e.target.value)}
-                                placeholder="Search your products"
-                                className="md:px-14 px-10 py-4 lg:w-[500px] xl:w-[800px] md:w-[350px] w-[400px] border-gray-200 outline-none focus:outline-none focus:border-gray-200 focus:ring-0 text-black "
-                            />
-                            <XMarkIcon
-                                onClick={() => {
-                                    setSearchInput(false);
-                                    handleClose();
-                                }}
-                                className="absolute top-5 lg:cursor-pointer h-5 right-3 text-black"
-                            />
+                            onClick={() => setOpen(!open)}
+                            className="p-2 lg:cursor-pointer lg:hover:bg-[#EEB529] opacity-70"
+                        >
+                            <FaBars className="text-2xl" />
                         </div>
-                    )}
-                    {searchTxt && (
-                        <div className="lg:w-[500px] md:w-[350px] w-[400px] xl:w-[800px] absolute left-[50%] top-16 translate-x-[-50%] z-50 ">
-                            <Search3 search={searchTxt} setSearch={setSearch} />
-                        </div>
-                    )}
-                    <div className="flex justify-between items-center lg:gap-0 gap-5 lg:border-r-2 border-black w-full h-20">
-                        <div className="lg:hidden">
-                            <CgMenuLeft
-                                onClick={() => setOpen(!open)}
-                                className="text-3xl hover:rotate-180 lg:cursor-pointer"
-                            />
-                        </div>
-                        <div>
+                        <div className="w-max">
                             {headersetting?.logo === null ? (
                                 <Link href="/">
                                     <p className="text-xl uppercase">
@@ -143,7 +65,7 @@ const HeaderThirtyFive = ({
                             ) : (
                                 <Link href="/">
                                     <img
-                                        className="h-[45px] w-auto overflow-hidden lg:mr-20"
+                                        className="lg:h-[45px] h-8 w-auto overflow-hidden"
                                         src={imgUrl + headersetting?.logo}
                                         alt="logo"
                                     />
@@ -151,37 +73,39 @@ const HeaderThirtyFive = ({
                             )}
                         </div>
                     </div>
-
-                    <div className="hidden lg:flex gap-5 items-center border-r-2 border-black w-full justify-center h-20 px-4 thirty-five-menu">
-                        {menu?.slice(0, 6)?.map(
-                            (item: any) =>
-                                item.status == 1 && (
-                                    <p
-                                        key={item.id}
-                                        className="text-base font-semibold leading-4 lg:cursor-pointer"
-                                    >
-                                        <Link
-                                            href={
-                                                item?.custom_link ||
-                                                (item?.url
-                                                    ? `/${item?.url}`
-                                                    : '/')
-                                            }
-                                        >
-                                            {item.name}
-                                        </Link>
-                                    </p>
-                                )
+                    <div className="w-full lg:block hidden relative">
+                        <input
+                            value={searchTxt}
+                            onChange={(e) => setSearch(e.target.value)}
+                            type="text"
+                            placeholder="Search Products"
+                            className="w-full border border-gray-400 focus:outline-none focus:border focus:border-gray-400 rounded focus:ring-0 p-2"
+                        />
+                        <div
+                            onClick={handleClose}
+                            className="lg:cursor-pointer absolute right-0 top-0 px-4 font-thin py-[11px]"
+                        >
+                            {searchTxt.length === 0 ? (
+                                <BsSearch className="text-xl" />
+                            ) : (
+                                <AiOutlineClose className="text-xl lg:cursor-pointer" />
+                            )}
+                        </div>
+                        {searchTxt && (
+                            <div className="absolute z-[15] top-5 left-0 w-full">
+                                <Search3
+                                    search={searchTxt}
+                                    setSearch={setSearch}
+                                />
+                            </div>
                         )}
                     </div>
-
-                    <div className="w-full hidden lg:flex justify-end">
-                        <div className="flex-row flex justify-center items-center gap-8 relative">
-                            <BsSearch
-                                onClick={() => setSearchInput(true)}
-                                className="text-xl lg:cursor-pointer lg:block hidden"
-                            />
-
+                    <div className="hidden lg:flex gap-5 items-center w-max">
+                        <div className="flex items-center gap-1 text-[#FF686E] font-bold">
+                            <HiOutlineLocationMarker className="" />
+                            <p className="w-max">{headersetting?.address}</p>
+                        </div>
+                        <div>
                             {/* Authenticate routes dropdown  */}
                             {isAuthenticated ? (
                                 <Menu as="div" className="ml-3 relative">
@@ -192,8 +116,7 @@ const HeaderThirtyFive = ({
                                                     <img
                                                         src={
                                                             user?.image
-                                                                ? profileImg +
-                                                                  user?.image
+                                                                ? user?.image
                                                                 : `${defaultUserImage.src}`
                                                         }
                                                         alt=""
@@ -263,7 +186,7 @@ const HeaderThirtyFive = ({
                                                                     active
                                                                         ? 'bg-gray-100'
                                                                         : '',
-                                                                    'block px-4 py-2 text-sm text-gray-700'
+                                                                    'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
                                                                 )}
                                                             >
                                                                 Sign out
@@ -280,7 +203,7 @@ const HeaderThirtyFive = ({
                                                                 active
                                                                     ? 'bg-gray-100'
                                                                     : '',
-                                                                'block px-4 py-2 text-sm text-gray-700'
+                                                                'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
                                                             )}
                                                         >
                                                             Login
@@ -293,80 +216,36 @@ const HeaderThirtyFive = ({
                                 </Menu>
                             ) : (
                                 <Link href="/login">
-                                    <p className="text-[16px] font-semibold font-seven">
-                                        Sign In
+                                    <p className="text-[16px] font-semibold font-seven bg-[#FF686E] hover:bg-[#e45c60] rounded-lg px-6 py-1.5 text-white">
+                                        Login
                                     </p>
                                 </Link>
                             )}
-
-                            <div
-                                onClick={() => setOpenCart(!openCart)}
-                                className="lg:cursor-pointer relative"
-                            >
-                                <HiOutlineShoppingBag className="text-3xl font-thin" />
-                                <p
-                                    style={{
-                                        background: design?.text_color,
-                                        color: bgColor,
-                                    }}
-                                    className=" text-sm absolute top-0 -right-2 rounded-full w-fit px-1.5 h-fit"
-                                >
-                                    {cartList?.length}
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </div>
-                {searchInput && (
-                    <div className="absolute top-0 left-0 w-screen opacity-50 h-screen bg-[#444] z-30"></div>
-                )}
-
-                {/* CartSideBar open  */}
-                <CartSideBar open={openCart} setOpen={setOpenCart} />
             </div>
-            {/* tablet and mobile view  */}
             {/* screen touch menu close  */}
             {open && (
                 <div
                     onClick={() => setOpen(false)}
-                    className="bottom-0 right-0 left-0 fixed top-0 z-[6] bg-black bg-opacity-40 lg:cursor-pointer"
+                    className="bottom-0 right-0 left-0 fixed top-0 z-[4] bg-black bg-opacity-40 lg:cursor-pointer"
                 ></div>
             )}
 
-            <div className="block px-4 lg:hidden">
+            <div className="">
                 <ul
-                    className={`lg:hidden bg-white fixed sm:w-[350px] md:w-[400px] w-[250px] top-0 overflow-y-auto bottom-0 pb-5 duration-1000 z-50 lg:cursor-pointer ${
-                        open ? 'left-0' : 'left-[-120%]'
+                    className={`bg-white mt-20  fixed sm:w-[350px] md:w-[400px] w-[250px] top-0 overflow-y-auto bottom-0 pb-5 duration-1000 z-[5] lg:cursor-pointer ${
+                        open ? 'left-0' : 'left-[-160%]'
                     } `}
                 >
-                    <div className="flex py-4 z-50 justify-between items-center lg:hidden px-10 border-b-2 border-gray-100 pb-8 ">
-                        <div>
-                            <Link href="/">
-                                <img
-                                    className="h-8"
-                                    src={imgUrl + headersetting?.logo}
-                                    alt="logo"
-                                />
-                            </Link>
-                        </div>
-                        <div>
-                            <XMarkIcon
-                                onClick={() => setOpen(!open)}
-                                className="h-5 basis-2/4"
-                            />
-                        </div>
-                    </div>
-                    <div className="z-50 px-10">
-                        <SideMenu setOpen={setOpen} />
+                    <div className="px-6">
+                        <SideCategory design={design} />
                     </div>
                 </ul>
             </div>
-        </div>
+        </>
     );
 };
 
-export default HeaderThirtyFive;
-
-function classNames(...classes: any) {
-    return classes.filter(Boolean).join(' ');
-}
+export default HeaderThirtySix;

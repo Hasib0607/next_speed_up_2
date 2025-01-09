@@ -211,7 +211,7 @@ const HeaderTwentyEight = ({ headersetting, design, user, menu }: any) => {
                                 )}
                             </div>
                             {searchTxt && (
-                                <div className="absolute z-[15] top-4 xl:right-0 -right-24 w-full rounded-md">
+                                <div className="absolute z-20 top-4 xl:right-0 -right-24 w-full rounded-md">
                                     <Search3
                                         search={searchTxt}
                                         setSearch={setSearch}
