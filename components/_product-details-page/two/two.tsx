@@ -15,7 +15,7 @@ import {
     useGetReviewsQuery,
 } from '@/redux/features/products/productApi';
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
-import { Tab } from '@headlessui/react';
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import { useEffect, useState } from 'react';
 import { SwiperSlide } from 'swiper/react';
 import VideoPlayer from '../components/video-player';
@@ -89,8 +89,8 @@ const Two = ({ store_id, productId }: any) => {
 
             {/* ************************ tab component start ***************************** */}
             <div className="mt-14">
-                <Tab.Group>
-                    <Tab.List className="fiveBorder">
+                <TabGroup>
+                    <TabList className="fiveBorder">
                         <Tab
                             className={({ selected }) =>
                                 selected
@@ -109,16 +109,16 @@ const Two = ({ store_id, productId }: any) => {
                         >
                             Reviews
                         </Tab>
-                    </Tab.List>
-                    <Tab.Panels className="mb-8">
-                        <Tab.Panel>
+                    </TabList>
+                    <TabPanels className="mb-8">
+                        <TabPanel>
                             <div className="p-5 ">
                                 <DangerouslySafeHTML
                                     content={product?.description}
                                 />
                             </div>
-                        </Tab.Panel>
-                        <Tab.Panel>
+                        </TabPanel>
+                        <TabPanel>
                             {reviews?.status && reviewsArr.length > 0
                                 ? reviewsArr?.map((item: any, index: any) => (
                                       <UserReview
@@ -128,9 +128,9 @@ const Two = ({ store_id, productId }: any) => {
                                       />
                                   ))
                                 : reviews?.message}
-                        </Tab.Panel>
-                    </Tab.Panels>
-                </Tab.Group>
+                        </TabPanel>
+                    </TabPanels>
+                </TabGroup>
             </div>
             {/* ************************ tab component end ***************************** */}
 
