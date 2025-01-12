@@ -74,9 +74,8 @@ const HeroNineteen = ({ slider, design }: any) => {
         color: ${textColor};
         
     }
+`;
 
-
-      `;
     return (
         <div className="group z-0 relative">
             <style>{styleCss}</style>

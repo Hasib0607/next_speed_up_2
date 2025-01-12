@@ -11,7 +11,7 @@ const DangerouslySafeHTML: React.FC<DangerouslySafeHTMLProps> = ({ content }) =>
     __html: DOMPurify.sanitize(content)
   }), [content]);
 
-  return <div dangerouslySetInnerHTML={sanitizedContent} />;
+  return <div dangerouslySetInnerHTML={sanitizedContent} className="apiHtml" />;
 }
 
 export default DangerouslySafeHTML;

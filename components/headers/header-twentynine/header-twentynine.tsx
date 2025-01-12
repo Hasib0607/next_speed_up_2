@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment } from 'react';
 import { AiFillLinkedin } from 'react-icons/ai';
 import { FaFacebook } from 'react-icons/fa';
 import { GrInstagram, GrYoutube } from 'react-icons/gr';

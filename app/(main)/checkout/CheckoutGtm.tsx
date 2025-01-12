@@ -16,7 +16,7 @@ const CheckoutGtm = () => {
     }, [cartList]);
     useEffect(() => {
         checkoutEvent();
-    }, []);
+    }, [checkoutEvent]);
     return null;
 };
 

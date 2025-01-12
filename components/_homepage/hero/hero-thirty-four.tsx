@@ -1,4 +1,5 @@
 'use client';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
     Pagination,
@@ -8,6 +9,7 @@ import {
     EffectCreative,
     EffectFade,
 } from 'swiper/modules';
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -84,9 +86,8 @@ const HeroThirtyFour = ({ slider, design }: any) => {
     .arrow-color {
         color: ${bgColor};
     }
+`;
 
-
-      `;
     return (
         <div className="bg-[#F9F8FF]">
             <div className="z-0 relative sm:container px-5 pt-3 group">
@@ -141,7 +142,6 @@ const HeroThirtyFour = ({ slider, design }: any) => {
                                     <h1 className="xl:text-4xl md:text-[28px] text-[16px] font-bold md:text-center md:leading-7">
                                         {s?.title}
                                     </h1>
-                                    {/* <p className='h-[2px] w-10 bg-black mx-auto md:block hidden'></p> */}
                                     <p className="md:text-lg text-xs md:text-center md:leading-5">
                                         {s?.subtitle}
                                     </p>

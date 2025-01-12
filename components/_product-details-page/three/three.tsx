@@ -18,57 +18,85 @@ import {
 import moment from 'moment';
 import { SwiperSlide } from 'swiper/react';
 
+import Skeleton from '@/components/loaders/skeleton';
 import { HTML_TAG_PATTERN } from '@/consts';
 import {
     useGetProductDetailsQuery,
     useGetRelatedProductsQuery,
     useGetReviewsQuery,
 } from '@/redux/features/products/productApi';
+import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 import { useEffect, useState } from 'react';
 import Details from '../components/details';
 import VideoPlayer from '../components/video-player';
-import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Three = ({ store_id, productId }: any) => {
     const {
         data: productDetailsData,
-        isLoading: productDetailLoading,
-        isSuccess: productDetailSuccess,
+        isLoading: productDetailsLoading,
+        isError: productDetailsError,
+        isSuccess: productDetailsSuccess,
     } = useGetProductDetailsQuery({ store_id, productId });
 
     const {
         data: relatedProductsData,
         isLoading: relatedProductsLoading,
+        isError: relatedProductsError,
         isSuccess: relatedProductsSuccess,
     } = useGetRelatedProductsQuery({ productId });
 
     const {
         data: reviewsData,
         isLoading: reviewsLoading,
+        isError: reviewsError,
         isSuccess: reviewsSuccess,
     } = useGetReviewsQuery({ productId });
 
     const [product, setProduct] = useState<any>({});
+    const [relatedProducts, setRelatedProducts] = useState<any>([]);
+    const [reviews, setReviews] = useState<any>({});
 
     useEffect(() => {
-        if (productDetailSuccess && productDetailsData) {
+        if (productDetailsSuccess && productDetailsData) {
             const productData = productDetailsData?.data || {};
             setProduct(productData);
         }
-    }, [productDetailsData, productDetailSuccess]);
+    }, [productDetailsData, productDetailsSuccess]);
 
-    const relatedProductsArr = relatedProductsData?.data || [];
+    useEffect(() => {
+        if (relatedProductsSuccess && relatedProductsData) {
+            const relatedProductsArr = relatedProductsData?.data || [];
+            setRelatedProducts(relatedProductsArr);
+        }
+    }, [relatedProductsData, relatedProductsSuccess]);
+
+    useEffect(() => {
+        if (reviewsSuccess && reviewsData) {
+            setReviews(reviewsData);
+        }
+    }, [reviewsData, reviewsSuccess]);
+
     const category = product?.category || [];
 
+    let detailsContentSkeleton;
+
+    if (productDetailsLoading && !productDetailsError) {
+        detailsContentSkeleton = <Skeleton />;
+    }
+
+    let relatedContentSkeleton;
+
+    if (relatedProductsLoading && !relatedProductsError) {
+        relatedContentSkeleton = <p>Loading related...</p>;
+    }
     // const reviewsArr = reviewsData?.data;
     // console.log("product before prop",product);
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
-            <Details
-                productDetailLoading={productDetailLoading}
-                product={product}
-            >
+            {detailsContentSkeleton}
+            <Details product={product}>
                 <div className="flex flex-col space-y-3 my-3">
                     <p className="text-sm text-[#5a5a5a] font-seven">
                         <span className="font-semibold text-[#212121] font-seven">
@@ -97,17 +125,15 @@ const Three = ({ store_id, productId }: any) => {
                     text={'Product Details'}
                     description={product?.description}
                 />
-                <According
-                    text={'Customer Reviews'}
-                    description={reviewsData}
-                />
+                <According text={'Customer Reviews'} description={reviews} />
             </Details>
 
             {product?.video_link && (
                 <VideoPlayer videoUrl={product?.video_link} />
             )}
 
-            <Related product={relatedProductsArr} />
+            <Related product={relatedProducts} />
+            {relatedContentSkeleton}
         </div>
     );
 };
@@ -123,10 +149,7 @@ const According = ({ text, description }: any) => {
                 <AccordionItem value="item-1">
                     <AccordionTrigger>{text}</AccordionTrigger>
                     <AccordionContent>
-                        <div
-                            dangerouslySetInnerHTML={{ __html: description }}
-                            className="apiHtml"
-                        />
+                        <DangerouslySafeHTML content={description} />
                     </AccordionContent>
                 </AccordionItem>
             )}{' '}

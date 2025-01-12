@@ -17,7 +17,7 @@ import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { useRouter } from 'next/navigation';
-import Search from '../components/search';
+import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
 
 const HeaderThirtyFive = ({
@@ -121,15 +121,11 @@ const HeaderThirtyFive = ({
                             />
                         </div>
                     )}
-                    <div className="lg:w-[500px] md:w-[350px] w-[400px] xl:w-[800px] absolute left-[50%] top-16 translate-x-[-50%] z-50 ">
-                        {searchTxt && (
-                            <Search
-                                search={searchTxt}
-                                setSearch={setSearch}
-                                setSearchInput={setSearchInput}
-                            />
-                        )}
-                    </div>
+                    {searchTxt && (
+                        <div className="lg:w-[500px] md:w-[350px] w-[400px] xl:w-[800px] absolute left-[50%] top-16 translate-x-[-50%] z-50 ">
+                            <Search3 search={searchTxt} setSearch={setSearch} />
+                        </div>
+                    )}
                     <div className="flex justify-between items-center lg:gap-0 gap-5 lg:border-r-2 border-black w-full h-20">
                         <div className="lg:hidden">
                             <CgMenuLeft

@@ -91,8 +91,7 @@ const HeroTwentyThree = ({ slider, design }: any) => {
         color: ${bgColor};
     }
 
-
-      `;
+`;
     return (
         <div className="z-0 relative group">
             <style>{styleCss}</style>

@@ -11,6 +11,7 @@ import getDomain from '@/helpers/getDomain';
 // data fetchers
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import getProductDetails from '@/utils/fetcher/getProductDetails';
+import getDesign from '@/utils/fetcher/getDesign';
 
 // define types
 type Props = {
@@ -88,6 +89,7 @@ function stripHtmlTags(htmlString: any) {
 export default async function SingleProductDetails({ params }: Props) {
     const productId = (await params).productId;
     const headersetting = await getHeaderSetting();
+      const design = await getDesign();
 
     if (!headersetting) {
         throw new Error('Data not found');
@@ -115,7 +117,7 @@ export default async function SingleProductDetails({ params }: Props) {
     return (
         <div>
             <ViewContentGtm product={productData} />
-            <ProductDetails />
+            <ProductDetails design={design} product={productData}/>
         </div>
     );
 }

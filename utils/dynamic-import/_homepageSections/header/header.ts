@@ -55,54 +55,60 @@ export const headers: any = {
         () => import('@/components/headers/header-twentytwo/header-twentytwo')
     ),
     twentythree: dynamic(
-      () => import("@/components/headers/header-twentythree/header-twentythree")
+        () =>
+            import('@/components/headers/header-twentythree/header-twentythree')
     ),
     twentyfour: dynamic(
-      () => import("@/components/headers/header-twentyfour/header-twentyfour")
+        () => import('@/components/headers/header-twentyfour/header-twentyfour')
     ),
     twentyfive: dynamic(
-      () => import("@/components/headers/header-twentyfive/header-twentyfive")
+        () => import('@/components/headers/header-twentyfive/header-twentyfive')
     ),
     twentysix: dynamic(
-      () => import("@/components/headers/header-twentysix/header-twentysix")
+        () => import('@/components/headers/header-twentysix/header-twentysix')
     ),
     twentyseven: dynamic(
-      () => import("@/components/headers/header-twentyseven/header-twentyseven")
+        () =>
+            import('@/components/headers/header-twentyseven/header-twentyseven')
     ),
     twentyeight: dynamic(
-      () => import("@/components/headers/header-twentyeight/header-twentyeight")
+        () =>
+            import('@/components/headers/header-twentyeight/header-twentyeight')
     ),
     twentynine: dynamic(
-      () => import("@/components/headers/header-twentynine/header-twentynine")
+        () => import('@/components/headers/header-twentynine/header-twentynine')
     ),
-    // thirty: dynamic(
-    //   () => import("@/components/headers/header-thirty/header-thirty")
-    // ),
-    // thirtyone: dynamic(
-    //   () => import("@/components/headers/header-thirtyone/header-thirtyone")
-    // ),
-    // thirtythree: dynamic(
-    //   () => import("@/components/headers/header-thirtythree/header-thirtythree")
-    // ),
-    // thirtyfour: dynamic(
-    //   () => import("@/components/headers/header-thirtyfour/header-thirtyfour")
-    // ),
+    thirty: dynamic(
+        () => import('@/components/headers/header-thirty/header-thirty')
+    ),
+    thirtyone: dynamic(
+        () => import('@/components/headers/header-thirtyone/header-thirtyone')
+    ),
+    thirtythree: dynamic(
+        () =>
+            import('@/components/headers/header-thirtythree/header-thirtythree')
+    ),
+    thirtyfour: dynamic(
+        () => import('@/components/headers/header-thirtyfour/header-thirtyfour')
+    ),
     thirtyfive: dynamic(
         () => import('@/components/headers/header-thirtyfive/header-thirtyfive')
     ),
-    // thirtysix: dynamic(
-    //   () => import("@/components/headers/header-thirtysix/header-thirtysix")
-    // ),
-    // thirtyseven: dynamic(
-    //   () => import("@/components/headers/header-thirtyseven/header-thirtyseven")
-    // ),
-    // thirtyeight: dynamic(
-    //   () => import("@/components/headers/header-thirtyeight/header-thirtyeight")
-    // ),
-    // thirtynine: dynamic(
-    //   () => import("@/components/headers/header-thirtynine/header-thirtynine")
-    // ),
-    // forty: dynamic(
-    //   () => import("@/components/headers/header-forty/header-forty")
-    // ),
+    thirtysix: dynamic(
+        () => import('@/components/headers/header-thirtysix/header-thirtysix')
+    ),
+    thirtyseven: dynamic(
+        () =>
+            import('@/components/headers/header-thirtyseven/header-thirtyseven')
+    ),
+    thirtyeight: dynamic(
+        () =>
+            import('@/components/headers/header-thirtyeight/header-thirtyeight')
+    ),
+    thirtynine: dynamic(
+        () => import('@/components/headers/header-thirtynine/header-thirtynine')
+    ),
+    forty: dynamic(
+        () => import('@/components/headers/header-forty/header-forty')
+    ),
 };

@@ -1,19 +1,10 @@
-const CallForPrice = ({
-headersetting,
-    cls,
-    price,
-    store_id,
-}: any) => {
+const CallForPrice = ({ headersetting, cls, price }: any) => {
     return (
         <>
             {price === 0 && (
                 <div>
                     <a href={'tel:+88' + headersetting?.phone}>
-                        <p className={cls}>
-                            {store_id !== 2875
-                                ? 'Call for Price'
-                                : 'Select Book'}
-                        </p>
+                        <p className={cls}>Call for Price</p>
                     </a>
                 </div>
             )}

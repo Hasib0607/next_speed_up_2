@@ -1,4 +1,5 @@
 'use client';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
     Pagination,
@@ -16,6 +17,7 @@ import 'swiper/css/navigation';
 // import './heroSixteenCss/herosixteen.css'
 import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
+
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { IoSearchCircleOutline } from 'react-icons/io5';
 import { sliderImg } from '@/site-settings/siteUrl';
@@ -90,9 +92,8 @@ const HeroTwentyNine = ({ slider, design }: any) => {
         
         color: ${bgColor};
     }
+`;
 
-
-      `;
     return (
         <div className="z-0 relative group">
             <style>{styleCss}</style>

@@ -27,6 +27,7 @@ const HeroDefault = ({ slider }: any) => {
 
     }
       `;
+      
     return (
         <div className="group z-0 relative xl:px-20 lg:px-10 md:px-10 px-5 bg-white pb-5 w-full">
             <style>{styleCss}</style>

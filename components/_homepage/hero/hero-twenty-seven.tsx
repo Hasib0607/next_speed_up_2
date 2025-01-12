@@ -92,9 +92,7 @@ const HeroTwentySeven = ({ slider, design }: any) => {
         
         color: ${bgColor};
     }
-
-
-      `;
+`;
     return (
         <div className="z-0 relative mt-20 group">
             <style>{styleCss}</style>
@@ -105,12 +103,12 @@ const HeroTwentySeven = ({ slider, design }: any) => {
 
             <div className=" gap-2 hidden lg:group-hover:flex lg:cursor-pointer">
                 <div
-                    className={`${prevEl}   text-gray-600 arrow-color absolute h-10 w-10 flex justify-center items-center bg-transparent rounded-full left-4 top-[50%] -translate-y-1/2 z-10 `}
+                    className={`${prevEl} text-gray-600 arrow-color absolute h-10 w-10 flex justify-center items-center bg-transparent rounded-full left-4 top-[50%] -translate-y-1/2 z-10 `}
                 >
                     <ArrowLeftIcon className="h-6 font-serif font-bold" />
                 </div>
                 <div
-                    className={`${nextEl}  text-gray-600 arrow-color absolute h-10 w-10 flex justify-center items-center bg-transparent rounded-full right-4 top-[50%] -translate-y-1/2 z-10 `}
+                    className={`${nextEl} text-gray-600 arrow-color absolute h-10 w-10 flex justify-center items-center bg-transparent rounded-full right-4 top-[50%] -translate-y-1/2 z-10 `}
                 >
                     <ArrowRightIcon className="h-6 font-serif font-bold" />
                 </div>
