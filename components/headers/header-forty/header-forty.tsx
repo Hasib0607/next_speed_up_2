@@ -45,11 +45,11 @@ const HeaderForty = ({ headersetting, user, design, menu }: any) => {
     };
 
     const handleClose = () => {
+        setOpenSearch(!openSearch);
         setSearch('');
     };
 
     // CSS START FROM HERE
-
     const styleCss = `
     @font-face {
         font-family: 'BemboStd':
@@ -70,16 +70,13 @@ const HeaderForty = ({ headersetting, user, design, menu }: any) => {
             <style>{styleCss}</style>
             {/* CartSideBar open  */}
             <CartSideBar open={openCart} setOpen={setOpenCart} />
-
             <div
-                className={`fixed ${
-                    openSearch ? 'right-0' : '-right-[350px]'
-                } duration-500 top-0 right-0 bg-white h-full w-[350px] z-10 pt-5 shadow-2xl`}
+                className={`fixed ${openSearch ? 'right-0' : '-right-[350px]'} duration-500 top-0 bg-white h-full w-[350px] z-10 pt-5 shadow-2xl`}
             >
                 <div className="text-center w-full relative">
                     <p>SEARCH</p>
                     <XMarkIcon
-                        onClick={() => setOpenSearch(false)}
+                        onClick={() => setOpenSearch(!openSearch)}
                         className="h-5 absolute right-5 top-0 lg:cursor-pointer"
                     />
                 </div>

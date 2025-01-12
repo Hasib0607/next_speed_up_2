@@ -11,18 +11,15 @@ type ParamsType = {
     productId: string;
 };
 
-const ProductDetails = () => {
+const ProductDetails = ({ design, product }: any) => {
     const { productId } = useParams<ParamsType>();
-
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
 
     const ProductDetailsPageComponent =
         product_details_pages[design?.single_product_page] ||
         product_details_pages[DEFAULT];
+
+    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
+    const store_id = store?.id || null;
 
     return (
         <>
@@ -30,6 +27,7 @@ const ProductDetails = () => {
                 <ProductDetailsPageComponent
                     productId={productId}
                     store_id={store_id}
+                    product={product}
                 />
             )}
         </>

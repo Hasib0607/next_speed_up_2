@@ -7,9 +7,9 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { sliderImg } from '@/site-settings/siteUrl';
 
-const HeroTwentyFive = ({ slider, design }: any) => {
+const HeroTwentyFive = ({ slider }: any) => {
     return (
-        <div className={`${design?.header === 'twentyfive' && 'pt-20'}`}>
+        <div className="pt-20">
             <Swiper
                 loop={true}
                 pagination={{

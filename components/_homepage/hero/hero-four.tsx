@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 // import React from 'react';
 // Import Swiper React components
@@ -13,9 +14,10 @@ import { BsPlusLg } from 'react-icons/bs';
 import { sliderImg } from '@/site-settings/siteUrl';
 
 const HeroFour = ({ slider }: any) => {
-    if (slider.length === 0) {
+    if (slider?.length === 0) {
         return;
     }
+
     return (
         <div className="z-0">
             <Swiper

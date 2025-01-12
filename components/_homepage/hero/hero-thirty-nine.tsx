@@ -1,7 +1,7 @@
 'use client';
+
 import React, { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore from 'swiper';
 
 import {
     Pagination,
@@ -25,10 +25,11 @@ import {
     MdOutlinePause,
     MdPlayArrow,
 } from 'react-icons/md';
+
 import { sliderImg } from '@/site-settings/siteUrl';
 
 const HeroThirtyNine = ({ slider, design }: any) => {
-    // SwiperCore.use([Autoplay]);
+
     const [isPlaying, setIsPlaying] = useState(true);
 
     let menu = [''];
@@ -90,7 +91,7 @@ const HeroThirtyNine = ({ slider, design }: any) => {
     .arrow-color {
         color: ${bgColor};
     }
-      `;
+`;
 
     const swiperRef = useRef<any>(null);
 
@@ -139,7 +140,6 @@ const HeroThirtyNine = ({ slider, design }: any) => {
                                     <h1 className="xl:text-4xl md:text-[28px] text-[16px] font-bold md:text-center md:leading-7">
                                         {s?.title}
                                     </h1>
-                                    {/* <p className='h-[2px] w-10 bg-black mx-auto md:block hidden'></p> */}
                                     <p className="md:text-lg text-xs md:text-center md:leading-5">
                                         {s?.subtitle}
                                     </p>
