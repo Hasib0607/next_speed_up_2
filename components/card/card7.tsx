@@ -24,7 +24,7 @@ import QuikView from '@/utils/quick-view';
 import Details from '../_product-details-page/components/details';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 
-const Card7 = ({ item }: any) => {
+const Card7 = ({ item, setView, view }: any) => {
     const [open, setOpen] = useState(false);
 
     const home = useSelector((state: RootState) => state?.home);
@@ -104,11 +104,16 @@ const Card7 = ({ item }: any) => {
 
                 <style>{card7CustomStyle}</style>
                 <div className="w-full card7Hover block relative rounded overflow-hidden">
-                    <img
-                        className="min-w-full h-auto"
-                        src={productImg + item?.image[0]}
-                        alt=""
-                    />
+                    <div
+                        className="cursor-pointer"
+                        onClick={() => setView(!view)}
+                    >
+                        <img
+                            className="min-w-full h-auto"
+                            src={productImg + item?.image[0]}
+                            alt=""
+                        />
+                    </div>
                     <div className="w-full absolute -bottom-5 mx-auto px-1 quick7 font-normal text-md pb-2 text-black text-md bg-gray-600 items-center">
                         <div className="flex justify-between">
                             {productAvailablity && (
