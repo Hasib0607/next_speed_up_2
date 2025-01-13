@@ -39,8 +39,6 @@ const Footer = ({ design }: any) => {
 
 export default Footer;
 
-
-
 // <div className='mt-5 px-5 pb-5'>
 //     <div className="animate-pulse w-full bg-gray-300 h-28 rounded-lg flex justify-center items-center"></div>
 // </div>

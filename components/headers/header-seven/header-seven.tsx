@@ -10,15 +10,16 @@ import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { BsSearch } from 'react-icons/bs';
 import { CgMenuLeft, CgShoppingBag } from 'react-icons/cg';
+import Search from '../components/search';
 import SideMenu from '../components/side-menu';
 import CategorySeven from './category-seven';
-import Search from './search';
 
 import { REDUX_PERSIST } from '@/consts';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 
+import { classNames } from '@/helpers/littleSpicy';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 
 const HeaderSeven = ({ design, headersetting, menu, user, cartList }: any) => {
@@ -26,7 +27,6 @@ const HeaderSeven = ({ design, headersetting, menu, user, cartList }: any) => {
     const isAuthenticated = useAuth();
 
     const [open, setOpen] = useState(false);
-    const [search, setSearch] = useState('');
     const [searchInput, setSearchInput] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
     const [openCart, setOpenCart] = useState(false);
@@ -52,10 +52,6 @@ const HeaderSeven = ({ design, headersetting, menu, user, cartList }: any) => {
         };
         window.addEventListener('scroll', changeNavbar);
     }, []);
-
-    const handleClose = () => {
-        setSearch('');
-    };
 
     // CSS START FROM HERE
     const styleCss = `
@@ -97,44 +93,7 @@ const HeaderSeven = ({ design, headersetting, menu, user, cartList }: any) => {
             >
                 <style>{styleCss}</style>
                 <div className="flex flex-row justify-between items-center nav-menu sm:container px-5 lg:py-0 py-1">
-                    {searchInput && (
-                        <div
-                            onClick={() => {
-                                setSearchInput(false);
-                                setSearch('');
-                            }}
-                            className="h-screen left-0 fixed top-0 w-screen z-40"
-                        ></div>
-                    )}
-                    {searchInput && (
-                        <div className="absolute rounded-lg overflow-hidden z-50 left-[50%] bg-[rgba(255,255,255,.8)] top-3 translate-x-[-50%]">
-                            <BsSearch className="text-[16px] lg:cursor-pointer absolute top-5 left-3 text-black" />
-                            <input
-                                autoFocus
-                                type="text"
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                placeholder="Search your products"
-                                className="md:px-14 px-10 py-4 lg:w-[500px] xl:w-[800px] md:w-[350px] w-[400px] border-gray-200 outline-none focus:outline-none focus:border-gray-200 focus:ring-0 text-black "
-                            />
-                            <XMarkIcon
-                                onClick={() => {
-                                    setSearchInput(false);
-                                    handleClose();
-                                }}
-                                className="absolute top-5 lg:cursor-pointer h-5 right-3 text-black"
-                            />
-                        </div>
-                    )}
-                    <div className="lg:w-[500px] md:w-[350px] w-[400px] xl:w-[800px] absolute left-[50%] top-16 translate-x-[-50%] z-50 ">
-                        {search && (
-                            <Search
-                                search={search}
-                                setSearch={setSearch}
-                                setSearchInput={setSearchInput}
-                            />
-                        )}
-                    </div>
+                    <Search searchInput={searchInput} setSearchInput={setSearchInput} screen backdrop/>
                     <div className="flex items-center lg:gap-0  gap-5">
                         <div>
                             <CgMenuLeft
@@ -171,7 +130,7 @@ const HeaderSeven = ({ design, headersetting, menu, user, cartList }: any) => {
                     <div>
                         <div className="flex-row flex justify-center items-center gap-8 relative">
                             <BsSearch
-                                onClick={() => setSearchInput(true)}
+                                onClick={() => setSearchInput(!searchInput)}
                                 className="text-xl lg:cursor-pointer lg:block hidden"
                             />
 
@@ -310,10 +269,6 @@ const HeaderSeven = ({ design, headersetting, menu, user, cartList }: any) => {
                         </div>
                     </div>
                 </div>
-                {searchInput && (
-                    <div className="absolute top-0 left-0 w-screen opacity-50 h-screen bg-[#444] z-30"></div>
-                )}
-
                 {/* CartSideBar open  */}
                 <CartSideBar open={openCart} setOpen={setOpenCart} />
             </div>
@@ -373,7 +328,3 @@ const HeaderSeven = ({ design, headersetting, menu, user, cartList }: any) => {
 };
 
 export default HeaderSeven;
-
-function classNames(...classes: any) {
-    return classes.filter(Boolean).join(' ');
-}

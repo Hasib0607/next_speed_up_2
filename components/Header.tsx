@@ -6,7 +6,7 @@ import { headers } from '@/utils/dynamic-import/_homepageSections/header/header'
 import { useSelector } from 'react-redux';
 
 const Header = ({ design }: any) => {
-    const HeaderComponent = design?.header && headers[design?.header]|| headers[DEFAULT];
+    const HeaderComponent = design?.header && headers[design?.header]||headers[DEFAULT];
 
     const authStore = useSelector((state: RootState) => state?.auth);
     const {cartList} = useSelector((state: RootState) => state?.cart);

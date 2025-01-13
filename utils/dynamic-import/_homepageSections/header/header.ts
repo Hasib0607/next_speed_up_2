@@ -4,39 +4,36 @@ import dynamic from 'next/dynamic';
 
 export const headers: any = {
     default: dynamic(
-        () => import('@/components/headers/header-seven/header-seven'),
-        { ssr: false }
+        () => import('@/components/headers/header-default')
     ),
-    // one: dynamic(() => import("@/components/headers/header-one/header-one")),
-    // two: dynamic(() => import("@/components/headers/header-two/header-two")),
+    one: dynamic(() => import('@/components/headers/header-one/header-one')),
+    two: dynamic(() => import('@/components/headers/header-two/header-two')),
     three: dynamic(
-        () => import('@/components/headers/header-seven/header-seven'),
-        { ssr: false }
+        () => import('@/components/headers/header-three/header-three')
     ),
-    // four: dynamic(() => import("@/components/headers/header-four/header-four")),
-    // five: dynamic(() => import("@/components/headers/header-five/header-five")),
-    // six: dynamic(() => import("@/components/headers/header-six/header-six")),
+    four: dynamic(() => import("@/components/headers/header-four/header-four")),
+    five: dynamic(() => import("@/components/headers/header-five/header-five")),
+    six: dynamic(() => import("@/components/headers/header-six/header-six")),
     seven: dynamic(
-        () => import('@/components/headers/header-seven/header-seven'),
-        { ssr: false }
+        () => import('@/components/headers/header-seven/header-seven')
     ),
-    // eight: dynamic(
-    //   () => import("@/components/headers/header-eight/header-eight")
-    // ),
-    // nine: dynamic(() => import("@/components/headers/header-nine/header-nine")),
-    // ten: dynamic(() => import("@/components/headers/header-ten/header-ten")),
-    // eleven: dynamic(
-    //   () => import("@/components/headers/header-eleven/header-eleven")
-    // ),
-    // twelve: dynamic(
-    //   () => import("@/components/headers/header-twelve/header-twelve")
-    // ),
-    // thirteen: dynamic(
-    //   () => import("@/components/headers/header-thirteen/header-thirteen")
-    // ),
-    // fourteen: dynamic(
-    //   () => import("@/components/headers/header-fourteen/header-fourteen")
-    // ),
+    eight: dynamic(
+      () => import("@/components/headers/header-eight/header-eight")
+    ),
+    nine: dynamic(() => import("@/components/headers/header-nine/header-nine")),
+    ten: dynamic(() => import("@/components/headers/header-ten/header-ten")),
+    eleven: dynamic(
+      () => import("@/components/headers/header-eleven/header-eleven")
+    ),
+    twelve: dynamic(
+      () => import("@/components/headers/header-twelve/header-twelve")
+    ),
+    thirteen: dynamic(
+      () => import("@/components/headers/header-thirteen/header-thirteen")
+    ),
+    fourteen: dynamic(
+      () => import("@/components/headers/header-fourteen/header-fourteen")
+    ),
     // fifteen: dynamic(
     //   () => import("@/components/headers/header-fifteen/header-fifteen")
     // ),
@@ -95,7 +92,7 @@ export const headers: any = {
     //   () => import("@/components/headers/header-thirtyfour/header-thirtyfour")
     // ),
     thirtyfive: dynamic(
-      () => import("@/components/headers/header-thirtyfive/header-thirtyfive")
+        () => import('@/components/headers/header-thirtyfive/header-thirtyfive')
     ),
     // thirtysix: dynamic(
     //   () => import("@/components/headers/header-thirtysix/header-thirtysix")

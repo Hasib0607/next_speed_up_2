@@ -1,13 +1,14 @@
 'use client';
 
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import { Skeleton } from "@/components/ui/skeleton"
 import Link from 'next/link';
+import { Skeleton } from '@/components/ui/skeleton';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 import {
     useGetCategoryQuery,
     useGetSubCategoryQuery,
 } from '@/redux/features/category/categoryApi';
+
 import './header-seven.css';
 
 const CategorySeven = ({ openMenu, menu, menuLoading }: any) => {
@@ -15,7 +16,7 @@ const CategorySeven = ({ openMenu, menu, menuLoading }: any) => {
     const { data: subCategoryData } = useGetSubCategoryQuery({});
 
     const category = categoryData?.data || [];
-    const subcategory = subCategoryData?.data || [];
+    const subCategory = subCategoryData?.data || [];
 
     return (
         <nav>
@@ -45,8 +46,8 @@ const CategorySeven = ({ openMenu, menu, menuLoading }: any) => {
                                         {item.name}
                                     </h1>
                                 </Link>
-                                {subcategory?.length > 0 &&
-                                    subcategory?.map((dataId: any) => (
+                                {subCategory?.length > 0 &&
+                                    subCategory?.map((dataId: any) => (
                                         <div key={dataId.id}>
                                             {item.id ===
                                                 Number(dataId.parent) && (
@@ -67,8 +68,8 @@ const CategorySeven = ({ openMenu, menu, menuLoading }: any) => {
                                     openMenu ? 'top-[100%]' : 'top-[100%]'
                                 }`}
                             >
-                                {subcategory?.length > 0 &&
-                                    subcategory?.map((subItem: any) => (
+                                {subCategory?.length > 0 &&
+                                    subCategory?.map((subItem: any) => (
                                         <div
                                             key={subItem.id}
                                             className="relative group-hover:block hidden"

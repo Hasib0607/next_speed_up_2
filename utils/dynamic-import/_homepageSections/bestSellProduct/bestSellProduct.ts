@@ -3,6 +3,15 @@
 import dynamic from 'next/dynamic';
 
 export const best_sell_products: any = {
+    four: dynamic(
+        () => import('@/components/_homepage/best-seller/best-seller-five')
+    ),
+    five: dynamic(
+        () => import('@/components/_homepage/best-seller/best-seller-five')
+    ),
+    six: dynamic(
+        () => import('@/components/_homepage/best-seller/best-seller-six')
+    ),
     seven: dynamic(
         () => import('@/components/_homepage/best-seller/best-seller-seven')
     ),

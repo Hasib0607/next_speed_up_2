@@ -17,8 +17,8 @@ import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { useRouter } from 'next/navigation';
+import Search from '../components/search';
 import SideMenu from '../components/side-menu';
-import Search from '../header-seven/search';
 
 const HeaderThirtyFive = ({
     design,

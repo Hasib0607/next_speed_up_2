@@ -17,11 +17,11 @@ import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
 const BestSellerSeven = ({ best_sell_product }: any) => {
-    const storeData = useSelector((state: any) => state.appStore.store); // Access updated Redux state
-    const store_id = storeData?.id || null;
+    const store = useSelector((state: RootState) => state.appStore.store); // Access updated Redux state
+    const store_id = store?.id || null;
 
-    const headerdata = useSelector((state: RootState) => state.home.header); // Access updated Redux state
-    const { custom_design } = headerdata || {};
+    const headersetting = useSelector((state: RootState) => state.home.headersetting); // Access updated Redux state
+    const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Flash Sale', title_color = '#000' } =
         bestSellProduct || {};

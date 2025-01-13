@@ -7,8 +7,8 @@ import { RootState } from '@/redux/store';
 
 const BestSellProduct = ({ design, store_id }: any) => {
     const BestSellProductComponent =
-        best_sell_products[design?.best_sell_product] ||
-        best_sell_products[DEFAULT];
+        best_sell_products[design?.best_sell_product];
+        // || best_sell_products[DEFAULT];
 
     const products = useSelector((state: RootState) => state?.products);
     const home = useSelector((state: RootState) => state?.home);
@@ -23,7 +23,7 @@ const BestSellProduct = ({ design, store_id }: any) => {
         isSuccess: bestSellProductSuccess,
     } = useGetBestSellProductQuery({});
     const best_sell_product = bestSellProductData?.data || [];
-
+console.log("design?.best_sell_product", design?.best_sell_product);
     return (
         <>
             {BestSellProductComponent && bestSellProductSuccess && (
