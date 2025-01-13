@@ -1,4 +1,5 @@
 'use client';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
     Pagination,
@@ -90,9 +91,8 @@ const HeroThirty = ({ slider, design }: any) => {
         
         color: ${bgColor};
     }
+`;
 
-
-      `;
     return (
         <div className="z-0 relative group">
             <style>{styleCss}</style>

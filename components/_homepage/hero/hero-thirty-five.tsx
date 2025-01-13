@@ -1,4 +1,5 @@
 'use client';
+
 import { sliderImg } from '@/site-settings/siteUrl';
 import { BiRightArrowAlt } from 'react-icons/bi';
 import 'swiper/css';
@@ -17,13 +18,10 @@ import {
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 const HeroThirtyFive = ({ slider }: any) => {
-    const styleCss = `
-      `;
+
     return (
         <div className="border-b-2 border-black mt-20">
             <div className="z-0 relative sm:container px-5 group">
-                <style>{styleCss}</style>
-
                 <Swiper
                     speed={2000}
                     // effect={"fade"}

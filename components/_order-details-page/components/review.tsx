@@ -1,46 +1,43 @@
 'use client';
 
 import { useUserReviewMutation } from '@/redux/features/user/userApi';
+import { RootState } from '@/redux/store';
 
-import { Dialog, Transition } from '@headlessui/react';
+import {
+    Dialog,
+    DialogPanel,
+    DialogTitle,
+    Transition,
+    TransitionChild,
+} from '@headlessui/react';
 import { Fragment, useRef, useState } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-export default function GiveReview({
-    setOpen,
-    open,
-    item,
-    orderDetailsRefetch,
-}: any) {
+const GiveReview = ({ setOpen, open, item, orderDetailsRefetch }: any) => {
+    const { store } = useSelector((state: RootState) => state.appStore);
+
     const cancelButtonRef = useRef(null);
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-
     const [userReview] = useUserReviewMutation();
-
     const [rating, setRating] = useState(0);
+
+    const { register, handleSubmit } = useForm();
 
     const handleRatingChange = (newRating: any) => {
         setRating(newRating);
     };
 
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-        const star = (
-            <span
-                key={i}
-                className={i <= rating ? 'text-yellow-500 ' : ''}
-                onClick={() => handleRatingChange(i)}
-            >
-                ★
-            </span>
-        );
-        stars.push(star);
-    }
-
-    const { register, handleSubmit } = useForm();
+    const stars = Array.from({ length: 5 }, (_, i) => (
+        <span
+            key={i + 1}
+            className={i + 1 <= rating ? 'text-yellow-500 ' : ''}
+            onClick={() => handleRatingChange(i + 1)}
+        >
+            ★
+        </span>
+    ));
 
     const onSubmit = (data: any) => {
         userReview({
@@ -48,7 +45,7 @@ export default function GiveReview({
             order_id: item?.order_id,
             product_id: item?.product_id,
             store_id: store?.store_id,
-            rating: rating,
+            rating,
             ...data,
         })
             .unwrap()
@@ -62,20 +59,20 @@ export default function GiveReview({
                     toast.error(error || 'Try again!');
                 }
             })
-            .catch((error) => {
+            .catch(() => {
                 toast.error('Something went wrong');
             });
     };
 
     return (
-        <Transition.Root show={open} as={Fragment}>
+        <Transition show={open} as={Fragment}>
             <Dialog
                 as="div"
                 className="relative z-10"
                 initialFocus={cancelButtonRef}
                 onClose={setOpen}
             >
-                <Transition.Child
+                <TransitionChild
                     as={Fragment}
                     enter="ease-out duration-300"
                     enterFrom="opacity-0"
@@ -85,11 +82,11 @@ export default function GiveReview({
                     leaveTo="opacity-0"
                 >
                     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-                </Transition.Child>
+                </TransitionChild>
 
                 <div className="fixed z-10 inset-0 overflow-y-auto">
                     <div className="flex items-center justify-center min-h-full p-4 text-center sm:p-0">
-                        <Transition.Child
+                        <TransitionChild
                             as={Fragment}
                             enter="ease-out duration-300"
                             enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -98,17 +95,17 @@ export default function GiveReview({
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <Dialog.Panel className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                            <DialogPanel className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                         <div className="sm:flex sm:items-start">
-                                            <div className="mt-3 text-center sm:mt-0  sm:text-left w-full">
-                                                <Dialog.Title
+                                            <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                                                <DialogTitle
                                                     as="h3"
                                                     className="text-lg leading-6 font-semibold font-sans text-gray-900"
                                                 >
                                                     Give the Product Review
-                                                </Dialog.Title>
+                                                </DialogTitle>
                                                 <div className="rating text-3xl lg:cursor-pointer">
                                                     {stars}
                                                 </div>
@@ -141,11 +138,13 @@ export default function GiveReview({
                                         </button>
                                     </div>
                                 </form>
-                            </Dialog.Panel>
-                        </Transition.Child>
+                            </DialogPanel>
+                        </TransitionChild>
                     </div>
                 </div>
             </Dialog>
-        </Transition.Root>
+        </Transition>
     );
-}
+};
+
+export default GiveReview;

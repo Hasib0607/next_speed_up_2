@@ -1,6 +1,8 @@
 'use client';
 
 import Announcement from '@/components/Announcement';
+import CartPopUp from '@/components/CartPopUp';
+// import AllMobileBottomMenu from "./mobileBottomMenu";
 import {
     useGetDesignQuery,
     useGetHeaderSettingsQuery,
@@ -15,9 +17,9 @@ const Header = dynamic(() => import('@/components/Header'), { ssr: false });
 const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
 
 export default function RootLayout({
-    children
+    children,
 }: Readonly<{
-    children: React.ReactNode
+    children: React.ReactNode;
 }>) {
     useGetDesignQuery({});
     useGetHeaderSettingsQuery({});
@@ -37,6 +39,8 @@ export default function RootLayout({
             )}
             <Header design={design} />
             {children}
+            {/* <AllMobileBottomMenu/> */}
+            <CartPopUp />
             <Footer design={design} />
         </>
     );

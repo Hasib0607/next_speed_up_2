@@ -113,7 +113,6 @@ const HeroTwelve = ({ slider, design }: any) => {
                                 <h1 className="xl:text-4xl md:text-[28px] text-[16px] font-bold md:leading-7">
                                     {s?.title}
                                 </h1>
-                                {/* <p className='h-[2px] w-10 bg-black mx-auto md:block hidden'></p> */}
                                 <p className="md:text-lg text-xs md:leading-5">
                                     {s?.subtitle}
                                 </p>

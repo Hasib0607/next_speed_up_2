@@ -205,6 +205,7 @@ export const ShoppingIcon = () => (
   </svg>
 );
 
+// User Circle
 export const userCircleIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -218,6 +219,22 @@ export const userCircleIcon = () => (
       strokeLinecap="round"
       strokeLinejoin="round"
       d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
+  </svg>
+);
+
+// Cancel Icon
+export const cancelIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className="size-6"
+  >
+    <path
+      fillRule="evenodd"
+      d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+      clipRule="evenodd"
     />
   </svg>
 );

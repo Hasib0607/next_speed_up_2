@@ -101,9 +101,7 @@ const HeroTwentySix = ({ slider, design }: any) => {
                     nextEl: `.${nextEl}`,
                 }}
                 speed={1000}
-                // effect={"fade"}
                 loop={true}
-                // spaceBetween={30}
                 pagination={pagination}
                 autoplay={{
                     delay: 3000,

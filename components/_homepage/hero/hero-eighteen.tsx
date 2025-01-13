@@ -5,7 +5,7 @@ const HeroEighteen = ({ slider }: any) => {
     return (
         <div className="bg-white sm:container px-5 sm:py-10 py-5">
             <div className="">
-                {slider.slice(0, 1).map((item: any) => (
+                {slider?.slice(0, 1).map((item: any) => (
                     <div key={item?.id} className="relative group">
                         <img
                             className="h-auto w-full"

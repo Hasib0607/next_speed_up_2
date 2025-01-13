@@ -91,8 +91,7 @@ const HeroThirtySix = ({ slider, design }: any) => {
         color: ${bgColor};
     }
 
-
-      `;
+`;
     return (
         <div className="z-0 relative group mt-16">
             <style>{styleCss}</style>

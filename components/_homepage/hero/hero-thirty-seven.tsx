@@ -1,4 +1,5 @@
 'use client';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
     Pagination,
@@ -8,12 +9,14 @@ import {
     EffectCreative,
     EffectFade,
 } from 'swiper/modules';
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
+
 import { BiRightArrowAlt } from 'react-icons/bi';
 import { sliderImg } from '@/site-settings/siteUrl';
 

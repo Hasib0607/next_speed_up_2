@@ -3,56 +3,279 @@
 import dynamic from 'next/dynamic';
 
 export const banner_bottoms: any = {
-    seven: dynamic(
-        () => import('@/components/promotions-bottom/promo-bottom-seven')
-    ),
-
     default: dynamic(
-        () => import('@/components/promotions-bottom/promo-bottom-default')
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-default'
+            ),
+        {
+            ssr: false,
+        }
     ),
-
-    ten: dynamic(
-        () => import('@/components/promotions-bottom/promo-bottom-ten')
+    one: dynamic(
+        () =>
+            import('@/components/_homepage/promotions-bottom/promo-bottom-one'),
+        {
+            ssr: false,
+        }
     ),
     two: dynamic(
-        () => import('@/components/promotions-bottom/promo-bottom-two')
+        () =>
+            import('@/components/_homepage/promotions-bottom/promo-bottom-two'),
+        {
+            ssr: false,
+        }
     ),
+    three: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-three'
+            ),
+        {
+            ssr: false,
+        }
+    ),
+    four: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-four'
+            ),
+        {
+            ssr: false,
+        }
+    ),
+    // five: dynamic(() => import('@/components/_homepage/promotions-bottom/promo-bottom-five'), {
+    //     ssr: false,
+    // }),
+    six: dynamic(
+        () =>
+            import('@/components/_homepage/promotions-bottom/promo-bottom-six'),
+        {
+            ssr: false,
+        }
+    ),
+    seven: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-seven'
+            ),
+        {
+            ssr: false,
+        }
+    ),
+    eight: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-eight'
+            ),
+        {
+            ssr: false,
+        }
+    ),
+    nine: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-nine'
+            ),
+        {
+            ssr: false,
+        }
+    ),
+    ten: dynamic(
+        () =>
+            import('@/components/_homepage/promotions-bottom/promo-bottom-ten'),
+        {
+            ssr: false,
+        }
+    ),
+    eleven: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-eleven'
+            ),
+        {
+            ssr: false,
+        }
+    ),
+    twelve: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-twelve'
+            ),
+        {
+            ssr: false,
+        }
+    ),
+    thirteen: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-thirteen'
+            ),
+        {
+            ssr: false,
+        }
+    ),
+    fourteen: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-fourteen'
+            ),
+        {
+            ssr: false,
+        }
+    ),
+    sixteen: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-sixteen'
+            ),
+        {
+            ssr: false,
+        }
+    ),
+    // seventeen: dynamic(
+    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-seventeen'),
+    //     {
+    //         ssr: false,
+    //     }
+    // ),
+    // eighteen: dynamic(
+    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-eighteen'),
+    //     {
+    //         ssr: false,
+    //     }
+    // ),
+    nineteen: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-nineteen'
+            ),
+        {
+            ssr: false,
+        }
+    ),
+    twenty: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-twenty'
+            ),
+        { ssr: false }
+    ),
+    // twentyone: dynamic(
+    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-tweentyone'),
+    //     { ssr: false }
+    // ),
+    twentytwo: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-twentytwo'
+            ),
+        { ssr: false }
+    ),
+    twentythree: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-twentythree'
+            ),
+        { ssr: false }
+    ),
+    twentyfour: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-twentyfour'
+            ),
+        { ssr: false }
+    ),
+    // twentyfive: dynamic(
+    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-twentyfive'),
+    //     { ssr: false }
+    // ),
+    twentysix: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-twentysix'
+            ),
+        { ssr: false }
+    ),
+    twentyseven: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-twentyseven'
+            ),
+        { ssr: false }
+    ),
+    twentyeight: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-twentyeight'
+            ),
+        { ssr: false }
+    ),
+    // twentynine: dynamic(
+    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-twentynine'),
+    //     { ssr: false }
+    // ),
+    thirty: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-thirty'
+            ),
+        {
+            ssr: false,
+        }
+    ),
+    thirtyone: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-thirtyone'
+            ),
+        { ssr: false }
+    ),
+    // thirtytwo: dynamic(
+    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-thirtytwo'),
+    //     { ssr: false }
+    // ),
+    thirtythree: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-thirtythree'
+            ),
+        { ssr: false }
+    ),
+    thirtyfour: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-thirtyfour'
+            ),
+        { ssr: false }
+    ),
+    thirtyfive: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-thirtyfive'
+            ),
+        { ssr: false }
+    ),
+    thirtysix: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-thirtysix'
+            ),
+        { ssr: false }
+    ),
+    thirtyseven: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-thirtyseven'
+            ),
+        { ssr: false }
+    ),
+    // thirtyeight: dynamic(
+    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-thirtyeight'),
+    //     { ssr: false }
+    // ),
+    // thirtynine: dynamic(
+    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-thirtynine'),
+    //     { ssr: false }
+    // ),
 };
-
-// import PromoBottomOne from './promotions-bottom/promo-bottom-one';
-
-// import PromoBottomThree from './promotions-bottom/promo-bottom-three';
-// import PromoBottomFour from './promotions-bottom/promo-bottom-four';
-// import PromoBottomSix from './promotions-bottom/promo-bottom-six';
-
-// import PromoBottomEight from './promotions-bottom/promo-bottom-eight';
-// import PromoBottomNine from './promotions-bottom/promo-bottom-nine';
-
-// import PromoBottomEleven from './promotions-bottom/promo-bottom-eleven';
-// import PromoBottomTwelve from './promotions-bottom/promo-bottom-twelve';
-// import PromoBottomThirteen from './promotions-bottom/promo-bottom-thirteen';
-
-// import PromoBottomFourteen from './promotions-bottom/promo-bottom-fourteen';
-// import PromoBottomFifteen from './promotions-bottom/promo-bottom-fifteen';
-
-// import PromoBottomSixteen from './promotions-bottom/promo-bottom-sixteen';
-// import PromoBottomNineteen from './promotions-bottom/promo-bottom-nineteen';
-// import PromoBottomTwenty from './promotions-bottom/promo-bottom-twenty';
-// import PromoBottomTwentyOne from './promotions-bottom/promo-twentyone';
-// import PromoBottomTwentyTwo from './promotions-bottom/promo-bottom-twentytwo';
-// import PromoBottomTwentyThree from './promotions-bottom/promo-bottom-twentythree';
-// import PromoBottomTwentyFour from './promotions-bottom/promo-bottom-twentyfour';
-
-// import PromoBottomTwentySix from './promotions-bottom/promo-bottom-twentysix';
-
-// import PromoBottomTwentySeven from './promotions-bottom/promo-bottom-twentyseven';
-// import PromoBottomTwentyEight from './promotions-bottom/promo-bottom-twentyeight';
-// import PromoBottomThirty from './promotions-bottom/promo-bottom-thirty';
-
-// import PromoBottomThirtyOne from './promotions-bottom/promo-bottom-thirtyone';
-
-// import PromoBottomThirtyThree from './promotions-bottom/promo-bottom-thirtythree';
-// import PromoBottomThirtyFour from './promotions-bottom/promo-bottom-thirtyfour';
-// import PromoBottomThirtyFive from './promotions-bottom/promo-bottom-thirtyfive';
-// import PromoBottomThirtySix from './promotions-bottom/promo-bottom-thirtysix';
-// import PromoBottomThirtySeven from './promotions-bottom/promo-bottom-thirtyseven';

@@ -15,7 +15,6 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-// import './heroSixteenCss/herosixteen.css'
 import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
@@ -91,9 +90,8 @@ const HeroThirtyOne = ({ slider, design }: any) => {
         
         color: ${bgColor};
     }
+`;
 
-
-      `;
     return (
         <div className="z-0 relative group">
             <style>{styleCss}</style>

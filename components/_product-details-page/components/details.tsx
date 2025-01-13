@@ -1,7 +1,5 @@
 'use client';
 
-import Skeleton from '@/components/loaders/skeleton';
-
 import BDT from '@/utils/bdt';
 import CallForPrice from '@/utils/call-for-price';
 
@@ -21,7 +19,7 @@ import {
 import { toast } from 'react-toastify';
 import { HSlider } from './slider';
 
-import { Colors, ColorsOnly, Sizes, Units } from '../three/imageVariations';
+import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
 
 // helper
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,10 +28,7 @@ import { numberParser } from '@/helpers/numberParser';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
 
 import { getProductQuantity } from '@/helpers/getProductQuantity';
-import {
-    isRegularPriceLineThrough,
-    productCurrentPrice,
-} from '@/helpers/littleSpicy';
+import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
 
 import { saveToLocalStorage } from '@/helpers/localStorage';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -41,20 +36,17 @@ import { AppDispatch, RootState } from '@/redux/store';
 import ProdMultiCategory from '@/utils/prod-multi-category';
 import AddCart from './add-cart';
 
-const Details = ({ product, productDetailLoading, children }: any) => {
+const Details = ({ product, children }: any) => {
     const { headersetting, design } = useSelector(
         (state: RootState) => state.home
     );
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux state
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
 
     const dispatch: AppDispatch = useDispatch();
 
-    const store_id = store?.id || null;
-
-    const { variant, variant_color } = product || [];
+    const { variant, variant_color, category } = product || [];
 
     const vrcolor = useMemo(
         () => variant_color?.map((item: any) => item?.color) || [],
@@ -183,12 +175,8 @@ const Details = ({ product, productDetailLoading, children }: any) => {
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    if (productDetailLoading) {
-        return <Skeleton />;
-    }
-
     const price = productCurrentPrice(product);
-    const priceLineThrough = isRegularPriceLineThrough(product);
+    const save = howMuchSave(product);
 
     const parsedNumberRating = numberParser(product?.number_rating);
     const parsedRating = numberParser(product?.rating, true);
@@ -213,8 +201,6 @@ const Details = ({ product, productDetailLoading, children }: any) => {
 
     const buttonOne =
         'font-bold text-white bg-gray-600 rounded-md w-60 py-3 text-center';
-
-    const category = product?.category || [];
 
     return (
         <div className="grid md:grid-cols-8 grid-cols-1 gap-4 w-full">
@@ -244,13 +230,13 @@ const Details = ({ product, productDetailLoading, children }: any) => {
                                     Category:{' '}
                                 </span>{' '}
                             </p>
-                            <div className='flex flex-wrap gap-2'>
-                            <ProdMultiCategory
-                                category={category}
-                                design={design}
-                                className={'text-[var(--header-color)]'}
-                                commaColor={'text-black'}
-                            />
+                            <div className="flex flex-wrap gap-2">
+                                <ProdMultiCategory
+                                    category={category}
+                                    design={design}
+                                    className={'text-[var(--header-color)]'}
+                                    commaColor={'text-black'}
+                                />
                             </div>
                         </div>
                     )}
@@ -267,7 +253,7 @@ const Details = ({ product, productDetailLoading, children }: any) => {
                     <div className="text-[#212121] text-2xl font-seven font-bold flex justify-start items-center gap-4">
                         <BDT />
                         {price}{' '}
-                        {priceLineThrough && (
+                        {save > 0 && (
                             <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                 <BDT />
                                 {numberParser(product?.regular_price)}
@@ -350,7 +336,6 @@ const Details = ({ product, productDetailLoading, children }: any) => {
 
                 <div className="mt-5">
                     <CallForPrice
-                        store_id={store_id}
                         headersetting={headersetting}
                         cls={buttonOne}
                         price={price}
