@@ -11,6 +11,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     FacebookIcon,
+    FacebookMessengerIcon,
+    FacebookMessengerShareButton,
     FacebookShareButton,
     WhatsappIcon,
     WhatsappShareButton,
@@ -23,16 +25,12 @@ import { saveToLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { AppDispatch, RootState } from '@/redux/store';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
-import AddCart from '../components/add-cart';
-import {
-    Colors,
-    ColorsOnly,
-    Sizes,
-    Units,
-} from '../components/imageVariations';
-import { HSlider } from '../components/slider';
+import AddCart from './add-cart';
+import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
+import { HSlider } from './slider';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 
-const Details = ({ product, children }: any) => {
+const Details = ({ product, children, multicat }: any) => {
     const { headersetting, design } = useSelector(
         (state: RootState) => state.home
     );
@@ -42,7 +40,7 @@ const Details = ({ product, children }: any) => {
 
     const dispatch: AppDispatch = useDispatch();
 
-    const { variant, variant_color } = product || [];
+    const { variant, variant_color,category } = product || [];
 
     const vrcolor = useMemo(
         () => variant_color?.map((item: any) => item?.color) || [],
@@ -173,7 +171,6 @@ const Details = ({ product, children }: any) => {
 
     const price = productCurrentPrice(product);
     const save = howMuchSave(product);
-
     const parsedRating = numberParser(product?.rating, true);
 
     const handleAddToCart = () => {
@@ -256,7 +253,6 @@ const Details = ({ product, children }: any) => {
                                 </span>
                             )}{' '}
                         </div>
-                        {/* <p className='line-through text-md text-gray-400'> ${product?.regular_price}</p> */}
                         {product?.discount_type === 'percent' &&
                             product?.discount_price > 0 && (
                                 <p className="text-md text-gray-400">
@@ -265,6 +261,30 @@ const Details = ({ product, children }: any) => {
                                 </p>
                             )}
                     </div>
+                    {multicat &&
+                    <div className="flex flex-col gap-3 sm:mt-6 mt-1">
+                    {/* copy from here */}
+                    {Array.isArray(category) && category?.length > 0 && (
+                        <div className="flex items-center gap-2">
+                            <p className="capitalize">
+                                {' '}
+                                <span className="text-black">
+                                    Category:{' '}
+                                </span>{' '}
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                                <ProdMultiCategory
+                                    category={category}
+                                    design={design}
+                                    className={'text-[var(--header-color)]'}
+                                    commaColor={'text-black'}
+                                />
+                            </div>
+                        </div>
+                    )}
+                    {/* copy from here */}
+                    </div>
+                    }
                     <Rate rating={parsedRating} />
                     <div className="h-[1px] bg-gray-300 w-full"></div>
 
@@ -352,6 +372,26 @@ const Details = ({ product, children }: any) => {
                         />
                     )}
 
+                    <div className="flex items-center gap-x-3">
+                        <div className="">Availability:</div>
+                        <div className="text-[#212121] ">
+                            {productQuantity !== 0 ? (
+                                <p>
+                                    <span className="font-medium">
+                                        {productQuantity}
+                                    </span>{' '}
+                                    <span className="text-green-500">
+                                        In Stock!
+                                    </span>
+                                </p>
+                            ) : (
+                                <span className="text-red-600">
+                                    Out of Stock!
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
                     {children}
 
                     <div className="flex items-center gap-x-3">
@@ -363,6 +403,12 @@ const Details = ({ product, children }: any) => {
                             <WhatsappShareButton url={window.location.href}>
                                 <WhatsappIcon size={32} round={true} />
                             </WhatsappShareButton>
+                            <FacebookMessengerShareButton
+                                            appId="2"
+                                            url={window.location.href}
+                                          >
+                                            <FacebookMessengerIcon size={32} round={true} />
+                                          </FacebookMessengerShareButton>
                         </span>
                     </div>
                     {/* Display the referral link */}

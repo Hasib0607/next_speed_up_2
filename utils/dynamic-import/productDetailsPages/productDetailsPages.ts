@@ -7,7 +7,7 @@ export const product_details_pages: any = {
         () => import('@/components/_product-details-page/three/three'),
         { ssr: false }
     ),
-    // one: dynamic(() => import("@/components/_product-details-page/one/one")),
+    one: dynamic(() => import('@/components/_product-details-page/one/one')),
     two: dynamic(() => import('@/components/_product-details-page/two/two'), {
         ssr: false,
     }),
@@ -15,12 +15,12 @@ export const product_details_pages: any = {
         () => import('@/components/_product-details-page/three/three'),
         { ssr: false }
     ),
-    // four: dynamic(() => import("@/components/_product-details-page/four/four")),
-    // five: dynamic(() => import("@/components/_product-details-page/five/five")),
-    // six: dynamic(() => import("@/components/_product-details-page/six/six")),
-    // seven: dynamic(
-    //     () => import('@/components/_product-details-page/seven/seven')
-    // ),
+    four: dynamic(() => import("@/components/_product-details-page/four/four")),
+    five: dynamic(() => import("@/components/_product-details-page/five/five")),
+    six: dynamic(() => import("@/components/_product-details-page/six/six")),
+    seven: dynamic(
+        () => import('@/components/_product-details-page/seven/seven')
+    ),
     // eight: dynamic(
     //   () => import("@/components/_product-details-page/eight/eight")
     // ),

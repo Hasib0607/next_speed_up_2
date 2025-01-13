@@ -20,6 +20,7 @@ import { SwiperSlide } from 'swiper/react';
 
 import Skeleton from '@/components/loaders/skeleton';
 import { HTML_TAG_PATTERN } from '@/consts';
+import { numberParser } from '@/helpers/numberParser';
 import {
     useGetProductDetailsQuery,
     useGetRelatedProductsQuery,
@@ -143,6 +144,7 @@ export default Three;
 const According = ({ text, description }: any) => {
     const isDescription = HTML_TAG_PATTERN.test(description);
     let reviewsArr = description?.data || [];
+    
     return (
         <Accordion type="single" collapsible>
             {isDescription && (
@@ -170,6 +172,8 @@ const According = ({ text, description }: any) => {
 };
 
 const UserReview = ({ review }: any) => {
+    const parsedRating = numberParser(review?.rating, true);
+
     return (
         <>
             <div className=" bg-slate-50 rounded-lg p-5 flex items-center gap-5 w-full">
@@ -189,7 +193,7 @@ const UserReview = ({ review }: any) => {
                             {moment(new Date(review?.cd)).format('DD/MM/YYYY')}
                         </p>
                     </div>
-                    <Rate className="text-base" rating={review?.rating} />
+                    <Rate className="text-base" rating={parsedRating} />
 
                     <p className="text-base font-semiBold mt-2">
                         {review?.comment}
