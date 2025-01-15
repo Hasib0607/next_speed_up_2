@@ -15,38 +15,38 @@ export const product_details_pages: any = {
         () => import('@/components/_product-details-page/three/three'),
         { ssr: false }
     ),
-    four: dynamic(() => import("@/components/_product-details-page/four/four")),
-    five: dynamic(() => import("@/components/_product-details-page/five/five")),
-    six: dynamic(() => import("@/components/_product-details-page/six/six")),
+    four: dynamic(() => import('@/components/_product-details-page/four/four')),
+    five: dynamic(() => import('@/components/_product-details-page/five/five')),
+    six: dynamic(() => import('@/components/_product-details-page/six/six')),
     seven: dynamic(
         () => import('@/components/_product-details-page/seven/seven')
     ),
-    // eight: dynamic(
-    //   () => import("@/components/_product-details-page/eight/eight")
-    // ),
-    // nine: dynamic(() => import("@/components/_product-details-page/nine/nine")),
-    // ten: dynamic(() => import("@/components/_product-details-page/ten/ten")),
-    // eleven: dynamic(
-    //   () => import("@/components/_product-details-page/eleven/eleven")
-    // ),
-    // twelve: dynamic(
-    //   () => import("@/components/_product-details-page/twelve/twelve")
-    // ),
-    // thirteen: dynamic(
-    //   () => import("@/components/_product-details-page/thirteen/thirteen")
-    // ),
-    // fourteen: dynamic(
-    //   () => import("@/components/_product-details-page/fourteen/fourteen")
-    // ),
+    eight: dynamic(
+        () => import('@/components/_product-details-page/eight/eight')
+    ),
+    nine: dynamic(() => import('@/components/_product-details-page/nine/nine')),
+    ten: dynamic(() => import('@/components/_product-details-page/ten/ten')),
+    eleven: dynamic(
+        () => import('@/components/_product-details-page/eleven/eleven')
+    ),
+    twelve: dynamic(
+      () => import("@/components/_product-details-page/twelve/twelve")
+    ),
+    thirteen: dynamic(
+      () => import("@/components/_product-details-page/thirteen/thirteen")
+    ),
+    fourteen: dynamic(
+      () => import("@/components/_product-details-page/fourteen/fourteen")
+    ),
     // fifteen: dynamic(
     //   () => import("@/components/_product-details-page/fifteen/fifteen")
     // ),
-    // sixteen: dynamic(
-    //   () => import("@/components/_product-details-page/sixteen/sixteen")
-    // ),
-    // seventeen: dynamic(
-    //   () => import("@/components/_product-details-page/seventeen/seventeen")
-    // ),
+    sixteen: dynamic(
+      () => import("@/components/_product-details-page/sixteen/sixteen")
+    ),
+    seventeen: dynamic(
+      () => import("@/components/_product-details-page/seventeen/seventeen")
+    ),
     // eighteen: dynamic(
     //   () => import("@/components/_product-details-page/eighteen/eighteen")
     // ),

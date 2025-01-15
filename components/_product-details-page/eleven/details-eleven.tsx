@@ -5,14 +5,12 @@ import CallForPrice from '@/utils/call-for-price';
 
 import Rate from '@/utils/rate';
 import parse from 'html-react-parser';
-
 import { useEffect, useMemo, useState } from 'react';
+import ZoomHSlider from '../components/zoom-slider';
 
 import { useDispatch, useSelector } from 'react-redux';
 import {
     FacebookIcon,
-    FacebookMessengerIcon,
-    FacebookMessengerShareButton,
     FacebookShareButton,
     WhatsappIcon,
     WhatsappShareButton,
@@ -25,22 +23,23 @@ import { saveToLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { AppDispatch, RootState } from '@/redux/store';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
-import ProdMultiCategory from '@/utils/prod-multi-category';
-import AddCartBtn from './add-cart-btn';
-import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
-import { HSlider } from './slider';
+import AddCartBtn from '../components/add-cart-btn';
+import {
+    Colors,
+    ColorsOnly,
+    Sizes,
+    Units,
+} from '../components/imageVariations';
 
-const Details = ({ product, children, multicat, social, buttonStyle }: any) => {
-    const { headersetting, design } = useSelector(
-        (state: RootState) => state.home
-    );
+const Details = ({ design, children, product }: any) => {
+    const { headersetting } = useSelector((state: RootState) => state.home);
 
     const { cartList } = useSelector((state: RootState) => state.cart);
-    const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
+    const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux state
 
     const dispatch: AppDispatch = useDispatch();
 
-    const { variant, variant_color, category } = product || [];
+    const { variant, variant_color } = product || [];
 
     const vrcolor = useMemo(
         () => variant_color?.map((item: any) => item?.color) || [],
@@ -171,6 +170,8 @@ const Details = ({ product, children, multicat, social, buttonStyle }: any) => {
 
     const price = productCurrentPrice(product);
     const save = howMuchSave(product);
+
+    const parsedNumberRating = numberParser(product?.number_rating);
     const parsedRating = numberParser(product?.rating, true);
 
     const handleAddToCart = () => {
@@ -192,46 +193,34 @@ const Details = ({ product, children, multicat, social, buttonStyle }: any) => {
     };
 
     const styleCss = `
-  .btn-hover:hover {
-      color:   ${design?.text_color};
-      background:${design?.header_color};
-  }
-  .select-color {
-      border: 1px solid ${design?.header_color};
-  }
-  .select-size {
-      color : ${design?.header_color};
-      border: 1px solid ${design?.header_color};
-  }
-  .select-unit {
-      color : ${design?.header_color};
-      border: 1px solid ${design?.header_color};
-  }
-  .text-color {
-      color:  ${design?.header_color};
-  }
-  .cart-color {
-      color:  ${design?.header_color};
-      border-bottom: 2px solid ${design?.header_color};
-  }
-  .border-hover:hover {
-      border: 1px solid ${design?.header_color};
-     
-  }
-
+    .btn-hover:hover {
+        color:   ${design?.text_color};
+        background:${design?.header_color};
+    }
+    .text-color {
+        color:  ${design?.header_color};
+    }
+    .cart-color {
+        color:  ${design?.header_color};
+        border-bottom: 2px solid ${design?.header_color};
+    }
+    .border-hover:hover {
+        border: 1px solid ${design?.header_color};
+       
+    }
+  
 `;
 
-    const buttonOne = buttonStyle
-        ? buttonStyle
-        : 'font-bold text-white bg-gray-600 rounded-md w-max px-10 py-3 text-center';
+    const callForPrice =
+        'bg-black btn-hover text-white text-xs font-bold sm:py-[16px] py-3 sm:px-16 px-2';
 
     return (
         <div className="bg-white h-full ">
             <style>{styleCss}</style>
 
-            <div className="grid grid-cols-1 md:grid-cols-9 gap-5">
-                <div className="md:col-span-4">
-                    <HSlider
+            <div className="grid grid-cols-1 lg2:grid-cols-9 gap-5">
+                <div className="lg2:col-span-4 justify-self-center">
+                    <ZoomHSlider
                         design={design}
                         product={product}
                         variant={variant}
@@ -239,12 +228,13 @@ const Details = ({ product, children, multicat, social, buttonStyle }: any) => {
                         setActiveImg={setActiveImg}
                     />
                 </div>
-                <div className="md:col-span-5 space-y-4 sticky top-28 h-max">
-                    <h2 className="text-2xl text-[#212121] font-bold mb-3 capitalize">
+
+                <div className="lg2:col-span-5 space-y-5 sticky top-28 h-max">
+                    <h1 className="text-lg text-[#212121] font-bold mb-3 capitalize">
                         {product?.name}
-                    </h2>
+                    </h1>
                     <div className="flex justify-start items-center gap-x-4">
-                        <div className="text-[#212121] text-2xl font-seven font-bold flex justify-start items-center gap-4">
+                        <div className="text-[#212121] text-lg font-seven font-bold flex justify-start items-center gap-4">
                             <BDT />
                             {price}{' '}
                             {save > 0 && (
@@ -258,45 +248,24 @@ const Details = ({ product, children, multicat, social, buttonStyle }: any) => {
                             product?.discount_price > 0 && (
                                 <p className="text-md text-gray-400">
                                     {' '}
-                                    {numberParser(product?.discount_price)}% Off
+                                    {Math.trunc(product?.discount_price)}% Off
                                 </p>
                             )}
                     </div>
-                    {multicat && (
-                        <div className="flex flex-col gap-3 sm:mt-6 mt-1">
-                            {/* copy from here */}
-                            {Array.isArray(category) &&
-                                category?.length > 0 && (
-                                    <div className="flex items-center gap-2">
-                                        <p className="capitalize">
-                                            {' '}
-                                            <span className="text-black">
-                                                Category:{' '}
-                                            </span>{' '}
-                                        </p>
-                                        <div className="flex flex-wrap gap-2">
-                                            <ProdMultiCategory
-                                                category={category}
-                                                design={design}
-                                                className={
-                                                    'text-[var(--header-color)]'
-                                                }
-                                                commaColor={'text-black'}
-                                            />
-                                        </div>
-                                    </div>
-                                )}
-                            {/* copy from here */}
+                    <div className="flex gap-x-1">
+                        <div className="text-xs">
+                            <Rate rating={parsedRating} />
                         </div>
-                    )}
-                    <Rate rating={parsedRating} />
+                        <div className="text-gray-500 sm:text-sm text-xs">
+                            ({parsedNumberRating})
+                        </div>
+                    </div>
                     <div className="h-[1px] bg-gray-300 w-full"></div>
-
-                    <div className="text-[#3B3312] leading-6 apiHtml">
+                    <div className="text-sm text-[#5a5a5a] leading-6 apiHtml">
+                        {' '}
                         {parse(`${product?.description?.slice(0, 250)}`)}{' '}
                         {product?.description?.length > 250 && '...'}
                     </div>
-
                     {/* color and size  */}
                     {currentVariation?.colorsAndSizes && (
                         <>
@@ -350,10 +319,10 @@ const Details = ({ product, children, multicat, social, buttonStyle }: any) => {
                         />
                     )}
 
-                    <div className="">
+                    <div className="mt-5">
                         <CallForPrice
                             headersetting={headersetting}
-                            cls={buttonOne}
+                            cls={callForPrice}
                             price={price}
                         />
                     </div>
@@ -372,13 +341,13 @@ const Details = ({ product, children, multicat, social, buttonStyle }: any) => {
                             filterV={filterV}
                             product={product}
                             onClick={handleAddToCart}
-                            buttonOne={buttonOne}
+                            buttonOne={callForPrice}
                         />
                     )}
 
                     <div className="flex items-center gap-x-3">
                         <div className="">Availability:</div>
-                        <div className="text-[#212121]">
+                        <div className="text-[#212121] ">
                             {productQuantity !== 0 ? (
                                 <p>
                                     <span className="font-medium">
@@ -396,30 +365,20 @@ const Details = ({ product, children, multicat, social, buttonStyle }: any) => {
                         </div>
                     </div>
 
+                    <div className="mt-5 flex items-center gap-4 space-x-4 xl:gap-4 lg:gap-5 md:gap-5 sm:gap-5   ">
+                        <span>Share:</span>
+                        <span className="flex py-2 space-x-2">
+                            <FacebookShareButton url={window.location.href}>
+                                <FacebookIcon size={32} round={true} />
+                            </FacebookShareButton>
+                            <WhatsappShareButton url={window.location.href}>
+                                <WhatsappIcon size={32} round={true} />
+                            </WhatsappShareButton>
+                        </span>
+                    </div>
+
                     {children}
 
-                    {social && (
-                        <div className="flex items-center gap-x-3">
-                            <p className="font-medium">Share :</p>
-                            <span className="flex space-x-2">
-                                <FacebookShareButton url={window.location.href}>
-                                    <FacebookIcon size={32} round={true} />
-                                </FacebookShareButton>
-                                <WhatsappShareButton url={window.location.href}>
-                                    <WhatsappIcon size={32} round={true} />
-                                </WhatsappShareButton>
-                                <FacebookMessengerShareButton
-                                    appId="2"
-                                    url={window.location.href}
-                                >
-                                    <FacebookMessengerIcon
-                                        size={32}
-                                        round={true}
-                                    />
-                                </FacebookMessengerShareButton>
-                            </span>
-                        </div>
-                    )}
                     {/* Display the referral link */}
                     <div>
                         {/* Display referral link and copy button */}

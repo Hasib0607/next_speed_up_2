@@ -24,7 +24,7 @@ import {
     WhatsappShareButton,
 } from 'react-share';
 import { toast } from 'react-toastify';
-import AddCart from '../components/add-cart';
+import AddCartBtn from '../components/add-cart-btn';
 import {
     Colors,
     ColorsOnly,
@@ -332,7 +332,7 @@ const DetailsFive = ({ product, children }: any) => {
                     </div>
 
                     {productQuantity !== 0 && price !== 0 && (
-                        <AddCart
+                        <AddCartBtn
                             qty={qty}
                             setQty={setQty}
                             variant={variant}

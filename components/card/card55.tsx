@@ -55,7 +55,10 @@ const Card55 = ({ item }: any) => {
         }
     };
 
-    const vPrice = item?.variant?.map((item: any) => item?.additional_price);
+    const vPrice = item?.variant
+        ? item?.variant?.map((item: any) => item?.additional_price ?? 0)
+        : [0];
+
     const smallest = Math.min(...vPrice);
     const largest = Math.max(...vPrice);
 

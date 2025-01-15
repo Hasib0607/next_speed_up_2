@@ -83,7 +83,7 @@ const One = ({ store_id, productId }: any) => {
     return (
         <div className="bg-white sm:container px-5 sm:py-10 py-5">
             <div className="mx-auto">
-                <Details product={product} />
+                <Details product={product} social/>
                 {/* ************************ tab component start ***************************** */}
                 <div className="mt-5">
                     <TabGroup>

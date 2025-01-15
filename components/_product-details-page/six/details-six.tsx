@@ -16,26 +16,26 @@ import {
     WhatsappShareButton,
 } from 'react-share';
 
+import { getProductQuantity } from '@/helpers/getProductQuantity';
+import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
+import { saveToLocalStorage } from '@/helpers/localStorage';
+import { numberParser } from '@/helpers/numberParser';
+import { AppDispatch, RootState } from '@/redux/store';
+import { addToCart } from '@/utils/_cart-utils/cart-utils';
+import ProdMultiCategory from '@/utils/prod-multi-category';
+import QuickView from '@/utils/quick-view';
+import { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import AddCartBtn from '../components/add-cart-btn';
 import {
     Colors,
     ColorsOnly,
     Sizes,
     Units,
 } from '../components/imageVariations';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
-import { useEffect, useMemo, useState } from 'react';
-import { getProductQuantity } from '@/helpers/getProductQuantity';
-import { saveToLocalStorage } from '@/helpers/localStorage';
-import { toast } from 'react-toastify';
-import { addToCart } from '@/utils/_cart-utils/cart-utils';
-import { numberParser } from '@/helpers/numberParser';
-import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
-import ProdMultiCategory from '@/utils/prod-multi-category';
-import QuickView from '@/utils/quick-view';
-import { HSlider } from '../components/slider';
-import AddCart from '../components/add-cart';
 import { ProductSlider } from '../components/product-slider';
+import { HSlider } from '../components/slider';
 
 const DetailsSix = ({ product, children, open, setOpen }: any) => {
     const { headersetting, design } = useSelector(
@@ -328,7 +328,7 @@ const DetailsSix = ({ product, children, open, setOpen }: any) => {
                     </div>
 
                     {productQuantity !== 0 && price !== 0 && (
-                        <AddCart
+                        <AddCartBtn
                             qty={qty}
                             setQty={setQty}
                             variant={variant}
