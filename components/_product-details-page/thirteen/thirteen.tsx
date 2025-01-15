@@ -1,29 +1,30 @@
 'use client';
 
-import Card54 from '@/components/card/card54';
+import Card18 from '@/components/card/card18';
 import SectionHeadingFive from '@/components/section-heading/section-heading-five';
 import DefaultSlider from '@/components/slider/default-slider';
-import {
-    useGetProductDetailsQuery,
-    useGetRelatedProductsQuery,
-    useGetReviewsQuery,
-} from '@/redux/features/products/productApi';
 import { profileImg } from '@/site-settings/siteUrl';
 import Arrow from '@/utils/arrow';
 import Rate from '@/utils/rate';
 
 import Skeleton from '@/components/loaders/skeleton';
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-
 import { numberParser } from '@/helpers/numberParser';
-import moment from 'moment';
-import { useEffect, useState } from 'react';
-import { SwiperSlide } from 'swiper/react';
-import Details from '../components/details-two';
-import VideoPlayer from '../components/video-player';
+import {
+    useGetProductDetailsQuery,
+    useGetRelatedProductsQuery,
+    useGetReviewsQuery,
+} from '@/redux/features/products/productApi';
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
+import { useEffect, useState } from 'react';
 
-const Four = ({ store_id, productId }: any) => {
+import { SwiperSlide } from 'swiper/react';
+
+import Details from './details-thirteen';
+import './five.css';
+import VideoPlayer from '../components/video-player';
+
+const Thirteen = ({ store_id, productId, design }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -81,21 +82,20 @@ const Four = ({ store_id, productId }: any) => {
         relatedContentSkeleton = <p>Loading related...</p>;
     }
     const reviewsArr = reviews?.data || [];
-
     return (
         <div className="bg-white sm:container px-5 sm:py-10 py-5">
-          {detailsContentSkeleton}
-            <Details product={product} social/>
+            {detailsContentSkeleton}
+            <Details product={product} design={design} social />
 
             {/* ************************ tab component start ***************************** */}
-            <div className="">
+            <div className="mt-14">
                 <TabGroup>
-                    <TabList className="fiveBorder space-x-4 sm:py-10 py-5 mt-10">
+                    <TabList className="fiveBorder">
                         <Tab
                             className={({ selected }) =>
                                 selected
-                                    ? ' text-xl font-semibold  text-black border-0  border-b-2 border-black'
-                                    : 'bg-white text-black text-lg fiveUn '
+                                    ? 'underline text-xl  underline-offset-8 text-black border-hidden '
+                                    : 'bg-white text-black fiveUn '
                             }
                         >
                             Description
@@ -103,8 +103,8 @@ const Four = ({ store_id, productId }: any) => {
                         <Tab
                             className={({ selected }) =>
                                 selected
-                                    ? ' text-xl font-semibold  text-black border-0  border-b-2 border-black'
-                                    : 'bg-white text-black text-lg fiveUn'
+                                    ? 'underline text-xl  underline-offset-8 text-black border-hidden ml-8'
+                                    : 'bg-white text-black fiveUn ml-8'
                             }
                         >
                             Reviews
@@ -140,41 +140,28 @@ const Four = ({ store_id, productId }: any) => {
     );
 };
 
-export default Four;
+export default Thirteen;
 
 const UserReview = ({ review }: any) => {
     const parsedRating = numberParser(review?.rating, true);
 
     return (
-        <div className="flex items-center  border-b pb-5 my-4 border-gray-200 sm:flex-row flex-col">
-            <div className="flex flex-col  items-center sm:w-32 sm:h-32 h-20 w-20 sm:mr-10">
-                <div className="avatar">
-                    <div className="w-20 h-20 rounded-full">
-                        <img
-                            src={profileImg + review?.image}
-                            className="rounded-full h-full w-full"
-                            alt=""
-                        />
-                    </div>
-                </div>
-                <h5 className="text-black font-semibold text-center items-center">
-                    {review?.name}
-                </h5>
-                <p className="text-xs text-black text-center ">
-                    {moment(new Date(review?.cd)).format('DD/MM/YYYY')}
-                </p>
-            </div>
-            <div className="flex-grow sm:text-left text-center mt-6 sm:mt-0">
-                <Rate rating={parsedRating} />
-                <p className="leading-relaxed text-lg font-semibold text-black mb-2">
-                    {review?.comment}
-                </p>
-                <div className="flex justify-between items-center">
-                    <p className="text-sm text-black">
-                        {new Date(review?.cd).toLocaleString()}
-                    </p>
+        <div className=" bg-slate-50 p-5">
+            <div className="avatar">
+                <div className="w-20 h-20 rounded-full">
+                    <img
+                        src={profileImg + review?.image}
+                        className="rounded-full h-full w-full"
+                        alt=""
+                    />
                 </div>
             </div>
+            <Rate className={'text-base'} rating={parsedRating} />
+            <p className="text-xs font-semibold mt-2">{review?.name}</p>
+            <p className="text-sm font-light mt-2">
+                Since {new Date(review?.ucd).getFullYear()}
+            </p>
+            <p className="text-base font-semiBold mt-2">{review?.comment}</p>
         </div>
     );
 };
@@ -183,21 +170,21 @@ const Related = ({ product }: any) => {
     const prev = 'best_seller_Prev';
     const next = 'best_seller_Next';
     return (
-        <div className="sm:py-10 py-5 ">
-            <div className="my-5 pt-1 flex justify-between items-center">
+        <div className="px-5 shadow-lg py-5 sm:my-10 rounded-md w-full">
+            <div className="my-5 pt-1 flex justify-between items-center container">
                 <SectionHeadingFive title={'Related product'} />
                 <Arrow prevEl={prev} nextEl={next}></Arrow>
             </div>
-            <div className="">
+            <div className="container">
                 <DefaultSlider
                     prevEl={prev}
                     nextEl={next}
                     breakpoints={{
-                        350: {
+                        375: {
                             slidesPerView: 1,
                             spaceBetween: 10,
                         },
-                        480: {
+                        600: {
                             slidesPerView: 2,
                             spaceBetween: 10,
                         },
@@ -206,22 +193,17 @@ const Related = ({ product }: any) => {
                             spaceBetween: 10,
                         },
                         1024: {
-                            slidesPerView: 4,
-                            spaceBetween: 20,
-                        },
-                        1440: {
-                            slidesPerView: 4,
-                            spaceBetween: 20,
-                        },
-                        1920: {
                             slidesPerView: 5,
                             spaceBetween: 20,
                         },
                     }}
                 >
                     {product?.slice(0, 10)?.map((item: any) => (
-                        <SwiperSlide key={item?.id}>
-                            <Card54 item={item} />
+                        <SwiperSlide
+                            className="swiperjs-slide py-10"
+                            key={item?.id}
+                        >
+                            <Card18 item={item} />
                         </SwiperSlide>
                     ))}
                 </DefaultSlider>

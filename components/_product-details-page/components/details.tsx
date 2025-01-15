@@ -18,6 +18,7 @@ import {
 
 import { toast } from 'react-toastify';
 import { HSlider } from './slider';
+import ZoomHSlider from './zoom-slider';
 
 import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
 
@@ -34,9 +35,9 @@ import { saveToLocalStorage } from '@/helpers/localStorage';
 import { AppDispatch, RootState } from '@/redux/store';
 
 import ProdMultiCategory from '@/utils/prod-multi-category';
-import AddCart from './add-cart';
+import AddCartBtn from './add-cart-btn';
 
-const Details = ({ product, children }: any) => {
+const Details = ({ product, children, cod, zoomable, buttonStyle }: any) => {
     const { headersetting, design } = useSelector(
         (state: RootState) => state.home
     );
@@ -199,20 +200,31 @@ const Details = ({ product, children }: any) => {
         });
     };
 
-    const buttonOne =
-        'font-bold text-white bg-gray-600 rounded-md w-60 py-3 text-center';
+    const buttonOne = buttonStyle
+        ? buttonStyle
+        : 'font-bold text-white bg-gray-600 rounded-md w-60 py-3 text-center';
 
     return (
         <div className="grid md:grid-cols-8 grid-cols-1 gap-4 w-full">
             <div className="md:col-span-4 lg2:col-span-3 col-span-1 h-full overflow-hidden">
                 <div className="md:col-span-5">
-                    <HSlider
-                        design={design}
-                        product={product}
-                        variant={variant}
-                        activeImg={activeImg}
-                        setActiveImg={setActiveImg}
-                    />
+                    {zoomable ? (
+                        <ZoomHSlider
+                            design={design}
+                            product={product}
+                            variant={variant}
+                            activeImg={activeImg}
+                            setActiveImg={setActiveImg}
+                        />
+                    ) : (
+                        <HSlider
+                            design={design}
+                            product={product}
+                            variant={variant}
+                            activeImg={activeImg}
+                            setActiveImg={setActiveImg}
+                        />
+                    )}
                 </div>
             </div>
 
@@ -276,10 +288,14 @@ const Details = ({ product, children }: any) => {
                         {product?.description?.length > 250 && '...'}
                     </div>
                 </div>
-                <div className="text-black flex items-center gap-2 mb-5">
-                    <VscCreditCard size={20} />
-                    <p>Cash on Delivery available</p>
-                </div>
+                {cod && (
+                    <>
+                        <div className="text-black flex items-center gap-2 mb-5">
+                            <VscCreditCard size={20} />
+                            <p>Cash on Delivery available</p>
+                        </div>
+                    </>
+                )}
 
                 {/* color and size  */}
                 {currentVariation?.colorsAndSizes && (
@@ -343,7 +359,7 @@ const Details = ({ product, children }: any) => {
                 </div>
 
                 {productQuantity !== 0 && price !== 0 && (
-                    <AddCart
+                    <AddCartBtn
                         qty={qty}
                         setQty={setQty}
                         variant={variant}
@@ -390,6 +406,8 @@ const Details = ({ product, children }: any) => {
                     </span>
                 </div>
 
+                {children}
+
                 {/* Display the referral link */}
                 <div>
                     {/* Display referral link and copy button */}
@@ -432,8 +450,6 @@ const Details = ({ product, children }: any) => {
                         </div>
                     )}
                 </div>
-
-                {children}
             </div>
         </div>
     );

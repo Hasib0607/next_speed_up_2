@@ -17,9 +17,11 @@ import {
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import { useEffect, useState } from 'react';
+
 import { SwiperSlide } from 'swiper/react';
 import Details from '../components/details-two';
 import VideoPlayer from '../components/video-player';
+
 
 const Two = ({ store_id, productId }: any) => {
     const {
@@ -79,12 +81,11 @@ const Two = ({ store_id, productId }: any) => {
         relatedContentSkeleton = <p>Loading related...</p>;
     }
     const reviewsArr = reviews?.data || [];
-    // console.log("product before prop",product);
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
             {detailsContentSkeleton}
-            <Details product={product} />
+            <Details product={product} social />
 
             {/* ************************ tab component start ***************************** */}
             <div className="mt-14">
@@ -128,7 +129,6 @@ const Two = ({ store_id, productId }: any) => {
                 </TabGroup>
             </div>
             {/* ************************ tab component end ***************************** */}
-
             {product && product?.video_link && (
                 <VideoPlayer videoUrl={product?.video_link} />
             )}

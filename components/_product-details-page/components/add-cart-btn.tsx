@@ -13,7 +13,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-const AddCart = ({
+const AddCartBtn = ({
     setQty,
     qty,
     variant,
@@ -27,6 +27,7 @@ const AddCart = ({
     onClick,
     buttonOne,
     product,
+    children,
 }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
 
@@ -34,9 +35,8 @@ const AddCart = ({
 
     const { headersetting } = useSelector((state: RootState) => state.home); // Access updated Redux state
 
-    const { custom_design } = headersetting || {};
-    const singleProductPageData = custom_design?.single_product_page?.[0] || {};
-    const { button } = singleProductPageData || {};
+    const { button } =
+        headersetting?.custom_design?.single_product_page?.[0] || {};
 
     const isDisabled = useMemo(
         () => isEqlQty(product, variantId, cartList),
@@ -44,7 +44,7 @@ const AddCart = ({
     );
 
     const hasInCartList = useMemo(
-        () => isActiveCart( product, cartList,variantId),
+        () => isActiveCart(product, cartList, variantId),
         [variantId, product, cartList]
     );
 
@@ -70,7 +70,6 @@ const AddCart = ({
             });
         }
     };
-
 
     const incNum = () => {
         const isAbleToAdd = isQtyLeft(product, variantId, qty + 1, cartList);
@@ -244,16 +243,18 @@ const AddCart = ({
                 </div>
             </div>
             <div className="">
-                {product?.quantity === 0 ? (
+                {productQuantity === 0 ? (
                     <button className={buttonOne}>Out of Stock</button>
                 ) : (
-                    <button className={buttonOne} onClick={onClick}>
-                        {button || 'Add to cart'}
-                    </button>
+                    <>
+                        <button className={buttonOne} onClick={onClick}>
+                            {children ? children : button || 'Add to cart'}
+                        </button>
+                    </>
                 )}
             </div>
         </div>
     );
 };
 
-export default AddCart;
+export default AddCartBtn;
