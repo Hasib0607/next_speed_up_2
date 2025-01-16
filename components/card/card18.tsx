@@ -32,6 +32,8 @@ const Card18 = ({ item, store_id }: any) => {
     camp?.discount_type
   );
 
+  
+
   useEffect(() => {
     async function handleCampaign() {
       try {
