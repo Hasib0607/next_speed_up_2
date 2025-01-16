@@ -214,7 +214,7 @@ const Details = ({ product, design, children }: any) => {
                             {product?.name}
                         </h2>
                         <div className="flex items-center">
-                            <div className="w-[120px] text-xl">Price:</div>
+                            <div className="w-auto text-xl">Price:</div>
                             <div className="text-[#212121] text-lg flex justify-start items-center gap-4">
                                 <BDT />
                                 {price}{' '}
@@ -290,13 +290,13 @@ const Details = ({ product, design, children }: any) => {
                         )}
 
                         <div className="flex items-center">
-                            <div className="w-[120px] text-xl">
+                            <div className="w-auto text-xl">
                                 Availability:
                             </div>
-                            <div className="text-[#212121] text-lg ">
+                            <div className="text-[#212121] text-lg pl-2">
                                 {productQuantity !== 0 ? (
                                     <p>
-                                        <span className="font-medium">
+                                        <span className="font-medium pr-2">
                                             {productQuantity}
                                         </span>
                                         <span className="text-green-500">

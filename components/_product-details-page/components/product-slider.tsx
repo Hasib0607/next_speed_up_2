@@ -125,7 +125,7 @@ export const ProductSlider = ({ product, setOpen, open,design }: any) => {
             {product?.image?.map((item: any) => (
               <SwiperSlide key={item?.id}>
                 <img
-                  onClick={() => setOpen(true)}
+                  onClick={() => setOpen(!open)}
                   className="h-auto min-w-full"
                   src={productImg + (id !== null ? images[id] : item)}
                   alt=""

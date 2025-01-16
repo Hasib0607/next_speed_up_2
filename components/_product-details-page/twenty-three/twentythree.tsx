@@ -1,8 +1,12 @@
 'use client';
 
-import Card21 from '@/components/card/card21';
-import SectionHeadingTwentyOne from '@/components/section-heading/section-heading-twentyone';
+import userImg from '@/assets/img/user.png';
+import Card47 from '@/components/card/card47';
+import SectionHeadingTwentyThree from '@/components/section-heading/section-heading-twentythree';
 import DefaultSlider from '@/components/slider/default-slider';
+
+import { productImg, profileImg } from '@/site-settings/siteUrl';
+import BDT from '@/utils/bdt';
 
 import Skeleton from '@/components/loaders/skeleton';
 import { numberParser } from '@/helpers/numberParser';
@@ -11,21 +15,24 @@ import {
     useGetRelatedProductsQuery,
     useGetReviewsQuery,
 } from '@/redux/features/products/productApi';
-import { profileImg } from '@/site-settings/siteUrl';
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 import Rate from '@/utils/rate';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-
-import moment from 'moment';
-import { SwiperSlide } from 'swiper/react';
-
 import { useEffect, useState } from 'react';
 
-import VideoPlayer from '../components/video-player';
-import DetailsEight from '../components/details-eight';
+import moment from 'moment';
+import Link from 'next/link';
 
-const Eight = ({ store_id, productId, design }: any) => {
+import { RiArrowRightSLine } from 'react-icons/ri';
+import { SwiperSlide } from 'swiper/react';
+
+import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
+import { NotFoundMsg } from '@/utils/little-components';
+import Details from '../components/details-two';
+import VideoPlayer from '../components/video-player';
+
+const TwentyThree = ({ store_id, productId, design }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -88,92 +95,110 @@ const Eight = ({ store_id, productId, design }: any) => {
     .active-des-review {
       color:  ${design?.header_color};
       text-decoration-color: ${design?.header_color};
+      text-decoration-thickness: 3px;
     }
 `;
 
+    const buttonTwentyThree =
+        'cart-btn-details font-bold py-[11px] w-48 border border-gray-300 rounded';
+
     return (
-        <div className="bg-white mx-auto">
+        <div className={`sm:container px-5 bg-white xl:px-24`}>
+            <div className="flex items-center gap-x-1 text-gray-500 text-sm mt-5">
+                <Link href="/">
+                    <p>Home</p>
+                </Link>
+                <RiArrowRightSLine />
+                <p className="truncate">{product?.name}</p>
+            </div>
+
             <style>{styleCss}</style>
-            <div className="">
-                <div className="sm:container px-5 sm:py-10 py-5">
+
+            <div className="grid lg:grid-cols-7 gap-5">
+                <div className="lg:col-span-6 w-full">
                     {detailsContentSkeleton}
-                    <DetailsEight product={product} design={design} />
+                    <Details
+                        buttonStyle={buttonTwentyThree}
+                        product={product}
+                        multiCat
+                        social
+                        supplierDetails
+                    />
                 </div>
-                {/* ************************ tab component start ***************************** */}
-
-                <div className="my-10 sm:py-10 py-5 sm:container px-5 lg:flex gap-x-10">
-                    <TabGroup>
-                        <TabList className="flex flex-col lg:w-[200px] w-full border-r-2 border-gray-200">
-                            <Tab
-                                className={({ selected }) =>
-                                    selected
-                                        ? 'text-xl focus:outline-none text-left border-r-2 border-blue-400 pb-3 pr-5'
-                                        : 'text-gray-400 text-xl text-left pb-3'
-                                }
-                            >
-                                Description
-                            </Tab>
-                            <Tab
-                                className={({ selected }) =>
-                                    selected
-                                        ? 'text-xl focus:outline-none text-left border-r-2 border-blue-400 pt-3'
-                                        : 'text-gray-400 text-xl text-left pt-3'
-                                }
-                            >
-                                Reviews
-                            </Tab>
-                        </TabList>
-                        <TabPanels className="w-full lg:border-0 border mt-10 lg:mt-0">
-                            <TabPanel>
-                                <div className="rounded-lg p-5">
-                                    <DangerouslySafeHTML
-                                        content={product?.description}
-                                    />
-                                </div>
-                            </TabPanel>
-                            <TabPanel>
-                                {reviews?.status && reviewsArr.length > 0
-                                    ? reviewsArr?.map(
-                                          (item: any, index: any) => (
-                                              <UserReview
-                                                  review={item}
-                                                  key={index}
-                                              />
-                                          )
-                                      )
-                                    : reviews?.message}
-                            </TabPanel>
-                        </TabPanels>
-                    </TabGroup>
-                </div>
-
-                {/* ************************ tab component end ***************************** */}
-
-                {/* Video */}
-                {product && product?.video_link && (
-                    <VideoPlayer videoUrl={product?.video_link} />
-                )}
-
-                <div className="sm:container px-5 sm:py-10 py-5">
-                    {relatedContentSkeleton}
-                    <Related product={relatedProducts} design={design} />
+                <div className="w-full hidden lg:block">
+                    <RelatedProduct product={relatedProducts} />
                 </div>
             </div>
+
+            {/* ************************ tab component start ***************************** */}
+            <div className="mt-20 border-b pb-10">
+                <TabGroup>
+                    <TabList className="pb-3 w-full border-b text-center">
+                        <Tab
+                            className={({ selected }) =>
+                                selected
+                                    ? 'underline text-lg focus:outline-none underline-offset-[17px] border-hidden active-des-review uppercase'
+                                    : 'bg-white text-black text-lg uppercase'
+                            }
+                        >
+                            Description
+                        </Tab>
+                        <Tab
+                            className={({ selected }) =>
+                                selected
+                                    ? 'underline text-lg focus:outline-none underline-offset-[17px] active-des-review border-hidden ml-8 uppercase'
+                                    : 'bg-white text-black ml-8 text-lg uppercase'
+                            }
+                        >
+                            Reviews
+                        </Tab>
+                    </TabList>
+                    <TabPanels className="mb-8">
+                        <TabPanel>
+                            <div className="p-5 ">
+                                <DangerouslySafeHTML
+                                    content={product?.description}
+                                />
+                            </div>
+                        </TabPanel>
+                        <TabPanel>
+                            {reviews?.status && reviewsArr.length > 0 ? (
+                                reviewsArr?.map((item: any, index: any) => (
+                                    <UserReview review={item} key={index} />
+                                ))
+                            ) : (
+                                <NotFoundMsg message={reviews?.message} />
+                            )}
+                        </TabPanel>
+                    </TabPanels>
+                </TabGroup>
+            </div>
+            {/* ************************ tab component end ***************************** */}
+
+            {product && product?.video_link && (
+                <VideoPlayer videoUrl={product?.video_link} />
+            )}
+
+            {relatedContentSkeleton}
+            <Related product={relatedProducts} design={design} />
         </div>
     );
 };
 
-export default Eight;
+export default TwentyThree;
 
 const UserReview = ({ review }: any) => {
     const parsedRating = numberParser(review?.rating, true);
-
     return (
-        <div className=" rounded-lg p-5 flex items-center gap-5 w-full">
+        <div className="p-5 flex items-center gap-5 w-full">
             <div className="avatar">
                 <div className="w-20 h-20 rounded-full">
                     <img
-                        src={profileImg + review?.image}
+                        src={
+                            review?.image
+                                ? profileImg + review?.image
+                                : userImg.src
+                        }
                         className="rounded-full h-full w-full"
                         alt=""
                     />
@@ -186,7 +211,8 @@ const UserReview = ({ review }: any) => {
                         {moment(new Date(review?.cd)).format('DD/MM/YYYY')}
                     </p>
                 </div>
-                <Rate className="text-base" rating={parsedRating} />
+                <Rate className={'text-base'} rating={parsedRating} />
+
                 <p className="text-base font-semiBold mt-2">
                     {review?.comment}
                 </p>
@@ -216,7 +242,6 @@ const Related = ({ product, design }: any) => {
   color:  ${design?.text_color};
   background: ${design?.header_color};
 }
-
 .arrow-hov:hover .arrow {
 opacity:1;
 background: white;
@@ -227,12 +252,9 @@ background: white;
         <div className="pb-10 w-full">
             <style>{styleCss}</style>
             <div className="pb-2">
-                <SectionHeadingTwentyOne
-                    title={'YOU'}
-                    subtitle={'MAY ALSO LIKE'}
-                />
+                <SectionHeadingTwentyThree title={'RELATED PRODUCTS'} />
             </div>
-            <div className="h-[1px] w-full bg-gray-300 mb-5"></div>
+
             <div className="arrow-hov relative">
                 <div className="">
                     <div className="arrow gap-2 lg:cursor-pointer opacity-0">
@@ -282,11 +304,53 @@ background: white;
                 >
                     {product?.slice(0, 10)?.map((productData: any) => (
                         <SwiperSlide key={productData.id}>
-                            <Card21 item={productData} />
+                            <Card47 item={productData} />
                         </SwiperSlide>
                     ))}
                 </DefaultSlider>
             </div>
+        </div>
+    );
+};
+
+const RelatedProduct = ({ product }: any) => {
+    return (
+        <div>
+            <div>
+                <h1 className="xl:text-xl text-sm mb-5">Recommended For You</h1>
+            </div>
+            <div className="flex lg:flex-col items-center gap-1 lg:gap-5">
+                {product
+                    ?.slice(0, 3)
+                    ?.map((item: any) => <Card item={item} key={item.id} />)}
+            </div>
+        </div>
+    );
+};
+
+const Card = ({ item }: any) => {
+    const price = productCurrentPrice(item);
+    const save = howMuchSave(item);
+
+    return (
+        <div>
+            <Link href={'/product/' + item?.id + '/' + item?.slug}>
+                <div>
+                    <img src={productImg + item.image[0]} alt="" />
+                </div>
+                <div className="my-1 xl:text-base text-sm">{item?.name}</div>
+                <div className="text-gray-600 font-semibold flex items-center gap-2 w-full ">
+                    <p className="text-color text-sm">
+                        <BDT price={price} />
+                    </p>
+                    {save > 0 && (
+                        <p className="line-through text-xs text-gray-400">
+                            {' '}
+                            <BDT price={numberParser(item?.regular_price)} />
+                        </p>
+                    )}
+                </div>
+            </Link>
         </div>
     );
 };

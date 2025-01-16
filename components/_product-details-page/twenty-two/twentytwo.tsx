@@ -1,9 +1,5 @@
 'use client';
 
-import Card21 from '@/components/card/card21';
-import SectionHeadingTwentyOne from '@/components/section-heading/section-heading-twentyone';
-import DefaultSlider from '@/components/slider/default-slider';
-
 import Skeleton from '@/components/loaders/skeleton';
 import { numberParser } from '@/helpers/numberParser';
 import {
@@ -11,21 +7,26 @@ import {
     useGetRelatedProductsQuery,
     useGetReviewsQuery,
 } from '@/redux/features/products/productApi';
-import { profileImg } from '@/site-settings/siteUrl';
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
-import Rate from '@/utils/rate';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
+import { useEffect, useState } from 'react';
+import { SwiperSlide } from 'swiper/react';
+
+import Card45 from '@/components/card/card45';
+import SectionHeadingTwentyOne from '@/components/section-heading/section-heading-twentyone';
+import DefaultSlider from '@/components/slider/default-slider';
+
+import { profileImg } from '@/site-settings/siteUrl';
+import Rate from '@/utils/rate';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 import moment from 'moment';
-import { SwiperSlide } from 'swiper/react';
 
-import { useEffect, useState } from 'react';
-
+import { NotFoundMsg } from '@/utils/little-components';
+import Details from '../components/details-two';
 import VideoPlayer from '../components/video-player';
-import DetailsEight from '../components/details-eight';
 
-const Eight = ({ store_id, productId, design }: any) => {
+const TwentyTwo = ({ store_id, productId, design }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -84,92 +85,82 @@ const Eight = ({ store_id, productId, design }: any) => {
     }
     const reviewsArr = reviews?.data || [];
 
-    const styleCss = `
-    .active-des-review {
-      color:  ${design?.header_color};
-      text-decoration-color: ${design?.header_color};
-    }
-`;
+    const buttonTwentyTwo =
+        'cart-btn font-bold py-[11px] px-10 w-max rounded-full';
 
     return (
-        <div className="bg-white mx-auto">
-            <style>{styleCss}</style>
-            <div className="">
-                <div className="sm:container px-5 sm:py-10 py-5">
-                    {detailsContentSkeleton}
-                    <DetailsEight product={product} design={design} />
-                </div>
-                {/* ************************ tab component start ***************************** */}
+        <div className="sm:container px-5 pt-10 bg-white">
+            {detailsContentSkeleton}
+            <Details
+                product={product}
+                buttonStyle={buttonTwentyTwo}
+                multiCat
+                social
+            />
 
-                <div className="my-10 sm:py-10 py-5 sm:container px-5 lg:flex gap-x-10">
-                    <TabGroup>
-                        <TabList className="flex flex-col lg:w-[200px] w-full border-r-2 border-gray-200">
-                            <Tab
-                                className={({ selected }) =>
-                                    selected
-                                        ? 'text-xl focus:outline-none text-left border-r-2 border-blue-400 pb-3 pr-5'
-                                        : 'text-gray-400 text-xl text-left pb-3'
-                                }
-                            >
-                                Description
-                            </Tab>
-                            <Tab
-                                className={({ selected }) =>
-                                    selected
-                                        ? 'text-xl focus:outline-none text-left border-r-2 border-blue-400 pt-3'
-                                        : 'text-gray-400 text-xl text-left pt-3'
-                                }
-                            >
-                                Reviews
-                            </Tab>
-                        </TabList>
-                        <TabPanels className="w-full lg:border-0 border mt-10 lg:mt-0">
-                            <TabPanel>
-                                <div className="rounded-lg p-5">
-                                    <DangerouslySafeHTML
-                                        content={product?.description}
-                                    />
-                                </div>
-                            </TabPanel>
-                            <TabPanel>
-                                {reviews?.status && reviewsArr.length > 0
-                                    ? reviewsArr?.map(
-                                          (item: any, index: any) => (
-                                              <UserReview
-                                                  review={item}
-                                                  key={index}
-                                              />
-                                          )
-                                      )
-                                    : reviews?.message}
-                            </TabPanel>
-                        </TabPanels>
-                    </TabGroup>
-                </div>
+            {/* ************************ tab component start ***************************** */}
+            <div className="mt-14">
+                <TabGroup>
+                    <TabList className="pb-5">
+                        <Tab
+                            className={({ selected }) =>
+                                selected
+                                    ? 'underline text-xl focus:outline-none underline-offset-8 border-hidden active-des-review '
+                                    : 'bg-white text-black text-xl'
+                            }
+                        >
+                            Description
+                        </Tab>
+                        <Tab
+                            className={({ selected }) =>
+                                selected
+                                    ? 'underline text-xl focus:outline-none underline-offset-8 active-des-review border-hidden ml-8'
+                                    : 'bg-white text-black ml-8 text-xl'
+                            }
+                        >
+                            Reviews
+                        </Tab>
+                    </TabList>
 
-                {/* ************************ tab component end ***************************** */}
-
-                {/* Video */}
-                {product && product?.video_link && (
-                    <VideoPlayer videoUrl={product?.video_link} />
-                )}
-
-                <div className="sm:container px-5 sm:py-10 py-5">
-                    {relatedContentSkeleton}
-                    <Related product={relatedProducts} design={design} />
-                </div>
+                    <TabPanels className="mb-8">
+                        <TabPanel>
+                            <div className="p-5 bg-slate-50 rounded-lg">
+                                <DangerouslySafeHTML
+                                    content={product?.description}
+                                />
+                            </div>
+                        </TabPanel>
+                        <TabPanel>
+                            {reviews?.status && reviewsArr.length > 0 ? (
+                                reviewsArr?.map((item: any, index: any) => (
+                                    <UserReview review={item} key={index} />
+                                ))
+                            ) : (
+                                <NotFoundMsg message={reviews?.message} />
+                            )}
+                        </TabPanel>
+                    </TabPanels>
+                </TabGroup>
             </div>
+            {/* ************************ tab component end ***************************** */}
+
+            {product && product?.video_link && (
+                <VideoPlayer videoUrl={product?.video_link} />
+            )}
+
+            {relatedContentSkeleton}
+            <Related product={relatedProducts} design={design} />
         </div>
     );
 };
 
-export default Eight;
+export default TwentyTwo;
 
 const UserReview = ({ review }: any) => {
     const parsedRating = numberParser(review?.rating, true);
 
     return (
-        <div className=" rounded-lg p-5 flex items-center gap-5 w-full">
+        <div className=" bg-slate-50 rounded-lg p-5 flex items-center gap-5 w-full">
             <div className="avatar">
                 <div className="w-20 h-20 rounded-full">
                     <img
@@ -186,7 +177,8 @@ const UserReview = ({ review }: any) => {
                         {moment(new Date(review?.cd)).format('DD/MM/YYYY')}
                     </p>
                 </div>
-                <Rate className="text-base" rating={parsedRating} />
+                <Rate className={'text-base'} rating={parsedRating} />
+
                 <p className="text-base font-semiBold mt-2">
                     {review?.comment}
                 </p>
@@ -216,6 +208,7 @@ const Related = ({ product, design }: any) => {
   color:  ${design?.text_color};
   background: ${design?.header_color};
 }
+
 
 .arrow-hov:hover .arrow {
 opacity:1;
@@ -280,9 +273,9 @@ background: white;
                         },
                     }}
                 >
-                    {product?.slice(0, 10)?.map((productData: any) => (
+                    {product?.slice(0, 10).map((productData: any) => (
                         <SwiperSlide key={productData.id}>
-                            <Card21 item={productData} />
+                            <Card45 item={productData} />
                         </SwiperSlide>
                     ))}
                 </DefaultSlider>

@@ -1,23 +1,14 @@
 'use client';
 
 import BDT from '@/utils/bdt';
-import CallForPrice from '@/utils/call-for-price';
 
 import Rate from '@/utils/rate';
+
 import parse from 'html-react-parser';
 
 import { useEffect, useMemo, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    FacebookIcon,
-    FacebookMessengerIcon,
-    FacebookMessengerShareButton,
-    FacebookShareButton,
-    WhatsappIcon,
-    WhatsappShareButton,
-} from 'react-share';
-import { toast } from 'react-toastify';
 
 import { getProductQuantity } from '@/helpers/getProductQuantity';
 import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
@@ -25,21 +16,14 @@ import { saveToLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { AppDispatch, RootState } from '@/redux/store';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
-import ProdMultiCategory from '@/utils/prod-multi-category';
+import CallForPrice from '@/utils/call-for-price';
+import { toast } from 'react-toastify';
 import AddCartBtn from './add-cart-btn';
 import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
 import { HSlider } from './slider';
 
-const Details = ({
-    product,
-    children,
-    multiCat,
-    social,
-    buttonStyle,
-    supplierDetails,
-    borderClass,
-}: any) => {
-    const { headersetting, design } = useSelector(
+const DetailsEight = ({ product, design, children, buttonStyle }: any) => {
+    const { headersetting } = useSelector(
         (state: RootState) => state.home
     );
 
@@ -48,12 +32,23 @@ const Details = ({
 
     const dispatch: AppDispatch = useDispatch();
 
-    const { variant, variant_color, category } = product || [];
+    const { variant, variant_color } = product || [];
 
     const vrcolor = useMemo(
         () => variant_color?.map((item: any) => item?.color) || [],
         [variant_color]
     );
+
+    const vPrice = useMemo(
+        () =>
+            variant
+                ? variant.map((item: any) => item?.additional_price ?? 0)
+                : [0],
+        [variant]
+    );
+
+    const smallest = Math.min(...vPrice);
+    const largest = Math.max(...vPrice);
 
     const [filterV, setFilterV] = useState<any>([]);
 
@@ -180,7 +175,6 @@ const Details = ({
     const price = productCurrentPrice(product);
     const save = howMuchSave(product);
     const parsedRating = numberParser(product?.rating, true);
-    const parsedNumberRating = numberParser(product?.number_rating);
 
     const handleAddToCart = () => {
         addToCart({
@@ -201,45 +195,54 @@ const Details = ({
     };
 
     const styleCss = `
-  .btn-hover:hover {
-      color:   ${design?.text_color};
-      background:${design?.header_color};
+    .btn-hover:hover {
+        color:   ${design?.text_color};
+        background:${design?.header_color};
+    }
+    .select-color {
+        border: 1px solid ${design?.header_color};
+    }
+    .select-size {
+        color : ${design?.header_color};
+        border: 1px solid ${design?.header_color};
+    }
+    .select-unit {
+        color : ${design?.header_color};
+        border: 1px solid ${design?.header_color};
+    }
+    .text-color {
+        color:  ${design?.header_color};
+    }
+    .cart-color {
+        color:  ${design?.header_color};
+        border-bottom: 2px solid ${design?.header_color};
+    }
+    .border-hover:hover {
+        border: 1px solid ${design?.header_color};
+    }
+    .cart-btn-twenty-one {
+        color:   ${design?.text_color};
+        background:${design?.header_color};
+        border: 1px solid ${design?.header_color};
+    }
+    .cart-btn-twenty-one:hover {
+        color:   ${design?.header_color};
+        background:transparent;
+        border: 1px solid ${design?.header_color};
+    }
+  
   }
-  .select-color {
-      border: 1px solid ${design?.header_color};
-  }
-  .select-size {
-      color : ${design?.header_color};
-      border: 1px solid ${design?.header_color};
-  }
-  .select-unit {
-      color : ${design?.header_color};
-      border: 1px solid ${design?.header_color};
-  }
-  .text-color {
-      color:  ${design?.header_color};
-  }
-  .cart-color {
-      color:  ${design?.header_color};
-      border-bottom: 2px solid ${design?.header_color};
-  }
-  .border-hover:hover {
-      border: 1px solid ${design?.header_color};
-     
-  }
-
 `;
 
-    const buttonOne = buttonStyle
+    const buttonEight = buttonStyle
         ? buttonStyle
-        : 'font-bold text-white bg-gray-600 rounded-md w-max px-10 py-3 text-center';
+        : 'cart-btn-twenty-one font-bold py-[11px] px-10 w-max rounded-full';
 
     return (
-        <div className="bg-white h-full ">
+        <div className=" bg-white h-full ">
             <style>{styleCss}</style>
-
-            <div className="grid grid-cols-1 md:grid-cols-9 gap-5">
-                <div className="md:col-span-4">
+            <div className="grid grid-cols-1 md:grid-cols-[45%_55%] gap-8">
+                <div className="w-[80%]">
                     <HSlider
                         design={design}
                         product={product}
@@ -248,83 +251,63 @@ const Details = ({
                         setActiveImg={setActiveImg}
                     />
                 </div>
-                <div className="md:col-span-5 space-y-4 sticky top-28 h-max">
-                    <h2 className="text-2xl text-[#212121] font-bold mb-3 capitalize">
+                <div className="space-y-4 sticky top-28 h-max">
+                    <h1 className="text-2xl font-bold mb-3 capitalize">
                         {product?.name}
-                    </h2>
-                    <div className="flex justify-start items-center gap-x-4">
-                        <div className="text-[#212121] text-2xl font-seven font-bold flex justify-start items-center gap-4">
-                            <BDT />
-                            {price}{' '}
-                            {save > 0 && (
-                                <span className="text-gray-500 font-thin line-through text-xl font-seven">
-                                    <BDT />
-                                    {numberParser(product?.regular_price)}
-                                </span>
-                            )}{' '}
-                        </div>
-                        {product?.discount_type === 'percent' &&
-                            product?.discount_price > 0 && (
-                                <p className="text-md text-gray-400">
-                                    {' '}
-                                    {numberParser(product?.discount_price)}% Off
+                    </h1>
+                    {/* price range  */}
+                    {variant?.length !== 0 && !color && !size && !unit && (
+                        <div className="flex items-center gap-1">
+                            <p className="text-color text-lg font-bold">
+                                <BDT />
+                                {price + smallest}
+                            </p>
+                            {largest > smallest && (
+                                <p className="text-color text-lg font-bold">
+                                    - <BDT />
+                                    {price + largest}
                                 </p>
                             )}
-                    </div>
-                    {multiCat && (
-                        <div className="flex flex-col gap-3 sm:mt-6 mt-1">
-                            {/* copy from here */}
-                            {Array.isArray(category) &&
-                                category?.length > 0 && (
-                                    <div className="flex items-center gap-2">
-                                        <p className="capitalize">
-                                            {' '}
-                                            <span className="text-black">
-                                                Category:{' '}
-                                            </span>{' '}
-                                        </p>
-                                        <div className="flex flex-wrap gap-2">
-                                            <ProdMultiCategory
-                                                category={category}
-                                                design={design}
-                                                className={
-                                                    'text-[var(--header-color)]'
-                                                }
-                                                commaColor={'text-black'}
-                                            />
-                                        </div>
-                                    </div>
-                                )}
-                            {/* copy from here */}
+                            {largest === smallest && (
+                                <p className="text-gray-500 font-thin line-through text-xl font-seven ml-2">
+                                    <BDT />
+                                    {price}
+                                </p>
+                            )}
                         </div>
                     )}
-                    <div className="flex gap-x-1">
+                    {(variant?.length === 0 || color || size || unit) && (
+                        <div className="flex justify-start items-center gap-x-4">
+                            <div className="text-color text-lg font-bold flex justify-start items-center gap-4">
+                                <BDT />
+                                {price}{' '}
+                                {save > 0 && (
+                                    <span className="text-gray-500 font-thin line-through text-xl font-seven">
+                                        <BDT />
+                                        {numberParser(product?.regular_price)}
+                                    </span>
+                                )}{' '}
+                            </div>
+                            {product?.discount_type === 'percent' &&
+                                product?.discount_price > 0 && (
+                                    <p className="text-md text-gray-400">
+                                        {' '}
+                                        {numberParser(product?.discount_price)}%
+                                        Off
+                                    </p>
+                                )}
+                        </div>
+                    )}
+                    <div className="flex gap-x-1 pt-2">
                         <div>
                             <Rate rating={parsedRating} />
                         </div>
                         <div className="text-gray-500 sm:text-sm text-xs">
-                            ({parsedNumberRating})
+                            ({product?.number_rating})
                         </div>
                     </div>
-                    {supplierDetails && (
-                        <div>
-                            {product?.supplier_name && (
-                                <p>লেখকঃ {product?.supplier_name}</p>
-                            )}
-                            {product?.brand_name && (
-                                <p>প্রকাশনীঃ {product?.brand_name}</p>
-                            )}
-                        </div>
-                    )}
-                    <div
-                        className={
-                            borderClass
-                                ? borderClass
-                                : 'h-[1px] bg-gray-300 w-full'
-                        }
-                    ></div>
-
-                    <div className="text-[#3B3312] leading-6 apiHtml">
+                    <div className="h-[1px] bg-gray-300 w-full"></div>
+                    <div className="text-sm text-[#5a5a5a] leading-6 apiHtml">
                         {parse(`${product?.description?.slice(0, 250)}`)}{' '}
                         {product?.description?.length > 250 && '...'}
                     </div>
@@ -385,7 +368,7 @@ const Details = ({
                     <div className="">
                         <CallForPrice
                             headersetting={headersetting}
-                            cls={buttonOne}
+                            cls={buttonEight}
                             price={price}
                         />
                     </div>
@@ -404,13 +387,13 @@ const Details = ({
                             filterV={filterV}
                             product={product}
                             onClick={handleAddToCart}
-                            buttonOne={buttonOne}
+                            buttonOne={buttonEight}
                         />
                     )}
 
                     <div className="flex items-center gap-x-3">
                         <div className="">Availability:</div>
-                        <div className="text-[#212121]">
+                        <div className="text-[#212121] ">
                             {productQuantity !== 0 ? (
                                 <p>
                                     <span className="font-medium">
@@ -430,28 +413,6 @@ const Details = ({
 
                     {children}
 
-                    {social && (
-                        <div className="flex items-center gap-x-3">
-                            <p className="font-medium">Share :</p>
-                            <span className="flex space-x-2">
-                                <FacebookShareButton url={window.location.href}>
-                                    <FacebookIcon size={32} round={true} />
-                                </FacebookShareButton>
-                                <WhatsappShareButton url={window.location.href}>
-                                    <WhatsappIcon size={32} round={true} />
-                                </WhatsappShareButton>
-                                <FacebookMessengerShareButton
-                                    appId="2"
-                                    url={window.location.href}
-                                >
-                                    <FacebookMessengerIcon
-                                        size={32}
-                                        round={true}
-                                    />
-                                </FacebookMessengerShareButton>
-                            </span>
-                        </div>
-                    )}
                     {/* Display the referral link */}
                     <div>
                         {/* Display referral link and copy button */}
@@ -500,4 +461,4 @@ const Details = ({
     );
 };
 
-export default Details;
+export default DetailsEight;

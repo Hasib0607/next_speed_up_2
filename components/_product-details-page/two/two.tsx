@@ -21,7 +21,7 @@ import { useEffect, useState } from 'react';
 import { SwiperSlide } from 'swiper/react';
 import Details from '../components/details-two';
 import VideoPlayer from '../components/video-player';
-
+import { NotFoundMsg } from '@/utils/little-components';
 
 const Two = ({ store_id, productId }: any) => {
     const {
@@ -119,11 +119,13 @@ const Two = ({ store_id, productId }: any) => {
                             </div>
                         </TabPanel>
                         <TabPanel>
-                            {reviews?.status && reviewsArr.length > 0
-                                ? reviewsArr?.map((item: any, index: any) => (
-                                      <UserReview review={item} key={index} />
-                                  ))
-                                : reviews?.message}
+                            {reviews?.status && reviewsArr.length > 0 ? (
+                                reviewsArr?.map((item: any, index: any) => (
+                                    <UserReview review={item} key={index} />
+                                ))
+                            ) : (
+                                <NotFoundMsg message={reviews?.message} />
+                            )}
                         </TabPanel>
                     </TabPanels>
                 </TabGroup>

@@ -1,39 +1,36 @@
 'use client';
 
 import BDT from '@/utils/bdt';
+import CallForPrice from '@/utils/call-for-price';
 
 import Rate from '@/utils/rate';
 
 import parse from 'html-react-parser';
-
 import { useEffect, useMemo, useState } from 'react';
 
+import { toast } from 'react-toastify';
+import ZoomHSlider from './zoom-slider';
+
+import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
+
+// helper
 import { useDispatch, useSelector } from 'react-redux';
+
+import { numberParser } from '@/helpers/numberParser';
+import { addToCart } from '@/utils/_cart-utils/cart-utils';
 
 import { getProductQuantity } from '@/helpers/getProductQuantity';
 import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
-import { saveToLocalStorage } from '@/helpers/localStorage';
-import { numberParser } from '@/helpers/numberParser';
-import { AppDispatch, RootState } from '@/redux/store';
-import { addToCart } from '@/utils/_cart-utils/cart-utils';
-import CallForPrice from '@/utils/call-for-price';
-import { toast } from 'react-toastify';
-import AddCartBtn from '../components/add-cart-btn';
-import {
-    Colors,
-    ColorsOnly,
-    Sizes,
-    Units,
-} from '../components/imageVariations';
-import { HSlider } from '../components/slider';
 
-const DetailsEight = ({ product, children }: any) => {
-    const { headersetting, design } = useSelector(
-        (state: RootState) => state.home
-    );
+import { saveToLocalStorage } from '@/helpers/localStorage';
+import { AppDispatch, RootState } from '@/redux/store';
+import AddCartBtn from './add-cart-btn';
+
+const Details = ({ product, children, design, buttonStyle }: any) => {
+    const { headersetting } = useSelector((state: RootState) => state.home);
 
     const { cartList } = useSelector((state: RootState) => state.cart);
-    const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
+    const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux state
 
     const dispatch: AppDispatch = useDispatch();
 
@@ -43,17 +40,6 @@ const DetailsEight = ({ product, children }: any) => {
         () => variant_color?.map((item: any) => item?.color) || [],
         [variant_color]
     );
-
-    const vPrice = useMemo(
-        () =>
-            variant
-                ? variant.map((item: any) => item?.additional_price ?? 0)
-                : [0],
-        [variant]
-    );
-
-    const smallest = Math.min(...vPrice);
-    const largest = Math.max(...vPrice);
 
     const [filterV, setFilterV] = useState<any>([]);
 
@@ -204,17 +190,6 @@ const DetailsEight = ({ product, children }: any) => {
         color:   ${design?.text_color};
         background:${design?.header_color};
     }
-    .select-color {
-        border: 1px solid ${design?.header_color};
-    }
-    .select-size {
-        color : ${design?.header_color};
-        border: 1px solid ${design?.header_color};
-    }
-    .select-unit {
-        color : ${design?.header_color};
-        border: 1px solid ${design?.header_color};
-    }
     .text-color {
         color:  ${design?.header_color};
     }
@@ -225,90 +200,54 @@ const DetailsEight = ({ product, children }: any) => {
     .border-hover:hover {
         border: 1px solid ${design?.header_color};
     }
-    .cart-btn-twenty-one {
-        color:   ${design?.text_color};
-        background:${design?.header_color};
-        border: 1px solid ${design?.header_color};
-    }
-    .cart-btn-twenty-one:hover {
-        color:   ${design?.header_color};
-        background:transparent;
-        border: 1px solid ${design?.header_color};
-    }
-  
-  }
-`;
+  `;
 
-    const buttonEight =
-        'cart-btn-twenty-one font-bold py-[11px] px-10 w-max rounded-full';
+    const buttonEighteen = buttonStyle
+        ? buttonStyle
+        : 'bg-black btn-hover text-white font-thin sm:py-[16px] py-2 px-5 sm:px-16 w-max';
 
     return (
-        <div className=" bg-white h-full ">
+        <div className=" bg-white">
             <style>{styleCss}</style>
-            <div className="grid grid-cols-1 md:grid-cols-[45%_55%] gap-8">
-                <div className="w-[80%]">
-                    <HSlider
-                        design={design}
-                        product={product}
-                        variant={variant}
-                        activeImg={activeImg}
-                        setActiveImg={setActiveImg}
-                    />
+
+            <div className="grid grid-cols-1 lg:grid-cols-9 lg:gap-6 gap-8">
+                <div className="lg:col-span-5">
+                    <div className="">
+                        <ZoomHSlider
+                            design={design}
+                            product={product}
+                            variant={variant}
+                            activeImg={activeImg}
+                            setActiveImg={setActiveImg}
+                        />
+                    </div>
                 </div>
-                <div className="space-y-4 sticky top-28 h-max">
-                    <h1 className="text-2xl font-bold mb-3 capitalize">
+                <div className="lg:col-span-4 space-y-8 font-seven">
+                    <p className="text-sm text-[#5a5a5a] font-seven">
+                        <span className="font-semibold text-[#212121] font-seven">
+                            SKU:
+                        </span>{' '}
+                        {product?.SKU}
+                    </p>
+                    <h1 className="text-2xl text-[#212121] font-bold mb-3">
                         {product?.name}
                     </h1>
-                    {/* price range  */}
-                    {variant?.length !== 0 && !color && !size && !unit && (
-                        <div className="flex items-center gap-1">
-                            <p className="text-color text-lg font-bold">
+
+                    <div className="text-[#212121] text-2xl font-seven font-bold flex justify-start items-center gap-4">
+                        <BDT />
+                        {price}{' '}
+                        {save > 0 && (
+                            <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                 <BDT />
-                                {price + smallest}
-                            </p>
-                            {largest > smallest && (
-                                <p className="text-color text-lg font-bold">
-                                    - <BDT />
-                                    {price + largest}
-                                </p>
-                            )}
-                        </div>
-                    )}
-                    {(variant?.length === 0 || color || size || unit) && (
-                        <div className="flex justify-start items-center gap-x-4">
-                            <div className="text-color text-lg font-bold flex justify-start items-center gap-4">
-                                <BDT />
-                                {price}{' '}
-                                {save > 0 && (
-                                    <span className="text-gray-500 font-thin line-through text-xl font-seven">
-                                        <BDT />
-                                        {numberParser(product?.regular_price)}
-                                    </span>
-                                )}{' '}
-                            </div>
-                            {product?.discount_type === 'percent' &&
-                                product?.discount_price > 0 && (
-                                    <p className="text-md text-gray-400">
-                                        {' '}
-                                        {numberParser(product?.discount_price)}%
-                                        Off
-                                    </p>
-                                )}
-                        </div>
-                    )}
-                    <div className="flex gap-x-1 pt-2">
-                        <div>
-                            <Rate rating={parsedRating} />
-                        </div>
-                        <div className="text-gray-500 sm:text-sm text-xs">
-                            ({product?.number_rating})
-                        </div>
+                                {numberParser(product?.regular_price)}
+                            </span>
+                        )}{' '}
+                    </div>
+
+                    <div>
+                        <Rate rating={parsedRating} />
                     </div>
                     <div className="h-[1px] bg-gray-300 w-full"></div>
-                    <div className="text-sm text-[#5a5a5a] leading-6 apiHtml">
-                        {parse(`${product?.description?.slice(0, 250)}`)}{' '}
-                        {product?.description?.length > 250 && '...'}
-                    </div>
 
                     {/* color and size  */}
                     {currentVariation?.colorsAndSizes && (
@@ -363,10 +302,10 @@ const DetailsEight = ({ product, children }: any) => {
                         />
                     )}
 
-                    <div className="">
+                    <div className="mt-5">
                         <CallForPrice
                             headersetting={headersetting}
-                            cls={buttonEight}
+                            cls={buttonEighteen}
                             price={price}
                         />
                     </div>
@@ -385,7 +324,7 @@ const DetailsEight = ({ product, children }: any) => {
                             filterV={filterV}
                             product={product}
                             onClick={handleAddToCart}
-                            buttonOne={buttonEight}
+                            buttonOne={buttonEighteen}
                         />
                     )}
 
@@ -409,8 +348,21 @@ const DetailsEight = ({ product, children }: any) => {
                         </div>
                     </div>
 
-                    {children}
+                    <div>
+                        <h1 className="text-xl font-medium pb-2">
+                            Description
+                        </h1>
+                        <div className="mb-5">
+                            <div className="text-black apiHtml">
+                                {parse(
+                                    `${product?.description?.slice(0, 250)}`
+                                )}{' '}
+                                {product?.description?.length > 250 && '...'}
+                            </div>
+                        </div>
+                    </div>
 
+                    {children}
                     {/* Display the referral link */}
                     <div>
                         {/* Display referral link and copy button */}
@@ -459,4 +411,4 @@ const DetailsEight = ({ product, children }: any) => {
     );
 };
 
-export default DetailsEight;
+export default Details;

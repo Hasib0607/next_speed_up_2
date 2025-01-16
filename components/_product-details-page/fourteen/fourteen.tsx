@@ -1,19 +1,19 @@
 'use client';
 
 import Card29 from '@/components/card/card29';
+import Skeleton from '@/components/loaders/skeleton';
 import SectionHeadingSixteen from '@/components/section-heading/section-heading-sixteen';
 import DefaultSlider from '@/components/slider/default-slider';
-import { profileImg } from '@/site-settings/siteUrl';
-import Arrow from '@/utils/arrow';
-import Rate from '@/utils/rate';
-import Skeleton from '@/components/loaders/skeleton';
 import { numberParser } from '@/helpers/numberParser';
 import {
     useGetProductDetailsQuery,
     useGetRelatedProductsQuery,
     useGetReviewsQuery,
 } from '@/redux/features/products/productApi';
+import { profileImg } from '@/site-settings/siteUrl';
+import Arrow from '@/utils/arrow';
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
+import Rate from '@/utils/rate';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import { useEffect, useState } from 'react';
 
@@ -21,9 +21,9 @@ import moment from 'moment';
 import { IoIosArrowForward } from 'react-icons/io';
 import { SwiperSlide } from 'swiper/react';
 
+import ProdMultiCategory from '@/utils/prod-multi-category';
 import Details from '../components/details-two';
 import VideoPlayer from '../components/video-player';
-import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Fourteen = ({ store_id, productId }: any) => {
     const {
@@ -99,7 +99,7 @@ const Fourteen = ({ store_id, productId }: any) => {
                 <p className="text-gray-500 font-medium ">{product?.name}</p>
             </div>
             {detailsContentSkeleton}
-            <Details product={product} buttonStyle={buttonFourteen} multicat />
+            <Details product={product} buttonStyle={buttonFourteen} multiCat />
             {/* ************************ tab component start ***************************** */}
             <div className="mt-14">
                 <TabGroup>
