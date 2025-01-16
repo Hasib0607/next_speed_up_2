@@ -1,12 +1,10 @@
 'use client';
 
-import Card16 from '@/components/card/card16';
-import SectionHeadingFive from '@/components/section-heading/section-heading-five';
-import SliderFive from '@/components/slider/slider-five';
+import Card25 from '@/components/card/card25';
+import DefaultSlider from '@/components/slider/default-slider';
 import { profileImg } from '@/site-settings/siteUrl';
 import Arrow from '@/utils/arrow';
 import Rate from '@/utils/rate';
-
 import Skeleton from '@/components/loaders/skeleton';
 import { numberParser } from '@/helpers/numberParser';
 import {
@@ -18,12 +16,14 @@ import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import { useEffect, useState } from 'react';
 
+import moment from 'moment';
 import { SwiperSlide } from 'swiper/react';
-import Details from '../components/details-two';
+
+import Details from './details-sixteen';
+import './five.css';
 import VideoPlayer from '../components/video-player';
 
-
-const Two = ({ store_id, productId }: any) => {
+const Sixteen = ({ store_id, productId, design }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -85,17 +85,16 @@ const Two = ({ store_id, productId }: any) => {
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
             {detailsContentSkeleton}
-            <Details product={product} social />
-
+            <Details product={product} design={design} />
             {/* ************************ tab component start ***************************** */}
-            <div className="mt-14">
+            <div className="my-10 bg-gray-100 sm:py-10 py-5">
                 <TabGroup>
-                    <TabList className="fiveBorder">
+                    <TabList className="sm:container px-5">
                         <Tab
                             className={({ selected }) =>
                                 selected
-                                    ? 'underline text-xl underline-offset-8 text-black border-hidden focus:outline-none'
-                                    : 'bg-white text-black fiveUn '
+                                    ? 'underline text-xl focus:outline-none underline-offset-8 border-hidden active-des-review '
+                                    : 'text-black text-xl'
                             }
                         >
                             Description
@@ -103,8 +102,8 @@ const Two = ({ store_id, productId }: any) => {
                         <Tab
                             className={({ selected }) =>
                                 selected
-                                    ? 'underline text-xl underline-offset-8 text-black border-hidden ml-8 focus:outline-none'
-                                    : 'bg-white text-black fiveUn ml-8'
+                                    ? 'underline text-xl focus:outline-none underline-offset-8 active-des-review border-hidden ml-8'
+                                    : 'text-black ml-8 text-xl'
                             }
                         >
                             Reviews
@@ -129,6 +128,7 @@ const Two = ({ store_id, productId }: any) => {
                 </TabGroup>
             </div>
             {/* ************************ tab component end ***************************** */}
+
             {product && product?.video_link && (
                 <VideoPlayer videoUrl={product?.video_link} />
             )}
@@ -139,13 +139,13 @@ const Two = ({ store_id, productId }: any) => {
     );
 };
 
-export default Two;
+export default Sixteen;
 
 const UserReview = ({ review }: any) => {
     const parsedRating = numberParser(review?.rating, true);
 
     return (
-        <div className=" bg-slate-50 p-5">
+        <div className=" bg-slate-50 rounded-lg p-5 flex items-center gap-5 w-full">
             <div className="avatar">
                 <div className="w-20 h-20 rounded-full">
                     <img
@@ -155,12 +155,19 @@ const UserReview = ({ review }: any) => {
                     />
                 </div>
             </div>
-            <Rate className="text-base" rating={parsedRating} />
-            <p className="text-xs font-semibold mt-2">{review?.name}</p>
-            <p className="text-sm font-light mt-2">
-                Since {new Date(review?.ucd).getFullYear()}
-            </p>
-            <p className="text-base font-semiBold mt-2">{review?.comment}</p>
+            <div className="w-full">
+                <div className="flex justify-between items-center w-full">
+                    <p className="text-lg font-semibold ">{review?.name}</p>
+                    <p className="text-base rounded-md font-light border px-2 py-1">
+                        {moment(new Date(review?.cd)).format('DD/MM/YYYY')}
+                    </p>
+                </div>
+                <Rate className={'text-base'} rating={parsedRating} />
+
+                <p className="text-base font-semiBold mt-2">
+                    {review?.comment}
+                </p>
+            </div>
         </div>
     );
 };
@@ -169,19 +176,52 @@ const Related = ({ product }: any) => {
     const prev = 'best_seller_Prev';
     const next = 'best_seller_Next';
     return (
-        <div className="shadow-lg py-5 sm:my-10 rounded-md px-5">
-            <div className="my-5 pt-1 flex justify-between items-center">
-                <SectionHeadingFive title={'Related product'} />
+        <div className=" py-5 ">
+            <div className="my-5 flex justify-between items-center container">
+                <p className="text-2xl">Related Items</p>
                 <Arrow prevEl={prev} nextEl={next}></Arrow>
             </div>
-            <div className="">
-                <SliderFive prevEl={prev} nextEl={next}>
+            <div className="container">
+                <DefaultSlider
+                    prevEl={prev}
+                    nextEl={next}
+                    breakpoints={{
+                        350: {
+                            slidesPerView: 2,
+                            spaceBetween: 10,
+                        },
+                        480: {
+                            slidesPerView: 2,
+                            spaceBetween: 10,
+                        },
+                        768: {
+                            slidesPerView: 3,
+                            spaceBetween: 10,
+                        },
+                        1024: {
+                            slidesPerView: 4,
+                            spaceBetween: 10,
+                        },
+                        1280: {
+                            slidesPerView: 5,
+                            spaceBetween: 10,
+                        },
+                        1440: {
+                            slidesPerView: 5,
+                            spaceBetween: 10,
+                        },
+                        1920: {
+                            slidesPerView: 6,
+                            spaceBetween: 10,
+                        },
+                    }}
+                >
                     {product?.slice(0, 10)?.map((item: any) => (
-                        <SwiperSlide key={item?.id}>
-                            <Card16 item={item} />
+                        <SwiperSlide className="" key={item?.id}>
+                            <Card25 item={item} />
                         </SwiperSlide>
                     ))}
-                </SliderFive>
+                </DefaultSlider>
             </div>
         </div>
     );

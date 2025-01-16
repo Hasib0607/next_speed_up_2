@@ -19,7 +19,7 @@ import { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BsPlusLg } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import Details from '../_product-details-page/components/details';
+import Details from '@/components/_product-details-page/components/details';
 
 const Card16 = ({ item }: any) => {
     const home = useSelector((state: RootState) => state?.home);

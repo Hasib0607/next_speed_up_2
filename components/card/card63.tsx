@@ -16,7 +16,6 @@ import { RootState } from '@/redux/store';
 import {
     howMuchSave,
     isAvailable,
-    isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import {

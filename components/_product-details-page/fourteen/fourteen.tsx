@@ -1,12 +1,11 @@
 'use client';
 
-import Card16 from '@/components/card/card16';
-import SectionHeadingFive from '@/components/section-heading/section-heading-five';
-import SliderFive from '@/components/slider/slider-five';
+import Card29 from '@/components/card/card29';
+import SectionHeadingSixteen from '@/components/section-heading/section-heading-sixteen';
+import DefaultSlider from '@/components/slider/default-slider';
 import { profileImg } from '@/site-settings/siteUrl';
 import Arrow from '@/utils/arrow';
 import Rate from '@/utils/rate';
-
 import Skeleton from '@/components/loaders/skeleton';
 import { numberParser } from '@/helpers/numberParser';
 import {
@@ -18,12 +17,15 @@ import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import { useEffect, useState } from 'react';
 
+import moment from 'moment';
+import { IoIosArrowForward } from 'react-icons/io';
 import { SwiperSlide } from 'swiper/react';
+
 import Details from '../components/details-two';
 import VideoPlayer from '../components/video-player';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 
-
-const Two = ({ store_id, productId }: any) => {
+const Fourteen = ({ store_id, productId }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -69,6 +71,8 @@ const Two = ({ store_id, productId }: any) => {
         }
     }, [reviewsData, reviewsSuccess]);
 
+    const { category } = product || [];
+
     let detailsContentSkeleton;
 
     if (productDetailsLoading && !productDetailsError) {
@@ -82,19 +86,28 @@ const Two = ({ store_id, productId }: any) => {
     }
     const reviewsArr = reviews?.data || [];
 
+    const buttonFourteen =
+        'bg-black btn-hover text-white text-xs font-bold sm:py-[16px] py-3 text-center w-60';
+
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
+            <div className="flex lg:mt-10 mt-16 md:my-12 flex-wrap gap-2 items-center">
+                <p>Home</p>
+                <IoIosArrowForward className="text-xs mt-1" />
+                <ProdMultiCategory category={category} count={1} linkOff />
+                <IoIosArrowForward className="text-xs mt-1" />
+                <p className="text-gray-500 font-medium ">{product?.name}</p>
+            </div>
             {detailsContentSkeleton}
-            <Details product={product} social />
-
+            <Details product={product} buttonStyle={buttonFourteen} multicat />
             {/* ************************ tab component start ***************************** */}
             <div className="mt-14">
                 <TabGroup>
-                    <TabList className="fiveBorder">
+                    <TabList className="fiveBorder text-xs sm:text-base">
                         <Tab
                             className={({ selected }) =>
                                 selected
-                                    ? 'underline text-xl underline-offset-8 text-black border-hidden focus:outline-none'
+                                    ? 'underline text-xl  underline-offset-8 text-black border-hidden '
                                     : 'bg-white text-black fiveUn '
                             }
                         >
@@ -103,7 +116,7 @@ const Two = ({ store_id, productId }: any) => {
                         <Tab
                             className={({ selected }) =>
                                 selected
-                                    ? 'underline text-xl underline-offset-8 text-black border-hidden ml-8 focus:outline-none'
+                                    ? 'underline text-xl  underline-offset-8 text-black border-hidden ml-8'
                                     : 'bg-white text-black fiveUn ml-8'
                             }
                         >
@@ -129,6 +142,7 @@ const Two = ({ store_id, productId }: any) => {
                 </TabGroup>
             </div>
             {/* ************************ tab component end ***************************** */}
+
             {product && product?.video_link && (
                 <VideoPlayer videoUrl={product?.video_link} />
             )}
@@ -139,7 +153,7 @@ const Two = ({ store_id, productId }: any) => {
     );
 };
 
-export default Two;
+export default Fourteen;
 
 const UserReview = ({ review }: any) => {
     const parsedRating = numberParser(review?.rating, true);
@@ -155,10 +169,10 @@ const UserReview = ({ review }: any) => {
                     />
                 </div>
             </div>
-            <Rate className="text-base" rating={parsedRating} />
+            <Rate className={'text-base'} rating={parsedRating} />
             <p className="text-xs font-semibold mt-2">{review?.name}</p>
             <p className="text-sm font-light mt-2">
-                Since {new Date(review?.ucd).getFullYear()}
+                {moment(new Date(review?.cd)).format('DD/MM/YYYY')}
             </p>
             <p className="text-base font-semiBold mt-2">{review?.comment}</p>
         </div>
@@ -169,19 +183,46 @@ const Related = ({ product }: any) => {
     const prev = 'best_seller_Prev';
     const next = 'best_seller_Next';
     return (
-        <div className="shadow-lg py-5 sm:my-10 rounded-md px-5">
-            <div className="my-5 pt-1 flex justify-between items-center">
-                <SectionHeadingFive title={'Related product'} />
-                <Arrow prevEl={prev} nextEl={next}></Arrow>
+        <div className="shadow-lg py-5 sm:py-10 rounded-md bg-white">
+            <div className="my-5 pt-1 flex justify-between items-center px-4">
+                <SectionHeadingSixteen title={'Related Products'} />
+                <div className="hidden sm:block">
+                    <Arrow prevEl={prev} nextEl={next}></Arrow>
+                </div>
             </div>
-            <div className="">
-                <SliderFive prevEl={prev} nextEl={next}>
-                    {product?.slice(0, 10)?.map((item: any) => (
+            <div className="px-4">
+                <DefaultSlider
+                    prevEl={prev}
+                    nextEl={next}
+                    breakpoints={{
+                        250: {
+                            slidesPerView: 2,
+                            spaceBetween: 10,
+                        },
+                        560: {
+                            slidesPerView: 2,
+                            spaceBetween: 10,
+                        },
+                        1000: {
+                            slidesPerView: 3,
+                            spaceBetween: 10,
+                        },
+                        1200: {
+                            slidesPerView: 4,
+                            spaceBetween: 20,
+                        },
+                        1600: {
+                            slidesPerView: 5,
+                            spaceBetween: 20,
+                        },
+                    }}
+                >
+                    {product?.slice(0, 10).map((item: any) => (
                         <SwiperSlide key={item?.id}>
-                            <Card16 item={item} />
+                            <Card29 item={item} />
                         </SwiperSlide>
                     ))}
-                </SliderFive>
+                </DefaultSlider>
             </div>
         </div>
     );

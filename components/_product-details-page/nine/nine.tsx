@@ -1,25 +1,14 @@
 'use client';
 
-import Card23 from '@/components/card/card23';
+import Card22 from '@/components/card/card22';
 import SectionHeadingSeven from '@/components/section-heading/section-heading-seven';
 import DefaultSlider from '@/components/slider/default-slider';
-
 import { profileImg } from '@/site-settings/siteUrl';
 import Arrow from '@/utils/arrow';
 import Rate from '@/utils/rate';
-
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from '@/components/ui/accordion';
-
-import moment from 'moment';
-import { SwiperSlide } from 'swiper/react';
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 import Skeleton from '@/components/loaders/skeleton';
-import { HTML_TAG_PATTERN } from '@/consts';
 import { numberParser } from '@/helpers/numberParser';
 import {
     useGetProductDetailsQuery,
@@ -27,12 +16,17 @@ import {
     useGetReviewsQuery,
 } from '@/redux/features/products/productApi';
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
+
+import { HTML_TAG_PATTERN } from '@/consts';
 import ProdMultiCategory from '@/utils/prod-multi-category';
+import { AnimatePresence, motion } from 'framer-motion';
+import moment from 'moment';
 import { useEffect, useState } from 'react';
-import Details from '../components/details';
+import { SwiperSlide } from 'swiper/react';
+import Details from '../components/details-two';
 import VideoPlayer from '../components/video-player';
 
-const Three = ({ store_id, productId }: any) => {
+const Nine = ({ store_id, productId }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -91,14 +85,14 @@ const Three = ({ store_id, productId }: any) => {
     if (relatedProductsLoading && !relatedProductsError) {
         relatedContentSkeleton = <p>Loading related...</p>;
     }
-    // const reviewsArr = reviewsData?.data;
-    // console.log("product before prop",product);
+    // const reviewsArr = reviews?.data || [];
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
             {detailsContentSkeleton}
-            <Details product={product}>
-                <div className="flex flex-col space-y-3 my-3">
+            <Details product={product} social>
+                <div className="h-[1px] bg-gray-300 w-full my-3"></div>
+                <div className="flex flex-col space-y-3 font-seven">
                     <p className="text-sm text-[#5a5a5a] font-seven">
                         <span className="font-semibold text-[#212121] font-seven">
                             SKU:
@@ -122,51 +116,81 @@ const Three = ({ store_id, productId }: any) => {
                         </p>
                     )}
                 </div>
+                <div className="h-[1px] bg-gray-300 w-full my-3"></div>
                 <According
                     text={'Product Details'}
-                    description={product?.description}
+                    desc={product?.description}
                 />
                 <According text={'Customer Reviews'} description={reviews} />
             </Details>
 
-            {product?.video_link && (
+            {product && product?.video_link && (
                 <VideoPlayer videoUrl={product?.video_link} />
             )}
 
-            <Related product={relatedProducts} />
             {relatedContentSkeleton}
+            <Related product={relatedProducts} />
         </div>
     );
 };
 
-export default Three;
+export default Nine;
 
 const According = ({ text, description }: any) => {
+    const [show, setShow] = useState(false);
     const isDescription = HTML_TAG_PATTERN.test(description);
     let reviewsArr = description?.data || [];
+    console.log('description', description?.status);
+    console.log('reviewsArr', reviewsArr);
+    console.log('isDescription', isDescription);
 
     return (
-        <Accordion type="single" collapsible>
-            {isDescription ? (
-                <AccordionItem value="item-1">
-                    <AccordionTrigger>{text}</AccordionTrigger>
-                    <AccordionContent>
-                        <DangerouslySafeHTML content={description} />
-                    </AccordionContent>
-                </AccordionItem>
-            ) : (
-                <AccordionItem value="item-2">
-                    <AccordionTrigger>{text}</AccordionTrigger>
-                    <AccordionContent>
-                        {description?.status && reviewsArr.length > 0
-                            ? reviewsArr?.map((item: any, index: any) => (
-                                  <UserReview review={item} key={index} />
-                              ))
-                            : description?.message}
-                    </AccordionContent>
-                </AccordionItem>
+        <AnimatePresence>
+            <div
+                onClick={() => setShow(!show)}
+                className="flex justify-between items-center lg:cursor-pointer font-seven text-lg font-semibold mb-3"
+            >
+                <div className="h3 font-seven">{text}</div>
+                {show ? <MinusIcon width={25} /> : <PlusIcon width={25} />}
+            </div>
+            {show && (
+                <>
+                    {isDescription && (
+                        <>
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.5 }}
+                                className="font-seven"
+                            >
+                                <DangerouslySafeHTML content={description} />
+                            </motion.div>
+                        </>
+                    )}
+                    {!isDescription && (
+                        <>
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.5 }}
+                                className="font-seven"
+                            >
+                                {description?.status && reviewsArr.length > 0
+                                    ? reviewsArr?.map((item: any) => (
+                                          <UserReview
+                                              review={item}
+                                              key={item.id}
+                                          />
+                                      ))
+                                    : description?.message}
+                            </motion.div>
+                        </>
+                    )}
+                </>
             )}
-        </Accordion>
+        </AnimatePresence>
     );
 };
 
@@ -174,32 +198,23 @@ const UserReview = ({ review }: any) => {
     const parsedRating = numberParser(review?.rating, true);
 
     return (
-        <>
-            <div className=" bg-slate-50 rounded-lg p-5 flex items-center gap-5 w-full">
-                <div className="avatar">
-                    <div className="w-20 h-20 rounded-full">
-                        <img
-                            src={profileImg + review?.image}
-                            className="rounded-full h-full w-full"
-                            alt=""
-                        />
-                    </div>
-                </div>
-                <div className="w-full">
-                    <div className="flex justify-between items-center w-full">
-                        <p className="text-lg font-semibold ">{review?.name}</p>
-                        <p className="text-base rounded-md font-light border px-2 py-1">
-                            {moment(new Date(review?.cd)).format('DD/MM/YYYY')}
-                        </p>
-                    </div>
-                    <Rate className="text-base" rating={parsedRating} />
-
-                    <p className="text-base font-semiBold mt-2">
-                        {review?.comment}
-                    </p>
+        <div className=" bg-slate-50 p-5">
+            <div className="avatar">
+                <div className="w-20 h-20 rounded-full">
+                    <img
+                        src={profileImg + review?.image}
+                        className="rounded-full h-full w-full"
+                        alt=""
+                    />
                 </div>
             </div>
-        </>
+            <Rate className="text-base" rating={parsedRating} />
+            <p className="text-xs font-semibold mt-2">{review?.name}</p>
+            <p className="text-sm font-light mt-2">
+                {moment(new Date(review?.cd)).format('DD/MM/YYYY')}
+            </p>
+            <p className="text-base font-semiBold mt-2">{review?.comment}</p>
+        </div>
     );
 };
 
@@ -207,7 +222,7 @@ const Related = ({ product }: any) => {
     const prev = 'best_seller_Prev';
     const next = 'best_seller_Next';
     return (
-        <div className="shadow-lg py-5 sm:py-10 rounded-md px-4">
+        <div className="px-5 shadow-lg py-5 sm:py-10 rounded-md bg-white">
             <div className="my-5 pt-1 flex justify-between items-center">
                 <SectionHeadingSeven title={'Related Products'} />
                 <Arrow prevEl={prev} nextEl={next}></Arrow>
@@ -235,12 +250,11 @@ const Related = ({ product }: any) => {
                     prevEl={prev}
                     nextEl={next}
                 >
-                    {product?.length > 0 &&
-                        product?.slice(0, 10)?.map((item: any, index: any) => (
-                            <SwiperSlide key={index}>
-                                <Card23 item={item} />
-                            </SwiperSlide>
-                        ))}
+                    {product?.slice(0, 10)?.map((item: any) => (
+                        <SwiperSlide key={item?.id}>
+                            <Card22 item={item} />
+                        </SwiperSlide>
+                    ))}
                 </DefaultSlider>
             </div>
         </div>

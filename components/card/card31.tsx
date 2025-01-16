@@ -82,7 +82,7 @@ const Card31 = ({ item }: any) => {
                             alt=""
                         />
                     </Link>
-                    {save > 0 && (
+                    {productAvailablity && save > 0 && (
                         <div
                             className="absolute text-xs px-2  py-2 top-2 right-2 rounded-md"
                             style={{

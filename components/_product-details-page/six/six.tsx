@@ -1,29 +1,30 @@
 'use client';
 
-import Card16 from '@/components/card/card16';
+import Card7 from '@/components/card/card7';
 import SectionHeadingFive from '@/components/section-heading/section-heading-five';
 import SliderFive from '@/components/slider/slider-five';
 import { profileImg } from '@/site-settings/siteUrl';
 import Arrow from '@/utils/arrow';
 import Rate from '@/utils/rate';
 
-import Skeleton from '@/components/loaders/skeleton';
-import { numberParser } from '@/helpers/numberParser';
 import {
     useGetProductDetailsQuery,
     useGetRelatedProductsQuery,
     useGetReviewsQuery,
 } from '@/redux/features/products/productApi';
+
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-import { useEffect, useState } from 'react';
 
 import { SwiperSlide } from 'swiper/react';
-import Details from '../components/details-two';
+import Skeleton from '@/components/loaders/skeleton';
+import { numberParser } from '@/helpers/numberParser';
+import { useEffect, useState } from 'react';
 import VideoPlayer from '../components/video-player';
+import './six.css';
+import Details from './details-six';
 
-
-const Two = ({ store_id, productId }: any) => {
+const Six = ({ store_id, productId }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -48,6 +49,7 @@ const Two = ({ store_id, productId }: any) => {
     const [product, setProduct] = useState<any>({});
     const [relatedProducts, setRelatedProducts] = useState<any>([]);
     const [reviews, setReviews] = useState<any>({});
+    const [open, setOpen] = useState<boolean>(false);
 
     useEffect(() => {
         if (productDetailsSuccess && productDetailsData) {
@@ -81,21 +83,22 @@ const Two = ({ store_id, productId }: any) => {
         relatedContentSkeleton = <p>Loading related...</p>;
     }
     const reviewsArr = reviews?.data || [];
+    // console.log("product before prop",product);
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
             {detailsContentSkeleton}
-            <Details product={product} social />
+            <Details product={product} setOpen={setOpen} open={open} />
 
             {/* ************************ tab component start ***************************** */}
-            <div className="mt-14">
+            <div className="">
                 <TabGroup>
                     <TabList className="fiveBorder">
                         <Tab
                             className={({ selected }) =>
                                 selected
-                                    ? 'underline text-xl underline-offset-8 text-black border-hidden focus:outline-none'
-                                    : 'bg-white text-black fiveUn '
+                                    ? 'underline text-xl ml-8 underline-offset-8 text-black border-hidden '
+                                    : 'bg-white text-black fiveUn ml-8'
                             }
                         >
                             Description
@@ -103,7 +106,7 @@ const Two = ({ store_id, productId }: any) => {
                         <Tab
                             className={({ selected }) =>
                                 selected
-                                    ? 'underline text-xl underline-offset-8 text-black border-hidden ml-8 focus:outline-none'
+                                    ? 'underline text-xl ml-8 underline-offset-8 text-black border-hidden '
                                     : 'bg-white text-black fiveUn ml-8'
                             }
                         >
@@ -129,17 +132,18 @@ const Two = ({ store_id, productId }: any) => {
                 </TabGroup>
             </div>
             {/* ************************ tab component end ***************************** */}
+
             {product && product?.video_link && (
                 <VideoPlayer videoUrl={product?.video_link} />
             )}
 
             {relatedContentSkeleton}
-            <Related product={relatedProducts} />
+            <Related product={relatedProducts} setOpen={setOpen} open={open} />
         </div>
     );
 };
 
-export default Two;
+export default Six;
 
 const UserReview = ({ review }: any) => {
     const parsedRating = numberParser(review?.rating, true);
@@ -155,7 +159,7 @@ const UserReview = ({ review }: any) => {
                     />
                 </div>
             </div>
-            <Rate className="text-base" rating={parsedRating} />
+            Grade <Rate className="text-base" rating={parsedRating} />
             <p className="text-xs font-semibold mt-2">{review?.name}</p>
             <p className="text-sm font-light mt-2">
                 Since {new Date(review?.ucd).getFullYear()}
@@ -165,11 +169,11 @@ const UserReview = ({ review }: any) => {
     );
 };
 
-const Related = ({ product }: any) => {
+const Related = ({ product, setOpen, open }: any) => {
     const prev = 'best_seller_Prev';
     const next = 'best_seller_Next';
     return (
-        <div className="shadow-lg py-5 sm:my-10 rounded-md px-5">
+        <div className="px-4 shadow-lg py-5 sm:my-10 rounded-md ">
             <div className="my-5 pt-1 flex justify-between items-center">
                 <SectionHeadingFive title={'Related product'} />
                 <Arrow prevEl={prev} nextEl={next}></Arrow>
@@ -178,7 +182,7 @@ const Related = ({ product }: any) => {
                 <SliderFive prevEl={prev} nextEl={next}>
                     {product?.slice(0, 10)?.map((item: any) => (
                         <SwiperSlide key={item?.id}>
-                            <Card16 item={item} />
+                            <Card7 item={item} setView={setOpen} view={open} />
                         </SwiperSlide>
                     ))}
                 </SliderFive>

@@ -1,12 +1,11 @@
 'use client';
 
-import Card16 from '@/components/card/card16';
+import Card4 from '@/components/card/card4';
 import SectionHeadingFive from '@/components/section-heading/section-heading-five';
 import SliderFive from '@/components/slider/slider-five';
 import { profileImg } from '@/site-settings/siteUrl';
 import Arrow from '@/utils/arrow';
 import Rate from '@/utils/rate';
-
 import Skeleton from '@/components/loaders/skeleton';
 import { numberParser } from '@/helpers/numberParser';
 import {
@@ -20,10 +19,10 @@ import { useEffect, useState } from 'react';
 
 import { SwiperSlide } from 'swiper/react';
 import Details from '../components/details-two';
+import './twelve.css';
 import VideoPlayer from '../components/video-player';
 
-
-const Two = ({ store_id, productId }: any) => {
+const Twelve = ({ store_id, productId }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -82,10 +81,13 @@ const Two = ({ store_id, productId }: any) => {
     }
     const reviewsArr = reviews?.data || [];
 
+    const buttonTwelve =
+    "bg-black btn-hover text-white text-xs font-bold sm:py-[16px] py-3 w-60 text-center";
+
     return (
-        <div className="sm:container px-5 sm:py-10 py-5">
+        <div className=" sm:container px-5 sm:py-10 py-5 bg-white">
             {detailsContentSkeleton}
-            <Details product={product} social />
+            <Details product={product} buttonStyle={buttonTwelve}/>
 
             {/* ************************ tab component start ***************************** */}
             <div className="mt-14">
@@ -94,7 +96,7 @@ const Two = ({ store_id, productId }: any) => {
                         <Tab
                             className={({ selected }) =>
                                 selected
-                                    ? 'underline text-xl underline-offset-8 text-black border-hidden focus:outline-none'
+                                    ? 'underline text-xl  underline-offset-8 text-black border-hidden '
                                     : 'bg-white text-black fiveUn '
                             }
                         >
@@ -103,7 +105,7 @@ const Two = ({ store_id, productId }: any) => {
                         <Tab
                             className={({ selected }) =>
                                 selected
-                                    ? 'underline text-xl underline-offset-8 text-black border-hidden ml-8 focus:outline-none'
+                                    ? 'underline text-xl  underline-offset-8 text-black border-hidden ml-8'
                                     : 'bg-white text-black fiveUn ml-8'
                             }
                         >
@@ -129,6 +131,7 @@ const Two = ({ store_id, productId }: any) => {
                 </TabGroup>
             </div>
             {/* ************************ tab component end ***************************** */}
+
             {product && product?.video_link && (
                 <VideoPlayer videoUrl={product?.video_link} />
             )}
@@ -139,7 +142,7 @@ const Two = ({ store_id, productId }: any) => {
     );
 };
 
-export default Two;
+export default Twelve;
 
 const UserReview = ({ review }: any) => {
     const parsedRating = numberParser(review?.rating, true);
@@ -155,7 +158,7 @@ const UserReview = ({ review }: any) => {
                     />
                 </div>
             </div>
-            <Rate className="text-base" rating={parsedRating} />
+            Grade <Rate className="text-base" rating={parsedRating} />
             <p className="text-xs font-semibold mt-2">{review?.name}</p>
             <p className="text-sm font-light mt-2">
                 Since {new Date(review?.ucd).getFullYear()}
@@ -169,16 +172,16 @@ const Related = ({ product }: any) => {
     const prev = 'best_seller_Prev';
     const next = 'best_seller_Next';
     return (
-        <div className="shadow-lg py-5 sm:my-10 rounded-md px-5">
-            <div className="my-5 pt-1 flex justify-between items-center">
+        <div className=" shadow-lg py-5 sm:my-10 rounded-md ">
+            <div className="my-5 pt-1 flex justify-between items-center sm:container px-5 sm:py-10 py-5">
                 <SectionHeadingFive title={'Related product'} />
                 <Arrow prevEl={prev} nextEl={next}></Arrow>
             </div>
-            <div className="">
+            <div className="sm:container px-5 sm:py-10 py-5">
                 <SliderFive prevEl={prev} nextEl={next}>
                     {product?.slice(0, 10)?.map((item: any) => (
                         <SwiperSlide key={item?.id}>
-                            <Card16 item={item} />
+                            <Card4 item={item} />
                         </SwiperSlide>
                     ))}
                 </SliderFive>

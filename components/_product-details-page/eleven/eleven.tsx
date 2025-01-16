@@ -1,8 +1,9 @@
 'use client';
 
-import Card16 from '@/components/card/card16';
-import SectionHeadingFive from '@/components/section-heading/section-heading-five';
-import SliderFive from '@/components/slider/slider-five';
+import Card21 from '@/components/card/card21';
+import SectionHeadingSeven from '@/components/section-heading/section-heading-seven';
+import DefaultSlider from '@/components/slider/default-slider';
+
 import { profileImg } from '@/site-settings/siteUrl';
 import Arrow from '@/utils/arrow';
 import Rate from '@/utils/rate';
@@ -16,14 +17,15 @@ import {
 } from '@/redux/features/products/productApi';
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-import { useEffect, useState } from 'react';
-
+import moment from 'moment';
 import { SwiperSlide } from 'swiper/react';
-import Details from '../components/details-two';
+
+import './five.css';
+import Details from './details-eleven';
+import { useEffect, useState } from 'react';
 import VideoPlayer from '../components/video-player';
 
-
-const Two = ({ store_id, productId }: any) => {
+const Eleven = ({ store_id, productId, design }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -82,11 +84,17 @@ const Two = ({ store_id, productId }: any) => {
     }
     const reviewsArr = reviews?.data || [];
 
-    return (
-        <div className="sm:container px-5 sm:py-10 py-5">
-            {detailsContentSkeleton}
-            <Details product={product} social />
+    const styleCss = `
+    .video-border {
+      border:  15px solid ${design?.header_color};
+    }
+`;
 
+    return (
+        <div className="container px-5 bg-white pt-10">
+            <style>{styleCss}</style>
+            {detailsContentSkeleton}
+            <Details product={product} design={design} />
             {/* ************************ tab component start ***************************** */}
             <div className="mt-14">
                 <TabGroup>
@@ -94,7 +102,7 @@ const Two = ({ store_id, productId }: any) => {
                         <Tab
                             className={({ selected }) =>
                                 selected
-                                    ? 'underline text-xl underline-offset-8 text-black border-hidden focus:outline-none'
+                                    ? 'underline text-xl  underline-offset-8 text-black border-hidden focus:outline-none'
                                     : 'bg-white text-black fiveUn '
                             }
                         >
@@ -103,7 +111,7 @@ const Two = ({ store_id, productId }: any) => {
                         <Tab
                             className={({ selected }) =>
                                 selected
-                                    ? 'underline text-xl underline-offset-8 text-black border-hidden ml-8 focus:outline-none'
+                                    ? 'underline text-xl  underline-offset-8 text-black border-hidden ml-8 focus:outline-none'
                                     : 'bg-white text-black fiveUn ml-8'
                             }
                         >
@@ -139,7 +147,7 @@ const Two = ({ store_id, productId }: any) => {
     );
 };
 
-export default Two;
+export default Eleven;
 
 const UserReview = ({ review }: any) => {
     const parsedRating = numberParser(review?.rating, true);
@@ -158,7 +166,7 @@ const UserReview = ({ review }: any) => {
             <Rate className="text-base" rating={parsedRating} />
             <p className="text-xs font-semibold mt-2">{review?.name}</p>
             <p className="text-sm font-light mt-2">
-                Since {new Date(review?.ucd).getFullYear()}
+                {moment(new Date(review?.cd)).format('DD/MM/YYYY')}
             </p>
             <p className="text-base font-semiBold mt-2">{review?.comment}</p>
         </div>
@@ -169,19 +177,48 @@ const Related = ({ product }: any) => {
     const prev = 'best_seller_Prev';
     const next = 'best_seller_Next';
     return (
-        <div className="shadow-lg py-5 sm:my-10 rounded-md px-5">
-            <div className="my-5 pt-1 flex justify-between items-center">
-                <SectionHeadingFive title={'Related product'} />
+        <div className="py-5 sm:my-10">
+            <div className="my-5 pt-1 flex justify-between items-center container px-5">
+                <SectionHeadingSeven title={'Related product'} />
                 <Arrow prevEl={prev} nextEl={next}></Arrow>
             </div>
-            <div className="">
-                <SliderFive prevEl={prev} nextEl={next}>
+            <div className="container px-5">
+                <DefaultSlider
+                    prevEl={prev}
+                    nextEl={next}
+                    breakpoints={{
+                        350: {
+                            slidesPerView: 1,
+                            spaceBetween: 10,
+                        },
+                        480: {
+                            slidesPerView: 2,
+                            spaceBetween: 10,
+                        },
+                        768: {
+                            slidesPerView: 3,
+                            spaceBetween: 10,
+                        },
+                        1024: {
+                            slidesPerView: 4,
+                            spaceBetween: 20,
+                        },
+                        1440: {
+                            slidesPerView: 4,
+                            spaceBetween: 20,
+                        },
+                        1920: {
+                            slidesPerView: 5,
+                            spaceBetween: 20,
+                        },
+                    }}
+                >
                     {product?.slice(0, 10)?.map((item: any) => (
                         <SwiperSlide key={item?.id}>
-                            <Card16 item={item} />
+                            <Card21 item={item} />
                         </SwiperSlide>
                     ))}
-                </SliderFive>
+                </DefaultSlider>
             </div>
         </div>
     );
