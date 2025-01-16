@@ -112,7 +112,7 @@ const Card45 = ({ item }: any) => {
                         >
                             <BiSearch className="text-xl text-center" />
                         </div>
-                        {save > 0 && (
+                        {productAvailablity && save > 0 && (
                             <>
                                 <div className="absolute text-center text-xs h-12 w-12 rounded-full flex flex-wrap justify-center items-center bg-color text-white top-2 right-2 ">
                                     <p className="">

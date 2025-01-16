@@ -27,20 +27,21 @@ import QuickView from '@/utils/quick-view';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import AddCartBtn from '../components/add-cart-btn';
-import {
-    Colors,
-    ColorsOnly,
-    Sizes,
-    Units,
-} from '../components/imageVariations';
-import { ProductSlider } from '../components/product-slider';
-import { HSlider } from '../components/slider';
+import AddCartBtn from './add-cart-btn';
+import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
+import { ProductSlider } from './product-slider';
+import { HSlider } from './slider';
 
-const DetailsSix = ({ product, children, open, setOpen }: any) => {
-    const { headersetting, design } = useSelector(
-        (state: RootState) => state.home
-    );
+const DetailsSix = ({
+    product,
+    design,
+    children,
+    open,
+    setOpen,
+    multiCat,
+    buttonStyle,
+}: any) => {
+    const { headersetting } = useSelector((state: RootState) => state.home);
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
@@ -218,8 +219,9 @@ const DetailsSix = ({ product, children, open, setOpen }: any) => {
   }
   `;
 
-    const buttonSix =
-        'bg-black btn-hover text-white text-xs font-bold sm:py-[16px] py-3 w-60 text-center';
+    const buttonSix = buttonStyle
+        ? buttonStyle
+        : 'bg-black btn-hover text-white text-xs font-bold sm:py-[16px] py-3 w-60 text-center';
 
     return (
         <div className="bg-white h-full ">
@@ -259,6 +261,7 @@ const DetailsSix = ({ product, children, open, setOpen }: any) => {
                     </div>
 
                     <Rate rating={parsedRating} />
+
                     <div className="h-[1px] bg-gray-300 w-full"></div>
 
                     <div className="text-sm text-[#5a5a5a] leading-6 apiHtml">
@@ -407,31 +410,33 @@ const DetailsSix = ({ product, children, open, setOpen }: any) => {
                     {children}
 
                     <div className="text-sm flex flex-col gap-y-1 text-[#5a5a5a]">
-                        <div className="flex flex-col gap-3 sm:mt-6 mt-1">
-                            {/* copy from here */}
-                            {Array.isArray(category) &&
-                                category?.length > 0 && (
-                                    <div className="flex items-center gap-2">
-                                        <p className="capitalize">
-                                            {' '}
-                                            <span className="text-black">
-                                                Category:{' '}
-                                            </span>{' '}
-                                        </p>
-                                        <div className="flex flex-wrap gap-2">
-                                            <ProdMultiCategory
-                                                category={category}
-                                                design={design}
-                                                className={
-                                                    'text-[var(--header-color)]'
-                                                }
-                                                commaColor={'text-black'}
-                                            />
+                        {multiCat && (
+                            <div className="flex flex-col gap-3 sm:mt-6 mt-1">
+                                {/* copy from here */}
+                                {Array.isArray(category) &&
+                                    category?.length > 0 && (
+                                        <div className="flex items-center gap-2">
+                                            <p className="capitalize">
+                                                {' '}
+                                                <span className="text-black">
+                                                    Category:{' '}
+                                                </span>{' '}
+                                            </p>
+                                            <div className="flex flex-wrap gap-2">
+                                                <ProdMultiCategory
+                                                    category={category}
+                                                    design={design}
+                                                    className={
+                                                        'text-[var(--header-color)]'
+                                                    }
+                                                    commaColor={'text-black'}
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
-                            {/* copy from here */}
-                        </div>
+                                    )}
+                                {/* copy from here */}
+                            </div>
+                        )}
                         <p>
                             Availability:{' '}
                             {productQuantity !== 0 ? (
@@ -451,6 +456,7 @@ const DetailsSix = ({ product, children, open, setOpen }: any) => {
                     <ProductSlider
                         product={product}
                         open={open}
+                        setOpen={setOpen}
                         design={design}
                     />
                 </QuickView>

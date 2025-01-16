@@ -47,33 +47,33 @@ export const product_details_pages: any = {
     seventeen: dynamic(
       () => import("@/components/_product-details-page/seventeen/seventeen")
     ),
-    // eighteen: dynamic(
-    //   () => import("@/components/_product-details-page/eighteen/eighteen")
-    // ),
-    // nineteen: dynamic(
-    //   () => import("@/components/_product-details-page/nineteen/nineteen")
-    // ),
-    // twenty: dynamic(
-    //   () => import("@/components/_product-details-page/twenty/twenty")
-    // ),
-    // twentyone: dynamic(
-    //   () => import("@/components/_product-details-page/twenty-one/twenty-one")
-    // ),
-    // twentytwo: dynamic(
-    //   () => import("@/components/_product-details-page/twenty-two/twentytwo")
-    // ),
-    // twentythree: dynamic(
-    //   () => import("@/components/_product-details-page/twenty-three/twentythree")
-    // ),
-    // twentyfour: dynamic(
-    //   () => import("@/components/_product-details-page/twenty-four/twenty-four")
-    // ),
-    // twentyfive: dynamic(
-    //   () => import("@/components/_product-details-page/twenty-five/twenty-five")
-    // ),
-    // twentysix: dynamic(
-    //   () => import("@/components/_product-details-page/twenty-six/twenty-six")
-    // ),
+    eighteen: dynamic(
+      () => import("@/components/_product-details-page/eighteen/eighteen")
+    ),
+    nineteen: dynamic(
+      () => import("@/components/_product-details-page/nineteen/nineteen")
+    ),
+    twenty: dynamic(
+      () => import("@/components/_product-details-page/twenty/twenty")
+    ),
+    twentyone: dynamic(
+      () => import("@/components/_product-details-page/twenty-one/twenty-one")
+    ),
+    twentytwo: dynamic(
+      () => import("@/components/_product-details-page/twenty-two/twentytwo")
+    ),
+    twentythree: dynamic(
+      () => import("@/components/_product-details-page/twenty-three/twentythree")
+    ),
+    twentyfour: dynamic(
+      () => import("@/components/_product-details-page/twenty-four/twenty-four")
+    ),
+    twentyfive: dynamic(
+      () => import("@/components/_product-details-page/twenty-five/twenty-five")
+    ),
+    twentysix: dynamic(
+      () => import("@/components/_product-details-page/twenty-six/twenty-six")
+    ),
     // twentyseven: dynamic(
     //   () => import("@/components/_product-details-page/twenty-seven/twenty-seven")
     // ),
