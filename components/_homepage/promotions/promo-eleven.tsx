@@ -9,14 +9,20 @@ const PromoEleven = ({ banner, design }: any) => {
             <div className="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-1 gap gap-8">
                 {banner?.slice(0, 3).map((ban: any) => (
                     <div
-                        key={ban.id}
+                        key={ban?.id}
                         className="relative overflow-hidden rounded-xl "
                     >
-                        <img
-                            alt="gallery"
-                            className="min-h-[150px] min-w-full object-cover object-center"
-                            src={bannerImg + ban.image}
-                        />
+                        <a
+                            href={ban?.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <img
+                                alt="gallery"
+                                className="min-h-[150px] min-w-full object-cover object-center"
+                                src={bannerImg + ban?.image}
+                            />
+                        </a>
                         {ban?.link && (
                             <div className="absolute bottom-2 left-4 justify-start items-center ">
                                 <button

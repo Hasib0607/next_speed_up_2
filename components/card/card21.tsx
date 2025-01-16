@@ -121,6 +121,7 @@ const Card21 = ({ item }: any) => {
                                     >
                                         <ProdMultiCategory
                                             category={category}
+                                            linkOff
                                         />
                                     </p>
                                 )}

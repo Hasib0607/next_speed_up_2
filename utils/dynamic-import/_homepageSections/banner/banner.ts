@@ -83,10 +83,10 @@ export const banners: any = {
         () => import('@/components/_homepage/promotions/promo-tweentyone'),
         { ssr: false }
     ),
-    // twentytwo: dynamic(
-    //     () => import('@/components/_homepage/promotions/promo-tweentytwo'),
-    //     { ssr: false }
-    // ),
+    twentytwo: dynamic(
+        () => import('@/components/_homepage/promotions/promo-twentytwo'),
+        { ssr: false }
+    ),
     twentythree: dynamic(
         () => import('@/components/_homepage/promotions/promo-twentythree'),
         { ssr: false }

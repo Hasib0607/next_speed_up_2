@@ -6,8 +6,9 @@ import { useSelector } from 'react-redux';
 
 const PromoBottom = ({ design }: any) => {
     const BannerBottomComponent =
-        banner_bottoms[design?.banner] || banner_bottoms[DEFAULT];
-
+        banner_bottoms[design?.banner];
+        //  || banner_bottoms[DEFAULT];
+    console.log("design?.bannerBottom", design?.banner);
     const home = useSelector((state: RootState) => state?.home);
     const banner = home?.banner || {};
     

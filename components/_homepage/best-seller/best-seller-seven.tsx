@@ -1,30 +1,25 @@
 'use client';
-
 import dynamic from 'next/dynamic';
 const Card11 = dynamic(() => import('@/components/card/card11'), {
     ssr: false,
 });
-
 const SectionHeadingSeventeen = dynamic(
     () => import('@/components/section-heading/section-heading-seventeen')
 );
-
 import SliderFive from '@/components/slider/slider-five';
 import Arrowbetween from '@/utils/arrow-between';
-
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
 const BestSellerSeven = ({ best_sell_product }: any) => {
-    const store = useSelector((state: RootState) => state.appStore.store); // Access updated Redux state
+    const store = useSelector((state: RootState) => state.appStore.store);
     const store_id = store?.id || null;
 
-    const headersetting = useSelector((state: RootState) => state.home.headersetting); // Access updated Redux state
+    const headersetting = useSelector((state: RootState) => state.home.headersetting); 
     const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
-    const { title = 'Flash Sale', title_color = '#000' } =
-        bestSellProduct || {};
+    const { title = 'Flash Sale', title_color = '#000' } = bestSellProduct || {};
 
     const prev = 'best_seller_Prev';
     const next = 'best_seller_Next';

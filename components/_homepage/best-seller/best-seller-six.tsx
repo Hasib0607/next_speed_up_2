@@ -2,14 +2,10 @@
 import Card7 from '@/components/card/card7';
 import SectionHeadingSix from '@/components/section-heading/section-heading-six';
 import GridSliderFive from '@/components/slider/grid-slider/grid-slider-five';
-
 import { productImg } from '@/site-settings/siteUrl';
 import ArrowSquare from '@/utils/arrow-square';
-
 import { useDispatch, useSelector } from 'react-redux';
-
 import { SwiperSlide } from 'swiper/react';
-
 import './best-seller-six.css';
 import { RootState } from '@/redux/store';
 import { productCurrentPrice } from '@/helpers/littleSpicy';
