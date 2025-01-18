@@ -133,7 +133,7 @@ const Card54 = ({ item }: any) => {
                                 className="h-auto min-w-full"
                             />
                         </Link>
-                        {save > 0 && (
+                        {productAvailablity && save > 0 && (
                             <div className="h-10 absolute top-2 right-2 z-[2]">
                                 <img
                                     src={shape.src}

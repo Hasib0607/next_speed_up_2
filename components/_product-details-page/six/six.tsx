@@ -84,7 +84,6 @@ const Six = ({ store_id, productId, design }: any) => {
         relatedContentSkeleton = <p>Loading related...</p>;
     }
     const reviewsArr = reviews?.data || [];
-    // console.log("product before prop",product);
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
@@ -167,7 +166,7 @@ const UserReview = ({ review }: any) => {
                     />
                 </div>
             </div>
-            Grade <Rate className="text-base" rating={parsedRating} />
+            Grade <Rate className={"text-base"} rating={parsedRating} />
             <p className="text-xs font-semibold mt-2">{review?.name}</p>
             <p className="text-sm font-light mt-2">
                 Since {new Date(review?.ucd).getFullYear()}
@@ -180,6 +179,7 @@ const UserReview = ({ review }: any) => {
 const Related = ({ product, setOpen, open }: any) => {
     const prev = 'best_seller_Prev';
     const next = 'best_seller_Next';
+    
     return (
         <div className="px-4 shadow-lg py-5 sm:my-10 rounded-md ">
             <div className="my-5 pt-1 flex justify-between items-center">

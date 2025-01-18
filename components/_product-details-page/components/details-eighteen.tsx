@@ -8,7 +8,14 @@ import Rate from '@/utils/rate';
 import parse from 'html-react-parser';
 import { useEffect, useMemo, useState } from 'react';
 
+import {
+    FacebookIcon,
+    FacebookShareButton,
+    WhatsappIcon,
+    WhatsappShareButton,
+} from 'react-share';
 import { toast } from 'react-toastify';
+import { HSlider } from './slider';
 import ZoomHSlider from './zoom-slider';
 
 import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
@@ -26,7 +33,15 @@ import { saveToLocalStorage } from '@/helpers/localStorage';
 import { AppDispatch, RootState } from '@/redux/store';
 import AddCartBtn from './add-cart-btn';
 
-const Details = ({ product, children, design, buttonStyle }: any) => {
+const DetailsEighteen = ({
+    product,
+    children,
+    design,
+    buttonStyle,
+    social,
+    description,
+    zoomable,
+}: any) => {
     const { headersetting } = useSelector((state: RootState) => state.home);
 
     const { cartList } = useSelector((state: RootState) => state.cart);
@@ -213,13 +228,23 @@ const Details = ({ product, children, design, buttonStyle }: any) => {
             <div className="grid grid-cols-1 lg:grid-cols-9 lg:gap-6 gap-8">
                 <div className="lg:col-span-5">
                     <div className="">
-                        <ZoomHSlider
-                            design={design}
-                            product={product}
-                            variant={variant}
-                            activeImg={activeImg}
-                            setActiveImg={setActiveImg}
-                        />
+                        {zoomable ? (
+                            <ZoomHSlider
+                                design={design}
+                                product={product}
+                                variant={variant}
+                                activeImg={activeImg}
+                                setActiveImg={setActiveImg}
+                            />
+                        ) : (
+                            <HSlider
+                                design={design}
+                                product={product}
+                                variant={variant}
+                                activeImg={activeImg}
+                                setActiveImg={setActiveImg}
+                            />
+                        )}
                     </div>
                 </div>
                 <div className="lg:col-span-4 space-y-8 font-seven">
@@ -348,21 +373,39 @@ const Details = ({ product, children, design, buttonStyle }: any) => {
                         </div>
                     </div>
 
-                    <div>
-                        <h1 className="text-xl font-medium pb-2">
-                            Description
-                        </h1>
-                        <div className="mb-5">
-                            <div className="text-black apiHtml">
-                                {parse(
-                                    `${product?.description?.slice(0, 250)}`
-                                )}{' '}
-                                {product?.description?.length > 250 && '...'}
+                    {description && (
+                        <div>
+                            <h1 className="text-xl font-medium pb-2">
+                                Description
+                            </h1>
+                            <div className="mb-5">
+                                <div className="text-black apiHtml">
+                                    {parse(
+                                        `${product?.description?.slice(0, 250)}`
+                                    )}{' '}
+                                    {product?.description?.length > 250 &&
+                                        '...'}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    )}
 
                     {children}
+
+                    {social && (
+                        <div className="flex items-center gap-x-3">
+                            <p className="font-medium">Share :</p>
+                            <span className="flex space-x-2">
+                                <FacebookShareButton url={window.location.href}>
+                                    <FacebookIcon size={32} round={true} />
+                                </FacebookShareButton>
+                                <WhatsappShareButton url={window.location.href}>
+                                    <WhatsappIcon size={32} round={true} />
+                                </WhatsappShareButton>
+                            </span>
+                        </div>
+                    )}
+
                     {/* Display the referral link */}
                     <div>
                         {/* Display referral link and copy button */}
@@ -411,4 +454,4 @@ const Details = ({ product, children, design, buttonStyle }: any) => {
     );
 };
 
-export default Details;
+export default DetailsEighteen;

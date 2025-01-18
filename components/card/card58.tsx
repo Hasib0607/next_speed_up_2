@@ -174,7 +174,7 @@ const Card58 = ({ item, buttonObj }: any) => {
                     </Link>
                 )}
                 <div className="relative overflow-hidden duration-500 border-2 cart-border">
-                    {save > 0 && (
+                    {productAvailablity && save > 0 && (
                         <>
                             <div className="h-10 absolute top-2 right-2 z-[2]">
                                 <img

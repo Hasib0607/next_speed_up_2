@@ -150,7 +150,7 @@ const Card53 = ({ item }: any) => {
                                     <BDT />
                                     {price}
                                 </div>
-                                {save > 0 && (
+                                {productAvailablity && save > 0 && (
                                     <p className="line-through text-gray-400">
                                         {' '}
                                         <BDT

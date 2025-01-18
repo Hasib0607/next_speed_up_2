@@ -74,30 +74,33 @@ export const product_details_pages: any = {
     twentysix: dynamic(
       () => import("@/components/_product-details-page/twenty-six/twenty-six")
     ),
-    // twentyseven: dynamic(
-    //   () => import("@/components/_product-details-page/twenty-seven/twenty-seven")
+    twentyseven: dynamic(
+      () => import("@/components/_product-details-page/twenty-seven/twenty-seven")
+    ),
+    twentyeight: dynamic(
+      () => import("@/components/_product-details-page/twenty-eight/twenty-eight")
+    ),
+    twentynine: dynamic(
+      () => import("@/components/_product-details-page/twenty-nine/twenty-nine")
+    ),
+    thirty: dynamic(
+      () => import("@/components/_product-details-page/thirty/thirty")
+    ),
+    thirtyone: dynamic(
+      () => import("@/components/_product-details-page/thirty/thirty")
+    ),
+    // thirtytwo: dynamic(
+    //   () => import("@/components/_product-details-page/thirty/thirty-two")
     // ),
-    // twentyeight: dynamic(
-    //   () => import("@/components/_product-details-page/twenty-eight/twenty-eight")
-    // ),
-    // twentynine: dynamic(
-    //   () => import("@/components/_product-details-page/twenty-nine/twenty-nine")
-    // ),
-    // thirty: dynamic(
-    //   () => import("@/components/_product-details-page/thirty/thirty")
-    // ),
-    // thirtyone: dynamic(
-    //   () => import("@/components/_product-details-page/thirty/thirty")
-    // ),
-    // thirtythree: dynamic(
-    //   () => import("@/components/_product-details-page/thirty-three/thirty-three")
-    // ),
-    // thirtyfour: dynamic(
-    //   () => import("@/components/_product-details-page/thirty-four/thirty-four")
-    // ),
-    // thirtyfive: dynamic(
-    //   () => import("@/components/_product-details-page/thirty-five/thirty-five")
-    // ),
+    thirtythree: dynamic(
+      () => import("@/components/_product-details-page/thirty-three/thirty-three")
+    ),
+    thirtyfour: dynamic(
+      () => import("@/components/_product-details-page/thirty-four/thirty-four")
+    ),
+    thirtyfive: dynamic(
+      () => import("@/components/_product-details-page/thirty-five/thirty-five")
+    ),
     // thirtysix: dynamic(
     //   () => import("@/components/_product-details-page/thirty-six/thirty-six")
     // ),

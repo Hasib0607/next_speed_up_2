@@ -15,8 +15,9 @@ import {
 import { useEffect, useState } from 'react';
 
 import { SwiperSlide } from 'swiper/react';
-import Details from '../components/details-eighteen';
+
 import VideoPlayer from '../components/video-player';
+import DetailsEighteen from '../components/details-eighteen';
 
 const Twenty = ({ store_id, productId, design }: any) => {
     const {
@@ -65,7 +66,7 @@ const Twenty = ({ store_id, productId, design }: any) => {
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
             {detailsContentSkeleton}
-            <Details product={product} design={design} />
+            <DetailsEighteen product={product} design={design} description zoomable />
 
             {product && product?.video_link && (
                 <VideoPlayer videoUrl={product?.video_link} />

@@ -31,6 +31,7 @@ import ProdMultiCategory from '@/utils/prod-multi-category';
 import { useEffect, useState } from 'react';
 import Details from '../components/details';
 import VideoPlayer from '../components/video-player';
+import { NotFoundMsg } from '@/utils/little-components';
 
 const Three = ({ store_id, productId }: any) => {
     const {
@@ -133,8 +134,8 @@ const Three = ({ store_id, productId }: any) => {
                 <VideoPlayer videoUrl={product?.video_link} />
             )}
 
-            <Related product={relatedProducts} />
             {relatedContentSkeleton}
+            <Related product={relatedProducts} />
         </div>
     );
 };
@@ -162,7 +163,7 @@ const According = ({ text, description }: any) => {
                             ? reviewsArr?.map((item: any, index: any) => (
                                   <UserReview review={item} key={index} />
                               ))
-                            : description?.message}
+                            : <NotFoundMsg message={description?.message} />}
                     </AccordionContent>
                 </AccordionItem>
             )}

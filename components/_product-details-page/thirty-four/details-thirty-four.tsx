@@ -1,20 +1,12 @@
 'use client';
 
 import BDT from '@/utils/bdt';
+
 import CallForPrice from '@/utils/call-for-price';
 
 import Rate from '@/utils/rate';
 
 import parse from 'html-react-parser';
-
-import {
-    FacebookIcon,
-    FacebookMessengerIcon,
-    FacebookMessengerShareButton,
-    FacebookShareButton,
-    WhatsappIcon,
-    WhatsappShareButton,
-} from 'react-share';
 
 import { getProductQuantity } from '@/helpers/getProductQuantity';
 import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
@@ -22,27 +14,28 @@ import { saveToLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { AppDispatch, RootState } from '@/redux/store';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
-import ProdMultiCategory from '@/utils/prod-multi-category';
-import QuickView from '@/utils/quick-view';
+import { toast } from 'react-toastify';
+
+import {
+    Colors,
+    ColorsOnly,
+    Sizes,
+    Units,
+} from '../components/imageVariations';
+
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import AddCartBtn from './add-cart-btn';
-import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
-import { ProductSlider } from './product-slider';
-import { HSlider } from './slider';
-import ZoomHSlider from './zoom-slider';
+import {
+    FacebookIcon,
+    FacebookShareButton,
+    WhatsappIcon,
+    WhatsappShareButton,
+} from 'react-share';
 
-const DetailsSix = ({
-    product,
-    design,
-    children,
-    open,
-    setOpen,
-    multiCat,
-    buttonStyle,
-    zoomable
-}: any) => {
+import { HSlider } from '../components/slider';
+import AddCartBtn from '../components/add-cart-btn';
+
+const Details = ({ design, product, children, buttonStyle }: any) => {
     const { headersetting } = useSelector((state: RootState) => state.home);
 
     const { cartList } = useSelector((state: RootState) => state.cart);
@@ -50,7 +43,7 @@ const DetailsSix = ({
 
     const dispatch: AppDispatch = useDispatch();
 
-    const { variant, variant_color, category } = product || [];
+    const { variant, variant_color } = product || [];
 
     const vrcolor = useMemo(
         () => variant_color?.map((item: any) => item?.color) || [],
@@ -182,6 +175,7 @@ const DetailsSix = ({
     const price = productCurrentPrice(product);
     const save = howMuchSave(product);
     const parsedRating = numberParser(product?.rating, true);
+    const parsedNumberRating = numberParser(product?.number_rating);
 
     const handleAddToCart = () => {
         addToCart({
@@ -209,6 +203,14 @@ const DetailsSix = ({
     .text-color {
         color:  ${design?.header_color};
     }
+    .buy-now {
+        color:   ${design?.text_color};
+        background:${design?.header_color};
+    }
+    .buy-now:hover {
+        color:   white;
+        background:#83C341;
+    }
     .cart-color {
         color:  ${design?.header_color};
         border-bottom: 2px solid ${design?.header_color};
@@ -216,43 +218,51 @@ const DetailsSix = ({
     .border-hover:hover {
         border: 1px solid ${design?.header_color};
     }
-  }
-`;
+  
+  `;
 
-    const buttonSix = buttonStyle
+    const buttonThirtyFour = buttonStyle
         ? buttonStyle
-        : 'bg-black btn-hover text-white text-xs font-bold sm:py-[16px] py-3 w-60 text-center';
+        : 'bg-black btn-hover text-white text-xs font-bold sm:py-[16px] py-3 sm:px-16 px-2';
 
     return (
-        <div className="bg-white h-full ">
+        <div className="bg-white h-full p-5 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.2)]">
             <style>{styleCss}</style>
 
-            <div className="grid grid-cols-1 md:grid-cols-10 gap-5">
-                <div className="md:col-span-5">
-                {zoomable ? (
-                        <ZoomHSlider
-                            design={design}
-                            product={product}
-                            variant={variant}
-                            activeImg={activeImg}
-                            setActiveImg={setActiveImg}
-                        />
-                    ) : (
-                        <HSlider
-                            design={design}
-                            product={product}
-                            variant={variant}
-                            activeImg={activeImg}
-                            setActiveImg={setActiveImg}
-                        />
-                    )}
+            <div className="grid grid-cols-1 lg2:grid-cols-9 gap-5">
+                <div className="lg2:col-span-4 justify-self-center">
+                    <HSlider
+                        product={product}
+                        variant={variant}
+                        activeImg={activeImg}
+                        setActiveImg={setActiveImg}
+                    />
                 </div>
-                <div className="md:col-span-5 space-y-4 lg:sticky top-28 h-max">
-                    <h2 className="text-2xl text-[#212121] font-bold mb-3 capitalize">
-                        {product?.name}
-                    </h2>
+
+                <div className="lg2:col-span-5 space-y-5 sticky top-28 h-max">
+                    <div className="relative">
+                        <h2 className="text-lg text-gray-800 font-bold mb-3 capitalize">
+                            {product?.name}
+                        </h2>
+                        <p className="absolute h-[4px] w-28 -bottom-2 left-0 bg-orange-600"></p>
+                    </div>
+
+                    <div className="flex gap-x-1">
+                        <div>
+                            <Rate rating={parsedRating} />
+                        </div>
+                        <div className="text-gray-500 sm:text-sm text-xs">
+                            ({parsedNumberRating})
+                        </div>
+                    </div>
+                    <div className="text-sm text-[#5a5a5a] leading-6 apiHtml">
+                        {' '}
+                        {parse(`${product?.description?.slice(0, 250)}`)}{' '}
+                        {product?.description?.length > 250 && '...'}
+                    </div>
+
                     <div className="flex justify-start items-center gap-x-4">
-                        <div className="text-[#212121] text-2xl font-seven font-bold flex justify-start items-center gap-4">
+                        <div className="text-[#83C341] text-lg font-seven font-bold flex justify-start items-center gap-4">
                             <BDT />
                             {price}{' '}
                             {save > 0 && (
@@ -268,15 +278,6 @@ const DetailsSix = ({
                                     {numberParser(product?.discount_price)}% Off
                                 </p>
                             )}
-                    </div>
-
-                    <Rate rating={parsedRating} />
-
-                    <div className="h-[1px] bg-gray-300 w-full"></div>
-
-                    <div className="text-sm text-[#5a5a5a] leading-6 apiHtml">
-                        {parse(`${product?.description?.slice(0, 250)}`)}{' '}
-                        {product?.description?.length > 250 && '...'}
                     </div>
 
                     {/* color and size  */}
@@ -332,14 +333,6 @@ const DetailsSix = ({
                         />
                     )}
 
-                    <div className="">
-                        <CallForPrice
-                            headersetting={headersetting}
-                            cls={buttonSix}
-                            price={price}
-                        />
-                    </div>
-
                     {productQuantity !== 0 && price !== 0 && (
                         <AddCartBtn
                             qty={qty}
@@ -354,26 +347,52 @@ const DetailsSix = ({
                             filterV={filterV}
                             product={product}
                             onClick={handleAddToCart}
-                            buttonOne={buttonSix}
+                            buttonOne={buttonThirtyFour}
                         />
                     )}
+
                     <div className="flex items-center gap-x-3">
-                        <p className="font-medium">শেয়ার :</p>
-                        <span className="flex space-x-2">
+                        <div className="">Availability:</div>
+                        <div className="text-gray-800 ">
+                            {productQuantity !== 0 ? (
+                                <p>
+                                    <span className="font-medium">
+                                        {productQuantity}
+                                    </span>{' '}
+                                    <span className="text-green-500">
+                                        In Stock!
+                                    </span>
+                                </p>
+                            ) : (
+                                <span className="text-red-600">
+                                    Out of Stock!
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="w-max">
+                        <CallForPrice
+                            headersetting={headersetting}
+                            cls={buttonThirtyFour}
+                            price={price}
+                        />
+                    </div>
+
+                    <div className="mt-5 flex items-center gap-4 space-x-4 xl:gap-4 lg:gap-5 md:gap-5 sm:gap-5   ">
+                        <span>Share:</span>
+                        <span className="flex py-2 space-x-2">
                             <FacebookShareButton url={window.location.href}>
                                 <FacebookIcon size={32} round={true} />
                             </FacebookShareButton>
                             <WhatsappShareButton url={window.location.href}>
                                 <WhatsappIcon size={32} round={true} />
                             </WhatsappShareButton>
-                            <FacebookMessengerShareButton
-                                appId="2"
-                                url={window.location.href}
-                            >
-                                <FacebookMessengerIcon size={32} round={true} />
-                            </FacebookMessengerShareButton>
                         </span>
                     </div>
+
+                    {children}
+
                     {/* Display the referral link */}
                     <div>
                         {/* Display referral link and copy button */}
@@ -416,63 +435,10 @@ const DetailsSix = ({
                             </div>
                         )}
                     </div>
-
-                    {children}
-
-                    <div className="text-sm flex flex-col gap-y-1 text-[#5a5a5a]">
-                        {multiCat && (
-                            <div className="flex flex-col gap-3 sm:mt-6 mt-1">
-                                {/* copy from here */}
-                                {Array.isArray(category) &&
-                                    category?.length > 0 && (
-                                        <div className="flex items-center gap-2">
-                                            <p className="capitalize">
-                                                {' '}
-                                                <span className="text-black">
-                                                    Category:{' '}
-                                                </span>{' '}
-                                            </p>
-                                            <div className="flex flex-wrap gap-2">
-                                                <ProdMultiCategory
-                                                    category={category}
-                                                    design={design}
-                                                    className={
-                                                        'text-[var(--header-color)]'
-                                                    }
-                                                    commaColor={'text-black'}
-                                                />
-                                            </div>
-                                        </div>
-                                    )}
-                                {/* copy from here */}
-                            </div>
-                        )}
-                        <p>
-                            Availability:{' '}
-                            {productQuantity !== 0 ? (
-                                <span>
-                                    {productQuantity}
-                                    In Stock!
-                                </span>
-                            ) : (
-                                'Out Of Stock'
-                            )}
-                        </p>
-                    </div>
                 </div>
             </div>
-            {open && (
-                <QuickView open={open} setOpen={setOpen}>
-                    <ProductSlider
-                        product={product}
-                        open={open}
-                        setOpen={setOpen}
-                        design={design}
-                    />
-                </QuickView>
-            )}
         </div>
     );
 };
 
-export default DetailsSix;
+export default Details;
