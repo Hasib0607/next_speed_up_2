@@ -1,6 +1,5 @@
 'use client';
 import Card19 from '@/components/card/card19';
-import Card8 from '@/components/card/card8';
 import SectionHeadingSeventeen from '@/components/section-heading/section-heading-seventeen';
 import SliderNine from '@/components/slider/slider-nine';
 import { RootState } from '@/redux/store';
@@ -42,12 +41,7 @@ const FeatureProductEleven = ({ feature_product, design }: any) => {
                 {feature_product?.slice(0, 10).map((productData: any) => (
                     <SwiperSlide key={productData.id}>
                         {' '}
-                        {/* <Card19 item={productData} design={design} store_id={store_id} /> */}
-                        <Card8
-                            item={productData}
-                            design={design}
-                            store_id={store_id}
-                        />
+                        <Card19 item={productData} design={design} store_id={store_id} />
                     </SwiperSlide>
                 ))}
             </SliderNine>

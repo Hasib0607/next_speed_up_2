@@ -1,39 +1,32 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-
 const Card44 = dynamic(() => import('@/components/card/card44'), {
     ssr: false,
 });
 const SectionHeadingTwentyFour = dynamic(
     () => import('@/components/section-heading/section-heading-twenty-four')
 );
-
 import { useEffect, useState } from 'react';
-
 import Skeleton from '@/components/loaders/skeleton';
 import { useGetCategoryProductQuery } from '@/redux/features/products/productApi';
 import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 const ProductTwenty = ({ category, design, categoryId }: any) => {
     const [active, setActive] = useState(0);
     const [products, setProducts] = useState([]);
     const [id, setId] = useState(categoryId);
 
-    const headerdata = useSelector((state: any) => state.home.header); // Access updated Redux state
+    const headerdata = useSelector((state: RootState) => state.home.headersetting); // Access updated Redux state
 
     const { custom_design } = headerdata || {};
-    const product = custom_design?.product?.[0] || {};
-    const { title = 'Default Title', title_color = '#000' } = product || {};
+    const sectionHeadingData = custom_design?.product?.[0] || {};
+    const { title = 'Default Title', title_color = '#000' } = sectionHeadingData || {};
 
     const { data, isLoading, isFetching, isError, isSuccess } =
         useGetCategoryProductQuery(
-            { id },
-            {
-                // pollingInterval: 3000,
-                // refetchOnMountOrArgChange: false,
-                // skip:false
-            }
+            { id }
         );
 
     useEffect(() => {

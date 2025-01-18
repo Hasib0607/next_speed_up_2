@@ -3,49 +3,121 @@
 import dynamic from 'next/dynamic';
 
 export const feature_categories: any = {
+    default: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featured-default')
+    ),
+    one: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-one')
+    ),
+    two: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-two')
+    ),
+    three: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-three')
+    ),
+    four: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-four')
+    ),
+    six: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-six')
+    ),
     seven: dynamic(
         () =>
             import('@/components/_homepage/featured-category/featuredcat-seven')
     ),
-
-    default: dynamic(
+    eight: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-seven')
+            import('@/components/_homepage/featured-category/featurecat-eight')
     ),
+    eleven: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-eleven')
+    ),
+    twelve: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-twelve')
+    ),
+    sixteen: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-sixteen')
+    ),
+    // seventeen: dynamic(
+    //     () =>
+    //         import('@/components/_homepage/featured-category/featuredcat-seventeen')
+    // ),
+    eighteen: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-eighteen')
+    ),
+    nineteen: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-nineteen')
+    ),
+    twenty: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-twenty')
+    ),
+    twentyone: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-twentyone')
+    ),
+    twentythree: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-twentythree')
+    ),
+    twentyfive: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-twentyfive')
+    ),
+    twentyseven: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-twentyseven')
+    ),
+    twentyeight: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-twenty-eight')
+    ),
+    thirty: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-thirty')
+    ),
+    thirtyone: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featured-thirtyone')
+    ),
+    thirtythree: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-thirtythree')
+    ),
+    thirtyfive: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-thirtyfive')
+    ),
+    thirtysix: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-thirtysix')
+    ),
+    thirtyseven: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-thirtyseven')
+    ),
+    thirtyeight: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-thirtyeight')
+    ),
+    thirtynine: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-thirtynine')
+    ),
+    forty: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featured-forty')
+    ),
+
 };
-
-// import FeaturedEight from "./_homepage/featured-category/featurecat-eight";
-// import DefaultFeaturedCategory from "./_homepage/featured-category/featured-default";
-// import FeaturedEleven from "./_homepage/featured-category/featuredcat-eleven";
-// import FeaturedFour from "./_homepage/featured-category/featuredcat-four";
-// import FeaturedOne from "./_homepage/featured-category/featuredcat-one";
-
-// const FeaturedSeven = dynamic(() => import('./_homepage/featured-category/featuredcat-seven'),{ssr:false});
-// import FeaturedSix from "./_homepage/featured-category/featuredcat-six";
-// import FeaturedThree from "./_homepage/featured-category/featuredcat-three";
-// import FeaturedTwelve from "./_homepage/featured-category/featuredcat-twelve";
-// import FeaturedTwo from "./_homepage/featured-category/featuredcat-two";
-
-// import FeaturedForty from "./_homepage/featured-category/featured-forty";
-// import FeaturedThirtyOne from "./_homepage/featured-category/featured-thirtyone";
-// import FeaturedEighteen from "./_homepage/featured-category/featuredcat-eighteen";
-// import FeaturedNineteen from "./_homepage/featured-category/featuredcat-nineteen";
-
-// import FeaturedSeventeen from "./_homepage/featured-category/featuredcat-seventeen";
-
-// import FeaturedSixteen from "./_homepage/featured-category/featuredcat-sixteen";
-// import FeaturedThirty from "./_homepage/featured-category/featuredcat-thirty";
-// import FeaturedThirtyEight from "./_homepage/featured-category/featuredcat-thirtyeight";
-// import FeaturedThirtyFive from "./_homepage/featured-category/featuredcat-thirtyfive";
-// import FeaturedThirtyNine from "./_homepage/featured-category/featuredcat-thirtynine";
-// import FeaturedThirtySeven from "./_homepage/featured-category/featuredcat-thirtyseven";
-// import FeaturedThirtySix from "./_homepage/featured-category/featuredcat-thirtysix";
-// import FeaturedThirtyThree from "./_homepage/featured-category/featuredcat-thirtythree";
-// tanstack
-// import FeaturedTwenty from "./_homepage/featured-category/featuredcat-twenty";
-// import FeaturedTwentyEight from "./_homepage/featured-category/featuredcat-twenty-eight";
-// import FeaturedTwentyFive from "./_homepage/featured-category/featuredcat-twentyfive";
-// import FeaturedTwentySeven from "./_homepage/featured-category/featuredcat-twentyseven";
-
-// import FeaturedTwentyOne from "./_homepage/featured-category/featuredcat-twentyone";
-// import FeaturedTwentyThree from "./_homepage/featured-category/featuredcat-twentythree";

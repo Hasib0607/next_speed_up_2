@@ -1,7 +1,5 @@
 'use client';
-// created by iazadur
 import Card18 from '@/components/card/card18';
-import Card8 from '@/components/card/card8';
 import SectionHeadingThirteen from '@/components/section-heading/section-heading-thirteen';
 import DefaultSlider from '@/components/slider/default-slider';
 import { RootState } from '@/redux/store';
@@ -61,8 +59,7 @@ const FeatureProductThirteen = ({ feature_product }: any) => {
                                     className="swiperjs-slide py-10"
                                     key={index}
                                 >
-                                    {/* <Card18 item={item} store_id={store_id} /> */}
-                                    <Card8 item={item} store_id={store_id} />
+                                    <Card18 item={item} store_id={store_id} />
                                 </SwiperSlide>
                             ))}
                 </DefaultSlider>

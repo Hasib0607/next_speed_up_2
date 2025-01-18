@@ -6,8 +6,10 @@ import { useSelector } from 'react-redux';
 
 const Product = ({ store_id, design }: any) => {
     const ProductComponent =
-        all_products[design?.product] || all_products[DEFAULT];
-
+        all_products[design?.product]; 
+        // || all_products[DEFAULT];
+    // console.log("design?.product", design?.product);
+    
     const categoryStore = useSelector((state: RootState) => state?.category);
     const products = useSelector((state: RootState) => state?.products);
     const home = useSelector((state: RootState) => state?.home);
