@@ -11,6 +11,17 @@ const nextConfig: NextConfig = {
     // memoryManagement: true,
     // appDir: true,
     // reactMode: "concurrent",
+    turbo: {
+      resolveExtensions: [
+        '.mdx',
+        '.tsx',
+        '.ts',
+        '.jsx',
+        '.js',
+        '.mjs',
+        '.json',
+      ],
+    },
   },
 };
 

@@ -30,90 +30,117 @@ export const product_details_pages: any = {
         () => import('@/components/_product-details-page/eleven/eleven')
     ),
     twelve: dynamic(
-      () => import("@/components/_product-details-page/twelve/twelve")
+        () => import('@/components/_product-details-page/twelve/twelve')
     ),
     thirteen: dynamic(
-      () => import("@/components/_product-details-page/thirteen/thirteen")
+        () => import('@/components/_product-details-page/thirteen/thirteen')
     ),
     fourteen: dynamic(
-      () => import("@/components/_product-details-page/fourteen/fourteen")
+        () => import('@/components/_product-details-page/fourteen/fourteen')
     ),
     // fifteen: dynamic(
     //   () => import("@/components/_product-details-page/fifteen/fifteen")
     // ),
     sixteen: dynamic(
-      () => import("@/components/_product-details-page/sixteen/sixteen")
+        () => import('@/components/_product-details-page/sixteen/sixteen')
     ),
     seventeen: dynamic(
-      () => import("@/components/_product-details-page/seventeen/seventeen")
+        () => import('@/components/_product-details-page/seventeen/seventeen')
     ),
     eighteen: dynamic(
-      () => import("@/components/_product-details-page/eighteen/eighteen")
+        () => import('@/components/_product-details-page/eighteen/eighteen')
     ),
     nineteen: dynamic(
-      () => import("@/components/_product-details-page/nineteen/nineteen")
+        () => import('@/components/_product-details-page/nineteen/nineteen')
     ),
     twenty: dynamic(
-      () => import("@/components/_product-details-page/twenty/twenty")
+        () => import('@/components/_product-details-page/twenty/twenty')
     ),
     twentyone: dynamic(
-      () => import("@/components/_product-details-page/twenty-one/twenty-one")
+        () => import('@/components/_product-details-page/twenty-one/twenty-one')
     ),
     twentytwo: dynamic(
-      () => import("@/components/_product-details-page/twenty-two/twentytwo")
+        () => import('@/components/_product-details-page/twenty-two/twentytwo')
     ),
     twentythree: dynamic(
-      () => import("@/components/_product-details-page/twenty-three/twentythree")
+        () =>
+            import(
+                '@/components/_product-details-page/twenty-three/twentythree'
+            )
     ),
     twentyfour: dynamic(
-      () => import("@/components/_product-details-page/twenty-four/twenty-four")
+        () =>
+            import('@/components/_product-details-page/twenty-four/twenty-four')
     ),
     twentyfive: dynamic(
-      () => import("@/components/_product-details-page/twenty-five/twenty-five")
+        () =>
+            import('@/components/_product-details-page/twenty-five/twenty-five')
     ),
     twentysix: dynamic(
-      () => import("@/components/_product-details-page/twenty-six/twenty-six")
+        () => import('@/components/_product-details-page/twenty-six/twenty-six')
     ),
     twentyseven: dynamic(
-      () => import("@/components/_product-details-page/twenty-seven/twenty-seven")
+        () =>
+            import(
+                '@/components/_product-details-page/twenty-seven/twenty-seven'
+            )
     ),
     twentyeight: dynamic(
-      () => import("@/components/_product-details-page/twenty-eight/twenty-eight")
+        () =>
+            import(
+                '@/components/_product-details-page/twenty-eight/twenty-eight'
+            )
     ),
     twentynine: dynamic(
-      () => import("@/components/_product-details-page/twenty-nine/twenty-nine")
+        () =>
+            import('@/components/_product-details-page/twenty-nine/twenty-nine')
     ),
     thirty: dynamic(
-      () => import("@/components/_product-details-page/thirty/thirty")
+        () => import('@/components/_product-details-page/thirty/thirty')
     ),
     thirtyone: dynamic(
-      () => import("@/components/_product-details-page/thirty/thirty")
+        () => import('@/components/_product-details-page/thirty/thirty')
     ),
     // thirtytwo: dynamic(
     //   () => import("@/components/_product-details-page/thirty/thirty-two")
     // ),
     thirtythree: dynamic(
-      () => import("@/components/_product-details-page/thirty-three/thirty-three")
+        () =>
+            import(
+                '@/components/_product-details-page/thirty-three/thirty-three'
+            )
     ),
     thirtyfour: dynamic(
-      () => import("@/components/_product-details-page/thirty-four/thirty-four")
+        () =>
+            import('@/components/_product-details-page/thirty-four/thirty-four')
     ),
     thirtyfive: dynamic(
-      () => import("@/components/_product-details-page/thirty-five/thirty-five")
+        () =>
+            import('@/components/_product-details-page/thirty-five/thirty-five')
     ),
-    // thirtysix: dynamic(
-    //   () => import("@/components/_product-details-page/thirty-six/thirty-six")
-    // ),
-    // thirtyseven: dynamic(
-    //   () => import("@/components/_product-details-page/thirty-seven/thirty-seven")
-    // ),
-    // thirtyeight: dynamic(
-    //   () => import("@/components/_product-details-page/thirty-eight/thirty-eight")
-    // ),
-    // thirtynine: dynamic(
-    //   () => import("@/components/_product-details-page/thirty-nine/thirty-nine")
-    // ),
-    // forty: dynamic(
-    //   () => import("@/components/_product-details-page/forty/forty")
-    // ),
+    thirtysix: dynamic(
+        () => import('@/components/_product-details-page/thirty-six/thirty-six')
+    ),
+    thirtyseven: dynamic(
+        () =>
+            import(
+                '@/components/_product-details-page/thirty-seven/thirty-seven'
+            )
+    ),
+    thirtyeight: dynamic(
+        () =>
+            import(
+                '@/components/_product-details-page/thirty-eight/thirty-eight'
+            )
+    ),
+    thirtynine: dynamic(
+        () =>
+            import('@/components/_product-details-page/thirty-nine/thirty-nine')
+    ),
+    forty: dynamic(
+        () => import('@/components/_product-details-page/forty/forty')
+    ),
+    fortyone: dynamic(
+        () => import('@/components/_product-details-page/forty-one/forty-one')
+    ),
 };

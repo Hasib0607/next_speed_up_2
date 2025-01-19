@@ -66,11 +66,12 @@ const Twenty = ({ store_id, productId, design }: any) => {
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
             {detailsContentSkeleton}
-            <DetailsEighteen product={product} design={design} description zoomable />
+            <DetailsEighteen product={product} design={design} description zoomable sku rate/>
 
             {product && product?.video_link && (
                 <VideoPlayer videoUrl={product?.video_link} />
             )}
+            
             {relatedContentSkeleton}
             <Related product={relatedProducts} />
         </div>

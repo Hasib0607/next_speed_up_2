@@ -1,53 +1,43 @@
 'use client';
 
-import BDT from '@/utils/bdt';
-import CallForPrice from '@/utils/call-for-price';
-
-import Rate from '@/utils/rate';
-
 import parse from 'html-react-parser';
-import { useEffect, useMemo, useState } from 'react';
 
-import {
-    FacebookIcon,
-    FacebookShareButton,
-    WhatsappIcon,
-    WhatsappShareButton,
-} from 'react-share';
-import { toast } from 'react-toastify';
-import { HSlider } from './slider';
-import ZoomHSlider from './zoom-slider';
-
-import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
-
-// helper
-import { useDispatch, useSelector } from 'react-redux';
-
-import { numberParser } from '@/helpers/numberParser';
-import { addToCart } from '@/utils/_cart-utils/cart-utils';
-
+import { Autoplay, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { productImg } from '@/site-settings/siteUrl';
+import BDT from '@/utils/bdt';
 import { getProductQuantity } from '@/helpers/getProductQuantity';
 import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
-
 import { saveToLocalStorage } from '@/helpers/localStorage';
+import { numberParser } from '@/helpers/numberParser';
 import { AppDispatch, RootState } from '@/redux/store';
-import AddCartBtn from './add-cart-btn';
+import { addToCart } from '@/utils/_cart-utils/cart-utils';
+import {
+    Colors,
+    ColorsOnly,
+    Sizes,
+    Units,
+} from '../components/imageVariations';
 
-const DetailsEighteen = ({
-    product,
-    children,
-    design,
-    buttonStyle,
-    social,
-    description,
-    zoomable,
-    sku,
-    rate
-}: any) => {
+import { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import AddCartBtn from '../components/add-cart-btn';
+import CallForPrice from '@/utils/call-for-price';
+import Rate from '@/utils/rate';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/effect-creative';
+import 'swiper/css/effect-fade';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { toast } from 'react-toastify';
+
+const DetailsForty = ({ product, design, children, buttonStyle }: any) => {
     const { headersetting } = useSelector((state: RootState) => state.home);
 
     const { cartList } = useSelector((state: RootState) => state.cart);
-    const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux state
+    const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
 
     const dispatch: AppDispatch = useDispatch();
 
@@ -182,6 +172,7 @@ const DetailsEighteen = ({
 
     const price = productCurrentPrice(product);
     const save = howMuchSave(product);
+
     const parsedRating = numberParser(product?.rating, true);
 
     const handleAddToCart = () => {
@@ -216,69 +207,88 @@ const DetailsEighteen = ({
     }
     .border-hover:hover {
         border: 1px solid ${design?.header_color};
+       
+    }
+    .swiper-pagination-forty {
+        width: auto !important;
+        margin: 0;
+        display: flex;
+        gap: 1px;
+    }
+    
+    .swiper-pagination-forty .swiper-pagination-bullet {
+        border-radius: 50%;
+        width: 7px;
+        height: 7px;
+        opacity: 1;
+        background:  red;
+        border: 1px solid black;
+    
+    }
+    
+    .swiper-pagination-forty .swiper-pagination-bullet-active {
+        width: 7px;
+        height: 7px;
+        border-radius: 25px;
+        transition-duration: 500ms;
+        background: ${design?.header_color};
+
     }
   `;
 
-    const buttonEighteen = buttonStyle
+    const buttonForty = buttonStyle
         ? buttonStyle
-        : 'bg-black btn-hover text-white font-thin sm:py-[16px] py-2 px-5 sm:px-16 w-max';
+        : 'bg-black btn-hover text-white text-xs font-bold sm:py-[16px] py-3 text-center w-60 lg:cursor-pointer my-2';
+
+    const productImages = product?.image || [];
+    const variantImages = variant?.map((v: any) => v.image) || [];
+
+    const allImages = [...productImages, ...variantImages];
 
     return (
-        <div className=" bg-white">
+        <div className="bg-white h-full mt-5">
             <style>{styleCss}</style>
-
-            <div className="grid grid-cols-1 lg:grid-cols-9 lg:gap-6 gap-8">
-                <div className="lg:col-span-5">
-                    <div className="">
-                        {zoomable ? (
-                            <ZoomHSlider
-                                design={design}
-                                product={product}
-                                variant={variant}
-                                activeImg={activeImg}
-                                setActiveImg={setActiveImg}
-                            />
-                        ) : (
-                            <HSlider
-                                design={design}
-                                product={product}
-                                variant={variant}
-                                activeImg={activeImg}
-                                setActiveImg={setActiveImg}
-                            />
-                        )}
-                    </div>
-                </div>
-                <div className="lg:col-span-4 space-y-8 font-seven">
-                    {sku && 
-                    <p className="text-sm text-[#5a5a5a] font-seven">
-                        <span className="font-semibold text-[#212121] font-seven">
-                            SKU:
-                        </span>{' '}
-                        {product?.SKU}
-                    </p>
-                    }
-                    <h1 className="text-2xl text-[#212121] font-bold mb-3">
+            <div className="grid grid-cols-1 md:grid-cols-8 gap-5">
+                <Swiper
+                    autoplay={{ delay: 2500, disableOnInteraction: false }}
+                    loop={product?.image?.length > 1 && true}
+                    pagination={true}
+                    modules={[Pagination, Autoplay]}
+                    className="mySwiper md:col-span-4 grid grid-cols-2 gap-5 w-full"
+                >
+                    {allImages?.map((s: any, key: number) => (
+                        <SwiperSlide key={key}>
+                            <div className="">
+                                <img
+                                    className="h-auto min-w-full"
+                                    src={
+                                        activeImg
+                                            ? productImg + activeImg
+                                            : productImg + s
+                                    }
+                                    alt=""
+                                />
+                            </div>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+                <div className="md:col-span-4 sticky top-28 h-max">
+                    <h1 className="text-2xl text-[#212121] mb-3 capitalize">
                         {product?.name}
                     </h1>
-
-                    <div className="text-[#212121] text-2xl font-seven font-bold flex justify-start items-center gap-4">
+                    <div className="text-[#212121] flex justify-start items-center gap-4 mb-3">
                         <BDT />
                         {price}{' '}
                         {save > 0 && (
-                            <span className="text-gray-500 font-thin line-through text-xl font-seven">
+                            <div className="text-gray-500 font-thin line-through text-sm">
                                 <BDT />
                                 {numberParser(product?.regular_price)}
-                            </span>
+                            </div>
                         )}{' '}
                     </div>
-                    {rate && 
-                    <div>
+                    <div className="mb-3">
                         <Rate rating={parsedRating} />
                     </div>
-                    }
-                    <div className="h-[1px] bg-gray-300 w-full"></div>
-
                     {/* color and size  */}
                     {currentVariation?.colorsAndSizes && (
                         <>
@@ -332,12 +342,44 @@ const DetailsEighteen = ({
                         />
                     )}
 
-                    <div className="mt-5">
+                    <div className="w-max">
                         <CallForPrice
                             headersetting={headersetting}
-                            cls={buttonEighteen}
+                            cls={buttonForty}
                             price={price}
                         />
+                    </div>
+
+                    <div className="flex items-center gap-x-3 my-3">
+                        <div className="font-semibold text-[#212121] text-base">
+                            Availability:
+                        </div>
+                        <div className="text-[#5a5a5a] text-sm">
+                            {productQuantity !== 0 ? (
+                                <p>
+                                    <span className="font-medium">
+                                        {productQuantity}
+                                    </span>
+                                    <span className="text-green-500">
+                                        In Stock!
+                                    </span>
+                                </p>
+                            ) : (
+                                <span className="text-red-600">
+                                    Out of Stock!
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h1 className="font-semibold text-[#212121] text-base">
+                            Product Details:
+                        </h1>
+                        <div className="text-sm text-[#5a5a5a] font-seven leading-6 apiHtml">
+                            {parse(`${product?.description?.slice(0, 250)}`)}{' '}
+                            {product?.description?.length > 250 && '...'}
+                        </div>
                     </div>
 
                     {productQuantity !== 0 && price !== 0 && (
@@ -354,63 +396,13 @@ const DetailsEighteen = ({
                             filterV={filterV}
                             product={product}
                             onClick={handleAddToCart}
-                            buttonOne={buttonEighteen}
+                            buttonOne={buttonForty}
                         />
                     )}
 
-                    <div className="flex items-center gap-x-3">
-                        <div className="">Availability:</div>
-                        <div className="text-[#212121] ">
-                            {productQuantity !== 0 ? (
-                                <p>
-                                    <span className="font-medium">
-                                        {productQuantity}
-                                    </span>{' '}
-                                    <span className="text-green-500">
-                                        In Stock!
-                                    </span>
-                                </p>
-                            ) : (
-                                <span className="text-red-600">
-                                    Out of Stock!
-                                </span>
-                            )}
-                        </div>
-                    </div>
-
-                    {description && (
-                        <div>
-                            <h1 className="text-xl font-medium pb-2">
-                                Description
-                            </h1>
-                            <div className="mb-5">
-                                <div className="text-black apiHtml">
-                                    {parse(
-                                        `${product?.description?.slice(0, 250)}`
-                                    )}{' '}
-                                    {product?.description?.length > 250 &&
-                                        '...'}
-                                </div>
-                            </div>
-                        </div>
-                    )}
+                    {/* booking  */}
 
                     {children}
-
-                    {social && (
-                        <div className="flex items-center gap-x-3">
-                            <p className="font-medium">Share :</p>
-                            <span className="flex space-x-2">
-                                <FacebookShareButton url={window.location.href}>
-                                    <FacebookIcon size={32} round={true} />
-                                </FacebookShareButton>
-                                <WhatsappShareButton url={window.location.href}>
-                                    <WhatsappIcon size={32} round={true} />
-                                </WhatsappShareButton>
-                            </span>
-                        </div>
-                    )}
-
                     {/* Display the referral link */}
                     <div>
                         {/* Display referral link and copy button */}
@@ -459,4 +451,4 @@ const DetailsEighteen = ({
     );
 };
 
-export default DetailsEighteen;
+export default DetailsForty;

@@ -67,7 +67,6 @@ export const HSlider = ({design, product, variant, activeImg, setActiveImg }: an
         }
         .active-img {
         border:  1px solid ${design?.header_color};
-     
     }
      
     .arrow-slick-color {
