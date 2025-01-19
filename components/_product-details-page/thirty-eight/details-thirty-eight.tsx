@@ -2,52 +2,50 @@
 
 import BDT from '@/utils/bdt';
 import CallForPrice from '@/utils/call-for-price';
-
 import Rate from '@/utils/rate';
-
 import parse from 'html-react-parser';
-import { useEffect, useMemo, useState } from 'react';
 
-import {
-    FacebookIcon,
-    FacebookShareButton,
-    WhatsappIcon,
-    WhatsappShareButton,
-} from 'react-share';
 import { toast } from 'react-toastify';
-import { HSlider } from './slider';
-import ZoomHSlider from './zoom-slider';
-
-import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
-
-// helper
-import { useDispatch, useSelector } from 'react-redux';
-
-import { numberParser } from '@/helpers/numberParser';
-import { addToCart } from '@/utils/_cart-utils/cart-utils';
-
 import { getProductQuantity } from '@/helpers/getProductQuantity';
 import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
-
 import { saveToLocalStorage } from '@/helpers/localStorage';
+import { numberParser } from '@/helpers/numberParser';
 import { AppDispatch, RootState } from '@/redux/store';
-import AddCartBtn from './add-cart-btn';
+import { addToCart } from '@/utils/_cart-utils/cart-utils';
+import {
+    Colors,
+    ColorsOnly,
+    Sizes,
+    Units,
+} from '../components/imageVariations';
+import QuickView from '@/utils/quick-view';
+import { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import AddCartBtn from '../components/add-cart-btn';
 
-const DetailsEighteen = ({
+// customize design
+import { customizeHeader } from '@/utils/customizeDesign';
+import { ProductSlider } from '../components/product-slider';
+import { HSlider } from '../components/slider';
+import Link from 'next/link';
+
+const DetailsThirtyEight = ({
     product,
-    children,
     design,
+    children,
+    open,
+    setOpen,
     buttonStyle,
-    social,
-    description,
-    zoomable,
-    sku,
-    rate
 }: any) => {
     const { headersetting } = useSelector((state: RootState) => state.home);
 
+    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
+    const store_id = store?.id || null;
+
+    const productData = customizeHeader.find((item) => item.id == store_id);
+
     const { cartList } = useSelector((state: RootState) => state.cart);
-    const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux state
+    const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
 
     const dispatch: AppDispatch = useDispatch();
 
@@ -182,7 +180,9 @@ const DetailsEighteen = ({
 
     const price = productCurrentPrice(product);
     const save = howMuchSave(product);
+
     const parsedRating = numberParser(product?.rating, true);
+    const parsedNumberRating = numberParser(product?.number_rating);
 
     const handleAddToCart = () => {
         addToCart({
@@ -210,6 +210,14 @@ const DetailsEighteen = ({
     .text-color {
         color:  ${design?.header_color};
     }
+    .buy-now {
+        color:   ${design?.text_color};
+        background:${design?.header_color};
+    }
+    .buy-now:hover {
+        color:   white;
+        background:#83C341;
+    }
     .cart-color {
         color:  ${design?.header_color};
         border-bottom: 2px solid ${design?.header_color};
@@ -217,67 +225,78 @@ const DetailsEighteen = ({
     .border-hover:hover {
         border: 1px solid ${design?.header_color};
     }
-  `;
+`;
 
-    const buttonEighteen = buttonStyle
+    const callForPrice = buttonStyle
         ? buttonStyle
-        : 'bg-black btn-hover text-white font-thin sm:py-[16px] py-2 px-5 sm:px-16 w-max';
+        : 'bg-black btn-hover text-white text-xs font-bold sm:py-[16px] py-3 sm:px-16 px-2';
 
     return (
-        <div className=" bg-white">
+        <div className="bg-white h-full sm:container px-5 py-5 lg:py-10">
             <style>{styleCss}</style>
 
-            <div className="grid grid-cols-1 lg:grid-cols-9 lg:gap-6 gap-8">
-                <div className="lg:col-span-5">
-                    <div className="">
-                        {zoomable ? (
-                            <ZoomHSlider
-                                design={design}
-                                product={product}
-                                variant={variant}
-                                activeImg={activeImg}
-                                setActiveImg={setActiveImg}
-                            />
-                        ) : (
-                            <HSlider
-                                design={design}
-                                product={product}
-                                variant={variant}
-                                activeImg={activeImg}
-                                setActiveImg={setActiveImg}
-                            />
-                        )}
-                    </div>
+            <div className="grid grid-cols-1 lg2:grid-cols-9 gap-5">
+                <div className="lg2:col-span-4 justify-self-center">
+                    <HSlider
+                        product={product}
+                        setOpen={setOpen}
+                        variant={variant}
+                        activeImg={activeImg}
+                        setActiveImg={setActiveImg}
+                    />
                 </div>
-                <div className="lg:col-span-4 space-y-8 font-seven">
-                    {sku && 
-                    <p className="text-sm text-[#5a5a5a] font-seven">
-                        <span className="font-semibold text-[#212121] font-seven">
-                            SKU:
-                        </span>{' '}
-                        {product?.SKU}
-                    </p>
-                    }
-                    <h1 className="text-2xl text-[#212121] font-bold mb-3">
-                        {product?.name}
-                    </h1>
 
-                    <div className="text-[#212121] text-2xl font-seven font-bold flex justify-start items-center gap-4">
-                        <BDT />
-                        {price}{' '}
-                        {save > 0 && (
-                            <span className="text-gray-500 font-thin line-through text-xl font-seven">
+                <div className="lg2:col-span-5 space-y-5 sticky top-28 h-max">
+                    <div className="relative">
+                        <h2 className="text-[22px] text-blue-500 mb-3 capitalize">
+                            {product?.name}
+                        </h2>
+                    </div>
+
+                    <div className="flex flex-wrap gap-3 items-center">
+                        <div className="py-2 px-4 rounded-full bg-[#F5F6FC] w-max">
+                            <p className="text-sm font-bold">
+                                <span className="font-normal">Price:</span>
                                 <BDT />
-                                {numberParser(product?.regular_price)}
-                            </span>
+                                {price}{' '}
+                            </p>
+                        </div>
+                        {save > 0 && (
+                            <div className="py-2 px-4 rounded-full bg-[#F5F6FC] w-max">
+                                <p className="text-sm font-bold">
+                                    <span className="font-normal">
+                                        Regular Price:
+                                    </span>
+                                    <BDT />
+                                    {numberParser(product?.regular_price)}
+                                </p>
+                            </div>
                         )}{' '}
                     </div>
-                    {rate && 
-                    <div>
-                        <Rate rating={parsedRating} />
+
+                    <div className="flex gap-x-1">
+                        <div>
+                            <Rate rating={parsedRating} />
+                        </div>
+                        <div className="text-gray-500 sm:text-sm text-xs">
+                            ({parsedNumberRating})
+                        </div>
                     </div>
-                    }
-                    <div className="h-[1px] bg-gray-300 w-full"></div>
+                    <Link
+                        href={`/product/${product?.id}/${product?.slug}#description`}
+                    >
+                        <div className="text-sm text-[#5a5a5a] leading-6 apiHtml">
+                            {' '}
+                            {parse(
+                                `${product?.description?.slice(0, 250)}`
+                            )}{' '}
+                            {product?.description?.length > 250 && (
+                                <span className="underline underline-offset-8 text-red-500">
+                                    View More Info
+                                </span>
+                            )}
+                        </div>
+                    </Link>
 
                     {/* color and size  */}
                     {currentVariation?.colorsAndSizes && (
@@ -332,10 +351,30 @@ const DetailsEighteen = ({
                         />
                     )}
 
-                    <div className="mt-5">
+                    <div className="flex items-center gap-x-3">
+                        <div className="">Availability:</div>
+                        <div className="text-gray-800 ">
+                            {productQuantity !== 0 ? (
+                                <p>
+                                    <span className="font-medium">
+                                        {!productData?.id && productQuantity}
+                                    </span>
+                                    <span className="text-green-500">
+                                        In Stock!
+                                    </span>
+                                </p>
+                            ) : (
+                                <span className="text-red-600">
+                                    Out of Stock!
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="w-max">
                         <CallForPrice
                             headersetting={headersetting}
-                            cls={buttonEighteen}
+                            cls={callForPrice}
                             price={price}
                         />
                     </div>
@@ -354,62 +393,11 @@ const DetailsEighteen = ({
                             filterV={filterV}
                             product={product}
                             onClick={handleAddToCart}
-                            buttonOne={buttonEighteen}
+                            buttonOne={callForPrice}
                         />
                     )}
 
-                    <div className="flex items-center gap-x-3">
-                        <div className="">Availability:</div>
-                        <div className="text-[#212121] ">
-                            {productQuantity !== 0 ? (
-                                <p>
-                                    <span className="font-medium">
-                                        {productQuantity}
-                                    </span>{' '}
-                                    <span className="text-green-500">
-                                        In Stock!
-                                    </span>
-                                </p>
-                            ) : (
-                                <span className="text-red-600">
-                                    Out of Stock!
-                                </span>
-                            )}
-                        </div>
-                    </div>
-
-                    {description && (
-                        <div>
-                            <h1 className="text-xl font-medium pb-2">
-                                Description
-                            </h1>
-                            <div className="mb-5">
-                                <div className="text-black apiHtml">
-                                    {parse(
-                                        `${product?.description?.slice(0, 250)}`
-                                    )}{' '}
-                                    {product?.description?.length > 250 &&
-                                        '...'}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
                     {children}
-
-                    {social && (
-                        <div className="flex items-center gap-x-3">
-                            <p className="font-medium">Share :</p>
-                            <span className="flex space-x-2">
-                                <FacebookShareButton url={window.location.href}>
-                                    <FacebookIcon size={32} round={true} />
-                                </FacebookShareButton>
-                                <WhatsappShareButton url={window.location.href}>
-                                    <WhatsappIcon size={32} round={true} />
-                                </WhatsappShareButton>
-                            </span>
-                        </div>
-                    )}
 
                     {/* Display the referral link */}
                     <div>
@@ -455,8 +443,18 @@ const DetailsEighteen = ({
                     </div>
                 </div>
             </div>
+            {open && (
+                <QuickView open={open} setOpen={setOpen}>
+                    <ProductSlider
+                        product={product}
+                        open={open}
+                        setOpen={setOpen}
+                        design={design}
+                    />
+                </QuickView>
+            )}
         </div>
     );
 };
 
-export default DetailsEighteen;
+export default DetailsThirtyEight;

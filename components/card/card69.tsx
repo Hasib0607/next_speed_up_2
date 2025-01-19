@@ -3,11 +3,19 @@
 import { productImg } from '@/site-settings/siteUrl';
 import BDT from '@/utils/bdt';
 
+import {
+    howMuchSave,
+    isAvailable,
+    productCurrentPrice,
+} from '@/helpers/littleSpicy';
+import { numberParser } from '@/helpers/numberParser';
+import { RootState } from '@/redux/store';
 import Link from 'next/link';
 import {
     MdKeyboardArrowLeft,
     MdOutlineKeyboardArrowRight,
 } from 'react-icons/md';
+import { useSelector } from 'react-redux';
 import 'swiper/css';
 import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
@@ -15,10 +23,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { numberParser } from '@/helpers/numberParser';
-import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 
 const Card69 = ({ item }: any) => {
     const home = useSelector((state: RootState) => state?.home);
@@ -26,6 +30,7 @@ const Card69 = ({ item }: any) => {
 
     const price = productCurrentPrice(item);
     const save = howMuchSave(item);
+    const productAvailablity = isAvailable(item);
 
     const bgColor = design?.header_color;
     const textColor = design?.text_color;
@@ -126,7 +131,7 @@ const Card69 = ({ item }: any) => {
                 </div>
 
                 <div className="flex items-center gap-2 w-full">
-                    {save > 0 && (
+                    {productAvailablity && save > 0 && (
                         <p className="line-through text-gray-400 text-xs">
                             {' '}
                             <BDT price={numberParser(item?.regular_price)} />

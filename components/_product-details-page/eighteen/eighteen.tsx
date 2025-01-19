@@ -18,8 +18,6 @@ import { useEffect, useState } from 'react';
 import { SwiperSlide } from 'swiper/react';
 import DetailsEighteen from '../components/details-eighteen';
 
-
-
 const Eighteen = ({ store_id, productId, design }: any) => {
     const {
         data: productDetailsData,
@@ -67,7 +65,7 @@ const Eighteen = ({ store_id, productId, design }: any) => {
     return (
         <div className="pt-10 sm:container px-5 pb-20">
             {detailsContentSkeleton}
-            <DetailsEighteen product={product} design={design} description zoomable />
+            <DetailsEighteen product={product} design={design} description zoomable sku rate />
 
             {relatedContentSkeleton}
             <Related product={relatedProducts} />

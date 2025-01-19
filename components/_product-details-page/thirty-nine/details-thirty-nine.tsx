@@ -3,51 +3,32 @@
 import BDT from '@/utils/bdt';
 import CallForPrice from '@/utils/call-for-price';
 
-import Rate from '@/utils/rate';
-
-import parse from 'html-react-parser';
-import { useEffect, useMemo, useState } from 'react';
-
-import {
-    FacebookIcon,
-    FacebookShareButton,
-    WhatsappIcon,
-    WhatsappShareButton,
-} from 'react-share';
-import { toast } from 'react-toastify';
-import { HSlider } from './slider';
-import ZoomHSlider from './zoom-slider';
-
-import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
-
-// helper
-import { useDispatch, useSelector } from 'react-redux';
-
-import { numberParser } from '@/helpers/numberParser';
-import { addToCart } from '@/utils/_cart-utils/cart-utils';
-
 import { getProductQuantity } from '@/helpers/getProductQuantity';
 import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
-
 import { saveToLocalStorage } from '@/helpers/localStorage';
+import { numberParser } from '@/helpers/numberParser';
 import { AppDispatch, RootState } from '@/redux/store';
-import AddCartBtn from './add-cart-btn';
+import { addToCart } from '@/utils/_cart-utils/cart-utils';
+import { toast } from 'react-toastify';
 
-const DetailsEighteen = ({
-    product,
-    children,
-    design,
-    buttonStyle,
-    social,
-    description,
-    zoomable,
-    sku,
-    rate
-}: any) => {
+import {
+    Colors,
+    ColorsOnly,
+    Sizes,
+    Units,
+} from '../components/imageVariations';
+
+import { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { HSlider } from '../components/slider';
+import AddCartBtn from '../components/add-cart-btn';
+
+const DetailsThirtyNine = ({ design, product, children, buttonStyle }: any) => {
     const { headersetting } = useSelector((state: RootState) => state.home);
 
     const { cartList } = useSelector((state: RootState) => state.cart);
-    const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux state
+    const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
 
     const dispatch: AppDispatch = useDispatch();
 
@@ -183,6 +164,7 @@ const DetailsEighteen = ({
     const price = productCurrentPrice(product);
     const save = howMuchSave(product);
     const parsedRating = numberParser(product?.rating, true);
+    const parsedNumberRating = numberParser(product?.number_rating);
 
     const handleAddToCart = () => {
         addToCart({
@@ -207,77 +189,87 @@ const DetailsEighteen = ({
         color:   ${design?.text_color};
         background:${design?.header_color};
     }
+    .select-color {
+        border: 1px solid ${design?.header_color};
+        background:${design?.header_color};
+    }
+    .select-size {
+        color: ${design?.text_color};
+        background:${design?.header_color};
+        border: 1px solid ${design?.header_color};
+    }
+    .select-unit {
+        color : ${design?.header_color};
+        border: 1px solid ${design?.header_color};
+    }
     .text-color {
-        color:  ${design?.header_color};
+        color: ${design?.header_color};
     }
     .cart-color {
-        color:  ${design?.header_color};
+        color: ${design?.header_color};
         border-bottom: 2px solid ${design?.header_color};
     }
     .border-hover:hover {
         border: 1px solid ${design?.header_color};
     }
+    .cart-btn-thirty-seven {
+        color: ${design?.text_color};
+        background:${design?.header_color};
+        border: 1px solid ${design?.header_color};
+    }
+    .cart-btn-thirty-seven:hover {
+        color: ${design?.header_color};
+        background:transparent;
+        border: 1px solid ${design?.header_color};
+    }
+    .bg-color {
+        color:  ${design?.text_color};
+        background: ${design?.header_color};
+    }
   `;
 
-    const buttonEighteen = buttonStyle
+    const buttonThirtyNine = buttonStyle
         ? buttonStyle
-        : 'bg-black btn-hover text-white font-thin sm:py-[16px] py-2 px-5 sm:px-16 w-max';
+        : 'w-full lg:w-96 flex items-center gap-2 rounded-md text-center py-3 justify-center lg:cursor-pointer cart-btn-thirty-seven';
 
     return (
-        <div className=" bg-white">
+        <div className="pt-5 pb-20">
             <style>{styleCss}</style>
-
-            <div className="grid grid-cols-1 lg:grid-cols-9 lg:gap-6 gap-8">
-                <div className="lg:col-span-5">
-                    <div className="">
-                        {zoomable ? (
-                            <ZoomHSlider
-                                design={design}
-                                product={product}
-                                variant={variant}
-                                activeImg={activeImg}
-                                setActiveImg={setActiveImg}
-                            />
-                        ) : (
-                            <HSlider
-                                design={design}
-                                product={product}
-                                variant={variant}
-                                activeImg={activeImg}
-                                setActiveImg={setActiveImg}
-                            />
-                        )}
-                    </div>
+            <div className="grid grid-cols-1 md:grid-cols-9 gap-x-10 gap-y-5">
+                <div className="md:col-span-5 px-10">
+                    <HSlider
+                        design={design}
+                        product={product}
+                        variant={variant}
+                        activeImg={activeImg}
+                        setActiveImg={setActiveImg}
+                    />
                 </div>
-                <div className="lg:col-span-4 space-y-8 font-seven">
-                    {sku && 
-                    <p className="text-sm text-[#5a5a5a] font-seven">
-                        <span className="font-semibold text-[#212121] font-seven">
-                            SKU:
-                        </span>{' '}
-                        {product?.SKU}
-                    </p>
-                    }
-                    <h1 className="text-2xl text-[#212121] font-bold mb-3">
+                <div className="md:col-span-4 space-y-3 sticky top-20 h-max mt-3 md:mt-40">
+                    <h2 className="lg:text-3xl text-2xl text-[#212121] font-semibold">
                         {product?.name}
-                    </h1>
+                    </h2>
 
-                    <div className="text-[#212121] text-2xl font-seven font-bold flex justify-start items-center gap-4">
-                        <BDT />
-                        {price}{' '}
-                        {save > 0 && (
-                            <span className="text-gray-500 font-thin line-through text-xl font-seven">
-                                <BDT />
-                                {numberParser(product?.regular_price)}
-                            </span>
-                        )}{' '}
+                    <div className="flex justify-start items-center gap-x-4">
+                        <div className="text-[#212121] text-2xl flex justify-start items-center gap-4">
+                            {save > 0 && (
+                                <span className="text-gray-500 font-thin line-through text-xl font-seven">
+                                    <BDT />
+                                    {numberParser(product?.regular_price)}
+                                </span>
+                            )}{' '}
+                            <BDT />
+                            {price}{' '}
+                            <p className="bg-color text-white z-[2] px-4 py-1 rounded-lg text-sm">
+                                Sale
+                            </p>
+                        </div>
                     </div>
-                    {rate && 
-                    <div>
-                        <Rate rating={parsedRating} />
-                    </div>
-                    }
-                    <div className="h-[1px] bg-gray-300 w-full"></div>
+                    {save > 0 && (
+                        <p className="bg-color text-white z-[2] px-4 py-1 text-lg w-max">
+                            You Save {save}
+                        </p>
+                    )}
 
                     {/* color and size  */}
                     {currentVariation?.colorsAndSizes && (
@@ -332,10 +324,32 @@ const DetailsEighteen = ({
                         />
                     )}
 
+                    <div className="flex items-center gap-x-3 py-3">
+                        <div className="font-semibold text-[#212121]">
+                            Availability:
+                        </div>
+                        <div className="text-[#5a5a5a] text-sm">
+                            {productQuantity !== 0 ? (
+                                <p>
+                                    <span className="font-medium">
+                                        {productQuantity}
+                                    </span>
+                                    <span className="text-green-500">
+                                        In Stock!
+                                    </span>
+                                </p>
+                            ) : (
+                                <span className="text-red-600">
+                                    Out of Stock!
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
                     <div className="mt-5">
                         <CallForPrice
                             headersetting={headersetting}
-                            cls={buttonEighteen}
+                            cls={buttonThirtyNine}
                             price={price}
                         />
                     </div>
@@ -354,70 +368,21 @@ const DetailsEighteen = ({
                             filterV={filterV}
                             product={product}
                             onClick={handleAddToCart}
-                            buttonOne={buttonEighteen}
+                            buttonOne={buttonThirtyNine}
                         />
                     )}
 
-                    <div className="flex items-center gap-x-3">
-                        <div className="">Availability:</div>
-                        <div className="text-[#212121] ">
-                            {productQuantity !== 0 ? (
-                                <p>
-                                    <span className="font-medium">
-                                        {productQuantity}
-                                    </span>{' '}
-                                    <span className="text-green-500">
-                                        In Stock!
-                                    </span>
-                                </p>
-                            ) : (
-                                <span className="text-red-600">
-                                    Out of Stock!
-                                </span>
-                            )}
-                        </div>
-                    </div>
-
-                    {description && (
-                        <div>
-                            <h1 className="text-xl font-medium pb-2">
-                                Description
-                            </h1>
-                            <div className="mb-5">
-                                <div className="text-black apiHtml">
-                                    {parse(
-                                        `${product?.description?.slice(0, 250)}`
-                                    )}{' '}
-                                    {product?.description?.length > 250 &&
-                                        '...'}
-                                </div>
-                            </div>
-                        </div>
-                    )}
+                    {/* booking  */}
 
                     {children}
-
-                    {social && (
-                        <div className="flex items-center gap-x-3">
-                            <p className="font-medium">Share :</p>
-                            <span className="flex space-x-2">
-                                <FacebookShareButton url={window.location.href}>
-                                    <FacebookIcon size={32} round={true} />
-                                </FacebookShareButton>
-                                <WhatsappShareButton url={window.location.href}>
-                                    <WhatsappIcon size={32} round={true} />
-                                </WhatsappShareButton>
-                            </span>
-                        </div>
-                    )}
 
                     {/* Display the referral link */}
                     <div>
                         {/* Display referral link and copy button */}
                         {referralLink && (
-                            <div className="flex items-center gap-4">
+                            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
                                 {/* Underlined referral link */}
-                                <p>
+                                <p className="text-center sm:text-left">
                                     Referral Link:{' '}
                                     <a
                                         href={referralLink}
@@ -431,8 +396,8 @@ const DetailsEighteen = ({
 
                                 {/* Copy button */}
                                 <button
-                                    className={`px-2 py-2 font-semibold rounded-lg transition-all duration-300 
-                  ${copied ? 'bg-green-500' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
+                                    className={`mt-2 sm:mt-0 px-4 py-2 font-semibold rounded-lg transition-all duration-300 
+                    ${copied ? 'bg-green-500' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
                                     onClick={handleCopyLink}
                                 >
                                     <svg
@@ -459,4 +424,4 @@ const DetailsEighteen = ({
     );
 };
 
-export default DetailsEighteen;
+export default DetailsThirtyNine;

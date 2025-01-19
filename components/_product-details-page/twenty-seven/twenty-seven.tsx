@@ -88,7 +88,7 @@ const TwentySeven = ({ store_id, productId, design }: any) => {
     return (
         <div className="pt-10 md:container xl:px-20 px-5">
             {detailsContentSkeleton}
-            <DetailsEighteen product={product} design={design} social>
+            <DetailsEighteen product={product} design={design} social  sku  rate>
                 <div className="space-y-3">
                     <According
                         text={'Description'}

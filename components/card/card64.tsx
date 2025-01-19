@@ -93,7 +93,7 @@ const Card64 = ({ item }: any) => {
                             <BDT />
                             {price}
                         </div>
-                        {save > 0 && (
+                        {productAvailablity && save > 0 && (
                             <p className="line-through text-xs ">
                                 {' '}
                                 <BDT

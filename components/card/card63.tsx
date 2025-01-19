@@ -10,23 +10,23 @@ import Link from 'next/link';
 import { AiFillThunderbolt } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { customizeModalPopup } from '@/utils/customizeDesign';
-import { useRouter } from 'next/navigation';
-import { RootState } from '@/redux/store';
 import {
     howMuchSave,
     isAvailable,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
+import { numberParser } from '@/helpers/numberParser';
+import { RootState } from '@/redux/store';
 import {
     addToCart,
     handleDecrement,
     handleIncrement,
     isActiveCart,
 } from '@/utils/_cart-utils/cart-utils';
+import { customizeModalPopup } from '@/utils/customizeDesign';
 import QuickView from '@/utils/quick-view';
+import { useRouter } from 'next/navigation';
 import Details from '../_product-details-page/components/details';
-import { numberParser } from '@/helpers/numberParser';
 
 const Card63 = ({ item }: any) => {
     const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
@@ -181,7 +181,7 @@ const Card63 = ({ item }: any) => {
                                     <BDT />
                                     {price}
                                 </div>
-                                {save > 0 && (
+                                {productAvailablity && save > 0 && (
                                     <p className="line-through text-xs ">
                                         {' '}
                                         <BDT
