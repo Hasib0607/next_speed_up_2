@@ -29,15 +29,20 @@ import { setSort } from '@/redux/features/filters/filterSlice';
 import { RootState } from '@/redux/store';
 import { usePathname } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
+import { numberParser } from '@/helpers/numberParser';
 
-const Seven = ({ store_id }: any) => {
+const Seven = () => {
+    const module_id = 105
     const dispatch = useDispatch();
     const pathName = usePathname();
     const currentPath = getPathName(pathName);
 
+    const store = useSelector((state: RootState) => state.appStore.store);
+    const store_id = store?.id || null;
+    
     const { data: modulesData } = useGetModulesQuery({ store_id });
     const modules = modulesData?.data || [];
-
+    
     const [open, setOpen] = useState(false);
     const [hasMore, setHasMore] = useState<any>(true);
 
@@ -83,9 +88,9 @@ const Seven = ({ store_id }: any) => {
     const category = categoryStore?.categories || [];
 
     const paginationModule = modules?.find(
-        (item: any) => item?.modulus_id === 105
+        (item: any) => item?.modulus_id === module_id
     );
-    const isPagination = parseInt(paginationModule?.status) === 1;
+    const isPagination = numberParser(paginationModule?.status) === 1;
 
     useEffect(() => {
         if (shopPageProductsSuccess) {
@@ -127,9 +132,7 @@ const Seven = ({ store_id }: any) => {
                     </h1>
 
                     {category?.map((item: any) => (
-                        <div key={item.id}>
-                            <SingleCategory item={item} />
-                        </div>
+                            <SingleCategory item={item} key={item.id}/>
                     ))}
                 </div>
                 {/* Filter By Color New */}
