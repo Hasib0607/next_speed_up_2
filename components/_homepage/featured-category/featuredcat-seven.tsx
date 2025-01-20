@@ -18,13 +18,11 @@ const FeaturedSeven = ({ category }: any) => {
     const prev = 'best_seller_seven_Prev';
     const next = 'best_seller_seven_Next';
 
-    const headerdata = useSelector((state: any) => state.home.header); // Access updated Redux state
+    const headerdata = useSelector((state: RootState) => state.home.headersetting);
     const { custom_design } = headerdata || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
-    const { title = 'Default Title', title_color = '#000' } =
+    const { title, title_color } =
         featureCategory || {};
-
-    // if (error) return <p>error from header-settings</p>;
 
     return (
         <div className="container px-5 bg-white relative py-5">

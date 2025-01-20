@@ -1,23 +1,9 @@
 'use client';
+
 import { iconImg } from '@/site-settings/siteUrl';
-import axios from 'axios';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 const FeatureCatSix = ({ item }: any) => {
-    const [result, setResult] = useState(null);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = await axios.post(
-                process.env.NEXT_PUBLIC_API_URL + `getcatproducts`,
-                { id: item?.id }
-            );
-            setResult(data?.data?.total);
-        };
-        fetchData();
-    }, [item?.id]);
-
     return (
         <div>
             <Link
@@ -29,7 +15,7 @@ const FeatureCatSix = ({ item }: any) => {
                         {item?.name}
                     </span>
                     <span className="italic text-gray-400 font-medium text-base">
-                        {result === undefined ? 0 : result} products
+                        {item?.total_products ?? 0} products
                     </span>
                 </div>
 
