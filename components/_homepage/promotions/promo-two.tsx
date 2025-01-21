@@ -6,12 +6,10 @@ import 'swiper/css/effect-fade';
 import { bannerImg } from '@/site-settings/siteUrl';
 
 const PromoTwo = ({ banner }: any) => {
-
     return (
         <>
             <div className="sm:container px-5 sm:py-10 py-5">
                 {banner?.slice(0, 1)?.map((b: any) => (
-
                     <div key={b.id} className="relative overflow-hidden">
                         <a
                             href={b?.link}

@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import 'react-loading-skeleton/dist/skeleton.css';
 import ReactSkeleton from 'react-loading-skeleton';
+
 interface SkeletonProps {
     count?: number; // Make height optional
 }
+
 const Skeleton: React.FC<SkeletonProps> = ({ count }) => {
     
     useEffect(() => {

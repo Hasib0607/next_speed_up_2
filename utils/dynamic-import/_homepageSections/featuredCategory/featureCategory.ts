@@ -47,10 +47,10 @@ export const feature_categories: any = {
         () =>
             import('@/components/_homepage/featured-category/featuredcat-sixteen')
     ),
-    // seventeen: dynamic(
-    //     () =>
-    //         import('@/components/_homepage/featured-category/featuredcat-seventeen')
-    // ),
+    seventeen: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-seventeen')
+    ),
     eighteen: dynamic(
         () =>
             import('@/components/_homepage/featured-category/featuredcat-eighteen')
@@ -75,10 +75,10 @@ export const feature_categories: any = {
         () =>
             import('@/components/_homepage/featured-category/featuredcat-twentyfive')
     ),
-    // twentyseven: dynamic(
-    //     () =>
-    //         import('@/components/_homepage/featured-category/featuredcat-twentyseven')
-    // ),
+    twentyseven: dynamic(
+        () =>
+            import('@/components/_homepage/featured-category/featuredcat-twentyseven')
+    ),
     twentyeight: dynamic(
         () =>
             import('@/components/_homepage/featured-category/featuredcat-twenty-eight')

@@ -44,9 +44,6 @@ export const banner_bottoms: any = {
             ssr: false,
         }
     ),
-    // five: dynamic(() => import('@/components/_homepage/promotions-bottom/promo-bottom-five'), {
-    //     ssr: false,
-    // }),
     six: dynamic(
         () =>
             import('@/components/_homepage/promotions-bottom/promo-bottom-six'),
@@ -133,18 +130,6 @@ export const banner_bottoms: any = {
             ssr: false,
         }
     ),
-    // seventeen: dynamic(
-    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-seventeen'),
-    //     {
-    //         ssr: false,
-    //     }
-    // ),
-    // eighteen: dynamic(
-    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-eighteen'),
-    //     {
-    //         ssr: false,
-    //     }
-    // ),
     nineteen: dynamic(
         () =>
             import(
@@ -161,10 +146,10 @@ export const banner_bottoms: any = {
             ),
         { ssr: false }
     ),
-    // twentyone: dynamic(
-    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-tweentyone'),
-    //     { ssr: false }
-    // ),
+    twentyone: dynamic(
+        () => import('@/components/_homepage/promotions-bottom/promo-twentyone'),
+        { ssr: false }
+    ),
     twentytwo: dynamic(
         () =>
             import(
@@ -186,10 +171,6 @@ export const banner_bottoms: any = {
             ),
         { ssr: false }
     ),
-    // twentyfive: dynamic(
-    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-twentyfive'),
-    //     { ssr: false }
-    // ),
     twentysix: dynamic(
         () =>
             import(
@@ -211,10 +192,10 @@ export const banner_bottoms: any = {
             ),
         { ssr: false }
     ),
-    // twentynine: dynamic(
-    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-twentynine'),
-    //     { ssr: false }
-    // ),
+    twentynine: dynamic(
+        () => import('@/components/_homepage/promotions-bottom/promo-bottom-twentyseven'),
+        { ssr: false }
+    ),
     thirty: dynamic(
         () =>
             import(
@@ -231,10 +212,10 @@ export const banner_bottoms: any = {
             ),
         { ssr: false }
     ),
-    // thirtytwo: dynamic(
-    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-thirtytwo'),
-    //     { ssr: false }
-    // ),
+    thirtytwo: dynamic(
+        () => import('@/components/_homepage/promotions-bottom/promo-bottom-thirtyone'),
+        { ssr: false }
+    ),
     thirtythree: dynamic(
         () =>
             import(
@@ -270,12 +251,8 @@ export const banner_bottoms: any = {
             ),
         { ssr: false }
     ),
-    // thirtyeight: dynamic(
-    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-thirtyeight'),
-    //     { ssr: false }
-    // ),
-    // thirtynine: dynamic(
-    //     () => import('@/components/_homepage/promotions-bottom/promo-bottom-thirtynine'),
-    //     { ssr: false }
-    // ),
+    thirtynine: dynamic(
+        () => import('@/components/_homepage/promotions-bottom/promo-bottom-thirtyseven'),
+        { ssr: false }
+    ),
 };

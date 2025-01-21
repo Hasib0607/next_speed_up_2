@@ -29,30 +29,6 @@ export const productSlice = createSlice({
         setFeatureProduct: (state, action: PayloadAction<any>) => {
             state.featureProduct = action.payload;
         },
-
-        // ----
-        // addToCartList: (state, action) => {
-        //     // const cartItem = state.cartList?.find((item) => item.id === action.payload.id & item.color === action.payload.color && item.size === action.payload.size);
-        //     const cartItem: any = state.cartList?.find(
-        //         (item: any) =>
-        //             item.id === action.payload.id &&
-        //             item.size === action.payload.size &&
-        //             item.color === action.payload.color &&
-        //             item.unit === action.payload.unit &&
-        //             item.volume === action.payload.volume
-        //     );
-
-        //     if (cartItem) {
-        //         cartItem.qty = action.payload.qty
-        //             ? cartItem.qty + action.payload.qty
-        //             : cartItem.qty + 1;
-        //     } else {
-        //         state.cartList.push({
-        //             ...action.payload,
-        //             qty: action.payload.qty || 1,
-        //         });
-        //     }
-        // },
     },
 });
 
