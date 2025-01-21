@@ -55,7 +55,7 @@ const RenderSection = ({ component,design }: RenderSectionProps) => {
             return <Product design={design} store_id={store_id} />;
         // NewArrival section
         case 'new_arrival':
-            return <NewArrival design={design} store_id={store_id} />;
+            return <NewArrival design={design} />;
         // BestSellerProduct section
         case 'best_sell_product':
             return <BestSellProduct design={design} store_id={store_id} />;

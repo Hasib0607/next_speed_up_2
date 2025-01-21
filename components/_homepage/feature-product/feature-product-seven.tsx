@@ -25,12 +25,11 @@ import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 
 const FeatureProductSeven = ({ feature_product, store_id }: any) => {
-    const headerdata = useSelector((state: RootState) => state.home.header); // Access updated Redux state
+    const headerdata = useSelector((state: RootState) => state.home.headersetting); // Access updated Redux state
     const { custom_design } = headerdata || {};
     const featuredProduct = custom_design?.feature_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         featuredProduct || {};
-
     return (
         <>
             <div className="container px-5 bg-white py-8">

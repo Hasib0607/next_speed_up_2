@@ -7,6 +7,7 @@ import { ImQuotesLeft } from 'react-icons/im';
 import { testimonialImg } from '@/site-settings/siteUrl';
 
 const TestimonialSeven = ({ testimonials }: any) => {
+    
     return (
         <div className=" bg-white sm:container px-5 sm:py-10 py-5">
             <div className="">

@@ -204,7 +204,7 @@ const Card58 = ({ item, buttonObj }: any) => {
                         <Link href={'/product/' + item?.id + '/' + item?.slug}>
                             <div className="relative overflow-hidden p-2">
                                 <img
-                                    src={productImg + item.image[0]}
+                                    src={productImg + item?.image[0]}
                                     alt=""
                                     className="h-auto min-w-full"
                                 />
