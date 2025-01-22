@@ -104,7 +104,7 @@ const BestSellerTwentySix = ({ best_sell_product, design }: any) => {
                         },
                     }}
                 >
-                    {best_sell_product?.slice(0, 10).map((productData: any) => (
+                    {best_sell_product?.slice(0, 10)?.map((productData: any) => (
                         <SwiperSlide key={productData.id}>
                             <div className="py-2 w-full">
                                 <Card56

@@ -1,22 +1,23 @@
 "use client";
 import { useState } from "react";
 
-// import ProductCardOne from "@/components/card/product-card/product-card-one";
 import "@/components/card/product-card/product-card-one.css";
 import { motion } from "framer-motion";
 import ProductCardFortyOne from "@/components/card/product-card/product-card-fortyone";
 const btn = [{ text: "Featured" }, { text: "Popular" }, { text: "New Added" }];
+
 const ProductFortyOne = ({
   product,
-  best_seller_product,
+  best_sell_product,
   feature_product,
-  store_id,
   design,
 }: any) => {
   const [active, setActive] = useState("Featured");
+
+  console.log("v",best_sell_product);
+  
   return (
     <div className="sm:container px-5 sm:py-10 py-5 mx-auto">
-      {/* <div className="mx-auto"> */}
       <div className="flex justify-between items-center mb-7 ">
         <div className="flex justify-center sm:justify-start flex-wrap gap-2">
           {btn?.map((i) => (
@@ -35,9 +36,8 @@ const ProductFortyOne = ({
         {active === "New Added" &&
           product
             ?.slice(0, 8)
-            .map((item: any) => (
+            ?.map((item: any) => (
               <ProductCardFortyOne
-                store_id={store_id}
                 item={item}
                 key={item?.id}
               />
@@ -45,25 +45,22 @@ const ProductFortyOne = ({
         {active === "Featured" &&
           feature_product
             ?.slice(0, 8)
-            .map((item: any) => (
+            ?.map((item: any) => (
               <ProductCardFortyOne
                 item={item}
-                store_id={store_id}
                 key={item?.id}
               />
             ))}
         {active === "Popular" &&
-          best_seller_product
+          best_sell_product
             ?.slice(0, 8)
-            .map((item: any) => (
+            ?.map((item: any) => (
               <ProductCardFortyOne
                 item={item}
-                store_id={store_id}
                 key={item?.id}
               />
             ))}
       </div>
-      {/* </div> */}
     </div>
   );
 };

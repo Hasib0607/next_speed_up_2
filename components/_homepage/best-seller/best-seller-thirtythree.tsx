@@ -97,7 +97,7 @@ const BestSellerThirtyThree = ({ best_sell_product, design }: any) => {
                         },
                     }}
                 >
-                    {best_sell_product?.slice(0, 10).map((item: any) => (
+                    {best_sell_product?.slice(0, 10)?.map((item: any) => (
                         <SwiperSlide key={item?.id}>
                             <Card59
                                 item={item}

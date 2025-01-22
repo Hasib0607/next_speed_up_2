@@ -33,7 +33,7 @@ const BestSellerThirtySeven = ({ best_sell_product, design }: any) => {
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-1 sm:gap-3 lg:grid-cols-5 xl:grid-cols-6 justify-center">
                         {best_sell_product
                             ?.slice(0, 12)
-                            .map((item: any, id: any) => (
+                            ?.map((item: any, id: any) => (
                                 <Card64
                                     item={item}
                                     key={id}

@@ -2,78 +2,149 @@ import dynamic from 'next/dynamic';
 
 export const new_arrival: any = {
     default: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-five')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-five'
+            )
     ),
     two: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-five')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-five'
+            )
     ),
     three: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-five')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-five'
+            )
     ),
     four: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-five')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-five'
+            )
     ),
     five: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-five')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-five'
+            )
     ),
     six: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-six')
+        () =>
+            import('@/components/_homepage/new-arrival/new-arrival-product-six')
     ),
     seven: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-seven')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-seven'
+            )
     ),
     eight: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-eight')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-eight'
+            )
     ),
     nine: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-nine')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-nine'
+            )
     ),
-    // ten: dynamic(
-    //     () => import('@/components/new-arrival/new-arrival-product-ten')
-    // ),
+    ten: dynamic(
+        () =>
+            import('@/components/_homepage/new-arrival/new-arrival-product-ten')
+    ),
     twelve: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-twelve')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-twelve'
+            )
     ),
     thirteen: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-thirteen')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-thirteen'
+            )
     ),
     fourteen: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-fourteen')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-fourteen'
+            )
     ),
     seventeen: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-seventeen')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-seventeen'
+            )
     ),
     twentytwo: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-twentytwo')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-twentytwo'
+            )
     ),
     twentythree: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-twentythree')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-twentythree'
+            )
     ),
     twentyseven: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-twentyseven')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-twentyseven'
+            )
     ),
     twentynine: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-twentynine')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-twentynine'
+            )
     ),
     thirtyone: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-thirtyone')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-thirtyone'
+            )
     ),
     thirtyfour: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-thirty-four')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-thirty-four'
+            )
     ),
     thirtyfive: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-thirtyfive')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-thirtyfive'
+            )
     ),
     thirtysix: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-thirtysix')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-thirtysix'
+            )
     ),
     thirtyseven: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-thirtyseven')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-thirtyseven'
+            )
     ),
     thirtyeight: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-thirtyeight')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-thirtyeight'
+            )
     ),
     thirtynine: dynamic(
-        () => import('@/components/new-arrival/new-arrival-product-thirtynine')
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-thirtynine'
+            )
     ),
 };

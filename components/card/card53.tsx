@@ -116,7 +116,7 @@ const Card53 = ({ item }: any) => {
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="relative overflow-hidden ">
                             <img
-                                src={productImg + item.image[0]}
+                                src={productImg + item?.image[0]}
                                 alt=""
                                 className="h-auto min-w-full"
                             />
@@ -150,7 +150,7 @@ const Card53 = ({ item }: any) => {
                                     <BDT />
                                     {price}
                                 </div>
-                                {save > 0 && (
+                                {productAvailablity && save > 0 && (
                                     <p className="line-through text-gray-400">
                                         {' '}
                                         <BDT

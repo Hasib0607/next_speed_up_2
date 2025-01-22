@@ -3,7 +3,6 @@
 import {
     howMuchSave,
     isAvailable,
-    isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { RootState } from '@/redux/store';
@@ -12,12 +11,12 @@ import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import BDT from '@/utils/bdt';
 import QuickView from '@/utils/quick-view';
 
+import { numberParser } from '@/helpers/numberParser';
 import Link from 'next/link';
 import { useState } from 'react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import Details from '../_product-details-page/components/details';
-import { numberParser } from '@/helpers/numberParser';
 
 const Card59 = ({ item }: any) => {
     const home = useSelector((state: RootState) => state?.home);
@@ -151,7 +150,7 @@ const Card59 = ({ item }: any) => {
                         </div>
                         <div className=" font-semibold flex flex-wrap justify-around items-center gap-2 w-full ">
                             <div className="flex items-center flex-col gap-2">
-                                {save > 0 && (
+                                {productAvailablity && save > 0 && (
                                     <p className="line-through text-xs text-color-thirty">
                                         {' '}
                                         <BDT

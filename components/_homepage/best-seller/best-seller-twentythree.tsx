@@ -147,7 +147,7 @@ const BestSellerTwentyThree = ({ best_sell_product, design }: any) => {
                         <div className="grid grid-cols-3 gap-5 overflow-hidden">
                             {best_sell_product
                                 ?.slice(0, 10)
-                                .map((item: any) => (
+                                ?.map((item: any) => (
                                     <SwiperSlide key={item.id}>
                                         <Card47
                                             design={design}

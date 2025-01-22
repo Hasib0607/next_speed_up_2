@@ -85,7 +85,7 @@ const BestSellerThirtyFive = ({ best_sell_product, design, banner }: any) => {
                             >
                                 {best_sell_product
                                     ?.slice(0, 10)
-                                    .map((item: any) => (
+                                    ?.map((item: any) => (
                                         <SwiperSlide key={item?.id}>
                                             <div className="px-0 lg:px-5 pr-2 lg:pr-2">
                                                 <Card61

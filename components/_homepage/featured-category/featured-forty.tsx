@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 
 const FeaturedForty = ({ category }: any) => {
+  
   const headerdata = useSelector((state: RootState) => state.home.headersetting);
   const { custom_design } = headerdata || {};
   const featureCategory = custom_design?.feature_category?.[0] || {};

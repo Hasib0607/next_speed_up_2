@@ -49,7 +49,7 @@ const BestSellerTwentyFour = ({ best_sell_product, design }: any) => {
                 />
             </div>
             <div className="grid grid-cols-3 gap-5">
-                {best_sell_product?.slice(0, 3).map((productData: any) => (
+                {best_sell_product?.slice(0, 3)?.map((productData: any) => (
                     <div key={productData.id}>
                         <Card49
                             item={productData}

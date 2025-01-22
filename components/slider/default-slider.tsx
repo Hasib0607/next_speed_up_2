@@ -22,6 +22,7 @@ const DefaultSlider = ({
     prevEl,
     children,
     breakpoints,
+    className,
     pagination,
     paginationType,
 }: any) => {
@@ -46,7 +47,7 @@ const DefaultSlider = ({
                 prevEl: `.${prevEl}`,
                 nextEl: `.${nextEl}`,
             }}
-            className="mySwiper"
+            className={className ? className : "mySwiper"}
         >
             {children}
         </Swiper>

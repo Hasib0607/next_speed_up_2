@@ -22,9 +22,10 @@ import { numberParser } from '@/helpers/numberParser';
 import { useEffect, useState } from 'react';
 import VideoPlayer from '../components/video-player';
 import './six.css';
-import Details from './details-six';
+import DetailsSix from '../components/details-six';
+import { NotFoundMsg } from '@/utils/little-components';
 
-const Six = ({ store_id, productId }: any) => {
+const Six = ({ store_id, productId, design }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -83,12 +84,16 @@ const Six = ({ store_id, productId }: any) => {
         relatedContentSkeleton = <p>Loading related...</p>;
     }
     const reviewsArr = reviews?.data || [];
-    // console.log("product before prop",product);
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
             {detailsContentSkeleton}
-            <Details product={product} setOpen={setOpen} open={open} />
+            <DetailsSix
+                design={design}
+                product={product}
+                setOpen={setOpen}
+                open={open}
+            />
 
             {/* ************************ tab component start ***************************** */}
             <div className="">
@@ -122,11 +127,13 @@ const Six = ({ store_id, productId }: any) => {
                             </div>
                         </TabPanel>
                         <TabPanel>
-                            {reviews?.status && reviewsArr.length > 0
-                                ? reviewsArr?.map((item: any, index: any) => (
-                                      <UserReview review={item} key={index} />
-                                  ))
-                                : reviews?.message}
+                            {reviews?.status && reviewsArr.length > 0 ? (
+                                reviewsArr?.map((item: any, index: any) => (
+                                    <UserReview review={item} key={index} />
+                                ))
+                            ) : (
+                                <NotFoundMsg message={reviews?.message} />
+                            )}
                         </TabPanel>
                     </TabPanels>
                 </TabGroup>
@@ -159,7 +166,7 @@ const UserReview = ({ review }: any) => {
                     />
                 </div>
             </div>
-            Grade <Rate className="text-base" rating={parsedRating} />
+            Grade <Rate className={"text-base"} rating={parsedRating} />
             <p className="text-xs font-semibold mt-2">{review?.name}</p>
             <p className="text-sm font-light mt-2">
                 Since {new Date(review?.ucd).getFullYear()}
@@ -172,6 +179,7 @@ const UserReview = ({ review }: any) => {
 const Related = ({ product, setOpen, open }: any) => {
     const prev = 'best_seller_Prev';
     const next = 'best_seller_Next';
+    
     return (
         <div className="px-4 shadow-lg py-5 sm:my-10 rounded-md ">
             <div className="my-5 pt-1 flex justify-between items-center">

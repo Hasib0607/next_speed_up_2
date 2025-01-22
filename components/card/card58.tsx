@@ -174,7 +174,7 @@ const Card58 = ({ item, buttonObj }: any) => {
                     </Link>
                 )}
                 <div className="relative overflow-hidden duration-500 border-2 cart-border">
-                    {save > 0 && (
+                    {productAvailablity && save > 0 && (
                         <>
                             <div className="h-10 absolute top-2 right-2 z-[2]">
                                 <img
@@ -204,7 +204,7 @@ const Card58 = ({ item, buttonObj }: any) => {
                         <Link href={'/product/' + item?.id + '/' + item?.slug}>
                             <div className="relative overflow-hidden p-2">
                                 <img
-                                    src={productImg + item.image[0]}
+                                    src={productImg + item?.image[0]}
                                     alt=""
                                     className="h-auto min-w-full"
                                 />

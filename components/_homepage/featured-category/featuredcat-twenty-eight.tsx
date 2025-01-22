@@ -1,15 +1,17 @@
+'use client'
+
 import { useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { SwiperSlide } from "swiper/react";
 
-import DefaultSlider from "@/components/slider/default-slider";
-import { iconImg } from "@/site-settings/siteUrl";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
+import DefaultSlider from "@/components/slider/default-slider";
+import { iconImg } from "@/site-settings/siteUrl";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 const FeaturedTwentyEight = ({ category, design }: any) => {
   const prevEl = "feature-category-prev";
@@ -27,8 +29,7 @@ const FeaturedTwentyEight = ({ category, design }: any) => {
   .category-hover:hover {
 
   }
- 
-    `;
+`;
 
     const headerdata = useSelector((state: RootState) => state.home.headersetting);
     const { custom_design } = headerdata || {};

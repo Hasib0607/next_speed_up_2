@@ -4,8 +4,6 @@ import Card21 from '@/components/card/card21';
 import SectionHeadingTwentyOne from '@/components/section-heading/section-heading-twentyone';
 import DefaultSlider from '@/components/slider/default-slider';
 
-import { profileImg } from '@/site-settings/siteUrl';
-import Rate from '@/utils/rate';
 import Skeleton from '@/components/loaders/skeleton';
 import { numberParser } from '@/helpers/numberParser';
 import {
@@ -13,16 +11,19 @@ import {
     useGetRelatedProductsQuery,
     useGetReviewsQuery,
 } from '@/redux/features/products/productApi';
+import { profileImg } from '@/site-settings/siteUrl';
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
+import Rate from '@/utils/rate';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 import moment from 'moment';
 import { SwiperSlide } from 'swiper/react';
 
-import Details from './details-eight';
-import VideoPlayer from '../components/video-player';
 import { useEffect, useState } from 'react';
+
+import VideoPlayer from '../components/video-player';
+import DetailsEight from '../components/details-eight';
 
 const Eight = ({ store_id, productId, design }: any) => {
     const {
@@ -96,7 +97,7 @@ const Eight = ({ store_id, productId, design }: any) => {
             <div className="">
                 <div className="sm:container px-5 sm:py-10 py-5">
                     {detailsContentSkeleton}
-                    <Details product={product} />
+                    <DetailsEight product={product} design={design} />
                 </div>
                 {/* ************************ tab component start ***************************** */}
 

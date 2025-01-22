@@ -62,7 +62,7 @@ const BestSellerThirteen = ({ best_sell_product }: any) => {
                         {best_sell_product?.length &&
                             best_sell_product
                                 ?.slice(0, 20)
-                                .map((item: any, index: any) => (
+                                ?.map((item: any, index: any) => (
                                     <SwiperSlide
                                         className="swiperjs_grid_three"
                                         key={index}

@@ -62,7 +62,7 @@ const BestSellerThirtyFour = ({ best_sell_product, design }: any) => {
                     <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-1 sm:gap-5">
                         {best_sell_product
                             ?.slice(0, 10)
-                            .map((productData: any) => (
+                            ?.map((productData: any) => (
                                 <div key={productData.id}>
                                     <Card60
                                         item={productData}

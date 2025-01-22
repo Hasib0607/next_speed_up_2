@@ -82,8 +82,7 @@ const Seven = ({ store_id, productId }: any) => {
     if (relatedProductsLoading && !relatedProductsError) {
         relatedContentSkeleton = <p>Loading related...</p>;
     }
-    const reviewsArr = reviews?.data || [];
-    // console.log("product before prop",product);
+
 
     return (
         <div className="container px-5">

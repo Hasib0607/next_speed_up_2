@@ -28,8 +28,7 @@ const BestSellerSixteen = ({ best_sell_product, design }: any) => {
     opacity:1;
     background: white;
   }
- 
-    `;
+`;
 
     const store = useSelector((state: RootState) => state.appStore.store);
     const store_id = store?.id || null;
@@ -98,7 +97,7 @@ const BestSellerSixteen = ({ best_sell_product, design }: any) => {
                     },
                 }}
             >
-                {best_sell_product?.slice(0, 10).map((productData: any) => (
+                {best_sell_product?.slice(0, 10)?.map((productData: any) => (
                     <SwiperSlide key={productData.id}>
                         <Card25
                             item={productData}

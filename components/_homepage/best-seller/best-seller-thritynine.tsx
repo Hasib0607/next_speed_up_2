@@ -35,16 +35,6 @@ const BestSellerThirtyNine = ({ best_sell_product, design }: any) => {
                     </p>
                 </div>
 
-                {/* <div className="gap-10 flex lg:cursor-pointer absolute bottom-16 left-1/2 -translate-x-1/2 z-[2]">
-          <div className={`${prevEl} lg:cursor-pointer `}>
-            <ChevronLeftIcon className="h-4 font-serif font-bold" />
-          </div>
-          <div className=""></div>
-          <div className={`${nextEl} lg:cursor-pointer`}>
-            <ChevronRightIcon className="h-4 font-serif font-bold" />
-          </div>
-        </div> */}
-
                 <DefaultSlider
                     prevEl={prevEl}
                     nextEl={nextEl}
@@ -73,7 +63,7 @@ const BestSellerThirtyNine = ({ best_sell_product, design }: any) => {
                         },
                     }}
                 >
-                    {best_sell_product?.slice(0, 10).map((item: any) => (
+                    {best_sell_product?.slice(0, 10)?.map((item: any) => (
                         <SwiperSlide key={item?.id}>
                             <div
                                 className={`${

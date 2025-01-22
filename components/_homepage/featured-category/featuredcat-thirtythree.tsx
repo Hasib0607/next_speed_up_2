@@ -21,15 +21,14 @@ const FeaturedThirtyThree = ({ category, design }: any) => {
   .category-hover {
     color:  ${textColor};
   }
- 
-    `;
+`;
 
   return (
     <div>
       <style>{styleCss}</style>
       <div className="sm:container px-5 sm:py-10 py-5">
         <div className=" xl:grid-cols-8 lg:grid-cols-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 bg-white grid ">
-          {category?.slice(0, 6).map((item: any, index: any) => (
+          {category?.slice(0, 6)?.map((item: any, index: any) => (
             <div key={item.id}>
               <FeatureCatSix item={item} index={index} />
             </div>

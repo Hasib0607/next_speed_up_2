@@ -22,6 +22,7 @@ const FeatureProduct = ({ design, store_id }: any) => {
         isSuccess: featureProductSuccess,
     } = useGetFeatureProductQuery({});
     const feature_product = featureProductData?.data || [];
+    
 
     return (
         <>

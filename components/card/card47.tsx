@@ -21,7 +21,7 @@ import Details from '../_product-details-page/components/details';
 import ProdMultiCategory from '@/utils/prod-multi-category';
 import { numberParser } from '@/helpers/numberParser';
 
-const Card47 = ({ item, stopAutoplay }: any) => {
+const Card47 = ({ item }: any) => {
     const secondImg = item?.image[1] ? item?.image[1] : item?.image[0];
 
     const home = useSelector((state: RootState) => state?.home);
@@ -188,7 +188,6 @@ const Card47 = ({ item, stopAutoplay }: any) => {
                                     <div
                                         onClick={() => {
                                             setId(index);
-                                            stopAutoplay();
                                         }}
                                         className={`${
                                             id === index

@@ -30,7 +30,15 @@ import AddCartBtn from './add-cart-btn';
 import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
 import { HSlider } from './slider';
 
-const Details = ({ product, children, multicat, social, buttonStyle }: any) => {
+const Details = ({
+    product,
+    children,
+    multiCat,
+    social,
+    buttonStyle,
+    supplierDetails,
+    borderClass,
+}: any) => {
     const { headersetting, design } = useSelector(
         (state: RootState) => state.home
     );
@@ -172,6 +180,7 @@ const Details = ({ product, children, multicat, social, buttonStyle }: any) => {
     const price = productCurrentPrice(product);
     const save = howMuchSave(product);
     const parsedRating = numberParser(product?.rating, true);
+    const parsedNumberRating = numberParser(product?.number_rating);
 
     const handleAddToCart = () => {
         addToCart({
@@ -262,7 +271,7 @@ const Details = ({ product, children, multicat, social, buttonStyle }: any) => {
                                 </p>
                             )}
                     </div>
-                    {multicat && (
+                    {multiCat && (
                         <div className="flex flex-col gap-3 sm:mt-6 mt-1">
                             {/* copy from here */}
                             {Array.isArray(category) &&
@@ -289,8 +298,31 @@ const Details = ({ product, children, multicat, social, buttonStyle }: any) => {
                             {/* copy from here */}
                         </div>
                     )}
-                    <Rate rating={parsedRating} />
-                    <div className="h-[1px] bg-gray-300 w-full"></div>
+                    <div className="flex gap-x-1">
+                        <div>
+                            <Rate rating={parsedRating} />
+                        </div>
+                        <div className="text-gray-500 sm:text-sm text-xs">
+                            ({parsedNumberRating})
+                        </div>
+                    </div>
+                    {supplierDetails && (
+                        <div>
+                            {product?.supplier_name && (
+                                <p>লেখকঃ {product?.supplier_name}</p>
+                            )}
+                            {product?.brand_name && (
+                                <p>প্রকাশনীঃ {product?.brand_name}</p>
+                            )}
+                        </div>
+                    )}
+                    <div
+                        className={
+                            borderClass
+                                ? borderClass
+                                : 'h-[1px] bg-gray-300 w-full'
+                        }
+                    ></div>
 
                     <div className="text-[#3B3312] leading-6 apiHtml">
                         {parse(`${product?.description?.slice(0, 250)}`)}{' '}
