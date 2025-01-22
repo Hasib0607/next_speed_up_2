@@ -122,7 +122,7 @@ const LoginFive = () => {
                   <PasswordField register={register} />
 
                   <Link
-                    href="/password-forgot"
+                    href="/forgot-password"
                     className="text-base inline-block my-3 text-[#423b3b] hover:underline hover:text-primary"
                   >
                     Forgot your password?

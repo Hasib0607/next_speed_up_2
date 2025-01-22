@@ -9,7 +9,7 @@ import { IoBagOutline, IoSearchOutline } from 'react-icons/io5';
 import { RiMenu2Line } from 'react-icons/ri';
 
 import defaultUserImage from '@/assets/default-user-image.png';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';

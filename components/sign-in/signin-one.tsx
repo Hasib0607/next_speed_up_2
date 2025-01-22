@@ -142,7 +142,7 @@ const LoginOne = ({ design }: any) => {
 
                 <div className="flex justify-end items-center ">
                     <Link
-                        href="/password-forgot"
+                        href="/forgot-password"
                         className="label-text -mt-5 mb-5"
                     >
                         Forgot password?

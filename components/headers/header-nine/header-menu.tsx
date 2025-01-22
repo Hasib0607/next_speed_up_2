@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { imgUrl } from '@/site-settings/siteUrl';
 import Search3 from '../components/search3';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
 import { subTotal } from '@/utils/_cart-utils/cart-utils';
 import { RootState } from '@/redux/store';
 import { removeFromLocalStorage } from '@/helpers/localStorage';

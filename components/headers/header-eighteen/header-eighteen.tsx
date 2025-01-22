@@ -22,7 +22,7 @@ import { classNames } from '@/helpers/littleSpicy';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
 
 const HeaderEighteen = ({ headersetting, design, menu }: any) => {
     const router = useRouter();

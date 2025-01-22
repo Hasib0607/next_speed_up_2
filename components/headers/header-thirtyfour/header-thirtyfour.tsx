@@ -21,7 +21,7 @@ import SideMenu from '../components/side-menu';
 // customize design
 
 import defaultUserImage from '@/assets/default-user-image.png';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
 
 
 import { REDUX_PERSIST } from '@/consts';

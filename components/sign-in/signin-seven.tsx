@@ -170,7 +170,7 @@ const LoginSeven = () => {
                   </div>
 
                   <Link
-                    href="/password-forgot"
+                    href="/forgot-password"
                     className="text-sm flex justify-end  mb-2 text-[#5A5A5A] underline font-medium"
                   >
                     Forget Password?

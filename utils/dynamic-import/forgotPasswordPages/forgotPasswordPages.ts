@@ -6,9 +6,9 @@ export const forgot_password_pages: any = {
     default: dynamic(
         () => import('@/components/forgot-password/forgot-four')
     ),
-    // one: dynamic(
-    //     () => import('@/components/forgot-password/forgot-one')
-    // ),
+    one: dynamic(
+        () => import('@/components/forgot-password/forgot-one')
+    ),
     two: dynamic(
         () => import('@/components/forgot-password/forgot-four')
     ),
@@ -18,15 +18,15 @@ export const forgot_password_pages: any = {
     four: dynamic(
         () => import('@/components/forgot-password/forgot-four')
     ),
-    // five: dynamic(
-    //     () => import('@/components/forgot-password/forgot-five')
-    // ),
+    five: dynamic(
+        () => import('@/components/forgot-password/forgot-five')
+    ),
     six: dynamic(
         () => import('@/components/forgot-password/forgot-four')
     ),
-    // seven: dynamic(
-    //     () => import('@/components/forgot-password/forgot-seven')
-    // ),
+    seven: dynamic(
+        () => import('@/components/forgot-password/forgot-seven')
+    ),
     eight: dynamic(
         () => import('@/components/forgot-password/forgot-four')
     ),
@@ -34,53 +34,50 @@ export const forgot_password_pages: any = {
         () => import('@/components/forgot-password/forgot-four')
     ),
     eleven: dynamic(
-        () => import('@/components/forgot-password/forgot-four')
+        () => import('@/components/forgot-password/forgot-eleven')
     ),
-    // eleven: dynamic(
-    //     () => import('@/components/forgot-password/forgot-eleven')
-    // ),
     twelve: dynamic(
         () => import('@/components/forgot-password/forgot-four')
     ),
     thirteen: dynamic(
         () => import('@/components/forgot-password/forgot-four')
     ),
-    // fourteen: dynamic(
-    //     () => import('@/components/forgot-password/forgot-seven')
-    // ),
-    // fifteen: dynamic(
-    //     () => import('@/components/forgot-password/forgot-fifteen')
-    // ),
+    fourteen: dynamic(
+        () => import('@/components/forgot-password/forgot-seven')
+    ),
+    fifteen: dynamic(
+        () => import('@/components/forgot-password/forgot-fifteen')
+    ),
     sixteen: dynamic(
         () => import('@/components/forgot-password/forgot-four')
     ),
     seventeen: dynamic(
         () => import('@/components/forgot-password/forgot-four')
     ),
-    // eighteen: dynamic(
-    //     () => import('@/components/forgot-password/forgot-five')
-    // ),
-    // nineteen: dynamic(
-    //     () => import('@/components/forgot-password/forgot-fifteen')
-    // ),
-    // twenty: dynamic(
-    //     () => import('@/components/forgot-password/forgot-seven')
-    // ),
-    // twentyone: dynamic(
-    //     () => import('@/components/forgot-password/forgot-twentyone')
-    // ),
-    // twentytwo: dynamic(
-    //     () => import('@/components/forgot-password/forgot-twentyone')
-    // ),
-    // twentythree: dynamic(
-    //     () => import('@/components/forgot-password/forgot-one')
-    // ),
+    eighteen: dynamic(
+        () => import('@/components/forgot-password/forgot-five')
+    ),
+    nineteen: dynamic(
+        () => import('@/components/forgot-password/forgot-fifteen')
+    ),
+    twenty: dynamic(
+        () => import('@/components/forgot-password/forgot-seven')
+    ),
+    twentyone: dynamic(
+        () => import('@/components/forgot-password/forgot-twentyone')
+    ),
+    twentytwo: dynamic(
+        () => import('@/components/forgot-password/forgot-twentyone')
+    ),
+    twentythree: dynamic(
+        () => import('@/components/forgot-password/forgot-one')
+    ),
     twentyfour: dynamic(
         () => import('@/components/forgot-password/forgot-four')
     ),
-    // twentyfive: dynamic(
-    //     () => import('@/components/forgot-password/forgot-fifteen')
-    // ),
+    twentyfive: dynamic(
+        () => import('@/components/forgot-password/forgot-fifteen')
+    ),
     twentysix: dynamic(
         () => import('@/components/forgot-password/forgot-four')
     ),

@@ -16,7 +16,7 @@ import Search3 from '../components/search3';
 import userImg from '@/assets/img/user.png';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import SideMenuWithCategory from './side-menu-with-category';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';

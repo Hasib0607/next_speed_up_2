@@ -13,7 +13,7 @@ import { IoLogoWhatsapp } from 'react-icons/io5';
 import SideMenu from '../components/side-menu';
 
 import '../header-six/header-six.css';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
 
 
 const HeaderTwentyNineMenu = ({ menu, design, headersetting}: any) => {
