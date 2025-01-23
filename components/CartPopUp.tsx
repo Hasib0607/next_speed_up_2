@@ -12,8 +12,6 @@ const CartPopUp = () => {
     const CartPopUpComponent =
         card_pop_up_pages[design?.product_card] || card_pop_up_pages[DEFAULT];
 
-    console.log("design?.product_card", design?.product_card);
-
     return (
         <>
             {design?.product_card && CartPopUpComponent && (

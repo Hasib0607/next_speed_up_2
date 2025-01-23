@@ -37,7 +37,7 @@ export const checkout_pages: any = {
     //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     // ),
     // eleven: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
+    //     () => import('@/components/_checkout-page/checkout-eleven/checkout-eleven')
     // ),
     // twelve: dynamic(
     //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
