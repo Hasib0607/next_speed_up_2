@@ -1,8 +1,7 @@
 'use client';
 
-import Announcement from '@/components/Announcement';
-import CartPopUp from '@/components/CartPopUp';
-// import AllMobileBottomMenu from "./mobileBottomMenu";
+import dynamic from 'next/dynamic';
+import { useSelector } from 'react-redux';
 import {
     useGetDesignQuery,
     useGetHeaderSettingsQuery,
@@ -10,8 +9,9 @@ import {
 } from '@/redux/features/home/homeApi';
 import { RootState } from '@/redux/store';
 
-import dynamic from 'next/dynamic';
-import { useSelector } from 'react-redux';
+import Announcement from '@/components/Announcement';
+import CartPopUp from '@/components/CartPopUp';
+import MobileBottomMenu from '@/components/mobile-bottom-menu';
 
 const Header = dynamic(() => import('@/components/Header'), { ssr: false });
 const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
@@ -34,13 +34,11 @@ export default function RootLayout({
 
     return (
         <>
-            {store_id && design && (
-                <Announcement design={design} store_id={store_id} />
-            )}
+            <Announcement design={design} store_id={store_id} />
             <Header design={design} />
             {children}
-            {/* <AllMobileBottomMenu/> */}
-            <CartPopUp />
+            <CartPopUp design={design} />
+            <MobileBottomMenu design={design} />
             <Footer design={design} />
         </>
     );

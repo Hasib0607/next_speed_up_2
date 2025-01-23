@@ -39,8 +39,8 @@ import BDT from '@/utils/bdt';
 import { customizeHeader } from '@/utils/customizeDesign';
 import { useRouter } from 'next/navigation';
 import { subTotal } from '@/utils/_cart-utils/cart-utils';
-import { cancelIcon } from '@/assets/svgComp';
 import { SingleCat } from '../components/single-cat';
+import { cancelIcon } from '@/assets/svg';
 
 const HeaderThirtyFour = ({ headersetting, design, menu, user }: any) => {
     const router = useRouter();

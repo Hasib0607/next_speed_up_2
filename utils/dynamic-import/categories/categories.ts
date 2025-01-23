@@ -7,21 +7,21 @@ export const categories: any = {
         () => import('@/components/_category-page/category-seven-new'),
         { ssr: false }
     ),
-    // one: dynamic(() => import("@/components/headers/header-one/header-one")),
-    // two: dynamic(() => import("@/components/headers/header-two/header-two")),
+    one: dynamic(() => import("@/components/_category-page/category-one")),
+    two: dynamic(() => import("@/components/_category-page/category-two")),
     three: dynamic(
         () => import('@/components/_category-page/category-seven-new'),
         { ssr: false }
     ),
-    // four: dynamic(() => import("@/components/headers/header-four/header-four")),
-    // five: dynamic(() => import("@/components/headers/header-five/header-five")),
-    // six: dynamic(() => import("@/components/headers/header-six/header-six")),
+    // four: dynamic(() => import("@/components/_category-page/header-four")),
+    // five: dynamic(() => import("@/components/_category-page/header-five")),
+    // six: dynamic(() => import("@/components/_category-page/header-six")),
     seven: dynamic(
         () => import('@/components/_category-page/category-seven-new'),
         { ssr: false }
     ),
     // eight: dynamic(
-    //   () => import("@/components/headers/header-eight/header-eight")
+    //   () => import("@/components/_category-page/header-eight")
     // ),
     // nine: dynamic(() => import("@/components/headers/header-nine/header-nine")),
     // ten: dynamic(() => import("@/components/headers/header-ten/header-ten")),
