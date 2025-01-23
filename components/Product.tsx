@@ -29,7 +29,7 @@ const Product = ({ store_id, design }: any) => {
                     store_id={store_id}
                     product={product}
                     category={category}
-                    categoryId={category?.[0]?.id}
+                    categoryId={category[0]?.id}
                     best_sell_product={best_sell_product}
                     feature_product={feature_product}
                     headersetting={headersetting}
