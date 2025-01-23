@@ -1,33 +1,20 @@
 "use client";
 
-import Card16 from "@/components/card/card16";
-import SectionHeadingTen from "@/components/section-heading/section-heading-ten";
-import { useGetCategoryProductQuery } from "@/redux/features/products/productApi";
-import { RootState } from "@/redux/store";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 
-const ProductTwo = ({ category, categoryId }: any) => {
-  const [active, setActive] = useState(0);
-  const [products, setProducts] = useState([]);
-  const [id, setId] = useState(categoryId);
+import SectionHeadingTen from "@/components/section-heading/section-heading-ten";
+import { RootState } from "@/redux/store";
+import {  useState } from "react";
+import { useSelector } from "react-redux";
+import CatProductsList from "./components/cat-products-list";
+
+const ProductTwo = ({ category }: any) => {
+const [id, setId] = useState(category[0]?.id);
 
   const headerdata = useSelector((state: RootState) => state.home.headersetting);
 
   const { custom_design } = headerdata || {};
   const sectionHeadingData = custom_design?.product?.[0] || {};
   const { title = 'Default Title', title_color = '#000' } = sectionHeadingData || {};
-
-  const { data, isLoading, isFetching, isError, isSuccess } =
-      useGetCategoryProductQuery(
-          { id }
-      );
-
-  useEffect(() => {
-      if (isSuccess && data) {
-          setProducts(data?.data?.products);
-      }
-  }, [data, isSuccess]);
 
   const styleCss = `
     .active-cat {
@@ -46,13 +33,12 @@ const ProductTwo = ({ category, categoryId }: any) => {
           title_color={title_color || "#000"}
         />
         <div className="flex flex-wrap gap-y-3 gap-x-5 text-lg justify-center pb-8 lg:cursor-pointer uppercase">
-          {category?.slice(0, 3)?.map((item: any, index: any) => (
+          {category?.slice(0, 3)?.map((item: any) => (
             <div key={item.id}>
               <h1
-                className={`${active === index ? "active-cat" : ""} `}
+                className={`${id === item.id ? "active-cat" : ""} `}
                 onClick={() => {
-                  setActive(index);
-                  setId(index);
+                  setId(item.id);
                 }}
               >
                 {item.name}
@@ -60,23 +46,18 @@ const ProductTwo = ({ category, categoryId }: any) => {
             </div>
           ))}
         </div>
-
-        {products?.length > 0 ? (
-          <div className="grid grid-cols-2 xl:grid-cols-5 xl3:grid-cols-6 lg:grid-cols-4 md:grid-cols-3 gap-5">
-            {products
-              ?.slice(0, 10)
-              ?.map((productData: any) => (
-                <Card16
-                  item={productData}
-                  key={productData?.id}
-                />
-              ))}
-          </div>
-        ) : (
-          <div className="text-red-500 text-center py-10 text-xl">
-            No Products Available
-          </div>
-        )}
+        <CatProductsList
+                id={id}
+                className={
+                    'grid grid-cols-2 xl:grid-cols-5 xl3:grid-cols-6 lg:grid-cols-4 md:grid-cols-3 gap-5'
+                }
+                card={'16'}
+                count={10}
+            >
+                <div className="text-red-500 text-center py-10 text-xl">
+                    No Products Available
+                </div>
+            </CatProductsList>
       </div>
     </div>
   );
