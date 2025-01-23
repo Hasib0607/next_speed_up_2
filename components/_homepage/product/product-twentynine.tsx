@@ -3,9 +3,11 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import CatProductsList from './components/cat-products-list';
+import { RootState } from '@/redux/store';
+
 
 const ProductTwentyNine = ({ category, design }: any) => {
-    const home = useSelector((state: any) => state?.home);
+    const home = useSelector((state: RootState) => state?.home);
     const { headersetting } = home || {};
 
     const [id, setId] = useState(category[0]?.id);
