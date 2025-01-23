@@ -15,7 +15,7 @@ const Checkout = () => {
         checkout_pages[design?.checkout_page];
         //  || checkout_pages[DEFAULT];
 
-        console.log("design?.checkout_page", design?.checkout_page);
+        // console.log("design?.checkout_page", design?.checkout_page);
 
     const router = useRouter();
     const { user } = useSelector((state: any) => state.auth);
