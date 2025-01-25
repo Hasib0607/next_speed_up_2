@@ -1,10 +1,11 @@
 'use client';
+
 import {
     HomeIcon,
     ShoppingCartIcon,
     UserIcon,
 } from '@heroicons/react/24/solid';
-import React, { useState, FC } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 
 import { motion, AnimatePresence } from 'framer-motion';
@@ -16,17 +17,15 @@ import { customizeMobileNavThree } from '@/utils/customizeDesign';
 import { RootState } from '@/redux/store';
 import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { cancelIcon, gridIcon, searchIcon } from '@/assets/svg';
+import { MobileNavProps } from '@/types';
 
-const MobileNavThree = () => {
+const MobileNavThree = ({ design }: MobileNavProps) => {
     const [active, setActive] = useState('home');
     const [open, setOpen] = useState(false);
-    const [cart, setCart] = useState(false);
     const [searchshow, setSearchshow] = useState(false);
-
     const [openCart, setOpenCart] = useState(false);
 
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
     const { cartList } = useSelector((state: RootState) => state.cart);
 
     const { data: categoryData } = useGetCategoryQuery({});
@@ -65,7 +64,7 @@ const MobileNavThree = () => {
                                 if (item === 'search')
                                     setSearchshow(!searchshow);
                                 if (item === 'home') setActive('home');
-                                if (item === 'cart') setCart(!cart);
+                                if (item === 'cart') setOpenCart(!openCart);
                                 else setActive(item);
                             }}
                             className="rounded-full px-3 py-2 transition-all duration-300 ease-linear"
@@ -124,7 +123,6 @@ const MobileNavThree = () => {
                                             </p>
                                         </div>
                                     )}
-                                    {/* CartSideBar open  */}
                                     <CartSideBar
                                         open={openCart}
                                         setOpen={setOpenCart}
@@ -259,7 +257,7 @@ interface Category {
     id: string;
     icon?: string;
     name: string;
-    cat?: SubCategory[];
+    subcategories?: SubCategory[];
 }
 
 interface SingleCatProps {
@@ -280,6 +278,8 @@ export const SingleCat: React.FC<SingleCatProps> = ({
     const mobileNavThreeIcon = customizeMobileNavThree.find(
         (item) => item.id == store_id
     );
+    const subcategories = item?.subcategories || [];
+
     return (
         <>
             <div className="w-full flex justify-between py-3 lg:cursor-pointer">
@@ -299,7 +299,7 @@ export const SingleCat: React.FC<SingleCatProps> = ({
                         <p>{item.name}</p>
                     </span>
                 </Link>
-                {item?.cat && (
+                {subcategories?.length > 0 && (
                     <div className="px-4 h-full">
                         {show ? (
                             <IoIosArrowUp
@@ -318,7 +318,7 @@ export const SingleCat: React.FC<SingleCatProps> = ({
 
             {show && (
                 <div className="ml-8">
-                    {item.cat?.map((sub: any) => (
+                    {subcategories?.map((sub: any) => (
                         <div className="py-2" key={sub.id}>
                             <Link href={`/category/${sub.id}`} passHref>
                                 <span
@@ -348,103 +348,3 @@ export const SingleCat: React.FC<SingleCatProps> = ({
         </>
     );
 };
-
-const gridIcon = (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
-        width="25"
-    >
-        <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-    </svg>
-);
-
-const searchIcon = (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentcolor"
-        strokeWidth="2"
-    >
-        <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-        />
-    </svg>
-);
-
-export const cancelIcon = (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        className="size-6"
-    >
-        <path
-            fillRule="evenodd"
-            d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
-            clipRule="evenodd"
-        />
-    </svg>
-);
-
-const cancelIcon2 = (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="white"
-        className="size-6"
-    >
-        <path
-            fill-rule="evenodd"
-            d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
-            clipRule="evenodd"
-        />
-    </svg>
-);
-
-const cartIcon = (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
-        width="25"
-    >
-        <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
-    </svg>
-);
-
-const homeIcon = (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
-        width="25"
-        className="hoverIcon"
-    >
-        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
-    </svg>
-);
-
-const userIcon = (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
-        width="25"
-    >
-        <path
-            fill-rule="evenodd"
-            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-            clipRule="evenodd"
-        ></path>
-    </svg>
-);

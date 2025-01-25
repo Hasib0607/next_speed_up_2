@@ -7,9 +7,7 @@ export default async function Home() {
     return (
         <>
             <HomePage design={design} />
-            {/* <AllMobileBottomMenu/> */}
             {/* <HomepageLoad /> */}
-            {/* <MobileNavThree/> */}
         </>
     );
 }

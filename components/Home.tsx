@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 
 import { useGetLayoutQuery } from '@/redux/features/home/homeApi';
 import Loading from '@/app/loadingx';
+import { useSelector } from 'react-redux';
 
 
 const RenderSection = dynamic(
@@ -19,6 +20,8 @@ const HomePage = ({design}:any) => {
     } = useGetLayoutQuery({});
     const layout = layoutData?.data || [];
 
+    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
+
     if (isError) {
         return null;
     }
@@ -32,7 +35,7 @@ const HomePage = ({design}:any) => {
             {layout &&
                 layout?.length > 0 &&
                 layout?.map((item: any, index: number) => (
-                    <RenderSection key={index} component={item} design={design} />
+                    <RenderSection key={index} component={item} design={design} appStore={store} />
                 ))}
         </>
     );

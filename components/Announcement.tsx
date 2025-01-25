@@ -27,7 +27,7 @@ const Announcement = ({ design, store_id }: any) => {
 
     return (
         <>
-            {announcements?.length > 0 && (
+            {store_id && design && announcements?.length > 0 && (
                 <div
                     id="annoucement"
                     style={{ background: design?.header_color }}

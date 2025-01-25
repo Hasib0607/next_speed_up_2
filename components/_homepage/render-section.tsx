@@ -2,8 +2,6 @@
 
 import dynamic from 'next/dynamic';
 
-import { useSelector } from 'react-redux';
-
 const Hero = dynamic(() => import('@/components/Hero'));
 const Promo = dynamic(() => import('@/components/Promo'));
 const PromoBottom = dynamic(() => import('@/components/PromoBottom'));
@@ -30,12 +28,11 @@ type ComponentType =
 interface RenderSectionProps {
     component: ComponentType;
     design: any;
+    appStore: any;
 }
 
-const RenderSection = ({ component,design }: RenderSectionProps) => {
-    
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+const RenderSection = ({ component, design, appStore }: RenderSectionProps) => {
+    const store_id = appStore?.id || null;
 
     switch (component) {
         // Hero section
