@@ -32,6 +32,8 @@ import Filters from './components/filters';
 import SingleCategory from './components/single-category';
 
 const Seven = ({ catId, store_id }: any) => {
+
+    const module_id = 105;
     const dispatch = useDispatch();
     const pathName = usePathname();
     const currentPath = getPathName(pathName);
@@ -46,6 +48,7 @@ const Seven = ({ catId, store_id }: any) => {
 
     const [open, setOpen] = useState(false);
     const [hasMore, setHasMore] = useState<any>(true);
+    const [paginate, setPaginate] = useState<any>({});
 
     // setting the initial page number
     const [page, setPage] = useState(1);
@@ -79,14 +82,14 @@ const Seven = ({ catId, store_id }: any) => {
     const category = categoryStore?.categories || [];
 
     const paginationModule = modules?.find(
-        (item: any) => item?.modulus_id === 105
+        (item: any) => item?.modulus_id === module_id
     );
-    const isPagination = parseInt(paginationModule?.status) === 1;
+    const isPagination = numberParser(paginationModule?.status) === 1;
 
     useEffect(() => {
         if (categoryPageProductsSuccess) {
             const categoryData = categoryPageProductsData?.data || [];
-
+            setPaginate(categoryData?.pagination);
             if (isPagination) {
                 setProducts(categoryData?.products || []);
             } else {
@@ -206,7 +209,6 @@ const Seven = ({ catId, store_id }: any) => {
                                         color="#f1593a"
                                         ariaLabel="three-dots-loading"
                                         wrapperStyle={{}}
-                                        // wrapperClassName=""
                                         visible={true}
                                     />
                                 </div>
@@ -255,12 +257,12 @@ const Seven = ({ catId, store_id }: any) => {
                     </>
                 )}
 
-                {isPagination && categoryPageProductsData?.data?.total > 7 ? (
+                {isPagination && paginate?.total > 7 ? (
                     <div className="md:mt-12 flex justify-center">
                         <PaginationComponent
                             initialPage={page}
                             setPage={setPage}
-                            lastPage={categoryPageProductsData?.data?.last_page}
+                            paginate={paginate}
                         />
                     </div>
                 ) : null}

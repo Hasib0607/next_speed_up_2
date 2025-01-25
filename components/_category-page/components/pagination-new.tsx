@@ -1,10 +1,9 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 
-const PaginationComponent = ({
-    lastPage,
-    setPage,
-    initialPage
-}: any) => {
+const PaginationComponent = ({ paginate, setPage, initialPage }: any) => {
+    const lastPage = paginate?.last_page;
     const [activePage, setActivePage] = useState(initialPage); // Track the active page
     const pages = Array.from({ length: lastPage }, (_, i) => i + 1);
 
@@ -15,9 +14,8 @@ const PaginationComponent = ({
 
     useEffect(() => {
         // Scroll to the top when activePage changes
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }, [activePage]); // Trigger effect on activePage change
-
 
     return (
         <div className="flex justify-center items-center gap-5">

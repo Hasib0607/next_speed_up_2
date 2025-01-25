@@ -1,10 +1,10 @@
 'use client';
 
 // import store form rtk
-import store, { persistor } from '@/redux/store';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 import StoreLayer from './StoreLayer';
+import { Provider } from 'react-redux';
+import store, { persistor } from '@/redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
