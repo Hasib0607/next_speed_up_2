@@ -12,7 +12,10 @@ const Category = ({ catId }: any) => {
     const store_id = storeData?.id || null;
 
     const CategoryComponent =
-        categories[design?.shop_page] || categories[DEFAULT];
+        categories[design?.shop_page];
+        //  || categories[DEFAULT];
+
+    console.log("design?.shop_page", design?.shop_page);
 
     return (
         <>

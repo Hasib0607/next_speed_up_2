@@ -30,6 +30,7 @@ import { RootState } from '@/redux/store';
 import { usePathname } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { numberParser } from '@/helpers/numberParser';
+import FilterByBrand from '@/components/_category-page/components/filter-by-brand';
 
 const Seven = () => {
     const module_id = 105
@@ -146,13 +147,20 @@ const Seven = () => {
                 </div>
 
                 {/* Filter By Price New */}
-                <div className="bg-gray-100 border-2 border-gray-200 p-4">
+                <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
                     <FilterByPriceNew
                         priceValue={priceValue}
                         setPage={setPage}
                         setHasMore={setHasMore}
                     />
                 </div>
+                {/* Filter By Brand */}
+                {/* <div className="bg-gray-100 border-2 border-gray-200 p-4">
+                    <FilterByBrand
+                        setPage={setPage}
+                        setHasMore={setHasMore}
+                    />
+                </div> */}
             </div>
 
             <div className="col-span-5 lg:col-span-4 w-full">
