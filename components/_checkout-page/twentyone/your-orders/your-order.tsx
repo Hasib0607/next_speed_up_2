@@ -1,10 +1,10 @@
 'use client';
 
-import FileUploadModal from '@/utils/FileUploadModal';
 import {
     clearCartList,
     removeFromCartList,
 } from '@/redux/features/cart/cartSlice';
+import FileUploadModal from '@/utils/FileUploadModal';
 import { CrossCircledIcon } from '@radix-ui/react-icons';
 
 import { getPrice } from '@/helpers/getPrice';
@@ -29,7 +29,6 @@ import PaymentGateway from '../payment-gateway/payment-gateway';
 // Helper function to conditionally select a value
 import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
 import { getFromLocalStorage } from '@/helpers/localStorage';
-
 
 const YourOrders = ({
     couponDis,
@@ -143,8 +142,8 @@ const YourOrders = ({
         }
     }
 
+    // Append all non-image properties of the cart item
     for (let i = 0; i < cart?.length; i++) {
-        // Append all non-image properties of the cart item
         for (let key in cart[i]) {
             if (key !== 'items') {
                 formData.append(`product[${i}][${key}]`, cart[i][key]);
@@ -182,7 +181,8 @@ const YourOrders = ({
                 isAuthenticated
             ),
             note: selectAddress?.note,
-            district: selectAddress?.district,
+            district: 'selectAddress?.district',
+            address_id: selectAddress?.id,
             payment_type: selectPayment,
             subtotal: parseInt(total),
             shipping: parseInt(shippingArea),
@@ -227,8 +227,9 @@ const YourOrders = ({
         phone: data.phone,
         email: data.email,
         address: data.address,
-        note: selectAddress?.note,
-        district: selectAddress?.district,
+        note: data?.note,
+        district: data?.district,
+        address_id: data?.address_id,
         payment_type: selectPayment,
         subtotal: data.subtotal,
         shipping: data.shipping,
@@ -330,6 +331,8 @@ const YourOrders = ({
             setIsAbleToOrder(false);
         }
     }, [data, shippingArea]);
+
+    console.log(selectAddress);
 
     return (
         <div
@@ -507,14 +510,14 @@ const YourOrders = ({
                         : 'Place Order'}
                 </button>
             )}
-                <FileUploadModal
-                    files={files}
-                    setFiles={setFiles}
-                    isOpen={isOpen}
-                    design={design}
-                    setIsOpen={setIsOpen}
-                    cartId={cartId}
-                />
+            <FileUploadModal
+                files={files}
+                setFiles={setFiles}
+                isOpen={isOpen}
+                design={design}
+                setIsOpen={setIsOpen}
+                cartId={cartId}
+            />
         </div>
     );
 };

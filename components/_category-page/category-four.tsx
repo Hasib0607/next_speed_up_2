@@ -7,7 +7,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { ThreeDots } from "react-loader-spinner";
 
 import { catImg } from "@/site-settings/siteUrl";
-import CBH from "./components/category-breadcrumb-heading";
+import CBH from "./components/breadcrumb-heading-wrapper";
 import ProductCardTwo from "@/components/card/product-card/product-card-two";
 import { usePathname } from "next/navigation";
 import { getPathName, getSecondPathName } from "@/helpers/littleSpicy";

@@ -3,23 +3,20 @@
 import dynamic from 'next/dynamic';
 
 export const shops: any = {
-    default: dynamic(
-        () => import('@/components/_shop-page/seven/seven'),
-        { ssr: false }
-    ),
-    // one: dynamic(() => import("@/components/headers/header-one/header-one")),
-    // two: dynamic(() => import("@/components/headers/header-two/header-two")),
-    three: dynamic(
-        () => import('@/components/_shop-page/seven/seven'),
-        { ssr: false }
-    ),
-    // four: dynamic(() => import("@/components/headers/header-four/header-four")),
-    // five: dynamic(() => import("@/components/headers/header-five/header-five")),
-    // six: dynamic(() => import("@/components/headers/header-six/header-six")),
-    seven: dynamic(
-        () => import('@/components/_shop-page/seven/seven'),
-        { ssr: false }
-    ),
+    default: dynamic(() => import('@/components/_shop-page/one/one'), {
+        ssr: false,
+    }),
+    one: dynamic(() => import('@/components/_shop-page/one/one')),
+    two: dynamic(() => import('@/components/_shop-page/two/two')),
+    three: dynamic(() => import('@/components/_shop-page/three/three'), {
+        ssr: false,
+    }),
+    four: dynamic(() => import('@/components/_shop-page/four/four')),
+    five: dynamic(() => import('@/components/_shop-page/five/five')),
+    // six: dynamic(() => import("@/components/_shop-page/six/six")),
+    seven: dynamic(() => import('@/components/_shop-page/seven/seven'), {
+        ssr: false,
+    }),
     // eight: dynamic(
     //   () => import("@/components/headers/header-eight/header-eight")
     // ),
@@ -113,7 +110,6 @@ export const shops: any = {
     //   () => import("@/components/headers/header-forty/header-forty")
     // ),
 };
-
 
 // import Eight from "./_shop-page/shops/eight/eight";
 // import Eighteen from "./_shop-page/shops/eighteen/eighteen";

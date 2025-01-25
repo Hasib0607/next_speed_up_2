@@ -1,14 +1,18 @@
 'use client';
 
-import Card16 from '@/components/card/card16';
+import Card23 from '@/components/card/card23';
 import Card6 from '@/components/card/card6';
+import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
+import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
+
+import { numberParser } from '@/helpers/numberParser';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import {
-    useGetCategoryPageProductsQuery,
     useGetColorsQuery,
+    useGetShopPageProductsQuery,
 } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
-import Skeleton from '@/components/loaders/skeleton';
+import { setSort } from '@/redux/features/filters/filterSlice';
 import { MinusIcon, PlusIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
@@ -19,19 +23,26 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { ThreeDots } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '@/components/_category-page/components/pagination';
+import Skeleton from '@/components/loaders/skeleton';
 
-import { setSort } from '@/redux/features/filters/filterSlice';
-import FilterByColorNew from './components/filter-by-color-new';
-import FilterByPriceNew from './components/filter-by-price-new';
-import { numberParser } from '@/helpers/numberParser';
-
-const CategoryTwo = ({ catId, store_id, design }: any) => {
+const Three = ({ design, store_id }: any) => {
+    const module_id = 105;
     const dispatch = useDispatch();
+
+    const { data: modulesData } = useGetModulesQuery({ store_id });
+    const modules = modulesData?.data || [];
+
     const [grid, setGrid] = useState('H');
     const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState<any>(true);
+    const [paginate, setPaginate] = useState<any>({});
+
+    const filtersData = useSelector((state: RootState) => state.filters);
+
+    // get the activecolor, pricevalue, selectedSort
+    const { color: activeColor, price: priceValue } = filtersData || {};
 
     const {
         data: colorsData,
@@ -41,12 +52,14 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
 
     const colors = colorsData?.data || [];
 
-    const categoryStore = useSelector((state: any) => state?.category);
+    const categoryStore = useSelector((state: RootState) => state?.category);
+
     const category = categoryStore?.categories || [];
 
-    const filtersData = useSelector((state: RootState) => state.filters);
-    // get the activecolor, pricevalue, selectedSort
-    const { color: activeColor, price: priceValue } = filtersData || {};
+    const paginationModule = modules?.find(
+        (item: any) => item?.modulus_id === module_id
+    );
+    const isPagination = parseInt(paginationModule?.status) === 1;
 
     const bgColor = design?.header_color;
     const textColor = design?.text_color;
@@ -54,34 +67,31 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
     const styleCss = `
     .text-hover:hover {
       color:  ${bgColor};
-  }
-  .filter {
-    color:${textColor};
-    background:${bgColor};
-  }
-  .border-hover:hover {
-    border: 1px solid  ${bgColor};
-  }
-`;
+    }
+    .filter {
+        color:${textColor};
+        background:${bgColor};
+    }
+    .border-hover:hover {
+        border: 1px solid  ${bgColor};
+    }
+ 
+    `;
 
     return (
-        <div className="sm:container px-5 sm:py-10 py-5">
+        <div className="sm:py-10 py-5 sm:container px-5">
             <style>{styleCss}</style>
             <div className="grid grid-cols-9 gap-5">
                 {/* filter side design  */}
-                <div className="lg:col-span-2 w-full items-end lg:block hidden">
-                    <div className="w-full bg-gray-100 border-2 border-gray-200 text-black my-6 py-6 px-4">
+                <div className="md:col-span-2 w-full items-end lg:block hidden">
+                    <div className="w-full bg-gray-100 border-2 border-gray-200 text-black pl-6 pt-7 pb-6 ">
                         <h1 className="font-semibold ">FILTER BY</h1>
                         {category?.map((item: any) => (
-                            <SingleCat
-                                key={item?.id}
-                                item={item}
-                                design={design}
-                            />
+                            <SingleCat key={item?.id} item={item} />
                         ))}
                     </div>
 
-                    <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
+                    <div className="bg-gray-100 border-2 border-gray-200 text-black p-4 my-6 rounded shadow">
                         <FilterByColorNew
                             colors={colors}
                             activeColor={activeColor}
@@ -89,7 +99,7 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
                             setHasMore={setHasMore}
                         />
                     </div>
-                    <div className="bg-gray-100 border-2 border-gray-200 p-4">
+                    <div className="bg-gray-100 border-2 border-gray-200 text-black p-4 rounded shadow">
                         <FilterByPriceNew
                             priceValue={priceValue}
                             setPage={setPage}
@@ -116,16 +126,27 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
                     </div>
                     {/* All product card  */}
 
-                    <div className="mt-4 mb-6 ">
-                        <ProductSection
-                            catId={catId}
-                            open={open}
+                    <div className="mt-4 mb-6 mx-4 md:mx-0">
+                        <ShopProductSection
                             grid={grid}
+                            open={open}
                             hasMore={hasMore}
                             setHasMore={setHasMore}
                             page={page}
                             setPage={setPage}
+                            isPagination={isPagination}
+                            setPaginate={setPaginate}
                         />
+
+                        {isPagination && paginate?.total > 7 ? (
+                            <div className="my-5">
+                                <Pagination
+                                    paginate={paginate}
+                                    initialPage={page}
+                                    setPage={setPage}
+                                />
+                            </div>
+                        ) : null}
                     </div>
                 </div>
             </div>
@@ -133,76 +154,65 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
     );
 };
 
-export default CategoryTwo;
+export default Three;
 
-const ProductSection = ({
+const ShopProductSection = ({
     grid,
     open,
-    catId,
     page,
     setPage,
     hasMore,
     setHasMore,
+    isPagination,
+    setPaginate,
 }: any) => {
-    const module_id = 105;
-    const storeData = useSelector((state: any) => state.appStore.store); // Access updated Redux state
-    const store_id = storeData?.id || null;
-    const { data: modulesData } = useGetModulesQuery({ store_id });
-    const modules = modulesData?.data || [];
-
     const filtersData = useSelector((state: RootState) => state.filters);
 
-    const [paginate, setPaginate] = useState<any>({});
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
 
     const {
-        data: categoryPageProductsData,
-        isLoading: categoryPageProductsLoading,
-        isFetching: categoryPageProductsFetching,
-        isError: categoryPageProductsError,
-        isSuccess: categoryPageProductsSuccess,
-        refetch: categoryPageProductsRefetch,
-    } = useGetCategoryPageProductsQuery({ catId, page, filtersData });
+        data: shopPageProductsData,
+        isLoading: shopPageProductsLoading,
+        isFetching: shopPageProductsFetching,
+        isSuccess: shopPageProductsSuccess,
+        isError: shopPageProductsError,
+        refetch,
+    } = useGetShopPageProductsQuery({ page, filtersData });
 
     const nextPageFetch = () => {
         setPage((prev: any) => prev + 1);
-        categoryPageProductsRefetch();
+        refetch();
     };
 
-    const categoryStore = useSelector((state: any) => state?.category);
+    const categoryStore = useSelector((state: RootState) => state?.category);
+
     const category = categoryStore?.categories || [];
 
-    const paginationModule = modules?.find(
-        (item: any) => item?.modulus_id === module_id
-    );
-    const isPagination = numberParser(paginationModule?.status) === 1;
-
     useEffect(() => {
-        if (categoryPageProductsSuccess) {
-            const categoryData = categoryPageProductsData?.data || [];
-            setPaginate(categoryData?.pagination);
+        if (shopPageProductsSuccess) {
+            const productsData = shopPageProductsData?.data || [];
+            setPaginate(productsData?.pagination);
             if (isPagination) {
-                setProducts(categoryData?.products || []);
+                setProducts(productsData?.products || []);
             } else {
                 setProducts((prev) =>
                     Array.isArray(prev)
-                        ? [...prev, ...(categoryData?.products || [])]
-                        : categoryData?.products || []
+                        ? [...prev, ...(productsData?.products || [])]
+                        : productsData?.products || []
                 );
                 setPage(1);
             }
-        } else if (
-            categoryPageProductsData?.data?.pagination?.current_page === 1
-        ) {
+        } else if (shopPageProductsData?.data?.pagination?.current_page === 1) {
             setHasMore(false);
         }
     }, [
-        categoryPageProductsData,
+        shopPageProductsData,
+        setPaginate,
         isPagination,
         setHasMore,
         setPage,
-        categoryPageProductsSuccess,
+        shopPageProductsSuccess,
     ]);
 
     return (
@@ -214,16 +224,16 @@ const ProductSection = ({
                         <p className="h-[1px] w-14 bg-black"></p>
                     </div>
                     <div className="flex flex-col gap-3 md:w-[40%] w-[90%]">
-                        {category?.map((item: any) => (
-                            <SingleCat key={item?.id} item={item} />
+                        {category?.map((item: any, idx: any) => (
+                            <SingleCat key={idx} item={item} />
                         ))}
                     </div>
                 </div>
             )}
 
             {/* show loading */}
-            {(categoryPageProductsLoading && !categoryPageProductsError) ||
-            categoryPageProductsFetching
+            {(shopPageProductsLoading && !shopPageProductsError) ||
+            shopPageProductsFetching
                 ? Array.from({ length: 8 }).map((_, index) => (
                       <Skeleton key={index} />
                   ))
@@ -257,9 +267,9 @@ const ProductSection = ({
                     >
                         {grid === 'H' && (
                             <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 xl:grid-cols-4 md:gap-5 grid-cols-2 gap-2 mt-10">
-                                {products?.map((item: any, key: number) => (
+                                {products?.map((item: any, idx: any) => (
                                     <motion.div
-                                        key={key}
+                                        key={idx}
                                         initial={{ scale: 0 }}
                                         animate={{ scale: 1 }}
                                         transition={{
@@ -267,7 +277,7 @@ const ProductSection = ({
                                             ease: 'linear',
                                         }}
                                     >
-                                        <Card16 item={item} />
+                                        <Card23 item={item} />
                                     </motion.div>
                                 ))}
                             </div>
@@ -275,9 +285,9 @@ const ProductSection = ({
                         <AnimatePresence>
                             {grid === 'V' && (
                                 <div className="grid grid-cols-1 lg:gap-5 md:gap-5 gap-2 mt-10">
-                                    {products?.map((item: any, key: number) => (
+                                    {products?.map((item: any, idx: any) => (
                                         <motion.div
-                                            key={key}
+                                            key={idx}
                                             className=""
                                             initial={{ translateX: 200 }}
                                             animate={{ translateX: 0 }}
@@ -299,9 +309,9 @@ const ProductSection = ({
                 <div>
                     {grid === 'H' && (
                         <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 xl:grid-cols-4 md:gap-5 grid-cols-2 gap-2 mt-10">
-                            {products?.map((item: any, key: number) => (
+                            {products?.map((item: any) => (
                                 <motion.div
-                                    key={key}
+                                    key={item.id}
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
                                     transition={{
@@ -309,7 +319,7 @@ const ProductSection = ({
                                         ease: 'linear',
                                     }}
                                 >
-                                    <Card16 item={item} />
+                                    <Card23 item={item} />
                                 </motion.div>
                             ))}
                         </div>
@@ -317,9 +327,9 @@ const ProductSection = ({
                     <AnimatePresence>
                         {grid === 'V' && (
                             <div className="grid grid-cols-1 lg:gap-5 md:gap-5 gap-2 mt-10">
-                                {products?.map((item: any, key: number) => (
+                                {products?.map((item: any) => (
                                     <motion.div
-                                        key={key}
+                                        key={item.id}
                                         className=""
                                         initial={{ translateX: 200 }}
                                         animate={{ translateX: 0 }}
@@ -337,16 +347,6 @@ const ProductSection = ({
                     </AnimatePresence>
                 </div>
             )}
-
-            {isPagination && paginate?.total > 7 ? (
-                <div className="my-5">
-                    <Pagination
-                        paginate={paginate}
-                        initialPage={page}
-                        setPage={setPage}
-                    />
-                </div>
-            ) : null}
         </>
     );
 };
@@ -412,7 +412,7 @@ const Filter = ({ onChange, setGrid, setOpen, open }: any) => {
     );
 };
 
-const SingleCat = ({ item, design }: any) => {
+const SingleCat = ({ item }: any) => {
     const [show, setShow] = useState(false);
     const { id }: any = useParams<{ id: string }>();
     useEffect(() => {
@@ -422,37 +422,33 @@ const SingleCat = ({ item, design }: any) => {
             }
         }
     }, [item?.cat, id]);
-    
-    const activeColor = `text-[${design?.header_color}] flex-1 text-sm font-medium`;
-    const inactiveColor = 'text-gray-500 flex-1 text-sm font-medium';
-    const activesub = `text-[${design?.header_color}] pb-2 text-sm`;
-    const inactivesub = `text-gray-600 pb-2 text-sm`;
 
     return (
         <>
             <div className="w-full flex py-3 lg:cursor-pointer">
                 <Link
-                    onClick={() => setShow(!show)}
                     href={'/category/' + item.id}
-                    className={id == item?.id ? activeColor : inactiveColor}
+                    className={`flex-1 text-sm font-medium ${
+                        numberParser(id) === numberParser(item.id)
+                            ? 'text-red-500'
+                            : 'text-gray-900'
+                    }`}
                 >
                     {' '}
-                    <p
-                        style={
-                            parseInt(id) === parseInt(item?.id)
-                                ? { color: `${design.header_color}` }
-                                : {}
-                        }
-                    >
-                        {item.name}
-                    </p>
+                    <p>{item.name}</p>
                 </Link>
                 {item?.cat ? (
-                    <div className="px-4 h-full" onClick={() => setShow(!show)}>
+                    <div className="px-4 h-full">
                         {show ? (
-                            <MinusIcon className="h-4 w-4 text-gray-800" />
+                            <MinusIcon
+                                onClick={() => setShow(!show)}
+                                className="h-4 w-4 text-gray-800"
+                            />
                         ) : (
-                            <PlusIcon className="h-4 w-4 text-gray-800" />
+                            <PlusIcon
+                                onClick={() => setShow(!show)}
+                                className="h-4 w-4 text-gray-800"
+                            />
                         )}
                     </div>
                 ) : null}
@@ -461,22 +457,17 @@ const SingleCat = ({ item, design }: any) => {
             {show && (
                 <>
                     <div className="ml-8">
-                        {item?.cat?.map((sub: any, key: number) => (
-                            <div className="py-2" key={key}>
+                        {item?.cat?.map((sub: any, idx: any) => (
+                            <div className="py-2" key={idx}>
                                 <Link href={'/category/' + sub?.id}>
+                                    {' '}
                                     <p
-                                        style={
-                                            parseInt(id) === parseInt(sub?.id)
-                                                ? {
-                                                      color: `${design.header_color}`,
-                                                  }
-                                                : {}
-                                        }
-                                        className={
-                                            id == sub?.id
-                                                ? activesub
-                                                : inactivesub
-                                        }
+                                        className={`pb-2 text-sm ${
+                                            numberParser(id) ===
+                                            numberParser(item.id)
+                                                ? 'text-red-500'
+                                                : 'text-gray-500'
+                                        }`}
                                     >
                                         {sub?.name}
                                     </p>
