@@ -84,7 +84,7 @@ const Seven = ({ catId, store_id }: any) => {
     const paginationModule = modules?.find(
         (item: any) => item?.modulus_id === module_id
     );
-    const isPagination = parseInt(paginationModule?.status) === 1;
+    const isPagination = numberParser(paginationModule?.status) === 1;
 
     useEffect(() => {
         if (categoryPageProductsSuccess) {

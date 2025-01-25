@@ -61,17 +61,6 @@ const ProductCardOne = ({ item }: any) => {
         });
     };
 
-    const add_cart_item = () => {
-        if (item?.variant?.length > 0) {
-            setOpen(!open);
-        } else {
-            handleAddToCart();
-            if (store_id === 3512) {
-                router.push('/checkout');
-            }
-        }
-    };
-
     return (
         <div className="group lg:cursor-pointer">
             <div className="drop-shadow-xl w-full h-[100%] relative">
@@ -177,9 +166,9 @@ const ProductCardOne = ({ item }: any) => {
                                 <BsBagPlus className="h-5 w-5 text-2xl font-serif font-bold" />
                             </HoverIcon>
                         </div>
-                    ) : !parseInt(item?.variant) ? (
+                    ) : item?.variant?.length == 0 ? (
                         <div
-                            onClick={add_cart_item}
+                            onClick={handleAddToCart}
                             className="absolute bottom-6 right-2"
                         >
                             <HoverIcon text={'Add to Cart'}>

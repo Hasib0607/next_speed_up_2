@@ -1,15 +1,16 @@
 'use client';
 
-import Card16 from '@/components/card/card16';
+import Pagination from '@/components/_category-page/components/pagination';
+import Card23 from '@/components/card/card23';
 import Card6 from '@/components/card/card6';
+import Skeleton from '@/components/loaders/skeleton';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import {
     useGetCategoryPageProductsQuery,
     useGetColorsQuery,
 } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
-import Skeleton from '@/components/loaders/skeleton';
-import { MinusIcon, PlusIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import { Bars3Icon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -18,7 +19,6 @@ import { CgMenuGridO } from 'react-icons/cg';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ThreeDots } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
-import Pagination from '@/components/_category-page/components/pagination';
 
 import { setSort } from '@/redux/features/filters/filterSlice';
 import FilterByColorNew from './components/filter-by-color-new';
@@ -267,7 +267,7 @@ const ProductSection = ({
                                             ease: 'linear',
                                         }}
                                     >
-                                        <Card16 item={item} />
+                                        <Card23 item={item} />
                                     </motion.div>
                                 ))}
                             </div>
@@ -309,7 +309,7 @@ const ProductSection = ({
                                         ease: 'linear',
                                     }}
                                 >
-                                    <Card16 item={item} />
+                                    <Card23 item={item} />
                                 </motion.div>
                             ))}
                         </div>

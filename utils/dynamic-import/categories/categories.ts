@@ -10,10 +10,10 @@ export const categories: any = {
     one: dynamic(() => import("@/components/_category-page/category-one")),
     two: dynamic(() => import("@/components/_category-page/category-two")),
     three: dynamic(
-        () => import('@/components/_category-page/category-seven-new'),
+        () => import('@/components/_category-page/category-three'),
         { ssr: false }
     ),
-    // four: dynamic(() => import("@/components/_category-page/header-four")),
+    four: dynamic(() => import("@/components/_category-page/category-four")),
     // five: dynamic(() => import("@/components/_category-page/header-five")),
     // six: dynamic(() => import("@/components/_category-page/header-six")),
     seven: dynamic(
