@@ -18,6 +18,7 @@ import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { TWENTY_EIGHT } from '@/consts';
 
 const Discount = ({
     setCouponDis,
@@ -44,6 +45,9 @@ const Discount = ({
 
     const [loading, setLoading] = useState(false);
     const [couponAvailable, setCouponAvailable] = useState(false);
+    const [selectedShippingArea, setSelectedShippingArea] = useState<
+        string | null
+    >(null);
 
     const {
         data: couponData,
@@ -124,24 +128,34 @@ const Discount = ({
         }
     };
 
-    const shippingPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const inputValue = parseInt(e.target.value) as number;
-        setShippingArea(inputValue);
+    const getAreaIdByCost = (cost: number): string | null => {
+        if (cost === headersetting?.shipping_area_1_cost) return '1';
+        if (cost === headersetting?.shipping_area_2_cost) return '2';
+        if (cost === headersetting?.shipping_area_3_cost) return '3';
+        return null;
+    };
+
+    const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedCost = numberParser(e.target.value);
+        const areaId = getAreaIdByCost(selectedCost);
+        if (areaId) {
+            setSelectedShippingArea(areaId);
+            setShippingArea(selectedCost);
+        }
     };
 
     useEffect(() => {
-        if (
-            headersetting?.shipping_area_1 &&
-            (store_id === 3601 || store_id === 3904 || store_id === 5519)
-        ) {
-            setShippingArea(parseInt(headersetting?.shipping_area_1_cost));
+        if (headersetting?.selected_shipping_area) {
+            setSelectedShippingArea(headersetting?.selected_shipping_area);
+            const initialAreaCost =
+                headersetting?.[
+                    `shipping_area_${headersetting.selected_shipping_area}_cost`
+                ];
+            if (initialAreaCost) {
+                setShippingArea(initialAreaCost);
+            }
         }
-    }, [
-        headersetting?.shipping_area_1,
-        headersetting?.shipping_area_1_cost,
-        setShippingArea,
-        store_id,
-    ]);
+    }, [headersetting, setShippingArea]);
 
     // get coupon status
     useEffect(() => {
@@ -170,7 +184,7 @@ const Discount = ({
                                 >
                                     {design?.template_id === '29' ||
                                     store_id === 3601 ||
-                                    store_id === 3904 ||
+                                    design?.checkout_page === TWENTY_EIGHT ||
                                     store_id === 5519
                                         ? 'শিপিং এরিয়া'
                                         : 'Shipping Area'}
@@ -183,17 +197,13 @@ const Discount = ({
                                                 type="radio"
                                                 id="shippingArea1"
                                                 name="shippingArea"
-                                                value={parseInt(
+                                                value={
                                                     headersetting?.shipping_area_1_cost
-                                                )}
-                                                onChange={(e) =>
-                                                    shippingPrice(e)
                                                 }
-                                                // checked={
-                                                //   store_id === 3601 ||
-                                                //   store_id === 3904 ||
-                                                //   store_id === 5519
-                                                // }
+                                                checked={
+                                                    selectedShippingArea === '1'
+                                                }
+                                                onChange={handleShippingChange}
                                                 className="mr-2"
                                             />
                                             <label
@@ -212,12 +222,13 @@ const Discount = ({
                                                 type="radio"
                                                 id="shippingArea2"
                                                 name="shippingArea"
-                                                value={parseInt(
+                                                value={
                                                     headersetting?.shipping_area_2_cost
-                                                )}
-                                                onChange={(e) =>
-                                                    shippingPrice(e)
                                                 }
+                                                checked={
+                                                    selectedShippingArea === '2'
+                                                }
+                                                onChange={handleShippingChange}
                                                 className="mr-2"
                                             />
                                             <label
@@ -236,12 +247,13 @@ const Discount = ({
                                                 type="radio"
                                                 id="shippingArea3"
                                                 name="shippingArea"
-                                                value={parseInt(
+                                                value={
                                                     headersetting?.shipping_area_3_cost
-                                                )}
-                                                onChange={(e) =>
-                                                    shippingPrice(e)
                                                 }
+                                                checked={
+                                                    selectedShippingArea === '3'
+                                                }
+                                                onChange={handleShippingChange}
                                                 className="mr-2"
                                             />
                                             <label
@@ -268,7 +280,9 @@ const Discount = ({
                                             htmlFor="name"
                                             className="block text-xl font-semibold text-gray-700"
                                         >
-                                            {design?.template_id === '29'
+                                            {design?.checkout_page ===
+                                                TWENTY_EIGHT ||
+                                            design?.template_id === '29'
                                                 ? 'ডিসকাউন্ট'
                                                 : 'Discount'}
                                         </label>
@@ -306,7 +320,12 @@ const Discount = ({
                                             ) : (
                                                 <input
                                                     type={'submit'}
-                                                    value={'Apply'}
+                                                    value={
+                                                        design?.checkout_page ===
+                                                        TWENTY_EIGHT
+                                                            ? 'অ্যাপ্লাই'
+                                                            : 'Apply'
+                                                    }
                                                     style={{
                                                         backgroundColor:
                                                             design?.header_color,

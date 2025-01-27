@@ -15,6 +15,7 @@ import CheckoutFrom from '@/components/_checkout-page/_components/checkout-from'
 import SingleAddress from '@/components/_checkout-page/twentyone/single-address/single-address';
 import useAuth from '@/hooks/useAuth';
 import QuickView from '@/utils/quick-view';
+import { TWENTY_EIGHT } from '@/consts';
 
 const Address = ({ selectAddress, setSelectAddress, design }: any) => {
     const isAuthenticated = useAuth();
@@ -95,7 +96,13 @@ const Address = ({ selectAddress, setSelectAddress, design }: any) => {
             setAddressArr(allAddress);
             setSelectAddress(getFastArr(addressArr));
         }
-    }, [addressArr, addressSuccess, addressData, isAuthenticated]);
+    }, [
+        addressArr,
+        addressSuccess,
+        setSelectAddress,
+        addressData,
+        isAuthenticated,
+    ]);
 
     return (
         <>
@@ -110,8 +117,8 @@ const Address = ({ selectAddress, setSelectAddress, design }: any) => {
                     <div className="">
                         <div className="flex justify-between items-center pb-3">
                             {design?.template_id === '29' ||
-                            store_id === 3601 ||
-                            store_id === 3904 ? (
+                            design?.checkout_page === TWENTY_EIGHT ||
+                            store_id === 3601 ? (
                                 <label
                                     htmlFor="name"
                                     className="block text-md md:text-xl font-semibold text-gray-700"
@@ -132,7 +139,7 @@ const Address = ({ selectAddress, setSelectAddress, design }: any) => {
                                     </span>
                                 </label>
                             )}
-                            {isAuthenticated && (
+                            {isAuthenticated && addressArr?.length > 0 && (
                                 <span
                                     className="text-green-600 font-semibold tracking-wider lg:cursor-pointer"
                                     onClick={() => handleAdd()}
@@ -144,12 +151,17 @@ const Address = ({ selectAddress, setSelectAddress, design }: any) => {
                         </div>
                         {store?.auth_type === 'EasyOrder' &&
                         !isAuthenticated ? (
-                            <CheckoutFrom addressRefetch={addressRefetch} />
+                            <CheckoutFrom
+                                addressRefetch={addressRefetch}
+                                setOpen={setOpen}
+                            />
                         ) : (
                             <div>
                                 {!addressArr || addressArr?.length == 0 ? (
                                     <CheckoutFrom
                                         addressRefetch={addressRefetch}
+                                        setOpen={setOpen}
+                                        cancelBtn={addressArr?.length > 0}
                                     />
                                 ) : (
                                     addressCards
@@ -159,6 +171,7 @@ const Address = ({ selectAddress, setSelectAddress, design }: any) => {
                     </div>
                 </div>
             </div>
+
             <QuickView open={open} setOpen={setOpen} design={design} auto>
                 <>
                     {edit && editItem ? (
@@ -166,6 +179,7 @@ const Address = ({ selectAddress, setSelectAddress, design }: any) => {
                             addressRefetch={addressRefetch}
                             setOpen={setOpen}
                             editItem={editItem}
+                            cancelBtn
                             modal
                             edit
                         />
@@ -173,6 +187,7 @@ const Address = ({ selectAddress, setSelectAddress, design }: any) => {
                         <CheckoutFrom
                             addressRefetch={addressRefetch}
                             setOpen={setOpen}
+                            cancelBtn={addressArr?.length > 0}
                             modal
                         />
                     )}

@@ -4,19 +4,20 @@ import { EMAIL_REGEX, PHONE_NUMBER_REGEX } from '@/consts';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 import useAuth from '@/hooks/useAuth';
 import {
+    useGetDistrictQuery,
     useGetFormFieldsQuery,
     useUserAddressSaveMutation,
     useUserAddressUpdateMutation,
 } from '@/redux/features/checkOut/checkOutApi';
 import { setCheckoutFromData } from '@/redux/features/checkOut/checkOutSlice';
 import { RootState } from '@/redux/store';
+import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import * as z from 'zod';
 import { getValueByKey } from './customLang';
 
 type FormValues = {
@@ -30,61 +31,32 @@ type FormValues = {
     error: string;
 };
 
-// const schema = z
-//     .object({
-//         name: z
-//             .string({
-//                 required_error: 'Name is required',
-//                 invalid_type_error: 'Name must be a string',
-//             })
-//             .trim() // Remove leading and trailing whitespace
-//             .min(1, { message: 'Name is required' })
-//             .max(100, { message: 'Name must be at most 100 characters long' }),
-
-//         phone: z
-//             .string({
-//                 required_error: 'Phone number is required',
-//                 invalid_type_error: 'Phone number must be a number',
-//             })
-//             .regex(PHONE_NUMBER_REGEX, {
-//                 message: 'Phone number is not valid',
-//             }), // Regex for Bangladesh phone numbers
-
-//         address: z
-//             .string({
-//                 required_error: 'Address is required',
-//             })
-//             .trim() // Remove leading and trailing whitespace
-//             .min(1, { message: 'Address is required' })
-//             .max(255, {
-//                 message: 'Address must be at most 255 characters long',
-//             }),
-//     })
-
 const CheckoutFrom = ({
     setOpen,
     addressRefetch,
     modal,
     edit,
     editItem,
+    cancelBtn,
 }: any) => {
     const isAuthenticated = useAuth();
     const dispatch = useDispatch();
+
     // fields to show
     const [fields, setFields] = useState([]);
+    const [districtArr, setDistrictArr] = useState([]);
     const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
     const store_id = store?.id || null;
 
     const home = useSelector((state: RootState) => state?.home);
     const { design } = home || {};
 
-    // const { checkoutFromData } = useSelector(
-    //     (state: RootState) => state.checkout
-    // ); // Access updated Redux state
-    // const {
-    //     phone: userPhone,
-    //     email: userEmail,
-    // } = checkoutFromData || {};
+    const {
+        data: districtData,
+        isLoading: districtLoading,
+        isSuccess: districtSuccess,
+        refetch: districtRefetch,
+    } = useGetDistrictQuery({});
 
     const {
         data: userFormFieldsData,
@@ -103,7 +75,6 @@ const CheckoutFrom = ({
             const type = typeof name;
             // Base validation rules
             let validation: z.ZodTypeAny = z.string();
-            // let validation = z.string();
 
             // Customize validation based on field type
             if (type === 'number') {
@@ -119,42 +90,31 @@ const CheckoutFrom = ({
             }
 
             // Add required validation
-            if (
-                name === 'name' ||
-                name === 'phone' ||
-                name === 'address'
-            ) {
+            if (name === 'name' || name === 'address') {
                 if (type === 'string') {
                     validation = (validation as z.ZodString).min(1, {
                         message: `${capitalName} is required`,
                     });
-                } else if (type === 'number') {
-                    validation = (validation as z.ZodString).refine(
-                        (val) => val !== undefined && val !== null,
-                        {
-                            message: `${capitalName} is required`,
-                        }
-                    );
                 }
+            }
+
+            if (name === 'district') {
+                validation = z.any();
+                // .refine(
+                //     (val) => val !== "",
+                //     {
+                //         message: `${capitalName} is required`,
+                //     }
+                // );
             }
 
             // Add field-specific validations (e.g., phone regex)
             if (name === 'phone') {
-                validation = z
-                    .string()
-                    .nonempty('Phone is required')
-                    .regex(PHONE_NUMBER_REGEX, {
-                        message: 'Invalid phone number',
-                    });
+                validation = z.string().optional();
             }
             // Add field-specific validations (e.g., email regex)
             if (name === 'email') {
-                validation = z
-                    .string()
-                    .trim()
-                    .regex(EMAIL_REGEX, {
-                        message: 'Invalid email format',
-                    });
+                validation = z.string().optional();
             }
             // if (store?.auth_type === 'EasyOrder' && !isAuthenticated && !userPhone){
             // }
@@ -164,13 +124,37 @@ const CheckoutFrom = ({
         });
 
         // Return the Zod schema object
-        return z.object(schemaObject);
+        const schema = z.object(schemaObject);
+
+        // Add conditional validation for phone and email
+        return schema.superRefine((data, ctx) => {
+            const isPhoneEmpty = !data.phone?.trim();
+            const isEmailEmpty = !data.email?.trim();
+
+            if (isPhoneEmpty && isEmailEmpty) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Either Phone or Email must be provided',
+                    path: ['phone'], // Error for the phone field
+                });
+
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Either Phone or Email must be provided',
+                    path: ['email'], // Error for the email field
+                });
+            }
+        });
     };
 
     // Generate schema dynamically
-    const schema = generateDynamicSchema(fields);
+    const schemaResolver = generateDynamicSchema(fields);
 
-    const defaultValues = edit ? { ...editItem } : null; //{ name: '', phone: '', address: '',note: '',district: '', };
+    // ex: { name: '', phone: '', address: '',note: '',district: '', };
+
+    const defaultValues = edit
+        ? { ...editItem, district: editItem?.district_id }
+        : null;
 
     const {
         register,
@@ -183,23 +167,58 @@ const CheckoutFrom = ({
         setError,
         clearErrors,
     } = useForm<FormValues>({
-        resolver: zodResolver(schema),
+        resolver: zodResolver(schemaResolver),
         defaultValues,
     });
 
     // Watch specific fields or the whole form for changes
     const watchedFields = watch(); // Watches all fields
 
-        // Trigger validation only for the specific field on change
-        const handleFieldChange = (name: keyof FormValues) => {
-            // const value = watchedFields[name] as any;
-            trigger(name); // Triggers validation for a specific field
-            if (name === 'email') {
-        // console.log("vsacfsc",value);
-        
-        // clearErrors(name);
-    }
-};
+    // Trigger validation on each input change
+    const handleFieldChange = async (
+        name: keyof FormValues,
+        selectValue?: any
+    ) => {
+        await trigger(name); // Triggers validation for a specific field
+        let value = getValues(name);
+
+        if (name === 'district' && selectValue) {
+            clearErrors(name);
+        }
+
+        if (name === 'name' && value) {
+            clearErrors(name);
+        }
+
+        if (name === 'address' && value) {
+            clearErrors(name);
+        }
+
+        if (name === 'phone') {
+            let isValidValue = PHONE_NUMBER_REGEX.test(value.toString());
+            if (!isValidValue) {
+                setError('phone', {
+                    type: 'manual',
+                    message: 'Invalid phone number',
+                });
+            } else {
+                clearErrors(name);
+                clearErrors('email');
+            }
+        }
+        if (name === 'email') {
+            let isValidValue = EMAIL_REGEX.test(value.toString());
+            if (!isValidValue) {
+                setError('email', {
+                    type: 'manual',
+                    message: 'Invalid email address',
+                });
+            } else {
+                clearErrors(name);
+                clearErrors('phone');
+            }
+        }
+    };
 
     const handleCancel = () => {
         setOpen(false);
@@ -258,6 +277,14 @@ const CheckoutFrom = ({
         setOpen(false);
     };
 
+    // Extracting district db
+    useEffect(() => {
+        const districtFormSelectFields = districtData?.data || [];
+        if (districtSuccess) {
+            setDistrictArr(districtFormSelectFields);
+        }
+    }, [districtData, districtSuccess]);
+
     // Extracting data from db
     useEffect(() => {
         const userFormFields = userFormFieldsData?.data || [];
@@ -308,26 +335,67 @@ const CheckoutFrom = ({
                                             className="block text-sm font-medium text-gray-700 capitalize"
                                         >
                                             {design?.template_id === '29' ||
-                                            store_id === 3601 ||
-                                            store_id === 3904
+                                            store_id === 3601
                                                 ? getValueByKey(item?.name)
                                                 : item?.name}
                                         </label>
-                                        <input
-                                            {...register(item?.name)}
-                                            type={
-                                                item?.name == 'phone'
-                                                    ? 'number'
-                                                    : 'text'
-                                            }
-                                            name={item?.name}
-                                            id={item?.name}
-                                            onChange={() =>
-                                                handleFieldChange(item?.name)
-                                            }
-                                            autoComplete="address-level1"
-                                            className="mt-1 focus:ring-0 focus:border-gray-400 block w-full shadow-md sm:text-md border-2 border-gray-300 rounded-lg p-3 text-gray-700 remove-arrow"
-                                        />
+                                        {item?.name == 'district' ? (
+                                            <select
+                                                {...register('district')}
+                                                name="district"
+                                                className="mt-1 focus:ring-0 focus:border-gray-400 block w-full shadow-md sm:text-md border-2 border-gray-300 rounded-lg p-3 text-gray-700"
+                                                onInput={(e: any) =>
+                                                    handleFieldChange(
+                                                        item?.name,
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                {(!edit ||
+                                                    (edit &&
+                                                        editItem?.district ===
+                                                            null)) && (
+                                                    <option
+                                                        defaultChecked
+                                                        value=""
+                                                    >
+                                                        Choose a District
+                                                    </option>
+                                                )}
+
+                                                {districtArr?.map(
+                                                    (
+                                                        item: any,
+                                                        index: number
+                                                    ) => (
+                                                        <option
+                                                            value={item?.id}
+                                                            key={index}
+                                                        >
+                                                            {item?.bn_name}
+                                                        </option>
+                                                    )
+                                                )}
+                                            </select>
+                                        ) : (
+                                            <input
+                                                {...register(item?.name)}
+                                                type={
+                                                    item?.name == 'phone'
+                                                        ? 'number'
+                                                        : 'text'
+                                                }
+                                                name={item?.name}
+                                                id={item?.name}
+                                                onInput={() =>
+                                                    handleFieldChange(
+                                                        item?.name
+                                                    )
+                                                }
+                                                autoComplete="address-level1"
+                                                className="mt-1 focus:ring-0 focus:border-gray-400 block w-full shadow-md sm:text-md border-2 border-gray-300 rounded-lg p-3 text-gray-700 remove-arrow"
+                                            />
+                                        )}
                                         <p className="text-rose-500">
                                             {
                                                 errors[
@@ -346,12 +414,14 @@ const CheckoutFrom = ({
                                 >
                                     {edit ? 'Update' : 'Save'}
                                 </button>
-                                <div
-                                    onClick={() => handleCancel()}
-                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 cursor-pointer"
-                                >
-                                    Cancel
-                                </div>
+                                {cancelBtn && (
+                                    <div
+                                        onClick={() => handleCancel()}
+                                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 cursor-pointer"
+                                    >
+                                        Cancel
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
