@@ -2,12 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import "./category-four.css";
-
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ThreeDots } from "react-loader-spinner";
-
 import { catImg } from "@/site-settings/siteUrl";
-import CBH from "./components/category-breadcrumb-heading";
+import BreadcrumbHeadingWrapper from "./components/breadcrumb-heading-wrapper";
 import ProductCardTwo from "@/components/card/product-card/product-card-two";
 import { usePathname } from "next/navigation";
 import { getPathName, getSecondPathName } from "@/helpers/littleSpicy";
@@ -126,7 +124,7 @@ const pathName = usePathname();
               alt=""
             />
           </div> */}
-          <CBH category={category}>
+          <BreadcrumbHeadingWrapper category={category}>
             {!isPagination ? (
               <div>
                 <InfiniteScroll
@@ -169,7 +167,7 @@ const pathName = usePathname();
                 </div>
               </div>
             )}
-          </CBH>
+          </BreadcrumbHeadingWrapper>
          {isPagination && paginate?.total > 7 ? (
                                          <div className="my-5">
                                              <Pagination

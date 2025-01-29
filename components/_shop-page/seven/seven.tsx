@@ -29,21 +29,15 @@ import { setSort } from '@/redux/features/filters/filterSlice';
 import { RootState } from '@/redux/store';
 import { usePathname } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { numberParser } from '@/helpers/numberParser';
-import FilterByBrand from '@/components/_category-page/components/filter-by-brand';
 
-const Seven = () => {
-    const module_id = 105
+const Seven = ({ store_id }: any) => {
     const dispatch = useDispatch();
     const pathName = usePathname();
     const currentPath = getPathName(pathName);
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-    
     const { data: modulesData } = useGetModulesQuery({ store_id });
     const modules = modulesData?.data || [];
-    
+
     const [open, setOpen] = useState(false);
     const [hasMore, setHasMore] = useState<any>(true);
 
@@ -89,9 +83,9 @@ const Seven = () => {
     const category = categoryStore?.categories || [];
 
     const paginationModule = modules?.find(
-        (item: any) => item?.modulus_id === module_id
+        (item: any) => item?.modulus_id === 105
     );
-    const isPagination = numberParser(paginationModule?.status) === 1;
+    const isPagination = parseInt(paginationModule?.status) === 1;
 
     useEffect(() => {
         if (shopPageProductsSuccess) {
@@ -133,7 +127,9 @@ const Seven = () => {
                     </h1>
 
                     {category?.map((item: any) => (
-                            <SingleCategory item={item} key={item.id}/>
+                        <div key={item.id}>
+                            <SingleCategory item={item} />
+                        </div>
                     ))}
                 </div>
                 {/* Filter By Color New */}
@@ -147,20 +143,13 @@ const Seven = () => {
                 </div>
 
                 {/* Filter By Price New */}
-                <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
+                <div className="bg-gray-100 border-2 border-gray-200 p-4">
                     <FilterByPriceNew
                         priceValue={priceValue}
                         setPage={setPage}
                         setHasMore={setHasMore}
                     />
                 </div>
-                {/* Filter By Brand */}
-                {/* <div className="bg-gray-100 border-2 border-gray-200 p-4">
-                    <FilterByBrand
-                        setPage={setPage}
-                        setHasMore={setHasMore}
-                    />
-                </div> */}
             </div>
 
             <div className="col-span-5 lg:col-span-4 w-full">

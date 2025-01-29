@@ -7,10 +7,12 @@ import {
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { RootState } from '@/redux/store';
+
 import { productImg } from '@/site-settings/siteUrl';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import BDT from '@/utils/bdt';
 import QuickView from '@/utils/quick-view';
+
 import { numberParser } from '@/helpers/numberParser';
 import ProdMultiCategory from '@/utils/prod-multi-category';
 import Rate from '@/utils/rate';

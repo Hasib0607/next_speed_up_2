@@ -1,5 +1,7 @@
 'use client';
 
+// import { clearMessage } from "@/redux/features/message.slice";
+
 import Loading from '@/components/loaders/loading';
 import {
     useForgotUserPasswordMutation,
@@ -9,9 +11,9 @@ import {
 import { RootState } from '@/redux/store';
 import { btnhover } from '@/site-settings/style';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const ForgotFour = () => {
@@ -20,6 +22,12 @@ const ForgotFour = () => {
 
     const home = useSelector((state: RootState) => state?.home);
     const { design } = home || {};
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        // dispatch(clearMessage());
+    }, [dispatch]);
 
     return (
         <>
@@ -75,6 +83,7 @@ const Finding = ({ setPage, setUser }: any) => {
 
     const [forgotUserPassword] = useForgotUserPasswordMutation();
 
+    // console.log(errors);
     const onSubmit = (data: any) => {
         setLoading(true);
         if (data?.phone) {
@@ -149,7 +158,6 @@ const Finding = ({ setPage, setUser }: any) => {
         </form>
     );
 };
-
 const Verifying = ({ setPage, setUser, user }: any) => {
     const home = useSelector((state: RootState) => state?.home);
     const { design } = home || {};
@@ -187,7 +195,6 @@ const Verifying = ({ setPage, setUser, user }: any) => {
                 });
         }
     };
-
     return (
         <form
             className="border border-gray-300 rounded-2xl p-6 md:m-14 flex flex-col space-y-4 w-full"
@@ -226,7 +233,6 @@ const Verifying = ({ setPage, setUser, user }: any) => {
         </form>
     );
 };
-
 const Changeing = ({ setPage, setUser, user }: any) => {
     const home = useSelector((state: RootState) => state?.home);
     const { design } = home || {};
@@ -286,7 +292,6 @@ const Changeing = ({ setPage, setUser, user }: any) => {
             setLoading(false);
         }
     };
-
     return (
         <form
             className="border border-gray-300 rounded-2xl p-6 md:m-14 flex flex-col space-y-4 w-full"

@@ -14,8 +14,8 @@ const Register = () => {
     const home = useSelector((state: RootState) => state?.home);
     const { design } = home || {};
 
-    const RegisterComponent = register_pages[design?.login_page] || register_pages[DEFAULT];
-
+    const RegisterComponent =
+        register_pages[design?.login_page] || register_pages[DEFAULT];
 
     const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
 

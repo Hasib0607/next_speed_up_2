@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux';
 
 const FeaturedCategory = ({ design, store_id }: any) => {
     const FeaturedCategoryComponent =
-        feature_categories[design?.feature_category] || feature_categories[DEFAULT];
+        feature_categories[design?.feature_category] ||
+        feature_categories[DEFAULT];
 
     const products = useSelector((state: any) => state?.products);
     const categoryStore = useSelector((state: RootState) => state?.category);

@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+
 import { useState } from 'react';
+
 import { useRouter } from 'next/navigation';
+
 import {
     getFromLocalStorage,
     removeFromLocalStorage,
@@ -12,6 +15,7 @@ import {
     useVerifyOtpMutation,
 } from '@/redux/features/auth/authApi';
 import Link from 'next/link';
+
 import { toast } from 'react-toastify';
 
 const VerifyOtpEleven = () => {

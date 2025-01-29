@@ -9,7 +9,7 @@ import { BsSearch } from 'react-icons/bs';
 import { HiMenu, HiOutlineShoppingBag } from 'react-icons/hi';
 
 import defaultUserImage from '@/assets/default-user-image.png';
-import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';

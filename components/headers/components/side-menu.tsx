@@ -64,7 +64,7 @@ const SideMenu = React.memo(({ setOpen, design, menu, menuLoading }: any) => {
                             backgroundColor: design?.header_color,
                             color: design?.text_color,
                         }}
-                        className={`w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium ${btnhover}`}
+                        className={`w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium cursor-pointer ${btnhover}`}
                     >
                         Logout
                     </p>
@@ -76,18 +76,18 @@ const SideMenu = React.memo(({ setOpen, design, menu, menuLoading }: any) => {
                             backgroundColor: design?.header_color,
                             color: design?.text_color,
                         }}
-                        className={`w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium ${btnhover}`}
+                        className={`w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium cursor-pointer ${btnhover}`}
                     >
                         <button>Sign up</button>
                     </Link>
                 )}
-                {isAuthenticated ? null : (
+                {!isAuthenticated && (
                     <p className="mt-6 text-center text-base font-medium text-gray-500">
                         Existing customer?{' '}
                         <Link
                             onClick={() => setOpen(false)}
                             href="/login"
-                            className="text-indigo-600 hover:text-indigo-500"
+                            className="text-indigo-600 hover:text-indigo-500 cursor-pointer"
                         >
                             Sign in
                         </Link>

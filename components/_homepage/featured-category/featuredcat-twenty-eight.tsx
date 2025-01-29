@@ -16,6 +16,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 const FeaturedTwentyEight = ({ category, design }: any) => {
   const prevEl = "feature-category-prev";
   const nextEl = "feature-category-next";
+
   let isLoop = category.length > 1;
   const styleCss = `
     .feature-category-prev:hover {

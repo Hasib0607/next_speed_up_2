@@ -15,7 +15,7 @@ import Link from 'next/link';
 import { imgUrl } from '@/site-settings/siteUrl';
 
 import { classNames } from '@/helpers/littleSpicy';
-import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';

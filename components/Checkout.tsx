@@ -1,6 +1,7 @@
 'use client';
 
 import { checkout_pages } from '@/utils/dynamic-import/checkoutPages/checkoutPages';
+
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
@@ -12,10 +13,7 @@ const Checkout = () => {
     const { design } = home || {};
 
     const CheckoutComponent =
-        checkout_pages[design?.checkout_page];
-        //  || checkout_pages[DEFAULT];
-
-        // console.log("design?.checkout_page", design?.checkout_page);
+        checkout_pages[design?.checkout_page] || checkout_pages[DEFAULT];
 
     const router = useRouter();
     const { user } = useSelector((state: any) => state.auth);

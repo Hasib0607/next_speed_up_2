@@ -14,7 +14,7 @@ import SideMenu from '../components/side-menu';
 import Search3 from '../components/search3';
 import SideCategory from '../components/side-category';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { RootState } from '@/redux/store';
 import { subTotal } from '@/utils/_cart-utils/cart-utils';
 

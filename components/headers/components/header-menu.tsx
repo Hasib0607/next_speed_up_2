@@ -11,7 +11,7 @@ import { BsSearch } from 'react-icons/bs';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
 
-import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { RootState } from '@/redux/store';
 import { subTotal } from '@/utils/_cart-utils/cart-utils';
 import BDT from '@/utils/bdt';

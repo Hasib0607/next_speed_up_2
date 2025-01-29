@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
 
 import defaultUserImage from '@/assets/default-user-image.png';
-import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';

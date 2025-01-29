@@ -15,7 +15,7 @@ import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { iconImg } from '@/site-settings/siteUrl';
 import { customizeMobileNavThree } from '@/utils/customizeDesign';
 import { RootState } from '@/redux/store';
-import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 import { cancelIcon, gridIcon, searchIcon } from '@/assets/svg';
 import { MobileNavProps } from '@/types';

@@ -21,7 +21,7 @@ import { REDUX_PERSIST } from '@/consts';
 import { RootState } from '@/redux/store';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 
 const HeaderElevenHeaderMenu = ({ headersetting, design }: any) => {
     const router = useRouter();

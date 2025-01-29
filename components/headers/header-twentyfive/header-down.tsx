@@ -10,7 +10,7 @@ import { IoSearchCircleOutline } from 'react-icons/io5';
 
 import Search3 from '../components/search3';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 
 const HeaderDown = ({ design, menu, headersetting }: any) => {
     const [searchTxt, setSearch] = useState('');

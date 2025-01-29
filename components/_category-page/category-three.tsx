@@ -25,13 +25,16 @@ import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
 import { numberParser } from '@/helpers/numberParser';
 
-const CategoryTwo = ({ catId, store_id, design }: any) => {
+const CategoryThree = ({ catId, store_id, design }: any) => {
+    const module_id = 105;
     const dispatch = useDispatch();
+
     const [grid, setGrid] = useState('H');
     const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState<any>(true);
+    const [paginate, setPaginate] = useState<any>({});
 
     const {
         data: colorsData,
@@ -47,6 +50,14 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
     const filtersData = useSelector((state: RootState) => state.filters);
     // get the activecolor, pricevalue, selectedSort
     const { color: activeColor, price: priceValue } = filtersData || {};
+
+    const { data: modulesData } = useGetModulesQuery({ store_id });
+    const modules = modulesData?.data || [];
+    
+    const paginationModule = modules?.find(
+        (item: any) => item?.modulus_id === module_id
+    );
+    const isPagination = numberParser(paginationModule?.status) === 1;
 
     const bgColor = design?.header_color;
     const textColor = design?.text_color;
@@ -125,7 +136,19 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
                             setHasMore={setHasMore}
                             page={page}
                             setPage={setPage}
+                            isPagination={isPagination}
+                            setPaginate={setPaginate}
                         />
+
+                        {isPagination && paginate?.total > 7 ? (
+                            <div className="my-5">
+                                <Pagination
+                                    paginate={paginate}
+                                    initialPage={page}
+                                    setPage={setPage}
+                                />
+                            </div>
+                        ) : null}
                     </div>
                 </div>
             </div>
@@ -133,7 +156,7 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
     );
 };
 
-export default CategoryTwo;
+export default CategoryThree;
 
 const ProductSection = ({
     grid,
@@ -143,16 +166,11 @@ const ProductSection = ({
     setPage,
     hasMore,
     setHasMore,
+    isPagination,
+    setPaginate,
 }: any) => {
-    const module_id = 105;
-    const storeData = useSelector((state: any) => state.appStore.store); // Access updated Redux state
-    const store_id = storeData?.id || null;
-    const { data: modulesData } = useGetModulesQuery({ store_id });
-    const modules = modulesData?.data || [];
-
     const filtersData = useSelector((state: RootState) => state.filters);
 
-    const [paginate, setPaginate] = useState<any>({});
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
 
@@ -172,11 +190,6 @@ const ProductSection = ({
 
     const categoryStore = useSelector((state: any) => state?.category);
     const category = categoryStore?.categories || [];
-
-    const paginationModule = modules?.find(
-        (item: any) => item?.modulus_id === module_id
-    );
-    const isPagination = numberParser(paginationModule?.status) === 1;
 
     useEffect(() => {
         if (categoryPageProductsSuccess) {
@@ -202,6 +215,7 @@ const ProductSection = ({
         isPagination,
         setHasMore,
         setPage,
+        setPaginate,
         categoryPageProductsSuccess,
     ]);
 
@@ -337,16 +351,6 @@ const ProductSection = ({
                     </AnimatePresence>
                 </div>
             )}
-
-            {isPagination && paginate?.total > 7 ? (
-                <div className="my-5">
-                    <Pagination
-                        paginate={paginate}
-                        initialPage={page}
-                        setPage={setPage}
-                    />
-                </div>
-            ) : null}
         </>
     );
 };
@@ -445,7 +449,7 @@ const SingleCat = ({ item, design }: any) => {
                         {item.name}
                     </p>
                 </Link>
-                {item?.cat ? (
+                {item?.subcategories ? (
                     <div className="px-4 h-full" onClick={() => setShow(!show)}>
                         {show ? (
                             <MinusIcon className="h-4 w-4 text-gray-800" />
@@ -459,7 +463,7 @@ const SingleCat = ({ item, design }: any) => {
             {show && (
                 <>
                     <div className="ml-8">
-                        {item?.cat?.map((sub: any, key: number) => (
+                        {item?.subcategories?.map((sub: any, key: number) => (
                             <div className="py-2" key={key}>
                                 <Link href={'/category/' + sub?.id}>
                                     <p

@@ -12,23 +12,15 @@ import MenuList from './components/menu-list';
 import CategoryList from './components/category-list';
 import CopyrightAll from './components/copyrightall';
 import WhatsApp from './components/whatsApp';
-import AllPaymantGateway from './components/all-payment-gateway';
-import PageList from './components/page-list';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
 const FooterTwelve = ({
     headersetting,
     design,
+    store_id,
     page,
     menu,
+    category,
 }: any) => {
-    const { data: categoryData } = useGetCategoryQuery({});
-    const category = categoryData?.data || [];
-
-    const {store} = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
     return (
         <div className="pb-16 lg:pb-0 pt-10">
             <div style={{ background: design?.header_color }} className="">
@@ -161,15 +153,7 @@ const FooterTwelve = ({
                             <h1 className="text-sm font-semibold ">Pages</h1>
                         </div>
                         <div className="text-[15px] text-gray-500">
-                            <MenuList menu={menu} />
-                        </div>
-                    </div>
-                    <div className="flex flex-col gap-4">
-                        <div>
-                            <h1 className="text-sm font-semibold ">Legal</h1>
-                        </div>
-                        <div className="text-[15px] text-gray-500">
-                            <PageList page={page} />
+                            <MenuList page={page} menu={menu} />
                         </div>
                     </div>
                     <div className="flex flex-col gap-4">
@@ -184,15 +168,12 @@ const FooterTwelve = ({
                     </div>
                 </div>
             </div>
-            <div className="sm:container px-5 mt-8">
-                <AllPaymantGateway headersetting={headersetting} />
-            </div>
             <hr />
             <div className="sm:container px-5 sm:py-10 py-5 text-[13px] font-light text-[#333333]">
                 <CopyrightAll headersetting={headersetting} />
             </div>
             {/* <Messenger /> */}
-            <WhatsApp />
+            <WhatsApp headersetting={headersetting} />
         </div>
     );
 };

@@ -25,7 +25,7 @@ import { SiGmail } from 'react-icons/si';
 import SideMenu from '../components/side-menu';
 import Search3 from '../components/search3';
 import defaultUserImage from '@/assets/default-user-image.png';
-import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';

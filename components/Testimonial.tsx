@@ -5,6 +5,7 @@ import { all_testimonials } from '@/utils/dynamic-import/_homepageSections/testi
 const Testimonial = ({ design }: any) => {
     const TestimonialComponent =
         all_testimonials[design?.testimonial] || all_testimonials[DEFAULT];
+
     const {
         data: testimonialsData,
         isLoading: testimonialsLoading,

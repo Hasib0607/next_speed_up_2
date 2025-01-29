@@ -4,12 +4,16 @@ import { EMAIL_REGEX } from '@/consts/index';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
+
 import { imgUrl } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
 import Link from 'next/link';
 import Loading from '../loaders/loading';
+
 import { toast } from 'react-toastify';
+
 import {
     useRegisterByEmailMutation,
     useRegisterByPhoneMutation,

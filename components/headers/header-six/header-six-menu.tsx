@@ -15,7 +15,7 @@ import { IoLogoWhatsapp } from 'react-icons/io5';
 import SideMenu from '../components/side-menu';
 
 import './header-six.css';
-import { CartSideBar } from '@/components/_shopping-cart/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';

@@ -4,11 +4,14 @@ import { EMAIL_REGEX } from '@/consts/index';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
+
 import { imgUrl } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
 import Link from 'next/link';
 import Loading from '../loaders/loading';
+
 import { toast } from 'react-toastify';
 
 import {
@@ -122,29 +125,31 @@ const RegisterSeven = () => {
                         <div className="w-full px-4">
                             <div className="max-w-[525px] mx-auto text-center bg-white rounded-lg relative overflow-hidden py-16 px-10 sm:px-12 md:px-[60px]">
                                 <div className="mb-10 md:mb-16 text-center">
-                                    {headersetting?.logo === null ? (
-                                        <Link
-                                            href="/"
-                                            className="inline-block max-w-[160px] mx-auto"
-                                        >
-                                            <p className="text-xl uppercase">
-                                                {headersetting?.website_name}
-                                            </p>
-                                        </Link>
-                                    ) : (
-                                        <Link
-                                            href="/"
-                                            className="inline-block max-w-[160px] mx-auto"
-                                        >
-                                            <img
-                                                className="h-auto min-w-full overflow-hidden"
-                                                src={
-                                                    imgUrl + headersetting?.logo
-                                                }
-                                                alt="logo"
-                                            />
-                                        </Link>
-                                    )}
+                                    <Link
+                                        href="/"
+                                        className="inline-block max-w-[160px]  mx-auto"
+                                    >
+                                        {headersetting?.logo === null ? (
+                                            <Link href="/">
+                                                <p className="text-xl uppercase">
+                                                    {
+                                                        headersetting?.website_name
+                                                    }
+                                                </p>
+                                            </Link>
+                                        ) : (
+                                            <Link href="/">
+                                                <img
+                                                    className="h-auto min-w-full overflow-hidden"
+                                                    src={
+                                                        imgUrl +
+                                                        headersetting?.logo
+                                                    }
+                                                    alt="logo"
+                                                />
+                                            </Link>
+                                        )}
+                                    </Link>
                                 </div>
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     {(store?.auth_type === 'phone' ||
@@ -232,16 +237,12 @@ const RegisterSeven = () => {
                                     )}
 
                                     {/* User Type Selection Dropdown */}
-                                    {moduleIdDetailSuccess && activeModule && (
+                                    {activeModule && (
                                         <div className="mb-6">
                                             <label className="block mb-2 text-sm text-gray-500">
                                                 Select User Type
                                             </label>
                                             <select
-                                                {...register('type', {
-                                                    required:
-                                                        'User type is required',
-                                                })}
                                                 value={userType}
                                                 onChange={(e) =>
                                                     setUserType(e.target.value)

@@ -10,6 +10,7 @@ import { productImg } from '@/site-settings/siteUrl';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import QuikView from '@/utils/quick-view';
 import BDT from '@/utils/bdt';
+
 import Rate from '@/utils/rate';
 import { PlusIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';

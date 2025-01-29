@@ -11,6 +11,7 @@ const FeaturedForty = ({ category }: any) => {
   const featureCategory = custom_design?.feature_category?.[0] || {};
   const { title, title_color, button } =
       featureCategory || {};
+
   return (
     <div className="mb-10">
       {category?.slice(0, 6).map((data: any) => (
