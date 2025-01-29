@@ -19,6 +19,9 @@ const Checkout = () => {
     const { user } = useSelector((state: any) => state.auth);
     const { store } = useSelector((state: RootState) => state.appStore);
 
+    console.log("cp",design?.checkout_page);
+    
+
     useEffect(() => {
         if (!user && store?.auth_type !== 'EasyOrder') {
             router.push('/login'); // Set redirect to true if user is not verified and store is not "EasyOrder"

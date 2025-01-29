@@ -1,8 +1,10 @@
 'use client';
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-const Link1 = ({ text, href }: any) => {
+
+const MotionLink = ({ text, href, className }: any) => {
     return (
         <motion.li
             whileHover={{
@@ -15,11 +17,14 @@ const Link1 = ({ text, href }: any) => {
                 transition: { duration: 0.5 },
             }}
         >
-            <Link href={href} className="text-gray-600">
+            <Link
+                href={href}
+                className={className ? className : 'text-gray-600'}
+            >
                 {text}
             </Link>
         </motion.li>
     );
 };
 
-export default Link1;
+export default MotionLink;

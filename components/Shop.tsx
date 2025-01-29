@@ -17,6 +17,8 @@ const Shop = () => {
 
     console.log("design?.shop_page", design?.shop_page);
 
+    console.log(design?.shop_page);
+    
     return (
         <>
             {ShopComponent && (

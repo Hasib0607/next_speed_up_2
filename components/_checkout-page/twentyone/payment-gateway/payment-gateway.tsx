@@ -1,6 +1,7 @@
 'use client';
 
 import bkashLogo from '@/assets/paymentMethodLogo/bkashLogo.png';
+import { TWENTY_EIGHT } from '@/consts';
 
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { customizeCheckout } from '@/utils/customizeDesign';
@@ -33,7 +34,8 @@ const PaymentGateway = ({ selectPayment, setSelectPayment }: any) => {
         <>
             <div className="col-span-6 sm:col-span-4">
                 <div className="flex justify-between items-center pb-3">
-                    {design?.template_id === '29' ? (
+                    {design?.checkout_page === TWENTY_EIGHT ||
+                    design?.template_id === '29' ? (
                         <label
                             htmlFor="payment-gateway"
                             className="block text-md md:text-xl font-semibold text-gray-700"
@@ -56,6 +58,27 @@ const PaymentGateway = ({ selectPayment, setSelectPayment }: any) => {
                     )}
                 </div>
                 <div className="flex gap-2 flex-wrap">
+                    {headersetting?.amarpay === 'active' && (
+                        <div
+                            style={{
+                                backgroundColor:
+                                    selectPayment === 'amarpay'
+                                        ? design?.header_color
+                                        : '#fff',
+                                color:
+                                    selectPayment === 'amarpay'
+                                        ? design?.text_color
+                                        : '#000',
+                            }}
+                            className="py-2 px-5 rounded-full space-y-2 w-full sm:w-max transition-colors duration-300 relative flex justify-center items-center border border-gray-300 lg:cursor-pointer"
+                            onClick={() => handleSelect('amarpay')}
+                        >
+                            <p className="font-semibold tracking-wider">
+                                {headersetting?.amarpay_text}
+                            </p>
+                        </div>
+                    )}
+
                     {headersetting?.online === 'active' && (
                         <div
                             style={{
@@ -155,7 +178,8 @@ const PaymentGateway = ({ selectPayment, setSelectPayment }: any) => {
                         >
                             <div className="flex justify-between items-center lg:cursor-pointer">
                                 <h3 className="font-semibold tracking-wider">
-                                    {design?.template_id === '29'
+                                    {design?.checkout_page === TWENTY_EIGHT ||
+                                    design?.template_id === '29'
                                         ? 'অ্যাডভান্স পেমেন্ট'
                                         : `${
                                               checkoutData?.partial_payment

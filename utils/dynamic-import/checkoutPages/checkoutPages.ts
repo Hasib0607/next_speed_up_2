@@ -114,9 +114,9 @@ export const checkout_pages: any = {
     // thirtyseven: dynamic(
     //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     // ),
-    // thirtyeight: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
+    thirtyeight: dynamic(
+        () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
+    ),
     // thirtynine: dynamic(
     //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     // ),

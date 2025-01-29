@@ -1,7 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import "../category-four.css"
-
+import '../category-four.css';
 
 const BreadcrumbHeadingWrapper = ({ category, children }: any) => {
   return (

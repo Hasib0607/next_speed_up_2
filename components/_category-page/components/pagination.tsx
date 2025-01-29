@@ -1,21 +1,18 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { numberParser } from '@/helpers/numberParser';
 
 export default function Pagination({ setPage, initialPage, paginate }: any) {
-    const [activePage, setActivePage] = useState(initialPage); // Track the active page
-
     const handlePageClick = (page: any) => {
         setPage(page);
-        setActivePage(page); // Update the active page state
+        scroll();
     };
 
-    useEffect(() => {
-        // Scroll to the top when activePage changes
+    // Scroll to the top when activePage changes
+    const scroll = () => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    }, [activePage]); // Trigger effect on activePage change
+    };
 
     return (
         <div className=" px-4 py-3 flex items-center justify-between sm:px-6">
