@@ -11,8 +11,6 @@ const Category = ({ catId }: any) => {
     const storeData = useSelector((state: any) => state.appStore.store); // Access updated Redux state
     const store_id = storeData?.id || null;
 
-    console.log(design?.shop_page)
-
     const CategoryComponent =
         categories[design?.shop_page] || categories[DEFAULT];
 
