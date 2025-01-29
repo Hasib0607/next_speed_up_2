@@ -29,6 +29,12 @@ export const checkOutApi = apiSlice.injectEndpoints({
                 method: 'GET',
             }),
         }),
+        getDistrict: builder.query<any, any>({
+            query: () => ({
+                url: `get/district`,
+                method: 'GET',
+            }),
+        }),
         getFormFields: builder.query<any, any>({
             query: ({ store_id }) => ({
                 url: `checkout-page/form-field/${store_id}`,
@@ -100,6 +106,7 @@ export const checkOutApi = apiSlice.injectEndpoints({
 export const {
     useGetCampaignQuery,
     useGetAddressQuery,
+    useGetDistrictQuery,
     useGetFormFieldsQuery,
     useUserAddressUpdateMutation,
     useEasyOrderAddressSaveMutation,

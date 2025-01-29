@@ -1,7 +1,8 @@
 import Link from "next/link";
 import React from "react";
+import '../category-four.css';
 
-const Shop = ({ category, children }: any) => {
+const BreadcrumbHeadingWrapper = ({ category, children }: any) => {
   return (
     <>
       <div className="sm:container px-5 sm:py-10 py-5 bg-white">
@@ -24,4 +25,4 @@ const Shop = ({ category, children }: any) => {
   );
 };
 
-export default Shop;
+export default BreadcrumbHeadingWrapper;

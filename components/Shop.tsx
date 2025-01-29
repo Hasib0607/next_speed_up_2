@@ -14,6 +14,8 @@ const Shop = () => {
 
     const ShopComponent = shops[design?.shop_page] || shops[DEFAULT];
 
+    console.log(design?.shop_page);
+    
     return (
         <>
             {ShopComponent && (

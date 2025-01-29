@@ -1,15 +1,15 @@
-import { FaFacebookF } from 'react-icons/fa';
+import Link from 'next/link';
 import {
     AiFillLinkedin,
     AiFillYoutube,
     AiOutlineWhatsApp,
 } from 'react-icons/ai';
+import { FaFacebookF } from 'react-icons/fa';
 import { RiInstagramLine } from 'react-icons/ri';
-import Newsletter from './components/newsletter';
-import Link1 from '../../utils/link1';
-import Link from 'next/link';
 import MenuList from './components/menu-list';
+import Newsletter from './components/newsletter';
 import WhatsApp from './components/whatsApp';
+import MotionLink from '@/utils/motion-link';
 
 const FooterOne = ({
     category,
@@ -53,7 +53,6 @@ const FooterOne = ({
                             Menu
                         </h2>
                         <nav className="list-none mb-10 space-y-2">
-                            {/* {menu?.map((item) => <Link1 key={item.id} text={item.name} href={item.url} />)} */}
                             <MenuList cls={cls} menu={menu} page={page} />
                         </nav>
                     </div>
@@ -64,8 +63,8 @@ const FooterOne = ({
                         <nav className="list-none mb-10 space-y-2">
                             {category
                                 ?.slice(0, 7)
-                                .map((item: any) => (
-                                    <Link1
+                                ?.map((item: any) => (
+                                    <MotionLink
                                         key={item.id}
                                         text={item.name}
                                         href={'/category/' + item.id}

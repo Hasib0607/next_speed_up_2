@@ -1,10 +1,10 @@
 'use client';
 
-import FileUploadModal from '@/utils/FileUploadModal';
 import {
     clearCartList,
     removeFromCartList,
 } from '@/redux/features/cart/cartSlice';
+import FileUploadModal from '@/utils/FileUploadModal';
 import { CrossCircledIcon } from '@radix-ui/react-icons';
 
 import { getPrice } from '@/helpers/getPrice';
@@ -25,11 +25,13 @@ import { MdDelete } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import PaymentGateway from '../payment-gateway/payment-gateway';
+import Swal from 'sweetalert2';
 
 // Helper function to conditionally select a value
 import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
 import { getFromLocalStorage } from '@/helpers/localStorage';
-
+import { numberParser } from '@/helpers/numberParser';
+import { TWENTY_EIGHT } from '@/consts';
 
 const YourOrders = ({
     couponDis,
@@ -70,6 +72,7 @@ const YourOrders = ({
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { user } = useSelector((state: RootState) => state.auth);
+    const smsCount = numberParser(headersetting?.total_sms);
 
     const router = useRouter();
     const dispatch = useDispatch();
@@ -81,9 +84,9 @@ const YourOrders = ({
     const [userPlaceOrder] = useUserPlaceOrderMutation();
 
     if (
-        total < parseInt(couponResult?.min_purchase) ||
-        (parseInt(couponResult?.max_purchase) &&
-            total > parseInt(couponResult?.max_purchase)) ||
+        total < numberParser(couponResult?.min_purchase) ||
+        (numberParser(couponResult?.max_purchase) &&
+            total > numberParser(couponResult?.max_purchase)) ||
         !couponDis
     ) {
         couponDis = 0;
@@ -110,7 +113,7 @@ const YourOrders = ({
         id: item?.id,
         quantity: item?.qty,
         discount:
-            parseInt(item?.regular_price) -
+            numberParser(item?.regular_price) -
             getPrice(
                 item?.regular_price,
                 item?.discount_price,
@@ -143,8 +146,8 @@ const YourOrders = ({
         }
     }
 
+    // Append all non-image properties of the cart item
     for (let i = 0; i < cart?.length; i++) {
-        // Append all non-image properties of the cart item
         for (let key in cart[i]) {
             if (key !== 'items') {
                 formData.append(`product[${i}][${key}]`, cart[i][key]);
@@ -182,10 +185,11 @@ const YourOrders = ({
                 isAuthenticated
             ),
             note: selectAddress?.note,
-            district: selectAddress?.district,
+            district: selectAddress?.district?.bn_name,
+            address_id: selectAddress?.id,
             payment_type: selectPayment,
-            subtotal: parseInt(total),
-            shipping: parseInt(shippingArea),
+            subtotal: numberParser(total),
+            shipping: numberParser(shippingArea),
             total: gTotal,
             discount: couponDis,
             tax,
@@ -227,8 +231,9 @@ const YourOrders = ({
         phone: data.phone,
         email: data.email,
         address: data.address,
-        note: selectAddress?.note,
-        district: selectAddress?.district,
+        note: data?.note,
+        district: data?.district,
+        address_id: data?.address_id,
         payment_type: selectPayment,
         subtotal: data.subtotal,
         shipping: data.shipping,
@@ -258,7 +263,6 @@ const YourOrders = ({
                 toastId: data.payment_type,
             });
         }
-
         if (shippingArea === null) {
             toast.warning('Please Select Shipping Area', {
                 toastId: shippingArea,
@@ -304,13 +308,46 @@ const YourOrders = ({
         };
 
         if (isAbleToOrder) {
-            placeOrder();
+            if (smsCount > 0) {
+                placeOrder();
+            } else {
+                Swal.fire({
+                    title: 'Do you want to continue?',
+                    text: 'Your vendor does not have any SMS left!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Continue',
+                    reverseButtons: true,
+                }).then((result: any) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: 'You cannot get SMS for order confirmation and also cannot receive login credentials!',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Proceed',
+                            reverseButtons: true,
+                        }).then((result: any) => {
+                            if (result.isConfirmed) {
+                                placeOrder();
+                                toast.success(
+                                    `Your order placed without sms confirmation!`
+                                );
+                            }
+                        });
+                    }
+                });
+            }
         }
     };
 
     useEffect(() => {
         if (headersetting?.tax) {
-            const tax = (parseInt(headersetting?.tax) / 100) * total;
+            const tax = (numberParser(headersetting?.tax) / 100) * total;
             setTax(tax);
         }
     }, [headersetting?.tax, total]);
@@ -345,11 +382,10 @@ const YourOrders = ({
                 } as React.CSSProperties
             }
         >
-            {/* {error && <SnackBar open={true} msg={error} />} */}
             <h3 className="text-center font-semibold text-lg ">
                 {design?.template_id === '29' ||
                 store_id === 3601 ||
-                store_id === 3904
+                design?.checkout_page === TWENTY_EIGHT
                     ? 'আপনার অর্ডার সমূহ'
                     : 'Your Order Summary'}
             </h3>
@@ -395,17 +431,19 @@ const YourOrders = ({
             >
                 <div className="flex justify-between items-center">
                     <p>
-                        {design?.template_id === '29'
+                        {design?.checkout_page === TWENTY_EIGHT ||
+                        design?.template_id === '29'
                             ? 'সাব টোটাল'
                             : 'Sub Total'}
                     </p>
                     <p>
-                        <BDT price={parseInt(total)} />
+                        <BDT price={numberParser(total)} />
                     </p>
                 </div>
                 <div className="flex justify-between items-center">
                     <p>
-                        {design?.template_id === '29'
+                        {design?.checkout_page === TWENTY_EIGHT ||
+                        design?.template_id === '29'
                             ? 'ডিসকাউন্ট'
                             : 'Discount'}
                     </p>
@@ -430,12 +468,18 @@ const YourOrders = ({
                 )}
 
                 <div className="flex justify-between items-center">
-                    <p>{design?.template_id === '29' ? 'ট্যাক্স' : 'Tax'}</p>
-                    <p>{<BDT price={parseInt(tax)} />}</p>
+                    <p>
+                        {design?.checkout_page === TWENTY_EIGHT ||
+                        design?.template_id === '29'
+                            ? 'ট্যাক্স'
+                            : 'Tax'}
+                    </p>
+                    <p>{<BDT price={numberParser(tax)} />}</p>
                 </div>
                 <div className="flex justify-between items-center">
                     <p>
-                        {design?.template_id === '29'
+                        {design?.checkout_page === TWENTY_EIGHT ||
+                        design?.template_id === '29'
                             ? 'এস্টিমেটেড শিপিং'
                             : 'Estimated Shipping'}
                     </p>
@@ -451,19 +495,30 @@ const YourOrders = ({
                 </div>
                 <div className="h-[2px] w-full bg-gray-300 mt-4 mb-2"></div>
                 <div className="flex justify-between items-center  font-semibold">
-                    <p>{design?.template_id === '29' ? 'মোট' : 'Total'}</p>
+                    <p>
+                        {design?.checkout_page === TWENTY_EIGHT ||
+                        design?.template_id === '29'
+                            ? 'মোট'
+                            : 'Total'}
+                    </p>
                     {shippingArea === '--Select Area--' ||
                     shippingArea === null ? (
                         <p>
-                            {<BDT price={parseInt(total + tax) - couponDis} />}
+                            {
+                                <BDT
+                                    price={
+                                        numberParser(total + tax) - couponDis
+                                    }
+                                />
+                            }
                         </p>
                     ) : (
                         <p>
                             {
                                 <BDT
                                     price={
-                                        parseInt(total + tax) +
-                                        parseInt(shippingArea) -
+                                        numberParser(total + tax) +
+                                        numberParser(shippingArea) -
                                         couponDis
                                     }
                                 />
@@ -502,19 +557,19 @@ const YourOrders = ({
                 >
                     {design?.template_id === '29' ||
                     store_id === 3601 ||
-                    store_id === 3904
+                    design?.checkout_page === TWENTY_EIGHT
                         ? 'অর্ডার কনফার্ম করুন'
                         : 'Place Order'}
                 </button>
             )}
-                <FileUploadModal
-                    files={files}
-                    setFiles={setFiles}
-                    isOpen={isOpen}
-                    design={design}
-                    setIsOpen={setIsOpen}
-                    cartId={cartId}
-                />
+            <FileUploadModal
+                files={files}
+                setFiles={setFiles}
+                isOpen={isOpen}
+                design={design}
+                setIsOpen={setIsOpen}
+                cartId={cartId}
+            />
         </div>
     );
 };
