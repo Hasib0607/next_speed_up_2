@@ -12,12 +12,12 @@ import { useSelector } from 'react-redux';
 
 import CheckoutFrom from '@/components/_checkout-page/_components/checkout-from';
 
-import SingleAddress from '@/components/_checkout-page/twentyone/single-address/single-address';
+import SingleAddress from '@/components/_checkout-page/_components/single-address/single-address';
+import { TWENTY_EIGHT } from '@/consts';
 import useAuth from '@/hooks/useAuth';
 import QuickView from '@/utils/quick-view';
-import { TWENTY_EIGHT } from '@/consts';
 
-const Address = ({ selectAddress, setSelectAddress, design }: any) => {
+const Address = ({ selectAddress, setSelectAddress, design,className }: any) => {
     const isAuthenticated = useAuth();
     const [addressArr, setAddressArr] = useState<any>([]);
     const [open, setOpen] = useState(false);
@@ -106,72 +106,60 @@ const Address = ({ selectAddress, setSelectAddress, design }: any) => {
 
     return (
         <>
-            <div
-                className={`${
-                    design?.template_id === '34'
-                        ? 'bg-thirty-one border border-white'
-                        : 'bg-white'
-                }  shadow sm:rounded-md sm:overflow-hidden mb-5`}
-            >
-                <div className={`px-4 py-5 space-y-6 sm:p-6`}>
-                    <div className="">
-                        <div className="flex justify-between items-center pb-3">
-                            {design?.template_id === '29' ||
-                            design?.checkout_page === TWENTY_EIGHT ||
-                            store_id === 3601 ? (
-                                <label
-                                    htmlFor="name"
-                                    className="block text-md md:text-xl font-semibold text-gray-700"
-                                >
-                                    ঠিকানা{' '}
-                                    <span className="text-xs md:text-sm">
-                                        (অনুগ্রহ করে আপনার ঠিকানা নির্বাচন করুন)
-                                    </span>
-                                </label>
-                            ) : (
-                                <label
-                                    htmlFor="name"
-                                    className="block text-md md:text-xl font-semibold text-gray-700"
-                                >
-                                    Addresses{' '}
-                                    <span className="text-xs md:text-sm">
-                                        (Please Select Your Address.)
-                                    </span>
-                                </label>
-                            )}
-                            {isAuthenticated && addressArr?.length > 0 && (
-                                <span
-                                    className="text-green-600 font-semibold tracking-wider lg:cursor-pointer"
-                                    onClick={() => handleAdd()}
-                                >
-                                    {' '}
-                                    + Add
-                                </span>
-                            )}
-                        </div>
-                        {store?.auth_type === 'EasyOrder' &&
-                        !isAuthenticated ? (
+            <div className={className ? className : "col-span-6 sm:col-span-4"}>
+                <div className="flex justify-between items-center pb-3">
+                    {design?.template_id === '29' ||
+                    design?.checkout_page === TWENTY_EIGHT ||
+                    store_id === 3601 ? (
+                        <label
+                            htmlFor="name"
+                            className="block text-md md:text-xl font-semibold text-gray-700"
+                        >
+                            ঠিকানা{' '}
+                            <span className="text-xs md:text-sm">
+                                (অনুগ্রহ করে আপনার ঠিকানা নির্বাচন করুন)
+                            </span>
+                        </label>
+                    ) : (
+                        <label
+                            htmlFor="name"
+                            className="block text-md md:text-xl font-semibold text-gray-700"
+                        >
+                            Addresses{' '}
+                            <span className="text-xs md:text-sm">
+                                (Please Select Your Address.)
+                            </span>
+                        </label>
+                    )}
+                    {isAuthenticated && addressArr?.length > 0 && (
+                        <span
+                            className="text-green-600 font-semibold tracking-wider lg:cursor-pointer"
+                            onClick={() => handleAdd()}
+                        >
+                            {' '}
+                            + Add
+                        </span>
+                    )}
+                </div>
+                {store?.auth_type === 'EasyOrder' && !isAuthenticated ? (
+                    <CheckoutFrom
+                        addressRefetch={addressRefetch}
+                        setOpen={setOpen}
+                    />
+                ) : (
+                    <div>
+                        {!addressArr || addressArr?.length == 0 ? (
                             <CheckoutFrom
                                 addressRefetch={addressRefetch}
                                 setOpen={setOpen}
+                                cancelBtn={addressArr?.length > 0}
                             />
                         ) : (
-                            <div>
-                                {!addressArr || addressArr?.length == 0 ? (
-                                    <CheckoutFrom
-                                        addressRefetch={addressRefetch}
-                                        setOpen={setOpen}
-                                        cancelBtn={addressArr?.length > 0}
-                                    />
-                                ) : (
-                                    addressCards
-                                )}
-                            </div>
+                            addressCards
                         )}
                     </div>
-                </div>
+                )}
             </div>
-
             <QuickView open={open} setOpen={setOpen} design={design} auto>
                 <>
                     {edit && editItem ? (

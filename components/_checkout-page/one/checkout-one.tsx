@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import Address from '../_components/address/address';
 import YourOrders from './your-orders/your-order';
 import Discount from './discount/discount';
+import PaymentConditions from '../_components/payment-conditions';
 
 const CheckOutTwentyOne = () => {
     const home = useSelector((state: any) => state?.home);
@@ -85,15 +86,26 @@ const CheckOutTwentyOne = () => {
     }
 
     return (
-        <div
-            className={`${
-                design?.template_id === '34' ? 'bg-thirty-one' : 'bg-[#F3F4F6]'
-            }`}
-        >
+        <div className="bg-[#F3F4F6] min-h-screen">
             <div className="sm:container px-5 xl:px-24">
-                <h2 className="py-10 text-4xl font-semibold text-center">
-                    {design?.template_id === '29' ? 'চেকআউট' : 'Checkout'}
-                </h2>
+                <div className="pt-10 font-semibold text-center">
+                    <div className="p-4 mb-4 text-center">
+                        <p className="text-orange-300 font-semibold text-lg sm:text-xl">
+                            অর্ডার টি সম্পন্ন করতে আপনার নাম, মোবাইল নাম্বার ও
+                            ঠিকানা নিচে লিখুন
+                        </p>
+                        <h2 className="font-semibold mt-2 text-xl sm:text-2xl">
+                            বিলিং ডিটেইল
+                        </h2>
+                        <hr
+                            className="border-dashed border-gray-300 my-2 w-3/4 sm:w-1/2 mx-auto"
+                            style={{
+                                borderWidth: '2px',
+                                borderStyle: 'dashed',
+                            }}
+                        />
+                    </div>
+                </div>
                 <div className="container">
                     <div className="lg:grid lg:grid-cols-2 lg:gap-6 mt-1 py-4">
                         <div className="mt-5 lg:mt-0 lg:col-span-1 lg:h-max lg:sticky lg:top-28">
@@ -133,13 +145,7 @@ const CheckOutTwentyOne = () => {
                                 couponResult={couponResult}
                                 design={design}
                             />
-                            {/* don't remove this below */}
-                            {/* <div className="border border-gray-300 rounded-md p-6">
-                                <PaymentGateway
-                                    selectPayment={selectPayment}
-                                    setSelectPayment={setSelectPayment}
-                                />
-                            </div> */}
+                            <PaymentConditions />
                         </div>
                         <div className="mt-5 lg:mt-0 lg:col-span-1">
                             <YourOrders

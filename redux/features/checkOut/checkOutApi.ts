@@ -1,5 +1,6 @@
 import { apiSlice } from '../api/apiSlice';
 import { userLoggedIn } from '../auth/authSlice';
+import { setDistrictArr } from './checkOutSlice';
 
 // Inject the getHome mutation endpoint into apiSlice
 export const checkOutApi = apiSlice.injectEndpoints({
@@ -32,6 +33,23 @@ export const checkOutApi = apiSlice.injectEndpoints({
         getDistrict: builder.query<any, any>({
             query: () => ({
                 url: `get/district`,
+                method: 'GET',
+            }),
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                try {
+                    const response = await queryFulfilled;
+                    const districtArr = response?.data?.data || [];
+                    if (response?.data?.status && districtArr) {
+                        dispatch(setDistrictArr(districtArr));
+                    }
+                } catch (error) {
+                    // console.error("Error in getDistrict mutation:", error);
+                }
+            },
+        }),
+        getBookingFormFields: builder.query<any, any>({
+            query: ({ store_id, module_id }) => ({
+                url: `booking-from/${store_id}/${module_id}`,
                 method: 'GET',
             }),
         }),
@@ -90,9 +108,7 @@ export const checkOutApi = apiSlice.injectEndpoints({
                     }
                     // Invalidate a specific tag to trigger a refetch
                     dispatch(
-                        apiSlice.util.invalidateTags([
-                            { type: 'AllOrders' },
-                        ])
+                        apiSlice.util.invalidateTags([{ type: 'AllOrders' }])
                     );
                 } catch (error) {
                     // console.error("Error in getHome mutation:", error);
@@ -108,6 +124,7 @@ export const {
     useGetAddressQuery,
     useGetDistrictQuery,
     useGetFormFieldsQuery,
+    useGetBookingFormFieldsQuery,
     useUserAddressUpdateMutation,
     useEasyOrderAddressSaveMutation,
     useUserAddressSaveMutation,
