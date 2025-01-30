@@ -6,21 +6,20 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { DEFAULT } from '@/consts';
+import { DEFAULT, SEVEN } from '@/consts';
 
 const Checkout = () => {
-    const home = useSelector((state: any) => state?.home);
+    const home = useSelector((state: RootState) => state?.home);
     const { design } = home || {};
 
-    const CheckoutComponent =
+    const CheckoutComponent = 
         checkout_pages[design?.checkout_page] || checkout_pages[DEFAULT];
 
     const router = useRouter();
-    const { user } = useSelector((state: any) => state.auth);
+    const { user } = useSelector((state: RootState) => state.auth);
     const { store } = useSelector((state: RootState) => state.appStore);
 
     console.log("cp",design?.checkout_page);
-    
 
     useEffect(() => {
         if (!user && store?.auth_type !== 'EasyOrder') {

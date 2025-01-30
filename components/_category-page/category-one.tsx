@@ -309,7 +309,7 @@ const SingleCat = ({ item, design }: any) => {
                         {' '}
                         <p>{item.name}</p>
                     </Link>
-                    {item?.cat ? (
+                    {item?.subcategories ? (
                         <div
                             className="px-4 h-full"
                             onClick={() => setShow(!show)}
@@ -325,7 +325,7 @@ const SingleCat = ({ item, design }: any) => {
                 {show && (
                     <>
                         <div className="">
-                            {item?.cat?.map((sub: any, key: number) => (
+                            {item?.subcategories?.map((sub: any, key: number) => (
                                 <div className="border-t" key={key}>
                                     <Link href={'/category/' + sub?.id}>
                                         {' '}

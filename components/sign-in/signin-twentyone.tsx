@@ -190,7 +190,7 @@ const LoginTwentyOne = () => {
                   </form>
 
                   <Link
-                    href="/password-forgot"
+                    href="/forgot-password"
                     className="text-base inline-block mb-2 text-[#adadad] hover:underline hover:text-primary"
                   >
                     Forgot Password?

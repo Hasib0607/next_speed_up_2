@@ -1,102 +1,141 @@
 'use client';
 
+import {
+    DEFAULT,
+    EIGHT,
+    EIGHTEEN,
+    ELEVEN,
+    FIFTEEN,
+    FIVE,
+    FORTY,
+    FOUR,
+    FOURTEEN,
+    NINE,
+    NINETEEN,
+    ONE,
+    SEVEN,
+    SEVENTEEN,
+    SIX,
+    SIXTEEN,
+    TEN,
+    THIRTEEN,
+    THIRTY,
+    THIRTY_EIGHT,
+    THIRTY_FIVE,
+    THIRTY_ONE,
+    THIRTY_SIX,
+    THREE,
+    TWELVE,
+    TWENTY,
+    TWENTY_EIGHT,
+    TWENTY_FIVE,
+    TWENTY_FOUR,
+    TWENTY_NINE,
+    TWENTY_ONE,
+    TWENTY_SEVEN,
+    TWENTY_SIX,
+    TWENTY_THREE,
+    TWENTY_TWO,
+    TWO,
+} from '@/consts';
+
 import dynamic from 'next/dynamic';
 
 export const checkout_pages: any = {
-    default: dynamic(
+    [DEFAULT]: dynamic(
         () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     ),
-    // one: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // two: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // three: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // four: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // five: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // six: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // seven: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // eight: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // nine: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // ten: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // eleven: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // twelve: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // thirteen: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // fourteen: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // fifteen: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // sixteen: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // seventeen: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // eighteen: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // nineteen: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // twenty: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    twentyone: dynamic(
+    [ONE]: dynamic(
+        () => import('@/components/_checkout-page/one/checkout-one')
+    ),
+    [TWO]: dynamic(
+        () => import('@/components/_checkout-page/four/checkout-four')
+    ),
+    [THREE]: dynamic(
+        () => import('@/components/_checkout-page/seven/checkout-seven')
+    ),
+    [FOUR]: dynamic(
+        () => import('@/components/_checkout-page/four/checkout-four')
+    ),
+    [FIVE]: dynamic(
+        () => import('@/components/_checkout-page/four/checkout-four')
+    ),
+    [SIX]: dynamic(
+        () => import('@/components/_checkout-page/five/checkout-five')
+    ),
+    [SEVEN]: dynamic(
+        () => import('@/components/_checkout-page/seven/checkout-seven')
+    ),
+    [EIGHT]: dynamic(
+        () => import('@/components/_checkout-page/eleven/checkout-eleven')
+    ),
+    [NINE]: dynamic(
+        () => import('@/components/_checkout-page/four/checkout-four')
+    ),
+    [TEN]: dynamic(
+        () => import('@/components/_checkout-page/eleven/checkout-eleven')
+    ),
+    [ELEVEN]: dynamic(
+        () => import('@/components/_checkout-page/eleven/checkout-eleven')
+    ),
+    [TWELVE]: dynamic(
+        () => import('@/components/_checkout-page/eleven/checkout-eleven')
+    ),
+    [THIRTEEN]: dynamic(
+        () => import('@/components/_checkout-page/four/checkout-four')
+    ),
+    [FOURTEEN]: dynamic(
+        () => import('@/components/_checkout-page/five/checkout-five')
+    ),
+    [FIFTEEN]: dynamic(
+        () => import('@/components/_checkout-page/seven/checkout-seven')
+    ),
+    [SIXTEEN]: dynamic(
+        () => import('@/components/_checkout-page/eleven/checkout-eleven')
+    ),
+    [SEVENTEEN]: dynamic(
+        () => import('@/components/_checkout-page/four/checkout-four')
+    ),
+    [EIGHTEEN]: dynamic(
+        () => import('@/components/_checkout-page/five/checkout-five')
+    ),
+    [NINETEEN]: dynamic(
+        () => import('@/components/_checkout-page/seven/checkout-seven')
+    ),
+    [TWENTY]: dynamic(
+        () => import('@/components/_checkout-page/seven/checkout-seven')
+    ),
+    [TWENTY_ONE]: dynamic(
         () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     ),
-    twentytwo: dynamic(
+    [TWENTY_TWO]: dynamic(
         () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     ),
-    // twentythree: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    twentyfour: dynamic(
+    [TWENTY_THREE]: dynamic(
+        () => import('@/components/_checkout-page/four/checkout-four')
+    ),
+    [TWENTY_FOUR]: dynamic(
         () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     ),
-    // twentyfive: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    // twentysix: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    twentyseven: dynamic(
+    [TWENTY_FIVE]: dynamic(
+        () => import('@/components/_checkout-page/four/checkout-four')
+    ),
+    [TWENTY_SIX]: dynamic(
+        () => import('@/components/_checkout-page/eleven/checkout-eleven')
+    ),
+    [TWENTY_SEVEN]: dynamic(
         () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     ),
-    twentyeight: dynamic(
+    [TWENTY_EIGHT]: dynamic(
         () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     ),
-    twentynine: dynamic(
+    [TWENTY_NINE]: dynamic(
         () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     ),
-    // thirty: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
-    thirtyone: dynamic(
+    [THIRTY]: dynamic(
+        () => import('@/components/_checkout-page/eleven/checkout-eleven')
+    ),
+    [THIRTY_ONE]: dynamic(
         () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     ),
     // thirtythree: dynamic(
@@ -105,22 +144,22 @@ export const checkout_pages: any = {
     // thirtyfour: dynamic(
     //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     // ),
-    thirtyfive: dynamic(
+    [THIRTY_FIVE]: dynamic(
         () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     ),
-    thirtysix: dynamic(
+    [THIRTY_SIX]: dynamic(
         () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     ),
     // thirtyseven: dynamic(
     //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     // ),
-    thirtyeight: dynamic(
+    [THIRTY_EIGHT]: dynamic(
         () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     ),
     // thirtynine: dynamic(
     //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
     // ),
-    // forty: dynamic(
-    //     () => import('@/components/_checkout-page/twentyone/checkout-twentyone')
-    // ),
+    [FORTY]: dynamic(
+        () => import('@/components/_checkout-page/forty/checkout-forty')
+    ),
 };

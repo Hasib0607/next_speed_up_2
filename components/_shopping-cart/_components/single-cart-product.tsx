@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { useMemo } from 'react';
+import { numberParser } from '@/helpers/numberParser';
 
 const SingleCartProduct = ({ product }: any) => {
     const dispatch = useDispatch<AppDispatch>();
@@ -131,7 +132,7 @@ const SingleCartProduct = ({ product }: any) => {
                                 Total Price:{' '}
                                 <BDT
                                     price={
-                                        parseInt(product?.price) * product?.qty
+                                        numberParser(product?.price) * product?.qty
                                     }
                                 />
                             </span>
