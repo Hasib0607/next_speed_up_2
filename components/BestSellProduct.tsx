@@ -25,7 +25,7 @@ const BestSellProduct = ({ design, store_id }: any) => {
     
     return (
         <>
-            {BestSellProductComponent && bestSellProductSuccess && (
+            {design?.best_sell_product && BestSellProductComponent && bestSellProductSuccess && (
                 <BestSellProductComponent
                     best_sell_product={best_sell_product}
                     bestSellProductLoading={bestSellProductLoading}

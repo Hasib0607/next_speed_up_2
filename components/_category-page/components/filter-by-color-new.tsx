@@ -1,7 +1,7 @@
 'use client';
 
-import { setColor } from '@/redux/features/filters/filterSlice';
 import React from 'react';
+import { setColor } from '@/redux/features/filters/filterSlice';
 import { useDispatch } from 'react-redux';
 
 const FilterByColorNew = ({
@@ -11,10 +11,11 @@ const FilterByColorNew = ({
     setHasMore,
 }: any) => {
     const dispatch = useDispatch();
+
     const handleClick = (color: any) => {
         dispatch(setColor(color));
-        setPage(1);
-        setHasMore(true);
+        // setPage(1);
+        // setHasMore(true);
     };
 
     return (

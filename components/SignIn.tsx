@@ -14,7 +14,6 @@ const SignIn = () => {
     const SignInComponent =
         login_pages[design?.login_page] || login_pages[DEFAULT];
 
-
     return (
         <GuestLayer>
             {design?.login_page && SignInComponent && <SignInComponent design={design} />}

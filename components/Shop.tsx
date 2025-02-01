@@ -14,11 +14,11 @@ const Shop = () => {
 
     const ShopComponent = shops[design?.shop_page] || shops[DEFAULT];
 
-    console.log(design?.shop_page);
+    // console.log(design?.shop_page);
     
     return (
         <>
-            {ShopComponent && (
+            {design?.shop_page && ShopComponent && (
                 <ShopComponent design={design} store_id={store_id} />
             )}
         </>

@@ -11,9 +11,13 @@ const FilterByPriceNew = ({ priceValue, setHasMore, setPage }: any) => {
     const dispatch = useDispatch();
 
     const handleInputChange = () => {
-        dispatch(setPrice(inputRef.current.value));
-        setPage(1);
-        setHasMore(true);
+        if (inputRef.current.value === '0') {
+            dispatch(setPrice(null));
+        }else{
+            dispatch(setPrice(inputRef.current.value));
+            // setPage(1);
+            // setHasMore(true);
+        }
     };
 
     return (

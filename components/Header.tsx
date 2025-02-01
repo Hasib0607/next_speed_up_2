@@ -6,8 +6,7 @@ import { headers } from '@/utils/dynamic-import/_homepageSections/header/header'
 import { useSelector } from 'react-redux';
 
 const Header = ({ design }: any) => {
-    const HeaderComponent =
-        (design?.header && headers[design?.header]) || headers[DEFAULT];
+    const HeaderComponent = headers[design?.header] || headers[DEFAULT];
 
     const authStore = useSelector((state: RootState) => state?.auth);
     const { cartList } = useSelector((state: RootState) => state?.cart);
@@ -19,15 +18,7 @@ const Header = ({ design }: any) => {
 
     return (
         <>
-            {/* <Suspense
-                fallback={
-                    <div className="mb-5 px-5 pt-5">
-                        <div className="animate-pulse w-full bg-gray-300 h-20 rounded-lg flex justify-center items-center"></div>
-                    </div>
-                }
-            >
-            </Suspense> */}
-            {HeaderComponent && (
+            {design?.header && HeaderComponent && (
                 <HeaderComponent
                     design={design}
                     headersetting={headersetting}
