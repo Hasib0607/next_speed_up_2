@@ -39,6 +39,9 @@ export const all_products: any = {
     twentyfour: dynamic(
         () => import('@/components/_homepage/product/product-twentyfour')
     ),
+    twentysix: dynamic(
+        () => import('@/components/_homepage/product/product-twentysix')
+    ),
     twentyseven: dynamic(
         () => import('@/components/_homepage/product/product-twentyseven')
     ),

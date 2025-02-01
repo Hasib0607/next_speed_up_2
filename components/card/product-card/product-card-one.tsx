@@ -1,16 +1,13 @@
 'use client';
+
 import { motion } from 'framer-motion';
-
-import { BsBagPlus } from 'react-icons/bs';
 import './product-card-one.css';
-
+import { BsBagPlus } from 'react-icons/bs';
 import { productImg } from '@/site-settings/siteUrl';
-
 import { EyeIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import {
     howMuchSave,
@@ -34,8 +31,6 @@ const ProductCardOne = ({ item }: any) => {
     const store_id = store?.id || null;
 
     const { cartList } = useSelector((state: RootState) => state.cart);
-
-    const router = useRouter();
 
     const dispatch = useDispatch();
 

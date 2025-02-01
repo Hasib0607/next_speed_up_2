@@ -1,15 +1,10 @@
 'use client';
 
 import ProductCardOne from '@/components/card/product-card/product-card-one';
-
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
-
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { ThreeDots } from 'react-loader-spinner';
-
 import Skeleton from '@/components/loaders/skeleton';
-
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -19,13 +14,14 @@ import {
     useGetShopPageProductsQuery,
 } from '@/redux/features/shop/shopApi';
 
+import MotionLink from '@/utils/motion-link';
 import { getPathName } from '@/helpers/littleSpicy';
-
+import Pagination from '@/components/_category-page/components/pagination';
+import InfiniteLoader from '@/components/loaders/infinite-loader';
+import { numberParser } from '@/helpers/numberParser';
 import { RootState } from '@/redux/store';
 import { usePathname } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import MotionLink from '@/utils/motion-link';
-import Pagination from '@/components/_category-page/components/pagination';
 
 const One = ({ store_id }: any) => {
     const module_id = 105;
@@ -35,7 +31,7 @@ const One = ({ store_id }: any) => {
     const { data: modulesData } = useGetModulesQuery({ store_id });
     const modules = modulesData?.data || [];
 
-    const [hasMore, setHasMore] = useState<any>(true);
+    const [hasMore, setHasMore] = useState<boolean>(true);
     const [paginate, setPaginate] = useState<any>({});
 
     // setting the initial page number
@@ -60,7 +56,7 @@ const One = ({ store_id }: any) => {
 
     const nextPageFetch = () => {
         setPage((prev) => prev + 1);
-        refetch();
+        // refetch();
     };
 
     const {
@@ -78,26 +74,70 @@ const One = ({ store_id }: any) => {
     const paginationModule = modules?.find(
         (item: any) => item?.modulus_id === module_id
     );
-    const isPagination = parseInt(paginationModule?.status) === 1;
+
+    const isPagination = numberParser(paginationModule?.status) === 1;
+
+    useEffect(() => {
+        refetch();
+    }, [refetch,page])
+    
+
+    // useEffect(() => {
+    //     if (shopPageProductsSuccess) {
+    //         const productsData = shopPageProductsData?.data || [];
+    //         setPaginate(productsData?.pagination);
+
+    //         if (filtersData?.color || filtersData?.price) {
+    //             setPage(1);
+    //         }
+
+    //         if (!isPagination) {
+    //             setProducts((prev) =>
+    //                 Array.isArray(prev)
+    //                     ? [...prev, ...(productsData?.products || [])]
+    //                     : productsData?.products || []
+    //             );
+    //             setHasMore(productsData?.pagination?.has_more_pages ?? false);
+    //         } else {
+    //             setProducts(productsData?.products || []); // Replace products
+    //         }
+    //     }
+    //     console.log('page', page);
+    //     console.log(shopPageProductsData?.data);
+    // }, [
+    //     shopPageProductsData,
+    //     isPagination,
+    //     shopPageProductsSuccess,
+    //     filtersData,
+    //     page,
+    // ]);
 
     useEffect(() => {
         if (shopPageProductsSuccess) {
             const productsData = shopPageProductsData?.data || [];
             setPaginate(productsData?.pagination);
-            if (isPagination) {
-                setProducts(productsData?.products || []);
+
+            // Handle product state based on pagination and current page
+            if (!isPagination) {
+                // If it's the first page, replace products; otherwise, append
+                if (page === 1) {
+                    setProducts(productsData?.products || []);
+                } else {
+                    setProducts((prev) => [...prev, ...(productsData?.products || [])]);
+                }
+                setHasMore(productsData?.pagination?.has_more_pages ?? false);
             } else {
-                setProducts((prev) =>
-                    Array.isArray(prev)
-                        ? [...prev, ...(productsData?.products || [])]
-                        : productsData?.products || []
-                );
-                setPage(1);
+                // For pagination, always replace products
+                setProducts(productsData?.products || []);
             }
-        } else if (shopPageProductsData?.data?.pagination?.current_page === 1) {
-            setHasMore(false);
         }
-    }, [shopPageProductsData, isPagination, shopPageProductsSuccess]);
+    }, [
+        shopPageProductsData,
+        isPagination,
+        shopPageProductsSuccess,
+        filtersData,
+        page,
+    ]);
 
     return (
         <>
@@ -174,10 +214,11 @@ const One = ({ store_id }: any) => {
 
                         {/* show loading */}
                         <div className="col-span-12 lg:col-span-9">
-                            {(shopPageProductsLoading &&
+                            {isPagination &&
+                            ((shopPageProductsLoading &&
                                 !shopPageProductsError) ||
-                            shopPageProductsFetching
-                                ? Array.from({ length: 8 }).map((_, index) => (
+                                shopPageProductsFetching)
+                                ? Array.from({ length: 8 })?.map((_, index) => (
                                       <Skeleton key={index} />
                                   ))
                                 : null}
@@ -194,19 +235,7 @@ const One = ({ store_id }: any) => {
                                     dataLength={products?.length}
                                     next={nextPageFetch}
                                     hasMore={hasMore}
-                                    loader={
-                                        <div className="flex justify-center items-center">
-                                            <ThreeDots
-                                                height="80"
-                                                width="80"
-                                                radius="9"
-                                                color="#f1593a"
-                                                ariaLabel="three-dots-loading"
-                                                wrapperStyle={{}}
-                                                visible={true}
-                                            />
-                                        </div>
-                                    }
+                                    loader={<InfiniteLoader />}
                                     endMessage={
                                         <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
                                             No More Products
@@ -216,7 +245,7 @@ const One = ({ store_id }: any) => {
                                     <div className="grid md:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
                                         {products?.map((i: any) => (
                                             <ProductCardOne
-                                                key={i.id}
+                                                key={i?.id}
                                                 item={i}
                                             />
                                         ))}
@@ -229,7 +258,7 @@ const One = ({ store_id }: any) => {
                                     <div className="grid md:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
                                         {products?.map((i: any) => (
                                             <ProductCardOne
-                                                key={i.id}
+                                                key={i?.id}
                                                 item={i}
                                             />
                                         ))}

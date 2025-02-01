@@ -1,4 +1,4 @@
-import { DEFAULT } from '@/consts';
+import { DEFAULT} from '@/consts';
 import { RootState } from '@/redux/store';
 import { all_products } from '@/utils/dynamic-import/_homepageSections/product/product';
 
@@ -7,8 +7,6 @@ import { useSelector } from 'react-redux';
 const Product = ({ store_id, design }: any) => {
     const ProductComponent =
         all_products[design?.product] || all_products[DEFAULT];
-        
-    console.log("design?.product", design?.product);
 
     const categoryStore = useSelector((state: RootState) => state?.category);
     const products = useSelector((state: RootState) => state?.products);
@@ -23,7 +21,7 @@ const Product = ({ store_id, design }: any) => {
 
     return (
         <>
-            {category?.length > 0 && ProductComponent && (
+            {design?.product && category?.length > 0 && ProductComponent && (
                 <ProductComponent
                     design={design}
                     store_id={store_id}

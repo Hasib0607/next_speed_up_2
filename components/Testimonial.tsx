@@ -16,7 +16,7 @@ const Testimonial = ({ design }: any) => {
 
     return (
         <>
-            {TestimonialComponent && testimonialsSuccess && (
+            {design?.testimonial && TestimonialComponent && testimonialsSuccess && (
                 <TestimonialComponent
                     design={design}
                     testimonials={testimonials}

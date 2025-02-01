@@ -5,6 +5,7 @@ import Card49 from '@/components/card/card49';
 import Card51 from '@/components/card/card51';
 import Card53 from '@/components/card/card53';
 import Card54 from "@/components/card/card54";
+import Card56 from "@/components/card/card56";
 import Card58 from '@/components/card/card58';
 import Card65 from "@/components/card/card65";
 import Card67 from "@/components/card/card67";
@@ -25,6 +26,8 @@ const Cards = ({ card, item }: any) => {
             return <Card53 item={item} />;
         case '54':
             return <Card54 item={item} />;
+        case '56':
+            return <Card56 item={item} />;
         case '58':
             return <Card58 item={item} />;
         case '65':

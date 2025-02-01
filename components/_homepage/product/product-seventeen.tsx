@@ -1,10 +1,13 @@
 'use client';
+
 import { useEffect, useState } from 'react';
+
 import {
     ParallaxBanner,
     ParallaxBannerLayer,
     ParallaxProvider,
 } from 'react-scroll-parallax';
+
 import { SwiperSlide } from 'swiper/react';
 import Card33 from '@/components/card/card33';
 import SectionHeadingSeventeen from '@/components/section-heading/section-heading-seventeen';
@@ -25,6 +28,7 @@ import { CategoryProducts } from '@/types';
 
 const ProductSeventeen = ({ category, design }: any) => {
     const [id, setId] = useState(category[0]?.id);
+
     const [categoryProducts, setCategoryProducts] = useState<CategoryProducts>(
         []
     );
@@ -80,7 +84,7 @@ const ProductSeventeen = ({ category, design }: any) => {
 
                 <div className="grid grid-cols-1 lg:grid-cols-4 ">
                     <div className="xl:col-span-1 flex justify-between lg:grid grid-cols-1 gap-1 border-[#78D6F0] lg:border-r-2">
-                        {category?.slice(0, 4).map((data: any) => (
+                        {category?.slice(0, 4)?.map((data: any) => (
                             <div
                                 key={data?.id}
                                 className="xl:justify-end lg:pr-14 relative"
@@ -133,28 +137,27 @@ const ProductSeventeen = ({ category, design }: any) => {
                                             className="max-h-[50px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
                                         />
                                     </div>
-                                    {/* <img src={iconImg + data?.icon} className='h-[60px] w-[60px] ' alt='' /> */}
                                 </div>
                             </div>
                         ))}
                     </div>
 
                     <div className="lg:col-span-3 lg:ml-6 relative">
-                        <div className=" absolute lg:bottom-12 bottom-0 z-[2] left-5">
+                        <div className="absolute lg:bottom-12 bottom-0 z-[2] left-5">
                             <ArrowSeventeen
                                 prevEl={prev}
                                 nextEl={next}
                                 design={design}
                             />
                         </div>
-                        {categoryProducts?.length ? (
+                        {categoryProducts?.length > 0 ? (
                             <SliderSeventeenSingleSlide
                                 prevEl={prev}
                                 nextEl={next}
                             >
                                 {categoryProducts
                                     ?.slice(0, 12)
-                                    .map((productData: any) => (
+                                    ?.map((productData: any) => (
                                         <SwiperSlide key={productData.id}>
                                             <Card33 item={productData} />
                                         </SwiperSlide>
