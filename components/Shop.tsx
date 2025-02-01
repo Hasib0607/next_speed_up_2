@@ -18,7 +18,9 @@ const Shop = () => {
     
     return (
         <>
-            {design?.shop_page && ShopComponent && (
+
+            {design?.shop_page !== "null" && ShopComponent && (
+
                 <ShopComponent design={design} store_id={store_id} />
             )}
         </>

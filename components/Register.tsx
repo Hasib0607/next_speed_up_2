@@ -5,7 +5,6 @@ import { DEFAULT } from '@/consts';
 import useAuth from '@/hooks/useAuth';
 import { RootState } from '@/redux/store';
 import { register_pages } from '@/utils/dynamic-import/registerPages/registerPages';
-
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -31,7 +30,7 @@ const Register = () => {
     return (
         <>
             <GuestLayer>
-                {design?.login_page && RegisterComponent && (
+                {design?.login_page !== "null" && RegisterComponent && (
                     <RegisterComponent />
                 )}
             </GuestLayer>

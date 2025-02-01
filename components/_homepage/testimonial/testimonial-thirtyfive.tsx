@@ -79,9 +79,9 @@ const TestimonialThirtyFive = ({ testimonials }: any) => {
         <SectionHeadingThirtyFive title={"✦ CUSTOMER TESTIMONIALS ✦"} />
       </div>
       <div>
-        <div>
+        {/* <div>
           <div className="swiper-pagination-testimonial-thirtyfive"></div>
-        </div>
+        </div> */}
         <Swiper
           // spaceBetween={60}
           loop={isLoop}

@@ -16,7 +16,9 @@ const Testimonial = ({ design }: any) => {
 
     return (
         <>
-            {design?.testimonial && TestimonialComponent && testimonialsSuccess && (
+
+            {design?.testimonial !== "null" && testimonialsSuccess && (
+
                 <TestimonialComponent
                     design={design}
                     testimonials={testimonials}

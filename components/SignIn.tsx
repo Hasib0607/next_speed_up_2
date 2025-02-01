@@ -1,7 +1,6 @@
 'use client';
 
 import { login_pages } from '@/utils/dynamic-import/logInPages/logInPages';
-
 import GuestLayer from '@/app/GuestLayer';
 import { useSelector } from 'react-redux';
 import { DEFAULT } from '@/consts';
@@ -16,7 +15,9 @@ const SignIn = () => {
 
     return (
         <GuestLayer>
-            {design?.login_page && SignInComponent && <SignInComponent design={design} />}
+
+            {design?.login_page !== "null" && SignInComponent && <SignInComponent design={design} />}
+
         </GuestLayer>
     );
 };

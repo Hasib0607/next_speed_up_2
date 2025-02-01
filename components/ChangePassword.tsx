@@ -15,7 +15,7 @@ const ChangePassword = () => {
 
     return (
         <>
-            {design?.profile_page && ChangePasswordComponent && (
+            {design?.profile_page !== "null" && ChangePasswordComponent && (
                 <ChangePasswordComponent />
             )}
         </>

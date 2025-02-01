@@ -1,3 +1,5 @@
+'use client';
+
 import { DEFAULT } from '@/consts';
 import { best_sell_products } from '@/utils/dynamic-import/_homepageSections/bestSellProduct/bestSellProduct';
 
@@ -25,7 +27,9 @@ const BestSellProduct = ({ design, store_id }: any) => {
     
     return (
         <>
-            {design?.best_sell_product && BestSellProductComponent && bestSellProductSuccess && (
+
+            {design?.best_sell_product !== "null" && BestSellProductComponent && bestSellProductSuccess && (
+
                 <BestSellProductComponent
                     best_sell_product={best_sell_product}
                     bestSellProductLoading={bestSellProductLoading}

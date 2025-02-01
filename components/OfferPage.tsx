@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import Countdown from 'react-countdown';
-
 import DateRange from './offer/date-range';
 import GetProductByProductId from './offer/get-prod-by-prodid';
 import SpecificDate from './offer/specific-data';

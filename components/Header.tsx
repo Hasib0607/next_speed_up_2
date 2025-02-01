@@ -18,7 +18,9 @@ const Header = ({ design }: any) => {
 
     return (
         <>
-            {design?.header && HeaderComponent && (
+
+            {design?.header !== "null" && HeaderComponent && (
+
                 <HeaderComponent
                     design={design}
                     headersetting={headersetting}

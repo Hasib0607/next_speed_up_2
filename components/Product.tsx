@@ -1,7 +1,8 @@
+'use client';
+
 import { DEFAULT} from '@/consts';
 import { RootState } from '@/redux/store';
 import { all_products } from '@/utils/dynamic-import/_homepageSections/product/product';
-
 import { useSelector } from 'react-redux';
 
 const Product = ({ store_id, design }: any) => {
@@ -21,7 +22,9 @@ const Product = ({ store_id, design }: any) => {
 
     return (
         <>
-            {design?.product && category?.length > 0 && ProductComponent && (
+
+            {design?.product !== "null" && category?.length > 0 && ProductComponent && (
+
                 <ProductComponent
                     design={design}
                     store_id={store_id}
