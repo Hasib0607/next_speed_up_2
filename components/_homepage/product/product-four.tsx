@@ -1,5 +1,5 @@
 "use client";
-import ProductCardEight from "@/components/card/product-card/product-card-eight";
+import ProductCardTwo from "@/components/card/product-card/product-card-two";
 import SectionHeading from "@/components/section-heading/section-heading";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
@@ -36,7 +36,7 @@ const ProductFour = ({ product, design }: any) => {
                 {product
                   ?.slice(0, 10)
                   .map((item: any) => (
-                    <ProductCardEight
+                    <ProductCardTwo
                       item={item}
                       key={item.id}
                       design={design}

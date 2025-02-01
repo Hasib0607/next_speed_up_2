@@ -7,15 +7,18 @@ import CategoryList from './components/category-list';
 import MenuList from './components/menu-list';
 import FollowUs from './components/follow-us';
 import WhatsApp from './components/whatsApp';
+import AllPaymantGateway from './components/all-payment-gateway';
+import PageList from './components/page-list';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
-const FooterNine = ({
-    headersetting,
-    design,
-    store_id,
-    category,
-    menu,
-    page,
-}: any) => {
+const FooterNine = ({ headersetting, design, menu, page }: any) => {
+    const { data: categoryData } = useGetCategoryQuery({});
+    const category = categoryData?.data || [];
+
+    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
+    const store_id = store?.id || null;
     const customDesign = `
     .footerColor:hover{
     color:${design?.header_color};
@@ -76,6 +79,11 @@ const FooterNine = ({
                                         </h1>
                                     </div>
                                 </div>
+                                <div className="sm:container px-5 mt-8 mb-7">
+                                    <AllPaymantGateway
+                                        headersetting={headersetting}
+                                    />
+                                </div>
                                 <CopyrightAll headersetting={headersetting} />
                             </div>
                         </div>
@@ -85,7 +93,7 @@ const FooterNine = ({
                         className="xl:col-span-2"
                         style={{ background: '#efefef' }}
                     >
-                        <div className="grid xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4 py-8 px-5">
+                        <div className="grid xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-2 sm:grid-cols-1 gap-4 py-8 px-5">
                             <div>
                                 <h1 className="footerFiveBorder footerFiveBorderCustom text-lg font-semibold">
                                     Products
@@ -102,11 +110,15 @@ const FooterNine = ({
                                     Our Pages
                                 </h1>
                                 <div className="mt-5">
-                                    <MenuList
-                                        cls={clsMenu}
-                                        menu={menu}
-                                        page={page}
-                                    />
+                                    <MenuList cls={clsMenu} menu={menu} />
+                                </div>
+                            </div>
+                            <div>
+                                <h1 className="footerFiveBorder footerFiveBorderCustom text-lg font-semibold">
+                                    Legal
+                                </h1>
+                                <div className="mt-5">
+                                    <PageList cls={clsMenu} page={page} />
                                 </div>
                             </div>
                             <div className="xl:col-span-2 lg:col-span-2">
@@ -124,7 +136,7 @@ const FooterNine = ({
                         </div>
                     </div>
                     {/* <Messenger /> */}
-                    <WhatsApp headersetting={headersetting} />
+                    <WhatsApp />
                 </footer>
             </div>
         </div>
