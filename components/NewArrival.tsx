@@ -18,7 +18,7 @@ const NewArrival = ({ design }: any) => {
 
     return (
         <>
-            {NewArrivalComponent && productSuccess && (
+            {design?.new_arrival !== "null" && NewArrivalComponent && productSuccess && (
                 <NewArrivalComponent product={product} design={design} />
             )}
         </>

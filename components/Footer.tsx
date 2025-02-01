@@ -1,7 +1,6 @@
 'use client';
 
 import { footers } from '@/utils/dynamic-import/_homepageSections/footer/footer';
-
 import { useGetPageQuery } from '@/redux/features/page/pageApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -23,7 +22,7 @@ const Footer = ({ design }: any) => {
 
     return (
         <>
-            {FooterComponent && (
+            {design?.footer !== "null" && FooterComponent && (
                 <FooterComponent
                     design={design}
                     category={category}

@@ -4,25 +4,19 @@ import FilterByColorNew from '@/components/_category-page/components/filter-by-c
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import PaginationComponent from '@/components/_category-page/components/pagination-new';
 import Card12 from '@/components/card/card12';
-
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ThreeDots } from 'react-loader-spinner';
-
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-
 import Skeleton from '@/components/loaders/skeleton';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { HiOutlineAdjustments } from 'react-icons/hi';
-
 import { setSort } from '@/redux/features/filters/filterSlice';
-
 import {
     useGetCategoryPageProductsQuery,
     useGetColorsQuery,
 } from '@/redux/features/shop/shopApi';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { getPathName, getSecondPathName } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';

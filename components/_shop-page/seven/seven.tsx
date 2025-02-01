@@ -4,24 +4,18 @@ import FilterByColorNew from '@/components/_category-page/components/filter-by-c
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import PaginationComponent from '@/components/_category-page/components/pagination-new';
 import Card12 from '@/components/card/card12';
-
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ThreeDots } from 'react-loader-spinner';
-
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-
 import Skeleton from '@/components/loaders/skeleton';
-
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { HiOutlineAdjustments } from 'react-icons/hi';
-
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import {
     useGetColorsQuery,
     useGetShopPageProductsQuery,
 } from '@/redux/features/shop/shopApi';
-
 import Filters from '@/components/_category-page/components/filters';
 import SingleCategory from '@/components/_category-page/components/single-category';
 import { getPathName } from '@/helpers/littleSpicy';
@@ -29,46 +23,27 @@ import { setSort } from '@/redux/features/filters/filterSlice';
 import { RootState } from '@/redux/store';
 import { usePathname } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
+import Pagination from '@/components/_category-page/components/pagination';
 
-const Seven = ({ store_id }: any) => {
+const Seven = ({ store_id, design }: any) => {
+    const module_id = 105;
     const dispatch = useDispatch();
     const pathName = usePathname();
     const currentPath = getPathName(pathName);
-
     const { data: modulesData } = useGetModulesQuery({ store_id });
     const modules = modulesData?.data || [];
 
+    const [grid, setGrid] = useState('H');
     const [open, setOpen] = useState(false);
-    const [hasMore, setHasMore] = useState<any>(true);
-
     // setting the initial page number
     const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState<any>(true);
+    const [paginate, setPaginate] = useState<any>({});
 
     const filtersData = useSelector((state: RootState) => state.filters);
 
     // get the activecolor, pricevalue, selectedSort
     const { color: activeColor, price: priceValue } = filtersData || {};
-
-    // setting the products to be shown on the ui initially zero residing on an array
-    const [products, setProducts] = useState<any[]>([]);
-
-    const {
-        data: shopPageProductsData,
-        isLoading: shopPageProductsLoading,
-        isFetching: shopPageProductsFetching,
-        isSuccess: shopPageProductsSuccess,
-        isError: shopPageProductsError,
-        refetch,
-    } = useGetShopPageProductsQuery({ page, filtersData });
-
-    const nextPageFetch = () => {
-        setPage((prev) => prev + 1);
-        refetch();
-    };
-
-    // const sortByPosition = (a:any,b:any) => {
-    //     return numberParser(a?.position) - numberParser(b?.position)
-    // }
 
     const {
         data: colorsData,
@@ -83,14 +58,31 @@ const Seven = ({ store_id }: any) => {
     const category = categoryStore?.categories || [];
 
     const paginationModule = modules?.find(
-        (item: any) => item?.modulus_id === 105
+        (item: any) => item?.modulus_id === module_id
     );
     const isPagination = parseInt(paginationModule?.status) === 1;
+
+    // setting the products to be shown on the ui initially zero residing on an array
+    const [products, setProducts] = useState<any[]>([]);
+
+    const {
+        data: shopPageProductsData,
+        isLoading: shopPageProductsLoading,
+        isFetching: shopPageProductsFetching,
+        isSuccess: shopPageProductsSuccess,
+        isError: shopPageProductsError,
+        refetch,
+    } = useGetShopPageProductsQuery({ page, filtersData });
+
+    const nextPageFetch = () => {
+        setPage((prev: any) => prev + 1);
+        refetch();
+    };
 
     useEffect(() => {
         if (shopPageProductsSuccess) {
             const productsData = shopPageProductsData?.data || [];
-
+            setPaginate(productsData?.pagination);
             if (isPagination) {
                 setProducts(productsData?.products || []);
             } else {
@@ -104,7 +96,14 @@ const Seven = ({ store_id }: any) => {
         } else if (shopPageProductsData?.data?.pagination?.current_page === 1) {
             setHasMore(false);
         }
-    }, [shopPageProductsData, isPagination, shopPageProductsSuccess]);
+    }, [
+        shopPageProductsData,
+        setPaginate,
+        isPagination,
+        setHasMore,
+        setPage,
+        shopPageProductsSuccess,
+    ]);
 
     return (
         <div className="grid grid-cols-5 lg:gap-8 sm:container px-5 bg-white mb-10">
@@ -128,7 +127,7 @@ const Seven = ({ store_id }: any) => {
 
                     {category?.map((item: any) => (
                         <div key={item.id}>
-                            <SingleCategory item={item} />
+                            <SingleCategory key={item?.id} item={item} />
                         </div>
                     ))}
                 </div>
@@ -244,16 +243,12 @@ const Seven = ({ store_id }: any) => {
                     </>
                 )}
 
-                {isPagination &&
-                shopPageProductsData?.data?.pagination?.total > 7 ? (
-                    <div className="md:mt-12 flex justify-center">
+                {isPagination && paginate?.total > 7 ? (
+                    <div className="my-5">
                         <PaginationComponent
+                            paginate={paginate}
                             initialPage={page}
                             setPage={setPage}
-                            lastPage={
-                                shopPageProductsData?.data?.pagination
-                                    ?.last_page
-                            }
                         />
                     </div>
                 ) : null}

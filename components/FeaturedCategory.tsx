@@ -1,3 +1,4 @@
+'use client';
 import { DEFAULT } from '@/consts';
 import { RootState } from '@/redux/store';
 import { feature_categories } from '@/utils/dynamic-import/_homepageSections/featuredCategory/featureCategory';
@@ -16,7 +17,7 @@ const FeaturedCategory = ({ design, store_id }: any) => {
 
     return (
         <>
-            {FeaturedCategoryComponent && (
+            {FeaturedCategoryComponent !== "null" && (
                 <FeaturedCategoryComponent
                     design={design}
                     store_id={store_id}

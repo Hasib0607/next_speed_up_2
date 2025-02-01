@@ -14,11 +14,12 @@ const Hero = ({ design }: any) => {
         isError: sliderError,
         isSuccess: sliderSuccess,
     } = useGetSliderQuery({});
+    
     const slider = sliderData?.data || [];
 
     return (
         <>
-            {sliderLoading && !sliderError && (
+            {design?.hero_slider && sliderLoading && !sliderError && (
                 <div className="relative xl:px-20 lg:px-10 md:px-10 px-5 bg-white pb-5">
                     <Skeleton
                         className={
@@ -27,7 +28,8 @@ const Hero = ({ design }: any) => {
                     />
                 </div>
             )}
-            {SelectedHeroComponent && sliderSuccess && (
+
+            {design?.hero_slider !== "null" && SelectedHeroComponent && sliderSuccess && (
                 <SelectedHeroComponent slider={slider} design={design} />
             )}
         </>

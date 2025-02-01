@@ -1,7 +1,6 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-
 import { useSelector } from 'react-redux';
 import { product_details_pages } from '@/utils/dynamic-import/productDetailsPages/productDetailsPages';
 import { RootState } from '@/redux/store';
@@ -21,11 +20,10 @@ const ProductDetails = ({ design, product }: any) => {
     const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
     const store_id = store?.id || null;
     
-console.log("eerfew",design?.single_product_page);
 
     return (
         <>
-            {ProductDetailsPageComponent && store_id && (
+            {design?.single_product_page && ProductDetailsPageComponent && store_id && (
                 <ProductDetailsPageComponent
                     productId={productId}
                     design={design}

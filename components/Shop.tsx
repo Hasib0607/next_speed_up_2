@@ -12,16 +12,13 @@ const Shop = () => {
     const {store} = useSelector((state: RootState) => state.appStore); // Access updated Redux state
     const store_id = store?.id || null;
 
-    const ShopComponent = shops[design?.shop_page];
-    //  || shops[DEFAULT];
-
-    console.log("design?.shop_page", design?.shop_page);
+    const ShopComponent = shops[design?.shop_page] || shops[DEFAULT];
 
     console.log(design?.shop_page);
     
     return (
         <>
-            {ShopComponent && (
+            {design?.shop_page !== "null" && ShopComponent && (
                 <ShopComponent design={design} store_id={store_id} />
             )}
         </>

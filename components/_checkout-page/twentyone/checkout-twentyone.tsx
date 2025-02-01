@@ -4,7 +4,7 @@ import { useGetCampaignQuery } from '@/redux/features/checkOut/checkOutApi';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import Address from './address/address';
+import Address from '../_components/address/address';
 import YourOrders from './your-orders/your-order';
 import Discount from './discount/discount';
 
@@ -104,17 +104,27 @@ const CheckOutTwentyOne = () => {
                                     অর্ডার কনফার্ম করবে
                                 </p>
                             )}
-                            <Address
-                                selectAddress={selectAddress}
-                                setSelectAddress={setSelectAddress}
-                                design={design}
-                                setToken={setToken}
-                                token={token}
-                                setUserAddress={setUserAddress}
-                                userPhone={userPhone}
-                                setUserPhone={setUserPhone}
-                                setUserName={setUserName}
-                            />
+                            <div
+                                className={`${
+                                    design?.template_id === '34'
+                                        ? 'bg-thirty-one border border-white'
+                                        : 'bg-white'
+                                }  shadow sm:rounded-md sm:overflow-hidden mb-5`}
+                            >
+                                <div className="px-4 py-5 space-y-6 sm:p-6">
+                                    <Address
+                                        selectAddress={selectAddress}
+                                        setSelectAddress={setSelectAddress}
+                                        design={design}
+                                        setToken={setToken}
+                                        token={token}
+                                        setUserAddress={setUserAddress}
+                                        userPhone={userPhone}
+                                        setUserPhone={setUserPhone}
+                                        setUserName={setUserName}
+                                    />
+                                </div>
+                            </div>
                             <Discount
                                 setCouponDis={setCouponDis}
                                 setShippingArea={setShippingArea}

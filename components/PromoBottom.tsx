@@ -1,5 +1,6 @@
-import { DEFAULT } from '@/consts';
+'use client';
 
+import { DEFAULT } from '@/consts';
 import { RootState } from '@/redux/store';
 import { banner_bottoms } from '@/utils/dynamic-import/_homepageSections/BannerBottom/BannerBottom';
 import { useSelector } from 'react-redux';
@@ -13,7 +14,7 @@ const PromoBottom = ({ design }: any) => {
     
     return (
         <>
-            {BannerBottomComponent && (
+            {design?.banner !== "null" && BannerBottomComponent && (
                 <BannerBottomComponent
                     design={design}
                     banner={banner}

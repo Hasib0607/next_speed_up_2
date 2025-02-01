@@ -13,7 +13,7 @@ const PasswordForgot = () => {
         forgot_password_pages[design?.login_page] ||
         forgot_password_pages[DEFAULT];
 
-    return <>{ForgotPasswordComponent && <ForgotPasswordComponent />}</>;
+    return <>{design?.login_page !== "null" && ForgotPasswordComponent && <ForgotPasswordComponent />}</>;
 };
 
 export default PasswordForgot;

@@ -425,12 +425,10 @@ const SingleCat = ({ item, design }: any) => {
             }
         }
     }, [item?.cat, id]);
-    
     const activeColor = `text-[${design?.header_color}] flex-1 text-sm font-medium`;
     const inactiveColor = 'text-gray-500 flex-1 text-sm font-medium';
     const activesub = `text-[${design?.header_color}] pb-2 text-sm`;
     const inactivesub = `text-gray-600 pb-2 text-sm`;
-
     return (
         <>
             <div className="w-full flex py-3 lg:cursor-pointer">

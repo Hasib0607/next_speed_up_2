@@ -1,6 +1,6 @@
+'use client';
 import { DEFAULT } from '@/consts';
 import { feature_products } from '@/utils/dynamic-import/_homepageSections/featureProduct/featureProduct';
-
 import { useGetFeatureProductQuery } from '@/redux/features/products/productApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -26,7 +26,7 @@ const FeatureProduct = ({ design, store_id }: any) => {
 
     return (
         <>
-            {feature_product?.length > 3 &&
+            {design?.feature_product !== "null" && feature_product?.length > 3 &&
                 FeatureProductComponent &&
                 featureProductSuccess && (
                     <>
