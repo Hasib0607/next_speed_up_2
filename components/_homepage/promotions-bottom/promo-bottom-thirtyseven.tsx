@@ -3,11 +3,11 @@ import { bannerImg } from '@/site-settings/siteUrl';
 const PromoBottomThirtySeven = ({ banner }: any) => {
     return (
         <>
-            {banner[2] && (
+            {banner?.length > 1 && banner[2] && (
                 <div className="bg-white">
                     <div className="sm:container px-5 sm:py-10 py-5">
                         <div className="grid sm:grid-cols-2 gap-6">
-                            {banner?.slice(2, 4).map((ban: any) => (
+                            {banner?.slice(2, 4)?.map((ban: any) => (
                                 <div
                                     key={ban?.id}
                                     className="relative overflow-hidden"

@@ -15,7 +15,7 @@ import {
 } from 'react-icons/ai';
 import { FaFacebookF } from 'react-icons/fa';
 
-const HeaderTop = ({ headerSetting, design }: any) => {
+const HeaderTop = ({ headersetting, design }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -36,9 +36,9 @@ const HeaderTop = ({ headerSetting, design }: any) => {
             className={`w-full flex justify-between h-6 sm:px-10 px-5`}
         >
             <div className="flex items-center space-x-1">
-                {headerSetting?.facebook_link && (
+                {headersetting?.facebook_link && (
                     <a
-                        href={headerSetting?.facebook_link}
+                        href={headersetting?.facebook_link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="rounded-full bg-white p-1  transition-all duration-300 ease-linear lg:cursor-pointer"
@@ -46,9 +46,9 @@ const HeaderTop = ({ headerSetting, design }: any) => {
                         <FaFacebookF className="text-[10px] text-black" />
                     </a>
                 )}
-                {headerSetting?.instagram_link && (
+                {headersetting?.instagram_link && (
                     <a
-                        href={headerSetting?.instagram_link}
+                        href={headersetting?.instagram_link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="rounded-full bg-white p-1  transition-all duration-300 ease-linear lg:cursor-pointer"
@@ -56,11 +56,11 @@ const HeaderTop = ({ headerSetting, design }: any) => {
                         <AiOutlineInstagram className=" text-[10px] text-black" />
                     </a>
                 )}
-                {headerSetting?.whatsapp_phone && (
+                {headersetting?.whatsapp_phone && (
                     <a
                         href={
                             'https://api.whatsapp.com/send?phone=' +
-                            headerSetting?.whatsapp_phone
+                            headersetting?.whatsapp_phone
                         }
                         target="_blank"
                         rel="noopener noreferrer"
@@ -69,9 +69,9 @@ const HeaderTop = ({ headerSetting, design }: any) => {
                         <AiOutlineWhatsApp className=" text-[10px] text-black" />
                     </a>
                 )}
-                {headerSetting?.youtube_link && (
+                {headersetting?.youtube_link && (
                     <a
-                        href={headerSetting?.youtube_link}
+                        href={headersetting?.youtube_link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="rounded-full bg-white p-1  transition-all duration-300 ease-linear lg:cursor-pointer"
@@ -79,9 +79,9 @@ const HeaderTop = ({ headerSetting, design }: any) => {
                         <AiOutlineYoutube className="text-[10px] text-black" />
                     </a>
                 )}
-                {headerSetting?.lined_in_link && (
+                {headersetting?.lined_in_link && (
                     <a
-                        href={headerSetting?.lined_in_link}
+                        href={headersetting?.lined_in_link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="rounded-full bg-white p-1  transition-all duration-300 ease-linear lg:cursor-pointer"
@@ -95,7 +95,7 @@ const HeaderTop = ({ headerSetting, design }: any) => {
                     <PhoneIcon className="h-4 w-4 group-hover:stroke-red-600  group-hover:text-red-600 transition-all duration-300 ease-linear" />
 
                     <p className=" group-hover:text-red-600">
-                        {headerSetting?.phone}
+                        {headersetting?.phone}
                     </p>
                 </div>
                 {/* login */}

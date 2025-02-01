@@ -6,7 +6,7 @@ export const shops: any = {
     default: dynamic(() => import('@/components/_shop-page/one/one'), {
         ssr: false,
     }),
-    // one: dynamic(() => import('@/components/_shop-page/one/one')),
+    one: dynamic(() => import('@/components/_shop-page/one/one')),
     two: dynamic(() => import('@/components/_shop-page/two/two')),
     three: dynamic(() => import('@/components/_shop-page/three/three'), {
         ssr: false,

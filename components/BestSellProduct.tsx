@@ -12,11 +12,7 @@ const BestSellProduct = ({ design, store_id }: any) => {
         best_sell_products[design?.best_sell_product] || best_sell_products[DEFAULT];
 
     const products = useSelector((state: RootState) => state?.products);
-    const home = useSelector((state: RootState) => state?.home);
-
     const product = products?.product || [];
-
-    const banner = home?.banner || [];
 
     const {
         data: bestSellProductData,
@@ -36,7 +32,6 @@ const BestSellProduct = ({ design, store_id }: any) => {
                     design={design}
                     store_id={store_id}
                     product={product}
-                    banner={banner}
                 />
             )}
         </>

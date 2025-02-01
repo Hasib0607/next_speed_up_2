@@ -6,7 +6,7 @@ const PromoNineteen = ({ banner }: any) => {
         <div className="bg-white ">
             <div className="sm:container px-5 sm:py-10 py-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 justify-center sm:justify-between gap-4">
-                    {banner?.slice(0, 2).map((item: any) => (
+                    {banner?.length > 0 && banner?.slice(0, 2)?.map((item: any) => (
                         <div
                             key={item?.id}
                             className="h-auto min-w-full overflow-hidden"

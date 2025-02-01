@@ -3,7 +3,7 @@ import { bannerImg } from '@/site-settings/siteUrl';
 const PromoBottomFourteen = ({ banner }: any) => {
     return (
         <>
-            {banner[5] && (
+            {banner?.length > 4 && banner[5] && (
                 <div className="sm:container px-5 sm:py-10 py-5">
                     <div className="relative group">
                         <img

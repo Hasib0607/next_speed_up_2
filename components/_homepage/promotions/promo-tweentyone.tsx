@@ -6,7 +6,7 @@ const PromoTwentyOne = ({ banner }: any) => {
         <div className="sm:container px-5 sm:py-10 py-5">
             <div className="">
                 <div className="grid md:grid-cols-2 gap-6">
-                    {banner?.slice(0, 2).map((ban: any) => (
+                    {banner?.length > 0 && banner?.slice(0, 2)?.map((ban: any) => (
                         <div
                             key={ban.id}
                             className="relative overflow-hidden rounded-lg"
@@ -28,7 +28,7 @@ const PromoTwentyOne = ({ banner }: any) => {
                             <img
                                 alt="gallery"
                                 className="min-w-full overflow-hidden object-cover object-center h-auto hover:scale-105 lg:cursor-pointer ease-in-out duration-700"
-                                src={bannerImg + ban.image}
+                                src={bannerImg + ban?.image}
                             />
                         </div>
                     ))}

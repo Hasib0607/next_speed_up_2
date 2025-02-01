@@ -5,7 +5,7 @@ const PromoSixteen = ({ banner }: any) => {
         <div className="bg-white sm:container px-5 sm:py-10 py-5">
             <div className="flex gap-8 flex-col lg:flex-row">
                 <div className="basis-1/2">
-                    {banner?.slice(0, 1).map((ban: any) => (
+                    {banner?.length > 0 && banner?.slice(0, 1)?.map((ban: any) => (
                         <div
                             key={ban?.id}
                             className="relative overflow-hidden "
@@ -25,7 +25,7 @@ const PromoSixteen = ({ banner }: any) => {
                     ))}
                 </div>
                 <div className="basis-1/2">
-                    {banner?.slice(1, 3).map((ban: any) => (
+                    {banner?.length > 1 && banner?.slice(1, 3)?.map((ban: any) => (
                         <div
                             key={ban?.id}
                             className="relative overflow-hidden flex flex-col mb-[30px]"

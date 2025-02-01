@@ -1,12 +1,12 @@
 'use client';
 
-import ProductCardOne from '@/components/card/product-card/product-card-one';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import ProductCardOne from '@/components/card/product-card/product-card-one';
 import Skeleton from '@/components/loaders/skeleton';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import {
@@ -14,12 +14,12 @@ import {
     useGetShopPageProductsQuery,
 } from '@/redux/features/shop/shopApi';
 
-import MotionLink from '@/utils/motion-link';
-import { getPathName } from '@/helpers/littleSpicy';
 import Pagination from '@/components/_category-page/components/pagination';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
+import { getPathName } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
 import { RootState } from '@/redux/store';
+import MotionLink from '@/utils/motion-link';
 import { usePathname } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
@@ -44,6 +44,7 @@ const One = ({ store_id }: any) => {
 
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
+    const [infiniteProducts, setInfiniteProducts] = useState<any[]>([]);
 
     const {
         data: shopPageProductsData,
@@ -53,11 +54,6 @@ const One = ({ store_id }: any) => {
         isError: shopPageProductsError,
         refetch,
     } = useGetShopPageProductsQuery({ page, filtersData });
-
-    const nextPageFetch = () => {
-        setPage((prev) => prev + 1);
-        // refetch();
-    };
 
     const {
         data: colorsData,
@@ -77,68 +73,93 @@ const One = ({ store_id }: any) => {
 
     const isPagination = numberParser(paginationModule?.status) === 1;
 
+    const nextPageFetch = () => {
+        setPage((prev) => prev + 1);
+    };
+
+    // Trigger Redux API call when dependencies change
     useEffect(() => {
         refetch();
-    }, [refetch,page])
-    
+    }, [page, activeColor, refetch, priceValue]);
 
     // useEffect(() => {
     //     if (shopPageProductsSuccess) {
-    //         const productsData = shopPageProductsData?.data || [];
-    //         setPaginate(productsData?.pagination);
+    //         const productsData = shopPageProductsData?.data?.products || [];
+    //         const paginationData = shopPageProductsData?.data?.pagination || {};
 
-    //         if (filtersData?.color || filtersData?.price) {
-    //             setPage(1);
-    //         }
+    //         setPaginate(paginationData);
+    //         setProducts(productsData);
 
-    //         if (!isPagination) {
-    //             setProducts((prev) =>
-    //                 Array.isArray(prev)
-    //                     ? [...prev, ...(productsData?.products || [])]
-    //                     : productsData?.products || []
-    //             );
-    //             setHasMore(productsData?.pagination?.has_more_pages ?? false);
-    //         } else {
-    //             setProducts(productsData?.products || []); // Replace products
+    //         if (filtersData?.color || filtersData?.price || page === 1) {
+    //             setPage(1)
     //         }
     //     }
-    //     console.log('page', page);
-    //     console.log(shopPageProductsData?.data);
+    //     // console.log('page', page);
     // }, [
     //     shopPageProductsData,
-    //     isPagination,
     //     shopPageProductsSuccess,
     //     filtersData,
     //     page,
+    //     isPagination,
+    //     products
     // ]);
-
     useEffect(() => {
         if (shopPageProductsSuccess) {
-            const productsData = shopPageProductsData?.data || [];
-            setPaginate(productsData?.pagination);
-
-            // Handle product state based on pagination and current page
-            if (!isPagination) {
-                // If it's the first page, replace products; otherwise, append
-                if (page === 1) {
-                    setProducts(productsData?.products || []);
-                } else {
-                    setProducts((prev) => [...prev, ...(productsData?.products || [])]);
-                }
-                setHasMore(productsData?.pagination?.has_more_pages ?? false);
+            const productsData = shopPageProductsData?.data?.products || [];
+            const paginationData = shopPageProductsData?.data?.pagination || {};
+    
+            setPaginate(paginationData);
+    
+            if (page === 1) {
+                // Replace products when filters or first page
+                setProducts(productsData);
             } else {
-                // For pagination, always replace products
-                setProducts(productsData?.products || []);
+                // Append only new products when paginating
+                setProducts((prev) => [
+                    ...prev.filter((p:any) => !productsData.some((newP:any) => newP.id === p.id)),
+                    ...productsData,
+                ]);
+            }
+    
+            if (filtersData?.color || filtersData?.price) {
+                setPage(1);
             }
         }
-    }, [
-        shopPageProductsData,
-        isPagination,
-        shopPageProductsSuccess,
-        filtersData,
-        page,
-    ]);
+    }, [shopPageProductsData, shopPageProductsSuccess, filtersData, page]);
+    
 
+    useEffect(() => {
+        setHasMore(paginate?.has_more_pages ?? false);
+    
+        if (!isPagination) {
+            setInfiniteProducts((prev) => {
+                if (page === 1) {
+                    // Reset on new filter or first page load
+                    return products;
+                } else {
+                    // Append new products but filter out duplicates
+                    const newProducts = products.filter(
+                        (p) => !prev.some((prevP) => prevP.id === p.id)
+                    );
+                    return [...prev, ...newProducts];
+                }
+            });
+        }
+    }, [isPagination, paginate, page, products]);
+    
+    // useEffect(() => {
+    //     setHasMore(paginate?.has_more_pages ?? false);
+    //     if (!isPagination) {
+    //         setInfiniteProducts((prev) => {
+    //             // If page is 1, replace data, otherwise append
+    //             return page > 1 ? [...prev, ...products.filter(p => !prev.some(prevP => prevP.id === p.id))] : products;
+    //         });
+    //     }
+
+    // }, [isPagination, paginate, page, products]);
+
+    // console.log("p",products);
+    // console.log("infiniteProducts",infiniteProducts);
     return (
         <>
             <div className="sm:container px-5 sm:py-10 py-5 ">
@@ -243,12 +264,15 @@ const One = ({ store_id }: any) => {
                                     }
                                 >
                                     <div className="grid md:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
-                                        {products?.map((i: any) => (
-                                            <ProductCardOne
-                                                key={i?.id}
-                                                item={i}
-                                            />
-                                        ))}
+                                        {infiniteProducts?.map(
+                                            (i: any, index: number) => (
+                                                <ProductCardOne
+                                                    // key={`${i?.id}-${index}`}
+                                                    key={i?.id}
+                                                    item={i}
+                                                />
+                                            )
+                                        )}
                                     </div>
                                 </InfiniteScroll>
                             </div>

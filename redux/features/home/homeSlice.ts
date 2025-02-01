@@ -5,7 +5,6 @@ const initialState: any = {
     headersetting: null,
     design: null,
     menu: null,
-    banner: null,
     brand: null,
     testimonial: null,
 };
@@ -26,9 +25,6 @@ export const homeSlice = createSlice({
         setMenu: (state, action: PayloadAction<any>) => {
             state.menu = action.payload;
         },
-        setBanner: (state, action: PayloadAction<any>) => {
-            state.banner = action.payload;
-        },
         setBrand: (state, action: PayloadAction<any>) => {
             state.brand = action.payload;
         },
@@ -43,7 +39,6 @@ export const {
     setHeader,
     setDesign,
     setMenu,
-    setBanner,
     setBrand,
     setTestimonial,
 } = homeSlice.actions;

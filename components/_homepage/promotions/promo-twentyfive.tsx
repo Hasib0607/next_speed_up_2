@@ -11,7 +11,7 @@ const PromoTwentyFive = ({ banner, store_id }: any) => {
             ) : null}
 
             <div className="grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-1 gap-x-3 gap-y-3">
-                {banner?.slice(0, 2)?.map((b: any) => (
+                {banner?.length > 0 && banner?.slice(0, 2)?.map((b: any) => (
                     <a
                         href={b?.link}
                         key={b?.id}
