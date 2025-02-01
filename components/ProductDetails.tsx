@@ -19,11 +19,11 @@ const ProductDetails = ({ design, product }: any) => {
 
     const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
     const store_id = store?.id || null;
-    
+
 
     return (
         <>
-            {design?.single_product_page && ProductDetailsPageComponent && store_id && (
+            {design?.single_product_page !== "null" && ProductDetailsPageComponent && store_id && (
                 <ProductDetailsPageComponent
                     productId={productId}
                     design={design}

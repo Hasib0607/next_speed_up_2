@@ -14,7 +14,9 @@ const PromoBottom = ({ design }: any) => {
     
     return (
         <>
+
             {design?.banner !== "null" && BannerBottomComponent && (
+
                 <BannerBottomComponent
                     design={design}
                     banner={banner}

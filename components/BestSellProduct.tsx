@@ -27,7 +27,9 @@ const BestSellProduct = ({ design, store_id }: any) => {
     
     return (
         <>
+
             {design?.best_sell_product !== "null" && BestSellProductComponent && bestSellProductSuccess && (
+
                 <BestSellProductComponent
                     best_sell_product={best_sell_product}
                     bestSellProductLoading={bestSellProductLoading}

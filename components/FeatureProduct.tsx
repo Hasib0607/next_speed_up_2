@@ -26,7 +26,9 @@ const FeatureProduct = ({ design, store_id }: any) => {
 
     return (
         <>
+
             {design?.feature_product !== "null" && feature_product?.length > 3 &&
+
                 FeatureProductComponent &&
                 featureProductSuccess && (
                     <>

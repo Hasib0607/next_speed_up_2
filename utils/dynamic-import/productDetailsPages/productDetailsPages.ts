@@ -19,7 +19,7 @@ export const product_details_pages: any = {
     five: dynamic(() => import('@/components/_product-details-page/five/five')),
     six: dynamic(() => import('@/components/_product-details-page/six/six')),
     seven: dynamic(
-        () => import('@/components/_product-details-page/seven/seven')
+        () => import('@/components/_product-details-page/six/six')
     ),
     eight: dynamic(
         () => import('@/components/_product-details-page/eight/eight')

@@ -29,7 +29,9 @@ const Hero = ({ design }: any) => {
                 </div>
             )}
 
+
             {design?.hero_slider !== "null" && SelectedHeroComponent && sliderSuccess && (
+
                 <SelectedHeroComponent slider={slider} design={design} />
             )}
         </>

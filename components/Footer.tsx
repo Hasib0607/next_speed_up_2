@@ -22,7 +22,9 @@ const Footer = ({ design }: any) => {
 
     return (
         <>
+
             {design?.footer !== "null" && FooterComponent && (
+
                 <FooterComponent
                     design={design}
                     category={category}

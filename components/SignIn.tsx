@@ -15,7 +15,9 @@ const SignIn = () => {
 
     return (
         <GuestLayer>
+
             {design?.login_page !== "null" && SignInComponent && <SignInComponent design={design} />}
+
         </GuestLayer>
     );
 };

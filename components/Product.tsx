@@ -22,7 +22,9 @@ const Product = ({ store_id, design }: any) => {
 
     return (
         <>
+
             {design?.product !== "null" && category?.length > 0 && ProductComponent && (
+
                 <ProductComponent
                     design={design}
                     store_id={store_id}

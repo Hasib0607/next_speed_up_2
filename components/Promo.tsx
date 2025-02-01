@@ -17,7 +17,9 @@ const Promo = ({ design, store_id }: any) => {
 
     return (
         <>
+
             {design?.banner !== "null" && BannerComponent && bannerSuccess && (
+
                 <BannerComponent
                     banner={banner}
                     design={design}
