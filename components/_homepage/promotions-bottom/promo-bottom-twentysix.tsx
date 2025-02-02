@@ -16,7 +16,7 @@ const PromoBottomTwentySix = ({ banner }: any) => {
 
     return (
         <>
-            {banner[2] && brandSuccess && (
+            {banner?.length > 1 && banner[2] && brandSuccess && (
                 <div className="sm:container px-5 sm:py-10 py-5">
                     <div className="relative group">
                         <img
@@ -35,7 +35,7 @@ const PromoBottomTwentySix = ({ banner }: any) => {
                             </a>
                         )}
                     </div>
-                    {brand && (
+                    {brand?.length > 0 && (
                         <div className="sm:mt-10 mt-5">
                             <DefaultSlider
                                 breakpoints={{

@@ -15,7 +15,7 @@ const FilterByPriceNew = ({ priceValue, setHasMore, setPage }: any) => {
             dispatch(setPrice(null));
         }else{
             dispatch(setPrice(inputRef.current.value));
-            // setPage(1);
+            setPage(1);
             // setHasMore(true);
         }
     };

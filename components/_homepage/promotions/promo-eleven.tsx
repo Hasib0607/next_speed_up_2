@@ -4,10 +4,11 @@ import React from 'react';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 
 const PromoEleven = ({ banner, design }: any) => {
+
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
             <div className="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-1 gap gap-8">
-                {banner?.slice(0, 3).map((ban: any) => (
+                {banner?.length > 0 && banner?.slice(0, 3)?.map((ban: any) => (
                     <div
                         key={ban?.id}
                         className="relative overflow-hidden rounded-xl "

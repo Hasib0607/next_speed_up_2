@@ -3,7 +3,7 @@ import { bannerImg } from '@/site-settings/siteUrl';
 const PromoBottomTwenty = ({ banner }: any) => {
     return (
         <>
-            {banner[1] && (
+            {banner?.length > 1 && banner[1] && (
                 <div className="sm:container px-5 sm:py-10 py-5">
                     <div className="relative group">
                         <img
@@ -13,7 +13,7 @@ const PromoBottomTwenty = ({ banner }: any) => {
                         />
                         {banner[1]?.link && (
                             <a
-                                href={banner[3]?.link}
+                                href={banner[1]?.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="absolute z-[1] left-1/2 -translate-x-1/2 bottom-[10%] font-bold bg-black text-white px-10 py-2 text-sm rounded-sm border-2 duration-500 border-black hover:bg-white hover:text-black w-max"

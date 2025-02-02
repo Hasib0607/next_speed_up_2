@@ -5,8 +5,8 @@ const PromoTwentyThree = ({ banner }: any) => {
     return (
         <div className="bg-white py-10">
             <div className="">
-                {banner?.slice(0, 1).map((ban: any) => (
-                    <div key={ban.id} className="relative overflow-hidden ">
+                {banner?.length > 0 && banner?.slice(0, 1)?.map((ban: any) => (
+                    <div key={ban?.id} className="relative overflow-hidden ">
                         <a
                             href={ban?.link}
                             target="_blank"
@@ -19,7 +19,7 @@ const PromoTwentyThree = ({ banner }: any) => {
                         <img
                             alt="gallery"
                             className="min-w-full h-auto"
-                            src={bannerImg + ban.image}
+                            src={bannerImg + ban?.image}
                         />
                     </div>
                 ))}

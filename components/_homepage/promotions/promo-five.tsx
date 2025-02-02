@@ -1,11 +1,15 @@
 import { bannerImg } from '@/site-settings/siteUrl';
 
 const PromoFive = ({ banner }: any) => {
+    if (banner?.length === 0) {
+        return;
+    }
+
     return (
         <div className="bg-white py-10">
             <div className="container px-5 bg-white">
                 <div className="grid sm:grid-cols-2 gap-6">
-                    {banner?.slice(0, 2).map((ban: any) => (
+                    {banner?.length > 0 && banner?.slice(0, 2)?.map((ban: any) => (
                         <div key={ban.id} className="relative overflow-hidden">
                             <img
                                 alt="gallery"

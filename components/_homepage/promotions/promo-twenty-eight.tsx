@@ -62,7 +62,7 @@ const PromoTwentyEight = ({ nextEl, prevEl, banner }: any) => {
                         }}
                         className="mySwiper"
                     >
-                        {banner?.slice(0, 4).map((b: any, index: number) => (
+                        {banner?.length > 0 && banner?.slice(0, 4)?.map((b: any, index: number) => (
                             <SwiperSlide key={b?.id}>
                                 <div
                                     className={`grid grid-cols-2 rounded-lg overflow-hidden h-48 md:h-72 ${

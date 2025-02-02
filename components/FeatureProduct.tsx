@@ -1,6 +1,6 @@
+'use client';
 import { DEFAULT } from '@/consts';
 import { feature_products } from '@/utils/dynamic-import/_homepageSections/featureProduct/featureProduct';
-
 import { useGetFeatureProductQuery } from '@/redux/features/products/productApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -10,11 +10,7 @@ const FeatureProduct = ({ design, store_id }: any) => {
         feature_products[design?.feature_product] || feature_products[DEFAULT];
 
     const products = useSelector((state: RootState) => state?.products);
-    const home = useSelector((state: RootState) => state?.home);
-
     const product = products?.product || [];
-
-    const banner = home?.banner || [];
 
     const {
         data: featureProductData,
@@ -26,7 +22,9 @@ const FeatureProduct = ({ design, store_id }: any) => {
 
     return (
         <>
-            {design?.feature_product && feature_product?.length > 3 &&
+
+            {design?.feature_product !== "null" && feature_product?.length > 3 &&
+
                 FeatureProductComponent &&
                 featureProductSuccess && (
                     <>
@@ -36,7 +34,6 @@ const FeatureProduct = ({ design, store_id }: any) => {
                                 store_id={store_id}
                                 feature_product={feature_product}
                                 product={product}
-                                banner={banner}
                             />
                         }
                     </>

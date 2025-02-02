@@ -6,7 +6,7 @@ export const shops: any = {
     default: dynamic(() => import('@/components/_shop-page/one/one'), {
         ssr: false,
     }),
-    // one: dynamic(() => import('@/components/_shop-page/one/one')),
+    one: dynamic(() => import('@/components/_shop-page/one/one')),
     two: dynamic(() => import('@/components/_shop-page/two/two')),
     three: dynamic(() => import('@/components/_shop-page/three/three'), {
         ssr: false,
@@ -17,56 +17,78 @@ export const shops: any = {
     seven: dynamic(() => import('@/components/_shop-page/seven/seven'), {
         ssr: false,
     }),
-    // eight: dynamic(
-    //   () => import("@/components/headers/header-eight/header-eight")
-    // ),
-    // nine: dynamic(() => import("@/components/headers/header-nine/header-nine")),
-    // ten: dynamic(() => import("@/components/headers/header-ten/header-ten")),
-    // eleven: dynamic(
-    //   () => import("@/components/headers/header-eleven/header-eleven")
-    // ),
-    // twelve: dynamic(
-    //   () => import("@/components/headers/header-twelve/header-twelve")
-    // ),
-    // thirteen: dynamic(
-    //   () => import("@/components/headers/header-thirteen/header-thirteen")
-    // ),
-    // fourteen: dynamic(
-    //   () => import("@/components/headers/header-fourteen/header-fourteen")
-    // ),
-    // fifteen: dynamic(
-    //   () => import("@/components/headers/header-fifteen/header-fifteen")
-    // ),
-    // sixteen: dynamic(
-    //   () => import("@/components/headers/header-sixteen/header-sixteen")
-    // ),
-    // seventeen: dynamic(
-    //   () => import("@/components/headers/header-seventeen/header-seventeen")
-    // ),
-    // eighteen: dynamic(
-    //   () => import("@/components/headers/header-eighteen/header-eighteen")
-    // ),
-    // nineteen: dynamic(
-    //   () => import("@/components/headers/header-nineteen/header-nineteen")
-    // ),
-    // twenty: dynamic(
-    //   () => import("@/components/headers/header-twenty/header-twenty")
-    // ),
-    // twentyone: dynamic(
-    //   () => import("@/components/headers/header-twentyone/header-twentyone")
-    // ),
-    // twentytwo: dynamic(
-    //   () => import("@/components/headers/header-twentytwo/header-twentytwo")
-    // ),
-    // twentythree: dynamic(
-    //   () => import("@/components/headers/header-twentythree/header-twentythree")
-    // ),
-    // twentyfour: dynamic(
-    //   () => import("@/components/headers/header-twentyfour/header-twentyfour")
-    // ),
-    // twentyfive: dynamic(
-    //   () => import("@/components/headers/header-twentyfive/header-twentyfive")
-    // ),
+    eight: dynamic(
+      () => import("@/components/_shop-page/eight/eight"),
+      {ssr: false}
+    ),
+    nine: dynamic(
+      () => import("@/components/_shop-page/nine/nine"),
+      {ssr: false}
+    ),
+    ten: dynamic(
+      () => import("@/components/_shop-page/ten/ten"),
+      {ssr: false}
+    ),
+    eleven: dynamic(
+        () => import("@/components/_shop-page/eight/eight"),
+        {ssr: false}
+    ),
+    twelve: dynamic(
+        () => import("@/components/_shop-page/twelve/twelve"),
+        {ssr: false}
+    ),
+    thirteen: dynamic(
+        () => import("@/components/_shop-page/thirteen/thirteen"),
+        {ssr: false}
+    ),
+    fourteen: dynamic(
+        () => import("@/components/_shop-page/fourteen/fourteen"),
+        {ssr: false}
+    ),
+    sixteen: dynamic(
+        () => import("@/components/_shop-page/sixteen/sixteen"),
+        {ssr: false}
+    ),
+    seventeen: dynamic(
+        () => import("@/components/_shop-page/seventeen/seventeen"),
+        {ssr: false}
+    ),
+    eighteen: dynamic(
+        () => import("@/components/_shop-page/eighteen/eighteen"),
+        {ssr: false}
+    ),
+    nineteen: dynamic(
+        () => import("@/components/_shop-page/nineteen/nineteen"),
+        {ssr: false}
+    ),
+    twenty: dynamic(
+        () => import("@/components/_shop-page/twenty/twenty"),
+        {ssr: false}
+    ),
+    twentyone: dynamic(
+        () => import("@/components/_shop-page/twenty-one/twenty-one"),
+        {ssr: false}
+    ),
+    twentytwo: dynamic(
+        () => import("@/components/_shop-page/twentytwo/twenty-two"),
+        {ssr: false}
+    ),
+    twentythree: dynamic(
+        () => import("@/components/_shop-page/twenty-three/twenty-three"),
+        {ssr: false}
+    ),
+    twentyfour: dynamic(
+        () => import("@/components/_shop-page/twenty-four/twenty-four"),
+        {ssr: false}
+    ),
+    twentyfive: dynamic(
+        () => import("@/components/_shop-page/twenty-five/twenty-five"),
+        {ssr: false}
+    ),
+    twentysix: dynamic(
+        () => import("@/components/_shop-page/twenty-six/twenty-six"),
+        {ssr: false}
+    ),
     // twentysix: dynamic(
     //   () => import("@/components/headers/header-twentysix/header-twentysix")
     // ),

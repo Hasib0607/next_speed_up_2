@@ -16,7 +16,7 @@ const Category = ({ catId }: any) => {
 
     return (
         <>
-            {design?.shop_page && CategoryComponent && (
+            {design?.shop_page !== "null" && CategoryComponent && (
                 <CategoryComponent
                     design={design}
                     store_id={store_id}

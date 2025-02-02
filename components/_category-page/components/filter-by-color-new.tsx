@@ -14,7 +14,7 @@ const FilterByColorNew = ({
 
     const handleClick = (color: any) => {
         dispatch(setColor(color));
-        // setPage(1);
+        setPage(1);
         // setHasMore(true);
     };
 

@@ -2,7 +2,6 @@
 import { name } from '@/consts';
 import { apiSlice } from '../api/apiSlice';
 import {
-    setBanner,
     setBrand,
     setDesign,
     setHeader,
@@ -14,10 +13,10 @@ import {
 export const homeApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAnnouncement: builder.query<any, any>({
-            query: ({store_id}) => ({
+            query: ({ store_id }) => ({
                 url: `get-announcement/${store_id}`,
                 method: 'GET',
-            })
+            }),
         }),
         getLayout: builder.query<any, any>({
             query: () => ({
@@ -62,32 +61,12 @@ export const homeApi = apiSlice.injectEndpoints({
                 url: `get-domain/${name}/slider`,
                 method: 'GET',
             }),
-            // async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-            //     try {
-            //         const { data } = await queryFulfilled;
-            //         if (data) {
-            //             dispatch(setMenu(data?.data)); // Dispatch the action with the received data
-            //         }
-            //     } catch (error) {
-            //         dispatch(setMenu(null));
-            //     }
-            // }
         }),
         getBanner: builder.query<any, any>({
             query: () => ({
                 url: `get-domain/${name}/banner`,
                 method: 'GET',
             }),
-            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                try {
-                    const { data } = await queryFulfilled;
-                    if (data) {
-                        dispatch(setBanner(data?.data)); // Dispatch the action with the received data
-                    }
-                } catch (error) {
-                    dispatch(setBanner(null));
-                }
-            },
         }),
         getBrand: builder.query<any, any>({
             query: () => ({
@@ -157,5 +136,5 @@ export const {
     useGetBannerQuery,
     useGetBrandQuery,
     useGetTestimonialQuery,
-    useGetSearchProductQuery
+    useGetSearchProductQuery,
 } = homeApi;

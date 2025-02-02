@@ -1,3 +1,5 @@
+'use client';
+
 import { DEFAULT } from '@/consts';
 import { best_sell_products } from '@/utils/dynamic-import/_homepageSections/bestSellProduct/bestSellProduct';
 
@@ -10,11 +12,7 @@ const BestSellProduct = ({ design, store_id }: any) => {
         best_sell_products[design?.best_sell_product] || best_sell_products[DEFAULT];
 
     const products = useSelector((state: RootState) => state?.products);
-    const home = useSelector((state: RootState) => state?.home);
-
     const product = products?.product || [];
-
-    const banner = home?.banner || [];
 
     const {
         data: bestSellProductData,
@@ -25,14 +23,15 @@ const BestSellProduct = ({ design, store_id }: any) => {
     
     return (
         <>
-            {design?.best_sell_product && BestSellProductComponent && bestSellProductSuccess && (
+
+            {design?.best_sell_product !== "null" && BestSellProductComponent && bestSellProductSuccess && (
+
                 <BestSellProductComponent
                     best_sell_product={best_sell_product}
                     bestSellProductLoading={bestSellProductLoading}
                     design={design}
                     store_id={store_id}
                     product={product}
-                    banner={banner}
                 />
             )}
         </>

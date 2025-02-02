@@ -18,6 +18,7 @@ export async function generateMetadata() {
 
 export default async function CheckoutPage() {
     const store = await getStore();
+    
     return (
         <>
             {store?.auth_type !== 'EasyOrder' ? (

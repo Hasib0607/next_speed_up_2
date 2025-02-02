@@ -1,14 +1,25 @@
 'use client';
+
 import img from '@/assets/img/thirtyfive/01.webp';
 import Card61 from '@/components/card/card61';
 import SliderThirtyFive from '@/components/slider/slider-thirty-five';
+import { useGetBannerQuery } from '@/redux/features/home/homeApi';
 import { RootState } from '@/redux/store';
 import { bannerImg } from '@/site-settings/siteUrl';
+import { useMemo } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
-const FeatureProductThirtyFive = ({ feature_product, design, banner }: any) => {
+const FeatureProductThirtyFive = ({ feature_product, design }: any) => {
+    const {
+        data: bannerData,
+        isLoading: bannerLoading,
+        isSuccess: bannerSuccess,
+    } = useGetBannerQuery({});
+
+    const banner = useMemo(() => bannerData?.data || [], [bannerData]);
+
     const styleCss = `
    
     .new-product-prev {
@@ -87,17 +98,19 @@ const FeatureProductThirtyFive = ({ feature_product, design, banner }: any) => {
                                     ))}
                             </SliderThirtyFive>
                         </div>
-                        <div className="flex items-center pt-5 lg:pt-0 h-full order-first lg:order-last">
-                            <img
-                                src={
-                                    banner[2]?.image
-                                        ? bannerImg + banner[2]?.image
-                                        : img.src
-                                }
-                                alt=""
-                                className="w-full h-auto"
-                            />
-                        </div>
+                        {banner?.length > 1 && (
+                            <div className="flex items-center pt-5 lg:pt-0 h-full order-first lg:order-last">
+                                <img
+                                    src={
+                                        banner?.[2]?.image
+                                            ? bannerImg + banner?.[2]?.image
+                                            : img.src
+                                    }
+                                    alt=""
+                                    className="w-full h-auto"
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
