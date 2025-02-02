@@ -10,11 +10,7 @@ const FeatureProduct = ({ design, store_id }: any) => {
         feature_products[design?.feature_product] || feature_products[DEFAULT];
 
     const products = useSelector((state: RootState) => state?.products);
-    const home = useSelector((state: RootState) => state?.home);
-
     const product = products?.product || [];
-
-    const banner = home?.banner || [];
 
     const {
         data: featureProductData,
@@ -38,7 +34,6 @@ const FeatureProduct = ({ design, store_id }: any) => {
                                 store_id={store_id}
                                 feature_product={feature_product}
                                 product={product}
-                                banner={banner}
                             />
                         }
                     </>

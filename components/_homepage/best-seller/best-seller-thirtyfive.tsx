@@ -1,6 +1,6 @@
 'use client';
-import { bannerImg } from '@/site-settings/siteUrl';
 
+import { bannerImg } from '@/site-settings/siteUrl';
 import img from '@/assets/img/thirtyfive/02.webp';
 import Card61 from '@/components/card/card61';
 import SliderThirtyFive from '@/components/slider/slider-thirty-five';
@@ -8,8 +8,18 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { SwiperSlide } from 'swiper/react';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
+import { useGetBannerQuery } from '@/redux/features/home/homeApi';
 
-const BestSellerThirtyFive = ({ best_sell_product, design, banner }: any) => {
+const BestSellerThirtyFive = ({ best_sell_product, design }: any) => {
+    const {
+        data: bannerData,
+        isLoading: bannerLoading,
+        isSuccess: bannerSuccess,
+    } = useGetBannerQuery({});
+
+    const banner = useMemo(() => bannerData?.data || [], [bannerData]);
+
     const styleCss = `
    
     .new-product-prev {
@@ -49,17 +59,19 @@ const BestSellerThirtyFive = ({ best_sell_product, design, banner }: any) => {
                 <style>{styleCss}</style>
                 <div className="relative arrow-hov">
                     <div className="grid grid-cols-1 lg:grid-cols-2 lg:divide-x-2 divide-black">
-                        <div className="flex pt-5 lg:pt-0 items-center h-full">
-                            <img
-                                src={
-                                    banner[3]?.image
-                                        ? bannerImg + banner[3]?.image
-                                        : img.src
-                                }
-                                alt=""
-                                className="w-full h-auto"
-                            />
-                        </div>
+                        {banner?.length > 2 && (
+                            <div className="flex pt-5 lg:pt-0 items-center h-full">
+                                <img
+                                    src={
+                                        banner[3]?.image
+                                            ? bannerImg + banner[3]?.image
+                                            : img.src
+                                    }
+                                    alt=""
+                                    className="w-full h-auto"
+                                />
+                            </div>
+                        )}
                         <div className="sm:py-10 py-5 lg:px-5 relative w-full">
                             <div className="hidden lg:flex lg:cursor-pointer">
                                 <div

@@ -1,26 +1,31 @@
 'use client';
 
 import { DEFAULT } from '@/consts';
-import { RootState } from '@/redux/store';
+import { numberParser } from '@/helpers/numberParser';
+import { useGetBannerQuery } from '@/redux/features/home/homeApi';
 import { banner_bottoms } from '@/utils/dynamic-import/_homepageSections/BannerBottom/BannerBottom';
-import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
+
 
 const PromoBottom = ({ design }: any) => {
     const BannerBottomComponent =
         banner_bottoms[design?.banner] || banner_bottoms[DEFAULT];
-        
-    const home = useSelector((state: RootState) => state?.home);
-    const banner = home?.banner || {};
-    
+
+    const {
+        data: bannerData,
+        isLoading: bannerLoading,
+        isSuccess: bannerSuccess,
+    } = useGetBannerQuery({});
+
+    const bannerType = useMemo(() => {
+        const banner = bannerData?.data || [];
+        banner?.filter((item: any) => numberParser(item?.type) === 1);
+    }, [bannerData]);
+
     return (
         <>
-
-            {design?.banner !== "null" && BannerBottomComponent && (
-
-                <BannerBottomComponent
-                    design={design}
-                    banner={banner}
-                />
+            {design?.banner !== 'null' && BannerBottomComponent && (
+                <BannerBottomComponent design={design} banner={bannerType} />
             )}
         </>
     );

@@ -14,9 +14,10 @@ import { bannerImg } from '@/site-settings/siteUrl';
 import SectionHeading from '@/components/section-heading/section-heading';
 
 const PromoFour = ({ banner, design }: any) => {
-    if (banner.length === 0) {
+    if (banner?.length === 0) {
         return;
     }
+    
     return (
         <>
             <div className="sm:container px-5 sm:py-10 py-5 bg-gray-50">
