@@ -82,40 +82,84 @@ const One = ({ store_id }: any) => {
         refetch();
     }, [page, activeColor, refetch, priceValue]);
 
+    // useEffect(() => {
+    //     if (shopPageProductsSuccess) {
+    //         const productsData = shopPageProductsData?.data?.products || [];
+    //         const paginationData = shopPageProductsData?.data?.pagination || {};
+
+    //         setPaginate(paginationData);
+    //         setProducts(productsData);
+
+    //         if (filtersData?.color || filtersData?.price || page === 1) {
+    //             setPage(1)
+    //         }
+    //     }
+    //     // console.log('page', page);
+    // }, [
+    //     shopPageProductsData,
+    //     shopPageProductsSuccess,
+    //     filtersData,
+    //     page,
+    //     isPagination,
+    //     products
+    // ]);
     useEffect(() => {
         if (shopPageProductsSuccess) {
             const productsData = shopPageProductsData?.data?.products || [];
             const paginationData = shopPageProductsData?.data?.pagination || {};
-
+    
             setPaginate(paginationData);
-            setProducts(productsData);
-
-            if (filtersData?.color || filtersData?.price || page === 1) {
-                setPage(1)
+    
+            if (page === 1) {
+                // Replace products when filters or first page
+                setProducts(productsData);
+            } else {
+                // Append only new products when paginating
+                setProducts((prev) => [
+                    ...prev.filter((p:any) => !productsData.some((newP:any) => newP.id === p.id)),
+                    ...productsData,
+                ]);
+            }
+    
+            if (filtersData?.color || filtersData?.price) {
+                setPage(1);
             }
         }
-        console.log('page', page);
-    }, [
-        shopPageProductsData,
-        shopPageProductsSuccess,
-        filtersData,
-        page,
-        isPagination,
-        products
-    ]);
+    }, [shopPageProductsData, shopPageProductsSuccess, filtersData, page]);
+    
 
     useEffect(() => {
         setHasMore(paginate?.has_more_pages ?? false);
+    
         if (!isPagination) {
-            setInfiniteProducts((prev) =>
-                page > 1 ? [...prev, ...products] : products
-            );
+            setInfiniteProducts((prev) => {
+                if (page === 1) {
+                    // Reset on new filter or first page load
+                    return products;
+                } else {
+                    // Append new products but filter out duplicates
+                    const newProducts = products.filter(
+                        (p) => !prev.some((prevP) => prevP.id === p.id)
+                    );
+                    return [...prev, ...newProducts];
+                }
+            });
         }
-
     }, [isPagination, paginate, page, products]);
+    
+    // useEffect(() => {
+    //     setHasMore(paginate?.has_more_pages ?? false);
+    //     if (!isPagination) {
+    //         setInfiniteProducts((prev) => {
+    //             // If page is 1, replace data, otherwise append
+    //             return page > 1 ? [...prev, ...products.filter(p => !prev.some(prevP => prevP.id === p.id))] : products;
+    //         });
+    //     }
 
-    console.log("p",products);
-    console.log("infiniteProducts",infiniteProducts);
+    // }, [isPagination, paginate, page, products]);
+
+    // console.log("p",products);
+    // console.log("infiniteProducts",infiniteProducts);
     return (
         <>
             <div className="sm:container px-5 sm:py-10 py-5 ">
@@ -220,7 +264,7 @@ const One = ({ store_id }: any) => {
                                     }
                                 >
                                     <div className="grid md:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
-                                        {/* {products?.map(
+                                        {infiniteProducts?.map(
                                             (i: any, index: number) => (
                                                 <ProductCardOne
                                                     // key={`${i?.id}-${index}`}
@@ -228,7 +272,7 @@ const One = ({ store_id }: any) => {
                                                     item={i}
                                                 />
                                             )
-                                        )} */}
+                                        )}
                                     </div>
                                 </InfiniteScroll>
                             </div>

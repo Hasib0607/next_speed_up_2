@@ -1,11 +1,12 @@
 import { bannerImg } from '@/site-settings/siteUrl';
 
 const PromoNine = ({ banner }: any) => {
+
     return (
         <div className="bg-white sm:container px-5 sm:py-10 py-5">
             <div className="bg-white">
                 <div className="grid sm:grid-cols-2 gap-6">
-                    {banner?.slice(0, 2).map((ban: any) => (
+                    {banner?.length > 0 && banner?.slice(0, 2)?.map((ban: any) => (
                         <div key={ban.id} className="relative overflow-hidden">
                             {ban?.link && (
                                 <a
@@ -21,7 +22,7 @@ const PromoNine = ({ banner }: any) => {
                             <img
                                 alt="gallery"
                                 className="h-auto min-w-full object-cover object-center hover:scale-105 lg:cursor-pointer ease-in-out duration-700"
-                                src={bannerImg + ban.image}
+                                src={bannerImg + ban?.image}
                             />
                         </div>
                     ))}

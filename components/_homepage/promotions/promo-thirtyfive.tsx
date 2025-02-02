@@ -17,7 +17,7 @@ const PromoThirtyFive = ({ banner, design }: any) => {
             <style>{styleCss}</style>
             <div className="sm:container px-5 sm:py-10 py-5">
                 <div className="">
-                    {banner?.slice(0, 1).map((ban: any) => (
+                    {banner?.length > 0 && banner?.slice(0, 1)?.map((ban: any) => (
                         <div key={ban?.id} className="relative overflow-hidden">
                             <img
                                 alt="gallery"

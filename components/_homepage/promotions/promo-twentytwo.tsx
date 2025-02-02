@@ -5,7 +5,7 @@ import './promo-twentytwo.css';
 const PromoTwentyTwo = ({ banner }: any) => {
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
-            {banner.slice(0, 1).map((item: any, index: number) => (
+            {banner?.length > 0 && banner?.slice(0, 1)?.map((item: any, index: number) => (
                 <div className="relative group mt-5" key={index}>
                     <a
                         href={item?.link}
@@ -37,11 +37,11 @@ const PromoTwentyTwo = ({ banner }: any) => {
                     </div>
                 </div>
             ))}
-            {banner.slice(1, 2).map((item: any, index: number) => (
+            {banner?.length > 1 && banner?.slice(1, 2)?.map((item: any, index: number) => (
                 <div className="relative group mt-5" key={index}>
                     <img
                         className="h-auto w-[100%]"
-                        src={bannerImg + item.image}
+                        src={bannerImg + item?.image}
                         alt=""
                     />
                     <div className="absolute w-max z-[1] top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]">

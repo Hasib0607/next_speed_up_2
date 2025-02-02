@@ -17,7 +17,7 @@ const PromoSeven = ({ banner }: any) => {
     return (
         <div className="sm:container px-5 sm:py-10 py-5 bg-white">
             <div className=" sm:grid-cols-2 gap-6 md:grid hidden">
-                {banner?.slice(0, 2).map((ban: any) => (
+                {banner?.length > 0 && banner?.slice(0, 2)?.map((ban: any) => (
                     <div
                         key={ban.id}
                         className="relative shine overflow-hidden"
@@ -65,7 +65,7 @@ const PromoSeven = ({ banner }: any) => {
                     modules={[Pagination, Autoplay, Navigation, Controller]}
                     className="mySwiper relative"
                 >
-                    {banner?.slice(0, 2).map((s: any) => (
+                    {banner?.length > 0 && banner?.slice(0, 2)?.map((s: any) => (
                         <SwiperSlide key={s.id}>
                             <img
                                 className="h-auto min-w-full object-cover object-center"

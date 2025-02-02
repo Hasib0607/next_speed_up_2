@@ -5,7 +5,7 @@ const PromoThirtyEight = ({ banner }: any) => {
         <div className="bg-[#F2F4F8]">
             <div className="sm:container px-5 sm:py-10 py-5">
                 <div className="grid sm:grid-cols-2 gap-6">
-                    {banner?.slice(0, 2).map((ban: any) => (
+                    {banner?.length > 0 && banner?.slice(0, 2)?.map((ban: any) => (
                         <div key={ban?.id} className="relative overflow-hidden">
                             <a
                                 href={ban?.link}

@@ -1,29 +1,29 @@
 import { bannerImg } from '@/site-settings/siteUrl';
 
 const PromoTwentyFour = ({ banner, design }: any) => {
-    const styleCss = `
 
+    const styleCss = `
     .bg-color {
         color:  ${design?.text_color};
         background: ${design?.header_color};
     }
-      `;
+    `;
 
     return (
         <div className="bg-white py-8">
             <style>{styleCss}</style>
             <div className="bg-white">
                 <div className="">
-                    {banner?.slice(0, 1).map((ban: any) => (
+                    {banner?.slice(0, 1)?.map((ban: any) => (
                         <div
-                            key={ban.id}
+                            key={ban?.id}
                             className="sm:grid grid-cols-4 overflow-hidden "
                         >
                             <div className="col-span-3">
                                 <img
                                     alt="gallery"
                                     className="min-w-full h-auto"
-                                    src={bannerImg + ban.image}
+                                    src={bannerImg + ban?.image}
                                 />
                             </div>
                             <div className="col-span-1 sm:bg-[#E0CDBC] flex justify-center items-center sm:mb-0 sm:mt-0 mb-20 -mt-10">
