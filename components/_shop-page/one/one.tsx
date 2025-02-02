@@ -31,11 +31,11 @@ const One = ({ store_id }: any) => {
     const { data: modulesData } = useGetModulesQuery({ store_id });
     const modules = modulesData?.data || [];
 
+    // setting the initial page number
+    const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [paginate, setPaginate] = useState<any>({});
 
-    // setting the initial page number
-    const [page, setPage] = useState(1);
 
     const filtersData = useSelector((state: RootState) => state.filters);
 
@@ -52,7 +52,7 @@ const One = ({ store_id }: any) => {
         isFetching: shopPageProductsFetching,
         isSuccess: shopPageProductsSuccess,
         isError: shopPageProductsError,
-        refetch,
+        refetch:shopPageProductsRefetch,
     } = useGetShopPageProductsQuery({ page, filtersData });
 
     const {
@@ -74,63 +74,33 @@ const One = ({ store_id }: any) => {
     const isPagination = numberParser(paginationModule?.status) === 1;
 
     const nextPageFetch = () => {
-        setPage((prev) => prev + 1);
+        setPage((prevPage) => prevPage + 1);
     };
 
-    // Trigger Redux API call when dependencies change
     useEffect(() => {
-        refetch();
-    }, [page, activeColor, refetch, priceValue]);
+        shopPageProductsRefetch();
+        if (paginate?.total > 0) {
+            const more = numberParser(paginate?.total / 8,true) > page;
+            setHasMore(more);
+        }
+    }, [page, activeColor, shopPageProductsRefetch, priceValue, paginate]);
 
-    // useEffect(() => {
-    //     if (shopPageProductsSuccess) {
-    //         const productsData = shopPageProductsData?.data?.products || [];
-    //         const paginationData = shopPageProductsData?.data?.pagination || {};
-
-    //         setPaginate(paginationData);
-    //         setProducts(productsData);
-
-    //         if (filtersData?.color || filtersData?.price || page === 1) {
-    //             setPage(1)
-    //         }
-    //     }
-    //     // console.log('page', page);
-    // }, [
-    //     shopPageProductsData,
-    //     shopPageProductsSuccess,
-    //     filtersData,
-    //     page,
-    //     isPagination,
-    //     products
-    // ]);
     useEffect(() => {
         if (shopPageProductsSuccess) {
             const productsData = shopPageProductsData?.data?.products || [];
             const paginationData = shopPageProductsData?.data?.pagination || {};
-    
+
             setPaginate(paginationData);
-    
-            if (page === 1) {
-                // Replace products when filters or first page
-                setProducts(productsData);
-            } else {
-                // Append only new products when paginating
-                setProducts((prev) => [
-                    ...prev.filter((p:any) => !productsData.some((newP:any) => newP.id === p.id)),
-                    ...productsData,
-                ]);
-            }
-    
-            if (filtersData?.color || filtersData?.price) {
-                setPage(1);
-            }
+            setProducts(productsData);
         }
-    }, [shopPageProductsData, shopPageProductsSuccess, filtersData, page]);
-    
+    }, [
+        shopPageProductsData,
+        shopPageProductsSuccess,
+        page,
+        shopPageProductsFetching,
+    ]);
 
     useEffect(() => {
-        setHasMore(paginate?.has_more_pages ?? false);
-    
         if (!isPagination) {
             setInfiniteProducts((prev) => {
                 if (page === 1) {
@@ -138,7 +108,7 @@ const One = ({ store_id }: any) => {
                     return products;
                 } else {
                     // Append new products but filter out duplicates
-                    const newProducts = products.filter(
+                    const newProducts = products?.filter(
                         (p) => !prev.some((prevP) => prevP.id === p.id)
                     );
                     return [...prev, ...newProducts];
@@ -146,20 +116,8 @@ const One = ({ store_id }: any) => {
             });
         }
     }, [isPagination, paginate, page, products]);
-    
-    // useEffect(() => {
-    //     setHasMore(paginate?.has_more_pages ?? false);
-    //     if (!isPagination) {
-    //         setInfiniteProducts((prev) => {
-    //             // If page is 1, replace data, otherwise append
-    //             return page > 1 ? [...prev, ...products.filter(p => !prev.some(prevP => prevP.id === p.id))] : products;
-    //         });
-    //     }
 
-    // }, [isPagination, paginate, page, products]);
 
-    // console.log("p",products);
-    // console.log("infiniteProducts",infiniteProducts);
     return (
         <>
             <div className="sm:container px-5 sm:py-10 py-5 ">
@@ -253,10 +211,11 @@ const One = ({ store_id }: any) => {
                                         height: 'auto',
                                         overflow: 'hidden',
                                     }}
-                                    dataLength={products?.length}
+                                    dataLength={infiniteProducts?.length}
                                     next={nextPageFetch}
                                     hasMore={hasMore}
                                     loader={<InfiniteLoader />}
+                                    height={window.innerHeight - 150}
                                     endMessage={
                                         <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
                                             No More Products
@@ -267,8 +226,7 @@ const One = ({ store_id }: any) => {
                                         {infiniteProducts?.map(
                                             (i: any, index: number) => (
                                                 <ProductCardOne
-                                                    // key={`${i?.id}-${index}`}
-                                                    key={i?.id}
+                                                    key={`${i?.id}-${index}`}
                                                     item={i}
                                                 />
                                             )
