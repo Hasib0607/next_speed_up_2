@@ -23,15 +23,13 @@ import CopyrightAll from './components/copyrightall';
 import Link from 'next/link';
 import CategoryList from './components/category-list';
 import WhatsApp from './components/whatsApp';
+import PageList from './components/page-list';
+import AllPaymantGateway from './components/all-payment-gateway';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
-const FooterEleven = ({
-    design,
-    headersetting,
-    menu,
-    category,
-    store_id,
-    page,
-}: any) => {
+const FooterEleven = ({ design, headersetting, menu, page }: any) => {
     const customDesign = `
       .liList:hover{
         color: ${design?.header_color}
@@ -47,11 +45,17 @@ const FooterEleven = ({
 
     const cls = 'hover:ml-2 liList duration-500';
 
+    const { data: categoryData } = useGetCategoryQuery({});
+    const category = categoryData?.data || [];
+
+    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
+    const store_id = store?.id || null;
+
     return (
         <div className="mt-[60px] bg-gray-50 xl:mt-0 md:mt-[25px] lg:mt-0">
             <Newsletter headersetting={headersetting} store_id={store_id} />
             <style>{customDesign}</style>
-            <div className="sm:container px-5 grid grid-cols-1 xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-6 gap-8 ">
+            <div className="sm:container px-5 grid grid-cols-1 xl:grid-cols-10 lg:grid-cols-6 md:grid-cols-6 gap-8 ">
                 <div className="col-span-2 xl:col-span-3 lg:col-span-2 md:col-span-6 col col">
                     <img
                         className="w-auto h-20  sm:h-10"
@@ -107,7 +111,13 @@ const FooterEleven = ({
                 <div className="col-span-2 hidden sm:hidden lg:block xl:col-span-2 md:col-span-1 lg:col-span-1">
                     <h2 className="font-bold">Menu</h2>
                     <div className="mt-4">
-                        <MenuList cls={cls} menu={menu} page={page} />
+                        <MenuList cls={cls} menu={menu} />
+                    </div>
+                </div>
+                <div className="col-span-2 hidden sm:hidden lg:block xl:col-span-2 md:col-span-1 lg:col-span-1">
+                    <h1 className="font-bold">Legal</h1>
+                    <div className="mt-4">
+                        <PageList cls={cls} page={page} />
                     </div>
                 </div>
                 <div className="col-span-2 xl:col-span-1 md:col-span-6 lg:col-span-1 lg:hidden">
@@ -161,6 +171,9 @@ const FooterEleven = ({
                         cls={cls}
                     />
                 </div>
+            </div>
+            <div className="sm:container px-5 mt-8">
+                <AllPaymantGateway headersetting={headersetting} />
             </div>
             <div className="sm:container px-5 pb-14 lg:pb-0 mt-10 mb-0 lg:mb-5 ">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
@@ -256,59 +269,47 @@ const FooterEleven = ({
                 </div>
             </div>
             {/* <Messenger /> */}
-            <WhatsApp headersetting={headersetting} />
+            <WhatsApp />
         </div>
     );
 };
 
 export default FooterEleven;
 
-const Accordion = ({
-    name,
-    menu,
-    menuList,
-    categoryMenu,
-    category,
-    cls,
-}: any) => {
+const Accordion = ({ name, menu, menuList, categoryMenu, cls }: any) => {
     const [show, setShow] = useState(false);
+    const { data: categoryData } = useGetCategoryQuery({});
+    const category = categoryData?.data || [];
+
     return (
-        <div className="" onClick={() => setShow(!show)}>
-            <div className="flex justify-between items-center">
-                <div>
-                    <h3 className="font-bold">{name}</h3>
-                </div>
-                <div>
-                    {show ? (
-                        <MinusIcon className="w-6 h-6" />
-                    ) : (
-                        <PlusIcon className="w-6 h-6" />
-                    )}
-                </div>
+        <div className="accordion-item" onClick={() => setShow(!show)}>
+            <div className="flex justify-between items-center cursor-pointer">
+                <h3 className="font-bold">{name}</h3>
+                {show ? (
+                    <MinusIcon className="w-6 h-6" />
+                ) : (
+                    <PlusIcon className="w-6 h-6" />
+                )}
             </div>
 
             {show && (
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.6 }}
+                    className="accordion-content"
                 >
                     {menuList ? (
-                        <div className="list-none liList">
-                            {menuList?.map((data: any, index: any) => (
-                                <>
-                                    <Link
-                                        href={`/${data?.name.toLowerCase()}`}
-                                        key={index + 1}
-                                    >
-                                        {' '}
+                        <ul className="list-none liList">
+                            {menuList.map((data: any) => (
+                                <li key={data?.id || data?.name}>
+                                    <Link href={`/${data?.name.toLowerCase()}`}>
                                         {data?.name}
                                     </Link>
-                                    <br />
-                                </>
+                                </li>
                             ))}
-                        </div>
+                        </ul>
                     ) : menu ? (
                         <div className="list-none">
                             <MenuList cls={cls} />
