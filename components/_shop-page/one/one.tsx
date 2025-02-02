@@ -85,6 +85,7 @@ const One = ({ store_id }: any) => {
         }
     }, [page, activeColor, shopPageProductsRefetch, priceValue, paginate]);
 
+
     useEffect(() => {
         if (shopPageProductsSuccess) {
             const productsData = shopPageProductsData?.data?.products || [];
@@ -227,6 +228,7 @@ const One = ({ store_id }: any) => {
                                             (i: any, index: number) => (
                                                 <ProductCardOne
                                                     key={`${i?.id}-${index}`}
+
                                                     item={i}
                                                 />
                                             )

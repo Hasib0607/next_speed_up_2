@@ -9,6 +9,7 @@ import Skeleton from '@/components/loaders/skeleton';
 import { PlusIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import InfiniteScroll from 'react-infinite-scroll-component';
+
 import Pagination from '@/components/_category-page/components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
@@ -23,6 +24,7 @@ import { setSort } from '@/redux/features/filters/filterSlice';
 import { useParams } from 'next/navigation';
 import { numberParser } from '@/helpers/numberParser';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
+
 
 const Eight = ({ design, store_id }: any) => {
     const module_id = 105;
@@ -131,6 +133,7 @@ const Eight = ({ design, store_id }: any) => {
                             open={open}
                             hasMore={hasMore}
                             paginate={paginate}
+
                             setHasMore={setHasMore}
                             page={page}
                             setPage={setPage}
@@ -162,18 +165,19 @@ const ShopProductSection = ({
     setPage,
     hasMore,
     paginate,
+
     setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
     const filtersData = useSelector((state: RootState) => state.filters);
-
     // get the activecolor, pricevalue, selectedSort
     const { color: activeColor, price: priceValue } = filtersData || {};
 
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
     const [infiniteProducts, setInfiniteProducts] = useState<any[]>([]);
+
 
     const {
         data: shopPageProductsData,
@@ -186,6 +190,7 @@ const ShopProductSection = ({
 
     const nextPageFetch = () => {
         setPage((prevPage:number) => prevPage + 1);
+
     };
 
     const categoryStore = useSelector((state: RootState) => state?.category);
@@ -233,6 +238,7 @@ const ShopProductSection = ({
         }
     }, [isPagination, paginate, page, products]);
 
+
     return (
         <>
             {open && (
@@ -261,6 +267,7 @@ const ShopProductSection = ({
                                 : null}
                         </div>
 
+
             {!isPagination ? (
                 <div>
                     <InfiniteScroll
@@ -270,6 +277,7 @@ const ShopProductSection = ({
                         hasMore={hasMore}
                         loader={
                             <InfiniteLoader />
+
                         }
                         endMessage={
                             <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
@@ -282,6 +290,7 @@ const ShopProductSection = ({
                                 {infiniteProducts?.map((item: any, index: number) => (
                                     <motion.div
                                     key={`${item?.id}-${index}`}
+
                                         initial={{ scale: 0 }}
                                         animate={{ scale: 1 }}
                                         transition={{
@@ -300,6 +309,7 @@ const ShopProductSection = ({
                                     {infiniteProducts?.map((item: any, index: number) => (
                                         <motion.div
                                         key={`${item?.id}-${index}`}
+
                                             className="border-hover"
                                             initial={{ translateX: 200 }}
                                             animate={{ translateX: 0 }}
