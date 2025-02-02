@@ -9,13 +9,19 @@ import MyAccount from './components/myaccount';
 import MenuList from './components/menu-list';
 import CopyrightAll from './components/copyrightall';
 import WhatsApp from './components/whatsApp';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
+import PageList from './components/page-list';
+import AllPaymantGateway from './components/all-payment-gateway';
 
-const FooterTwentyTwo = ({ headersetting, store_id, page, menu }: any) => {
+const FooterTwentyTwo = ({ headersetting, page, menu }: any) => {
+    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
+    const store_id = store?.id || null;
     return (
         <div className="bg-black pt-10 pb-24 lg:pb-5">
             <div className="sm:container px-5">
                 <Newsletter headersetting={headersetting} store_id={store_id} />
-                <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 py-5">
+                <div className="grid lg:grid-cols-5 grid-cols-2 gap-4 py-5">
                     <div className="col-span-2 md:col-span-1">
                         <div>
                             <img
@@ -24,7 +30,7 @@ const FooterTwentyTwo = ({ headersetting, store_id, page, menu }: any) => {
                                 className="h-12 w-auto"
                             />
                         </div>
-                        <div className="flex gap-x-4 mt-5">
+                        <div className="flex gap-x-2 mt-5">
                             {headersetting?.facebook_link && (
                                 <a
                                     href={headersetting?.facebook_link}
@@ -118,16 +124,27 @@ const FooterTwentyTwo = ({ headersetting, store_id, page, menu }: any) => {
                             Menu
                         </h1>
                         <div className="text-white mt-2 font-medium text-sm">
-                            <MenuList menu={menu} page={page} />
+                            <MenuList menu={menu} />
                         </div>
                     </div>
+                    <div>
+                        <h1 className="text-xl uppercase font-bold text-white">
+                            Legal
+                        </h1>
+                        <div className="text-white mt-2 font-medium text-sm">
+                            <PageList page={page} />
+                        </div>
+                    </div>
+                </div>
+                <div className="sm:container mt-8 mb-4 text-white">
+                    <AllPaymantGateway headersetting={headersetting} />
                 </div>
                 <div className="text-white">
                     <CopyrightAll headersetting={headersetting} />
                 </div>
             </div>
             {/* <Messenger /> */}
-            <WhatsApp headersetting={headersetting} />
+            <WhatsApp />
         </div>
     );
 };
