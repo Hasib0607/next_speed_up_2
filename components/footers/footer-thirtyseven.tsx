@@ -4,17 +4,16 @@ import React from 'react';
 import FollowUs from './components/follow-us';
 import CopyrightAll from './components/copyrightall';
 import WhatsApp from './components/whatsApp';
+import AllPaymantGateway from './components/all-payment-gateway';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 
-const FooterThirtySeven = ({
-    headersetting,
-    category,
-    menu,
-    design,
-    page,
-}: any) => {
+const FooterThirtySeven = ({ headersetting, menu, design, page }: any) => {
     const result = page.filter(
         (item: any) => !menu.find((menuItem: any) => menuItem.url === item.link)
     );
+
+    const { data: categoryData } = useGetCategoryQuery({});
+    const category = categoryData?.data || [];
 
     const customDesign = `
     .footerColor:hover{
@@ -49,7 +48,7 @@ const FooterThirtySeven = ({
                         <div className="">
                             <div className="">
                                 <img
-                                    className="w-auto h-14"
+                                    className="w-auto h-20"
                                     src={imgUrl + headersetting?.logo}
                                     alt=""
                                 />
@@ -61,7 +60,7 @@ const FooterThirtySeven = ({
                     </div>
 
                     <div className="xl:col-span-2 lg:col-span-2">
-                        <div className="grid xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4 py-8 ">
+                        <div className="grid xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-2 sm:grid-cols-1 gap-4 py-8 ">
                             <div>
                                 <h1 className="footerFiveBorder footerThirtySeven text-lg font-semibold">
                                     Products
@@ -88,7 +87,7 @@ const FooterThirtySeven = ({
                                         m?.name !== 'Category' ? (
                                             <li key={m?.id}>
                                                 <Link
-                                                    href={m?.url}
+                                                    href={m?.custom_link || (m?.url ? `/${m?.url}` : "/")}
                                                     className="text-base footerColor font-normal leading-relaxed "
                                                 >
                                                     {' '}
@@ -97,6 +96,13 @@ const FooterThirtySeven = ({
                                             </li>
                                         ) : null
                                     )}
+                                </div>
+                            </div>
+                            <div>
+                                <h1 className="footerFiveBorder footerThirtySeven text-lg font-semibold">
+                                    Legal
+                                </h1>
+                                <div className="mt-5 list-none">
                                     {result?.map((m: any) => (
                                         <li key={m?.id}>
                                             <Link
@@ -125,9 +131,12 @@ const FooterThirtySeven = ({
                     </div>
                 </div>
                 {/* <Messenger /> */}
-                <WhatsApp headersetting={headersetting} />
+                <WhatsApp />
             </footer>
-            <div className="pb-20 lg:pb-5 sm:container px-5">
+            <div className="sm:container px-5 mt-8 mb-4">
+                <AllPaymantGateway headersetting={headersetting} />
+            </div>
+            <div className="pb-20 lg:pb-5 sm:container px-5 ">
                 <CopyrightAll headersetting={headersetting} />
             </div>
         </div>

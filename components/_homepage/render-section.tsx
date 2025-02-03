@@ -42,11 +42,11 @@ const RenderSection = ({ component, design, appStore }: RenderSectionProps) => {
         case 'feature_category':
             return <FeaturedCategory design={design} store_id={store_id} />;
         // Promo section
-        case 'banner':
-            return <Promo design={design} store_id={store_id} />;
+        // case 'banner':
+        //     return <Promo design={design} store_id={store_id} />;
         // PromoBottom section
-        case 'banner_bottom':
-            return <PromoBottom design={design} />;
+        // case 'banner_bottom':
+        //     return <PromoBottom design={design} />;
         // Product section
         case 'product':
             return <Product design={design} store_id={store_id} />;
