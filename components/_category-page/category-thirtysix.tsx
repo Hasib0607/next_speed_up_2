@@ -1,0 +1,391 @@
+'use client';
+import React, { useEffect, useState } from 'react';
+import { ThreeDots } from 'react-loader-spinner';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useParams } from 'next/navigation';
+import Skeleton from '@/components/loaders/skeleton';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import Pagination from '@/components/_category-page/components/pagination';
+import { motion } from 'framer-motion';
+import Card63 from '@/components/card/card63';
+import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    useGetCategoryPageProductsQuery,
+    useGetColorsQuery,
+} from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { numberParser } from '@/helpers/numberParser';
+import FilterByColorNew from './components/filter-by-color-new';
+import FilterByPriceNew from './components/filter-by-price-new';
+import { setSort } from '@/redux/features/filters/filterSlice';
+
+const CategoryThirtySix = ({ catId, store_id, design }: any) => {
+    const module_id = 105;
+    const dispatch = useDispatch();
+
+    const [grid, setGrid] = useState('H');
+    const [open, setOpen] = useState(false);
+    // setting the initial page number
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState<any>(true);
+    const [paginate, setPaginate] = useState<any>({});
+    const [show, setShow] = useState(true);
+
+    const {
+        data: colorsData,
+        isLoading: colorsLoading,
+        isSuccess: colorsSuccess,
+    } = useGetColorsQuery({ store_id });
+
+    const colors = colorsData?.data || [];
+
+    const categoryStore = useSelector((state: any) => state?.category);
+    const category = categoryStore?.categories || [];
+
+    const filtersData = useSelector((state: RootState) => state.filters);
+    // get the activecolor, pricevalue, selectedSort
+    const { color: activeColor, price: priceValue } = filtersData || {};
+
+    const { data: modulesData } = useGetModulesQuery({ store_id });
+    const modules = modulesData?.data || [];
+
+    const paginationModule = modules?.find(
+        (item: any) => item?.modulus_id === module_id
+    );
+    const isPagination = numberParser(paginationModule?.status) === 1;
+
+    const styleCss = `
+    .btn-card:hover {
+        background:${design?.header_color};
+        color:${design?.text_color};
+        }
+    .text-hover:hover {
+        color:  ${design?.header_color};
+        } 
+`;
+
+    return (
+        <div>
+            <div className="border-b-2 py-3 mb-2 border-black">
+                <style>{styleCss}</style>
+                <Location />
+            </div>
+            <div className="sm:container px-5 sm:py-10 py-5">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                    <div className="hidden lg:flex col-span-3">
+                        <div className="w-full sticky top-40 h-max pb-3">
+                            <h1 className="text-2xl border-b border-black pb-4 mb-4">
+                                FILTERS
+                            </h1>
+                            <div className="border-b border-black pb-5">
+                                <div
+                                    onClick={() => setShow(!show)}
+                                    className="flex justify-between items-center "
+                                >
+                                    <h3 className="text-[#252525] text-lg">
+                                        Categories
+                                    </h3>
+                                    <ChevronDownIcon className="h-5 lg:cursor-pointer" />
+                                </div>
+                                {show && (
+                                    <div>
+                                        {category?.map((item: any) => (
+                                            <SingleCat
+                                                key={item?.id}
+                                                item={item}
+                                                design={design}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                            <div className="border-b border-black my-6 pb-5">
+                            <FilterByColorNew />
+                            </div>
+                            <div className="border-b border-black mb-5 pb-5">
+                            <FilterByPriceNew />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-span-1 lg:col-span-9 flex flex-col min-h-[100vh-200px] h-full">
+                        <Filter
+                            onChange={(e: any) => {
+                                dispatch(setSort(e.target.value));
+                                setPage(1);
+                            }}
+                            setGrid={setGrid}
+                            setOpen={setOpen}
+                            open={open}
+                        />
+                        <div className="flex-1">
+                            <ProductSection
+                                catId={catId}
+                                open={open}
+                                grid={grid}
+                                hasMore={hasMore}
+                                setHasMore={setHasMore}
+                                page={page}
+                                setPage={setPage}
+                                isPagination={isPagination}
+                                setPaginate={setPaginate}
+                            />
+                        </div>
+                        {isPagination && paginate?.total > 7 ? (
+                            <div className="my-5">
+                                <Pagination
+                                    paginate={paginate}
+                                    initialPage={page}
+                                    setPage={setPage}
+                                />
+                            </div>
+                        ) : null}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default CategoryThirtySix;
+
+const ProductSection = ({
+    grid,
+    open,
+    catId,
+    page,
+    setPage,
+    hasMore,
+    setHasMore,
+    isPagination,
+    setPaginate,
+}: any) => {
+    const filtersData = useSelector((state: RootState) => state.filters);
+
+    // setting the products to be shown on the ui initially zero residing on an array
+    const [products, setProducts] = useState<any[]>([]);
+
+    const {
+        data: categoryPageProductsData,
+        isLoading: categoryPageProductsLoading,
+        isFetching: categoryPageProductsFetching,
+        isError: categoryPageProductsError,
+        isSuccess: categoryPageProductsSuccess,
+        refetch: categoryPageProductsRefetch,
+    } = useGetCategoryPageProductsQuery({ catId, page, filtersData });
+
+    const nextPageFetch = () => {
+        setPage((prev: any) => prev + 1);
+        categoryPageProductsRefetch();
+    };
+
+    const categoryStore = useSelector((state: any) => state?.category);
+    const category = categoryStore?.categories || [];
+
+    useEffect(() => {
+        if (categoryPageProductsSuccess) {
+            const categoryData = categoryPageProductsData?.data || [];
+            setPaginate(categoryData?.pagination);
+            if (isPagination) {
+                setProducts(categoryData?.products || []);
+            } else {
+                setProducts((prev) =>
+                    Array.isArray(prev)
+                        ? [...prev, ...(categoryData?.products || [])]
+                        : categoryData?.products || []
+                );
+                setPage(1);
+            }
+        } else if (
+            categoryPageProductsData?.data?.pagination?.current_page === 1
+        ) {
+            setHasMore(false);
+        }
+    }, [
+        categoryPageProductsData,
+        isPagination,
+        setHasMore,
+        setPage,
+        setPaginate,
+        categoryPageProductsSuccess,
+    ]);
+
+    if (
+        (categoryPageProductsLoading && !categoryPageProductsError) ||
+        categoryPageProductsFetching
+    ) {
+        return (
+            <div className="text-center text-4xl font-bold text-gray-400 h-screen flex justify-center items-center">
+                <Skeleton />
+            </div>
+        );
+    }
+
+    return (
+        <>
+            {!isPagination ? (
+                <div>
+                    <InfiniteScroll
+                        style={{ height: 'auto', overflow: 'hidden' }}
+                        dataLength={products?.length}
+                        next={nextPageFetch}
+                        hasMore={hasMore}
+                        loader={
+                            <div className="flex justify-center items-center">
+                                <ThreeDots
+                                    height="80"
+                                    width="80"
+                                    radius="9"
+                                    color="#f1593a"
+                                    ariaLabel="three-dots-loading"
+                                    wrapperStyle={{}}
+                                    visible={true}
+                                />
+                            </div>
+                        }
+                        endMessage={
+                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
+                                No More Products
+                            </p>
+                        }
+                    >
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-2.5 lg:gap-0">
+                            {products?.map((item: any, key: number) => (
+                                <motion.div
+                                    key={key}
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    exit={{ scale: 0 }}
+                                    transition={{
+                                        duration: 0.5,
+                                        ease: 'linear',
+                                    }}
+                                >
+                                    <Card63 item={item} />
+                                </motion.div>
+                            ))}
+                        </div>
+                    </InfiniteScroll>
+                </div>
+            ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-2.5 lg:gap-0">
+                    {products?.map((item: any, key: number) => (
+                        <motion.div
+                            key={key}
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            exit={{ scale: 0 }}
+                            transition={{ duration: 0.5, ease: 'linear' }}
+                        >
+                            <Card63 item={item} />
+                        </motion.div>
+                    ))}
+                </div>
+            )}
+        </>
+    );
+};
+
+const Location = () => {
+    const [activecat, setActivecat] = useState(null);
+    const { id: data }: any = useParams<{ id: string }>();
+    const categoryStore = useSelector((state: any) => state?.category);
+    const category = categoryStore?.categories || [];
+
+    useEffect(() => {
+        for (let i = 0; i < category.length; i++) {
+            if (category[i]?.subcategories) {
+                for (let j = 0; j < category[i].subcategories.length; j++) {
+                    if (category[i]?.subcategories[j]?.id == data) {
+                        setActivecat(category[i]?.subcategories[j]?.name);
+                    }
+                }
+            }
+            if (category[i]?.id == data) {
+                setActivecat(category[i].name);
+            }
+        }
+    }, [category]);
+    return (
+        <div className="w-full sm:container px-5 text-[#414141] flex gap-1 items-center justify-start py-2 text-sm">
+            <p>Home </p>
+            <p> / Shop / {activecat}</p>
+        </div>
+    );
+};
+
+const Filter = ({ paginate, onChange, shops, cat }: any) => {
+    return (
+        <div className="flex flex-wrap justify-between items-center mb-8 ml-auto">
+            {/* Short by  */}
+            <div className="flex items-center gap-6 text-sm max-w-sm">
+                <p>Sort By:</p>
+                <select
+                    onChange={onChange}
+                    className="h-9 border border-black shadow-[2px_2px_1px_1px_black] hover:shadow-none duration-500 lg:cursor-pointer outline-0 ring-0 focus:ring-0 text-xs flex-1 bg-white"
+                >
+                    <option>Featured</option>
+                    <option value="az">A - Z</option>
+                    <option value="za">Z - A</option>
+                    <option value="lh">Low - High</option>
+                    <option value="hl">High - Low</option>
+                </select>
+            </div>
+        </div>
+    );
+};
+
+const SingleCat = ({ item, design }: any) => {
+    const { id }: any = useParams<{ id: string }>();
+    const activeColor = `text-[${design?.header_color}] flex-1 text-sm text-hover`;
+    const inactiveColor = 'text-gray-500 flex-1 text-sm text-hover';
+    const activesub = `text-[${design?.header_color}] text-sm`;
+    const inactivesub = `text-gray-600 text-sm`;
+    const styleCss = `
+    .category-page .active{
+        color:#f1593a;
+        font-weight: 700;
+       }
+    .category-page-two .active{
+        color:red;
+        font-weight: 700;
+       }
+    `;
+    return (
+        <>
+            <div className="w-full flex py-2 category-page">
+                <style>{styleCss}</style>
+                <Link
+                    href={'/category/' + item?.id}
+                    className={id == item?.id ? activeColor : inactiveColor}
+                >
+                    <p
+                        style={
+                            parseInt(id) === item?.id
+                                ? { color: `${design.header_color}` }
+                                : {}
+                        }
+                    >
+                        {item.name}
+                    </p>
+                </Link>
+            </div>
+            <div className="ml-4">
+                {item?.subcategories?.map((sub: any, key: number) => (
+                    <div className="category-page-two" key={key}>
+                        <Link href={'/category/' + sub?.id}>
+                            <p
+                                className={
+                                    id == sub?.id ? activesub : inactivesub
+                                }
+                            >
+                                {sub?.name}
+                            </p>
+                        </Link>
+                    </div>
+                ))}
+            </div>
+        </>
+    );
+};
