@@ -70,12 +70,12 @@ const AboutPage = () => {
     }
 
     const styleCss = `
-    .page-menu .active {
-        color:  ${design?.text_color};
-        font-weight: 700;
-        background: ${design?.header_color};
-    }
-  `;
+        .page-menu .active {
+            color:  ${design?.text_color};
+            font-weight: 700;
+            background: ${design?.header_color};
+        }
+    `;
 
     return (
         <div

@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { RootState } from '@/redux/store';
 import {
-    useGetColorsQuery,
     useGetShopPageProductsQuery,
 } from '@/redux/features/shop/shopApi';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
@@ -40,19 +39,6 @@ const Eight = ({ design, store_id }: any) => {
     const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
 
-    const filtersData = useSelector((state: RootState) => state.filters);
-
-    // get the activecolor, pricevalue, selectedSort
-    const { color: activeColor, price: priceValue } = filtersData || {};
-
-    const {
-        data: colorsData,
-        isLoading: colorsLoading,
-        isSuccess: colorsSuccess,
-    } = useGetColorsQuery({ store_id });
-
-    const colors = colorsData?.data || [];
-
     const categoryStore = useSelector((state: RootState) => state?.category);
 
     const category = categoryStore?.categories || [];
@@ -76,8 +62,7 @@ const Eight = ({ design, store_id }: any) => {
   .border-hover:hover {
     border: 1px solid  ${bgColor};
   }
- 
-    `;
+`;
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5 bg-white">
@@ -93,19 +78,10 @@ const Eight = ({ design, store_id }: any) => {
                     </div>
 
                     <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
-                        <FilterByColorNew
-                            colors={colors}
-                            activeColor={activeColor}
-                            setPage={setPage}
-                            setHasMore={setHasMore}
-                        />
+                        <FilterByColorNew/>
                     </div>
                     <div className="bg-gray-100 border-2 border-gray-200 p-4">
-                        <FilterByPriceNew
-                            priceValue={priceValue}
-                            setPage={setPage}
-                            setHasMore={setHasMore}
-                        />
+                        <FilterByPriceNew/>
                     </div>
                 </div>
 
@@ -133,7 +109,6 @@ const Eight = ({ design, store_id }: any) => {
                             open={open}
                             hasMore={hasMore}
                             paginate={paginate}
-
                             setHasMore={setHasMore}
                             page={page}
                             setPage={setPage}
@@ -165,7 +140,6 @@ const ShopProductSection = ({
     setPage,
     hasMore,
     paginate,
-
     setHasMore,
     isPagination,
     setPaginate,
@@ -177,7 +151,6 @@ const ShopProductSection = ({
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
     const [infiniteProducts, setInfiniteProducts] = useState<any[]>([]);
-
 
     const {
         data: shopPageProductsData,
@@ -204,6 +177,12 @@ const ShopProductSection = ({
             setHasMore(more);
         }
     }, [page, activeColor, shopPageProductsRefetch, priceValue, paginate,setHasMore]);
+
+    useEffect(() => {
+        if (activeColor !== null || priceValue !== null) {
+            setPage(1);
+        }
+    }, [activeColor, priceValue,setPage]);
 
     useEffect(() => {
         if (shopPageProductsSuccess) {

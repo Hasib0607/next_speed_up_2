@@ -1,5 +1,5 @@
 import getDomain from "@/helpers/getDomain";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 export default async function getHeaderSetting() {
     const name = await getDomain();
@@ -16,7 +16,7 @@ export default async function getHeaderSetting() {
 
     if (!res.ok) {
         // throw new Error('Failed to fetch data!');
-        redirect('/not-found')
+        notFound();
     }
 
     return headersetting;
