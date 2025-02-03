@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 export default async function getHeaderSetting() {
     const name = await getDomain();
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}header-settings/${name}`,
+        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}header-settings/${name}/info`,
         {
             next: {
                 revalidate: 10,
