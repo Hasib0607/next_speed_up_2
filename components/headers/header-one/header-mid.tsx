@@ -37,8 +37,8 @@ export default function HeaderMid({ menu, headersetting, design }: any) {
         router.push('/');
     };
 
-    const logo = headersetting?.logo;
-    const phone = headersetting?.phone;
+    const logo = headersetting?.logo || "";
+    const phone = headersetting?.phone || "";
 
     const classes = `
    .group:hover .phn{
