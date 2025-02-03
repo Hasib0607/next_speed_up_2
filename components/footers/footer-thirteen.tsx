@@ -7,17 +7,8 @@ import {
 import Newsletter from './components/newsletter';
 import Link from 'next/link';
 import WhatsApp from './components/whatsApp';
-import AllPaymantGateway from './components/all-payment-gateway';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const FooterThirteen = ({ headersetting, menu }: any) => {
-    const { data: categoryData } = useGetCategoryQuery({});
-    const category = categoryData?.data || [];
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+const FooterThirteen = ({ headersetting, category, menu, store_id }: any) => {
     return (
         <div className="bg-gray-100">
             <div className="sm:container px-5 sm:py-10 py-5 min-h-[300px]">
@@ -48,7 +39,7 @@ const FooterThirteen = ({ headersetting, menu }: any) => {
                     </div>
                     <div className="">
                         <Fheader bg={'#40AF64'} name={'Categories'} />
-                        {category
+                        {category?.length > 0 && category
                             ?.slice(0, 5)
                             .map((i: any) => (
                                 <Single key={i?.id} id={i?.id} text={i?.name} />
@@ -56,11 +47,11 @@ const FooterThirteen = ({ headersetting, menu }: any) => {
                     </div>
                     <div className="">
                         <Fheader bg={'#F7BE24'} name={'Menu'} />
-                        {menu
+                        {menu?.length > 0 &&  menu
                             ?.slice(0, 5)
                             ?.map((i: any) => (
                                 <Single
-                                    url={i?.custom_link || (i?.url ? `/${i?.url}` : "/")}
+                                    url={i?.url ? i?.url : '/'}
                                     text={i?.name}
                                     key={i?.id}
                                 />
@@ -72,25 +63,12 @@ const FooterThirteen = ({ headersetting, menu }: any) => {
                             <Single text={'Profile'} url={'/profile'} />
                             <Single text={'My Order'} url={'/profile/order'} />
                             <Single text={'Checkout'} url={'/checkout'} />
-
-                            {/* {user?.verify ? (
-                    <Single
-                      text={"Logout"}
-                      url={"/login"}
-                      // onClick={() => dispatch(logout())}
-                    />
-                  ) : (
-                    <Single text={"Login"} url={"/login"} />
-                  )} */}
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="sm:container px-5 mt-8 mb-20 md:mb-0">
-                <AllPaymantGateway headersetting={headersetting} />
-            </div>
             {/* <Messenger /> */}
-            <WhatsApp />
+            <WhatsApp headersetting={headersetting} />
         </div>
     );
 };

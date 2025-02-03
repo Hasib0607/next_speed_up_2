@@ -26,8 +26,11 @@ const DefaultProduct = ({ product }: any) => {
             <div className="container mx-auto">
                 <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6 sm:px-4">
                     {product?.slice(0, 8)?.map((item: any, id: any) => (
+                        <>
+                            <p>{item.name}</p>
                             <Card14 item={item} key={id} />
-                    ))} 
+                        </>
+                    ))}
                 </div>
             </div>
         </>
