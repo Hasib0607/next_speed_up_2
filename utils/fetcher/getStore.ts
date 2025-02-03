@@ -1,10 +1,11 @@
 
 // import { redirect } from 'next/navigation';
+import getDomain from '@/helpers/getDomain';
 import { notFound } from 'next/navigation';
 
 export default async function getStore() {
     // const name = await getDomain();
-    const name = 'etcjewelryshop.com';
+    const name = await getDomain();
 
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}store/${name}`,
