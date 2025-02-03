@@ -13,13 +13,13 @@ export default async function getDesign() {
         }
     );
 
-    const resData = await res.json();
-    const designDetails = resData?.data;
-
     if (!res.ok) {
         // throw new Error('Failed to fetch data!');
-        // notFound()
+        notFound();
     }
+
+    const resData = await res.json();
+    const designDetails = resData?.data;
 
     return designDetails;
 }

@@ -10,7 +10,7 @@ const Header = ({ design }: any) => {
     const authStore = useSelector((state: RootState) => state?.auth);
     const { cartList } = useSelector((state: RootState) => state?.cart);
 
-    const home = useSelector((state: any) => state?.home);
+    const home = useSelector((state: RootState) => state?.home);
     const { headersetting, menu } = home || {};
 
     const user = authStore?.user || {};
