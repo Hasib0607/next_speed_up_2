@@ -92,19 +92,10 @@ const Three = ({ design, store_id }: any) => {
                     </div>
 
                     <div className="bg-gray-100 border-2 border-gray-200 text-black p-4 my-6 rounded shadow">
-                        <FilterByColorNew
-                            colors={colors}
-                            activeColor={activeColor}
-                            setPage={setPage}
-                            setHasMore={setHasMore}
-                        />
+                        <FilterByColorNew />
                     </div>
                     <div className="bg-gray-100 border-2 border-gray-200 text-black p-4 rounded shadow">
-                        <FilterByPriceNew
-                            priceValue={priceValue}
-                            setPage={setPage}
-                            setHasMore={setHasMore}
-                        />
+                        <FilterByPriceNew />
                     </div>
                 </div>
 

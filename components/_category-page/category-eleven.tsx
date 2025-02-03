@@ -90,19 +90,11 @@ const CategoryEleven = ({ catId, store_id, design }: any) => {
                         ))}
                     </div>
                     <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
-                        <FilterByColorNew
-                            colors={colors}
-                            activeColor={activeColor}
-                            setPage={setPage}
-                            setHasMore={setHasMore}
-                        />
+                    <FilterByColorNew />
                     </div>
                     <div className="bg-gray-100 border-2 border-gray-200 p-4">
-                        <FilterByPriceNew
-                            priceValue={priceValue}
-                            setPage={setPage}
-                            setHasMore={setHasMore}
-                        />
+                    <FilterByPriceNew />
+                       
                     </div>
                 </div>
 

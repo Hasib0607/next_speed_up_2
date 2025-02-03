@@ -34,14 +34,6 @@ const Nineteen = ({ design, store_id }: any) => {
   // get the activecolor, pricevalue, selectedSort
   const { color: activeColor, price: priceValue } = filtersData || {};
 
-  const {
-      data: colorsData,
-      isLoading: colorsLoading,
-      isSuccess: colorsSuccess,
-  } = useGetColorsQuery({ store_id });
-
-  const colors = colorsData?.data || [];
-
   const categoryStore = useSelector((state: RootState) => state?.category);
 
   const category = categoryStore?.categories || [];

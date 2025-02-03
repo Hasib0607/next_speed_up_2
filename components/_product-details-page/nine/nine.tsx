@@ -3,28 +3,21 @@
 import Card22 from '@/components/card/card22';
 import SectionHeadingSeven from '@/components/section-heading/section-heading-seven';
 import DefaultSlider from '@/components/slider/default-slider';
-import { profileImg } from '@/site-settings/siteUrl';
 import Arrow from '@/utils/arrow';
-import Rate from '@/utils/rate';
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
-
 import Skeleton from '@/components/loaders/skeleton';
-import { numberParser } from '@/helpers/numberParser';
+
 import {
     useGetProductDetailsQuery,
     useGetRelatedProductsQuery,
     useGetReviewsQuery,
 } from '@/redux/features/products/productApi';
-import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 
-import { HTML_TAG_PATTERN } from '@/consts';
 import ProdMultiCategory from '@/utils/prod-multi-category';
-import { AnimatePresence, motion } from 'framer-motion';
-import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { SwiperSlide } from 'swiper/react';
 import Details from '../components/details-two';
 import VideoPlayer from '../components/video-player';
+import According from '@/components/_product-details-page/components/according';
 
 const Nine = ({ store_id, productId }: any) => {
     const {
@@ -119,7 +112,7 @@ const Nine = ({ store_id, productId }: any) => {
                 <div className="h-[1px] bg-gray-300 w-full my-3"></div>
                 <According
                     text={'Product Details'}
-                    desc={product?.description}
+                    description={product?.description}
                 />
                 <According text={'Customer Reviews'} description={reviews} />
             </Details>
@@ -135,88 +128,6 @@ const Nine = ({ store_id, productId }: any) => {
 };
 
 export default Nine;
-
-const According = ({ text, description }: any) => {
-    const [show, setShow] = useState(false);
-    const isDescription = HTML_TAG_PATTERN.test(description);
-    let reviewsArr = description?.data || [];
-    console.log('description', description?.status);
-    console.log('reviewsArr', reviewsArr);
-    console.log('isDescription', isDescription);
-
-    return (
-        <AnimatePresence>
-            <div
-                onClick={() => setShow(!show)}
-                className="flex justify-between items-center lg:cursor-pointer font-seven text-lg font-semibold mb-3"
-            >
-                <div className="h3 font-seven">{text}</div>
-                {show ? <MinusIcon width={25} /> : <PlusIcon width={25} />}
-            </div>
-            {show && (
-                <>
-                    {isDescription && (
-                        <>
-                            <motion.div
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.5 }}
-                                className="font-seven"
-                            >
-                                <DangerouslySafeHTML content={description} />
-                            </motion.div>
-                        </>
-                    )}
-                    {!isDescription && (
-                        <>
-                            <motion.div
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.5 }}
-                                className="font-seven"
-                            >
-                                {description?.status && reviewsArr.length > 0
-                                    ? reviewsArr?.map((item: any) => (
-                                          <UserReview
-                                              review={item}
-                                              key={item.id}
-                                          />
-                                      ))
-                                    : description?.message}
-                            </motion.div>
-                        </>
-                    )}
-                </>
-            )}
-        </AnimatePresence>
-    );
-};
-
-const UserReview = ({ review }: any) => {
-    const parsedRating = numberParser(review?.rating, true);
-
-    return (
-        <div className=" bg-slate-50 p-5">
-            <div className="avatar">
-                <div className="w-20 h-20 rounded-full">
-                    <img
-                        src={profileImg + review?.image}
-                        className="rounded-full h-full w-full"
-                        alt=""
-                    />
-                </div>
-            </div>
-            <Rate className="text-base" rating={parsedRating} />
-            <p className="text-xs font-semibold mt-2">{review?.name}</p>
-            <p className="text-sm font-light mt-2">
-                {moment(new Date(review?.cd)).format('DD/MM/YYYY')}
-            </p>
-            <p className="text-base font-semiBold mt-2">{review?.comment}</p>
-        </div>
-    );
-};
 
 const Related = ({ product }: any) => {
     const prev = 'best_seller_Prev';

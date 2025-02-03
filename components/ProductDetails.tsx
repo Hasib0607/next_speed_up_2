@@ -13,7 +13,7 @@ type ParamsType = {
 const ProductDetails = ({ design, product }: any) => {
     const { productId } = useParams<ParamsType>();
 
-    const ProductDetailsPageComponent =
+    const ProductDetailsPageComponent = 
         product_details_pages[design?.single_product_page] ||
         product_details_pages[DEFAULT];
 

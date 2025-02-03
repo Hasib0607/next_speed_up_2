@@ -116,20 +116,11 @@ const TwentyThree = ({ design, store_id }: any) => {
                         </div>
 
                         <div className="lg:my-5 lg:shadow-2xl p-4 lg:rounded-xl lg:bg-white">
-                            <FilterByColorNew
-                                colors={colors}
-                                activeColor={activeColor}
-                                setPage={setPage}
-                                setHasMore={setHasMore}
-                            />
+                            <FilterByColorNew />
                         </div>
 
                         <div className="lg:my-5 lg:shadow-2xl p-4 lg:rounded-xl lg:bg-white">
-                            <FilterByPriceNew
-                                priceValue={priceValue}
-                                setPage={setPage}
-                                setHasMore={setHasMore}
-                            />
+                            <FilterByPriceNew />
                         </div>
                     </div>
                     <div className="col-span-1 lg:col-span-9 flex flex-col min-h-[100vh-200px] h-full ">

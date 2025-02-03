@@ -3,6 +3,7 @@
 import Marquee from 'react-fast-marquee';
 import { useEffect, useState } from 'react';
 import { useGetAnnouncementQuery } from '@/redux/features/home/homeApi';
+
 // import useAnnouncementScroll from '@/utils/use-annoucement-height';
 
 const Announcement = ({ design, store_id }: any) => {
@@ -18,12 +19,8 @@ const Announcement = ({ design, store_id }: any) => {
         }
     }, [announcementsData, announcementsSuccess]);
 
-    // if (announcements?.length == 0) {
-
-    // }
     // const aH = useAnnouncementScroll()
     // console.log("aH",aH);
-    
 
     return (
         <>

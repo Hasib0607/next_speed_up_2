@@ -14,12 +14,8 @@ import Link from 'next/link';
 import CopyrightAll from './components/copyrightall';
 import WhatsApp from './components/whatsApp';
 import { customizeFooter } from '@/utils/customizeDesign';
-import AllPaymantGateway from './components/all-payment-gateway';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const FooterThirtyFour = ({ menu, headersetting, design }: any) => {
+const FooterThirtyFour = ({ category, menu, headersetting, design }: any) => {
     const srcMatch = headersetting?.map_address?.match(/src="([^"]+)"/);
     const iframeSrc = srcMatch ? srcMatch[1] : null;
 
@@ -27,22 +23,19 @@ const FooterThirtyFour = ({ menu, headersetting, design }: any) => {
 
     .menu-hover:hover {
         color:  white;
-     }
+  }
+
     .footer-icon-hover:hover {
         border: 1px solid ${design?.header_color};
         color:  ${design?.header_color};
-     }
+  }
     `;
 
     const cls = 'text-2xl text-white';
 
-    const { data: categoryData } = useGetCategoryQuery({});
-    const category = categoryData?.data || [];
+    const storeID = headersetting?.store_id || null;
 
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
-
-    const footerData = customizeFooter.find((item) => item.id == store_id);
+    const footerData = customizeFooter.find((item) => item.id == storeID);
 
     return (
         <div className="bg-[#022F4D] text-white">
@@ -123,7 +116,6 @@ const FooterThirtyFour = ({ menu, headersetting, design }: any) => {
                         <p className="text-base text-left">
                             {headersetting?.address}
                         </p>
-                        {/* {`${footerData?.googleMaps ? footerData?.googleMaps : ""}`} */}
                         {footerData?.googleMaps &&
                         footerData?.googleMaps == true ? (
                             <div className="relative w-full mt-[20px]">
@@ -142,9 +134,7 @@ const FooterThirtyFour = ({ menu, headersetting, design }: any) => {
                                     </iframe>
                                 </div>
                             </div>
-                        ) : (
-                            <></>
-                        )}
+                        ) : null}
                     </div>
                     <div className="justify-self-center ">
                         <h1 className="text-xl font-medium">Categories</h1>
@@ -163,14 +153,13 @@ const FooterThirtyFour = ({ menu, headersetting, design }: any) => {
                         <h1 className="text-xl font-medium ">Menu</h1>
                         <div className="flex flex-col gap-3 pt-3 text-gray-400">
                             {menu?.slice(0, 5).map((item: any) => (
-                                <Link key={item.id} href={item?.custom_link || (item?.url ? `/${item?.url}` : "/")}>
+                                <Link key={item.id} href={item?.url}>
                                     <p className="menu-hover">{item?.name}</p>
                                 </Link>
                             ))}
                         </div>
                     </div>
                     <div className="justify-self-center text-center lg:justify-self-end w-full col-span-2 lg:col-span-1">
-                        {/* <img src={ imgUrl + headersetting?.logo} alt="" className='h-12' /> */}
                         <h1 className="text-xl font-medium mb-3">
                             Quick Links
                         </h1>
@@ -188,15 +177,11 @@ const FooterThirtyFour = ({ menu, headersetting, design }: any) => {
                     </div>
                 </div>
 
-                <div className="sm:container px-5 mt-8 text-gray-400">
-                    <AllPaymantGateway headersetting={headersetting} />
-                </div>
-
                 <div className="sm:pt-10 pt-5 text-[13px] font-light text-gray-400">
                     <CopyrightAll headersetting={headersetting} />
                 </div>
                 {/* <Messenger /> */}
-                <WhatsApp />
+                <WhatsApp headersetting={headersetting} />
             </div>
         </div>
     );

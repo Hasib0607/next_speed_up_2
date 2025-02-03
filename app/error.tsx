@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function Error({
     error,
@@ -10,21 +10,28 @@ export default function Error({
     error: Error & { digest?: string };
     reset: () => void;
 }) {
-    // const [errorMsg,setErrorMsg] = useState('')
-
-    // useEffect(() => {
-    //     // Log the error to an error reporting service
-    //     setErrorMsg(error)
-    //   }, [error])
+    // Log the error to an error reporting service
+    useEffect(() => {
+        console.error(error);
+    }, [error]);
 
     return (
         <>
             <div className="h-screen w-full flex-col center bg-[#1A2238]">
-                <h1 className="text-5xl md:text-8xl font-extrabold text-white tracking-tight">
-                    There was an error!
-                </h1>
-                <div className="absolute bg-[#FF6A3D] px-2 text-sm rounded rotate-12">
+                <div className="relative w-52 z-30">
+                    <div className="absolute bg-[#FF6A3D] px-2 text-lg rounded rotate-12 -top-6 left-10">
                         Please Try again.
+                    </div>
+                </div>
+                <div className="bg-white w-full shadow-md rounded-lg p-8 relative max-w-md z-20">
+                    <p className="font-extrabold tracking-tight text-gray-700 mb-6">
+                        {error.message}
+                    </p>
+                    {error.digest && (
+                        <div className="mt-4 text-sm text-gray-500">
+                            Error ID: {error.digest}
+                        </div>
+                    )}
                 </div>
                 <div className="flex gap-4">
                     <Link href="/">

@@ -57,7 +57,6 @@ const HeaderThirtyFive = ({
         width: 100%;
         background: ${design?.header_color};
         z-index: 10;
-        /* opacity: 0; */
         animation: fadeIn 0.6s ease-in both;
       }
      .bg-seven-header {
@@ -88,7 +87,7 @@ const HeaderThirtyFive = ({
     return (
         <div>
             <div
-                className={`bg-white fixed z-[5] w-full border-b shadow-xl lg:border-b-2 border-black h-20 flex items-center ${scrollPassed ? 'top-0' : `top-[${announcementHeight}px]`}`}
+                className={`bg-white fixed z-[5] w-full border-b shadow-xl lg:border-b-2 border-black h-20 flex items-center ${!scrollPassed && announcementHeight > 0 ? `top-[${announcementHeight}px]` : 'top-0'}`}
             >
                 <style>{styleCss}</style>
                 <div className="w-full flex flex-row justify-between items-center nav-menu sm:container px-5 lg:py-0 py-1">
