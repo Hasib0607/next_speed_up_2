@@ -107,19 +107,10 @@ const CategoryThirtySeven = ({ catId, store_id, design }: any) => {
                                 </div>
                             </div>
                             <div className="my-6 pb-5">
-                                <FilterByColorNew
-                                    colors={colors}
-                                    activeColor={activeColor}
-                                    setPage={setPage}
-                                    setHasMore={setHasMore}
-                                />
+                            <FilterByColorNew />
                             </div>
                             <div className="mb-5 pb-5">
-                                <FilterByPriceNew
-                                    priceValue={priceValue}
-                                    setPage={setPage}
-                                    setHasMore={setHasMore}
-                                />
+                            <FilterByPriceNew />
                             </div>
                         </div>
                     </div>

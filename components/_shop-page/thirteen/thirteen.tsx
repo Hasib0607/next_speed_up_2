@@ -80,19 +80,10 @@ const Thirteen = ({ design, store_id }: any) => {
             ))}
           </div>
           <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
-            <FilterByColorNew
-              colors={colors}
-              activeColor={activeColor}
-              setPage={setPage}
-              setHasMore={setHasMore}
-            />
+            <FilterByColorNew />
           </div>
           <div className="bg-gray-100 border-2 border-gray-200 p-4">
-          <FilterByPriceNew
-              priceValue={priceValue}
-              setPage={setPage}
-              setHasMore={setHasMore}
-            />
+          <FilterByPriceNew />
           </div>
         </div>
         <div className="col-span-1 md:col-span-9 flex flex-col min-h-[100vh-200px] h-full ">

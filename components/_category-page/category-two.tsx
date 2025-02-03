@@ -58,7 +58,6 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
     );
     const isPagination = numberParser(paginationModule?.status) === 1;
 
-
     const bgColor = design?.header_color;
     const textColor = design?.text_color;
 
@@ -93,19 +92,10 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
                     </div>
 
                     <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
-                        <FilterByColorNew
-                            colors={colors}
-                            activeColor={activeColor}
-                            setPage={setPage}
-                            setHasMore={setHasMore}
-                        />
+                        <FilterByColorNew />
                     </div>
                     <div className="bg-gray-100 border-2 border-gray-200 p-4">
-                        <FilterByPriceNew
-                            priceValue={priceValue}
-                            setPage={setPage}
-                            setHasMore={setHasMore}
-                        />
+                        <FilterByPriceNew />
                     </div>
                 </div>
 
@@ -139,15 +129,15 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
                             isPagination={isPagination}
                             setPaginate={setPaginate}
                         />
-                         {isPagination && paginate?.total > 7 ? (
-                <div className="my-5">
-                    <Pagination
-                        paginate={paginate}
-                        initialPage={page}
-                        setPage={setPage}
-                    />
-                </div>
-            ) : null}
+                        {isPagination && paginate?.total > 7 ? (
+                            <div className="my-5">
+                                <Pagination
+                                    paginate={paginate}
+                                    initialPage={page}
+                                    setPage={setPage}
+                                />
+                            </div>
+                        ) : null}
                     </div>
                 </div>
             </div>
@@ -169,7 +159,7 @@ const ProductSection = ({
     setPaginate,
 }: any) => {
     const filtersData = useSelector((state: RootState) => state.filters);
-    
+
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
 

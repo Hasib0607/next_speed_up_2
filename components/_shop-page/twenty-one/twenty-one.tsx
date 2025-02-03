@@ -88,19 +88,10 @@ const TwentyOne = ({ design, store_id }: any) => {
                             ))}
                         </div>
                         <div className="rounded-xl h-max p-4 shadow-2xl bg-white my-6">
-                            <FilterByColorNew
-                                colors={colors}
-                                activeColor={activeColor}
-                                setPage={setPage}
-                                setHasMore={setHasMore}
-                            />
+                            <FilterByColorNew />
                         </div>
                         <div className="rounded-xl h-max p-4 shadow-2xl bg-white">
-                            <FilterByPriceNew
-                                priceValue={priceValue}
-                                setPage={setPage}
-                                setHasMore={setHasMore}
-                            />
+                            <FilterByPriceNew />
                         </div>
                     </div>
 

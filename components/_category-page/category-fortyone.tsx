@@ -88,19 +88,10 @@ const CategoryFortyOne = ({ catId, store_id, design }: any) => {
                             ))}
                         </div>
                         <div className="bg-white my-6 rounded-xl h-max p-4 shadow-2xl">
-                            <FilterByColorNew
-                                colors={colors}
-                                activeColor={activeColor}
-                                setPage={setPage}
-                                setHasMore={setHasMore}
-                            />
+                            <FilterByColorNew />
                         </div>
                         <div className="bg-white rounded-xl h-max p-4 shadow-2xl">
-                            <FilterByPriceNew
-                                priceValue={priceValue}
-                                setPage={setPage}
-                                setHasMore={setHasMore}
-                            />
+                            <FilterByPriceNew />
                         </div>
                     </div>
                     <div className="col-span-1 lg:col-span-9 flex flex-col min-h-[100vh-200px] h-full ">

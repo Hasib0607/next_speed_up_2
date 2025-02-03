@@ -97,19 +97,10 @@ const TwentySix = ({ design, store_id }: any) => {
                             </div>
                         </div>
                         <div className="bg-white my-6 p-4 shop-cat rounded-md">
-                            <FilterByColorNew
-                                colors={colors}
-                                activeColor={activeColor}
-                                setPage={setPage}
-                                setHasMore={setHasMore}
-                            />
+                            <FilterByColorNew />
                         </div>
                         <div className="bg-white p-4 shop-cat rounded-md mb-5">
-                            <FilterByPriceNew
-                                priceValue={priceValue}
-                                setPage={setPage}
-                                setHasMore={setHasMore}
-                            />
+                            <FilterByPriceNew />
                         </div>
                     </div>
                     <div className="col-span-1 md:col-span-9 flex flex-col min-h-[100vh-200px] h-full ">
