@@ -108,9 +108,8 @@ export const homeApi = apiSlice.injectEndpoints({
         }),
         getHeaderSettings: builder.query<any, any>({
             query: () => ({
-                url: `header-settings`,
-                method: 'POST',
-                body: { name: name },
+                url: `header-settings/${name}/info`,
+                method: 'GET',
             }),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {

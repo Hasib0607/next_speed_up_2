@@ -10,9 +10,8 @@ export const storeApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getStore: builder.query<any, any>({
             query: () => ({
-                url: `store`,
-                method: 'POST',
-                body: { name: name },
+                url: `store/${name}/info`,
+                method: 'GET',
             }),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
