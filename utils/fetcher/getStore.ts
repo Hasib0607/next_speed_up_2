@@ -27,7 +27,7 @@ import { notFound } from 'next/navigation';
 
 export default async function getStore() {
     const name = await getDomain();
-    
+
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}store`,
         {
@@ -41,6 +41,8 @@ export default async function getStore() {
             },
         }
     );
+
+    console.log('server log', res);
 
     const resData = await res.json();
     const storeDetails = resData?.data;
