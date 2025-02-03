@@ -26,9 +26,9 @@ const HomePage = ({design}:any) => {
         return null;
     }
 
-    if (isLoading && !isError) {
-        return <Loading design={design}/>;
-    }
+    // if (isLoading && !isError) {
+    //     return <Loading design={design}/>;
+    // }
 
     let content = (
         <>
