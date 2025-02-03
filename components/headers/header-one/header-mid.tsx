@@ -37,9 +37,6 @@ export default function HeaderMid({ menu, headersetting, design }: any) {
         router.push('/');
     };
 
-    const logo = headersetting?.logo || "";
-    const phone = headersetting?.phone || "";
-
     const classes = `
    .group:hover .phn{
         color:${design?.header_color}
@@ -121,12 +118,12 @@ export default function HeaderMid({ menu, headersetting, design }: any) {
                         <PhoneIcon className="ml-2 h-5 w-5 phn" />
                         {headersetting?.phone && (
                             <a
-                                href={`tel:${phone}`}
+                                href={`tel:${headersetting?.phone}`}
                                 className="whitespace-nowrap text-base font-medium text-gray-500 phn"
                             >
                                 Hotline{' '}
                                 <span className="text-orange-400 phn">
-                                    {phone}
+                                    {headersetting?.phone}
                                 </span>
                             </a>
                         )}
@@ -155,7 +152,7 @@ export default function HeaderMid({ menu, headersetting, design }: any) {
                                         {' '}
                                         <img
                                             className="h-8 w-auto"
-                                            src={imgUrl + logo}
+                                            src={imgUrl + headersetting?.logo}
                                             alt="Workflow"
                                         />
                                     </Link>

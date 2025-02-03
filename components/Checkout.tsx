@@ -10,8 +10,8 @@ const Checkout = () => {
     const home = useSelector((state: RootState) => state?.home);
     const { design } = home || {};
 
-    const CheckoutComponent = 
-        checkout_pages[design?.checkout_page] || checkout_pages[DEFAULT];
+    const CheckoutComponent = checkout_pages["twentyone"]
+        // checkout_pages[design?.checkout_page] || checkout_pages[DEFAULT];
 
     return (
         <>

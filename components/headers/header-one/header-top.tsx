@@ -1,12 +1,12 @@
 'use client';
 
-import Link from 'next/link';
 import { location, logoutIcon, mobile, userIcon } from '@/assets/svg';
+import Link from 'next/link';
 
+import { REDUX_PERSIST } from '@/consts';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { REDUX_PERSIST } from '@/consts';
 import { useRouter } from 'next/navigation';
 
 const HeaderTop = ({ headersetting, design }: any) => {
@@ -21,7 +21,7 @@ const HeaderTop = ({ headersetting, design }: any) => {
         router.push('/');
     };
 
-    const { phone, address } = headersetting;
+    const { phone, address } = headersetting || {};
 
     return (
         <div
@@ -65,8 +65,8 @@ export default HeaderTop;
 export const HeaderTopMenu = (props: any) => {
     return (
         <div className="flex items-center gap-1 px-4">
-            {props.icon}
-            <p>{props.doc}</p>
+            {props?.icon}
+            <p>{props?.doc}</p>
         </div>
     );
 };
