@@ -1,13 +1,19 @@
 "use client"
 
 import { setPrice } from '@/redux/features/filters/filterSlice';
+import { RootState } from '@/redux/store';
 import BDT from '@/utils/bdt';
 
 import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-const FilterByPriceNew = ({ priceValue, setHasMore, setPage }: any) => {
+const FilterByPriceNew = () => {
     const inputRef = useRef<any>(null);
+    const filtersData = useSelector((state: RootState) => state.filters);
+
+    // get the activecolor, pricevalue, selectedSort
+    const { price: priceValue } = filtersData || {};
+
     const dispatch = useDispatch();
 
     const handleInputChange = () => {
@@ -15,8 +21,6 @@ const FilterByPriceNew = ({ priceValue, setHasMore, setPage }: any) => {
             dispatch(setPrice(null));
         }else{
             dispatch(setPrice(inputRef.current.value));
-            // setPage(1);
-            // setHasMore(true);
         }
     };
 

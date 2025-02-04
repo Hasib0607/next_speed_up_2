@@ -7,13 +7,8 @@ import Skeleton from '@/components/loaders/skeleton';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import {
-    useGetColorsQuery,
-    useGetShopPageProductsQuery,
-} from '@/redux/features/shop/shopApi';
-
+import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
 import Pagination from '@/components/_category-page/components/pagination';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
 import { getPathName } from '@/helpers/littleSpicy';
@@ -36,7 +31,6 @@ const One = ({ store_id }: any) => {
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [paginate, setPaginate] = useState<any>({});
 
-
     const filtersData = useSelector((state: RootState) => state.filters);
 
     // get the activecolor, pricevalue, selectedSort
@@ -52,16 +46,8 @@ const One = ({ store_id }: any) => {
         isFetching: shopPageProductsFetching,
         isSuccess: shopPageProductsSuccess,
         isError: shopPageProductsError,
-        refetch:shopPageProductsRefetch,
+        refetch: shopPageProductsRefetch,
     } = useGetShopPageProductsQuery({ page, filtersData });
-
-    const {
-        data: colorsData,
-        isLoading: colorsLoading,
-        isSuccess: colorsSuccess,
-    } = useGetColorsQuery({ store_id });
-
-    const colors = colorsData?.data || [];
 
     const categoryStore = useSelector((state: RootState) => state?.category);
 
@@ -80,10 +66,16 @@ const One = ({ store_id }: any) => {
     useEffect(() => {
         shopPageProductsRefetch();
         if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8,true) > page;
+            const more = numberParser(paginate?.total / 8, true) > page;
             setHasMore(more);
         }
     }, [page, activeColor, shopPageProductsRefetch, priceValue, paginate]);
+
+    useEffect(() => {
+        if (activeColor !== null || priceValue !== null) {
+            setPage(1);
+        }
+    }, [activeColor, priceValue]);
 
     useEffect(() => {
         if (shopPageProductsSuccess) {
@@ -96,8 +88,8 @@ const One = ({ store_id }: any) => {
     }, [
         shopPageProductsData,
         shopPageProductsSuccess,
-        page,
         shopPageProductsFetching,
+        page,
     ]);
 
     useEffect(() => {
@@ -116,7 +108,6 @@ const One = ({ store_id }: any) => {
             });
         }
     }, [isPagination, paginate, page, products]);
-
 
     return (
         <>
@@ -153,19 +144,10 @@ const One = ({ store_id }: any) => {
                                 </nav>
                             </div>
                             <div className="border border-gray-100 p-4 bg-white rounded shadow">
-                                <FilterByColorNew
-                                    colors={colors}
-                                    activeColor={activeColor}
-                                    setPage={setPage}
-                                    setHasMore={setHasMore}
-                                />
+                                <FilterByColorNew />
                             </div>
                             <div className="border border-gray-100 p-4 bg-white rounded shadow">
-                                <FilterByPriceNew
-                                    priceValue={priceValue}
-                                    setPage={setPage}
-                                    setHasMore={setHasMore}
-                                />
+                                <FilterByPriceNew />
                             </div>
                         </div>
                     </div>
@@ -215,7 +197,6 @@ const One = ({ store_id }: any) => {
                                     next={nextPageFetch}
                                     hasMore={hasMore}
                                     loader={<InfiniteLoader />}
-                                    height={window.innerHeight - 150}
                                     endMessage={
                                         <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
                                             No More Products

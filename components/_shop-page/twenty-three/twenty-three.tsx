@@ -4,13 +4,12 @@ import FilterByPriceNew from '@/components/_category-page/components/filter-by-p
 import Pagination from '@/components/_category-page/components/pagination';
 import Card47 from '@/components/card/card47';
 import Card6 from '@/components/card/card6';
+import InfiniteLoader from '@/components/loaders/infinite-loader';
 import Skeleton from '@/components/loaders/skeleton';
+import { numberParser } from '@/helpers/numberParser';
 import { setSort } from '@/redux/features/filters/filterSlice';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import {
-    useGetColorsQuery,
-    useGetShopPageProductsQuery,
-} from '@/redux/features/shop/shopApi';
+import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
 import { MinusIcon, PlusIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -20,7 +19,6 @@ import { useEffect, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoGridSharp } from 'react-icons/io5';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { ThreeDots } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
 
 const TwentyThree = ({ design, store_id }: any) => {
@@ -39,19 +37,6 @@ const TwentyThree = ({ design, store_id }: any) => {
     const [paginate, setPaginate] = useState<any>({});
     const [select, setSelect] = useState<any>(parseInt(data?.id));
     const [active, setActive] = useState<any>(true);
-
-    const filtersData = useSelector((state: RootState) => state.filters);
-
-    // get the activecolor, pricevalue, selectedSort
-    const { color: activeColor, price: priceValue } = filtersData || {};
-
-    const {
-        data: colorsData,
-        isLoading: colorsLoading,
-        isSuccess: colorsSuccess,
-    } = useGetColorsQuery({ store_id });
-
-    const colors = colorsData?.data || [];
 
     const categoryStore = useSelector((state: RootState) => state?.category);
 
@@ -116,20 +101,11 @@ const TwentyThree = ({ design, store_id }: any) => {
                         </div>
 
                         <div className="lg:my-5 lg:shadow-2xl p-4 lg:rounded-xl lg:bg-white">
-                            <FilterByColorNew
-                                colors={colors}
-                                activeColor={activeColor}
-                                setPage={setPage}
-                                setHasMore={setHasMore}
-                            />
+                            <FilterByColorNew />
                         </div>
 
                         <div className="lg:my-5 lg:shadow-2xl p-4 lg:rounded-xl lg:bg-white">
-                            <FilterByPriceNew
-                                priceValue={priceValue}
-                                setPage={setPage}
-                                setHasMore={setHasMore}
-                            />
+                            <FilterByPriceNew />
                         </div>
                     </div>
                     <div className="col-span-1 lg:col-span-9 flex flex-col min-h-[100vh-200px] h-full ">
@@ -147,6 +123,7 @@ const TwentyThree = ({ design, store_id }: any) => {
                                 grid={grid}
                                 open={open}
                                 hasMore={hasMore}
+                                paginate={paginate}
                                 setHasMore={setHasMore}
                                 page={page}
                                 setPage={setPage}
@@ -178,14 +155,18 @@ const ShopProductSection = ({
     page,
     setPage,
     hasMore,
+    paginate,
     setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
     const filtersData = useSelector((state: RootState) => state.filters);
+    // get the activecolor, pricevalue, selectedSort
+    const { color: activeColor, price: priceValue } = filtersData || {};
 
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
+    const [infiniteProducts, setInfiniteProducts] = useState<any[]>([]);
 
     const {
         data: shopPageProductsData,
@@ -193,12 +174,11 @@ const ShopProductSection = ({
         isFetching: shopPageProductsFetching,
         isSuccess: shopPageProductsSuccess,
         isError: shopPageProductsError,
-        refetch,
+        refetch: shopPageProductsRefetch,
     } = useGetShopPageProductsQuery({ page, filtersData });
 
     const nextPageFetch = () => {
-        setPage((prev: any) => prev + 1);
-        refetch();
+        setPage((prevPage: number) => prevPage + 1);
     };
 
     const categoryStore = useSelector((state: RootState) => state?.category);
@@ -206,62 +186,80 @@ const ShopProductSection = ({
     const category = categoryStore?.categories || [];
 
     useEffect(() => {
+        shopPageProductsRefetch();
+        if (paginate?.total > 0) {
+            const more = numberParser(paginate?.total / 8, true) > page;
+            setHasMore(more);
+        }
+    }, [
+        page,
+        activeColor,
+        shopPageProductsRefetch,
+        priceValue,
+        paginate,
+        setHasMore,
+    ]);
+
+    useEffect(() => {
+        if (activeColor !== null || priceValue !== null) {
+            setPage(1);
+        }
+    }, [activeColor, priceValue, setPage]);
+
+    useEffect(() => {
         if (shopPageProductsSuccess) {
-            const productsData = shopPageProductsData?.data || [];
-            setPaginate(productsData?.pagination);
-            if (isPagination) {
-                setProducts(productsData?.products || []);
-            } else {
-                setProducts((prev) =>
-                    Array.isArray(prev)
-                        ? [...prev, ...(productsData?.products || [])]
-                        : productsData?.products || []
-                );
-                setPage(1);
-            }
-        } else if (shopPageProductsData?.data?.pagination?.current_page === 1) {
-            setHasMore(false);
+            const productsData = shopPageProductsData?.data?.products || [];
+            const paginationData = shopPageProductsData?.data?.pagination || {};
+
+            setPaginate(paginationData);
+            setProducts(productsData);
         }
     }, [
         shopPageProductsData,
-        setPaginate,
-        isPagination,
-        setHasMore,
-        setPage,
         shopPageProductsSuccess,
+        page,
+        setPaginate,
+        shopPageProductsFetching,
     ]);
+
+    useEffect(() => {
+        if (!isPagination) {
+            setInfiniteProducts((prev) => {
+                if (page === 1) {
+                    // Reset on new filter or first page load
+                    return products;
+                } else {
+                    // Append new products but filter out duplicates
+                    const newProducts = products?.filter(
+                        (p) => !prev.some((prevP) => prevP.id === p.id)
+                    );
+                    return [...prev, ...newProducts];
+                }
+            });
+        }
+    }, [isPagination, paginate, page, products]);
 
     return (
         <>
-          {/* show loading */}
-          {(shopPageProductsLoading && !shopPageProductsError) ||
-          shopPageProductsFetching
-              ? Array.from({ length: 8 }).map((_, index) => (
-                    <Skeleton key={index} />
-                ))
-              : null}
+            {/* show loading */}
+            <div className="col-span-12 lg:col-span-9">
+                {isPagination &&
+                ((shopPageProductsLoading && !shopPageProductsError) ||
+                    shopPageProductsFetching)
+                    ? Array.from({ length: 8 })?.map((_, index) => (
+                          <Skeleton key={index} />
+                      ))
+                    : null}
+            </div>
 
             {!isPagination ? (
                 <div>
                     <InfiniteScroll
                         style={{ height: 'auto', overflow: 'hidden' }}
-                        dataLength={products?.length}
+                        dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
                         hasMore={hasMore}
-                        loader={
-                            <div className="flex justify-center items-center">
-                                <ThreeDots
-                                    height="80"
-                                    width="80"
-                                    radius="9"
-                                    color="#f1593a"
-                                    ariaLabel="three-dots-loading"
-                                    wrapperStyle={{}}
-                                    // wrapperClassName=""
-                                    visible={true}
-                                />
-                            </div>
-                        }
+                        loader={<InfiniteLoader />}
                         endMessage={
                             <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
                                 No More Products
@@ -270,7 +268,7 @@ const ShopProductSection = ({
                     >
                         {grid === 'H' && (
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-2 sm:px-0">
-                                {products?.map((item: any) => (
+                                {infiniteProducts?.map((item: any) => (
                                     <motion.div
                                         key={item?.id}
                                         initial={{ scale: 0 }}
@@ -289,7 +287,7 @@ const ShopProductSection = ({
                         <AnimatePresence>
                             {grid === 'V' && (
                                 <div className="grid grid-cols-1 gap-4 px-2 sm:px-0">
-                                    {products?.map((item: any) => (
+                                    {infiniteProducts?.map((item: any) => (
                                         <motion.div
                                             key={item?.id}
                                             initial={{ translateX: 200 }}

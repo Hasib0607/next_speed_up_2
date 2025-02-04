@@ -2,20 +2,34 @@
 
 import React from 'react';
 import { setColor } from '@/redux/features/filters/filterSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import {
+    useGetColorsQuery
+} from '@/redux/features/shop/shopApi';
 
-const FilterByColorNew = ({
-    colors,
-    activeColor,
-    setPage,
-    setHasMore,
-}: any) => {
+const FilterByColorNew = () => {
+
+    const store = useSelector((state: RootState) => state.appStore.store);
+    const store_id = store?.id || null;
+
+    const {
+        data: colorsData,
+        isLoading: colorsLoading,
+        isSuccess: colorsSuccess,
+    } = useGetColorsQuery({ store_id });
+
+    const colors = colorsData?.data || [];
+
     const dispatch = useDispatch();
+
+    const filtersData = useSelector((state: RootState) => state.filters);
+
+    // get the activecolor, pricevalue, selectedSort
+    const { color: activeColor } = filtersData || {};
 
     const handleClick = (color: any) => {
         dispatch(setColor(color));
-        // setPage(1);
-        // setHasMore(true);
     };
 
     return (
