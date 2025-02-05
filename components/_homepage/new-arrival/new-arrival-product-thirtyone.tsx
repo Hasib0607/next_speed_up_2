@@ -1,19 +1,16 @@
 'use client';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
+
 import { SwiperSlide } from 'swiper/react';
 import Card54 from '../../card/card54';
 import SectionHeadingThirty from '../../section-heading/section-heading-thirty';
 import DefaultSlider from '../../slider/default-slider';
 
-const NewArrivalProductThirtyOne = ({ product, design }: any) => {
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+const NewArrivalProductThirtyOne = ({
+    product,
+    design,
+    headersetting,
+}: any) => {
+    const { custom_design } = headersetting || {};
 
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
@@ -43,7 +40,7 @@ const NewArrivalProductThirtyOne = ({ product, design }: any) => {
       opacity:1;
       background: white;
     }
- `;
+    `;
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
@@ -83,15 +80,12 @@ const NewArrivalProductThirtyOne = ({ product, design }: any) => {
                         },
                     }}
                 >
-                    {product?.slice(0, 10).map((item: any) => (
-                        <SwiperSlide key={item?.id}>
-                            <Card54
-                                item={item}
-                                design={design}
-                                store_id={store_id}
-                            />
-                        </SwiperSlide>
-                    ))}
+                    {product?.length > 0 &&
+                        product?.slice(0, 10)?.map((item: any) => (
+                            <SwiperSlide key={item?.id}>
+                                <Card54 item={item} />
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
             </div>
         </div>

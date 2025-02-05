@@ -1,8 +1,3 @@
-import React from 'react';
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/effect-fade';
 import { bannerImg } from '@/site-settings/siteUrl';
 
 const PromoTwo = ({ banner }: any) => {

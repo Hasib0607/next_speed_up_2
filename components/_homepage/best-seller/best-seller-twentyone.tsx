@@ -1,13 +1,16 @@
 'use client';
+
 import Card45 from '@/components/card/card45';
 import SectionHeadingTwentyOne from '@/components/section-heading/section-heading-twentyone';
 import DefaultSlider from '@/components/slider/default-slider';
-import { RootState } from '@/redux/store';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
-const BestSellerTwentyOne = ({ best_sell_product, design }: any) => {
+const BestSellerTwentyOne = ({
+    best_sell_product,
+    design,
+    headersetting,
+}: any) => {
     const prevEl = 'feature-product-prev';
     const nextEl = 'feature-product-next';
 
@@ -15,32 +18,26 @@ const BestSellerTwentyOne = ({ best_sell_product, design }: any) => {
     .feature-product-prev {
       color:  ${design?.header_color};
       border: 1px solid ${design?.header_color};
-  }
-    .feature-product-next{
-        color:  ${design?.header_color};
-        border: 1px solid ${design?.header_color};
-  }
-    .feature-product-prev:hover {
-      color:  ${design?.text_color};
-      background: ${design?.header_color};
-  }
-    .feature-product-next:hover {
-      color:  ${design?.text_color};
-      background: ${design?.header_color};
-  }
-  
-  .arrow-hov:hover .arrow {
-    opacity:1;
-    background: white;
-  }
- `;
+    }
+        .feature-product-next{
+            color:  ${design?.header_color};
+            border: 1px solid ${design?.header_color};
+    }
+        .feature-product-prev:hover {
+        color:  ${design?.text_color};
+        background: ${design?.header_color};
+    }
+        .feature-product-next:hover {
+        color:  ${design?.text_color};
+        background: ${design?.header_color};
+    }
+    
+    .arrow-hov:hover .arrow {
+        opacity:1;
+        background: white;
+    }
+    `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headersetting = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
     const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
@@ -109,18 +106,12 @@ const BestSellerTwentyOne = ({ best_sell_product, design }: any) => {
                         },
                     }}
                 >
-                    {best_sell_product?.slice(0, 10)?.map((productData: any) => (
-                        <SwiperSlide key={productData.id}>
-                            <div className="">
-                                <Card45
-                                    item={productData}
-                                    design={design}
-                                    store_id={store_id}
-                                    headersetting={headersetting}
-                                />
-                            </div>
-                        </SwiperSlide>
-                    ))}
+                    {best_sell_product?.length > 0 &&
+                        best_sell_product?.slice(0, 10)?.map((item: any) => (
+                            <SwiperSlide key={item.id}>
+                                <Card45 item={item} />
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
             </div>
         </div>

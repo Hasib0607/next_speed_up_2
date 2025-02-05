@@ -1,24 +1,15 @@
 'use client';
-import { useState } from 'react';
+
 import Card67 from '@/components/card/card67';
 import DefaultSlider from '@/components/slider/default-slider';
 import { SwiperSlide } from 'swiper/react';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const BestSellerThirtyNine = ({ best_sell_product, design }: any) => {
-    const [animate, setAnimate] = useState(false);
-
+const BestSellerThirtyNine = ({ best_sell_product, headersetting }: any) => {
     const prevEl = 'best-product-prev-thirtynine';
     const nextEl = 'best-product-next-thirtynine';
 
     let isLoop = best_sell_product.length > 1;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-    const headersetting = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
     const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
@@ -63,23 +54,16 @@ const BestSellerThirtyNine = ({ best_sell_product, design }: any) => {
                         },
                     }}
                 >
-                    {best_sell_product?.slice(0, 10)?.map((item: any) => (
-                        <SwiperSlide key={item?.id}>
-                            <div
-                                className={`${
-                                    animate
-                                        ? 'translate-y-0'
-                                        : 'translate-y-[25px]'
-                                } duration-1000 `}
-                            >
-                                <Card67
-                                    item={item}
-                                    design={design}
-                                    store_id={store_id}
-                                />
-                            </div>
-                        </SwiperSlide>
-                    ))}
+                    {best_sell_product?.length > 0 &&
+                        best_sell_product?.slice(0, 10)?.map((item: any) => (
+                            <SwiperSlide key={item?.id}>
+                                <div
+                                    className={`translate-y-[25px] duration-1000`}
+                                >
+                                    <Card67 item={item} />
+                                </div>
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
             </div>
         </div>

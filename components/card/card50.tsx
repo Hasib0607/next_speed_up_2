@@ -29,14 +29,14 @@ import BDT from '@/utils/bdt';
 import { numberParser } from '@/helpers/numberParser';
 
 const Card50 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state.home);
-    const { design } = home || {};
-
     const [open, setOpen] = useState(false);
 
     const price = productCurrentPrice(item);
     const save = howMuchSave(item);
     const productAvailablity = isAvailable(item);
+
+    const bgColor = "var(--header-color)";
+    const textColor = "var(--text-color)";
 
     const cardShadow = `
    .cardShadow{
@@ -45,17 +45,17 @@ const Card50 = ({ item }: any) => {
     box-shadow: 0 0 5px #888;
     }
     .card-fifty:hover{
-        background: ${design?.header_color};
-        color: ${design?.text_color};
+        background: ${bgColor};
+        color: ${textColor};
     }
     .quick-fifty{
-        background: ${design?.header_color};
-        color: ${design?.text_color};
+        background: ${bgColor};
+        color: ${textColor};
         opacity: 0.7;
     }
     .quick-fifty:hover{
-        background: ${design?.text_color};
-        color: ${design?.header_color};
+        background: ${textColor};
+        color: ${bgColor};
         opacity: 1;
     }
    `;

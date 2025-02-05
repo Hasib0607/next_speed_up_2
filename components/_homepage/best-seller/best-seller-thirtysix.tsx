@@ -1,14 +1,18 @@
 'use client';
+
 import Card63 from '@/components/card/card63';
 import DefaultSlider from '@/components/slider/default-slider';
-import { RootState } from '@/redux/store';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
-const BestSellerThirtySix = ({ best_sell_product, design }: any) => {
+const BestSellerThirtySix = ({
+    best_sell_product,
+    design,
+    headersetting,
+}: any) => {
     const prevEl = 'best-product-prev';
     const nextEl = 'best-product-next';
+
     let isLoop = best_sell_product.length > 1;
 
     const styleCss = `
@@ -44,11 +48,6 @@ const BestSellerThirtySix = ({ best_sell_product, design }: any) => {
     }
  `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-    const headersetting = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
     const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
@@ -106,17 +105,12 @@ const BestSellerThirtySix = ({ best_sell_product, design }: any) => {
                         },
                     }}
                 >
-                    {best_sell_product?.slice(0, 10)?.map((item: any) => (
-                        <SwiperSlide key={item?.id}>
-                            <div className="">
-                                <Card63
-                                    item={item}
-                                    design={design}
-                                    store_id={store_id}
-                                />
-                            </div>
-                        </SwiperSlide>
-                    ))}
+                    {best_sell_product?.length > 0 &&
+                        best_sell_product?.slice(0, 10)?.map((item: any) => (
+                            <SwiperSlide key={item?.id}>
+                                <Card63 item={item} />
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
             </div>
         </div>

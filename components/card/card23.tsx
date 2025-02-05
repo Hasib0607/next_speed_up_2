@@ -27,28 +27,26 @@ import Details from '../_product-details-page/components/details';
 const Card23 = ({ item }: any) => {
     const [open, setOpen] = useState(false);
 
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
     const { cartList } = useSelector((state: RootState) => state.cart);
     const dispatch = useDispatch();
 
+    const bgColor = 'var(--header-color)';
+
     const card7CustomStyle = `      
+    .card7SearchIcon{
+        height: 20px;
+        margin-top: 10px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+    .card7SearchIcon:hover{
+        color:${bgColor};
+    }
 
-.card7SearchIcon{
-    height: 20px;
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-bottom: 10px;
-}
-.card7SearchIcon:hover{
-    color:${design?.header_color};
-}
-
-.mainDivHover:hover{
-    border:1px solid ${design?.header_color}
-}
-`;
+    .mainDivHover:hover{
+        border:1px solid ${bgColor}
+    }
+    `;
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);

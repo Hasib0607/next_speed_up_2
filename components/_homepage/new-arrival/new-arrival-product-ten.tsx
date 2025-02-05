@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import Card15 from '../../card/card15';
 import SectionHeadingTen from '../../section-heading/section-heading-ten';
 
-const NewArrivalProductTen = ({ design }: any) => {
+const NewArrivalProductTen = ({ headersetting }: any) => {
     const categoryStore = useSelector((state: RootState) => state?.category);
     const category = categoryStore?.categories || [];
 
@@ -27,15 +27,9 @@ const NewArrivalProductTen = ({ design }: any) => {
     .active-cat {
       color:  red;
     }
-`;
+    `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
 
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
@@ -68,12 +62,7 @@ const NewArrivalProductTen = ({ design }: any) => {
             {products?.length > 0 ? (
                 <div className="grid grid-cols-2 xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-3 gap-4">
                     {products?.slice(0, 10)?.map((item: any) => {
-                        return (
-                            <Card15
-                                item={item}
-                                key={item?.id}
-                            />
-                        );
+                        return <Card15 item={item} key={item?.id} />;
                     })}
                 </div>
             ) : (

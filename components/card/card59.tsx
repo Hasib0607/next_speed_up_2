@@ -19,9 +19,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Details from '../_product-details-page/components/details';
 
 const Card59 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
     const { cartList } = useSelector((state: RootState) => state.cart);
     const dispatch = useDispatch();
 
@@ -46,8 +43,8 @@ const Card59 = ({ item }: any) => {
         }
     };
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
 
     const styleCss = `
     .searchHover:hover {
@@ -55,10 +52,10 @@ const Card59 = ({ item }: any) => {
         background: ${bgColor};
     }
     .text-color-thirty {
-        color:  ${design?.header_color};
+        color:  ${bgColor};
     }
     .text-hover:hover {
-        color: ${design?.header_color};
+        color: ${bgColor};
         text-decoration: underline;
       }
     .bg-color {
@@ -171,7 +168,7 @@ const Card59 = ({ item }: any) => {
                                     className="relative lg:cursor-pointer"
                                 >
                                     <div
-                                        style={{ color: design?.header_color }}
+                                        style={{ color: bgColor }}
                                         className="flex px-2 py-2 justify-center gap-1 items-center relative z-[1]"
                                     >
                                         <AiOutlineShoppingCart />
@@ -179,8 +176,7 @@ const Card59 = ({ item }: any) => {
                                     </div>
                                     <div
                                         style={{
-                                            backgroundColor:
-                                                design?.header_color,
+                                            backgroundColor: bgColor,
                                         }}
                                         className="left-0 top-0 opacity-30 w-full h-full rounded-lg absolute "
                                     ></div>

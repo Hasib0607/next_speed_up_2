@@ -1,33 +1,17 @@
 import { DEFAULT } from '../consts';
-
+import { numberParser } from '@/helpers/numberParser';
 import { banners } from '@/utils/dynamic-import/_homepageSections/banner/banner';
 
-import { useGetBannerQuery } from '@/redux/features/home/homeApi';
-import { numberParser } from '@/helpers/numberParser';
-import { useMemo } from 'react';
-
-const Promo = ({ design, store_id }: any) => {
+const Promo = ({ design, banner }: any) => {
     const BannerComponent = banners[design?.banner] || banners[DEFAULT];
 
-    const {
-        data: bannerData,
-        isLoading: bannerLoading,
-        isSuccess: bannerSuccess,
-    } = useGetBannerQuery({});
-
-    const bannerType = useMemo(() => {
-        const banner = bannerData?.data || [];
-        banner?.filter((item: any) => numberParser(item?.type) === 0);
-    }, [bannerData]);
+    const bannerType = banner || [];
+    banner?.filter((item: any) => numberParser(item?.type) === 0);
 
     return (
         <>
-            {design?.banner !== 'null' && BannerComponent && bannerSuccess && (
-                <BannerComponent
-                    banner={bannerType}
-                    design={design}
-                    store_id={store_id}
-                />
+            {design?.banner !== 'null' && BannerComponent && (
+                <BannerComponent banner={bannerType} design={design} />
             )}
         </>
     );

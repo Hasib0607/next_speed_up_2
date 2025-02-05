@@ -10,6 +10,7 @@ import 'swiper/css/pagination';
 
 import { sliderImg } from '@/site-settings/siteUrl';
 import './hero-seven.css';
+import Image from 'next/image';
 
 const HeroSeven = ({ slider, design }: any) => {
     let menu = [''];
@@ -79,9 +80,11 @@ const HeroSeven = ({ slider, design }: any) => {
                             )}
                         </div>
 
-                        <img
+                        <Image
                             className="rounded-lg h-auto min-w-full"
                             src={sliderImg + s.image}
+                            width={100}
+                            height={100}
                             alt=""
                         />
                     </SwiperSlide>

@@ -1,157 +1,108 @@
-'use client';
-
 import dynamic from 'next/dynamic';
 
 export const banners: any = {
-    default: dynamic(() => import('@/components/_homepage/promotions/promo-default'), {
-        ssr: false,
-    }),
-    one: dynamic(() => import('@/components/_homepage/promotions/promo-one'), {
-        ssr: false,
-    }),
-    two: dynamic(() => import('@/components/_homepage/promotions/promo-two'), {
-        ssr: false,
-    }),
-    three: dynamic(() => import('@/components/_homepage/promotions/promo-three'), {
-        ssr: false,
-    }),
-    four: dynamic(() => import('@/components/_homepage/promotions/promo-four'), {
-        ssr: false,
-    }),
-    five: dynamic(() => import('@/components/_homepage/promotions/promo-five'), {
-        ssr: false,
-    }),
-    six: dynamic(() => import('@/components/_homepage/promotions/promo-six'), {
-        ssr: false,
-    }),
-    seven: dynamic(() => import('@/components/_homepage/promotions/promo-seven'), {
-        ssr: false,
-    }),
-    eight: dynamic(() => import('@/components/_homepage/promotions/promo-eight'), {
-        ssr: false,
-    }),
-    nine: dynamic(() => import('@/components/_homepage/promotions/promo-nine'), {
-        ssr: false,
-    }),
-    ten: dynamic(() => import('@/components/_homepage/promotions/promo-ten'), {
-        ssr: false,
-    }),
-    eleven: dynamic(() => import('@/components/_homepage/promotions/promo-eleven'), {
-        ssr: false,
-    }),
-    twelve: dynamic(() => import('@/components/_homepage/promotions/promo-twelve'), {
-        ssr: false,
-    }),
+    default: dynamic(
+        () => import('@/components/_homepage/promotions/promo-default')
+    ),
+    one: dynamic(() => import('@/components/_homepage/promotions/promo-one')),
+    two: dynamic(() => import('@/components/_homepage/promotions/promo-two')),
+    three: dynamic(
+        () => import('@/components/_homepage/promotions/promo-three')
+    ),
+    four: dynamic(() => import('@/components/_homepage/promotions/promo-four')),
+    five: dynamic(() => import('@/components/_homepage/promotions/promo-five')),
+    six: dynamic(() => import('@/components/_homepage/promotions/promo-six')),
+    seven: dynamic(
+        () => import('@/components/_homepage/promotions/promo-seven')
+    ),
+    eight: dynamic(
+        () => import('@/components/_homepage/promotions/promo-eight')
+    ),
+    nine: dynamic(() => import('@/components/_homepage/promotions/promo-nine')),
+    ten: dynamic(() => import('@/components/_homepage/promotions/promo-ten')),
+    eleven: dynamic(
+        () => import('@/components/_homepage/promotions/promo-eleven')
+    ),
+    twelve: dynamic(
+        () => import('@/components/_homepage/promotions/promo-twelve')
+    ),
     thirteen: dynamic(
-        () => import('@/components/_homepage/promotions/promo-thirteen'),
-        {
-            ssr: false,
-        }
+        () => import('@/components/_homepage/promotions/promo-thirteen')
     ),
     fourteen: dynamic(
-        () => import('@/components/_homepage/promotions/promo-fourteen'),
-        {
-            ssr: false,
-        }
+        () => import('@/components/_homepage/promotions/promo-fourteen')
     ),
-    sixteen: dynamic(() => import('@/components/_homepage/promotions/promo-sixteen'), {
-        ssr: false,
-    }),
+    sixteen: dynamic(
+        () => import('@/components/_homepage/promotions/promo-sixteen')
+    ),
     // seventeen: dynamic(
     //     () => import('@/components/_homepage/promotions/promo-seventeen'),
-    //     {
-    //         ssr: false,
-    //     }
     // ),
     eighteen: dynamic(
-        () => import('@/components/_homepage/promotions/promo-eighteen'),
-        {
-            ssr: false,
-        }
+        () => import('@/components/_homepage/promotions/promo-eighteen')
     ),
     nineteen: dynamic(
-        () => import('@/components/_homepage/promotions/promo-nineteen'),
-        {
-            ssr: false,
-        }
+        () => import('@/components/_homepage/promotions/promo-nineteen')
     ),
     twenty: dynamic(
-        () => import('@/components/_homepage/promotions/promo-twenty'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-twenty')
     ),
     twentyone: dynamic(
-        () => import('@/components/_homepage/promotions/promo-tweentyone'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-tweentyone')
     ),
     twentytwo: dynamic(
-        () => import('@/components/_homepage/promotions/promo-twentytwo'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-twentytwo')
     ),
     twentythree: dynamic(
-        () => import('@/components/_homepage/promotions/promo-twentythree'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-twentythree')
     ),
     twentyfour: dynamic(
-        () => import('@/components/_homepage/promotions/promo-twentyfour'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-twentyfour')
     ),
     twentyfive: dynamic(
-        () => import('@/components/_homepage/promotions/promo-twentyfive'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-twentyfive')
     ),
     twentysix: dynamic(
-        () => import('@/components/_homepage/promotions/promo-twentysix'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-twentysix')
     ),
     twentyseven: dynamic(
-        () => import('@/components/_homepage/promotions/promo-twentyseven'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-twentyseven')
     ),
     twentyeight: dynamic(
-        () => import('@/components/_homepage/promotions/promo-twenty-eight'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-twenty-eight')
     ),
     twentynine: dynamic(
-        () => import('@/components/_homepage/promotions/promo-twentynine'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-twentynine')
     ),
-    thirty: dynamic(() => import('@/components/_homepage/promotions/promo-thirty'), {
-        ssr: false,
-    }),
+    thirty: dynamic(
+        () => import('@/components/_homepage/promotions/promo-thirty')
+    ),
     thirtyone: dynamic(
-        () => import('@/components/_homepage/promotions/promo-thirtyone'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-thirtyone')
     ),
     // thirtytwo: dynamic(
     //     () => import('@/components/_homepage/promotions/promo-thirtytwo'),
-    //     { ssr: false }
+    //
     // ),
     thirtythree: dynamic(
-        () => import('@/components/_homepage/promotions/promo-thirtythree'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-thirtythree')
     ),
     thirtyfour: dynamic(
-        () => import('@/components/_homepage/promotions/promo-thirtyfour'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-thirtyfour')
     ),
     thirtyfive: dynamic(
-        () => import('@/components/_homepage/promotions/promo-thirtyfive'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-thirtyfive')
     ),
     thirtysix: dynamic(
-        () => import('@/components/_homepage/promotions/promo-thirtysix'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-thirtysix')
     ),
     thirtyseven: dynamic(
-        () => import('@/components/_homepage/promotions/promo-thirtyseven'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-thirtyseven')
     ),
     thirtyeight: dynamic(
-        () => import('@/components/_homepage/promotions/promo-thirtyeight'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-thirtyeight')
     ),
     thirtynine: dynamic(
-        () => import('@/components/_homepage/promotions/promo-thirtynine'),
-        { ssr: false }
+        () => import('@/components/_homepage/promotions/promo-thirtynine')
     ),
 };

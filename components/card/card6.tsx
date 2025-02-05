@@ -24,31 +24,25 @@ import Details from '../_product-details-page/components/details';
 import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card6 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
+
     const { cartList } = useSelector((state: RootState) => state.cart);
 
-    const { design } = home || {};
-    const store_id = store?.id || null;
     const category = item?.category || [];
     const dispatch = useDispatch();
 
     const [open, setOpen] = useState<boolean>(false);
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
-
     const styleCss = `
     .text-hover:hover {
-      color:  ${bgColor};
-  }
-  .search-icon:hover {
-    color:${textColor};
-    background:${bgColor};
-  }
-  .card-border-6:hover {
-    border: 1px solid ${bgColor};
-  }
+      color: var(--header-color);
+    }
+    .search-icon:hover {
+        color: var(--text-color);
+        background: var(--header-color);
+    }
+    .card-border-6:hover {
+        border: 1px solid var(--header-color);
+    }
     `;
 
     const price = productCurrentPrice(item);

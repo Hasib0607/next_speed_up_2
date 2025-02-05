@@ -1,24 +1,17 @@
 'use client';
+
 import Card8 from '@/components/card/card8';
 import SectionHeadingSix from '@/components/section-heading/section-heading-six';
 import GridSliderFour from '@/components/slider/grid-slider/grid-slider-four';
 import ArrowSquare from '@/utils/arrow-square';
 import { SwiperSlide } from 'swiper/react';
 import './feature-product-six.css';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 
-const FeatureProductSix = ({ product }: any) => {
+const FeatureProductSix = ({ product, headersetting }: any) => {
     const prev = 'feature_product_prev';
     const next = 'feature_product_next';
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    ); // Access updated Redux state
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featuredProduct = custom_design?.feature_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = featuredProduct;
 
@@ -47,18 +40,14 @@ const FeatureProductSix = ({ product }: any) => {
                                 nextEl={next}
                                 isLoop={product?.length > 1}
                             >
-                                {product?.length > 0 &&
-                                    product?.map((item: any) => (
-                                        <SwiperSlide
-                                            className="swiperjs-slide"
-                                            key={item?.id}
-                                        >
-                                            <Card8
-                                                item={item}
-                                                store_id={store_id}
-                                            />
-                                        </SwiperSlide>
-                                    ))}
+                                {product?.map((item: any) => (
+                                    <SwiperSlide
+                                        className="swiperjs-slide"
+                                        key={item?.id}
+                                    >
+                                        <Card8 item={item} />
+                                    </SwiperSlide>
+                                ))}
                             </GridSliderFour>
                         </div>
                     </div>

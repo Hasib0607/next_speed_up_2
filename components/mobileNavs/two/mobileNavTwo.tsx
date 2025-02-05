@@ -32,8 +32,6 @@ const MobileNavTwo = ({ design }: MobileNavProps) => {
 
     const category = categoryData?.data || [];
 
-    console.log('category', category);
-
     const styles = `
     .hoverIcon{
         color:${design?.header_color};

@@ -2,19 +2,16 @@
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
 import SectionHeadingSix from '@/components/section-heading/section-heading-six';
 import GridSliderSixCat from '@/components/slider/grid-slider/grid-slider-six-cat';
+// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/grid';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import FeatureCatSix from './components/catsix';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const FeaturedSix = ({ category, design }: any) => {
+const FeaturedSix = ({ category, design, headersetting }: any) => {
     const prevEl = 'feature_cat_prev';
     const nextEl = 'feature_cat_next';
 
@@ -22,20 +19,17 @@ const FeaturedSix = ({ category, design }: any) => {
     const textColor = design?.text_color;
 
     const styleCss = `
-  .feature_cat_prev:hover {
-    color:${textColor};
-    background:${bgColor};
-  }
-  .feature_cat_next:hover {
-    color:${textColor};
-    background:${bgColor};
-  }
+    .feature_cat_prev:hover {
+        color:${textColor};
+        background:${bgColor};
+    }
+    .feature_cat_next:hover {
+        color:${textColor};
+        background:${bgColor};
+    }
     `;
 
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
     const { title, title_color } = featureCategory || {};
 

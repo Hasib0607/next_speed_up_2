@@ -24,11 +24,8 @@ import { numberParser } from '@/helpers/numberParser';
 import QuickView from '@/utils/quick-view';
 import Details from '@/components/_product-details-page/components/details';
 
-const ProductCardOne = ({ item }: any) => {
+const ProductCardOne = ({ item, store_id }: any) => {
     const secondImg = item?.image[1] ? item?.image[1] : item?.image[0];
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 

@@ -6,8 +6,6 @@ import Card61 from '@/components/card/card61';
 import SliderThirtyFive from '@/components/slider/slider-thirty-five';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { SwiperSlide } from 'swiper/react';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
 import { useGetBannerQuery } from '@/redux/features/home/homeApi';
 
@@ -49,9 +47,6 @@ const BestSellerThirtyFive = ({ best_sell_product, design }: any) => {
  `;
     const prevEl = 'best-product-prev';
     const nextEl = 'best-product-next';
-
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
 
     return (
         <div className="border-b-2 border-black">
@@ -95,19 +90,16 @@ const BestSellerThirtyFive = ({ best_sell_product, design }: any) => {
                                     },
                                 }}
                             >
-                                {best_sell_product
-                                    ?.slice(0, 10)
-                                    ?.map((item: any) => (
-                                        <SwiperSlide key={item?.id}>
-                                            <div className="px-0 lg:px-5 pr-2 lg:pr-2">
-                                                <Card61
-                                                    item={item}
-                                                    design={design}
-                                                    store_id={store_id}
-                                                />
-                                            </div>
-                                        </SwiperSlide>
-                                    ))}
+                                {best_sell_product?.length > 0 &&
+                                    best_sell_product
+                                        ?.slice(0, 10)
+                                        ?.map((item: any) => (
+                                            <SwiperSlide key={item?.id}>
+                                                <div className="px-0 lg:px-5 pr-2 lg:pr-2">
+                                                    <Card61 item={item} />
+                                                </div>
+                                            </SwiperSlide>
+                                        ))}
                             </SliderThirtyFive>
                         </div>
                     </div>

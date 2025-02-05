@@ -1,14 +1,16 @@
 'use client';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
-import { SwiperSlide } from 'swiper/react';
-import Card60 from '../../card/card60';
-import SectionHeadingThirtyFour from '../../section-heading/section-heading-thirtyfour';
-import DefaultSlider from '../../slider/default-slider';
 
-const NewArrivalProductThirtyFour = ({ product, design }: any) => {
+import Card60 from '../../card/card60';
+import { SwiperSlide } from 'swiper/react';
+import DefaultSlider from '../../slider/default-slider';
+import SectionHeadingThirtyFour from '../../section-heading/section-heading-thirtyfour';
+
+const NewArrivalProductThirtyFour = ({
+    product,
+    design,
+    headersetting,
+}: any) => {
     const styleCss = `
-   
     .new-product-prev {
         color:  ${design?.header_color};
         border: 1px solid ${design?.header_color};
@@ -33,19 +35,12 @@ const NewArrivalProductThirtyFour = ({ product, design }: any) => {
         color:  ${design?.text_color};
         background:  ${design?.header_color};
     }
- `;
+    `;
 
     const prevEl = 'new-product-prev';
     const nextEl = 'new-product-next';
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
-
+    const { custom_design } = headersetting || {};
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         newArrivalProduct || {};
@@ -89,15 +84,12 @@ const NewArrivalProductThirtyFour = ({ product, design }: any) => {
                             },
                         }}
                     >
-                        {product?.slice(0, 10).map((item: any) => (
-                            <SwiperSlide key={item?.id}>
-                                <Card60
-                                    item={item}
-                                    design={design}
-                                    store_id={store_id}
-                                />
-                            </SwiperSlide>
-                        ))}
+                        {product?.length > 0 &&
+                            product?.slice(0, 10)?.map((item: any) => (
+                                <SwiperSlide key={item?.id}>
+                                    <Card60 item={item} />
+                                </SwiperSlide>
+                            ))}
                     </DefaultSlider>
                 </div>
             </div>

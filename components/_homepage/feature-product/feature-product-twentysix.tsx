@@ -1,12 +1,15 @@
 'use client';
+
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import Card56 from '@/components/card/card56';
 import DefaultSlider from '@/components/slider/default-slider';
 import { SwiperSlide } from 'swiper/react';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const FeatureProductTwentySix = ({ feature_product, design }: any) => {
+const FeatureProductTwentySix = ({
+    feature_product,
+    design,
+    headersetting,
+}: any) => {
     const prevEl = 'feature-product-prev';
     const nextEl = 'feature-product-next';
 
@@ -14,34 +17,26 @@ const FeatureProductTwentySix = ({ feature_product, design }: any) => {
     .feature-product-prev {
       color:  ${design?.header_color};
       border: 1px solid ${design?.header_color};
-  }
-    .feature-product-next{
-        color:  ${design?.header_color};
-        border: 1px solid ${design?.header_color};
-  }
-    .feature-product-prev:hover {
-      color:  ${design?.text_color};
-      background: ${design?.header_color};
-  }
-    .feature-product-next:hover {
-      color:  ${design?.text_color};
-      background: ${design?.header_color};
-  }
+    }
+        .feature-product-next{
+            color:  ${design?.header_color};
+            border: 1px solid ${design?.header_color};
+    }
+        .feature-product-prev:hover {
+        color:  ${design?.text_color};
+        background: ${design?.header_color};
+    }
+        .feature-product-next:hover {
+        color:  ${design?.text_color};
+        background: ${design?.header_color};
+    }
+    .arrow-hov:hover .arrow {
+        opacity:1;
+        background: white;
+    }
+    `;
 
-
-  .arrow-hov:hover .arrow {
-    opacity:1;
-    background: white;
-  }
- `;
-
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    ); // Access updated Redux state
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featuredProduct = custom_design?.feature_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = featuredProduct;
 
@@ -51,7 +46,6 @@ const FeatureProductTwentySix = ({ feature_product, design }: any) => {
             <div className="pb-2 text-2xl">
                 <p style={{ color: title_color }}>{title}</p>
             </div>
-            {/* <div className='h-[1px] w-full bg-gray-300 mb-5'></div> */}
             <div className="arrow-hov relative">
                 <div className="">
                     <div className="arrow gap-2 lg:cursor-pointer opacity-0">
@@ -107,17 +101,14 @@ const FeatureProductTwentySix = ({ feature_product, design }: any) => {
                         },
                     }}
                 >
-                    {feature_product?.slice(0, 10).map((productData: any) => (
-                        <SwiperSlide key={productData.id}>
-                            <div className="py-2">
-                                <Card56
-                                    item={productData}
-                                    design={design}
-                                    store_id={store_id}
-                                />
-                            </div>
-                        </SwiperSlide>
-                    ))}
+                    {feature_product?.length > 0 &&
+                        feature_product?.slice(0, 10)?.map((item: any) => (
+                            <SwiperSlide key={item.id}>
+                                <div className="py-2">
+                                    <Card56 item={item} />
+                                </div>
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
             </div>
         </div>

@@ -1,15 +1,9 @@
 'use client';
+
 import img from '@/assets/bg-image/thirtySeven/MARGIN.png';
 import Card64 from '@/components/card/card64';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const BestSellerThirtySeven = ({ best_sell_product, design }: any) => {
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-    const headersetting = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
+const BestSellerThirtySeven = ({ best_sell_product, headersetting }: any) => {
     const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
@@ -31,16 +25,12 @@ const BestSellerThirtySeven = ({ best_sell_product, design }: any) => {
                 </div>
                 <div className="flex justify-center mt-10">
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-1 sm:gap-3 lg:grid-cols-5 xl:grid-cols-6 justify-center">
-                        {best_sell_product
-                            ?.slice(0, 12)
-                            ?.map((item: any, id: any) => (
-                                <Card64
-                                    item={item}
-                                    key={id}
-                                    design={design}
-                                    store_id={store_id}
-                                />
-                            ))}
+                        {best_sell_product?.length > 0 &&
+                            best_sell_product
+                                ?.slice(0, 12)
+                                ?.map((item: any, id: any) => (
+                                    <Card64 item={item} key={id} />
+                                ))}
                     </div>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 'use client';
-import React, { useState } from 'react';
+
+import { useState } from 'react';
 import SectionHeadingSeven from '@/components/section-heading/section-heading-seven';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
@@ -7,7 +8,6 @@ import { ImQuotesLeft } from 'react-icons/im';
 import { testimonialImg } from '@/site-settings/siteUrl';
 
 const TestimonialSeven = ({ testimonials }: any) => {
-    
     return (
         <div className=" bg-white sm:container px-5 sm:py-10 py-5">
             <div className="">
@@ -20,8 +20,6 @@ const TestimonialSeven = ({ testimonials }: any) => {
                 <Swiper
                     loop={true}
                     spaceBetween={30}
-                    //   slideActiveclassName="slide-active"
-                    //   pagination={pagination}
                     autoplay={{
                         delay: 2000,
                     }}
@@ -46,14 +44,15 @@ const TestimonialSeven = ({ testimonials }: any) => {
                     modules={[Pagination, Autoplay]}
                     className="mySwiper slide-active"
                 >
-                    {testimonials?.map((item: any) => (
-                        <SwiperSlide
-                            className="bg-gray-100 rounded-lg drop-shadow-md mb-10 mt-10"
-                            key={item.id}
-                        >
-                            <Review review={item} />
-                        </SwiperSlide>
-                    ))}
+                    {testimonials?.length > 0 &&
+                        testimonials?.map((item: any) => (
+                            <SwiperSlide
+                                className="bg-gray-100 rounded-lg drop-shadow-md mb-10 mt-10"
+                                key={item.id}
+                            >
+                                <Review review={item} />
+                            </SwiperSlide>
+                        ))}
                 </Swiper>
             </div>
         </div>

@@ -1,27 +1,23 @@
 'use client';
 
-import { useEffect } from 'react';
-
 import bgImg from '@/components/_homepage/featured-category/twentyseven-bg-img/bg-cat.svg';
 import bgImg1 from '@/components/_homepage/featured-category/twentyseven-bg-img/bg-cat1.svg';
 import bgImg2 from '@/components/_homepage/featured-category/twentyseven-bg-img/bg-cat2.svg';
 import bgImg3 from '@/components/_homepage/featured-category/twentyseven-bg-img/bg-cat3.svg';
 import bgImg4 from '@/components/_homepage/featured-category/twentyseven-bg-img/bg-cat4.svg';
 import bgImg5 from '@/components/_homepage/featured-category/twentyseven-bg-img/bg-cat5.svg';
-import { iconImg,productImg } from '@/site-settings/siteUrl';
-
+import { useEffect } from 'react';
+import { iconImg, productImg } from '@/site-settings/siteUrl';
 import Link from 'next/link';
 import { useState } from 'react';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import { useGetCategoryProductQuery } from '@/redux/features/products/productApi';
 
-const FeaturedTwentySeven = ({ category, design }: any) => {
-    const [catId, setCatId] = useState(category[0]?.id);
+const FeaturedTwentySeven = ({ category, design, headersetting }: any) => {
+    const [id, setId] = useState(category[0]?.id);
     const [products, setProducts] = useState([]);
 
     const { data, isLoading, isFetching, isError, isSuccess } =
-        useGetCategoryProductQuery({ id: catId });
+        useGetCategoryProductQuery({ id });
 
     useEffect(() => {
         if (isSuccess && data) {
@@ -42,10 +38,8 @@ const FeaturedTwentySeven = ({ category, design }: any) => {
         background:${bgColor};
     }
     `;
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+
+    const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
     const { title, title_color } = featureCategory || {};
 
@@ -62,11 +56,7 @@ const FeaturedTwentySeven = ({ category, design }: any) => {
                 <div className="bg-white flex flex-wrap justify-around lg:rounded-full rounded-md py-2 shadow-2xl xl:mx-40 mx-0 px-5 mb-14">
                     {category?.slice(0, 5)?.map((item: any, index: number) => (
                         <div className="" key={index}>
-                            <FeatureCatSix
-                                item={item}
-                                setCatId={setCatId}
-                                catId={catId}
-                            />
+                            <FeatureCatSix item={item} setId={setId} id={id} />
                         </div>
                     ))}
                 </div>
@@ -89,13 +79,14 @@ const FeaturedTwentySeven = ({ category, design }: any) => {
                                                 See all collection
                                             </p>
                                             <div className="absolute top-5 left-5 w-24 h-24 flex justify-center items-center bg-blue-200 overflow-hidden rounded-full">
-                                                    <img
-                                                        src={
-                                                          productImg + item?.image[0]
-                                                        }
-                                                        alt=""
-                                                        className="h-24 w-24 object-cover"
-                                                    />
+                                                <img
+                                                    src={
+                                                        productImg +
+                                                        item?.image[0]
+                                                    }
+                                                    alt=""
+                                                    className="h-24 w-24 object-cover"
+                                                />
                                             </div>
                                             <div className="absolute bottom-5 right-5">
                                                 <img
@@ -131,13 +122,13 @@ const FeaturedTwentySeven = ({ category, design }: any) => {
 
 export default FeaturedTwentySeven;
 
-const FeatureCatSix = ({ item, setCatId, catId }: any) => {
+const FeatureCatSix = ({ item, setId, id }: any) => {
     return (
         <div>
             <div
-                onClick={() => setCatId(item?.id)}
+                onClick={() => setId(item?.id)}
                 className={`flex items-center gap-2 py-2 lg:px-5 px-3 rounded-full  ${
-                    catId === item?.id && 'bg-gray-800 text-white'
+                    id === item?.id && 'bg-gray-800 text-white'
                 }`}
             >
                 <div>

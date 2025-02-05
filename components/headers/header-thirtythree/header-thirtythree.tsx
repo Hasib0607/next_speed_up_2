@@ -27,8 +27,10 @@ import {
 import { REDUX_PERSIST } from '@/consts';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-const HeaderThirtyThree = ({ headersetting, design, menu, user }: any) => {
+const HeaderThirtyThree = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -46,6 +48,9 @@ const HeaderThirtyThree = ({ headersetting, design, menu, user }: any) => {
 
     const category = categoryData?.data || [];
     const subCategory = subCategoryData?.data || [];
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 

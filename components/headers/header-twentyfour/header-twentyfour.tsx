@@ -19,8 +19,10 @@ import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
-const HeaderTwentyFour = ({ headersetting, design, menu, user }: any) => {
+const HeaderTwentyFour = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -28,6 +30,9 @@ const HeaderTwentyFour = ({ headersetting, design, menu, user }: any) => {
     const [searchTxt, setSearch] = useState('');
     const [openMenu, setOpenMenu] = useState(false);
     const [openCart, setOpenCart] = useState(false);
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 
@@ -284,7 +289,6 @@ const HeaderTwentyFour = ({ headersetting, design, menu, user }: any) => {
                             className="flex flex-col justify-center items-center relative lg:cursor-pointer"
                         >
                             <RiShoppingBagLine className="text-3xl font-thin" />
-                            
                         </div>
                     </div>
                 </div>

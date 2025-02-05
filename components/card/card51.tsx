@@ -21,8 +21,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Details from '../_product-details-page/components/details';
 
 const Card51 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
 
     const dispatch = useDispatch();
 
@@ -52,8 +50,8 @@ const Card51 = ({ item }: any) => {
         }
     };
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = "var(--header-color)";
+    const textColor = "var(--text-color)";
 
     const styleCss = `
     .searchHover:hover {
@@ -61,11 +59,11 @@ const Card51 = ({ item }: any) => {
         background: ${bgColor};
     }
     .text-color-price {
-        color:  ${design?.header_color};
-        border: 2px solid ${design?.header_color};
+        color:  ${bgColor};
+        border: 2px solid ${bgColor};
     }
     .text-hover:hover {
-        color: ${design?.header_color};
+        color: ${bgColor};
       }
     .bg-color {
         color:  ${textColor};

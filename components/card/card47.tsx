@@ -24,11 +24,8 @@ import { numberParser } from '@/helpers/numberParser';
 const Card47 = ({ item }: any) => {
     const secondImg = item?.image[1] ? item?.image[1] : item?.image[0];
 
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = "var(--header-color)";
+    const textColor = "var(--text-color)";
 
     const styleCss = `
     .searchHover:hover {
@@ -36,10 +33,10 @@ const Card47 = ({ item }: any) => {
         background: ${bgColor};
     }
     .text-color {
-        color:  ${design?.header_color};
+        color:  ${bgColor};
     }
     .text-hover:hover {
-        color: ${design?.header_color};
+        color: ${bgColor};
       }
     .bg-color {
         color:  ${textColor};

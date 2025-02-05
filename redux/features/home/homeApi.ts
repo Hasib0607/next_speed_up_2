@@ -61,6 +61,14 @@ export const homeApi = apiSlice.injectEndpoints({
                 url: `get-domain/${name}/slider`,
                 method: 'GET',
             }),
+            // async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+             
+            //         const { data } = await queryFulfilled;
+
+            //         console.log("data", data);
+                    
+
+            // },
         }),
         getBanner: builder.query<any, any>({
             query: () => ({

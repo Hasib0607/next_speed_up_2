@@ -1,34 +1,30 @@
 'use client';
+
 import Card49 from '@/components/card/card49';
-import SectionHeadingTwentyFour from '@/components/section-heading/section-heading-twenty-four';
-import { RootState } from '@/redux/store';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
+import SectionHeadingTwentyFour from '@/components/section-heading/section-heading-twenty-four';
 
-const FeatureProductTwentyFour = ({ feature_product, design }: any) => {
+const FeatureProductTwentyFour = ({
+    feature_product,
+    design,
+    headersetting,
+}: any) => {
     const styleCss = `
-    .bg-color {
-        color:  ${design?.text_color};
-        background: ${design?.header_color};
-    }
-    .btn-feature-product {
-        color: ${design?.header_color};
-        border: 1px solid ${design?.header_color};
-    }
-    .btn-feature-product:hover {
-        color: ${design?.text_color};
-        border: 1px solid ${design?.header_color};
-    }
-  }
- `;
+        .bg-color {
+            color:  ${design?.text_color};
+            background: ${design?.header_color};
+        }
+        .btn-feature-product {
+            color: ${design?.header_color};
+            border: 1px solid ${design?.header_color};
+        }
+        .btn-feature-product:hover {
+            color: ${design?.text_color};
+            border: 1px solid ${design?.header_color};
+        }
+    `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    ); // Access updated Redux state
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featuredProduct = custom_design?.feature_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = featuredProduct;
 
@@ -44,15 +40,12 @@ const FeatureProductTwentyFour = ({ feature_product, design }: any) => {
                 />
             </div>
             <div className="grid lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
-                {feature_product?.slice(0, 4).map((productData: any) => (
-                    <div key={productData.id}>
-                        <Card49
-                            item={productData}
-                            design={design}
-                            store_id={store_id}
-                        />
-                    </div>
-                ))}
+                {feature_product?.length > 0 &&
+                    feature_product?.slice(0, 4)?.map((item: any) => (
+                        <div key={item.id}>
+                            <Card49 item={item} />
+                        </div>
+                    ))}
             </div>
             <div className="flex justify-center items-center mt-16">
                 <div className="bg-transparent btn-feature-product relative group w-max">

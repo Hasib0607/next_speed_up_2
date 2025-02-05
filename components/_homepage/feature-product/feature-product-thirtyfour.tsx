@@ -3,11 +3,13 @@
 import Card60 from '@/components/card/card60';
 import SectionHeadingThirtyFour from '@/components/section-heading/section-heading-thirtyfour';
 import DefaultSlider from '@/components/slider/default-slider';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
-const FeatureProductThirtyFour = ({ feature_product, design }: any) => {
+const FeatureProductThirtyFour = ({
+    design,
+    headersetting,
+    feature_product,
+}: any) => {
     let isLoop = feature_product?.length > 1;
 
     const styleCss = `
@@ -36,17 +38,12 @@ const FeatureProductThirtyFour = ({ feature_product, design }: any) => {
         color:  ${design?.text_color};
         background:  ${design?.header_color};
     }
- `;
+    `;
+
     const prevEl = 'feature-product-prev';
     const nextEl = 'feature-product-next';
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    ); // Access updated Redux state
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featuredProduct = custom_design?.feature_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = featuredProduct;
 
@@ -89,15 +86,12 @@ const FeatureProductThirtyFour = ({ feature_product, design }: any) => {
                             },
                         }}
                     >
-                        {feature_product?.slice(0, 10).map((item: any) => (
-                            <SwiperSlide key={item?.id}>
-                                <Card60
-                                    item={item}
-                                    design={design}
-                                    store_id={store_id}
-                                />
-                            </SwiperSlide>
-                        ))}
+                        {feature_product?.length > 0 &&
+                            feature_product?.slice(0, 10)?.map((item: any) => (
+                                <SwiperSlide key={item?.id}>
+                                    <Card60 item={item} />
+                                </SwiperSlide>
+                            ))}
                     </DefaultSlider>
                 </div>
             </div>

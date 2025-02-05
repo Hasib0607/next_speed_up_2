@@ -1,28 +1,22 @@
 'use client';
 
 import { SwiperSlide } from 'swiper/react';
-// Import Swiper styles
 import Card9 from '@/components/card/card9';
 import SectionHeadingSeventeen from '@/components/section-heading/section-heading-seventeen';
 import DefaultSlider from '@/components/slider/default-slider';
 import Arrowbetween from '@/utils/arrow-between';
-// import useHeaderSettings from "@/utils/query/use-header-settings";
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
-
-const FeaturedSeven = ({ category }: any) => {
+const FeaturedSeven = ({ category, headersetting }: any) => {
     const prev = 'best_seller_seven_Prev';
     const next = 'best_seller_seven_Next';
 
-    const headerdata = useSelector((state: RootState) => state.home.headersetting);
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
-    const { title, title_color } =
-        featureCategory || {};
+    const { title, title_color } = featureCategory || {};
 
     return (
         <div className="container px-5 bg-white relative py-5">

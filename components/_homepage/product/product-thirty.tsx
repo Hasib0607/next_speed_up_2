@@ -1,14 +1,10 @@
 'use client';
 
-import SectionHeadingThirty from '@/components/section-heading/section-heading-thirty';
 import { useState } from 'react';
 import CatProductsList from './components/cat-products-list';
-import { useSelector } from 'react-redux';
+import SectionHeadingThirty from '@/components/section-heading/section-heading-thirty';
 
-const ProductThirty = ({ category, design }: any) => {
-    const home = useSelector((state: any) => state?.home);
-    const { headersetting } = home || {};
-
+const ProductThirty = ({ category, design, headersetting }: any) => {
     const [id, setId] = useState(category[0]?.id);
 
     const styleCss = `
@@ -20,10 +16,12 @@ const ProductThirty = ({ category, design }: any) => {
     .sec-twenty-nine{
         border-bottom: 2px solid ${design?.header_color};
     }
- `;
+    `;
 
-    const { title, title_color } =
-        headersetting?.custom_design?.product?.[0] || {};
+    const { custom_design } = headersetting || {};
+    const sectionHeadingData = custom_design?.product?.[0] || {};
+    const { title = 'Default Title', title_color = '#000' } =
+        sectionHeadingData || {};
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5 w-full">
@@ -42,7 +40,7 @@ const ProductThirty = ({ category, design }: any) => {
                             : 'text-gray-600'
                     } pt-5 lg2:pt-0`}
                 >
-                    {category?.slice(0, 5).map((item: any) => (
+                    {category?.slice(0, 5)?.map((item: any) => (
                         <div key={item.id}>
                             <h1
                                 className={`${

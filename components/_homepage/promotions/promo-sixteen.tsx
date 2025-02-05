@@ -1,5 +1,5 @@
 import { bannerImg } from '@/site-settings/siteUrl';
-import React from 'react';
+
 const PromoSixteen = ({ banner }: any) => {
     return (
         <div className="bg-white sm:container px-5 sm:py-10 py-5">

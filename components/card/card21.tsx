@@ -19,10 +19,8 @@ import Details from '../_product-details-page/components/details';
 import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card21 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
     const { cartList } = useSelector((state: RootState) => state.cart);
 
-    const { design } = home || {};
     const category = item?.category || [];
 
     const dispatch = useDispatch();
@@ -86,10 +84,7 @@ const Card21 = ({ item }: any) => {
                         className="absolute top-1/2 -translate-y-1/2 rounded-xl hidden group-hover:flex h-[60px] px-3 left-1/2 -translate-x-1/2  justify-start items-center bg-white"
                         onClick={() => setOpen(!open)}
                     >
-                        <AiOutlineEye
-                            className="text-3xl"
-                            style={{ color: design?.text_color }}
-                        />
+                        <AiOutlineEye className="text-3xl text-[var(--text-color)]" />
                     </div>
                 </div>
                 <div className="">
@@ -145,16 +140,12 @@ const Card21 = ({ item }: any) => {
                                     </p>
                                 )}
                             </div>
-                            
+
                             {productAvailablity && (
                                 <div>
                                     <button
-                                        className="rounded-lg py-2 px-6 btnCustom font-bold flex gap-4 justify-between item-center"
+                                        className="rounded-lg py-2 px-6 btnCustom font-bold flex gap-4 justify-between item-center text-[var(--text-color)] bg-[var(--header-color)]"
                                         onClick={handleAddToCart}
-                                        style={{
-                                            background: design?.header_color,
-                                            color: design?.text_color,
-                                        }}
                                     >
                                         <AiOutlineShoppingCart className="mt-1 ml-2 xl:ml-0  text-base" />{' '}
                                         {'Add'}{' '}

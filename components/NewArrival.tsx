@@ -1,25 +1,22 @@
 'use client'
+
 import { DEFAULT } from '@/consts';
-import { useGetProductQuery } from '@/redux/features/products/productApi';
+import { RootState } from '@/redux/store';
 import { new_arrival } from '@/utils/dynamic-import/_homepageSections/NewArrival/NewArrival';
+import { useSelector } from 'react-redux';
 
 
 const NewArrival = ({ design }: any) => {
     const NewArrivalComponent =
         new_arrival[design?.new_arrival] || new_arrival[DEFAULT];
 
-    const {
-        data: productData,
-        isLoading: productLoading,
-        isSuccess: productSuccess,
-    } = useGetProductQuery({});
-
-    const product = productData?.data || [];
+    const products = useSelector((state: RootState) => state?.products);
+    const product = products?.product || [];
 
     return (
         <>
 
-            {design?.new_arrival !== "null" && NewArrivalComponent && productSuccess && (
+            {design?.new_arrival !== "null" && NewArrivalComponent && product && (
 
                 <NewArrivalComponent product={product} design={design} />
             )}

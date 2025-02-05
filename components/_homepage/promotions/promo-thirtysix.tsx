@@ -1,5 +1,4 @@
 import { bannerImg } from '@/site-settings/siteUrl';
-import React from 'react';
 
 const PromoThirtySix = ({ banner, design }: any) => {
     const styleCss = `
@@ -11,7 +10,7 @@ const PromoThirtySix = ({ banner, design }: any) => {
     .shadow-banner{
         box-shadow: 5px 5px black,5px 5px 0 2px white;
     }
-      `;
+    `;
 
     return (
         <div className="">

@@ -42,7 +42,7 @@ import { subTotal } from '@/utils/_cart-utils/cart-utils';
 import { SingleCat } from '../components/single-cat';
 import { cancelIcon } from '@/assets/svg';
 
-const HeaderThirtyFour = ({ headersetting, design, menu, user }: any) => {
+const HeaderThirtyFour = ({ headersetting, design, menu}: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -60,6 +60,9 @@ const HeaderThirtyFour = ({ headersetting, design, menu, user }: any) => {
 
     const category = categoryData?.data || [];
     const subCategory = subCategoryData?.data || [];
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 

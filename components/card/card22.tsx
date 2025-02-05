@@ -19,10 +19,7 @@ import Details from '../_product-details-page/components/details';
 import QuikView from '@/utils/quick-view';
 
 const Card22 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
     const { cartList } = useSelector((state: RootState) => state.cart);
-
-    const { design } = home || {};
 
     const dispatch = useDispatch();
 

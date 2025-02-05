@@ -1,3 +1,5 @@
+'use client'
+
 import { DEFAULT } from '@/consts';
 import { useGetTestimonialQuery } from '@/redux/features/home/homeApi';
 import { all_testimonials } from '@/utils/dynamic-import/_homepageSections/testimonial/testimonial';
@@ -17,7 +19,7 @@ const Testimonial = ({ design }: any) => {
     return (
         <>
 
-            {design?.testimonial !== "null" && testimonialsSuccess && (
+            {design?.testimonial !== "null" && testimonialsSuccess && testimonials && (
 
                 <TestimonialComponent
                     design={design}

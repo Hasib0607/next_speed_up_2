@@ -14,10 +14,7 @@ import { useSelector } from 'react-redux';
 import { XIcon } from 'react-share';
 import { RootState } from '@/redux/store';
 
-const CartPopUpThree = () => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
+const CartPopUpThree = ({ design }: any) => {
     const [open, setOpen] = useState(false);
     const { cartList } = useSelector((state: RootState) => state.cart);
 
@@ -61,7 +58,7 @@ const CartPopUpThree = () => {
                     </div>
                 </div>
             </div>
-            <CartSideBar open={open} setOpen={setOpen} />
+            <CartSideBar open={open} setOpen={setOpen} design={design} />
         </>
     );
 };
@@ -116,13 +113,10 @@ export const Drawer = ({ open, setOpen, children }: any) => {
     );
 };
 
-const ShoppingCart = ({ setOpen }: any) => {
+const ShoppingCart = ({ setOpen, design }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
 
     const total = subTotal(cartList);
-
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
 
     return (
         <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl relative">

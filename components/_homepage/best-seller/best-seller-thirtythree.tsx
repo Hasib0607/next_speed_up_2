@@ -1,13 +1,16 @@
 'use client';
+
 import Card59 from '@/components/card/card59';
 import SectionHeadingThirtyThree from '@/components/section-heading/section-heading-thirtythree';
 import DefaultSlider from '@/components/slider/default-slider';
-import { RootState } from '@/redux/store';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
-const BestSellerThirtyThree = ({ best_sell_product, design }: any) => {
+const BestSellerThirtyThree = ({
+    design,
+    headersetting,
+    best_sell_product,
+}: any) => {
     const prevEl = 'best-product-prev';
     const nextEl = 'best-product-next';
     let isLoop = best_sell_product.length > 1;
@@ -45,11 +48,6 @@ const BestSellerThirtyThree = ({ best_sell_product, design }: any) => {
     }
  `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-    const headersetting = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
     const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
@@ -97,15 +95,12 @@ const BestSellerThirtyThree = ({ best_sell_product, design }: any) => {
                         },
                     }}
                 >
-                    {best_sell_product?.slice(0, 10)?.map((item: any) => (
-                        <SwiperSlide key={item?.id}>
-                            <Card59
-                                item={item}
-                                design={design}
-                                store_id={store_id}
-                            />
-                        </SwiperSlide>
-                    ))}
+                    {best_sell_product?.length > 0 &&
+                        best_sell_product?.slice(0, 10)?.map((item: any) => (
+                            <SwiperSlide key={item?.id}>
+                                <Card59 item={item} />
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
             </div>
         </div>

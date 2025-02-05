@@ -21,9 +21,6 @@ import QuickView from '@/utils/quick-view';
 import Details from '../_product-details-page/components/details';
 
 const Card42 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
     const dispatch = useDispatch();
 
     const { cartList } = useSelector((state: RootState) => state.cart);
@@ -53,16 +50,19 @@ const Card42 = ({ item }: any) => {
         }
     };
 
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
+
     const styleCss = `
   .text-hover:hover {
-    color:  ${design?.header_color};
+    color:  ${bgColor};
   }
   .search:hover {
-    color:${design?.text_color};
-    background:${design?.header_color};
+    color:${textColor};
+    background:${bgColor};
   }
   .border-hover:hover {
-    border: 1px solid  ${design?.header_color};
+    border: 1px solid  ${bgColor};
   }
 
   `;

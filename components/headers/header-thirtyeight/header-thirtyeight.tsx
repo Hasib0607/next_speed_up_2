@@ -22,8 +22,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-const HeaderThirtyEight = ({ headersetting, design, menu, user }: any) => {
+const HeaderThirtyEight = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -34,6 +36,9 @@ const HeaderThirtyEight = ({ headersetting, design, menu, user }: any) => {
     const { data: categoryData } = useGetCategoryQuery({});
 
     const category = categoryData?.data || [];
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 

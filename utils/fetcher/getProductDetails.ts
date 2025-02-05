@@ -1,22 +1,30 @@
 import { notFound } from 'next/navigation';
 
 export default async function getProductDetails({ store_id, productId }: any) {
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}product-details/${store_id}/${productId}`,
-        {
-            next: {
-                revalidate: 60,
-            },
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}product-details/${store_id}/${productId}`,
+            {
+                next: {
+                    revalidate: 60,
+                },
+            }
+        );
+
+        if (!response.ok) {
+            notFound();
         }
-    );
 
-    if (!res.ok) {
-        // throw new Error('Failed to fetch data!');
-        notFound();
+        // Clone the response if needed elsewhere
+        const clonedResponse = response.clone();
+        const clonedResponseData = await clonedResponse.json();
+
+        // const resData = await response.json();
+        const productDetails = clonedResponseData?.data;
+
+        return productDetails;
+    } catch (error) {
+        console.error('Fetch get-product-details data error:', error);
+        return null;
     }
-
-    const resData = await res.json();
-    const productDetails = resData?.data;
-
-    return productDetails;
 }

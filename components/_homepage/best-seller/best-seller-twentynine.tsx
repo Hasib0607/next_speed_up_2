@@ -1,13 +1,16 @@
 'use client';
+
 import Card53 from '@/components/card/card53';
 import SectionHeadingTwentyNine from '@/components/section-heading/section-heading-twentynine';
 import DefaultSlider from '@/components/slider/default-slider';
-import { RootState } from '@/redux/store';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
-const BestSellerTwentyNine = ({ best_sell_product, design }: any) => {
+const BestSellerTwentyNine = ({
+    best_sell_product,
+    design,
+    headersetting,
+}: any) => {
     const prevEl = 'best-product-prev';
     const nextEl = 'best-product-next';
 
@@ -46,11 +49,6 @@ const BestSellerTwentyNine = ({ best_sell_product, design }: any) => {
     }
  `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-    const headersetting = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
     const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
@@ -106,17 +104,14 @@ const BestSellerTwentyNine = ({ best_sell_product, design }: any) => {
                         },
                     }}
                 >
-                    {best_sell_product?.slice(0, 10)?.map((item: any) => (
-                        <SwiperSlide key={item?.id}>
-                            <div className="px-2 pb-3">
-                                <Card53
-                                    item={item}
-                                    design={design}
-                                    store_id={store_id}
-                                />
-                            </div>
-                        </SwiperSlide>
-                    ))}
+                    {best_sell_product?.length > 0 &&
+                        best_sell_product?.slice(0, 10)?.map((item: any) => (
+                            <SwiperSlide key={item?.id}>
+                                <div className="px-2 pb-3">
+                                    <Card53 item={item} />
+                                </div>
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
             </div>
         </div>

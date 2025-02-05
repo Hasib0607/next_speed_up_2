@@ -1,10 +1,13 @@
 'use client';
+
 import Card60 from '@/components/card/card60';
 import SectionHeadingThirtyFour from '@/components/section-heading/section-heading-thirtyfour';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const BestSellerThirtyFour = ({ best_sell_product, design }: any) => {
+const BestSellerThirtyFour = ({
+    best_sell_product,
+    design,
+    headersetting,
+}: any) => {
     const styleCss = `
    
     .new-product-prev {
@@ -33,19 +36,9 @@ const BestSellerThirtyFour = ({ best_sell_product, design }: any) => {
     }
  `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-    const headersetting = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
     const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
-
-    // Check if there are any best selling products
-    if (!best_sell_product || best_sell_product.length === 0) {
-        return null;
-    }
 
     return (
         <div className="bg-[#F9F8FF]">
@@ -60,17 +53,14 @@ const BestSellerThirtyFour = ({ best_sell_product, design }: any) => {
                     </div>
 
                     <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-1 sm:gap-5">
-                        {best_sell_product
-                            ?.slice(0, 10)
-                            ?.map((productData: any) => (
-                                <div key={productData.id}>
-                                    <Card60
-                                        item={productData}
-                                        design={design}
-                                        store_id={store_id}
-                                    />
-                                </div>
-                            ))}
+                        {best_sell_product?.length > 0 &&
+                            best_sell_product
+                                ?.slice(0, 10)
+                                ?.map((item: any) => (
+                                    <div key={item.id}>
+                                        <Card60 item={item} />
+                                    </div>
+                                ))}
                     </div>
                 </div>
             </div>

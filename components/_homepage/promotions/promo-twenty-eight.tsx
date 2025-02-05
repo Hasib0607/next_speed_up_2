@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { SwiperSlide } from 'swiper/react';
 
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
