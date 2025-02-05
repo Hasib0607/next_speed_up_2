@@ -6,7 +6,6 @@ import {
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
-import { RootState } from '@/redux/store';
 import { productImg } from '@/site-settings/siteUrl';
 import BDT from '@/utils/bdt';
 import QuickView from '@/utils/quick-view';
@@ -16,7 +15,6 @@ import Link from 'next/link';
 
 import { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useSelector } from 'react-redux';
 import Details from '../_product-details-page/components/details';
 
 const Card34 = ({ item }: any) => {

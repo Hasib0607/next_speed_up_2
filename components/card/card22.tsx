@@ -44,8 +44,8 @@ const Card22 = ({ item }: any) => {
         }
     };
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = "var(--header-color)";
+    const textColor = "var(--text-color)";
 
     const styleCss = `
     .searchHover:hover {
