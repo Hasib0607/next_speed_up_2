@@ -5,13 +5,14 @@ import Skeleton from '@/components/loaders/skeleton';
 import { useEffect, useState } from "react";
 import { IoFilter } from "react-icons/io5";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { ThreeDots } from "react-loader-spinner";
 import FilterCat from "./filter-cat";
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { RootState } from '@/redux/store';
-import { useGetColorsQuery, useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { setSort } from '@/redux/features/filters/filterSlice';
+import { numberParser } from '@/helpers/numberParser';
+import InfiniteLoader from '@/components/loaders/infinite-loader';
 
 const Sixteen = ({ design, store_id }: any) => {
   const module_id = 105;
@@ -27,30 +28,10 @@ const Sixteen = ({ design, store_id }: any) => {
   const [hasMore, setHasMore] = useState<any>(true);
   const [paginate, setPaginate] = useState<any>({});
 
-  const filtersData = useSelector((state: RootState) => state.filters);
-
-  // get the activecolor, pricevalue, selectedSort
-  const { color: activeColor, price: priceValue } = filtersData || {};
-
-  const {
-      data: colorsData,
-      isLoading: colorsLoading,
-      isSuccess: colorsSuccess,
-  } = useGetColorsQuery({ store_id });
-
-  const colors = colorsData?.data || [];
-
-  const categoryStore = useSelector((state: RootState) => state?.category);
-
-  const category = categoryStore?.categories || [];
-
   const paginationModule = modules?.find(
       (item: any) => item?.modulus_id === module_id
   );
   const isPagination = parseInt(paginationModule?.status) === 1;
-
-  const bgColor = design?.header_color;
-  const textColor = design?.text_color;
 
   const styleCss = `
   .btn-hover:hover {
@@ -118,6 +99,7 @@ const Sixteen = ({ design, store_id }: any) => {
             grid={grid}
             open={open}
             hasMore={hasMore}
+            paginate={paginate}
             setHasMore={setHasMore}
             page={page}
             setPage={setPage}
@@ -149,89 +131,106 @@ const ShopProductSection = ({
   page,
   setPage,
   hasMore,
+  paginate,
   setHasMore,
   isPagination,
   setPaginate,
 }: any) => {
     const filtersData = useSelector((state: RootState) => state.filters);
+    // get the activecolor, pricevalue, selectedSort
+    const { color: activeColor, price: priceValue } = filtersData || {};
 
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
+    const [infiniteProducts, setInfiniteProducts] = useState<any[]>([]);
 
     const {
-        data: shopPageProductsData,
-        isLoading: shopPageProductsLoading,
-        isFetching: shopPageProductsFetching,
-        isSuccess: shopPageProductsSuccess,
-        isError: shopPageProductsError,
-        refetch,
-    } = useGetShopPageProductsQuery({ page, filtersData });
+      data: shopPageProductsData,
+      isLoading: shopPageProductsLoading,
+      isFetching: shopPageProductsFetching,
+      isSuccess: shopPageProductsSuccess,
+      isError: shopPageProductsError,
+      refetch:shopPageProductsRefetch,
+  } = useGetShopPageProductsQuery({ page, filtersData });
 
-    const nextPageFetch = () => {
-        setPage((prev: any) => prev + 1);
-        refetch();
-    };
+  const nextPageFetch = () => {
+    setPage((prevPage:number) => prevPage + 1);
+  };
 
     const categoryStore = useSelector((state: RootState) => state?.category);
 
     const category = categoryStore?.categories || [];
 
     useEffect(() => {
+        shopPageProductsRefetch();
+        if (paginate?.total > 0) {
+            const more = numberParser(paginate?.total / 8,true) > page;
+            setHasMore(more);
+        }
+    }, [page, activeColor, shopPageProductsRefetch, priceValue, paginate,setHasMore]);
+
+    useEffect(() => {
+        if (activeColor !== null || priceValue !== null) {
+            setPage(1);
+        }
+    }, [activeColor, priceValue,setPage]);
+
+    useEffect(() => {
         if (shopPageProductsSuccess) {
-            const productsData = shopPageProductsData?.data || [];
-            setPaginate(productsData?.pagination);
-            if (isPagination) {
-                setProducts(productsData?.products || []);
-            } else {
-                setProducts((prev) =>
-                    Array.isArray(prev)
-                        ? [...prev, ...(productsData?.products || [])]
-                        : productsData?.products || []
-                );
-                setPage(1);
-            }
-        } else if (shopPageProductsData?.data?.pagination?.current_page === 1) {
-            setHasMore(false);
+            const productsData = shopPageProductsData?.data?.products || [];
+            const paginationData = shopPageProductsData?.data?.pagination || {};
+
+            setPaginate(paginationData);
+            setProducts(productsData);
         }
     }, [
         shopPageProductsData,
-        setPaginate,
-        isPagination,
-        setHasMore,
-        setPage,
         shopPageProductsSuccess,
+        page,
+        setPaginate,
+        shopPageProductsFetching,
     ]);
+
+    useEffect(() => {
+        if (!isPagination) {
+            setInfiniteProducts((prev) => {
+                if (page === 1) {
+                    // Reset on new filter or first page load
+                    return products;
+                } else {
+                    // Append new products but filter out duplicates
+                    const newProducts = products?.filter(
+                        (p) => !prev.some((prevP) => prevP.id === p.id)
+                    );
+                    return [...prev, ...newProducts];
+                }
+            });
+        }
+    }, [isPagination, paginate, page, products]);
 
   return (
     <>
-     {/* show loading */}
-     {(shopPageProductsLoading && !shopPageProductsError) ||
-            shopPageProductsFetching
-                ? Array.from({ length: 8 }).map((_, index) => (
-                      <Skeleton key={index} />
-                  ))
-                : null}
+            {/* show loading */}
+            <div className="col-span-12 lg:col-span-9">
+                            {isPagination &&
+                            ((shopPageProductsLoading &&
+                                !shopPageProductsError) ||
+                                shopPageProductsFetching)
+                                ? Array.from({ length: 8 })?.map((_, index) => (
+                                      <Skeleton key={index} />
+                                  ))
+                                : null}
+                        </div>
 
       {!isPagination ? (
         <div>
           <InfiniteScroll
             style={{ height: "auto", overflow: "hidden" }}
-            dataLength={products?.length}
+            dataLength={infiniteProducts?.length}
             next={nextPageFetch}
             hasMore={hasMore}
             loader={
-              <div className="flex justify-center items-center">
-                <ThreeDots
-                  height="80"
-                  width="80"
-                  radius="9"
-                  color="#f1593a"
-                  ariaLabel="three-dots-loading"
-                  wrapperStyle={{}}
-                  // wrapperClassName=""
-                  visible={true}
-                />
-              </div>
+              <InfiniteLoader />
             }
             endMessage={
               <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
@@ -240,7 +239,7 @@ const ShopProductSection = ({
             }
           >
             <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 gap-2.5">
-              {products?.map((item: any) => (
+              {infiniteProducts?.map((item: any) => (
                 <div key={item?.id}>
                   <Card26 item={item} />
                 </div>

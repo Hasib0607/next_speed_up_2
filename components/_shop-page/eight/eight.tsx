@@ -9,21 +9,17 @@ import Skeleton from '@/components/loaders/skeleton';
 import { PlusIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
 import Pagination from '@/components/_category-page/components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { RootState } from '@/redux/store';
-import {
-    useGetShopPageProductsQuery,
-} from '@/redux/features/shop/shopApi';
+import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import { setSort } from '@/redux/features/filters/filterSlice';
 import { useParams } from 'next/navigation';
 import { numberParser } from '@/helpers/numberParser';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
-
 
 const Eight = ({ design, store_id }: any) => {
     const module_id = 105;
@@ -50,7 +46,7 @@ const Eight = ({ design, store_id }: any) => {
 
     const bgColor = design?.header_color;
     const textColor = design?.text_color;
-    
+
     const styleCss = `
     .text-hover:hover {
       color:  ${bgColor};
@@ -78,10 +74,10 @@ const Eight = ({ design, store_id }: any) => {
                     </div>
 
                     <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
-                        <FilterByColorNew/>
+                        <FilterByColorNew />
                     </div>
                     <div className="bg-gray-100 border-2 border-gray-200 p-4">
-                        <FilterByPriceNew/>
+                        <FilterByPriceNew />
                     </div>
                 </div>
 
@@ -117,7 +113,7 @@ const Eight = ({ design, store_id }: any) => {
                         />
                         {isPagination && paginate?.total > 7 ? (
                             <div className="my-5">
-                                <Pagination                    
+                                <Pagination
                                     paginate={paginate}
                                     initialPage={page}
                                     setPage={setPage}
@@ -158,12 +154,11 @@ const ShopProductSection = ({
         isFetching: shopPageProductsFetching,
         isSuccess: shopPageProductsSuccess,
         isError: shopPageProductsError,
-        refetch:shopPageProductsRefetch,
+        refetch: shopPageProductsRefetch,
     } = useGetShopPageProductsQuery({ page, filtersData });
 
     const nextPageFetch = () => {
-        setPage((prevPage:number) => prevPage + 1);
-
+        setPage((prevPage: number) => prevPage + 1);
     };
 
     const categoryStore = useSelector((state: RootState) => state?.category);
@@ -173,16 +168,23 @@ const ShopProductSection = ({
     useEffect(() => {
         shopPageProductsRefetch();
         if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8,true) > page;
+            const more = numberParser(paginate?.total / 8, true) > page;
             setHasMore(more);
         }
-    }, [page, activeColor, shopPageProductsRefetch, priceValue, paginate,setHasMore]);
+    }, [
+        page,
+        activeColor,
+        shopPageProductsRefetch,
+        priceValue,
+        paginate,
+        setHasMore,
+    ]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
             setPage(1);
         }
-    }, [activeColor, priceValue,setPage]);
+    }, [activeColor, priceValue, setPage]);
 
     useEffect(() => {
         if (shopPageProductsSuccess) {
@@ -217,7 +219,6 @@ const ShopProductSection = ({
         }
     }, [isPagination, paginate, page, products]);
 
-
     return (
         <>
             {open && (
@@ -235,17 +236,15 @@ const ShopProductSection = ({
             )}
 
             {/* show loading */}
-                       <div className="col-span-12 lg:col-span-9">
-                            {isPagination &&
-                            ((shopPageProductsLoading &&
-                                !shopPageProductsError) ||
-                                shopPageProductsFetching)
-                                ? Array.from({ length: 8 })?.map((_, index) => (
-                                      <Skeleton key={index} />
-                                  ))
-                                : null}
-                        </div>
-
+            <div className="col-span-12 lg:col-span-9">
+                {isPagination &&
+                ((shopPageProductsLoading && !shopPageProductsError) ||
+                    shopPageProductsFetching)
+                    ? Array.from({ length: 8 })?.map((_, index) => (
+                          <Skeleton key={index} />
+                      ))
+                    : null}
+            </div>
 
             {!isPagination ? (
                 <div>
@@ -254,10 +253,7 @@ const ShopProductSection = ({
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
                         hasMore={hasMore}
-                        loader={
-                            <InfiniteLoader />
-
-                        }
+                        loader={<InfiniteLoader />}
                         endMessage={
                             <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
                                 No More Products
@@ -266,41 +262,43 @@ const ShopProductSection = ({
                     >
                         {grid === 'H' && (
                             <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 xl:grid-cols-3 md:gap-5 grid-cols-1 gap-2 mt-10">
-                                {infiniteProducts?.map((item: any, index: number) => (
-                                    <motion.div
-                                    key={`${item?.id}-${index}`}
-
-                                        initial={{ scale: 0 }}
-                                        animate={{ scale: 1 }}
-                                        transition={{
-                                            duration: 0.5,
-                                            ease: 'linear',
-                                        }}
-                                    >
-                                        <Card21 item={item} />
-                                    </motion.div>
-                                ))}
+                                {infiniteProducts?.map(
+                                    (item: any, index: number) => (
+                                        <motion.div
+                                            key={`${item?.id}-${index}`}
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{
+                                                duration: 0.5,
+                                                ease: 'linear',
+                                            }}
+                                        >
+                                            <Card21 item={item} />
+                                        </motion.div>
+                                    )
+                                )}
                             </div>
                         )}
                         <AnimatePresence>
                             {grid === 'V' && (
                                 <div className="grid grid-cols-1 lg:gap-5 md:gap-5 gap-2 mt-10">
-                                    {infiniteProducts?.map((item: any, index: number) => (
-                                        <motion.div
-                                        key={`${item?.id}-${index}`}
-
-                                            className="border-hover"
-                                            initial={{ translateX: 200 }}
-                                            animate={{ translateX: 0 }}
-                                            transition={{
-                                                duration: 0.5,
-                                                ease: 'linear',
-                                                type: 'tween',
-                                            }}
-                                        >
-                                            <Card6 item={item} />
-                                        </motion.div>
-                                    ))}
+                                    {infiniteProducts?.map(
+                                        (item: any, index: number) => (
+                                            <motion.div
+                                                key={`${item?.id}-${index}`}
+                                                className="border-hover"
+                                                initial={{ translateX: 200 }}
+                                                animate={{ translateX: 0 }}
+                                                transition={{
+                                                    duration: 0.5,
+                                                    ease: 'linear',
+                                                    type: 'tween',
+                                                }}
+                                            >
+                                                <Card6 item={item} />
+                                            </motion.div>
+                                        )
+                                    )}
                                 </div>
                             )}
                         </AnimatePresence>

@@ -7,10 +7,8 @@ import Skeleton from '@/components/loaders/skeleton';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
-
 import Pagination from '@/components/_category-page/components/pagination';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
 import { getPathName } from '@/helpers/littleSpicy';

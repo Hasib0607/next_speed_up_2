@@ -1,10 +1,7 @@
 'use client';
 
 import ProductCardOne from '@/components/card/product-card/product-card-one';
-import {
-    useGetCategoryPageProductsQuery,
-    useGetColorsQuery,
-} from '@/redux/features/shop/shopApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import Skeleton from '@/components/loaders/skeleton';
 import './category-four.css';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
@@ -12,7 +9,6 @@ import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { ThreeDots } from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
@@ -20,6 +16,7 @@ import { getPathName, getSecondPathName } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { RootState } from '@/redux/store';
+import InfiniteLoader from '@/components/loaders/infinite-loader';
 import Pagination from '@/components/_category-page/components/pagination';
 
 const CategoryOne = ({ catId, store_id, design }: any) => {
@@ -44,6 +41,7 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
 
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
+    const [infiniteProducts, setInfiniteProducts] = useState<any[]>([]);
 
     const {
         data: categoryPageProductsData,
@@ -55,17 +53,8 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
     } = useGetCategoryPageProductsQuery({ catId, page, filtersData });
 
     const nextPageFetch = () => {
-        setPage((prev) => prev + 1);
-        categoryPageProductsRefetch();
+        setPage((prevPage) => prevPage + 1);
     };
-
-    const {
-        data: colorsData,
-        isLoading: colorsLoading,
-        isSuccess: colorsSuccess,
-    } = useGetColorsQuery({ store_id });
-
-    const colors = colorsData?.data || [];
 
     const categoryStore = useSelector((state: any) => state?.category);
     const category = categoryStore?.categories || [];
@@ -76,26 +65,52 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
     const isPagination = numberParser(paginationModule?.status) === 1;
 
     useEffect(() => {
-        if (categoryPageProductsSuccess) {
-            const categoryData = categoryPageProductsData?.data || [];
-            setPaginate(categoryData?.pagination);
-            if (isPagination) {
-                setProducts(categoryData?.products || []);
-            } else {
-                setProducts((prev) =>
-                    Array.isArray(prev)
-                        ? [...prev, ...(categoryData?.products || [])]
-                        : categoryData?.products || []
-                );
-                setPage(1);
-            }
-        } else if (
-            categoryPageProductsData?.data?.pagination?.current_page === 1
-        ) {
-            setHasMore(false);
+        categoryPageProductsRefetch();
+        if (paginate?.total > 0) {
+            const more = numberParser(paginate?.total / 8, true) > page;
+            setHasMore(more);
         }
-    }, [categoryPageProductsData, isPagination, categoryPageProductsSuccess]);
+    }, [page, activeColor, categoryPageProductsRefetch, priceValue, paginate]);
 
+    useEffect(() => {
+        if (activeColor !== null || priceValue !== null) {
+            setPage(1);
+        }
+    }, [activeColor, priceValue]);
+
+    useEffect(() => {
+        if (categoryPageProductsSuccess) {
+            const productsData = categoryPageProductsData?.data?.products || [];
+            const paginationData =
+                categoryPageProductsData?.data?.pagination || {};
+
+            setPaginate(paginationData);
+            setProducts(productsData);
+        }
+    }, [
+        categoryPageProductsData,
+        categoryPageProductsSuccess,
+        categoryPageProductsFetching,
+        page,
+    ]);
+
+    useEffect(() => {
+        if (!isPagination) {
+            setInfiniteProducts((prev) => {
+                if (page === 1) {
+                    // Reset on new filter or first page load
+                    return products;
+                } else {
+                    // Append new products but filter out duplicates
+                    const newProducts = products?.filter(
+                        (p) => !prev.some((prevP) => prevP.id === p.id)
+                    );
+                    return [...prev, ...newProducts];
+                }
+            });
+        }
+    }, [isPagination, paginate, page, products]);
+    
     const currentCatName = category?.find(
         (item: any) => item?.id == currentSecondPath
     );
@@ -143,27 +158,24 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
                             </div>
                         </div>
                         <div className="border border-gray-100 bg-white rounded shadow my-6 p-4">
-                        <FilterByColorNew />
+                            <FilterByColorNew />
                         </div>
                         <div className="border border-gray-100 bg-white rounded shadow p-4">
-                        <FilterByPriceNew />
-                            
+                            <FilterByPriceNew />
                         </div>
                     </div>
                     <div className="col-span-12 lg:col-span-9">
                         {/* show loading */}
-                        {(categoryPageProductsLoading &&
-                            !categoryPageProductsError) ||
-                        categoryPageProductsFetching
-                            ? Array.from({ length: 8 }).map((_, index) => (
-                                  <div
-                                      className="col-span-12 lg:col-span-9"
-                                      key={index}
-                                  >
-                                      <Skeleton />
-                                  </div>
-                              ))
-                            : null}
+                        <div className="col-span-12 lg:col-span-9">
+                            {isPagination &&
+                            ((categoryPageProductsLoading &&
+                                !categoryPageProductsError) ||
+                                categoryPageProductsFetching)
+                                ? Array.from({ length: 8 })?.map((_, index) => (
+                                      <Skeleton key={index} />
+                                  ))
+                                : null}
+                        </div>
 
                         <div className="col-span-12 lg:col-span-9 w-full">
                             <div className="flex items-center justify-start mb-3">
@@ -193,22 +205,10 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
                                             height: 'auto',
                                             overflow: 'hidden',
                                         }}
-                                        dataLength={products?.length}
+                                        dataLength={infiniteProducts?.length}
                                         next={nextPageFetch}
                                         hasMore={hasMore}
-                                        loader={
-                                            <div className="flex justify-center items-center">
-                                                <ThreeDots
-                                                    height="80"
-                                                    width="80"
-                                                    radius="9"
-                                                    color="#f1593a"
-                                                    ariaLabel="three-dots-loading"
-                                                    wrapperStyle={{}}
-                                                    visible={true}
-                                                />
-                                            </div>
-                                        }
+                                        loader={<InfiniteLoader />}
                                         endMessage={
                                             <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
                                                 No More Products
@@ -216,12 +216,14 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
                                         }
                                     >
                                         <div className="grid md:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
-                                            {products?.map((i: any) => (
-                                                <ProductCardOne
-                                                    key={i.id}
-                                                    item={i}
-                                                />
-                                            ))}
+                                            {infiniteProducts?.map(
+                                                (i: any, index: number) => (
+                                                    <ProductCardOne
+                                                        key={`${i?.id}-${index}`}
+                                                        item={i}
+                                                    />
+                                                )
+                                            )}
                                         </div>
                                     </InfiniteScroll>
                                 </div>
@@ -317,29 +319,31 @@ const SingleCat = ({ item, design }: any) => {
                 {show && (
                     <>
                         <div className="">
-                            {item?.subcategories?.map((sub: any, key: number) => (
-                                <div className="border-t" key={key}>
-                                    <Link href={'/category/' + sub?.id}>
-                                        {' '}
-                                        <p
-                                            style={
-                                                id == sub?.id
-                                                    ? {
-                                                          color: `${design?.header_color}`,
-                                                      }
-                                                    : {}
-                                            }
-                                            className={
-                                                id == sub.id
-                                                    ? activeSub
-                                                    : inactivesub
-                                            }
-                                        >
-                                            {sub?.name}
-                                        </p>
-                                    </Link>
-                                </div>
-                            ))}
+                            {item?.subcategories?.map(
+                                (sub: any, key: number) => (
+                                    <div className="border-t" key={key}>
+                                        <Link href={'/category/' + sub?.id}>
+                                            {' '}
+                                            <p
+                                                style={
+                                                    id == sub?.id
+                                                        ? {
+                                                              color: `${design?.header_color}`,
+                                                          }
+                                                        : {}
+                                                }
+                                                className={
+                                                    id == sub.id
+                                                        ? activeSub
+                                                        : inactivesub
+                                                }
+                                            >
+                                                {sub?.name}
+                                            </p>
+                                        </Link>
+                                    </div>
+                                )
+                            )}
                         </div>
                     </>
                 )}
