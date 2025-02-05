@@ -1,3 +1,5 @@
+'use client'
+
 import { MobileNavProps } from '@/types';
 import dynamic from 'next/dynamic';
 import { ComponentType } from 'react';

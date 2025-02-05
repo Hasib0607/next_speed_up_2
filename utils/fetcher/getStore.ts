@@ -1,13 +1,17 @@
 import getDomain from '@/helpers/getDomain';
-// import { redirect } from 'next/navigation';
 import { notFound } from 'next/navigation';
 
 export default async function getStore() {
     const name = await getDomain();
 
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}store/${name}`,
+        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}store/${name}/info`,
         {
+            // method: 'POST',
+            // headers: {
+            //     'Content-Type': 'application/json',
+            // },
+            // body: JSON.stringify({ name: name }),
             next: {
                 revalidate: 60,
             },
@@ -18,8 +22,6 @@ export default async function getStore() {
     const storeDetails = resData?.data;
 
     if (!res.ok) {
-        // throw new Error('Failed to fetch data!');
-        // redirect('/not-found')
         notFound();
     }
 

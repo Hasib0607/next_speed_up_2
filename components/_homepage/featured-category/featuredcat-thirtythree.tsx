@@ -1,3 +1,4 @@
+"use client";
 import { iconImg } from "@/site-settings/siteUrl";
 import Link from "next/link";
 

@@ -19,12 +19,15 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { classNames } from '@/helpers/littleSpicy';
 
-const HeaderSixteen = ({ headersetting, user, design,menu }: any) => {
+const HeaderSixteen = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
     const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
     const store_id = store?.id || null;
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 
@@ -207,7 +210,11 @@ const HeaderSixteen = ({ headersetting, user, design,menu }: any) => {
                 </div>
             </div>
             <div className="">
-                <HeaderMenu menu={menu} headersetting={headersetting} design={design}/>
+                <HeaderMenu
+                    menu={menu}
+                    headersetting={headersetting}
+                    design={design}
+                />
             </div>
         </div>
     );

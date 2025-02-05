@@ -1,13 +1,10 @@
 "use client";
 import SectionHeadingTwentyFive from "@/components/section-heading/section-heading-twenty-five";
-import { RootState } from "@/redux/store";
 import { iconImg } from "@/site-settings/siteUrl";
 import Link from "next/link";
-import { useSelector } from "react-redux";
 
-const FeaturedTwentyFive = ({ category, design }: any) => {
-  const headerdata = useSelector((state: RootState) => state.home.headersetting);
-  const { custom_design } = headerdata || {};
+const FeaturedTwentyFive = ({ category, design, headersetting }: any) => {
+  const { custom_design } = headersetting || {};
   const featureCategory = custom_design?.feature_category?.[0] || {};
   const { title, title_color } =
       featureCategory || {};

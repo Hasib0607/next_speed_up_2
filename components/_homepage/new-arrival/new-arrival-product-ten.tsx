@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import Card15 from '../../card/card15';
 import SectionHeadingTen from '../../section-heading/section-heading-ten';
 
-const NewArrivalProductTen = ({ design }: any) => {
+const NewArrivalProductTen = ({ headersetting }: any) => {
     const categoryStore = useSelector((state: RootState) => state?.category);
     const category = categoryStore?.categories || [];
 
@@ -29,13 +29,7 @@ const NewArrivalProductTen = ({ design }: any) => {
     }
 `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
 
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =

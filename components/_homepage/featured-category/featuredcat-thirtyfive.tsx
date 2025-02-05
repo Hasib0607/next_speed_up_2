@@ -3,12 +3,10 @@
 import Card62 from "@/components/card/card62";
 import SectionHeadingThirtyFive from "@/components/section-heading/section-heading-thirty-five";
 import SliderThirtyFive from "@/components/slider/slider-thirty-five";
-import { RootState } from "@/redux/store";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useSelector } from "react-redux";
 import { SwiperSlide } from "swiper/react";
 
-const FeaturedThirtyFive = ({ category, design }: any) => {
+const FeaturedThirtyFive = ({ category, design, headersetting }: any) => {
   const bgColor = design?.header_color;
   const textColor = design?.text_color;
 
@@ -31,9 +29,7 @@ const FeaturedThirtyFive = ({ category, design }: any) => {
 
   const prevEl = "feature-category-prev";
   const nextEl = "feature-category-next";
-
-  const headerdata = useSelector((state: RootState) => state.home.headersetting);
-  const { custom_design } = headerdata || {};
+  const { custom_design } = headersetting || {};
   const featureCategory = custom_design?.feature_category?.[0] || {};
   const { title, title_color } =
       featureCategory || {};

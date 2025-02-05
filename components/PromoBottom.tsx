@@ -22,9 +22,12 @@ const PromoBottom = ({ design }: any) => {
         banner?.filter((item: any) => numberParser(item?.type) === 1);
     }, [bannerData]);
 
+    // console.log("bannerbottoms log");
+    // console.log("bannerbottomsData",bannerData);
+
     return (
         <>
-            {design?.banner !== 'null' && BannerBottomComponent && (
+            {design?.banner !== 'null' && bannerSuccess && BannerBottomComponent && (
                 <BannerBottomComponent design={design} banner={bannerType} />
             )}
         </>

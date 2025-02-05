@@ -4,16 +4,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { SwiperSlide } from "swiper/react";
-
 import SectionHeadingTwelve from "@/components/section-heading/section-heading-twelve";
 import SliderFive from "@/components/slider/slider-five";
 import { iconImg } from "@/site-settings/siteUrl";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
 
-const FeaturedTwelve = ({ category, design }: any) => {
+const FeaturedTwelve = ({ category, design, headersetting }: any) => {
   const prevEl = "feature-category-prev";
   const nextEl = "feature-category-next";
 
@@ -29,8 +26,7 @@ const FeaturedTwelve = ({ category, design }: any) => {
  
     `;
 
-    const headerdata = useSelector((state: RootState) => state.home.headersetting);
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
     const { title, title_color } =
         featureCategory || {};

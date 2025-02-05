@@ -1,12 +1,13 @@
 'use client';
 
+import { apiSlice } from './features/api/apiSlice';
 import { configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
-
-import { apiSlice } from './features/api/apiSlice';
-import { storeApi } from './features/appStore/appStoreApi';
 import rootReducer from './rootReducer';
+
+import { storeApi } from './features/appStore/appStoreApi';
+import { productApi } from './features/products/productApi';
 
 // Create a fallback for environments where localStorage is not available
 const createNoopStorage = () => {
@@ -33,12 +34,15 @@ const persistConfig = {
     key: 'root',
     storage,
     blacklist: [apiSlice.reducerPath],
+    //   whitelist: [authApi.reducerPath],
+    //   transforms: [compress()],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const store = configureStore({
     reducer: persistedReducer,
-    devTools: true,
+    devTools: process.env.NODE_ENV !== 'production',
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: {
@@ -54,6 +58,7 @@ const store = configureStore({
 // Initialize Redux
 const initializeApp = async () => {
     await store.dispatch(storeApi.endpoints.getStore.initiate({}));
+    await store.dispatch(productApi.endpoints.getProduct.initiate({}));
 };
 
 initializeApp();
@@ -64,45 +69,3 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export default store;
-
-// import { configureStore } from '@reduxjs/toolkit';
-// import { apiSlice } from './features/api/apiSlice';
-// import { storeApi } from './features/appStore/appStoreApi';
-// import rootReducer from './rootReducer';
-
-// // import { persistStore, persistReducer } from 'redux-persist';
-// // import storage from 'redux-persist/lib/storage';
-// // import compress from 'redux-persist-transform-compress';
-// // import { authApi } from './auth/authApi';
-
-// // const persistConfig = {
-// //   key: 'root',
-// //   storage,
-// //   whitelist: [authApi.reducerPath],
-// //   transforms: [compress()],
-// // };
-
-// // const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-// const store = configureStore({
-//     reducer: rootReducer,
-//     devTools: process.env.NODE_ENV !== 'production',
-//     middleware: (getDefaultMiddlewares) =>
-//         getDefaultMiddlewares({ serializableCheck: false }).concat(
-//             apiSlice.middleware
-//         ),
-// });
-
-// // Initialize Redux
-// const initializeApp = async () => {
-//     await store.dispatch(storeApi.endpoints.getStore.initiate({}));
-// };
-
-// initializeApp();
-
-// // export const persistor = persistStore(store());
-
-// export type RootState = ReturnType<typeof store.getState>;
-// export type AppDispatch = typeof store.dispatch;
-
-// export default store;

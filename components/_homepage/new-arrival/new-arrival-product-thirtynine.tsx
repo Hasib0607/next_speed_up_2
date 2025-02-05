@@ -1,19 +1,11 @@
 'use client';
-import { RootState } from '@/redux/store';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 import Card67 from '../../card/card67';
 import DefaultSlider from '../../slider/default-slider';
 
-const NewArrivalProductThirtyNine = ({ product, design }: any) => {
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+const NewArrivalProductThirtyNine = ({ product, headersetting }: any) => {
+    const { custom_design } = headersetting || {};
 
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
@@ -82,23 +74,20 @@ const NewArrivalProductThirtyNine = ({ product, design }: any) => {
                         },
                     }}
                 >
-                    {product?.slice(0, 10).map((item: any) => (
-                        <SwiperSlide key={item?.id}>
-                            <div
-                                className={`${
-                                    animate
-                                        ? 'translate-y-0'
-                                        : 'translate-y-[25px]'
-                                } duration-1000 `}
-                            >
-                                <Card67
-                                    design={design}
-                                    store_id={store_id}
-                                    item={item}
-                                />
-                            </div>
-                        </SwiperSlide>
-                    ))}
+                    {product?.length > 0 &&
+                        product?.slice(0, 10)?.map((item: any) => (
+                            <SwiperSlide key={item?.id}>
+                                <div
+                                    className={`${
+                                        animate
+                                            ? 'translate-y-0'
+                                            : 'translate-y-[25px]'
+                                    } duration-1000 `}
+                                >
+                                    <Card67 item={item} />
+                                </div>
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
                 {/* </ScrollTrigger> */}
             </div>

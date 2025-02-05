@@ -1,24 +1,19 @@
 'use client';
-// created by iazadur
 
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 import Card18 from '../../card/card18';
 import SectionHeadingThirteen from '../../section-heading/section-heading-thirteen';
 import GridSliderThirteen from '../../slider/grid-slider/grid-slider-thirteeen';
 
-const NewArrivalProductThirteeen = ({ product, design }: any) => {
+const NewArrivalProductThirteeen = ({
+    product,
+    design,
+    headersetting,
+}: any) => {
     const prev = 'newArrrival_productThirteen_prev';
     const next = 'newArrrival_productThirteen_next';
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
 
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
@@ -61,13 +56,13 @@ const NewArrivalProductThirteeen = ({ product, design }: any) => {
                     }}
                     className={'h-[1000px] my-2 sm:my-12'}
                 >
-                    {product?.length &&
-                        product?.slice(0, 10).map((item: any) => (
+                    {product?.length > 0 &&
+                        product?.slice(0, 10)?.map((item: any) => (
                             <SwiperSlide
                                 className="swiperjs_grid_two"
                                 key={item?.id}
                             >
-                                <Card18 item={item} store_id={store_id} />
+                                <Card18 item={item} />
                             </SwiperSlide>
                         ))}
                 </GridSliderThirteen>

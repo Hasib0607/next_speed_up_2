@@ -11,10 +11,8 @@ import 'swiper/css/grid';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import FeatureCatSix from './components/catsix';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const FeaturedSix = ({ category, design }: any) => {
+const FeaturedSix = ({ category, design, headersetting }: any) => {
     const prevEl = 'feature_cat_prev';
     const nextEl = 'feature_cat_next';
 
@@ -32,10 +30,7 @@ const FeaturedSix = ({ category, design }: any) => {
   }
     `;
 
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
     const { title, title_color } = featureCategory || {};
 

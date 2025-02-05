@@ -1,10 +1,7 @@
+"use client";
 import React from "react";
-
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import { Autoplay, Controller, EffectFade, Navigation } from "swiper/modules";
-
-// Import Swiper styles
 import { catImg, iconImg } from "@/site-settings/siteUrl";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -12,10 +9,8 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
 
-const FeaturedThirtySeven = ({ category, design }: any) => {
+const FeaturedThirtySeven = ({ category, design, headersetting }: any) => {
   const customCss = `
     .hoverBorder:hover{
         border:1px solid ${design?.header_color}
@@ -25,8 +20,7 @@ const FeaturedThirtySeven = ({ category, design }: any) => {
   const navigationPrevRef = React.useRef(null);
   const navigationNextRef = React.useRef(null);
 
-  const headerdata = useSelector((state: RootState) => state.home.headersetting);
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
     const { title, title_color } =
         featureCategory || {};

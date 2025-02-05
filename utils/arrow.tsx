@@ -2,7 +2,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
 const Arrow = ({ nextEl, prevEl, design }: any) => {
-    //   const { design } = useTheme();
     const customDesign = `
     .arrowDesign{
         color:${design?.header_color};

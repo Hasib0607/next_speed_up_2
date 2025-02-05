@@ -1,4 +1,5 @@
 'use client';
+
 import { DEFAULT } from '@/consts';
 import { feature_products } from '@/utils/dynamic-import/_homepageSections/featureProduct/featureProduct';
 import { useGetFeatureProductQuery } from '@/redux/features/products/productApi';
@@ -18,6 +19,9 @@ const FeatureProduct = ({ design, store_id }: any) => {
         isSuccess: featureProductSuccess,
     } = useGetFeatureProductQuery({});
     const feature_product = featureProductData?.data || [];
+
+    // console.log("feature_product log");
+    // console.log("feature_product",feature_product);
     
 
     return (

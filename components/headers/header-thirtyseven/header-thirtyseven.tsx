@@ -22,8 +22,10 @@ import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-const HeaderThirtySeven = ({ headersetting, design, user, menu }: any) => {
+const HeaderThirtySeven = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -35,6 +37,9 @@ const HeaderThirtySeven = ({ headersetting, design, user, menu }: any) => {
     const { data: categoryData } = useGetCategoryQuery({});
 
     const category = categoryData?.data || [];
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 

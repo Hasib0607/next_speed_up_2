@@ -19,14 +19,10 @@ import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { useRouter } from 'next/navigation';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
-const HeaderThirtyFive = ({
-    design,
-    headersetting,
-    menu,
-    user,
-    cartList,
-}: any) => {
+const HeaderThirtyFive = ({ design, headersetting, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
     const [open, setOpen] = useState(false);
@@ -39,6 +35,11 @@ const HeaderThirtyFive = ({
     const handleClose = () => {
         setSearch('');
     };
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
+
+    const { cartList } = useSelector((state: RootState) => state?.cart);
 
     const [logOut] = useLogOutMutation();
 
@@ -57,7 +58,6 @@ const HeaderThirtyFive = ({
         width: 100%;
         background: ${design?.header_color};
         z-index: 10;
-        /* opacity: 0; */
         animation: fadeIn 0.6s ease-in both;
       }
      .bg-seven-header {
@@ -88,7 +88,7 @@ const HeaderThirtyFive = ({
     return (
         <div>
             <div
-                className={`bg-white fixed z-[5] w-full border-b shadow-xl lg:border-b-2 border-black h-20 flex items-center ${scrollPassed ? 'top-0' : `top-[${announcementHeight}px]`}`}
+                className={`bg-white fixed z-[5] w-full border-b shadow-xl lg:border-b-2 border-black h-20 flex items-center ${!scrollPassed && announcementHeight > 0 ? `top-[${announcementHeight}px]` : 'top-0'}`}
             >
                 <style>{styleCss}</style>
                 <div className="w-full flex flex-row justify-between items-center nav-menu sm:container px-5 lg:py-0 py-1">

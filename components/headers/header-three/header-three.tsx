@@ -22,10 +22,15 @@ import { useRouter } from 'next/navigation';
 import HeaderMenu from '../components/header-menu';
 import SideMenu from '../components/side-menu';
 import './header-three.css';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
-const HeaderThree = ({ headersetting, design, menu, user }: any) => {
+const HeaderThree = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 

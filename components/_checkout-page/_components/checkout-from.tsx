@@ -19,6 +19,7 @@ import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getValueByKey } from './customLang';
+import { classNames } from '@/helpers/littleSpicy';
 
 type FormValues = {
     name: string;
@@ -38,6 +39,7 @@ const CheckoutFrom = ({
     edit,
     editItem,
     cancelBtn,
+    formFieldStyle,
 }: any) => {
     const isAuthenticated = useAuth();
     const dispatch = useDispatch();
@@ -302,6 +304,10 @@ const CheckoutFrom = ({
         dispatch(setCheckoutFromData(formData));
     }, [watchedFields, getValues, dispatch]);
 
+    const fieldStyle = formFieldStyle
+        ? formFieldStyle
+        : 'mt-1 focus:ring-0 focus:border-gray-400 block w-full shadow-md sm:text-md border-2 border-gray-300 rounded-lg p-3 text-gray-700';
+
     return (
         <>
             {userFormFieldsLoading ? (
@@ -312,7 +318,7 @@ const CheckoutFrom = ({
                         strokeColor="#6495ED"
                         strokeWidth="6"
                     />
-                    <p>Loading From...</p>
+                    <p>Loading...</p>
                 </div>
             ) : (
                 <form
@@ -322,109 +328,99 @@ const CheckoutFrom = ({
                             : handleSubmit(addAddress)
                     }
                 >
-                    <div className="shadow overflow-hidden sm:rounded-md w-128">
-                        <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
-                            {fields?.length > 0 &&
-                                fields?.map((item: any, index: number) => (
-                                    <div
-                                        className="col-span-6 sm:col-span-3 lg:col-span-2"
-                                        key={index}
+                    <div className="px-4 py-5 space-y-6 sm:p-6">
+                        {fields?.length > 0 &&
+                            fields?.map((item: any, index: number) => (
+                                <div key={index}>
+                                    <label
+                                        htmlFor={item?.name}
+                                        className="block text-sm font-medium text-gray-700 capitalize"
                                     >
-                                        <label
-                                            htmlFor={item?.name}
-                                            className="block text-sm font-medium text-gray-700 capitalize"
-                                        >
-                                            {design?.template_id === '29' ||
-                                            store_id === 3601
-                                                ? getValueByKey(item?.name)
-                                                : item?.name}
-                                        </label>
-                                        {item?.name == 'district' ? (
-                                            <select
-                                                {...register('district')}
-                                                name="district"
-                                                className="mt-1 focus:ring-0 focus:border-gray-400 block w-full shadow-md sm:text-md border-2 border-gray-300 rounded-lg p-3 text-gray-700"
-                                                onInput={(e: any) =>
-                                                    handleFieldChange(
-                                                        item?.name,
-                                                        e.target.value
-                                                    )
-                                                }
-                                            >
-                                                {(!edit ||
-                                                    (edit &&
-                                                        editItem?.district ===
-                                                            null)) && (
-                                                    <option
-                                                        defaultChecked
-                                                        value=""
-                                                    >
-                                                        Choose a District
-                                                    </option>
-                                                )}
-
-                                                {districtArr?.map(
-                                                    (
-                                                        item: any,
-                                                        index: number
-                                                    ) => (
-                                                        <option
-                                                            value={item?.id}
-                                                            key={index}
-                                                        >
-                                                            {item?.bn_name}
-                                                        </option>
-                                                    )
-                                                )}
-                                            </select>
-                                        ) : (
-                                            <input
-                                                {...register(item?.name)}
-                                                type={
-                                                    item?.name == 'phone'
-                                                        ? 'number'
-                                                        : 'text'
-                                                }
-                                                name={item?.name}
-                                                id={item?.name}
-                                                onInput={() =>
-                                                    handleFieldChange(
-                                                        item?.name
-                                                    )
-                                                }
-                                                autoComplete="address-level1"
-                                                className="mt-1 focus:ring-0 focus:border-gray-400 block w-full shadow-md sm:text-md border-2 border-gray-300 rounded-lg p-3 text-gray-700 remove-arrow"
-                                            />
-                                        )}
-                                        <p className="text-rose-500">
-                                            {
-                                                errors[
-                                                    item?.name as keyof FormValues
-                                                ]?.message
+                                        {design?.template_id === '29' ||
+                                        store_id === 3601
+                                            ? getValueByKey(item?.name)
+                                            : item?.name}
+                                    </label>
+                                    {item?.name == 'district' ? (
+                                        <select
+                                            {...register('district')}
+                                            name="district"
+                                            className={fieldStyle}
+                                            onInput={(e: any) =>
+                                                handleFieldChange(
+                                                    item?.name,
+                                                    e.target.value
+                                                )
                                             }
-                                        </p>
-                                    </div>
-                                ))}
-                        </div>
-                        {isAuthenticated && (
-                            <div className="space-x-2 px-4 py-3 bg-gray-50 text-right sm:px-6">
-                                <button
-                                    type="submit"
-                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                >
-                                    {edit ? 'Update' : 'Save'}
-                                </button>
-                                {cancelBtn && (
-                                    <div
-                                        onClick={() => handleCancel()}
-                                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 cursor-pointer"
-                                    >
-                                        Cancel
-                                    </div>
-                                )}
-                            </div>
-                        )}
+                                        >
+                                            {(!edit ||
+                                                (edit &&
+                                                    editItem?.district ===
+                                                        null)) && (
+                                                <option defaultChecked value="">
+                                                    Choose a District
+                                                </option>
+                                            )}
+
+                                            {districtArr?.map(
+                                                (item: any, index: number) => (
+                                                    <option
+                                                        value={item?.id}
+                                                        key={index}
+                                                    >
+                                                        {item?.bn_name}
+                                                    </option>
+                                                )
+                                            )}
+                                        </select>
+                                    ) : (
+                                        <input
+                                            {...register(item?.name)}
+                                            type={
+                                                item?.name == 'phone'
+                                                    ? 'number'
+                                                    : 'text'
+                                            }
+                                            name={item?.name}
+                                            id={item?.name}
+                                            onInput={() =>
+                                                handleFieldChange(item?.name)
+                                            }
+                                            autoComplete="address-level1"
+                                            className={classNames(
+                                                fieldStyle,
+                                                'remove-arrow'
+                                            )}
+                                        />
+                                    )}
+                                    <p className="text-rose-500">
+                                        {
+                                            errors[
+                                                item?.name as keyof FormValues
+                                            ]?.message
+                                        }
+                                    </p>
+                                </div>
+                            ))}
                     </div>
+                    {isAuthenticated && (
+                        <div className="space-x-2 px-4 py-3 text-right sm:px-6">
+                            <button
+                                type="submit"
+                                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
+                            >
+                                {edit ? 'Update' : 'Save'}
+                            </button>
+                            {cancelBtn && (
+                                <div
+                                    onClick={() => handleCancel()}
+                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 cursor-pointer"
+                                >
+                                    Cancel
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </form>
             )}
         </>

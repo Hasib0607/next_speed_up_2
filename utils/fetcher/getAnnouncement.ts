@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import getStore from './getStore';
 
 export default async function getAnnouncement() {
@@ -14,13 +14,13 @@ export default async function getAnnouncement() {
         }
     );
 
-    const resData = await res.json();
-    const announcementDetails = resData?.data;
-
     if (!res.ok) {
         // throw new Error('Failed to fetch data!');
-        redirect('/not-found')
+        notFound();
     }
+
+    const resData = await res.json();
+    const announcementDetails = resData?.data;
 
     return announcementDetails;
 }

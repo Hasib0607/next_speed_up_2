@@ -17,7 +17,13 @@ import { TWENTY_EIGHT } from '@/consts';
 import useAuth from '@/hooks/useAuth';
 import QuickView from '@/utils/quick-view';
 
-const Address = ({ selectAddress, setSelectAddress, design,className }: any) => {
+const Address = ({
+    selectAddress,
+    setSelectAddress,
+    design,
+    className,
+    formFieldStyle,
+}: any) => {
     const isAuthenticated = useAuth();
     const [addressArr, setAddressArr] = useState<any>([]);
     const [open, setOpen] = useState(false);
@@ -106,7 +112,7 @@ const Address = ({ selectAddress, setSelectAddress, design,className }: any) => 
 
     return (
         <>
-            <div className={className ? className : "col-span-6 sm:col-span-4"}>
+            <div className={className ? className : 'col-span-6 sm:col-span-4'}>
                 <div className="flex justify-between items-center pb-3">
                     {design?.template_id === '29' ||
                     design?.checkout_page === TWENTY_EIGHT ||
@@ -143,6 +149,7 @@ const Address = ({ selectAddress, setSelectAddress, design,className }: any) => 
                 </div>
                 {store?.auth_type === 'EasyOrder' && !isAuthenticated ? (
                     <CheckoutFrom
+                        formFieldStyle={formFieldStyle}
                         addressRefetch={addressRefetch}
                         setOpen={setOpen}
                     />
@@ -150,6 +157,7 @@ const Address = ({ selectAddress, setSelectAddress, design,className }: any) => 
                     <div>
                         {!addressArr || addressArr?.length == 0 ? (
                             <CheckoutFrom
+                                formFieldStyle={formFieldStyle}
                                 addressRefetch={addressRefetch}
                                 setOpen={setOpen}
                                 cancelBtn={addressArr?.length > 0}
@@ -164,6 +172,7 @@ const Address = ({ selectAddress, setSelectAddress, design,className }: any) => 
                 <>
                     {edit && editItem ? (
                         <CheckoutFrom
+                            formFieldStyle={formFieldStyle}
                             addressRefetch={addressRefetch}
                             setOpen={setOpen}
                             editItem={editItem}
@@ -173,6 +182,7 @@ const Address = ({ selectAddress, setSelectAddress, design,className }: any) => 
                         />
                     ) : (
                         <CheckoutFrom
+                            formFieldStyle={formFieldStyle}
                             addressRefetch={addressRefetch}
                             setOpen={setOpen}
                             cancelBtn={addressArr?.length > 0}

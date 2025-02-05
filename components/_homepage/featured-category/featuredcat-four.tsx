@@ -1,13 +1,10 @@
 "use client";
 import SectionHeading from "@/components/section-heading/section-heading";
-import { RootState } from "@/redux/store";
 import { iconImg } from "@/site-settings/siteUrl";
 import Link from "next/link";
-import { useSelector } from "react-redux";
 
-const FeaturedFour = ({ category, design }: any) => {
-  const headerdata = useSelector((state: RootState) => state.home.headersetting);
-  const { custom_design } = headerdata || {};
+const FeaturedFour = ({ category, design, headersetting }: any) => {
+  const { custom_design } = headersetting || {};
   const featureCategory = custom_design?.feature_category?.[0] || {};
   const { title, title_color } =
       featureCategory || {};

@@ -5,7 +5,7 @@ import Card24 from "@/components/card/card24";
 import SliderEleven from "@/components/slider/slider-eleven";
 import { SwiperSlide } from "swiper/react";
 
-const FeaturedThree = ({ product, category, design, store_id }: any) => {
+const FeaturedThree = ({ product, category, design }: any) => {
   const prev1 = "category_Prev1";
   const next1 = "category_Next1";
 
@@ -71,8 +71,6 @@ const FeaturedThree = ({ product, category, design, store_id }: any) => {
                         <SwiperSlide key={item?.id}>
                           <Card24
                             item={item}
-                            design={design}
-                            store_id={store_id}
                           />
                         </SwiperSlide>
                       ))}
@@ -97,8 +95,6 @@ const FeaturedThree = ({ product, category, design, store_id }: any) => {
                         <SwiperSlide key={item?.id}>
                           <Card24
                             item={item}
-                            design={design}
-                            store_id={store_id}
                           />
                         </SwiperSlide>
                       ))}
@@ -123,8 +119,6 @@ const FeaturedThree = ({ product, category, design, store_id }: any) => {
                         <SwiperSlide key={item?.id}>
                           <Card24
                             item={item}
-                            design={design}
-                            store_id={store_id}
                           />
                         </SwiperSlide>
                       ))}

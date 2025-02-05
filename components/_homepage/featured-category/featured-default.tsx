@@ -1,13 +1,10 @@
 'use client';
-import { RootState } from '@/redux/store';
-import { iconImg } from '@/site-settings/siteUrl';
-import { useSelector } from 'react-redux';
 
-const DefaultFeaturedCategory = ({ category }: any) => {
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+import { iconImg } from '@/site-settings/siteUrl';
+
+const DefaultFeaturedCategory = ({ category, headersetting }: any) => {
+
+    const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
     const { title, title_color } = featureCategory || {};
     return (

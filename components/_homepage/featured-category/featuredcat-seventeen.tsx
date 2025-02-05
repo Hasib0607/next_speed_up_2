@@ -13,14 +13,9 @@ import {
     ParallaxProvider,
 } from 'react-scroll-parallax';
 import './featuredcat-seventeen.css';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const FeaturedSeventeen = ({ category }: any) => {
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+const FeaturedSeventeen = ({ category, headersetting }: any) => {
+    const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
     const { title, title_color } = featureCategory || {};
     const cat = category.filter((item: any) => item?.cat !== null);

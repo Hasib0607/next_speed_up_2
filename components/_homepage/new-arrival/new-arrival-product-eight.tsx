@@ -2,7 +2,6 @@
 import { getProductQuantity } from '@/helpers/getProductQuantity';
 import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
-import { RootState } from '@/redux/store';
 import { productImg } from '@/site-settings/siteUrl';
 import BDT from '@/utils/bdt';
 import ProdMultiCategory from '@/utils/prod-multi-category';
@@ -14,13 +13,12 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { IoSearchCircleOutline } from 'react-icons/io5';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 import Card14 from '../../card/card14';
 import SectionHeadingFive from '../../section-heading/section-heading-five';
 import GridSliderThirteen from '../../slider/grid-slider/grid-slider-thirteen';
 
-const NewArrivalProductsEight = ({ product, design }: any) => {
+const NewArrivalProductsEight = ({ product, design, headersetting }: any) => {
     const prev = 'new_arrival_prev';
     const next = 'new_arrival_next';
 
@@ -48,14 +46,11 @@ const NewArrivalProductsEight = ({ product, design }: any) => {
  
     `;
 
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     let newArrivalProduct = custom_design?.new_arrival?.[0] || null;
 
-    const title = newArrivalProduct.title || 'Default Title';
-    const title_color = newArrivalProduct.title_color || '#000';
+    const title = newArrivalProduct?.title || 'Default Title';
+    const title_color = newArrivalProduct?.title_color || '#000';
     return (
         <div className="sm:container px-5 sm:py-10 py-5 bg-white">
             <div className="py-5">
@@ -205,7 +200,7 @@ const NewArrivalProductsEight = ({ product, design }: any) => {
                             }}
                             className={'lg:h-[1200px] md:h-[800px] h-[600px]'}
                         >
-                            {product?.slice(1, 9)?.map((item: any) => (
+                            {product?.length > 0 && product?.slice(1, 9)?.map((item: any) => (
                                 <SwiperSlide
                                     className="swiperjs_grid_two"
                                     key={item?.id}

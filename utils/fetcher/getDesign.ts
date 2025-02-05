@@ -1,5 +1,5 @@
 import getDomain from '@/helpers/getDomain';
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 export default async function getDesign() {
     const name = await getDomain();
@@ -13,13 +13,13 @@ export default async function getDesign() {
         }
     );
 
-    const resData = await res.json();
-    const designDetails = resData?.data;
-
     if (!res.ok) {
         // throw new Error('Failed to fetch data!');
-        redirect('/not-found')
+        notFound();
     }
+
+    const resData = await res.json();
+    const designDetails = resData?.data;
 
     return designDetails;
 }

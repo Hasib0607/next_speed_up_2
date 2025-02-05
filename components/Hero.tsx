@@ -17,9 +17,13 @@ const Hero = ({ design }: any) => {
     
     const slider = sliderData?.data || [];
 
+    // console.log("slider log");
+    // console.log("slider",slider);
+    
+
     return (
         <>
-            {design?.hero_slider && sliderLoading && !sliderError && (
+            {sliderLoading && !sliderError && (
                 <div className="relative xl:px-20 lg:px-10 md:px-10 px-5 bg-white pb-5">
                     <Skeleton
                         className={
@@ -30,7 +34,7 @@ const Hero = ({ design }: any) => {
             )}
 
 
-            {design?.hero_slider !== "null" && SelectedHeroComponent && sliderSuccess && (
+            {design?.hero_slider !== "null" && SelectedHeroComponent && slider?.length > 0 && (
 
                 <SelectedHeroComponent slider={slider} design={design} />
             )}

@@ -6,7 +6,7 @@ const initialState: any = {
     product: null,
     bestSellProduct: null,
     featureProduct: null,
-    cartList: [],
+    // cartList: [],
 };
 
 export const productSlice = createSlice({

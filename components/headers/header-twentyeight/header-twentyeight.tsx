@@ -26,8 +26,10 @@ import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { useRouter } from 'next/navigation';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-const HeaderTwentyEight = ({ headersetting, design, user, menu }: any) => {
+const HeaderTwentyEight = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -40,6 +42,9 @@ const HeaderTwentyEight = ({ headersetting, design, user, menu }: any) => {
     const { data: categoryData } = useGetCategoryQuery({});
 
     const category = categoryData?.data || [];
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 

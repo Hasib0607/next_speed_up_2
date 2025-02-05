@@ -78,6 +78,7 @@ export default Eighteen;
 const Related = ({ product }: any) => {
     const prev = 'best_seller_Prev';
     const next = 'best_seller_Next';
+    
     return (
         <div className="py-5 sm:py-10 rounded-md bg-white">
             <div className="my-5 pt-1 flex justify-between items-center">

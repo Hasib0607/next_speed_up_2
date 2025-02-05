@@ -10,7 +10,7 @@ export const storeApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getStore: builder.query<any, any>({
             query: () => ({
-                url: `store/${name}`,
+                url: `store/${name}/info`,
                 method: 'GET',
             }),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
@@ -21,7 +21,7 @@ export const storeApi = apiSlice.injectEndpoints({
                         dispatch(setStore(res?.data?.data)); // Dispatch the action with the received data
                     } else {
                         // not found
-                        dispatch(setStore(undefined))
+                        dispatch(setStore(undefined));
                     }
                 } catch (error) {
                     // console.error("Error in getHome mutation:", error);
@@ -31,5 +31,3 @@ export const storeApi = apiSlice.injectEndpoints({
     }),
     overrideExisting: false, // Optional: prevents overwriting if already defined
 });
-
-export const {} = storeApi;

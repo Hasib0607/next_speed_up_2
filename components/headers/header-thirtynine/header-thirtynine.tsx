@@ -22,8 +22,10 @@ import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-const HeaderThirtyNine = ({ headersetting, menu, design, user }: any) => {
+const HeaderThirtyNine = ({ headersetting, menu, design }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -32,6 +34,9 @@ const HeaderThirtyNine = ({ headersetting, menu, design, user }: any) => {
     const [openMenu, setOpenMenu] = useState(false);
     const [openCart, setOpenCart] = useState(false);
     const { announcementHeight, scrollPassed } = useAnnouncementScroll();
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 

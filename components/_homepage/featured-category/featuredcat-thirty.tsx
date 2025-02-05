@@ -8,10 +8,8 @@ import DefaultSlider from "@/components/slider/default-slider";
 import { iconImg } from "@/site-settings/siteUrl";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
 
-const FeaturedThirty = ({ category, design }: any) => {
+const FeaturedThirty = ({ category, design, headersetting }: any) => {
   const prevEl = "feature-category-prev";
   const nextEl = "feature-category-next";
   let isLoop = category.length > 1;
@@ -26,8 +24,8 @@ const FeaturedThirty = ({ category, design }: any) => {
   }
  
     `;
-    const headerdata = useSelector((state: RootState) => state.home.headersetting);
-    const { custom_design } = headerdata || {};
+
+    const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
     const { title, title_color } =
         featureCategory || {};

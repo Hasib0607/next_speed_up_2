@@ -1,7 +1,5 @@
 'use client';
-
 import { useEffect } from 'react';
-
 import bgImg from '@/components/_homepage/featured-category/twentyseven-bg-img/bg-cat.svg';
 import bgImg1 from '@/components/_homepage/featured-category/twentyseven-bg-img/bg-cat1.svg';
 import bgImg2 from '@/components/_homepage/featured-category/twentyseven-bg-img/bg-cat2.svg';
@@ -9,14 +7,11 @@ import bgImg3 from '@/components/_homepage/featured-category/twentyseven-bg-img/
 import bgImg4 from '@/components/_homepage/featured-category/twentyseven-bg-img/bg-cat4.svg';
 import bgImg5 from '@/components/_homepage/featured-category/twentyseven-bg-img/bg-cat5.svg';
 import { iconImg,productImg } from '@/site-settings/siteUrl';
-
 import Link from 'next/link';
 import { useState } from 'react';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import { useGetCategoryProductQuery } from '@/redux/features/products/productApi';
 
-const FeaturedTwentySeven = ({ category, design }: any) => {
+const FeaturedTwentySeven = ({ category, design, headersetting }: any) => {
     const [catId, setCatId] = useState(category[0]?.id);
     const [products, setProducts] = useState([]);
 
@@ -42,10 +37,8 @@ const FeaturedTwentySeven = ({ category, design }: any) => {
         background:${bgColor};
     }
     `;
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+
+    const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
     const { title, title_color } = featureCategory || {};
 

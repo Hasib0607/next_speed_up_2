@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-// import NextTopLoader from "nextjs-toploader";
 import Announcement from '@/components/Announcement';
 import getDesign from '@/utils/fetcher/getDesign';
 import { headers } from 'next/headers';
@@ -96,7 +95,11 @@ export default async function RootLayout({
                 <GoogleTagManager
                     gtmId={headersetting?.gtm?.google_tag_manager}
                 />
-                {/* <NextTopLoader /> */}
+                {/* <NextTopLoader 
+                color={design?.themeColor || "#29D"} 
+                height={4} 
+                showSpinner={false} 
+            /> */}
                 {/* <Announcement design={design} /> */}
                 <AppWrapper design={design} appStore={appStore}>
                     {children}

@@ -1,17 +1,9 @@
 'use client';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import Card46 from '../../card/card46';
 import SectionHeadingTwentyTwo from '../../section-heading/section-heading-twentytwo';
 
-const NewArrivalProductTwentyTwo = ({ product }: any) => {
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+const NewArrivalProductTwentyTwo = ({ product, headersetting }: any) => {
+    const { custom_design } = headersetting || {};
 
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
@@ -33,15 +25,12 @@ const NewArrivalProductTwentyTwo = ({ product }: any) => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 container mt-10 gap-6">
-                {product
-                    ?.slice(0, 10)
-                    .map((item: any) => (
-                        <Card46
-                            item={item}
-                            key={item?.id}
-                            store_id={store_id}
-                        />
-                    ))}
+                {product?.length > 0 &&
+                    product
+                        ?.slice(0, 10)
+                        ?.map((item: any) => (
+                            <Card46 item={item} key={item?.id} />
+                        ))}
             </div>
         </div>
     );

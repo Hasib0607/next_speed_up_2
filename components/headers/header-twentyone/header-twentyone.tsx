@@ -36,8 +36,10 @@ import {
     useGetCategoryQuery,
     useGetSubCategoryQuery,
 } from '@/redux/features/category/categoryApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-const HeaderTwentyOne = ({ headersetting, design, menu, user }: any) => {
+const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -57,6 +59,9 @@ const HeaderTwentyOne = ({ headersetting, design, menu, user }: any) => {
 
     const category = categoryData?.data || [];
     const subCategory = subCategoryData?.data || [];
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 

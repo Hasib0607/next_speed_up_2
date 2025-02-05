@@ -1,9 +1,6 @@
 import { bannerImg } from '@/site-settings/siteUrl';
 
 const PromoFive = ({ banner }: any) => {
-    if (banner?.length === 0) {
-        return;
-    }
 
     return (
         <div className="bg-white py-10">

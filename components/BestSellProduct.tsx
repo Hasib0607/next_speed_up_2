@@ -20,6 +20,10 @@ const BestSellProduct = ({ design, store_id }: any) => {
         isSuccess: bestSellProductSuccess,
     } = useGetBestSellProductQuery({});
     const best_sell_product = bestSellProductData?.data || [];
+
+    
+    // console.log("best_sell_product log");
+    // console.log("best_sell_product",best_sell_product);
     
     return (
         <>

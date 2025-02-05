@@ -20,8 +20,10 @@ import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { REDUX_PERSIST } from '@/consts';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
-const HeaderFourteen = ({ headersetting, design, user, menu }: any) => {
+const HeaderFourteen = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -30,6 +32,9 @@ const HeaderFourteen = ({ headersetting, design, user, menu }: any) => {
     const [searchInput, setSearchInput] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
     const [openCart, setOpenCart] = useState(false);
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 

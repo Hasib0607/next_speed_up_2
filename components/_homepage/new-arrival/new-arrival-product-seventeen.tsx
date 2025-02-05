@@ -1,6 +1,4 @@
 'use client';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import {
     ParallaxBanner,
     ParallaxBannerLayer,
@@ -12,14 +10,8 @@ import img1 from './bg-img/17/bg.webp';
 import image from './bg-img/17/show_divider_5_69x61.webp';
 import './new-arrival-product-seventeen.css';
 
-const NewArrivalProductSeventeen = ({ product, design }: any) => {
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+const NewArrivalProductSeventeen = ({ product, headersetting }: any) => {
+    const { custom_design } = headersetting || {};
 
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
@@ -54,16 +46,12 @@ const NewArrivalProductSeventeen = ({ product, design }: any) => {
                 </div>
 
                 <div className="grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-2 gap-2 xl:gap-5 mt-16">
-                    {product
-                        ?.slice(0, 8)
-                        .map((data: any) => (
-                            <Card35
-                                item={data}
-                                key={data?.id}
-                                design={design}
-                                store_id={store_id}
-                            />
-                        ))}
+                    {product?.length > 0 &&
+                        product
+                            ?.slice(0, 8)
+                            ?.map((data: any) => (
+                                <Card35 item={data} key={data?.id} />
+                            ))}
                 </div>
             </div>
         </div>

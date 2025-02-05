@@ -20,13 +20,18 @@ import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { REDUX_PERSIST } from '@/consts';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { classNames } from '@/helpers/littleSpicy';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
-export default function HeaderFour({ headersetting, menu, design, user }: any) {
+export default function HeaderFour({ headersetting, menu, design }: any) {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
     const [open, setOpen] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 

@@ -12,12 +12,17 @@ import { imgUrl, profileImg } from '@/site-settings/siteUrl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Search from '../components/search';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
-const HeaderDown = ({ headersetting, user }: any) => {
+const HeaderDown = ({ headersetting }: any) => {
     const isAuthenticated = useAuth();
     const router = useRouter();
 
     const [searchInput, setSearchInput] = useState(false);
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 

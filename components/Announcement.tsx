@@ -3,9 +3,15 @@
 import Marquee from 'react-fast-marquee';
 import { useEffect, useState } from 'react';
 import { useGetAnnouncementQuery } from '@/redux/features/home/homeApi';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
+
 // import useAnnouncementScroll from '@/utils/use-annoucement-height';
 
-const Announcement = ({ design, store_id }: any) => {
+const Announcement = ({ design }: any) => {
+    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
+    const store_id = store?.id || null;
+
     const [announcements, setAnnouncements] = useState([]);
 
     const { data: announcementsData, isSuccess: announcementsSuccess } =
@@ -18,12 +24,8 @@ const Announcement = ({ design, store_id }: any) => {
         }
     }, [announcementsData, announcementsSuccess]);
 
-    // if (announcements?.length == 0) {
-
-    // }
     // const aH = useAnnouncementScroll()
     // console.log("aH",aH);
-    
 
     return (
         <>

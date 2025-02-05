@@ -1,18 +1,15 @@
 "use client";
 import Slider1 from "@/components/slider/slider-one";
-import { RootState } from "@/redux/store";
 import { iconImg } from "@/site-settings/siteUrl";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useSelector } from "react-redux";
 import { SwiperSlide } from "swiper/react";
 
-const FeaturedOne = ({ category, design }: any) => {
+const FeaturedOne = ({ category, design, headersetting }: any) => {
   const prev = "cat_Prev";
   const next = "cat_Next";
-  const headerdata = useSelector((state: RootState) => state.home.headersetting);
-  const { custom_design } = headerdata || {};
+  const { custom_design } = headersetting || {};
   const featureCategory = custom_design?.feature_category?.[0] || {};
   const { title, title_color} =
       featureCategory || {};

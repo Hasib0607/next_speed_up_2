@@ -9,10 +9,8 @@ import DefaultSlider from "@/components/slider/default-slider";
 import { catImg } from "@/site-settings/siteUrl";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
 
-const FeaturedEighteen = ({ category, design }: any) => {
+const FeaturedEighteen = ({ category, design, headersetting }: any) => {
   let isLoop = category.length > 1;
   const prevEl = "feature-category-prev";
   const nextEl = "feature-category-next";
@@ -41,8 +39,7 @@ const FeaturedEighteen = ({ category, design }: any) => {
  
     `;
 
-    const headerdata = useSelector((state: RootState) => state.home.headersetting);
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
     const { title, title_color } =
         featureCategory || {};

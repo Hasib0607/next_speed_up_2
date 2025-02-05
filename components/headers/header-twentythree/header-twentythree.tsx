@@ -24,8 +24,10 @@ import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-const HeaderTwentyThree = ({ headersetting, design, user }: any) => {
+const HeaderTwentyThree = ({ headersetting, design }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -35,8 +37,10 @@ const HeaderTwentyThree = ({ headersetting, design, user }: any) => {
     const [openCart, setOpenCart] = useState(false);
 
     const { data: categoryData } = useGetCategoryQuery({});
-
     const category = categoryData?.data || [];
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 
@@ -218,13 +222,13 @@ const HeaderTwentyThree = ({ headersetting, design, user }: any) => {
                                                         className="object-fit"
                                                     />
                                                 ) : (
-                                                  <svg
-                                                  className="h-full w-full text-gray-300"
-                                                  fill="currentColor"
-                                                  viewBox="0 0 24 24"
-                                              >
-                                                  <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                              </svg>
+                                                    <svg
+                                                        className="h-full w-full text-gray-300"
+                                                        fill="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                                    </svg>
                                                 )}
                                             </span>
                                         </Menu.Button>

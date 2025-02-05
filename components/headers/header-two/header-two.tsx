@@ -22,9 +22,14 @@ import { useRouter } from 'next/navigation';
 import Search from '../components/search';
 import SideCategory from './side-category';
 import SideMenu from './side-menu';
-import { useGetCategoryQuery, useGetSubCategoryQuery } from '@/redux/features/category/categoryApi';
+import {
+    useGetCategoryQuery,
+    useGetSubCategoryQuery,
+} from '@/redux/features/category/categoryApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-const HeaderTwo = ({ headersetting, design, menu, user, cartList }: any) => {
+const HeaderTwo = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -37,6 +42,10 @@ const HeaderTwo = ({ headersetting, design, menu, user, cartList }: any) => {
     const [open, setOpen] = useState(false);
     const [searchInput, setSearchInput] = useState(false);
     const [openCart, setOpenCart] = useState(false);
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
+    const { cartList } = useSelector((state: RootState) => state?.cart);
 
     const [logOut] = useLogOutMutation();
 
@@ -105,17 +114,19 @@ const HeaderTwo = ({ headersetting, design, menu, user, cartList }: any) => {
                 </div>
                 <div className="flex gap-3 items-center">
                     <div className="flex items-center relative">
-                        {!searchInput && <p
-                            className="lg:cursor-pointer absolute right-2"
-                            onClick={() => setSearchInput(!searchInput)}
-                        >
-                            <BsSearch className="text-2xl lg:block hidden menu-hover" />
-                        </p>}
-                            <Search
-                                searchInput={searchInput}
-                                setSearchInput={setSearchInput}
-                                className={'flex w-96'}
-                            />
+                        {!searchInput && (
+                            <p
+                                className="lg:cursor-pointer absolute right-2"
+                                onClick={() => setSearchInput(!searchInput)}
+                            >
+                                <BsSearch className="text-2xl lg:block hidden menu-hover" />
+                            </p>
+                        )}
+                        <Search
+                            searchInput={searchInput}
+                            setSearchInput={setSearchInput}
+                            className={'flex w-96'}
+                        />
                     </div>
                     <div
                         onClick={() => setOpenCart(!openCart)}

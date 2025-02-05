@@ -1,13 +1,12 @@
-import { RootState } from "@/redux/store";
+"use client";
 import { iconImg } from "@/site-settings/siteUrl";
 import Link from "next/link";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-const FeaturedThirtyEight = ({ category, design }: any) => {
+const FeaturedThirtyEight = ({ category, design, headersetting }: any) => {
   const styleCss = `
     .feature-category-prev:hover {
       color:  ${design?.text_color};
@@ -20,8 +19,7 @@ const FeaturedThirtyEight = ({ category, design }: any) => {
  
     `;
 
-    const headerdata = useSelector((state: RootState) => state.home.headersetting);
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
     const { title, title_color } =
         featureCategory || {};

@@ -10,13 +10,11 @@ import {
 import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import { productCurrentPrice } from '@/helpers/littleSpicy';
-import { RootState } from '@/redux/store';
 import { productImg } from '@/site-settings/siteUrl';
 import BDT from '@/utils/bdt';
 import QuickView from '@/utils/quick-view';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
@@ -24,11 +22,8 @@ import 'swiper/css/pagination';
 import Details from '../../_product-details-page/components/details';
 import SectionHeadingNine from '../../section-heading/section-heading-nine';
 
-const NewArrivalProductNine = ({ product, design }: any) => {
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+const NewArrivalProductNine = ({ product, design, headersetting }: any) => {
+    const { custom_design } = headersetting || {};
 
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
@@ -108,7 +103,7 @@ const NewArrivalProductNine = ({ product, design }: any) => {
                     }}
                     className="mySwiper"
                 >
-                    {product?.map((productData: any) => (
+                    {product?.length > 0 && product?.map((productData: any) => (
                         <SwiperSlide key={productData.id}>
                             <Card item={productData} />
                         </SwiperSlide>

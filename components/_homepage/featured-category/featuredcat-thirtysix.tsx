@@ -1,17 +1,15 @@
+"use client";
 import { useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { SwiperSlide } from "swiper/react";
-
 import DefaultSlider from "@/components/slider/default-slider";
 import { catImg } from "@/site-settings/siteUrl";
 import Link from "next/link";
 import { AiOutlineArrowRight } from "react-icons/ai";
-import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
 
-const FeaturedThirtySix = ({ category, design }: any) => {
+const FeaturedThirtySix = ({ category, design, headersetting }: any) => {
   const prevEl = "feature-category-prev";
   const nextEl = "feature-category-next";
 
@@ -29,8 +27,7 @@ const FeaturedThirtySix = ({ category, design }: any) => {
  
     `;
 
-    const headerdata = useSelector((state: RootState) => state.home.headersetting);
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
     const { title, title_color } =
         featureCategory || {};

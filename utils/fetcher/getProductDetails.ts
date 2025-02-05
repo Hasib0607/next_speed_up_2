@@ -1,5 +1,4 @@
-import { redirect } from "next/navigation";
-
+import { notFound } from 'next/navigation';
 
 export default async function getProductDetails({ store_id, productId }: any) {
     const res = await fetch(
@@ -10,13 +9,14 @@ export default async function getProductDetails({ store_id, productId }: any) {
             },
         }
     );
-    const resData = await res.json();
-    const productDetails = resData?.data;
 
     if (!res.ok) {
         // throw new Error('Failed to fetch data!');
-        redirect('/not-found')
+        notFound();
     }
+
+    const resData = await res.json();
+    const productDetails = resData?.data;
 
     return productDetails;
 }

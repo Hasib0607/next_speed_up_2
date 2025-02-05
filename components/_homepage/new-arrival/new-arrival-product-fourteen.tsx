@@ -1,7 +1,5 @@
 'use client';
-import { RootState } from '@/redux/store';
 import { BsPlay } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -10,7 +8,7 @@ import Card29 from '../../card/card29';
 import SectionHeadingSixteen from '../../section-heading/section-heading-sixteen';
 import DefaultSlider from '../../slider/default-slider';
 
-const NewArrivalProductFourteen = ({ product, design }: any) => {
+const NewArrivalProductFourteen = ({ product, design, headersetting }: any) => {
     const prevEl = 'new-fourteen-prev';
     const nextEl = 'new-fourteen-next';
 
@@ -31,13 +29,7 @@ const NewArrivalProductFourteen = ({ product, design }: any) => {
  
     `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
 
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
@@ -96,15 +88,12 @@ const NewArrivalProductFourteen = ({ product, design }: any) => {
                     },
                 }}
             >
-                {product.slice(0, 10).map((productData: any) => (
-                    <SwiperSlide key={productData.id}>
-                        <Card29
-                            design={design}
-                            store_id={store_id}
-                            item={productData}
-                        />
-                    </SwiperSlide>
-                ))}
+                {product?.length > 0 && product?.length > 0 &&
+                    product?.slice(0, 10)?.map((productData: any) => (
+                        <SwiperSlide key={productData.id}>
+                            <Card29 item={productData} />
+                        </SwiperSlide>
+                    ))}
             </DefaultSlider>
         </div>
     );

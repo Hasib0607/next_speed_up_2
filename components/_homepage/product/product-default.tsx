@@ -1,14 +1,9 @@
 'use client';
+
 import Card14 from '@/components/card/card14';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const DefaultProduct = ({ product }: any) => {
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-
-    const { custom_design } = headerdata || {};
+const DefaultProduct = ({ product, headersetting }: any) => {
+    const { custom_design } = headersetting || {};
     const sectionHeadingData = custom_design?.product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         sectionHeadingData || {};
@@ -26,8 +21,11 @@ const DefaultProduct = ({ product }: any) => {
             <div className="container mx-auto">
                 <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6 sm:px-4">
                     {product?.slice(0, 8)?.map((item: any, id: any) => (
+                        <>
+                            <p>{item.name}</p>
                             <Card14 item={item} key={id} />
-                    ))} 
+                        </>
+                    ))}
                 </div>
             </div>
         </>

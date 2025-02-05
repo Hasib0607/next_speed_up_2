@@ -1,12 +1,14 @@
 'use client';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 import Card53 from '../../card/card53';
 import SectionHeadingTwentyNine from '../../section-heading/section-heading-twentynine';
 import DefaultSlider from '../../slider/default-slider';
 
-const NewArrivalProductTwentyNine = ({ product, design }: any) => {
+const NewArrivalProductTwentyNine = ({
+    product,
+    design,
+    headersetting,
+}: any) => {
     const prevEl = 'new-product-prev';
     const nextEl = 'new-product-next';
 
@@ -34,13 +36,7 @@ const NewArrivalProductTwentyNine = ({ product, design }: any) => {
     }
  `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
 
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
@@ -98,17 +94,14 @@ const NewArrivalProductTwentyNine = ({ product, design }: any) => {
                         },
                     }}
                 >
-                    {product?.map((item: any) => (
-                        <SwiperSlide key={item?.id}>
-                            <div className="px-2 pb-3">
-                                <Card53
-                                    design={design}
-                                    store_id={store_id}
-                                    item={item}
-                                />
-                            </div>
-                        </SwiperSlide>
-                    ))}
+                    {product?.length > 0 &&
+                        product?.map((item: any) => (
+                            <SwiperSlide key={item?.id}>
+                                <div className="px-2 pb-3">
+                                    <Card53 item={item} />
+                                </div>
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
             </div>
         </div>

@@ -1,3 +1,5 @@
+'use client'
+
 import { DEFAULT } from '@/consts';
 import { useGetTestimonialQuery } from '@/redux/features/home/homeApi';
 import { all_testimonials } from '@/utils/dynamic-import/_homepageSections/testimonial/testimonial';
@@ -13,6 +15,9 @@ const Testimonial = ({ design }: any) => {
     } = useGetTestimonialQuery({});
 
     const testimonials = testimonialsData?.data || [];
+
+    // console.log("Testimonial log");
+    // console.log("testimonials",testimonials);
 
     return (
         <>
