@@ -1,7 +1,7 @@
 'use client';
 
-import { SwiperSlide } from 'swiper/react';
 import Card18 from '../../card/card18';
+import { SwiperSlide } from 'swiper/react';
 import SectionHeadingThirteen from '../../section-heading/section-heading-thirteen';
 import GridSliderThirteen from '../../slider/grid-slider/grid-slider-thirteeen';
 
@@ -14,7 +14,6 @@ const NewArrivalProductThirteeen = ({
     const next = 'newArrrival_productThirteen_next';
 
     const { custom_design } = headersetting || {};
-
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         newArrivalProduct || {};

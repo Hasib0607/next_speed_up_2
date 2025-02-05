@@ -1,16 +1,24 @@
-// components
-
-import { ReactNode } from 'react';
+import React, { ReactElement } from 'react';
 import NotFound from './not-found';
 
 interface StoreLayerProps {
-    children: ReactNode;
+    children: ReactElement | ReactElement[];
     appStore: any;
+    design: any;
 }
 
-const StoreLayer = ({ children, appStore }: StoreLayerProps) => {
+const StoreLayer = ({ children, design, appStore }: StoreLayerProps) => {
     if (!appStore) return <NotFound />;
-    return children
+    return children;
+    // return (
+    //     <>
+    //         {React.Children.map(children, (child) =>
+    //             React.isValidElement(child)
+    //                 ? React.cloneElement(child as ReactElement, { design, appStore })
+    //                 : child
+    //         )}
+    //     </>
+    // );
 };
 
 export default StoreLayer;

@@ -1,5 +1,3 @@
-'use client';
-
 import dynamic from 'next/dynamic';
 
 export const best_sell_products: any = {
@@ -52,25 +50,31 @@ export const best_sell_products: any = {
         () => import('@/components/_homepage/best-seller/best-seller-twentytwo')
     ),
     twentythree: dynamic(
-        () => import('@/components/_homepage/best-seller/best-seller-twentythree')
+        () =>
+            import('@/components/_homepage/best-seller/best-seller-twentythree')
     ),
     twentyfour: dynamic(
-        () => import('@/components/_homepage/best-seller/best-seller-twentyfour')
+        () =>
+            import('@/components/_homepage/best-seller/best-seller-twentyfour')
     ),
     twentyfive: dynamic(
-        () => import('@/components/_homepage/best-seller/best-seller-twentyfive')
+        () =>
+            import('@/components/_homepage/best-seller/best-seller-twentyfive')
     ),
     twentysix: dynamic(
         () => import('@/components/_homepage/best-seller/best-seller-twentysix')
     ),
     twentyseven: dynamic(
-        () => import('@/components/_homepage/best-seller/best-seller-twentyseven')
+        () =>
+            import('@/components/_homepage/best-seller/best-seller-twentyseven')
     ),
     twentyeight: dynamic(
-        () => import('@/components/_homepage/best-seller/best-seller-twentyeight')
+        () =>
+            import('@/components/_homepage/best-seller/best-seller-twentyeight')
     ),
     twentynine: dynamic(
-        () => import('@/components/_homepage/best-seller/best-seller-twentynine')
+        () =>
+            import('@/components/_homepage/best-seller/best-seller-twentynine')
     ),
     thirty: dynamic(
         () => import('@/components/_homepage/best-seller/best-seller-thirty')
@@ -79,26 +83,30 @@ export const best_sell_products: any = {
         () => import('@/components/_homepage/best-seller/best-seller-thirty')
     ),
     thirtythree: dynamic(
-        () => import('@/components/_homepage/best-seller/best-seller-thirtythree')
+        () =>
+            import('@/components/_homepage/best-seller/best-seller-thirtythree')
     ),
     thirtyfour: dynamic(
-        () => import('@/components/_homepage/best-seller/best-seller-thirtyfour')
+        () =>
+            import('@/components/_homepage/best-seller/best-seller-thirtyfour')
     ),
     thirtyfive: dynamic(
-        () => import('@/components/_homepage/best-seller/best-seller-thirtyfive')
+        () =>
+            import('@/components/_homepage/best-seller/best-seller-thirtyfive')
     ),
     thirtysix: dynamic(
         () => import('@/components/_homepage/best-seller/best-seller-thirtysix')
     ),
     thirtyseven: dynamic(
-        () => import('@/components/_homepage/best-seller/best-seller-thirtyseven')
+        () =>
+            import('@/components/_homepage/best-seller/best-seller-thirtyseven')
     ),
     thirtyeight: dynamic(
-        () => import('@/components/_homepage/best-seller/best-seller-thirtyeight')
+        () =>
+            import('@/components/_homepage/best-seller/best-seller-thirtyeight')
     ),
     thirtynine: dynamic(
-        () => import('@/components/_homepage/best-seller/best-seller-thritynine')
-    ), 
-
+        () =>
+            import('@/components/_homepage/best-seller/best-seller-thritynine')
+    ),
 };
-

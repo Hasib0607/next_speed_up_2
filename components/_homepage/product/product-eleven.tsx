@@ -1,37 +1,30 @@
 'use client';
+
 import Details from '@/components/_product-details-page/components/details';
 import SectionHeadingSeven from '@/components/section-heading/section-heading-seven';
 import {
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
-import { RootState } from '@/redux/store';
+
 import { productImg } from '@/site-settings/siteUrl';
 import BDT from '@/utils/bdt';
 import QuickView from '@/utils/quick-view';
 import Rate from '@/utils/rate';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
 const ProductEleven = ({
     product,
     design,
+    headersetting,
     best_sell_product,
     feature_product,
 }: any) => {
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const sectionHeadingData = custom_design?.product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         sectionHeadingData || {};
-
-    if (product.length === 0) {
-        return;
-    }
 
     const styleCss = `
 
@@ -67,8 +60,8 @@ const ProductEleven = ({
                     <div className="pt-5">
                         <div className="grid grid-cols-1 gap-5">
                             {best_sell_product
-                                .slice(0, 4)
-                                .map((item: any, id: any) => (
+                                ?.slice(0, 4)
+                                ?.map((item: any, id: any) => (
                                     <Card item={item} key={id} />
                                 ))}
                         </div>
@@ -85,7 +78,7 @@ const ProductEleven = ({
                         <div className="grid grid-cols-1 gap-5">
                             {feature_product
                                 ?.slice(0, 4)
-                                .map((item: any, id: any) => (
+                                ?.map((item: any, id: any) => (
                                     <Card item={item} key={id} />
                                 ))}
                         </div>
@@ -100,9 +93,12 @@ const ProductEleven = ({
                     </div>
                     <div className="pt-5">
                         <div className="grid grid-cols-1 gap-5">
-                            {product.slice(0, 4).map((item: any, id: any) => (
-                                <Card item={item} key={id} />
-                            ))}
+                            {product?.length > 0 &&
+                                product
+                                    ?.slice(0, 4)
+                                    ?.map((item: any) => (
+                                        <Card item={item} key={item?.id} />
+                                    ))}
                         </div>
                     </div>
                 </div>
@@ -117,6 +113,7 @@ const Card = ({ item }: any) => {
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
     const [open, setOpen] = useState(false);
+
     return (
         <>
             <Link href={'/product/' + item?.id + '/' + item?.slug}>
@@ -158,7 +155,7 @@ const Card = ({ item }: any) => {
                 </div>
             </Link>
             <QuickView open={open} setOpen={setOpen}>
-                <Details data={{ product_id: item?.id }} />
+                <Details product={item} />
             </QuickView>
         </>
     );

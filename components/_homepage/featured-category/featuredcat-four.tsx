@@ -1,4 +1,3 @@
-"use client";
 import SectionHeading from "@/components/section-heading/section-heading";
 import { iconImg } from "@/site-settings/siteUrl";
 import Link from "next/link";
@@ -8,10 +7,6 @@ const FeaturedFour = ({ category, design, headersetting }: any) => {
   const featureCategory = custom_design?.feature_category?.[0] || {};
   const { title, title_color } =
       featureCategory || {};
-
-  if (category.length === 0) {
-    return;
-  }
 
   return (
     <div className="sm:container px-5 sm:py-10 py-5 bg-gray-50">
@@ -24,7 +19,7 @@ const FeaturedFour = ({ category, design, headersetting }: any) => {
       </div>
       <div className="flex justify-center shadow-lg bg-white mt-4">
         <div className="flex  flex-wrap justify-center my-4  py-10 rounded-md  ">
-          {category?.slice(0, 4).map((c: any, id: any) => (
+          {category.length > 0 && category?.slice(0, 4)?.map((c: any) => (
             <Link
               href={`/category/${c.id}`}
               key={c.id}

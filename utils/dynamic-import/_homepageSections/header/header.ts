@@ -1,5 +1,3 @@
-
-
 import dynamic from 'next/dynamic';
 
 export const headers: any = {

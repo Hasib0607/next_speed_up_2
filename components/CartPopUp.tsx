@@ -8,7 +8,7 @@ const CartPopUp = ({ design }: any) => {
     return (
         <>
             {design?.product_card !== 'null' && CartPopUpComponent && (
-                <CartPopUpComponent />
+                <CartPopUpComponent design={design} />
             )}
         </>
     );

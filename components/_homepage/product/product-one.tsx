@@ -3,20 +3,21 @@
 import { useState } from 'react';
 import ProductCardOne from '@/components/card/product-card/product-card-one';
 import '@/components/card/product-card/product-card-one.css';
-import { motion } from 'framer-motion';
 const btn = [{ text: 'Featured' }, { text: 'Popular' }, { text: 'New Added' }];
+import { motion } from 'framer-motion';
+import { numberParser } from '@/helpers/numberParser';
 
 const ProductOne = ({
     product,
     best_sell_product,
     feature_product,
-    store_id,
     design,
 }: any) => {
+    const store_id = numberParser(design?.store_id) || null;
     const [active, setActive] = useState('Featured');
+
     return (
         <div className="sm:container px-5 sm:py-10 py-5 mx-auto">
-            {/* <div className="mx-auto"> */}
             <div className="flex justify-between items-center mb-7 ">
                 <div className="flex justify-center sm:justify-start flex-wrap gap-2">
                     {btn?.map((i) => (
@@ -63,7 +64,6 @@ const ProductOne = ({
                             />
                         ))}
             </div>
-            {/* </div> */}
         </div>
     );
 };

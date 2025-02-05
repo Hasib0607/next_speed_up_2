@@ -1,4 +1,5 @@
 'use client';
+
 import Card47 from '../../card/card47';
 import SectionHeadingTwentyThree from '../../section-heading/section-heading-twentythree';
 
@@ -34,10 +35,10 @@ const NewArrivalProductTwentyThree = ({
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 {product?.length > 0 &&
-                    product?.slice(0, 8)?.map((productData: any) => (
-                        <div key={productData.id}>
+                    product?.slice(0, 8)?.map((item: any) => (
+                        <div key={item.id}>
                             {' '}
-                            <Card47 item={productData} />
+                            <Card47 item={item} />
                         </div>
                     ))}
             </div>

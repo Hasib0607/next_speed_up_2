@@ -1,154 +1,88 @@
-'use client';
-
 import dynamic from 'next/dynamic';
 
 export const hero: any = {
-    default: dynamic(() => import('@/components/_homepage/hero/hero-default'), {
-        ssr: false,
-    }),
-    one: dynamic(() => import('@/components/_homepage/hero/hero-one'), {
-        ssr: false,
-    }),
-    two: dynamic(() => import('@/components/_homepage/hero/hero-two'), {
-        ssr: false,
-    }),
-    three: dynamic(() => import('@/components/_homepage/hero/hero-three'), {
-        ssr: false,
-    }),
-    four: dynamic(() => import('@/components/_homepage/hero/hero-four'), {
-        ssr: false,
-    }),
-    five: dynamic(() => import('@/components/_homepage/hero/hero-five'), {
-        ssr: false,
-    }),
-    six: dynamic(() => import('@/components/_homepage/hero/hero-six'), {
-        ssr: false,
-    }),
-    seven: dynamic(() => import('@/components/_homepage/hero/hero-seven'), {
-        ssr: false,
-    }),
-    eight: dynamic(() => import('@/components/_homepage/hero/hero-eight'), {
-        ssr: false,
-    }),
-    nine: dynamic(() => import('@/components/_homepage/hero/hero-nine'), {
-        ssr: false,
-    }),
-    ten: dynamic(() => import('@/components/_homepage/hero/hero-ten'), {
-        ssr: false,
-    }),
-    eleven: dynamic(() => import('@/components/_homepage/hero/hero-eleven'), {
-        ssr: false,
-    }),
-    twelve: dynamic(() => import('@/components/_homepage/hero/hero-twelve'), {
-        ssr: false,
-    }),
+    default: dynamic(() => import('@/components/_homepage/hero/hero-default')),
+    one: dynamic(() => import('@/components/_homepage/hero/hero-one')),
+    two: dynamic(() => import('@/components/_homepage/hero/hero-two')),
+    three: dynamic(() => import('@/components/_homepage/hero/hero-three')),
+    four: dynamic(() => import('@/components/_homepage/hero/hero-four')),
+    five: dynamic(() => import('@/components/_homepage/hero/hero-five')),
+    six: dynamic(() => import('@/components/_homepage/hero/hero-six')),
+    seven: dynamic(() => import('@/components/_homepage/hero/hero-seven')),
+    eight: dynamic(() => import('@/components/_homepage/hero/hero-eight')),
+    nine: dynamic(() => import('@/components/_homepage/hero/hero-nine')),
+    ten: dynamic(() => import('@/components/_homepage/hero/hero-ten')),
+    eleven: dynamic(() => import('@/components/_homepage/hero/hero-eleven')),
+    twelve: dynamic(() => import('@/components/_homepage/hero/hero-twelve')),
     thirteen: dynamic(
-        () => import('@/components/_homepage/hero/hero-thirteen'),
-        {
-            ssr: false,
-        }
+        () => import('@/components/_homepage/hero/hero-thirteen')
     ),
     fourteen: dynamic(
-        () => import('@/components/_homepage/hero/hero-fourteen'),
-        {
-            ssr: false,
-        }
+        () => import('@/components/_homepage/hero/hero-fourteen')
     ),
-    sixteen: dynamic(() => import('@/components/_homepage/hero/hero-sixteen'), {
-        ssr: false,
-    }),
+    sixteen: dynamic(() => import('@/components/_homepage/hero/hero-sixteen')),
     seventeen: dynamic(
-        () => import('@/components/_homepage/hero/hero-seventeen'),
-        {
-            ssr: false,
-        }
+        () => import('@/components/_homepage/hero/hero-seventeen')
     ),
     eighteen: dynamic(
-        () => import('@/components/_homepage/hero/hero-eighteen'),
-        {
-            ssr: false,
-        }
+        () => import('@/components/_homepage/hero/hero-eighteen')
     ),
     nineteen: dynamic(
-        () => import('@/components/_homepage/hero/hero-nineteen'),
-        {
-            ssr: false,
-        }
+        () => import('@/components/_homepage/hero/hero-nineteen')
     ),
     twenty: dynamic(
-        () => import('@/components/_homepage/hero/hero-tweenty-one'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-tweenty-one')
     ),
     twentyone: dynamic(
-        () => import('@/components/_homepage/hero/hero-tweenty-one'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-tweenty-one')
     ),
     twentytwo: dynamic(
-        () => import('@/components/_homepage/hero/hero-tweent-two'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-tweent-two')
     ),
     twentythree: dynamic(
-        () => import('@/components/_homepage/hero/hero-twenty-three'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-twenty-three')
     ),
     twentyfour: dynamic(
-        () => import('@/components/_homepage/hero/hero-twenty-four'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-twenty-four')
     ),
     twentyfive: dynamic(
-        () => import('@/components/_homepage/hero/hero-twenty-five'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-twenty-five')
     ),
     twentysix: dynamic(
-        () => import('@/components/_homepage/hero/hero-twenty-six'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-twenty-six')
     ),
     twentyseven: dynamic(
-        () => import('@/components/_homepage/hero/hero-twenty-seven'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-twenty-seven')
     ),
     twentyeight: dynamic(
-        () => import('@/components/_homepage/hero/hero-twenty-eight'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-twenty-eight')
     ),
     twentynine: dynamic(
-        () => import('@/components/_homepage/hero/hero-twenty-nine'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-twenty-nine')
     ),
-    thirty: dynamic(() => import('@/components/_homepage/hero/hero-thrity'), {
-        ssr: false,
-    }),
+    thirty: dynamic(() => import('@/components/_homepage/hero/hero-thrity')),
     thirtyone: dynamic(
-        () => import('@/components/_homepage/hero/hero-thirty-one'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-thirty-one')
     ),
     thirtythree: dynamic(
-        () => import('@/components/_homepage/hero/hero-thirty-three'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-thirty-three')
     ),
     thirtyfour: dynamic(
-        () => import('@/components/_homepage/hero/hero-thirty-four'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-thirty-four')
     ),
     thirtyfive: dynamic(
-        () => import('@/components/_homepage/hero/hero-thirty-five'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-thirty-five')
     ),
     thirtysix: dynamic(
-        () => import('@/components/_homepage/hero/hero-thirty-six'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-thirty-six')
     ),
     thirtyseven: dynamic(
-        () => import('@/components/_homepage/hero/hero-thirty-seven'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-thirty-seven')
     ),
     thirtyeight: dynamic(
-        () => import('@/components/_homepage/hero/hero-thirty-eight'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-thirty-eight')
     ),
     thirtynine: dynamic(
-        () => import('@/components/_homepage/hero/hero-thirty-nine'),
-        { ssr: false }
+        () => import('@/components/_homepage/hero/hero-thirty-nine')
     ),
 };
-

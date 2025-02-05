@@ -1,8 +1,9 @@
 'use client';
-import { SwiperSlide } from 'swiper/react';
+
 import Card53 from '../../card/card53';
-import SectionHeadingTwentyNine from '../../section-heading/section-heading-twentynine';
+import { SwiperSlide } from 'swiper/react';
 import DefaultSlider from '../../slider/default-slider';
+import SectionHeadingTwentyNine from '../../section-heading/section-heading-twentynine';
 
 const NewArrivalProductTwentyNine = ({
     product,
@@ -53,20 +54,6 @@ const NewArrivalProductTwentyNine = ({
                         title_color={title_color || '#000'}
                     />
                 </div>
-                {/* <div className="">
-          <div className="arrow gap-2 lg:cursor-pointer opacity-0">
-            <div
-              className={`${prevEl} bg-white h-8 w-8 rounded-full flex justify-center items-center transition-all duration-500  ease-linear absolute left-0  top-1/2 -translate-y-1/2 z-[5] `}
-            >
-              <ChevronLeftIcon className="h-6 text-2xl font-serif font-bold" />
-            </div>
-            <div
-              className={`${nextEl} bg-white h-8 w-8 flex justify-center items-center rounded-full transition-all duration-500  ease-linear absolute right-0 top-1/2 -translate-y-1/2 z-[5] `}
-            >
-              <ChevronRightIcon className="h-6 text-2xl font-serif font-bold" />
-            </div>
-          </div>
-        </div> */}
                 <DefaultSlider
                     prevEl={prevEl}
                     nextEl={nextEl}

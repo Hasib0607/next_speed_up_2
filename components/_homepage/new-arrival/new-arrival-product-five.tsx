@@ -1,4 +1,5 @@
 'use client';
+
 import Card41 from '@/components/card/card41';
 import SectionHeadingFive from '@/components/section-heading/section-heading-five';
 import DefaultSlider from '@/components/slider/default-slider';
@@ -59,13 +60,14 @@ const NewArrivalProductFive = ({ product, headersetting }: any) => {
                         },
                     }}
                 >
-                    {product?.length > 0 && product?.slice(0, 10)?.map((item: any) => {
-                        return (
-                            <SwiperSlide key={item?.id}>
-                                <Card41 item={item} />
-                            </SwiperSlide>
-                        );
-                    })}
+                    {product?.length > 0 &&
+                        product?.slice(0, 10)?.map((item: any) => {
+                            return (
+                                <SwiperSlide key={item?.id}>
+                                    <Card41 item={item} />
+                                </SwiperSlide>
+                            );
+                        })}
                 </DefaultSlider>
             </div>
         </div>

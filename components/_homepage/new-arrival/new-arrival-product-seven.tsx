@@ -1,9 +1,8 @@
-'use client';
 import dynamic from 'next/dynamic';
 const SectionHeadingSeven = dynamic(
     () => import('@/components/section-heading/section-heading-seven')
 );
-const Card12 = dynamic(() => import('../../card/card12'), { ssr: false });
+const Card12 = dynamic(() => import('@/components/card/card12'));
 
 const NewArrivalProductSeven = ({ product, headersetting }: any) => {
     const { custom_design } = headersetting || {};

@@ -19,10 +19,7 @@ import Details from '../_product-details-page/components/details';
 import QuikView from '@/utils/quick-view';
 
 const Card22 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
     const { cartList } = useSelector((state: RootState) => state.cart);
-
-    const { design } = home || {};
 
     const dispatch = useDispatch();
 
@@ -47,8 +44,8 @@ const Card22 = ({ item }: any) => {
         }
     };
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = "var(--header-color)";
+    const textColor = "var(--text-color)";
 
     const styleCss = `
     .searchHover:hover {

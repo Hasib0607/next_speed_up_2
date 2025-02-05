@@ -1,5 +1,3 @@
-'use client';
-
 import { bannerImg } from '@/site-settings/siteUrl';
 
 const PromoBottomThirtyOne = ({ banner, design }: any) => {

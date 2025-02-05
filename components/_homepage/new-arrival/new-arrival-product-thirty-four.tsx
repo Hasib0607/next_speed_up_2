@@ -1,8 +1,9 @@
 'use client';
-import { SwiperSlide } from 'swiper/react';
+
 import Card60 from '../../card/card60';
-import SectionHeadingThirtyFour from '../../section-heading/section-heading-thirtyfour';
+import { SwiperSlide } from 'swiper/react';
 import DefaultSlider from '../../slider/default-slider';
+import SectionHeadingThirtyFour from '../../section-heading/section-heading-thirtyfour';
 
 const NewArrivalProductThirtyFour = ({
     product,
@@ -10,7 +11,6 @@ const NewArrivalProductThirtyFour = ({
     headersetting,
 }: any) => {
     const styleCss = `
-   
     .new-product-prev {
         color:  ${design?.header_color};
         border: 1px solid ${design?.header_color};
@@ -35,13 +35,12 @@ const NewArrivalProductThirtyFour = ({
         color:  ${design?.text_color};
         background:  ${design?.header_color};
     }
- `;
+    `;
 
     const prevEl = 'new-product-prev';
     const nextEl = 'new-product-next';
 
     const { custom_design } = headersetting || {};
-
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         newArrivalProduct || {};

@@ -1,4 +1,3 @@
-'use client';
 import Link from 'next/link';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import Card61 from '../../card/card61';
@@ -6,10 +5,10 @@ import SectionHeadingThirtyFive from '../../section-heading/section-heading-thir
 
 const NewArrivalProductThirtyFive = ({ product, headersetting }: any) => {
     const { custom_design } = headersetting || {};
-
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         newArrivalProduct || {};
+
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
             <SectionHeadingThirtyFive
@@ -20,8 +19,8 @@ const NewArrivalProductThirtyFive = ({ product, headersetting }: any) => {
                 {product?.length > 0 &&
                     product
                         ?.slice(0, 10)
-                        ?.map((productData: any) => (
-                            <Card61 item={productData} key={productData.id} />
+                        ?.map((item: any) => (
+                            <Card61 item={item} key={item.id} />
                         ))}
             </div>
             <Link href="/shop">

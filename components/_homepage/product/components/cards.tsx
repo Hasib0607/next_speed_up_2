@@ -1,4 +1,9 @@
+import Card4 from "@/components/card/card4";
+import Card6 from "@/components/card/card6";
+import Card7 from "@/components/card/card7";
+import Card15 from "@/components/card/card15";
 import Card16 from "@/components/card/card16";
+import Card17 from "@/components/card/card17";
 import Card29 from '@/components/card/card29';
 import Card45 from '@/components/card/card45';
 import Card49 from '@/components/card/card49';
@@ -7,13 +12,24 @@ import Card53 from '@/components/card/card53';
 import Card54 from "@/components/card/card54";
 import Card56 from "@/components/card/card56";
 import Card58 from '@/components/card/card58';
+import Card63 from "@/components/card/card63";
 import Card65 from "@/components/card/card65";
 import Card67 from "@/components/card/card67";
 
 const Cards = ({ card, item }: any) => {
     switch (card) {
+        case '4':
+            return <Card4 item={item} />;
+        case '6':
+            return <Card6 item={item} />;
+        case '7':
+            return <Card7 item={item} />;
+        case '15':
+            return <Card15 item={item} />;
         case '16':
             return <Card16 item={item} />;
+        case '17':
+            return <Card17 item={item} />;
         case '29':
             return <Card29 item={item} />;
         case '45':
@@ -30,6 +46,8 @@ const Cards = ({ card, item }: any) => {
             return <Card56 item={item} />;
         case '58':
             return <Card58 item={item} />;
+        case '63':
+            return <Card63 item={item} />;
         case '65':
             return <Card65 item={item} />;
         case '67':

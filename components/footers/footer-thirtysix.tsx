@@ -12,25 +12,24 @@ import CategoryList from './components/category-list';
 import MenuList from './components/menu-list';
 import CopyrightAll from './components/copyrightall';
 import WhatsApp from './components/whatsApp';
-import SSLImg from '@/assets/SSLCommerz-Pay-With-logo-All-Size-03.webp';
-import AllPaymantGateway from './components/all-payment-gateway';
-import PageList from './components/page-list';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 
-const FooterThirtySix = ({ headersetting, design, menu, page }: any) => {
+const FooterThirtySix = ({
+    headersetting,
+    design,
+    category,
+    menu,
+    page,
+}: any) => {
     const styleCss = `
     .menu-hover:hover {
         color:  ${design?.header_color};
     }
     `;
 
-    const { data: categoryData } = useGetCategoryQuery({});
-    const category = categoryData?.data || [];
-
     return (
         <div className="pt-10 pb-24 lg:pb-5">
             <style>{styleCss}</style>
-            <div className="sm:container px-5 grid grid-cols-1 lg:grid-cols-6 gap-5 sm:gap-6">
+            <div className="sm:container px-5 grid grid-cols-1 lg:grid-cols-5 gap-5 sm:gap-6">
                 <div className="lg:col-span-2">
                     <Link href="/">
                         <img
@@ -57,13 +56,7 @@ const FooterThirtySix = ({ headersetting, design, menu, page }: any) => {
                 <div className="lg:justify-self-center border-b-2 lg:border-0 pb-5 lg:pb-0">
                     <h1 className="text-xl font-medium ">Buy with Us</h1>
                     <div className="flex flex-col gap-3 pt-3 text-gray-500">
-                        <MenuList menu={menu} />
-                    </div>
-                </div>
-                <div className="lg:justify-self-center border-b-2 lg:border-0 pb-5 lg:pb-0">
-                    <h1 className="text-xl font-medium ">Legal</h1>
-                    <div className="flex flex-col gap-3 pt-3 text-gray-500">
-                        <PageList page={page} />
+                        <MenuList menu={menu} page={page} />
                     </div>
                 </div>
                 <div className="lg:justify-self-end">
@@ -130,24 +123,13 @@ const FooterThirtySix = ({ headersetting, design, menu, page }: any) => {
                 </div>
             </div>
 
-            <div className="sm:container px-5 mt-8">
-                <AllPaymantGateway headersetting={headersetting} />
-            </div>
-
-            <div className="border-t border-b border-gray-500 my-5 flex justify-between items-center">
+            <div className="border-t border-b border-gray-500 my-5">
                 <div className="sm:container px-5 text-[15px] py-8 font-light text-[#333333]">
                     <CopyrightAll headersetting={headersetting} />
                 </div>
-                {headersetting?.online === 'active' && (
-                    <>
-                        <div>
-                            <img src={SSLImg?.src} alt="" />
-                        </div>
-                    </>
-                )}
             </div>
             {/* <Messenger /> */}
-            <WhatsApp />
+            <WhatsApp headersetting={headersetting} />
         </div>
     );
 };

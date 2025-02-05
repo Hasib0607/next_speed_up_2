@@ -1,18 +1,12 @@
 'use client';
 
-import { RootState } from '@/redux/store';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import CatProductsList from './components/cat-products-list';
 
-const ProductTwentySeven = ({ category, design }: any) => {
+const ProductTwentySeven = ({ category, design, headersetting }: any) => {
     const [id, setId] = useState(category[0]?.id);
 
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    ); // Access updated Redux state
-
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const sectionHeadingData = custom_design?.product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         sectionHeadingData || {};
@@ -22,7 +16,7 @@ const ProductTwentySeven = ({ category, design }: any) => {
         color:  ${design?.text_color};
         background: ${design?.header_color};
     }
- `;
+    `;
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5  w-full">
@@ -34,7 +28,7 @@ const ProductTwentySeven = ({ category, design }: any) => {
                     </p>
                 </div>
                 <div className="flex gap-x-5 lg:cursor-pointer uppercase text-sm font-medium text-gray-600 mt-5">
-                    {category?.slice(0, 3).map((item: any) => (
+                    {category?.slice(0, 3)?.map((item: any) => (
                         <div key={item?.id}>
                             <h1
                                 className={`${

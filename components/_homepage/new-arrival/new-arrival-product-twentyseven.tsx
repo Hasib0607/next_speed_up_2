@@ -1,8 +1,9 @@
 'use client';
-import { SwiperSlide } from 'swiper/react';
+
 import Card51 from '../../card/card51';
-import SectionHeadingTwentySeven from '../../section-heading/section-heading-twenty-seven';
+import { SwiperSlide } from 'swiper/react';
 import DefaultSlider from '../../slider/default-slider';
+import SectionHeadingTwentySeven from '../../section-heading/section-heading-twenty-seven';
 
 const NewArrivalProductTwentySeven = ({ product, headersetting }: any) => {
     const { custom_design } = headersetting || {};
@@ -43,13 +44,12 @@ const NewArrivalProductTwentySeven = ({ product, headersetting }: any) => {
                         },
                     }}
                 >
-                    {product?.length > 0 && product?.slice(0, 10).map((item: any) => (
-                        <SwiperSlide key={item?.id}>
-                            <Card51
-                                item={item}
-                            />
-                        </SwiperSlide>
-                    ))}
+                    {product?.length > 0 &&
+                        product?.slice(0, 10)?.map((item: any) => (
+                            <SwiperSlide key={item?.id}>
+                                <Card51 item={item} />
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
             </div>
         </div>

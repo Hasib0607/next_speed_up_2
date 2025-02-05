@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+
 import { SwiperSlide } from "swiper/react";
 import DefaultSlider from "@/components/slider/default-slider";
 import { testimonialImg } from "@/site-settings/siteUrl";
@@ -22,7 +22,8 @@ const TestimonialTwo = ({ testimonials, design }: any) => {
         color: ${design?.text_color};
         border: 1px solid ${design?.header_color} ;
     }
-    `;
+  `;
+
   return (
     <div className="container">
       <style>{styleCss}</style>
@@ -63,7 +64,7 @@ const TestimonialTwo = ({ testimonials, design }: any) => {
                   },
                 }}
               >
-                {testimonials?.map((item: any) => (
+                {testimonials?.length > 0 && testimonials?.map((item: any) => (
                   <SwiperSlide key={item?.id}>
                     <div className="h-full bg-gray-100 p-8 min-h-[270px] rounded">
                       <svg

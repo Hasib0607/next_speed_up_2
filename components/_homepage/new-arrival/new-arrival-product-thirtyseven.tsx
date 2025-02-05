@@ -1,16 +1,11 @@
-'use client';
 import Card64 from '../../card/card64';
 
 const NewArrivalProductThirtySeven = ({ product, headersetting }: any) => {
     const { custom_design } = headersetting || {};
-
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         newArrivalProduct || {};
 
-    if (product.length === 0) {
-        return null;
-    }
     return (
         <div className="shadow-lg py-5 sm:py-10 rounded-sm bg-[#F1F9DD]">
             <div className="sm:container px-5">

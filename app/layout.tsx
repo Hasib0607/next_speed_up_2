@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-import Announcement from '@/components/Announcement';
+// import Announcement from '@/components/Announcement';
 import getDesign from '@/utils/fetcher/getDesign';
-import { headers } from 'next/headers';
-import { GetServerSideProps } from 'next';
+// import { headers } from 'next/headers';
+// import { GetServerSideProps } from 'next';
 import AppWrapper from './AppWrapper';
 import getStore from '@/utils/fetcher/getStore';
 import Script from 'next/script';
@@ -12,7 +12,6 @@ import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import { imgUrl } from '@/site-settings/siteUrl';
 import SetFavicon from '@/utils/useSetFavicon';
 import { GoogleTagManager } from '@next/third-parties/google';
-
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -29,21 +28,19 @@ export async function generateMetadata(): Promise<Metadata> {
     const headersetting = await getHeaderSetting();
     const title = headersetting?.website_name;
     const description = headersetting?.short_description;
-    const keywords = "eBitans, eCommerce builder platform";
+    const keywords = 'eBitans, eCommerce builder platform';
     return {
-      title: `${title}`,
-      description: description,
-      icons: { icon: imgUrl + headersetting?.favicon },
-      keywords: keywords,
+        title: `${title}`,
+        description: description,
+        icons: { icon: imgUrl + headersetting?.favicon },
+        keywords: keywords,
     };
-  }
-  
+}
+
 export default async function RootLayout({
     children,
-    currentUrl,
 }: Readonly<{
     children: React.ReactNode;
-    currentUrl: any;
 }>) {
     // const headersList = await headers();
     const appStore = await getStore();
@@ -90,6 +87,12 @@ export default async function RootLayout({
             </head>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+                style={
+                    {
+                        '--header-color': design?.header_color,
+                        '--text-color': design?.text_color,
+                    } as React.CSSProperties
+                }
             >
                 <SetFavicon faviconUrl={favicon} />
                 <GoogleTagManager

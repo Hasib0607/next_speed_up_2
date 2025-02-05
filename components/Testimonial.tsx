@@ -16,13 +16,10 @@ const Testimonial = ({ design }: any) => {
 
     const testimonials = testimonialsData?.data || [];
 
-    // console.log("Testimonial log");
-    // console.log("testimonials",testimonials);
-
     return (
         <>
 
-            {design?.testimonial !== "null" && testimonialsSuccess && (
+            {design?.testimonial !== "null" && testimonialsSuccess && testimonials && (
 
                 <TestimonialComponent
                     design={design}

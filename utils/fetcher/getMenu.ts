@@ -4,22 +4,30 @@ import { notFound } from 'next/navigation';
 export default async function getMenu() {
     const name = await getDomain();
 
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}get-domain/${name}/menu`,
-        {
-            next: {
-                revalidate: 10,
-            },
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}get-domain/${name}/menu`,
+            {
+                next: {
+                    revalidate: 60,
+                },
+            }
+        );
+
+        if (!response.ok) {
+            notFound();
         }
-    );
 
-    if (!res.ok) {
-        // throw new Error('Failed to fetch data!');
-        notFound();
+        // Clone the response if needed elsewhere
+        const clonedResponse = response.clone();
+        const clonedResponseData = await clonedResponse.json();
+
+        // const resData = await response.json();
+        const menuDetails = clonedResponseData?.data;
+
+        return menuDetails;
+    } catch (error) {
+        console.error('Fetch get-menu data error:', error);
+        return null;
     }
-
-    const resData = await res.json();
-    const menu = resData?.data;
-    
-    return menu;
 }

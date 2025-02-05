@@ -25,9 +25,6 @@ import QuickView from '@/utils/quick-view';
 import Details from '@/components/_product-details-page/components/details';
 
 const ProductCardTwo = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state.home);
-    const { design } = home || {};
-
     const { cartList } = useSelector((state: RootState) => state.cart);
 
     const dispatch = useDispatch();
@@ -60,6 +57,9 @@ const ProductCardTwo = ({ item }: any) => {
         setProduct(result);
     }, [cartList, item, product]);
 
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
+
     return (
         <>
             <div
@@ -87,13 +87,13 @@ const ProductCardTwo = ({ item }: any) => {
                     <div className="w-full">
                         <button
                             style={{
-                                backgroundColor: design?.header_color,
-                                color: design?.text_color,
+                                backgroundColor: bgColor,
+                                color: textColor,
                             }}
                             onClick={() => setOpen(!open)}
                             className="absolute -bottom-2 left-2 right-2 mx-auto rounded-t-md px-1 quick font-normal text-md pb-2 text-black text-md flex justify-center items-center gap-x-1 shadow-4xl"
                         >
-                            <IoEyeSharp color={design?.text_color} />
+                            <IoEyeSharp color={textColor} />
                             Quick Views
                         </button>
                     </div>
@@ -141,10 +141,10 @@ const ProductCardTwo = ({ item }: any) => {
                     {hasInCartList ? (
                         <div
                             className="mx-auto px-3 py-1 rounded-md shadow-sm flex justify-between text-black w-40 items-center"
-                            style={{ backgroundColor: design?.header_color }}
+                            style={{ backgroundColor: bgColor }}
                         >
                             <AiOutlineMinus
-                                color={design?.text_color}
+                                color={textColor}
                                 onClick={() =>
                                     handleDecrement(dispatch, product)
                                 }
@@ -152,12 +152,12 @@ const ProductCardTwo = ({ item }: any) => {
                             />
                             <span
                                 className="text-xl"
-                                style={{ color: design?.text_color }}
+                                style={{ color: textColor }}
                             >
                                 {product?.qty}
                             </span>
                             <AiOutlinePlus
-                                color={design?.text_color}
+                                color={textColor}
                                 onClick={handleAddToCart}
                                 className="text-2xl lg:cursor-pointer "
                             />
@@ -167,8 +167,8 @@ const ProductCardTwo = ({ item }: any) => {
                             onClick={handleAddToCart}
                             className="mx-auto px-2 py-1 rounded-md shadow-sm flex justify-between text-black w-40 items-center lg:cursor-pointer "
                             style={{
-                                backgroundColor: design?.header_color,
-                                color: design?.text_color,
+                                backgroundColor: bgColor,
+                                color: textColor,
                             }}
                         >
                             <p className="text-center w-full text-lg tracking-wider">
@@ -180,8 +180,8 @@ const ProductCardTwo = ({ item }: any) => {
                             href={'/product/' + item?.id + '/' + item?.slug}
                             className="mx-auto px-2 py-1 rounded-md shadow-sm flex justify-between text-black w-40 items-center lg:cursor-pointer "
                             style={{
-                                backgroundColor: design?.header_color,
-                                color: design?.text_color,
+                                backgroundColor: bgColor,
+                                color: textColor,
                             }}
                         >
                             <p className="text-center w-full text-lg tracking-wider">

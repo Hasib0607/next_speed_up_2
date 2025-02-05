@@ -1,13 +1,12 @@
 'use client';
+
 import Card22 from '@/components/card/card22';
 import SectionHeadingNine from '@/components/section-heading/section-heading-nine';
 import GridSliderThirteen from '@/components/slider/grid-slider/grid-slider-thirteen';
-import { RootState } from '@/redux/store';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
-const BestSellerNine = ({ best_sell_product, design }: any) => {
+const BestSellerNine = ({ best_sell_product, design, headersetting }: any) => {
     const prev = 'best_seller_nine_prev';
     const next = 'best_seller_nine_next';
 
@@ -32,17 +31,9 @@ const BestSellerNine = ({ best_sell_product, design }: any) => {
         display:block;
         background: white;
     }
- 
     `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headersetting = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
     const { custom_design } = headersetting || {};
-
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
 
@@ -98,21 +89,16 @@ const BestSellerNine = ({ best_sell_product, design }: any) => {
                             }}
                             className={'md:h-[1080px] h-[700px]'}
                         >
-                            {best_sell_product?.length > 0 &&
-                                best_sell_product
-                                    ?.slice(0, 10)
-                                    .map((item: any) => (
-                                        <SwiperSlide
-                                            className="swiperjs_grid_two"
-                                            key={item?.id}
-                                        >
-                                            <Card22
-                                                item={item}
-                                                design={design}
-                                                store_id={store_id}
-                                            />
-                                        </SwiperSlide>
-                                    ))}
+                            {best_sell_product
+                                ?.slice(0, 10)
+                                ?.map((item: any) => (
+                                    <SwiperSlide
+                                        className="swiperjs_grid_two"
+                                        key={item?.id}
+                                    >
+                                        <Card22 item={item} />
+                                    </SwiperSlide>
+                                ))}
                         </GridSliderThirteen>
                     </div>
                 )}

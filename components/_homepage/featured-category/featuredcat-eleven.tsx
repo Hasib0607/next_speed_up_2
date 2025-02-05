@@ -18,6 +18,7 @@ const FeaturedEleven = ({ category, design, headersetting }: any) => {
     const navigationNextRef = useRef<any>(null);
 
     let isLoop = category.length > 1;
+    
     const customCss = `
     .hoverBorder:hover{
         border:1px solid ${design?.header_color}

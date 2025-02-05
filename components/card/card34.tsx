@@ -6,7 +6,6 @@ import {
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
-import { RootState } from '@/redux/store';
 import { productImg } from '@/site-settings/siteUrl';
 import BDT from '@/utils/bdt';
 import QuickView from '@/utils/quick-view';
@@ -16,19 +15,17 @@ import Link from 'next/link';
 
 import { useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useSelector } from 'react-redux';
 import Details from '../_product-details-page/components/details';
 
 const Card34 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-
-    const { design } = home || {};
+    const bgColor = "var(--header-color)";
+    const textColor = "var(--text-color)";
 
     const [open, setOpen] = useState(false);
 
     const styleCss = `
     .search-bg{
-        background: ${design?.header_color} ;
+        background: ${bgColor} ;
         color : white ;
     } 
   `;
@@ -47,8 +44,8 @@ const Card34 = ({ item }: any) => {
                 <div
                     className="absolute text-xs px-2  py-2 top-2 right-2 rounded-md"
                     style={{
-                        background: `${design?.header_color}`,
-                        color: `${design?.text_color}`,
+                        background: `${bgColor}`,
+                        color: `${textColor}`,
                     }}
                 >
                     <p>

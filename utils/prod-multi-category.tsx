@@ -17,14 +17,6 @@ const ProdMultiCategory = ({
             {slicedCategory?.slice(0, count)?.map((cat: any, index: number) => (
                 <span
                     key={index}
-                    style={
-                        {
-                            '--header-color': design
-                                ? design?.header_color
-                                : '',
-                            '--text-color': design ? design?.text_color : '',
-                        } as React.CSSProperties
-                    }
                 >
                     <span className={className}>
                         {linkOff ? (

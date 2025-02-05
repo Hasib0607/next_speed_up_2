@@ -1,5 +1,10 @@
 'use client';
-import { useRef } from 'react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
     A11y,
@@ -8,25 +13,15 @@ import {
     EffectFade,
     Navigation,
 } from 'swiper/modules';
-// Import Swiper styles
 import Card47 from '@/components/card/card47';
 import SectionHeadingTwentyThree from '@/components/section-heading/section-heading-twentythree';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import 'swiper/css';
-import 'swiper/css/effect-fade';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const BestSellerTwentyThree = ({ best_sell_product, design }: any) => {
-    const swiperRef = useRef<any>(null);
-
-    const stopAutoplay = () => {
-        const swiper = swiperRef.current.swiper;
-        swiper.autoplay.stop();
-    };
-
+const BestSellerTwentyThree = ({
+    best_sell_product,
+    design,
+    headersetting,
+}: any) => {
     const prevEl = 'best-product-prev';
     const nextEl = 'best-product-next';
 
@@ -61,13 +56,8 @@ const BestSellerTwentyThree = ({ best_sell_product, design }: any) => {
       opacity:1;
       background: white;
     }
- `;
+    `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-    const headersetting = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
     const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
@@ -99,7 +89,6 @@ const BestSellerTwentyThree = ({ best_sell_product, design }: any) => {
 
                 <div>
                     <Swiper
-                        ref={swiperRef}
                         modules={[
                             Autoplay,
                             A11y,
@@ -114,9 +103,6 @@ const BestSellerTwentyThree = ({ best_sell_product, design }: any) => {
                             nextEl: `.${nextEl}`,
                         }}
                         className="mySwiper"
-                        // autoplay={{ delay: 2500,  disableOnInteraction:false }}
-                        // loop={click ? false : true}
-                        // autoplay={false}
                         breakpoints={{
                             250: {
                                 slidesPerView: 1,
@@ -145,18 +131,14 @@ const BestSellerTwentyThree = ({ best_sell_product, design }: any) => {
                         }}
                     >
                         <div className="grid grid-cols-3 gap-5 overflow-hidden">
-                            {best_sell_product
-                                ?.slice(0, 10)
-                                ?.map((item: any) => (
-                                    <SwiperSlide key={item.id}>
-                                        <Card47
-                                            design={design}
-                                            store_id={store_id}
-                                            item={item}
-                                            stopAutoplay={stopAutoplay}
-                                        />
-                                    </SwiperSlide>
-                                ))}
+                            {best_sell_product?.length > 0 &&
+                                best_sell_product
+                                    ?.slice(0, 10)
+                                    ?.map((item: any) => (
+                                        <SwiperSlide key={item.id}>
+                                            <Card47 item={item} />
+                                        </SwiperSlide>
+                                    ))}
                         </div>
                     </Swiper>
                 </div>

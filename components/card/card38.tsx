@@ -21,15 +21,12 @@ import Details from '../_product-details-page/components/details';
 const Card38 = ({ item }: any) => {
     const dispatch = useDispatch();
 
-    const home = useSelector((state: RootState) => state?.home);
     const { cartList } = useSelector((state: RootState) => state.cart);
 
-    const { design } = home || {};
-
     const [open, setOpen] = useState(false);
-
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    
+    const bgColor = "var(--header-color)";
+    const textColor = "var(--text-color)";
 
     const styleCss = `
     .searchHover:hover {
@@ -41,14 +38,14 @@ const Card38 = ({ item }: any) => {
         background: ${bgColor};
     }
     .card-text-color:hover {
-        color:  ${design?.header_color};
+        color:  ${bgColor};
     }
     .cart-color {
-        color:  ${design?.header_color};
-        border-bottom: 2px solid ${design?.header_color};
+        color:  ${bgColor};
+        border-bottom: 2px solid ${bgColor};
     }
     .border-hover:hover {
-        border: 1px solid ${design?.header_color};
+        border: 1px solid ${bgColor};
        
     }
   

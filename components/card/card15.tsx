@@ -22,26 +22,24 @@ import Details from '../_product-details-page/components/details';
 import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card15 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
     const { cartList } = useSelector((state: RootState) => state.cart);
-
-    const { design } = home || {};
+    
     const category = item?.category || [];
 
     const dispatch = useDispatch();
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = "var(--header-color)";
+    const textColor = "var(--text-color)";
 
     const styleCss = `
-  .searchHover:hover {
+    .searchHover:hover {
       color:  ${textColor};
       background: ${bgColor};
       }
       .text-hover:hover {
-        color:  ${design?.header_color};
+        color:  ${bgColor};
         }
-        `;
+    `;
 
     const [hoverCard, setHoverCard] = useState(false);
     const [open, setOpen] = useState<any>(false);

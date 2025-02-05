@@ -2,10 +2,9 @@
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
 import SectionHeadingSix from '@/components/section-heading/section-heading-six';
 import GridSliderSixCat from '@/components/slider/grid-slider/grid-slider-six-cat';
+// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/grid';
 import 'swiper/css/navigation';
@@ -20,14 +19,14 @@ const FeaturedSix = ({ category, design, headersetting }: any) => {
     const textColor = design?.text_color;
 
     const styleCss = `
-  .feature_cat_prev:hover {
-    color:${textColor};
-    background:${bgColor};
-  }
-  .feature_cat_next:hover {
-    color:${textColor};
-    background:${bgColor};
-  }
+    .feature_cat_prev:hover {
+        color:${textColor};
+        background:${bgColor};
+    }
+    .feature_cat_next:hover {
+        color:${textColor};
+        background:${bgColor};
+    }
     `;
 
     const { custom_design } = headersetting || {};

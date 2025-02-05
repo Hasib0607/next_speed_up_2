@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 import { SwiperSlide } from 'swiper/react';
 import DefaultSlider from '@/components/slider/default-slider';
@@ -62,28 +63,31 @@ const TestimonialThree = ({ testimonials, design }: any) => {
                             },
                         }}
                     >
-                        {testimonials?.map((item: any) => (
-                            <SwiperSlide key={item?.id}>
-                                <div className="p-5 min-h-[270px] rounded-lg testimonial-three duration-500">
-                                    <div className="flex gap-5 items-center">
-                                        <img
-                                            src={testimonialImg + item?.image}
-                                            alt=""
-                                            className="h-32 w-32 rounded-full border-4 border-gray-200"
-                                        />
-                                        <div className="space-y-1">
-                                            <h1 className="font-semibold text-lg">
-                                                {item?.name}
-                                            </h1>
-                                            <p className="font-semibold text-sm">
-                                                {item?.occupation}
-                                            </p>
+                        {testimonials?.length > 0 &&
+                            testimonials?.map((item: any) => (
+                                <SwiperSlide key={item?.id}>
+                                    <div className="p-5 min-h-[270px] rounded-lg testimonial-three duration-500">
+                                        <div className="flex gap-5 items-center">
+                                            <img
+                                                src={
+                                                    testimonialImg + item?.image
+                                                }
+                                                alt=""
+                                                className="h-32 w-32 rounded-full border-4 border-gray-200"
+                                            />
+                                            <div className="space-y-1">
+                                                <h1 className="font-semibold text-lg">
+                                                    {item?.name}
+                                                </h1>
+                                                <p className="font-semibold text-sm">
+                                                    {item?.occupation}
+                                                </p>
+                                            </div>
                                         </div>
+                                        <p className="mt-5">{item?.feedback}</p>
                                     </div>
-                                    <p className="mt-5">{item?.feedback}</p>
-                                </div>
-                            </SwiperSlide>
-                        ))}
+                                </SwiperSlide>
+                            ))}
                     </DefaultSlider>
                 </div>
                 <div className="flex lg:cursor-pointer gap-3 mt-3">

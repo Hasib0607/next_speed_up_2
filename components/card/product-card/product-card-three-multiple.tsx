@@ -1,13 +1,13 @@
 'use client';
 
 import { useGetSingleProductQuery } from '@/redux/features/products/productApi';
-
 import { getPrice } from '@/helpers/getPrice';
 import { productImg } from '@/site-settings/siteUrl';
 import ProdMultiCategory from '@/utils/prod-multi-category';
 import Taka from '@/utils/Taka';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { numberParser } from '@/helpers/numberParser';
 
 const ProductCardThreeMultipleCard = ({
     item1,
@@ -53,12 +53,12 @@ const ProductCardThreeMultipleCard = ({
 
     const campPrice1 = getPrice(
         productGetPrice1,
-        parseInt(camp?.discount_amount),
+        numberParser(camp?.discount_amount),
         camp?.discount_type
     );
     const campPrice3 = getPrice(
         productGetPrice3,
-        parseInt(campThree?.discount_amount),
+        numberParser(campThree?.discount_amount),
         campThree?.discount_type
     );
 

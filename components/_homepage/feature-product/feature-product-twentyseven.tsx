@@ -1,49 +1,43 @@
 'use client';
+
 import Card51 from '@/components/card/card51';
-import Card52 from '@/components/card/card52';
 import SectionHeadingTwentySeven from '@/components/section-heading/section-heading-twenty-seven';
 import DefaultSlider from '@/components/slider/default-slider';
-import { RootState } from '@/redux/store';
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
-const FeatureProductTwentySeven = ({ feature_product, design }: any) => {
+const FeatureProductTwentySeven = ({
+    design,
+    headersetting,
+    feature_product,
+}: any) => {
     const prevEl = 'feature-product-prev';
     const nextEl = 'feature-product-next';
 
     const styleCss = `
     .feature-product-prev {
-      color:  ${design?.header_color};
-      border: 1px solid transparent;
-  }
+        color:  ${design?.header_color};
+        border: 1px solid transparent;
+    }
     .feature-product-next{
         color:  ${design?.header_color};
         border: 1px solid transparent;
-  }
+    }
     .feature-product-prev:hover {
-      color:  ${design?.header_color};
-      border: 1px solid ${design?.header_color};
-  }
+        color:  ${design?.header_color};
+        border: 1px solid ${design?.header_color};
+    }
     .feature-product-next:hover {
-      color:  ${design?.header_color};
-      border: 1px solid ${design?.header_color};
-  }
+        color:  ${design?.header_color};
+        border: 1px solid ${design?.header_color};
+    }
+    .arrow-hov:hover .arrow {
+        opacity:1;
+        background: white;
+    }
+    `;
 
-
-  .arrow-hov:hover .arrow {
-    opacity:1;
-    background: white;
-  }
- `;
-
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    ); // Access updated Redux state
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featuredProduct = custom_design?.feature_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = featuredProduct;
 
@@ -99,15 +93,12 @@ const FeatureProductTwentySeven = ({ feature_product, design }: any) => {
                         },
                     }}
                 >
-                    {feature_product?.slice(0, 10).map((productData: any) => (
-                        <SwiperSlide key={productData.id}>
-                            <Card51
-                                item={productData}
-                                design={design}
-                                store_id={store_id}
-                            />
-                        </SwiperSlide>
-                    ))}
+                    {feature_product?.length > 0 &&
+                        feature_product?.slice(0, 10)?.map((item: any) => (
+                            <SwiperSlide key={item.id}>
+                                <Card51 item={item} />
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
             </div>
         </div>

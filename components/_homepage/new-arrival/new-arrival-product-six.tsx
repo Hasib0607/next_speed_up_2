@@ -1,4 +1,5 @@
 'use client';
+
 import { SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import 'swiper/css';
@@ -15,7 +16,6 @@ const NewArrivalProductSix = ({ product, design, headersetting }: any) => {
     const next = 'new_arrival_Next';
 
     const { custom_design } = headersetting || {};
-
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         newArrivalProduct || {};

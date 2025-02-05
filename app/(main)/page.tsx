@@ -1,26 +1,26 @@
-import dynamic from 'next/dynamic';
-import getDesign from '@/utils/fetcher/getDesign';
-
-import Announcement from '@/components/Announcement';
-const Header = dynamic(() => import('@/components/Header'));
 import HomePage from '@/components/HomePage';
-import CartPopUp from '@/components/CartPopUp';
-import MobileBottomMenu from '@/components/mobile-bottom-menu';
+import getDesign from '@/utils/fetcher/getDesign';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
-const Footer = dynamic(() => import('@/components/Footer'));
+import getLayout from '@/utils/fetcher/getLayout';
+import getSlider from '@/utils/fetcher/getSlider';
+import getBanner from '@/utils/fetcher/getBanner';
 
 export default async function Home() {
     const design = await getDesign();
     const headersetting = await getHeaderSetting();
+    const layout = await getLayout();
+    const slider = await getSlider();
+    const banner = await getBanner();
 
     return (
         <>
-            <Announcement design={design} />
-            <Header />
-            <HomePage design={design} headersetting={headersetting}/>
-            <CartPopUp design={design} />
-            <MobileBottomMenu />
-            <Footer design={design} />
+            <HomePage
+                design={design}
+                headersetting={headersetting}
+                layout={layout}
+                slider={slider}
+                banner={banner}
+            />
         </>
     );
 }

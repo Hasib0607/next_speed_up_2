@@ -1,4 +1,5 @@
 'use client';
+
 import { SwiperSlide } from 'swiper/react';
 import Card54 from '../../card/card54';
 import SectionHeadingThirty from '../../section-heading/section-heading-thirty';
@@ -39,7 +40,7 @@ const NewArrivalProductThirtyOne = ({
       opacity:1;
       background: white;
     }
- `;
+    `;
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
@@ -80,7 +81,7 @@ const NewArrivalProductThirtyOne = ({
                     }}
                 >
                     {product?.length > 0 &&
-                        product?.slice(0, 10).map((item: any) => (
+                        product?.slice(0, 10)?.map((item: any) => (
                             <SwiperSlide key={item?.id}>
                                 <Card54 item={item} />
                             </SwiperSlide>

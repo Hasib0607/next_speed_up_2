@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import {
     A11y,
@@ -36,11 +37,11 @@ const NewArrivalProductNine = ({ product, design, headersetting }: any) => {
     .new-product-prev:hover {
       color:  ${design?.text_color};
       background: ${design?.header_color};
-  }
-    .new-product-next:hover {
-      color:  ${design?.text_color};
-      background: ${design?.header_color};
-  }
+    }
+        .new-product-next:hover {
+        color:  ${design?.text_color};
+        background: ${design?.header_color};
+    }
     `;
 
     return (
@@ -103,11 +104,12 @@ const NewArrivalProductNine = ({ product, design, headersetting }: any) => {
                     }}
                     className="mySwiper"
                 >
-                    {product?.length > 0 && product?.map((productData: any) => (
-                        <SwiperSlide key={productData.id}>
-                            <Card item={productData} />
-                        </SwiperSlide>
-                    ))}
+                    {product?.length > 0 &&
+                        product?.map((productData: any) => (
+                            <SwiperSlide key={productData.id}>
+                                <Card item={productData} />
+                            </SwiperSlide>
+                        ))}
                 </Swiper>
             </div>
         </div>

@@ -27,7 +27,7 @@ const NewArrivalProductTen = ({ headersetting }: any) => {
     .active-cat {
       color:  red;
     }
-`;
+    `;
 
     const { custom_design } = headersetting || {};
 
@@ -62,12 +62,7 @@ const NewArrivalProductTen = ({ headersetting }: any) => {
             {products?.length > 0 ? (
                 <div className="grid grid-cols-2 xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-3 gap-4">
                     {products?.slice(0, 10)?.map((item: any) => {
-                        return (
-                            <Card15
-                                item={item}
-                                key={item?.id}
-                            />
-                        );
+                        return <Card15 item={item} key={item?.id} />;
                     })}
                 </div>
             ) : (

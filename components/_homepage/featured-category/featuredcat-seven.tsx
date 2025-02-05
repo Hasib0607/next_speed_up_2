@@ -5,10 +5,10 @@ import Card9 from '@/components/card/card9';
 import SectionHeadingSeventeen from '@/components/section-heading/section-heading-seventeen';
 import DefaultSlider from '@/components/slider/default-slider';
 import Arrowbetween from '@/utils/arrow-between';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-
 
 const FeaturedSeven = ({ category, headersetting }: any) => {
     const prev = 'best_seller_seven_Prev';
@@ -16,8 +16,7 @@ const FeaturedSeven = ({ category, headersetting }: any) => {
 
     const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
-    const { title, title_color } =
-        featureCategory || {};
+    const { title, title_color } = featureCategory || {};
 
     return (
         <div className="container px-5 bg-white relative py-5">

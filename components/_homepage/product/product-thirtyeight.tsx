@@ -1,13 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import CatProductsList from './components/cat-products-list';
 
-const ProductThirtyEight = ({ category, design }: any) => {
-    const home = useSelector((state: any) => state?.home);
-    const { headersetting } = home || {};
-
+const ProductThirtyEight = ({ category, design, headersetting }: any) => {
     const [id, setId] = useState(category[0]?.id);
 
     const styleCss = `
@@ -19,10 +15,12 @@ const ProductThirtyEight = ({ category, design }: any) => {
     .sec-twenty-nine{
         border-bottom: 2px solid ${design?.header_color};
     }
- `;
+    `;
 
-    const { title, title_color } =
-        headersetting?.custom_design?.product?.[0] || {};
+    const { custom_design } = headersetting || {};
+    const sectionHeadingData = custom_design?.product?.[0] || {};
+    const { title = 'Default Title', title_color = '#000' } =
+        sectionHeadingData || {};
 
     return (
         <div className="bg-[#F2F4F8]">

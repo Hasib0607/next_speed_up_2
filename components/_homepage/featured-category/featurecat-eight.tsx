@@ -1,4 +1,5 @@
 'use client';
+
 import SectionHeadingSeven from '@/components/section-heading/section-heading-seven';
 import DefaultSlider from '@/components/slider/default-slider';
 import { iconImg } from '@/site-settings/siteUrl';

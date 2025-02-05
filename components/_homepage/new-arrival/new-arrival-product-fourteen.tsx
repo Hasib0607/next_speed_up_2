@@ -1,10 +1,11 @@
 'use client';
-import { BsPlay } from 'react-icons/bs';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { SwiperSlide } from 'swiper/react';
+import { BsPlay } from 'react-icons/bs';
 import Card29 from '../../card/card29';
+import { SwiperSlide } from 'swiper/react';
 import SectionHeadingSixteen from '../../section-heading/section-heading-sixteen';
 import DefaultSlider from '../../slider/default-slider';
 
@@ -16,21 +17,19 @@ const NewArrivalProductFourteen = ({ product, design, headersetting }: any) => {
     .new-fourteen-prev:hover {
       color:  ${design?.text_color};
       background: ${design?.header_color};
-  }
-    .new-fourteen-next:hover {
-      color:  ${design?.text_color};
-      background: ${design?.header_color};
-  }
+    }
+        .new-fourteen-next:hover {
+        color:  ${design?.text_color};
+        background: ${design?.header_color};
+    }
 
-  .arrow-hov:hover .arrow {
-    opacity:1;
-    background: white;
-  }
- 
+    .arrow-hov:hover .arrow {
+        opacity:1;
+        background: white;
+    }
     `;
 
     const { custom_design } = headersetting || {};
-
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         newArrivalProduct || {};
@@ -88,7 +87,7 @@ const NewArrivalProductFourteen = ({ product, design, headersetting }: any) => {
                     },
                 }}
             >
-                {product?.length > 0 && product?.length > 0 &&
+                {product?.length > 0 &&
                     product?.slice(0, 10)?.map((productData: any) => (
                         <SwiperSlide key={productData.id}>
                             <Card29 item={productData} />

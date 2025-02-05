@@ -22,8 +22,6 @@ import { addToCart } from '@/utils/_cart-utils/cart-utils';
 const Card60 = ({ item, buttonObj }: any) => {
     const secondImg = item?.image[1] ? item?.image[1] : item?.image[0];
 
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 
@@ -64,8 +62,8 @@ const Card60 = ({ item, buttonObj }: any) => {
         }
     };
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
 
     const {
         button,
@@ -82,10 +80,10 @@ const Card60 = ({ item, buttonObj }: any) => {
         background: #83C341;
     }
     .text-color-thirty {
-        color:  ${design?.header_color};
+        color:  ${bgColor};
     }
     .text-hover:hover {
-        color: ${design?.header_color};
+        color: ${bgColor};
         text-decoration: underline;
       }
     .bg-color {

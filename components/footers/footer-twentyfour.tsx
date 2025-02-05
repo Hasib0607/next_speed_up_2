@@ -16,12 +16,14 @@ import { RiInstagramLine } from 'react-icons/ri';
 import CopyrightAll from './components/copyrightall';
 import Newsletter from './components/newsletter';
 import WhatsApp from './components/whatsApp';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
-import AllPaymantGateway from './components/all-payment-gateway';
 
-const FooterTwentyFour = ({ headersetting, menu, design }: any) => {
+const FooterTwentyFour = ({
+    headersetting,
+    menu,
+    category,
+    design,
+    store_id,
+}: any) => {
     const customDesign = `
     .bg-hover-footer:hover{
         color:${design?.text_color};
@@ -32,12 +34,6 @@ const FooterTwentyFour = ({ headersetting, menu, design }: any) => {
         transform: rotateY(180deg);
     }
     `;
-
-    const { data: categoryData } = useGetCategoryQuery({});
-    const category = categoryData?.data || [];
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
 
     return (
         <div className="bg-[#e0cdbc] relative lg:mr-10">
@@ -109,6 +105,7 @@ const FooterTwentyFour = ({ headersetting, menu, design }: any) => {
                                     </a>
                                 </div>
                             )}
+
                             {headersetting?.youtube_link && (
                                 <div className="border-2 rounded-full p-2">
                                     <a
@@ -121,6 +118,7 @@ const FooterTwentyFour = ({ headersetting, menu, design }: any) => {
                                     </a>
                                 </div>
                             )}
+
                             {headersetting?.instagram_link && (
                                 <div className="border-2 rounded-full p-2">
                                     <a
@@ -133,6 +131,7 @@ const FooterTwentyFour = ({ headersetting, menu, design }: any) => {
                                     </a>
                                 </div>
                             )}
+
                             {headersetting?.whatsapp_phone && (
                                 <div className="border-2 rounded-full p-2">
                                     <a
@@ -148,6 +147,7 @@ const FooterTwentyFour = ({ headersetting, menu, design }: any) => {
                                     </a>
                                 </div>
                             )}
+                            
                             {headersetting?.lined_in_link && (
                                 <div className="border-2 rounded-full p-2">
                                     <a
@@ -208,7 +208,7 @@ const FooterTwentyFour = ({ headersetting, menu, design }: any) => {
                             {menu.slice(0, 6).map((item: any) => (
                                 <div key={item.id} className="">
                                     <li className="list-none w-max menu-hover hover:underline">
-                                        <Link href={item?.custom_link || (item?.url ? `/${item?.url}` : "/")}>
+                                        <Link href={item.url}>
                                             <h1>{item.name}</h1>
                                         </Link>
                                     </li>
@@ -216,10 +216,6 @@ const FooterTwentyFour = ({ headersetting, menu, design }: any) => {
                             ))}
                         </div>
                     </div>
-                </div>
-
-                <div className="sm:container px-5 mt-8 text-gray-400">
-                    <AllPaymantGateway headersetting={headersetting} />
                 </div>
 
                 <div className="flex md:flex-row flex-col md:justify-center items-center sm:container px-5 pt-10 pb-20 ">
@@ -232,7 +228,7 @@ const FooterTwentyFour = ({ headersetting, menu, design }: any) => {
             </div>
             <hr />
             {/* <Messenger /> */}
-            <WhatsApp />
+            <WhatsApp headersetting={headersetting} />
         </div>
     );
 };

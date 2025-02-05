@@ -1,19 +1,23 @@
 'use client';
+
 import { SwiperSlide } from 'swiper/react';
 import hot from '@/assets/bg-image/hot-deal-logo.gif';
 import Card58 from '@/components/card/card58';
 import DefaultSlider from '@/components/slider/default-slider';
 import { IoIosArrowForward } from 'react-icons/io';
 import Link from 'next/link';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const FeatureProductTwentyEight = ({ feature_product, design }: any) => {
+const FeatureProductTwentyEight = ({
+    feature_product,
+    design,
+    headersetting,
+}: any) => {
     const prevEl = 'new-product-prev';
     const nextEl = 'new-product-next';
+
     let isLoop = feature_product.length > 1;
+
     const styleCss = `
-   
     .new-product-prev {
         color:  ${design?.header_color};
         border: 1px solid ${design?.header_color};
@@ -34,23 +38,11 @@ const FeatureProductTwentyEight = ({ feature_product, design }: any) => {
       opacity:1;
       background: white;
     }
- `;
+    `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    ); // Access updated Redux state
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featuredProduct = custom_design?.feature_product?.[0] || {};
-
-    if (!featuredProduct) {
-        return null;
-    }
-
-    const title = featuredProduct?.title || 'See More';
-    const title_color = featuredProduct?.title_color || '#000';
+    const { title = 'Default Title', title_color = '#000' } = featuredProduct;
 
     return (
         <div className="sm:py-10 py-5">
@@ -100,15 +92,12 @@ const FeatureProductTwentyEight = ({ feature_product, design }: any) => {
                         },
                     }}
                 >
-                    {feature_product?.slice(0, 10).map((item: any) => (
-                        <SwiperSlide key={item?.id}>
-                            <Card58
-                                item={item}
-                                design={design}
-                                store_id={store_id}
-                            />
-                        </SwiperSlide>
-                    ))}
+                    {feature_product?.length > 0 &&
+                        feature_product?.slice(0, 10)?.map((item: any) => (
+                            <SwiperSlide key={item?.id}>
+                                <Card58 item={item} />
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
             </div>
         </div>

@@ -23,16 +23,16 @@ import Details from '../_product-details-page/components/details';
 const Card33 = ({ item }: any) => {
     const dispatch = useDispatch();
 
-    const home = useSelector((state: RootState) => state?.home);
     const { cartList } = useSelector((state: RootState) => state.cart);
-
-    const { design } = home || {};
 
     const [open, setOpen] = useState(false);
 
+    const bgColor = "var(--header-color)";
+    const textColor = "var(--text-color)";
+
     const styleCss = `
     .search-bg{
-        background: ${design?.header_color} ;
+        background: ${bgColor} ;
         color : white ;
     } 
   `;
@@ -131,8 +131,8 @@ const Card33 = ({ item }: any) => {
                             <div
                                 className="absolute text-xs px-2  py-2 top-3 right-2 rounded-md"
                                 style={{
-                                    background: `${design?.header_color}`,
-                                    color: `${design?.text_color}`,
+                                    background: `${bgColor}`,
+                                    color: `${textColor}`,
                                 }}
                             >
                                 <p>

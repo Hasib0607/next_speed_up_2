@@ -4,11 +4,9 @@ import img from '@/assets/img/thirtyfive/01.webp';
 import Card61 from '@/components/card/card61';
 import SliderThirtyFive from '@/components/slider/slider-thirty-five';
 import { useGetBannerQuery } from '@/redux/features/home/homeApi';
-import { RootState } from '@/redux/store';
 import { bannerImg } from '@/site-settings/siteUrl';
 import { useMemo } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
 const FeatureProductThirtyFive = ({ feature_product, design }: any) => {
@@ -21,20 +19,19 @@ const FeatureProductThirtyFive = ({ feature_product, design }: any) => {
     const banner = useMemo(() => bannerData?.data || [], [bannerData]);
 
     const styleCss = `
-   
     .new-product-prev {
         color:  ${design?.header_color};
         border: 1px solid ${design?.header_color};
     }
-      .new-product-next{
+    .new-product-next{
           color:  ${design?.header_color};
           border: 1px solid ${design?.header_color};
     }
-      .new-product-prev:hover {
+    .new-product-prev:hover {
         color:  ${design?.text_color};
         background: ${design?.header_color};
     }
-      .new-product-next:hover {
+    .new-product-next:hover {
         color:  ${design?.text_color};
         background: ${design?.header_color};
     }
@@ -46,13 +43,10 @@ const FeatureProductThirtyFive = ({ feature_product, design }: any) => {
         color:  ${design?.text_color};
         background:  ${design?.header_color};
     }
- `;
+    `;
 
     const prevEl = 'feature-product-prev';
     const nextEl = 'feature-product-next';
-
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
 
     return (
         <div className="border-t-2 border-b-2 border-black">
@@ -83,19 +77,16 @@ const FeatureProductThirtyFive = ({ feature_product, design }: any) => {
                                     },
                                 }}
                             >
-                                {feature_product
-                                    ?.slice(0, 10)
-                                    .map((item: any) => (
-                                        <SwiperSlide key={item?.id}>
-                                            <div className="px-0 lg:px-5 pr-2 lg:pr-2">
-                                                <Card61
-                                                    item={item}
-                                                    design={design}
-                                                    store_id={store_id}
-                                                />
-                                            </div>
-                                        </SwiperSlide>
-                                    ))}
+                                {feature_product?.length > 0 &&
+                                    feature_product
+                                        ?.slice(0, 10)
+                                        ?.map((item: any) => (
+                                            <SwiperSlide key={item?.id}>
+                                                <div className="px-0 lg:px-5 pr-2 lg:pr-2">
+                                                    <Card61 item={item} />
+                                                </div>
+                                            </SwiperSlide>
+                                        ))}
                             </SliderThirtyFive>
                         </div>
                         {banner?.length > 1 && (

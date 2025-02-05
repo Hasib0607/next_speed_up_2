@@ -1,9 +1,6 @@
-'use client';
-
 import { iconImg } from '@/site-settings/siteUrl';
 
 const DefaultFeaturedCategory = ({ category, headersetting }: any) => {
-
     const { custom_design } = headersetting || {};
     const featureCategory = custom_design?.feature_category?.[0] || {};
     const { title, title_color } = featureCategory || {};
@@ -24,17 +21,11 @@ const DefaultFeaturedCategory = ({ category, headersetting }: any) => {
                             className="rounded-lg bg-white w-32 h-32"
                         >
                             <div className="flex justify-center items-center">
-                                <a
-                                    href={`${process.env.NEXT_PUBLIC_BASE}/design/homepage/featurecategory`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <img
-                                        src={iconImg + cat.icon}
-                                        alt=""
-                                        className="h-20 w-20"
-                                    />
-                                </a>
+                                <img
+                                    src={iconImg + cat.icon}
+                                    alt=""
+                                    className="h-20 w-20"
+                                />
                             </div>
                             <p className="py-2 text-base font-semibold text-center">
                                 {cat.name}

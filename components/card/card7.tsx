@@ -27,10 +27,7 @@ import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 const Card7 = ({ item, setView, view }: any) => {
     const [open, setOpen] = useState(false);
 
-    const home = useSelector((state: RootState) => state?.home);
     const { cartList } = useSelector((state: RootState) => state.cart);
-
-    const { design } = home || {};
 
     const dispatch = useDispatch();
 
@@ -42,10 +39,9 @@ const Card7 = ({ item, setView, view }: any) => {
         border-radius:50%;
         top: 10%;
         left: 50%;
-     
     }
     .testDiv7:hover{
-        background-color:${design?.header_color};
+        background-color: var(--header-color);
         display: block;
     }
     .testShoppingBagDiv7{
@@ -57,15 +53,15 @@ const Card7 = ({ item, setView, view }: any) => {
         right: 50%;
     }
     .testShoppingBagDiv7:hover{
-        background-color:${design?.header_color};
+        background-color: var(--header-color);
         display: block;
     }
     .card7SearchIcon{
         height: 20px;
-        color:${design?.text_color};
+        color: var(--text-color);
         margin-top: 10px;
         margin-left: 10px;
-}`;
+    }`;
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);

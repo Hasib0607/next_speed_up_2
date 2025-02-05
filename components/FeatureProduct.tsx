@@ -6,7 +6,7 @@ import { useGetFeatureProductQuery } from '@/redux/features/products/productApi'
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
-const FeatureProduct = ({ design, store_id }: any) => {
+const FeatureProduct = ({ design, headersetting }: any) => {
     const FeatureProductComponent =
         feature_products[design?.feature_product] || feature_products[DEFAULT];
 
@@ -20,29 +20,17 @@ const FeatureProduct = ({ design, store_id }: any) => {
     } = useGetFeatureProductQuery({});
     const feature_product = featureProductData?.data || [];
 
-    // console.log("feature_product log");
-    // console.log("feature_product",feature_product);
-    
-
     return (
-        <>
-
-            {design?.feature_product !== "null" && feature_product?.length > 3 &&
-
-                FeatureProductComponent &&
-                featureProductSuccess && (
-                    <>
-                        {
-                            <FeatureProductComponent
-                                design={design}
-                                store_id={store_id}
-                                feature_product={feature_product}
-                                product={product}
-                            />
-                        }
-                    </>
-                )}
-        </>
+        design?.feature_product !== 'null' &&
+        FeatureProductComponent &&
+        featureProductSuccess && (
+            <FeatureProductComponent
+                design={design}
+                headersetting={headersetting}
+                feature_product={feature_product}
+                product={product}
+            />
+        )
     );
 };
 

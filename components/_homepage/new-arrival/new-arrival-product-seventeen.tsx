@@ -1,18 +1,18 @@
 'use client';
+
 import {
     ParallaxBanner,
     ParallaxBannerLayer,
     ParallaxProvider,
 } from 'react-scroll-parallax';
 import Card35 from '../../card/card35';
-import SectionHeadingSeventeen from '../../section-heading/section-heading-seventeen';
 import img1 from './bg-img/17/bg.webp';
 import image from './bg-img/17/show_divider_5_69x61.webp';
 import './new-arrival-product-seventeen.css';
+import SectionHeadingSeventeen from '../../section-heading/section-heading-seventeen';
 
 const NewArrivalProductSeventeen = ({ product, headersetting }: any) => {
     const { custom_design } = headersetting || {};
-
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         newArrivalProduct || {};

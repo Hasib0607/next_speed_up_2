@@ -1,5 +1,6 @@
-import { productImg } from '@/site-settings/siteUrl';
+'use client';
 
+import { productImg } from '@/site-settings/siteUrl';
 import Rate from '@/utils/rate';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -19,29 +20,27 @@ import QuikView from '@/utils/quick-view';
 import Details from '../_product-details-page/components/details';
 import ProdMultiCategory from '@/utils/prod-multi-category';
 
+
 const Card4 = ({ item }: any) => {
     const [open, setOpen] = useState(false);
-
-    const home = useSelector((state: RootState) => state.home);
+    
     const { cartList } = useSelector((state: RootState) => state.cart);
-
-    const { design } = home || {};
     const category = item?.category || [];
 
     const dispatch = useDispatch();
 
     const styleCss = `
-  .text-hover:hover {
-    color:  ${design?.header_color};
-  }
-  .search:hover {
-    color:${design?.text_color};
-    background:${design?.header_color};
-  }
-  .border-hover:hover {
-    border: 1px solid  ${design?.header_color};
-  }
-  `;
+        .text-hover:hover {
+            color: var(--header-color);
+        }
+        .search:hover {
+            color: var(--text-color);
+            background: var(--header-color);
+        }
+        .border-hover:hover {
+            border: 1px solid var(--header-color);
+        }
+    `;
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
@@ -106,7 +105,6 @@ const Card4 = ({ item }: any) => {
                         {Array.isArray(category) && category?.length > 0 && (
                             <ProdMultiCategory
                                 category={category}
-                                design={design}
                                 className={'text-[var(--header-color)]'}
                             />
                         )}

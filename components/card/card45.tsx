@@ -18,15 +18,16 @@ import {
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
+import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
 
 const Card45 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
+    const { data: headerData } = useGetHeaderSettingsQuery({});
+    const headersetting = headerData?.data || {};
 
     const secondImg = item?.image[1] ? item?.image[1] : item?.image[0];
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
 
     const styleCss = `
     .searchHover:hover {
@@ -34,10 +35,10 @@ const Card45 = ({ item }: any) => {
         background: ${bgColor};
     }
     .text-color {
-        color:  ${design?.header_color};
+        color:  ${bgColor};
     }
     .text-hover:hover {
-        color: ${design?.header_color};
+        color: ${bgColor};
       }
     .bg-color {
         color:  ${textColor};
@@ -117,7 +118,9 @@ const Card45 = ({ item }: any) => {
                                 <div className="absolute text-center text-xs h-12 w-12 rounded-full flex flex-wrap justify-center items-center bg-color text-white top-2 right-2 ">
                                     <p className="">
                                         Dis.{numberParser(item.discount_price)}
-                                        {item.discount_type === 'fixed' ? 'TK' : ''}
+                                        {item.discount_type === 'fixed'
+                                            ? 'TK'
+                                            : ''}
                                         {item.discount_type === 'percent'
                                             ? '%'
                                             : ''}

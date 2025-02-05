@@ -3,14 +3,11 @@
 import Marquee from 'react-fast-marquee';
 import { useEffect, useState } from 'react';
 import { useGetAnnouncementQuery } from '@/redux/features/home/homeApi';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
 // import useAnnouncementScroll from '@/utils/use-annoucement-height';
 
 const Announcement = ({ design }: any) => {
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = design?.store_id || null;
 
     const [announcements, setAnnouncements] = useState([]);
 

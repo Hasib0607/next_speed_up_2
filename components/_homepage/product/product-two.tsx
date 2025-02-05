@@ -1,27 +1,22 @@
 'use client';
 
-import SectionHeadingTen from '@/components/section-heading/section-heading-ten';
-import { RootState } from '@/redux/store';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import CatProductsList from './components/cat-products-list';
+import SectionHeadingTen from '@/components/section-heading/section-heading-ten';
 
-const ProductTwo = ({ category }: any) => {
+const ProductTwo = ({ category, headersetting }: any) => {
     const [id, setId] = useState(category[0]?.id);
 
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
+    const { custom_design } = headersetting || {};
 
-    const { custom_design } = headerdata || {};
     const sectionHeadingData = custom_design?.product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         sectionHeadingData || {};
 
     const styleCss = `
-    .active-cat {
-      color: red;
-    }
+        .active-cat {
+        color: red;
+        }
     `;
 
     return (

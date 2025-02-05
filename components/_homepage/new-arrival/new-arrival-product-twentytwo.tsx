@@ -1,10 +1,8 @@
-'use client';
 import Card46 from '../../card/card46';
 import SectionHeadingTwentyTwo from '../../section-heading/section-heading-twentytwo';
 
 const NewArrivalProductTwentyTwo = ({ product, headersetting }: any) => {
     const { custom_design } = headersetting || {};
-
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         newArrivalProduct || {};

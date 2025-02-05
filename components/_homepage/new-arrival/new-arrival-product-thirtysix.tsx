@@ -1,9 +1,7 @@
-'use client';
 import Card63 from '../../card/card63';
 
 const NewArrivalProductThirtySix = ({ product, headersetting }: any) => {
     const { custom_design } = headersetting || {};
-
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         newArrivalProduct || {};
@@ -22,8 +20,8 @@ const NewArrivalProductThirtySix = ({ product, headersetting }: any) => {
                 {product?.length > 0 &&
                     product
                         ?.slice(0, 10)
-                        ?.map((productData: any) => (
-                            <Card63 item={productData} key={productData.id} />
+                        ?.map((item: any) => (
+                            <Card63 item={item} key={item.id} />
                         ))}
             </div>
         </div>

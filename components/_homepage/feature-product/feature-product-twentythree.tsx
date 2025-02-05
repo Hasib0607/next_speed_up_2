@@ -1,15 +1,16 @@
 'use client';
+
 import SectionHeadingTwentyThree from '@/components/section-heading/section-heading-twentythree';
 import DefaultSlider from '@/components/slider/default-slider';
-import { RootState } from '@/redux/store';
 import { productImg } from '@/site-settings/siteUrl';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import parse from 'html-react-parser';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
+
 import { SwiperSlide } from 'swiper/react';
 
-const FeatureProductTwentyThree = ({ feature_product, design }: any) => {
+const FeatureProductTwentyThree = ({ feature_product, design, headersetting }: any) => {
     const prevEl = 'feature-product-prev';
     const nextEl = 'feature-product-next';
 
@@ -47,12 +48,9 @@ const FeatureProductTwentyThree = ({ feature_product, design }: any) => {
     }
  `;
 
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    ); // Access updated Redux state
-    const { custom_design } = headerdata || {};
-    const featuredProduct = custom_design?.feature_product?.[0] || {};
-    const { title = 'Default Title', title_color = '#000' } = featuredProduct;
+ const { custom_design } = headersetting || {};
+ const featuredProduct = custom_design?.feature_product?.[0] || {};
+ const { title = 'Default Title', title_color = '#000' } = featuredProduct;
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5 w-full">
@@ -111,7 +109,7 @@ const FeatureProductTwentyThree = ({ feature_product, design }: any) => {
                     }}
                 >
                     <div className="grid grid-cols-3 gap-5 overflow-hidden">
-                        {feature_product?.slice(0, 10).map((item: any) => (
+                        {feature_product?.length > 0 && feature_product?.slice(0, 10)?.map((item: any) => (
                             <SwiperSlide key={item.id}>
                                 <div key={item?.id}>
                                     <Link

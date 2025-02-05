@@ -1,12 +1,10 @@
-'use client';
 import Card65 from '../../card/card65';
 
 const NewArrivalProductThirtyEight = ({ product, headersetting }: any) => {
     const { custom_design } = headersetting || {};
-
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
-        newArrivalProduct || {};    
+        newArrivalProduct || {};
 
     return (
         <div className="py-5 sm:py-10 bg-[#F2F4F8]">

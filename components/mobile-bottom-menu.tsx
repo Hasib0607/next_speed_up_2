@@ -3,7 +3,6 @@ import getDesign from '@/utils/fetcher/getDesign';
 
 export default async function MobileBottomMenu() {
     const design = await getDesign();
-    
     const MobileNavComponent = mobile_navs[design?.mobile_bottom_menu];
 
     return (

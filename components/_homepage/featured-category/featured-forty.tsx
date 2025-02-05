@@ -1,4 +1,3 @@
-'use client';
 import { catImg } from '@/site-settings/siteUrl';
 import Link from 'next/link';
 

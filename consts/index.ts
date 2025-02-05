@@ -42,7 +42,7 @@ export const FORTY = 'forty';
 
 // regex
 export const HTML_TAG_PATTERN = /<[^>]*>/g;
-export const GMAP_IFRAME_SRC_LINK = /src="([^"]+)"/
+export const GMAP_IFRAME_SRC_LINK = /src="([^"]+)"/;
 export const PHONE_NUMBER_REGEX = /^(01\d{9}|8801\d{9}|\+8801\d{9})$/;
 export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -63,6 +63,6 @@ function url() {
     return ''; // Optional: return an empty string if window is undefined (e.g., in server-side rendering)
 }
 
-export const name = "savantstylefashion.com";
-// export const name = url();
+// export const name = "savantstylefashion.com";
+export const name = url();
 // console.log(name);

@@ -1,4 +1,5 @@
 'use client';
+
 import Card7 from '@/components/card/card7';
 import SectionHeadingSix from '@/components/section-heading/section-heading-six';
 import GridSliderFive from '@/components/slider/grid-slider/grid-slider-five';
@@ -6,31 +7,26 @@ import { productImg } from '@/site-settings/siteUrl';
 import ArrowSquare from '@/utils/arrow-square';
 import { useDispatch, useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
+import BDT from '@/utils/bdt';
 import './best-seller-six.css';
 import { RootState } from '@/redux/store';
 import { productCurrentPrice } from '@/helpers/littleSpicy';
-import BDT from '@/utils/bdt';
 import { useState } from 'react';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
 
-const BestSellerSix = ({ product, design }: any) => {
+const BestSellerSix = ({ product, design, headersetting }: any) => {
     const dispatch = useDispatch();
 
     const { cartList } = useSelector((state: RootState) => state.cart);
+
     const [open, setOpen] = useState(false);
 
     const prev = 'feature_product_prev';
     const next = 'feature_product_next';
 
     const price = productCurrentPrice(product);
-    const store = useSelector((state: RootState) => state.appStore.store); // Access updated Redux state
-    const store_id = store?.id || null;
 
-    const headersetting = useSelector(
-        (state: RootState) => state.home.headersetting
-    ); // Access updated Redux state
     const { custom_design } = headersetting || {};
-
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
 
@@ -113,11 +109,7 @@ const BestSellerSix = ({ product, design }: any) => {
                                         className="swiperjs-slide"
                                         key={item?.id}
                                     >
-                                        <Card7
-                                            item={item}
-                                            design={design}
-                                            store_id={store_id}
-                                        />
+                                        <Card7 item={item} />
                                     </SwiperSlide>
                                 ))}
                             </GridSliderFive>

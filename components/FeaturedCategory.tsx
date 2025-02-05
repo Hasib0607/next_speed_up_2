@@ -1,11 +1,11 @@
 'use client';
 
 import { DEFAULT } from '@/consts';
-import { RootState } from '@/redux/store';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 import { feature_categories } from '@/utils/dynamic-import/_homepageSections/featuredCategory/featureCategory';
 import { useSelector } from 'react-redux';
 
-const FeaturedCategory = ({ design,headersetting }: any) => {
+const FeaturedCategory = ({ design, headersetting }: any) => {
     const FeaturedCategoryComponent =
         feature_categories[design?.feature_category] ||
         feature_categories[DEFAULT];
@@ -13,8 +13,8 @@ const FeaturedCategory = ({ design,headersetting }: any) => {
     const products = useSelector((state: any) => state?.products);
     const product = products?.product || [];
 
-    const categoryStore = useSelector((state: RootState) => state?.category);
-    const category = categoryStore?.categories || [];
+    const { data: categoryData } = useGetCategoryQuery({});
+    const category = categoryData?.data || [];
 
     return (
         <>

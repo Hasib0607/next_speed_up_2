@@ -13,9 +13,6 @@ const NewArrival = ({ design }: any) => {
     const products = useSelector((state: RootState) => state?.products);
     const product = products?.product || [];
 
-    // console.log("new_arrival log");
-    // console.log("product",product);
-
     return (
         <>
 
