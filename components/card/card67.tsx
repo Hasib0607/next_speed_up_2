@@ -18,9 +18,6 @@ import {
 import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card67 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
     const category = item?.category || [];
 
     const [open, setOpen] = useState(false);
@@ -29,8 +26,8 @@ const Card67 = ({ item }: any) => {
     const save = howMuchSave(item);
     const productAvailablity = isAvailable(item);
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
 
     const styleCss = `
     .searchHover:hover {
@@ -38,10 +35,10 @@ const Card67 = ({ item }: any) => {
         background: ${bgColor};
     }
     .text-color {
-        color:  ${design?.header_color};
+        color:  ${bgColor};
     }
     .text-hover:hover {
-        color: ${design?.header_color};
+        color: ${bgColor};
       }
     .bg-color {
         color:  ${textColor};

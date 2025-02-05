@@ -16,6 +16,7 @@ import {
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
+import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
 import { RootState } from '@/redux/store';
 import {
     addToCart,
@@ -29,11 +30,10 @@ import { useRouter } from 'next/navigation';
 import Details from '../_product-details-page/components/details';
 
 const Card63 = ({ item }: any) => {
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const { data: headerData } = useGetHeaderSettingsQuery({});
+    const headersetting = headerData?.data || {};
 
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
+    const store_id = numberParser(headersetting?.store_id) || null;
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 
@@ -78,8 +78,8 @@ const Card63 = ({ item }: any) => {
         }
     };
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
 
     const { button } = headersetting?.custom_design?.product?.[0] || {};
 
@@ -89,10 +89,10 @@ const Card63 = ({ item }: any) => {
         background: ${bgColor};
     }
     .text-color-thirty {
-        color:  ${design?.header_color};
+        color:  ${bgColor};
     }
     .text-hover:hover {
-        color: ${design?.header_color};
+        color: ${bgColor};
       }
     .bg-color {
         color:  ${textColor};

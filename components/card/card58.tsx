@@ -22,13 +22,13 @@ import {
 } from '@/helpers/littleSpicy';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import Details from '../_product-details-page/components/details';
+import { useGetDesignQuery } from '@/redux/features/home/homeApi';
 
 const Card58 = ({ item, buttonObj }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
+    const { data: designData } = useGetDesignQuery({});
+    const design = designData?.data || {};
 
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = design?.store_id || null;
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 
@@ -58,8 +58,8 @@ const Card58 = ({ item, buttonObj }: any) => {
         });
     };
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
 
     const {
         button,
@@ -76,11 +76,11 @@ const Card58 = ({ item, buttonObj }: any) => {
         background: ${bgColor};
     }
     .text-color-price {
-        color:  ${design?.header_color};
-        border: 2px solid ${design?.header_color};
+        color:  ${bgColor};
+        border: 2px solid ${bgColor};
     }
     .text-hover:hover {
-        color: ${design?.header_color};
+        color: ${bgColor};
       }
     .bg-color {
         color:  ${textColor};
@@ -129,7 +129,6 @@ const Card58 = ({ item, buttonObj }: any) => {
         display: block;
        
       }
-
   `;
 
     const buy_now = () => {

@@ -20,14 +20,19 @@ import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { useRouter } from 'next/navigation';
 import Search3 from '../components/search3';
 import SideCategory from '../components/side-category';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-const HeaderThirtySix = ({ headersetting, design, user }: any) => {
+const HeaderThirtySix = ({ headersetting, design }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
     const [open, setOpen] = useState(false);
     const [searchTxt, setSearch] = useState('');
     const { announcementHeight, scrollPassed } = useAnnouncementScroll();
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 

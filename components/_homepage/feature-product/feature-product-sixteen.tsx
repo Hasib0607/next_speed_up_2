@@ -1,16 +1,20 @@
 'use client';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+
 import { SwiperSlide } from 'swiper/react';
 import Card25 from '@/components/card/card25';
 import SectionHeadingSixteen from '@/components/section-heading/section-heading-sixteen';
 import DefaultSlider from '@/components/slider/default-slider';
 import { BsPlay } from 'react-icons/bs';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const FeatureProductSixteen = ({ feature_product, design }: any) => {
+const FeatureProductSixteen = ({
+    feature_product,
+    design,
+    headersetting,
+}: any) => {
     const prevEl = 'feature_product-sixteen-prev';
     const nextEl = 'feature_product-sixteen-next';
 
@@ -18,25 +22,18 @@ const FeatureProductSixteen = ({ feature_product, design }: any) => {
     .feature_product-sixteen-prev:hover {
       color:  ${design?.text_color};
       background: ${design?.header_color};
-  }
-    .feature_product-sixteen-next:hover {
-      color:  ${design?.text_color};
-      background: ${design?.header_color};
-  }
-  .arrow-hov:hover .arrow {
-    opacity:1;
-    background: white;
-  }
- 
+    }
+        .feature_product-sixteen-next:hover {
+        color:  ${design?.text_color};
+        background: ${design?.header_color};
+    }
+    .arrow-hov:hover .arrow {
+        opacity:1;
+        background: white;
+    }
     `;
-
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    ); // Access updated Redux state
-    const { custom_design } = headerdata || {};
+    
+    const { custom_design } = headersetting || {};
     const featuredProduct = custom_design?.feature_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = featuredProduct;
 
@@ -97,15 +94,12 @@ const FeatureProductSixteen = ({ feature_product, design }: any) => {
                     },
                 }}
             >
-                {feature_product?.slice(0, 10).map((productData: any) => (
-                    <SwiperSlide key={productData.id}>
-                        <Card25
-                            item={productData}
-                            design={design}
-                            store_id={store_id}
-                        />
-                    </SwiperSlide>
-                ))}
+                {feature_product?.length > 0 &&
+                    feature_product?.slice(0, 10)?.map((item: any) => (
+                        <SwiperSlide key={item.id}>
+                            <Card25 item={item} />
+                        </SwiperSlide>
+                    ))}
             </DefaultSlider>
         </div>
     );

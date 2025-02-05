@@ -1,38 +1,26 @@
 'use client';
+
 import Details from '@/components/_product-details-page/components/details';
 import SectionHeadingThirtyThree from '@/components/section-heading/section-heading-thirtythree';
 import {
     isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
-import { RootState } from '@/redux/store';
+
 import { productImg } from '@/site-settings/siteUrl';
 import BDT from '@/utils/bdt';
 import QuickView from '@/utils/quick-view';
 import Rate from '@/utils/rate';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
 const ProductThirtyThree = ({
     product,
     design,
     best_sell_product,
     feature_product,
+    headersetting,
 }: any) => {
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-
-    const { custom_design } = headerdata || {};
-    const sectionHeadingData = custom_design?.product?.[0] || {};
-    const { title = 'Default Title', title_color = '#000' } =
-        sectionHeadingData || {};
-
-    if (product.length === 0) {
-        return;
-    }
-
     const styleCss = `
     .title-border {
         margin: 0;
@@ -52,6 +40,11 @@ const ProductThirtyThree = ({
     }
     `;
 
+    const { custom_design } = headersetting || {};
+    const sectionHeadingData = custom_design?.product?.[0] || {};
+    const { title = 'Default Title', title_color = '#000' } =
+        sectionHeadingData || {};
+
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
             <style>{styleCss}</style>
@@ -62,11 +55,12 @@ const ProductThirtyThree = ({
                     </div>
                     <div className="pt-5">
                         <div className="grid grid-cols-1 gap-5">
-                            {best_sell_product
-                                .slice(0, 4)
-                                .map((item: any, id: any) => (
-                                    <Card item={item} key={id} />
-                                ))}
+                            {best_sell_product?.length > 0 &&
+                                best_sell_product
+                                    ?.slice(0, 4)
+                                    ?.map((item: any, id: any) => (
+                                        <Card item={item} key={id} />
+                                    ))}
                         </div>
                     </div>
                 </div>
@@ -79,11 +73,12 @@ const ProductThirtyThree = ({
                     </div>
                     <div className="pt-5">
                         <div className="grid grid-cols-1 gap-5">
-                            {feature_product
-                                ?.slice(0, 4)
-                                .map((item: any, id: any) => (
-                                    <Card item={item} key={id} />
-                                ))}
+                            {feature_product?.length > 0 &&
+                                feature_product
+                                    ?.slice(0, 4)
+                                    ?.map((item: any, id: any) => (
+                                        <Card item={item} key={id} />
+                                    ))}
                         </div>
                     </div>
                 </div>
@@ -93,9 +88,12 @@ const ProductThirtyThree = ({
                     </div>
                     <div className="pt-5">
                         <div className="grid grid-cols-1 gap-5">
-                            {product.slice(0, 4).map((item: any, id: any) => (
-                                <Card item={item} key={id} />
-                            ))}
+                            {product?.length > 0 &&
+                                product
+                                    ?.slice(0, 4)
+                                    ?.map((item: any, id: any) => (
+                                        <Card item={item} key={id} />
+                                    ))}
                         </div>
                     </div>
                 </div>
@@ -107,10 +105,10 @@ const ProductThirtyThree = ({
 export default ProductThirtyThree;
 
 const Card = ({ item }: any) => {
+    const [open, setOpen] = useState(false);
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
 
-    const [open, setOpen] = useState(false);
     return (
         <>
             <Link href={'/product/' + item?.id + '/' + item?.slug}>
@@ -153,7 +151,7 @@ const Card = ({ item }: any) => {
                 </div>
             </Link>
             <QuickView open={open} setOpen={setOpen}>
-                <Details data={{ product_id: item?.id }} />
+                <Details product={item} />
             </QuickView>
         </>
     );

@@ -1,5 +1,3 @@
-'use client';
-
 import dynamic from 'next/dynamic';
 
 export const feature_categories: any = {
@@ -8,12 +6,10 @@ export const feature_categories: any = {
             import('@/components/_homepage/featured-category/featured-default')
     ),
     one: dynamic(
-        () =>
-            import('@/components/_homepage/featured-category/featuredcat-one')
+        () => import('@/components/_homepage/featured-category/featuredcat-one')
     ),
     two: dynamic(
-        () =>
-            import('@/components/_homepage/featured-category/featuredcat-two')
+        () => import('@/components/_homepage/featured-category/featuredcat-two')
     ),
     three: dynamic(
         () =>
@@ -24,8 +20,7 @@ export const feature_categories: any = {
             import('@/components/_homepage/featured-category/featuredcat-four')
     ),
     six: dynamic(
-        () =>
-            import('@/components/_homepage/featured-category/featuredcat-six')
+        () => import('@/components/_homepage/featured-category/featuredcat-six')
     ),
     seven: dynamic(
         () =>
@@ -37,31 +32,45 @@ export const feature_categories: any = {
     ),
     eleven: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-eleven')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-eleven'
+            )
     ),
     twelve: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-twelve')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-twelve'
+            )
     ),
     sixteen: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-sixteen')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-sixteen'
+            )
     ),
     seventeen: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-seventeen')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-seventeen'
+            )
     ),
     eighteen: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-eighteen')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-eighteen'
+            )
     ),
     nineteen: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-nineteen')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-nineteen'
+            )
     ),
     twenty: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-twenty')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-twenty'
+            )
     ),
     // twentyone: dynamic(
     //     () =>
@@ -69,55 +78,77 @@ export const feature_categories: any = {
     // ),
     twentythree: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-twentythree')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-twentythree'
+            )
     ),
     twentyfive: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-twentyfive')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-twentyfive'
+            )
     ),
     twentyseven: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-twentyseven')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-twentyseven'
+            )
     ),
     twentyeight: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-twenty-eight')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-twenty-eight'
+            )
     ),
     thirty: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-thirty')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-thirty'
+            )
     ),
     thirtyone: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featured-thirtyone')
+            import(
+                '@/components/_homepage/featured-category/featured-thirtyone'
+            )
     ),
     thirtythree: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-thirtythree')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-thirtythree'
+            )
     ),
     thirtyfive: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-thirtyfive')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-thirtyfive'
+            )
     ),
     thirtysix: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-thirtysix')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-thirtysix'
+            )
     ),
     thirtyseven: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-thirtyseven')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-thirtyseven'
+            )
     ),
     thirtyeight: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-thirtyeight')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-thirtyeight'
+            )
     ),
     thirtynine: dynamic(
         () =>
-            import('@/components/_homepage/featured-category/featuredcat-thirtynine')
+            import(
+                '@/components/_homepage/featured-category/featuredcat-thirtynine'
+            )
     ),
     forty: dynamic(
-        () =>
-            import('@/components/_homepage/featured-category/featured-forty')
+        () => import('@/components/_homepage/featured-category/featured-forty')
     ),
-
 };

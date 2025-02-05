@@ -4,26 +4,30 @@ import { notFound } from 'next/navigation';
 export default async function getStore() {
     const name = await getDomain();
 
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}store/${name}/info`,
-        {
-            // method: 'POST',
-            // headers: {
-            //     'Content-Type': 'application/json',
-            // },
-            // body: JSON.stringify({ name: name }),
-            next: {
-                revalidate: 60,
-            },
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}store/${name}/info`,
+            {
+                next: {
+                    revalidate: 60,
+                },
+            }
+        );
+
+        if (!response.ok) {
+            notFound();
         }
-    );
 
-    const resData = await res.json();
-    const storeDetails = resData?.data;
+        // Clone the response if needed elsewhere
+        const clonedResponse = response.clone();
+        const clonedResponseData = await clonedResponse.json();
 
-    if (!res.ok) {
-        notFound();
+        // const resData = await response.json();
+        const storeDetails = clonedResponseData?.data;
+
+        return storeDetails;
+    } catch (error) {
+        console.error('Fetch get-store data error:', error);
+        return null;
     }
-
-    return storeDetails;
 }

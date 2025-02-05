@@ -8,8 +8,6 @@ import Rate from '@/utils/rate';
 import Link from 'next/link';
 import { useState } from 'react';
 import { numberParser } from '@/helpers/numberParser';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import {
     isRegularPriceLineThrough,
     productCurrentPrice,
@@ -17,9 +15,6 @@ import {
 import Details from '../_product-details-page/components/details';
 
 const Card52 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
     const [open, setOpen] = useState(false);
 
     const price = productCurrentPrice(item);
@@ -27,8 +22,8 @@ const Card52 = ({ item }: any) => {
 
     const parsedRating = numberParser(item?.rating, true);
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = "var(--header-color)";
+    const textColor = "var(--text-color)";
 
     const styleCss = `
     .searchHover:hover {
@@ -36,11 +31,11 @@ const Card52 = ({ item }: any) => {
         background: ${bgColor};
     }
     .text-color-price {
-        color:  ${design?.header_color};
-        border: 2px solid ${design?.header_color};
+        color:  ${bgColor};
+        border: 2px solid ${bgColor};
     }
     .text-hover:hover {
-        color: ${design?.header_color};
+        color: ${bgColor};
       }
     .bg-color {
         color:  ${textColor};

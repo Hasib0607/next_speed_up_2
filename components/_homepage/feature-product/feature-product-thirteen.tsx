@@ -1,22 +1,15 @@
 'use client';
+
 import Card18 from '@/components/card/card18';
 import SectionHeadingThirteen from '@/components/section-heading/section-heading-thirteen';
 import DefaultSlider from '@/components/slider/default-slider';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
-const FeatureProductThirteen = ({ feature_product }: any) => {
+const FeatureProductThirteen = ({ feature_product, headersetting }: any) => {
     const prev = 'feature_productThirteen_prev';
     const next = 'feature_productThirteen_next';
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    ); // Access updated Redux state
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featuredProduct = custom_design?.feature_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = featuredProduct;
 
@@ -54,12 +47,12 @@ const FeatureProductThirteen = ({ feature_product }: any) => {
                     {feature_product?.length > 0 &&
                         feature_product
                             ?.slice(0, 10)
-                            .map((item: any, index: any) => (
+                            ?.map((item: any, index: any) => (
                                 <SwiperSlide
                                     className="swiperjs-slide py-10"
                                     key={index}
                                 >
-                                    <Card18 item={item} store_id={store_id} />
+                                    <Card18 item={item} />
                                 </SwiperSlide>
                             ))}
                 </DefaultSlider>

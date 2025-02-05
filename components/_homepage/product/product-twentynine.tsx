@@ -1,15 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import CatProductsList from './components/cat-products-list';
-import { RootState } from '@/redux/store';
 
-
-const ProductTwentyNine = ({ category, design }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { headersetting } = home || {};
-
+const ProductTwentyNine = ({ category, design, headersetting }: any) => {
     const [id, setId] = useState(category[0]?.id);
 
     const styleCss = `
@@ -21,10 +15,12 @@ const ProductTwentyNine = ({ category, design }: any) => {
     .sec-twenty-nine{
         border-bottom: 2px solid ${design?.header_color};
     }
- `;
+     `;
 
-    const { title, title_color } =
-        headersetting?.custom_design?.product?.[0] || {};
+    const { custom_design } = headersetting || {};
+    const sectionHeadingData = custom_design?.product?.[0] || {};
+    const { title = 'Default Title', title_color = '#000' } =
+        sectionHeadingData || {};
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5 w-full">

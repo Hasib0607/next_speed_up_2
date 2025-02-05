@@ -1,19 +1,15 @@
-'use client';
 
-import { RootState } from '@/redux/store';
 import { headers } from '@/utils/dynamic-import/_homepageSections/header/header';
-import { useSelector } from 'react-redux';
+import getDesign from '@/utils/fetcher/getDesign';
+import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
+import getMenu from '@/utils/fetcher/getMenu';
 
-const Header = ({ design }: any) => {
+export default async function Header(){
+    const design = await getDesign();
+    const headersetting = await getHeaderSetting();
+    const menu = await getMenu();
+
     const HeaderComponent = headers[design?.header];
-
-    const authStore = useSelector((state: RootState) => state?.auth);
-    const { cartList } = useSelector((state: RootState) => state?.cart);
-
-    const home = useSelector((state: RootState) => state?.home);
-    const { headersetting, menu } = home || {};
-
-    const user = authStore?.user || {};
 
     return (
         <>
@@ -22,12 +18,9 @@ const Header = ({ design }: any) => {
                     design={design}
                     headersetting={headersetting}
                     menu={menu}
-                    user={user}
-                    cartList={cartList}
                 />
             )}
         </>
     );
-};
+}
 
-export default Header;

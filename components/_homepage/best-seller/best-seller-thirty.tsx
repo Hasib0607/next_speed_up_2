@@ -3,11 +3,13 @@
 import Card54 from '@/components/card/card54';
 import SectionHeadingThirty from '@/components/section-heading/section-heading-thirty';
 import DefaultSlider from '@/components/slider/default-slider';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
-const BestSellerThirty = ({ best_sell_product, design }: any) => {
+const BestSellerThirty = ({
+    best_sell_product,
+    design,
+    headersetting,
+}: any) => {
     const prevEl = 'best-product-prev';
     const nextEl = 'best-product-next';
 
@@ -46,11 +48,6 @@ const BestSellerThirty = ({ best_sell_product, design }: any) => {
     }
  `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-    const headersetting = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
     const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
@@ -93,15 +90,12 @@ const BestSellerThirty = ({ best_sell_product, design }: any) => {
                         },
                     }}
                 >
-                    {best_sell_product?.slice(0, 10)?.map((item: any) => (
-                        <SwiperSlide key={item?.id}>
-                            <Card54
-                                item={item}
-                                design={design}
-                                store_id={store_id}
-                            />
-                        </SwiperSlide>
-                    ))}
+                    {best_sell_product?.length > 0 &&
+                        best_sell_product?.slice(0, 10)?.map((item: any) => (
+                            <SwiperSlide key={item?.id}>
+                                <Card54 item={item} />
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
             </div>
         </div>

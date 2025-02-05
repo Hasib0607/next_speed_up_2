@@ -1,20 +1,23 @@
 'use client';
 
 // import store form rtk
-import StoreLayer from './StoreLayer';
+import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import store, { persistor } from '@/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
-
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import NotFound from './not-found';
+// import Loading from '@/app/loadingx';
 
-const AppWrapper = ({ children,design,appStore }: any) => {
-
+const AppWrapper = ({ children, appStore, design }: any) => {
     return (
         <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-                <StoreLayer design={design} appStore={appStore}>{children}</StoreLayer>
+            <PersistGate
+                loading={null}
+                // loading={<Loading design={design} />}
+                persistor={persistor}
+            >
+                {!appStore ? <NotFound /> : children}
                 <ToastContainer position="top-right" newestOnTop />
             </PersistGate>
         </Provider>

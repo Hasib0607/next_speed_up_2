@@ -1,19 +1,12 @@
 'use client';
 
-import SectionHeadingTwentyOne from '@/components/section-heading/section-heading-twentyone';
-import { RootState } from '@/redux/store';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import CatProductsList from './components/cat-products-list';
+import SectionHeadingTwentyOne from '@/components/section-heading/section-heading-twentyone';
 
-const ProductTwentyOne = ({ design, category }: any) => {
+const ProductTwentyOne = ({ design, category, headersetting }: any) => {
     const [id, setId] = useState(category[0]?.id);
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const sectionHeadingData = custom_design?.product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         sectionHeadingData || {};
@@ -23,7 +16,7 @@ const ProductTwentyOne = ({ design, category }: any) => {
         color:  ${design?.text_color};
         background: ${design?.header_color};
     }
- `;
+    `;
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5 w-full">

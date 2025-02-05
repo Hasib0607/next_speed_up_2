@@ -2,29 +2,22 @@
 
 import { footers } from '@/utils/dynamic-import/_homepageSections/footer/footer';
 import { useGetPageQuery } from '@/redux/features/page/pageApi';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 
-const Footer = ({ design }: any) => {
+const Footer = ({ design, headersetting, menu }: any) => {
+    const store_id = design?.store_id || null;
+
     const FooterComponent = footers[design?.footer];
 
     const { data: pageData } = useGetPageQuery({});
     const page = pageData?.data || [];
 
-    const categoryStore = useSelector((state: RootState) => state?.category);
-    const category = categoryStore?.categories || [];
-
-    const home = useSelector((state: RootState) => state?.home);
-    const { headersetting, menu } = home || {};
-
-    const storeData = useSelector((state: RootState) => state.appStore.store); // Access updated Redux state
-    const store_id = storeData?.id || null;
+    const { data: categoryData } = useGetCategoryQuery({});
+    const category = categoryData?.data || [];
 
     return (
         <>
-
-            {design?.footer !== "null" && FooterComponent && (
-
+            {design?.footer !== 'null' && FooterComponent && (
                 <FooterComponent
                     design={design}
                     category={category}

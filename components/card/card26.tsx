@@ -14,7 +14,6 @@ import QuickView from '@/utils/quick-view';
 import {
     howMuchSave,
     isAvailable,
-    isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 
@@ -24,15 +23,12 @@ import { numberParser } from '@/helpers/numberParser';
 const Card26 = ({ item }: any) => {
     const dispatch = useDispatch();
 
-    const home = useSelector((state: RootState) => state?.home);
     const { cartList } = useSelector((state: RootState) => state.cart);
-
-    const { design } = home || {};
 
     const [open, setOpen] = useState(false);
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = "var(--header-color)";
+    const textColor = "var(--text-color)";
 
     const styleCss = `
     .searchHover:hover {
@@ -43,11 +39,11 @@ const Card26 = ({ item }: any) => {
         border: 1px solid ${bgColor};
     }
     .text-color {
-        color:  ${design?.header_color};
+        color:  ${bgColor};
     }
     .bg-color {
-        background: ${design?.header_color};
-        color:  ${design?.text_color};
+        background: ${bgColor};
+        color:  ${textColor};
     }
   }
   `;

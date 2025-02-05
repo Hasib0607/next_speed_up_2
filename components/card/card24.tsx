@@ -8,32 +8,29 @@ import {
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
-import { RootState } from '@/redux/store';
 import BDT from '@/utils/bdt';
 import Link from 'next/link';
 import { useState } from 'react';
 import { IoSearchCircleOutline } from 'react-icons/io5';
-import { useSelector } from 'react-redux';
 import './card.css';
 import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card24 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
     const [cardBorder, setCardBorder] = useState(false);
     const category = item?.category || [];
 
+    const bgColor = "var(--header-color)";
+    const textColor = "var(--text-color)";
+
     const customStyle = `
-.searchIconCard24:hover{
-    background-color:${design?.header_color};
-    color:${design?.text_color};
-}
-`;
+    .searchIconCard24:hover{
+        background-color:${bgColor};
+        color:${textColor};
+    }
+    `;
 
     const price = productCurrentPrice(item);
     const priceLineThrough = isRegularPriceLineThrough(item);
-
     const parsedRating = numberParser(item?.rating, true);
 
     return (
@@ -43,7 +40,7 @@ const Card24 = ({ item }: any) => {
                     className="p-6 group rounded-md bg-white shadow-lg "
                     style={{
                         border: cardBorder
-                            ? `1px solid ${design?.header_color}`
+                            ? `1px solid ${bgColor}`
                             : `1px solid #ccc`,
                     }}
                     onMouseEnter={() => setCardBorder(true)}

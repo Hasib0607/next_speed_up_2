@@ -1,17 +1,20 @@
 'use client';
+
 import Card67 from '@/components/card/card67';
 import DefaultSlider from '@/components/slider/default-slider';
-import { RootState } from '@/redux/store';
-// import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Pagination } from 'swiper/modules';
 import { SwiperSlide } from 'swiper/react';
-// import ScrollTrigger from "react-scroll-trigger";
 
-const FeatureProductThirtyNine = ({ feature_product, design }: any) => {
+const FeatureProductThirtyNine = ({
+    design,
+    headersetting,
+    feature_product,
+}: any) => {
     const [animate, setAnimate] = useState(false);
+
     let isLoop = feature_product.length > 1;
+
     const prevEl = 'feature-product-prev-thirtynine';
     const nextEl = 'feature-product-next-thirtynine';
 
@@ -46,24 +49,11 @@ const FeatureProductThirtyNine = ({ feature_product, design }: any) => {
       opacity:1;
       background: white;
     }
- `;
+     `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    ); // Access updated Redux state
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featuredProduct = custom_design?.feature_product?.[0] || {};
-    // const { title = "Default Title", title_color = "#000" } = featuredProduct;
-
-    const title = featuredProduct?.title;
-    const title_color = featuredProduct?.title_color;
-
-    if (feature_product?.length === 0) {
-        return null;
-    }
+    const { title = 'Default Title', title_color = '#000' } = featuredProduct;
 
     return (
         <div className="pl-5 sm:py-10 py-5">
@@ -77,18 +67,6 @@ const FeatureProductThirtyNine = ({ feature_product, design }: any) => {
                         {title || 'Feature Products'}
                     </p>
                 </div>
-
-                {/* <div className="gap-10 flex lg:cursor-pointer absolute bottom-16 left-1/2 -translate-x-1/2 z-[2]">
-          <div className={`${prevEl} lg:cursor-pointer `}>
-            <ChevronLeftIcon className="h-4 font-serif font-bold" />
-          </div>
-          <div className=""></div>
-          <div className={`${nextEl} lg:cursor-pointer`}>
-            <ChevronRightIcon className="h-4 font-serif font-bold" />
-          </div>
-        </div> */}
-
-                {/* <ScrollTrigger onEnter={() => setAnimate(true)}> */}
                 <DefaultSlider
                     prevEl={prevEl}
                     nextEl={nextEl}
@@ -118,25 +96,21 @@ const FeatureProductThirtyNine = ({ feature_product, design }: any) => {
                         },
                     }}
                 >
-                    {feature_product?.slice(0, 10).map((item: any) => (
-                        <SwiperSlide key={item?.id}>
-                            <div
-                                className={`${
-                                    animate
-                                        ? 'translate-y-0'
-                                        : 'translate-y-[25px]'
-                                } duration-1000`}
-                            >
-                                <Card67
-                                    item={item}
-                                    design={design}
-                                    store_id={store_id}
-                                />
-                            </div>
-                        </SwiperSlide>
-                    ))}
+                    {feature_product?.length > 0 &&
+                        feature_product?.slice(0, 10)?.map((item: any) => (
+                            <SwiperSlide key={item?.id}>
+                                <div
+                                    className={`${
+                                        animate
+                                            ? 'translate-y-0'
+                                            : 'translate-y-[25px]'
+                                    } duration-1000`}
+                                >
+                                    <Card67 item={item} />
+                                </div>
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
-                {/* </ScrollTrigger> */}
             </div>
         </div>
     );

@@ -1,7 +1,7 @@
 'use client';
+
 import './best-seller-seventeen.css';
 import image from './bg-img/17/show_divider_2_69x61.webp';
-
 import Card31 from '@/components/card/card31';
 import SectionHeadingSeventeen from '@/components/section-heading/section-heading-seventeen';
 import DefaultSlider from '@/components/slider/default-slider';
@@ -13,22 +13,16 @@ import {
 } from 'react-scroll-parallax';
 import { SwiperSlide } from 'swiper/react';
 import img1 from './bg-img/17/offer_bg.webp';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const BestSellerSeventeen = ({ best_sell_product, design }: any) => {
-    const topBestDeals = best_sell_product.slice(0, 2);
-    const topBestSecondDeals = best_sell_product.slice(2, 10);
+const BestSellerSeventeen = ({ best_sell_product, headersetting }: any) => {
+    const topBestDeals =
+        best_sell_product?.length > 0 && best_sell_product.slice(0, 2);
+    const topBestSecondDeals =
+        best_sell_product?.length > 2 && best_sell_product.slice(2, 10);
 
     const prev = 'best_deals_seller_Prev';
     const next = 'best_deals_seller_Next';
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headersetting = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
     const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
@@ -62,13 +56,8 @@ const BestSellerSeventeen = ({ best_sell_product, design }: any) => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 py-10 lg:pt-20 gap-8 ">
-                    {topBestDeals?.map?.((data: any) => (
-                        <Card31
-                            key={data?.id}
-                            item={data}
-                            design={design}
-                            store_id={store_id}
-                        />
+                    {topBestDeals?.map?.((item: any) => (
+                        <Card31 key={item?.id} item={item} />
                     ))}
                 </div>
 
@@ -110,14 +99,10 @@ const BestSellerSeventeen = ({ best_sell_product, design }: any) => {
                             },
                         }}
                     >
-                        {topBestSecondDeals?.map((productData: any) => (
-                            <SwiperSlide key={productData.id}>
+                        {topBestSecondDeals?.map((item: any) => (
+                            <SwiperSlide key={item.id}>
                                 {' '}
-                                <Card31
-                                    item={productData}
-                                    design={design}
-                                    store_id={store_id}
-                                />
+                                <Card31 item={item} />
                             </SwiperSlide>
                         ))}
                     </DefaultSlider>

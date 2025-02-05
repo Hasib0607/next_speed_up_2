@@ -1,16 +1,9 @@
 'use client';
+
 import Card39 from '@/components/card/card39';
-import { RootState } from '@/redux/store';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
 
-const BestSellerNineteen = ({ best_sell_product }: any) => {
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headersetting = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
+const BestSellerNineteen = ({ best_sell_product, headersetting }: any) => {
     const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
@@ -41,15 +34,12 @@ const BestSellerNineteen = ({ best_sell_product }: any) => {
                 </div>
                 <div className="md:col-span-2">
                     <div className="grid sm:grid-cols-2 gap-5">
-                        {best_sell_product
-                            ?.slice(0, 2)
-                            .map((data: any) => (
-                                <Card39
-                                    item={data}
-                                    key={data?.id}
-                                    store_id={store_id}
-                                />
-                            ))}
+                        {best_sell_product?.length > 0 &&
+                            best_sell_product
+                                ?.slice(0, 2)
+                                ?.map((item: any) => (
+                                    <Card39 item={item} key={item?.id} />
+                                ))}
                     </div>
                 </div>
             </div>

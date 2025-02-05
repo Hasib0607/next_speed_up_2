@@ -21,8 +21,10 @@ import { useRouter } from 'next/navigation';
 
 import { classNames } from '@/helpers/littleSpicy';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-const HeaderSeven = ({ design, headersetting, menu, user, cartList }: any) => {
+const HeaderSeven = ({ design, headersetting, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -32,6 +34,11 @@ const HeaderSeven = ({ design, headersetting, menu, user, cartList }: any) => {
     const [openCart, setOpenCart] = useState(false);
 
     const bgColor = design?.header_color;
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
+
+    const { cartList } = useSelector((state: RootState) => state?.cart);
 
     const [logOut] = useLogOutMutation();
 

@@ -6,6 +6,7 @@ import {
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
+import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
 import { RootState } from '@/redux/store';
 import { productImg } from '@/site-settings/siteUrl';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
@@ -14,8 +15,8 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Card61 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
+    const { data: headerData } = useGetHeaderSettingsQuery({});
+    const headersetting = headerData?.data || {};
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 
@@ -36,8 +37,8 @@ const Card61 = ({ item }: any) => {
         });
     };
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
 
     const styleCss = `
     .searchHover:hover {
@@ -45,10 +46,10 @@ const Card61 = ({ item }: any) => {
         background: #83C341;
     }
     .text-color-thirty {
-        color:  ${design?.header_color};
+        color:  ${bgColor};
     }
     .text-hover:hover {
-        color: ${design?.header_color};
+        color: ${bgColor};
         text-decoration: underline;
       }
     .bg-color {

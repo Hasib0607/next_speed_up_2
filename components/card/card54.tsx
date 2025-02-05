@@ -22,9 +22,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Details from '../_product-details-page/components/details';
 
 const Card54 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
     const category = item?.category || [];
 
     const { cartList } = useSelector((state: RootState) => state.cart);
@@ -59,8 +56,8 @@ const Card54 = ({ item }: any) => {
     const smallest = Math.min(...vPrice);
     const largest = Math.max(...vPrice);
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = "var(--header-color)";
+    const textColor = "var(--text-color)";
 
     const styleCss = `
     .searchHover:hover {
@@ -68,10 +65,10 @@ const Card54 = ({ item }: any) => {
         background: ${bgColor};
     }
     .text-color-thirty {
-        color:  ${design?.header_color};
+        color:  ${bgColor};
     }
     .text-hover:hover {
-        color: ${design?.header_color};
+        color: ${bgColor};
       }
     .bg-color {
         color:  ${textColor};

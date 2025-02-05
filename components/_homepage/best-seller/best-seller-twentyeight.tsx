@@ -1,15 +1,15 @@
 'use client';
+
 import Card58 from '@/components/card/card58';
 import DefaultSlider from '@/components/slider/default-slider';
-import { RootState } from '@/redux/store';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
 const BestSellerTwentyEight = ({
     design,
     best_sell_product,
     bestSellProductLoading,
+    headersetting,
 }: any) => {
     const prevEl = 'best-product-prev';
     const nextEl = 'best-product-next';
@@ -49,11 +49,6 @@ const BestSellerTwentyEight = ({
     }
  `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-    const headersetting = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
     const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
@@ -61,11 +56,11 @@ const BestSellerTwentyEight = ({
     let content = null;
 
     if (bestSellProductLoading) {
-        return <p>Loading.....</p>;
+        content = <p>Loading.....</p>;
     }
 
     if (!bestSellProductLoading && best_sell_product?.length == 0) {
-        return <p>Not product Found!</p>;
+        content = <p>Not product Found!</p>;
     }
 
     if (!bestSellProductLoading && best_sell_product?.length > 0) {
@@ -130,11 +125,7 @@ const BestSellerTwentyEight = ({
                         {best_sell_product?.slice(0, 10)?.map((item: any) => (
                             <SwiperSlide key={item?.id}>
                                 <div className="px-2 pb-3">
-                                    <Card58
-                                        item={item}
-                                        design={design}
-                                        store_id={store_id}
-                                    />
+                                    <Card58 item={item} />
                                 </div>
                             </SwiperSlide>
                         ))}

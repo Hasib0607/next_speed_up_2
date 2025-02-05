@@ -4,27 +4,21 @@ import { Category } from '@/types';
 import { useRouter } from 'next/navigation';
 import CatProductsList from './components/cat-products-list';
 
-const ProductTwentyEight = ({
-    category,
-    design,
-}: {
-    category: any;
-    design: any;
-}) => {
+const ProductTwentyEight = ({ category, design }: any) => {
     const router = useRouter();
 
     const bgColor = design?.header_color;
     const textColor = design?.text_color;
 
     const styleCss = `
-    .active-cat-twenty-four {
-        color: ${bgColor};
-        border-bottom: 2px solid ${bgColor};
-    }
-    .sec-twenty-nine {
-        border-bottom: 2px solid ${bgColor};
-    }
-  `;
+        .active-cat-twenty-four {
+            color: ${bgColor};
+            border-bottom: 2px solid ${bgColor};
+        }
+        .sec-twenty-nine {
+            border-bottom: 2px solid ${bgColor};
+        }
+    `;
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5 w-full">
@@ -59,7 +53,11 @@ const ProductTwentyEight = ({
                                     </div>
                                 </div>
                             )}
-                            <CatProductsList id={cat?.id} card={"58"} count={6}/>
+                            <CatProductsList
+                                id={cat?.id}
+                                card={'58'}
+                                count={6}
+                            />
                         </div>
                     ))}
                 </div>

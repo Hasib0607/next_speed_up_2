@@ -22,8 +22,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
-const HeaderForty = ({ headersetting, user, design, menu }: any) => {
+const HeaderForty = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -35,6 +37,9 @@ const HeaderForty = ({ headersetting, user, design, menu }: any) => {
     const { data: categoryData } = useGetCategoryQuery({});
 
     const category = categoryData?.data || [];
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
 
     const [logOut] = useLogOutMutation();
 
@@ -63,7 +68,7 @@ const HeaderForty = ({ headersetting, user, design, menu }: any) => {
     h1, p, span, button, li, ul, a, div, h2, h3, h4, h5, h6  {
         font-family: BemboStd, serif;
       } 
-`;
+    `;
 
     return (
         <div className="relative">

@@ -19,14 +19,10 @@ import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { useRouter } from 'next/navigation';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
-const HeaderThirtyFive = ({
-    design,
-    headersetting,
-    menu,
-    user,
-    cartList,
-}: any) => {
+const HeaderThirtyFive = ({ design, headersetting, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
     const [open, setOpen] = useState(false);
@@ -39,6 +35,11 @@ const HeaderThirtyFive = ({
     const handleClose = () => {
         setSearch('');
     };
+
+    const authStore = useSelector((state: RootState) => state?.auth);
+    const user = authStore?.user || {};
+
+    const { cartList } = useSelector((state: RootState) => state?.cart);
 
     const [logOut] = useLogOutMutation();
 

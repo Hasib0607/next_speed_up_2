@@ -5,7 +5,7 @@ import {
     isAvailable,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
-import { RootState } from '@/redux/store';
+
 import { productImg } from '@/site-settings/siteUrl';
 
 import BDT from '@/utils/bdt';
@@ -13,22 +13,19 @@ import QuickView from '@/utils/quick-view';
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+
 import Details from '../_product-details-page/components/details';
 import { numberParser } from '@/helpers/numberParser';
 
 const Card64 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
     const [open, setOpen] = useState(false);
 
     const price = productCurrentPrice(item);
     const save = howMuchSave(item);
     const productAvailablity = isAvailable(item);
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
 
     const styleCss = `
     .searchHover:hover {
@@ -36,10 +33,10 @@ const Card64 = ({ item }: any) => {
         background: ${bgColor};
     }
     .text-color {
-        color:  ${design?.header_color};
+        color:  ${bgColor};
     }
     .text-hover:hover {
-        color: ${design?.header_color};
+        color: ${bgColor};
       }
     .bg-color {
         color:  ${textColor};

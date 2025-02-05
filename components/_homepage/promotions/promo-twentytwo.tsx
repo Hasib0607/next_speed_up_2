@@ -1,6 +1,6 @@
+import './promo-twentytwo.css';
 import { bannerImg } from '@/site-settings/siteUrl';
 import { AiOutlineArrowRight } from 'react-icons/ai';
-import './promo-twentytwo.css';
 
 const PromoTwentyTwo = ({ banner }: any) => {
     return (

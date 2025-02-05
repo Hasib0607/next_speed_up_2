@@ -1,30 +1,21 @@
 'use client';
+
 import { SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-// import required modules
 // import "./NewArrivalProductSix.css";
-import { RootState } from '@/redux/store';
 import ArrowSquare from '@/utils/arrow-square';
-import { useSelector } from 'react-redux';
 import Card7 from '../../card/card7';
 import SectionHeadingSix from '../../section-heading/section-heading-six';
 import SliderFive from '../../slider/slider-five';
 
-const NewArrivalProductSix = ({ product, design }: any) => {
+const NewArrivalProductSix = ({ product, design, headersetting }: any) => {
     const prev = 'new_arrival_Prev';
     const next = 'new_arrival_Next';
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
-
+    const { custom_design } = headersetting || {};
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         newArrivalProduct || {};
@@ -51,21 +42,20 @@ const NewArrivalProductSix = ({ product, design }: any) => {
                     ></ArrowSquare>
                 </div>
                 <SliderFive prevEl={prev} nextEl={next}>
-                    {product.slice(0, 10).map((productData: any) => {
-                        return (
-                            <SwiperSlide
-                                key={productData.id}
-                                className="flex justify-center"
-                            >
-                                <Card7
-                                    item={productData}
-                                    store_id={store_id}
-                                    design={design}
-                                    productId={productData.id}
-                                />
-                            </SwiperSlide>
-                        );
-                    })}
+                    {product?.length > 0 &&
+                        product?.slice(0, 10)?.map((productData: any) => {
+                            return (
+                                <SwiperSlide
+                                    key={productData.id}
+                                    className="flex justify-center"
+                                >
+                                    <Card7
+                                        item={productData}
+                                        productId={productData.id}
+                                    />
+                                </SwiperSlide>
+                            );
+                        })}
                 </SliderFive>
             </div>
         </div>

@@ -1,17 +1,7 @@
-'use client';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import Card65 from '../../card/card65';
 
-const NewArrivalProductThirtyEight = ({ product, design }: any) => {
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-    const { custom_design } = headerdata || {};
-
+const NewArrivalProductThirtyEight = ({ product, headersetting }: any) => {
+    const { custom_design } = headersetting || {};
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         newArrivalProduct || {};
@@ -29,16 +19,12 @@ const NewArrivalProductThirtyEight = ({ product, design }: any) => {
                 </div>
                 <div className="flex justify-center">
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 sm:gap-3 justify-center">
-                        {product
-                            ?.slice(0, 12)
-                            .map((item: any, id: any) => (
-                                <Card65
-                                    item={item}
-                                    design={design}
-                                    store_id={store_id}
-                                    key={id}
-                                />
-                            ))}
+                        {product?.length > 0 &&
+                            product
+                                ?.slice(0, 12)
+                                ?.map((item: any, id: any) => (
+                                    <Card65 item={item} key={id} />
+                                ))}
                     </div>
                 </div>
             </div>

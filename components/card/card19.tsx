@@ -21,8 +21,6 @@ import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card19 = ({ item }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
-    const home = useSelector((state: RootState) => state.home);
-    const { design } = home || {};
 
     const category = item?.category || [];
 
@@ -35,7 +33,6 @@ const Card19 = ({ item }: any) => {
     const productAvailablity = isAvailable(item);
 
     const parsedRating = numberParser(item?.rating, true);
-    const parsedNumberRating = numberParser(item?.number_rating);
 
     const handleAddToCart = () => {
         if (item?.variant?.length > 0) {
@@ -160,12 +157,8 @@ const Card19 = ({ item }: any) => {
             <div className="py-6 flex justify-center">
                 {productAvailablity && (
                     <div
-                        className="rounded-lg py-2 px-6 lg:cursor-pointer w-[320px] font-bold flex gap-4 justify-center item-center"
+                        className="rounded-lg py-2 px-6 lg:cursor-pointer w-[320px] font-bold flex gap-4 justify-center item-center bg-[var(--header-color)] text-[var(--text-color)]"
                         onClick={handleAddToCart}
-                        style={{
-                            background: design?.header_color,
-                            color: design?.text_color,
-                        }}
                     >
                         {' '}
                         <AiOutlineShoppingCart className="mt-1 ml-2 xl:ml-0  text-base" />{' '}

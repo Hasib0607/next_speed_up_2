@@ -21,26 +21,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import Details from '@/components/_product-details-page/components/details';
 
 const Card17 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
     const { cartList } = useSelector((state: RootState) => state.cart);
-
-    const { design } = home || {};
 
     const dispatch = useDispatch();
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = "var(--header-color)";
+    const textColor = "var(--text-color)";
 
     const styleCss = `
-    .search-hover:hover {
-        color:  ${textColor};
-        background: ${bgColor};
-    }
-    .cart:hover {
-        color:  ${bgColor};
-    }
-
-`;
+        .search-hover:hover {
+            color:  ${textColor};
+            background: ${bgColor};
+        }
+        .cart:hover {
+            color:  ${bgColor};
+        }
+    `;
     const [open, setOpen] = useState<any>(false);
 
     const price = productCurrentPrice(item);

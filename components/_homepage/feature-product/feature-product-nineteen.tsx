@@ -1,26 +1,29 @@
 'use client';
+
 import Card39 from '@/components/card/card39';
 import SectionHeadingNineteen from '@/components/section-heading/section-heading-nineteen';
 import DefaultSlider from '@/components/slider/default-slider';
-import { RootState } from '@/redux/store';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 
-const FeatureProductNineteen = ({ feature_product, design }: any) => {
+const FeatureProductNineteen = ({
+    feature_product,
+    design,
+    headersetting,
+}: any) => {
     const prevEl = 'feature-product-prev';
     const nextEl = 'feature-product-next';
 
     const styleCss = `
     .feature-product-prev {
-      color:  ${design?.header_color};
-      border: 1px solid ${design?.header_color};
+        color:  ${design?.header_color};
+        border: 1px solid ${design?.header_color};
     }
-        .feature-product-next{
-            color:  ${design?.header_color};
-            border: 1px solid ${design?.header_color};
+    .feature-product-next{
+        color:  ${design?.header_color};
+        border: 1px solid ${design?.header_color};
     }
-        .feature-product-prev:hover {
+    .feature-product-prev:hover {
         color:  ${design?.text_color};
         background: ${design?.header_color};
     }
@@ -32,15 +35,9 @@ const FeatureProductNineteen = ({ feature_product, design }: any) => {
         opacity:1;
         background: white;
     }
- `;
+    `;
 
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
-
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    ); // Access updated Redux state
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const featuredProduct = custom_design?.feature_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = featuredProduct;
 
@@ -110,16 +107,14 @@ const FeatureProductNineteen = ({ feature_product, design }: any) => {
                         },
                     }}
                 >
-                    {feature_product?.slice(0, 10).map((productData: any) => (
-                        <SwiperSlide key={productData.id}>
-                            <div className="flex justify-center">
-                                <Card39
-                                    item={productData}
-                                    store_id={store_id}
-                                />
-                            </div>
-                        </SwiperSlide>
-                    ))}
+                    {feature_product?.length > 0 &&
+                        feature_product?.slice(0, 10)?.map((item: any) => (
+                            <SwiperSlide key={item.id}>
+                                <div className="flex justify-center">
+                                    <Card39 item={item} />
+                                </div>
+                            </SwiperSlide>
+                        ))}
                 </DefaultSlider>
             </div>
         </div>

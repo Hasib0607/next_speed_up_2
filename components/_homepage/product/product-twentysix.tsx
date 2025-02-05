@@ -1,22 +1,14 @@
 'use client';
 
-import { RootState } from '@/redux/store';
-
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import CatProductsList from './components/cat-products-list';
 
-const ProductTwentySix = ({ category, design }: any) => {
+const ProductTwentySix = ({ category, design, headersetting }: any) => {
     const router = useRouter();
-
     const [id, setId] = useState(category[0]?.id);
 
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    ); // Access updated Redux state
-
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const sectionHeadingData = custom_design?.product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         sectionHeadingData || {};
@@ -25,7 +17,7 @@ const ProductTwentySix = ({ category, design }: any) => {
     .active-cat-ps {
         color:  ${design?.header_color};
     }
-  `;
+    `;
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5 w-full">

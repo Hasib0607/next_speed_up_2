@@ -1,45 +1,31 @@
-'use client';
-
 import dynamic from 'next/dynamic';
-import { useSelector } from 'react-redux';
-import {
-    useGetDesignQuery,
-    useGetHeaderSettingsQuery,
-    useGetMenuQuery,
-} from '@/redux/features/home/homeApi';
-import { RootState } from '@/redux/store';
-
 import Announcement from '@/components/Announcement';
 import CartPopUp from '@/components/CartPopUp';
 import MobileBottomMenu from '@/components/mobile-bottom-menu';
+import getDesign from '@/utils/fetcher/getDesign';
+import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
+import getMenu from '@/utils/fetcher/getMenu';
 
-const Header = dynamic(() => import('@/components/Header'), { ssr: false });
-const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
+const Header = dynamic(() => import('@/components/Header'));
+const Footer = dynamic(() => import('@/components/Footer'));
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    useGetDesignQuery({});
-    useGetHeaderSettingsQuery({});
-    useGetMenuQuery({});
-    // need
-
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const design = await getDesign();
+    const headersetting = await getHeaderSetting();
+    const menu = await getMenu();
 
     return (
         <>
-            <Announcement design={design} store_id={store_id} />
-            <Header design={design} />
+            <Announcement design={design} />
+            <Header />
             {children}
             <CartPopUp design={design} />
-            <MobileBottomMenu design={design} />
-            <Footer design={design} />
+            <MobileBottomMenu />
+            <Footer design={design} headersetting={headersetting} menu={menu} />
         </>
     );
 }

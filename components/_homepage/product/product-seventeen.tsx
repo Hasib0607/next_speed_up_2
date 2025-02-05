@@ -20,24 +20,18 @@ import img1 from './bg-img/17/offer_bg.webp';
 import img2 from './bg-img/17/pink.png';
 import img5 from './bg-img/17/purple.png';
 import image from './bg-img/17/show_divider_3_92x48.webp';
-import './product-seventeen.css';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import { useGetCategoryProductQuery } from '@/redux/features/products/productApi';
 import { CategoryProducts } from '@/types';
+import './product-seventeen.css';
 
-const ProductSeventeen = ({ category, design }: any) => {
+const ProductSeventeen = ({ category, design, headersetting }: any) => {
     const [id, setId] = useState(category[0]?.id);
 
     const [categoryProducts, setCategoryProducts] = useState<CategoryProducts>(
         []
     );
 
-    const headerdata = useSelector(
-        (state: RootState) => state.home.headersetting
-    );
-
-    const { custom_design } = headerdata || {};
+    const { custom_design } = headersetting || {};
     const sectionHeadingData = custom_design?.product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         sectionHeadingData || {};

@@ -6,7 +6,9 @@ import { useGetAnnouncementQuery } from '@/redux/features/home/homeApi';
 
 // import useAnnouncementScroll from '@/utils/use-annoucement-height';
 
-const Announcement = ({ design, store_id }: any) => {
+const Announcement = ({ design }: any) => {
+    const store_id = design?.store_id || null;
+
     const [announcements, setAnnouncements] = useState([]);
 
     const { data: announcementsData, isSuccess: announcementsSuccess } =

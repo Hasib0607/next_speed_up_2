@@ -1,4 +1,4 @@
-import React from 'react';
+'use client'
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { Swiper, SwiperSlide } from 'swiper/react';

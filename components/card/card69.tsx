@@ -9,13 +9,13 @@ import {
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
-import { RootState } from '@/redux/store';
+
 import Link from 'next/link';
 import {
     MdKeyboardArrowLeft,
     MdOutlineKeyboardArrowRight,
 } from 'react-icons/md';
-import { useSelector } from 'react-redux';
+
 import 'swiper/css';
 import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
@@ -25,15 +25,12 @@ import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 const Card69 = ({ item }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
     const price = productCurrentPrice(item);
     const save = howMuchSave(item);
     const productAvailablity = isAvailable(item);
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
 
     const nextEl = 'card-slider-next';
     const prevEl = 'card-slider-prev';
@@ -44,10 +41,10 @@ const Card69 = ({ item }: any) => {
         background: ${bgColor};
     }
     .text-color {
-        color:  ${design?.header_color};
+        color:  ${bgColor};
     }
     .text-hover:hover {
-        color: ${design?.header_color};
+        color: ${bgColor};
       }
     .bg-color {
         color:  ${textColor};

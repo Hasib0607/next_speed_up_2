@@ -1,6 +1,5 @@
 import { bannerImg } from '@/site-settings/siteUrl';
 import { Banner, BannerProps } from '@/types';
-import React from 'react';
 
 const PromoBottomDefault = ({ banner }: BannerProps) => {
     
