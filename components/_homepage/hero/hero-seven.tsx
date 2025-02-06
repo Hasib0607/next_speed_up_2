@@ -82,7 +82,8 @@ const HeroSeven = ({ slider, design }: any) => {
 
                         <Image
                             className="rounded-lg h-auto min-w-full"
-                            src={sliderImg + s.image}
+                            // src={sliderImg + s.image}
+                            src={`${sliderImg}/${s.image}`}
                             width={100}
                             height={100}
                             alt=""
