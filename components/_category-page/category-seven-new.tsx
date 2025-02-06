@@ -5,17 +5,13 @@ import FilterByPriceNew from '@/components/_category-page/components/filter-by-p
 import PaginationComponent from '@/components/_category-page/components/pagination-new';
 import Card12 from '@/components/card/card12';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { ThreeDots } from 'react-loader-spinner';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Skeleton from '@/components/loaders/skeleton';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { HiOutlineAdjustments } from 'react-icons/hi';
 import { setSort } from '@/redux/features/filters/filterSlice';
-import {
-    useGetCategoryPageProductsQuery,
-    useGetColorsQuery,
-} from '@/redux/features/shop/shopApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPathName, getSecondPathName } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
@@ -24,9 +20,9 @@ import { RootState } from '@/redux/store';
 import { usePathname } from 'next/navigation';
 import Filters from './components/filters';
 import SingleCategory from './components/single-category';
+import InfiniteLoader from '../loaders/infinite-loader';
 
 const Seven = ({ catId, store_id }: any) => {
-
     const module_id = 105;
     const dispatch = useDispatch();
     const pathName = usePathname();
@@ -39,7 +35,6 @@ const Seven = ({ catId, store_id }: any) => {
     const filtersData = useSelector((state: RootState) => state.filters);
     // get the activecolor, pricevalue, selectedSort
     const { color: activeColor, price: priceValue } = filtersData || {};
-
     const [open, setOpen] = useState(false);
     const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
@@ -49,6 +44,7 @@ const Seven = ({ catId, store_id }: any) => {
 
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
+    const [infiniteProducts, setInfiniteProducts] = useState<any[]>([]);
 
     const {
         data: categoryPageProductsData,
@@ -60,17 +56,8 @@ const Seven = ({ catId, store_id }: any) => {
     } = useGetCategoryPageProductsQuery({ catId, page, filtersData });
 
     const nextPageFetch = () => {
-        setPage((prev) => prev + 1);
-        categoryPageProductsRefetch();
+        setPage((prevPage: number) => prevPage + 1);
     };
-
-    const {
-        data: colorsData,
-        isLoading: colorsLoading,
-        isSuccess: colorsSuccess,
-    } = useGetColorsQuery({ store_id });
-
-    const colors = colorsData?.data || [];
 
     const categoryStore = useSelector((state: any) => state?.category);
     const category = categoryStore?.categories || [];
@@ -81,25 +68,59 @@ const Seven = ({ catId, store_id }: any) => {
     const isPagination = numberParser(paginationModule?.status) === 1;
 
     useEffect(() => {
-        if (categoryPageProductsSuccess) {
-            const categoryData = categoryPageProductsData?.data || [];
-            setPaginate(categoryData?.pagination);
-            if (isPagination) {
-                setProducts(categoryData?.products || []);
-            } else {
-                setProducts((prev) =>
-                    Array.isArray(prev)
-                        ? [...prev, ...(categoryData?.products || [])]
-                        : categoryData?.products || []
-                );
-                setPage(1);
-            }
-        } else if (
-            categoryPageProductsData?.data?.pagination?.current_page === 1
-        ) {
-            setHasMore(false);
+        categoryPageProductsRefetch();
+        if (paginate?.total > 0) {
+            const more = numberParser(paginate?.total / 8, true) > page;
+            setHasMore(more);
         }
-    }, [categoryPageProductsData, isPagination, categoryPageProductsSuccess]);
+    }, [
+        page,
+        activeColor,
+        categoryPageProductsRefetch,
+        priceValue,
+        paginate,
+        setHasMore,
+    ]);
+
+    useEffect(() => {
+        if (activeColor !== null || priceValue !== null) {
+            setPage(1);
+        }
+    }, [activeColor, priceValue, setPage]);
+
+    useEffect(() => {
+        if (categoryPageProductsSuccess) {
+            const productsData = categoryPageProductsData?.data?.products || [];
+            const paginationData =
+                categoryPageProductsData?.data?.pagination || {};
+
+            setPaginate(paginationData);
+            setProducts(productsData);
+        }
+    }, [
+        categoryPageProductsData,
+        categoryPageProductsSuccess,
+        categoryPageProductsFetching,
+        page,
+        setPaginate,
+    ]);
+
+    useEffect(() => {
+        if (!isPagination) {
+            setInfiniteProducts((prev) => {
+                if (page === 1) {
+                    // Reset on new filter or first page load
+                    return products;
+                } else {
+                    // Append new products but filter out duplicates
+                    const newProducts = products?.filter(
+                        (p) => !prev.some((prevP) => prevP.id === p.id)
+                    );
+                    return [...prev, ...newProducts];
+                }
+            });
+        }
+    }, [isPagination, paginate, page, products]);
 
     const currentCatName = category?.find(
         (item: any) => item?.id == currentSecondPath
@@ -135,13 +156,12 @@ const Seven = ({ catId, store_id }: any) => {
                 </div>
                 {/* Filter By Color New */}
                 <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
-                <FilterByColorNew />
+                    <FilterByColorNew />
                 </div>
 
                 {/* Filter By Price New */}
                 <div className="bg-gray-100 border-2 border-gray-200 p-4">
-                <FilterByPriceNew />
-                    
+                    <FilterByPriceNew />
                 </div>
             </div>
 
@@ -171,34 +191,26 @@ const Seven = ({ catId, store_id }: any) => {
                 </div>
 
                 {/* show loading */}
-                {(categoryPageProductsLoading && !categoryPageProductsError) ||
-                categoryPageProductsFetching
-                    ? Array.from({ length: 8 }).map((_, index) => (
-                          <Skeleton key={index} />
-                      ))
-                    : null}
+                <div className="col-span-12 lg:col-span-9">
+                    {isPagination &&
+                    ((categoryPageProductsLoading &&
+                        !categoryPageProductsError) ||
+                        categoryPageProductsFetching)
+                        ? Array.from({ length: 8 })?.map((_, index) => (
+                              <Skeleton key={index} />
+                          ))
+                        : null}
+                </div>
 
                 {/* show products */}
                 {!isPagination ? (
                     <>
                         <InfiniteScroll
                             style={{ height: 'auto', overflow: 'hidden' }}
-                            dataLength={products?.length}
+                            dataLength={infiniteProducts?.length}
                             next={nextPageFetch}
                             hasMore={hasMore}
-                            loader={
-                                <div className="flex justify-center items-center">
-                                    <ThreeDots
-                                        height="80"
-                                        width="80"
-                                        radius="9"
-                                        color="#f1593a"
-                                        ariaLabel="three-dots-loading"
-                                        wrapperStyle={{}}
-                                        visible={true}
-                                    />
-                                </div>
-                            }
+                            loader={<InfiniteLoader />}
                             endMessage={
                                 <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
                                     No More Products
@@ -206,8 +218,8 @@ const Seven = ({ catId, store_id }: any) => {
                             }
                         >
                             <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-3 md:gap-3 xl:grid-cols-4 grid-cols-2 gap-2">
-                                {products?.length &&
-                                    products?.map(
+                                {infiniteProducts?.length &&
+                                    infiniteProducts?.map(
                                         (product: any, index: any) => (
                                             <Card12
                                                 item={product}

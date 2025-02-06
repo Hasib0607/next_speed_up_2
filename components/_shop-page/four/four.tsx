@@ -2,22 +2,18 @@
 
 import ProductCardTwo from '@/components/card/product-card/product-card-two';
 import BreadcrumbHeadingWrapper from '@/components/_category-page/components/breadcrumb-heading-wrapper';
-
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { ThreeDots } from 'react-loader-spinner';
-
 import { useEffect, useState } from 'react';
-
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
-
 import { getPathName } from '@/helpers/littleSpicy';
-
 import { RootState } from '@/redux/store';
 import { usePathname } from 'next/navigation';
 import { useSelector } from 'react-redux';
-
 import Pagination from '@/components/_category-page/components/pagination';
+import { numberParser } from '@/helpers/numberParser';
+import InfiniteLoader from '@/components/loaders/infinite-loader';
+
 const Four = ({ store_id }: any) => {
     const module_id = 105;
     const pathName = usePathname();
@@ -33,9 +29,11 @@ const Four = ({ store_id }: any) => {
     const [page, setPage] = useState(1);
 
     const filtersData = useSelector((state: RootState) => state.filters);
+    const { color: activeColor, price: priceValue } = filtersData || {};
 
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
+    const [infiniteProducts, setInfiniteProducts] = useState<any[]>([]);
 
     const {
         data: shopPageProductsData,
@@ -43,12 +41,11 @@ const Four = ({ store_id }: any) => {
         isFetching: shopPageProductsFetching,
         isSuccess: shopPageProductsSuccess,
         isError: shopPageProductsError,
-        refetch,
+        refetch: shopPageProductsRefetch,
     } = useGetShopPageProductsQuery({ page, filtersData });
 
     const nextPageFetch = () => {
-        setPage((prev) => prev + 1);
-        refetch();
+        setPage((prevPage) => prevPage + 1);
     };
 
     const paginationModule = modules?.find(
@@ -57,23 +54,50 @@ const Four = ({ store_id }: any) => {
     const isPagination = parseInt(paginationModule?.status) === 1;
 
     useEffect(() => {
-        if (shopPageProductsSuccess) {
-            const productsData = shopPageProductsData?.data || [];
-            setPaginate(productsData?.pagination);
-            if (isPagination) {
-                setProducts(productsData?.products || []);
-            } else {
-                setProducts((prev) =>
-                    Array.isArray(prev)
-                        ? [...prev, ...(productsData?.products || [])]
-                        : productsData?.products || []
-                );
-                setPage(1);
-            }
-        } else if (shopPageProductsData?.data?.pagination?.current_page === 1) {
-            setHasMore(false);
+        shopPageProductsRefetch();
+        if (paginate?.total > 0) {
+            const more = numberParser(paginate?.total / 8, true) > page;
+            setHasMore(more);
         }
-    }, [shopPageProductsData, isPagination, shopPageProductsSuccess]);
+    }, [page, activeColor, shopPageProductsRefetch, priceValue, paginate]);
+
+    useEffect(() => {
+        if (activeColor !== null || priceValue !== null) {
+            setPage(1);
+        }
+    }, [activeColor, priceValue]);
+
+    useEffect(() => {
+        if (shopPageProductsSuccess) {
+            const productsData = shopPageProductsData?.data?.products || [];
+            const paginationData = shopPageProductsData?.data?.pagination || {};
+
+            setPaginate(paginationData);
+            setProducts(productsData);
+        }
+    }, [
+        shopPageProductsData,
+        shopPageProductsSuccess,
+        shopPageProductsFetching,
+        page,
+    ]);
+
+    useEffect(() => {
+        if (!isPagination) {
+            setInfiniteProducts((prev) => {
+                if (page === 1) {
+                    // Reset on new filter or first page load
+                    return products;
+                } else {
+                    // Append new products but filter out duplicates
+                    const newProducts = products?.filter(
+                        (p) => !prev.some((prevP) => prevP.id === p.id)
+                    );
+                    return [...prev, ...newProducts];
+                }
+            });
+        }
+    }, [isPagination, paginate, page, products]);
 
     const shop = {
         name: currentPath || 'Shop',
@@ -86,22 +110,11 @@ const Four = ({ store_id }: any) => {
                     <div>
                         <InfiniteScroll
                             style={{ height: 'auto', overflow: 'hidden' }}
-                            dataLength={products?.length}
+                            dataLength={infiniteProducts?.length}
                             next={nextPageFetch}
                             hasMore={hasMore}
                             loader={
-                                <div className="flex justify-center items-center">
-                                    <ThreeDots
-                                        height="80"
-                                        width="80"
-                                        radius="9"
-                                        color="#f1593a"
-                                        ariaLabel="three-dots-loading"
-                                        wrapperStyle={{}}
-                                        // wrapperClassName=""
-                                        visible={true}
-                                    />
-                                </div>
+                                <InfiniteLoader />
                             }
                             endMessage={
                                 <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
@@ -110,9 +123,9 @@ const Four = ({ store_id }: any) => {
                             }
                         >
                             <div className="flex flex-wrap gap-4 justify-center my-10">
-                                {products?.map((product: any) => (
+                                {infiniteProducts?.map((product: any, index: number) => (
                                     <ProductCardTwo
-                                        key={product.id}
+                                        key={`${product?.id}-${index}`}
                                         item={product}
                                     />
                                 ))}
