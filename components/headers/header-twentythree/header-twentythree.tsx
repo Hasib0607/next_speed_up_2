@@ -4,16 +4,12 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { CgShoppingBag } from 'react-icons/cg';
 import { IoSearchOutline } from 'react-icons/io5';
-
 import { AiOutlineClose } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
 import { FiUser } from 'react-icons/fi';
-
 import Link from 'next/link';
 import { imgUrl } from '@/site-settings/siteUrl';
-
 import Search3 from '../components/search3';
-import userImg from '@/assets/img/user.png';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import SideMenuWithCategory from './side-menu-with-category';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
@@ -211,12 +207,12 @@ const HeaderTwentyThree = ({ headersetting, design }: any) => {
                                     <div>
                                         <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none ">
                                             <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
-                                                {user?.image ? (
+                                                {isAuthenticated ? (
                                                     <img
                                                         src={
                                                             user?.image
                                                                 ? user?.image
-                                                                : userImg.src
+                                                                : user?.social_img
                                                         }
                                                         alt="user"
                                                         className="object-fit"

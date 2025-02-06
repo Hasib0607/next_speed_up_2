@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { imgUrl, productImg } from '@/site-settings/siteUrl';
@@ -12,16 +12,12 @@ import getDomain from '@/helpers/getDomain';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import getProductDetails from '@/utils/fetcher/getProductDetails';
 import getDesign from '@/utils/fetcher/getDesign';
+import { ProductDetailsParamProps } from '@/types';
+import { htmlTagsRemover } from '@/helpers/littleSpicy';
 
-// define types
-type Props = {
-    params: Promise<{ productId: any }>;
-};
-
-export async function generateMetadata(
-    { params }: Props,
-    parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({
+    params,
+}: ProductDetailsParamProps): Promise<Metadata> {
     const productId = (await params).productId;
     const url = await getDomain();
 
@@ -62,7 +58,7 @@ export async function generateMetadata(
     return {
         title: `${websiteName} | ${name}`,
         description:
-            stripHtmlTags(description) || `Buy ${name} at ${websiteName}`,
+            htmlTagsRemover(description) || `Buy ${name} at ${websiteName}`,
         icons: { icon: imgUrl + headersetting?.favicon },
         keywords: seo_keywords || `${name}, ${websiteName}, `,
         openGraph: {
@@ -81,15 +77,12 @@ export async function generateMetadata(
     };
 }
 
-function stripHtmlTags(htmlString: any) {
-    const htmlTagRemover = /<[^>]*>/g;
-    return htmlString.replace(htmlTagRemover, '') || '';
-}
-
-export default async function SingleProductDetails({ params }: Props) {
+export default async function SingleProductDetails({
+    params,
+}: ProductDetailsParamProps) {
     const productId = (await params).productId;
+    const design = await getDesign();
     const headersetting = await getHeaderSetting();
-      const design = await getDesign();
 
     if (!headersetting) {
         throw new Error('Data not found');
@@ -117,7 +110,11 @@ export default async function SingleProductDetails({ params }: Props) {
     return (
         <div>
             <ViewContentGtm product={productData} />
-            <ProductDetails design={design} product={productData}/>
+            <ProductDetails
+                design={design}
+                product={productData}
+                productId={productId}
+            />
         </div>
     );
 }

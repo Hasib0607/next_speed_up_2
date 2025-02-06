@@ -17,7 +17,6 @@ import Link from 'next/link';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
 
-import defaultUserImage from '@/assets/default-user-image.png';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
@@ -43,7 +42,7 @@ const HeaderThirty = ({ headersetting, design, menu }: any) => {
     const { data: categoryData } = useGetCategoryQuery({});
 
     const category = categoryData?.data || [];
-    
+
     const authStore = useSelector((state: RootState) => state?.auth);
     const user = authStore?.user || {};
 
@@ -216,13 +215,13 @@ const HeaderThirty = ({ headersetting, design, menu }: any) => {
                             )}
                         </div>
                         {searchTxt && (
-                                <div className="absolute z-20 top-4 right-0 w-full rounded-md">
-                                    <Search3
-                                        search={searchTxt}
-                                        setSearch={setSearch}
-                                    />
-                                </div>
-                            )}
+                            <div className="absolute z-20 top-4 right-0 w-full rounded-md">
+                                <Search3
+                                    search={searchTxt}
+                                    setSearch={setSearch}
+                                />
+                            </div>
+                        )}
 
                         {openCat && (
                             <div className="flex flex-col absolute left-0 top-[44px] border-b bg-gray-50 w-60 z-[5]">
@@ -264,7 +263,7 @@ const HeaderThirty = ({ headersetting, design, menu }: any) => {
                                                         src={
                                                             user?.image
                                                                 ? user?.image
-                                                                : `${defaultUserImage.src}`
+                                                                : user?.social_img
                                                         }
                                                         alt="profile image"
                                                         className="object-fit"
@@ -368,7 +367,7 @@ const HeaderThirty = ({ headersetting, design, menu }: any) => {
                     <div
                         className={`lg:flex hidden justify-center sm:container px-5 py-2 gap-4 w-full`}
                     >
-                        {category?.slice(0, 5).map((cat: any) => (
+                        {category?.slice(0, 5)?.map((cat: any) => (
                             <ul className="group relative px-5" key={cat?.id}>
                                 <Link
                                     href={'/category/' + cat?.id}

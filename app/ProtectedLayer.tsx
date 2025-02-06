@@ -6,6 +6,8 @@ import useAuth from "@/hooks/useAuth";
 
 interface ProtectedProps {
     children: ReactNode;
+    design?:any,
+    appStore?:any
 }
 
 const ProtectedLayer: FC<ProtectedProps> = ({ children }) => {
@@ -22,7 +24,7 @@ const ProtectedLayer: FC<ProtectedProps> = ({ children }) => {
         return null; // Prevent rendering until redirection
     }
 
-    return <>{children}</>;
+    return children
 };
 
 export default ProtectedLayer;

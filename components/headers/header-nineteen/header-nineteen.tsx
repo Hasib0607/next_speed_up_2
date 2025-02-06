@@ -12,7 +12,7 @@ import { ImCross } from 'react-icons/im';
 import { RiMenu2Line, RiUser2Fill } from 'react-icons/ri';
 
 import Search3 from '../components/search3';
-import defaultUserImage from '@/assets/default-user-image.png';
+
 import { classNames } from '@/helpers/littleSpicy';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { useRouter } from 'next/navigation';
@@ -167,9 +167,8 @@ const HeaderNineteen = ({ headersetting, design, menu }: any) => {
                                                 <img
                                                     src={
                                                         user?.image
-                                                            ? profileImg +
-                                                              user?.image
-                                                            : `${defaultUserImage.src}`
+                                                            ? user?.image
+                                                            : user?.social_img
                                                     }
                                                     alt=""
                                                     className="object-fit"

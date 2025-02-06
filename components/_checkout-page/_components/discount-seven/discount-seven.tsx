@@ -9,7 +9,6 @@ import { getDiscount } from '@/helpers/getDiscount';
 import { numberParser } from '@/helpers/numberParser';
 import { btnhover } from '@/site-settings/style';
 import { subTotal } from '@/utils/_cart-utils/cart-utils';
-
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
@@ -17,6 +16,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const DiscountSeven = ({
+    design,
+    appStore,
+    headersetting,
     setCouponDis,
     setShippingArea,
     setCoupon,
@@ -33,11 +35,7 @@ const DiscountSeven = ({
 
     const dispatch: AppDispatch = useDispatch();
 
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = appStore?.id || null;
 
     const cartList = useSelector((state: RootState) => state.cart.cartList);
 

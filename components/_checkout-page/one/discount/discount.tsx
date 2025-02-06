@@ -21,6 +21,9 @@ import { toast } from 'react-toastify';
 import { TWENTY_EIGHT } from '@/consts';
 
 const Discount = ({
+    design,
+    appStore,
+    headersetting,
     setCouponDis,
     setShippingArea,
     setCoupon,
@@ -35,11 +38,7 @@ const Discount = ({
 
     const dispatch: AppDispatch = useDispatch();
 
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = appStore?.id || null;
 
     const cartList = useSelector((state: RootState) => state.cart.cartList);
 
@@ -139,9 +138,7 @@ const Discount = ({
         if (headersetting?.selected_shipping_area) {
             setSelectedShippingArea(headersetting?.selected_shipping_area);
             const initialAreaCost =
-                headersetting?.[
-                    `shipping_area_${selectedShippingArea}_cost`
-                ];
+                headersetting?.[`shipping_area_${selectedShippingArea}_cost`];
             if (initialAreaCost) {
                 setShippingArea(initialAreaCost);
             }

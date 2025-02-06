@@ -2,25 +2,19 @@
 
 import { getFastArr } from '@/helpers/littleSpicy';
 import { useGetAddressQuery } from '@/redux/features/checkOut/checkOutApi';
-
-import { RootState } from '@/redux/store';
-
 import { useEffect, useState } from 'react';
-
 import { RotatingLines } from 'react-loader-spinner';
-import { useSelector } from 'react-redux';
-
 import CheckoutFrom from '@/components/_checkout-page/_components/checkout-from';
-
 import SingleAddress from '@/components/_checkout-page/_components/single-address/single-address';
 import { TWENTY_EIGHT } from '@/consts';
 import useAuth from '@/hooks/useAuth';
 import QuickView from '@/utils/quick-view';
 
 const Address = ({
+    design,
+    appStore,
     selectAddress,
     setSelectAddress,
-    design,
     className,
     formFieldStyle,
 }: any) => {
@@ -30,8 +24,7 @@ const Address = ({
     const [edit, setEdit] = useState(false);
     const [editItem, setEditItem] = useState(null);
 
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = appStore?.id || null;
 
     const {
         data: addressData,
@@ -77,6 +70,7 @@ const Address = ({
                             <SingleAddress
                                 item={item}
                                 key={index}
+                                design={design}
                                 setEdit={setEdit}
                                 setEditItem={setEditItem}
                                 setOpen={setOpen}
@@ -147,8 +141,10 @@ const Address = ({
                         </span>
                     )}
                 </div>
-                {store?.auth_type === 'EasyOrder' && !isAuthenticated ? (
+                {appStore?.auth_type === 'EasyOrder' && !isAuthenticated ? (
                     <CheckoutFrom
+                        design={design}
+                        appStore={appStore}
                         formFieldStyle={formFieldStyle}
                         addressRefetch={addressRefetch}
                         setOpen={setOpen}
@@ -157,6 +153,8 @@ const Address = ({
                     <div>
                         {!addressArr || addressArr?.length == 0 ? (
                             <CheckoutFrom
+                                design={design}
+                                appStore={appStore}
                                 formFieldStyle={formFieldStyle}
                                 addressRefetch={addressRefetch}
                                 setOpen={setOpen}
@@ -172,6 +170,8 @@ const Address = ({
                 <>
                     {edit && editItem ? (
                         <CheckoutFrom
+                            design={design}
+                            appStore={appStore}
                             formFieldStyle={formFieldStyle}
                             addressRefetch={addressRefetch}
                             setOpen={setOpen}
@@ -182,6 +182,8 @@ const Address = ({
                         />
                     ) : (
                         <CheckoutFrom
+                            design={design}
+                            appStore={appStore}
                             formFieldStyle={formFieldStyle}
                             addressRefetch={addressRefetch}
                             setOpen={setOpen}

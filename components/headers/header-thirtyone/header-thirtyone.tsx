@@ -15,10 +15,8 @@ import { imgUrl } from '@/site-settings/siteUrl';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import SideMenu from '../components/side-menu';
 import Search3 from '../components/search3';
-
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import defaultUserImage from '@/assets/default-user-image.png';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { classNames } from '@/helpers/littleSpicy';
 import { useRouter } from 'next/navigation';
@@ -269,7 +267,7 @@ const HeaderThirtyOne = ({ headersetting, design, menu }: any) => {
                                                         src={
                                                             user?.image
                                                                 ? user?.image
-                                                                : `${defaultUserImage.src}`
+                                                                : user?.social_img
                                                         }
                                                         alt=""
                                                         className="object-fit"

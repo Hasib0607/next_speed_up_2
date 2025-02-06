@@ -19,6 +19,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const Discount = ({
+    design,
+    appStore,
+    headersetting,
     setCouponDis,
     setShippingArea,
     setCoupon,
@@ -33,11 +36,7 @@ const Discount = ({
 
     const dispatch: AppDispatch = useDispatch();
 
-    const home = useSelector((state: any) => state?.home);
-    const { design, headersetting } = home || {};
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = appStore?.id || null;
 
     const cartList = useSelector((state: any) => state.cart.cartList);
 

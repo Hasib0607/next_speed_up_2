@@ -53,7 +53,6 @@ export const REDUX_PERSIST = 'persist:root';
 export const BLOG_PAGE_NUMBER = 1;
 
 // host
-// export const name = typeof window !== 'undefined' ? window.location.host : '';
 function url() {
     if (typeof window !== 'undefined') {
         return window.location.host.startsWith('www.')

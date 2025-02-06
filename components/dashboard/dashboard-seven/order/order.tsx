@@ -16,7 +16,6 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 
-
 export const cancelAlert = (setCancel: any) => {
     Swal.fire({
         title: 'Are you sure?',
@@ -35,21 +34,15 @@ export const cancelAlert = (setCancel: any) => {
     });
 };
 
-
-const Order = () => {
+const Order = ({ design, appStore }: any) => {
     const [orders, setOrders] = useState<any>([]);
     const [filter, setFilter] = useState<any>([]);
 
     const { statusBtn } = useSelector((state: any) => state?.filters);
-
-    const home = useSelector((state: any) => state?.home);
-    const { design } = home || {};
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = appStore?.id || null;
 
     const dispatch = useDispatch();
-    
+
     const {
         data: userOrdersData,
         isLoading: userOrdersLoading,
@@ -63,23 +56,22 @@ const Order = () => {
         isSuccess: orderStatusSuccess,
     } = useOrderStatusQuery({});
     const orderStatus = orderStatusData?.data || [];
-    
-        const statusArr = orderStatus?.map((item: any) => item?.name).sort();
-        statusArr.unshift('All');
-    
-        const getFilter = (status: any) => {
-            dispatch(setStatusBtn(status));
-            if (status === 'All') {
-                setFilter(orders);
-            } else {
-                setFilter(orders.filter((i: any) => i.status === status));
-            }
-        };
+
+    const statusArr = orderStatus?.map((item: any) => item?.name).sort();
+    statusArr.unshift('All');
+
+    const getFilter = (status: any) => {
+        dispatch(setStatusBtn(status));
+        if (status === 'All') {
+            setFilter(orders);
+        } else {
+            setFilter(orders.filter((i: any) => i.status === status));
+        }
+    };
 
     useEffect(() => {
-        
         if (userOrdersSuccess) {
-        const userOrders = userOrdersData?.data || [];
+            const userOrders = userOrdersData?.data || [];
             setOrders(userOrders);
             setFilter([...userOrders]);
         }
@@ -222,7 +214,9 @@ const OrderItem = ({ item, userOrdersRefetch }: any) => {
     const [orderCancel] = useOrderCancelMutation();
     const [callCancel, setCallCancel] = useState<boolean>(false);
 
-    const formattedDate = moment(item?.created_at).format("DD-MM-YYYY, hh:mm:ss"); 
+    const formattedDate = moment(item?.created_at).format(
+        'DD-MM-YYYY, hh:mm:ss'
+    );
 
     const statusColors: Record<Status, string> = {
         Pending: 'bg-purple-100 border-purple-200',

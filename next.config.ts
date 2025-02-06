@@ -3,13 +3,17 @@ import type { NextConfig } from 'next';
 // Define your Next.js configuration
 const nextConfig: NextConfig = {
     reactStrictMode: true,
+    // images: {
+    //     remotePatterns: [
+    //         {
+    //             protocol: 'https',
+    //             hostname: 'admin.ebitans.com',
+    //         },
+    //     ],
+    // },
     images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'admin.ebitans.com',
-            },
-        ],
+        domains: ['admin.ebitans.com'],
+        formats: ['image/webp'],
     },
     experimental: {
         // memoryManagement: true,

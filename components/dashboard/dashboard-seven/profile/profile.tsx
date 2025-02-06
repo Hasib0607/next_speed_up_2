@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 
 import { useUpdateUserProfileMutation } from '@/redux/features/user/userApi';
 import { useState } from 'react';
+import { RootState } from '@/redux/store';
 
 type FormValues = {
     image: Blob;
@@ -22,12 +23,11 @@ type FormValues = {
     error: string;
 };
 
-const Profile = () => {
+const Profile = ({ appStore }: any) => {
     const isAuthenticated = useAuth();
+    const store_id = appStore?.id || null;
 
-    const { user } = useSelector((state: any) => state.auth);
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const { user } = useSelector((state: RootState) => state.auth);
 
     const [selectedImage, setSelectedImage] = useState<any>();
 
@@ -122,27 +122,18 @@ const Profile = () => {
                                                 </label>
                                                 <div className="mt-1 flex items-center">
                                                     <span className="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100 ring-1 ring-red-400">
-                                                        {isAuthenticated ? (
+                                                        {isAuthenticated && (
                                                             <img
                                                                 src={
                                                                     selectedImage
                                                                         ? URL.createObjectURL(
                                                                               selectedImage
                                                                           )
-                                                                        : user?.image ||
-                                                                          'https://ebitans.com/Image/theme/default-user-image.png'
+                                                                        : user?.image
                                                                 }
                                                                 alt=""
                                                                 className="object-fit"
                                                             />
-                                                        ) : (
-                                                            <svg
-                                                                className="h-full w-full text-gray-300"
-                                                                fill="currentColor"
-                                                                viewBox="0 0 24 24"
-                                                            >
-                                                                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                                            </svg>
                                                         )}
                                                     </span>
 
@@ -192,7 +183,7 @@ const Profile = () => {
                                                 >
                                                     Email Address
                                                 </label>
-                                                {store?.auth_type ===
+                                                {appStore?.auth_type ===
                                                 'email' ? (
                                                     <input
                                                         type="email"
@@ -201,7 +192,7 @@ const Profile = () => {
                                                         }
                                                         autoComplete="email"
                                                         disabled={
-                                                            store?.auth_type ===
+                                                            appStore?.auth_type ===
                                                             'email'
                                                                 ? true
                                                                 : false
@@ -217,7 +208,7 @@ const Profile = () => {
                                                         }
                                                         autoComplete="email"
                                                         disabled={
-                                                            store?.auth_type ===
+                                                            appStore?.auth_type ===
                                                             'email'
                                                                 ? true
                                                                 : false
@@ -234,7 +225,7 @@ const Profile = () => {
                                                 >
                                                     Mobile Number
                                                 </label>
-                                                {store?.auth_type ===
+                                                {appStore?.auth_type ===
                                                 'email' ? (
                                                     <>
                                                         <div className="flex items-center mt-1">
@@ -257,7 +248,7 @@ const Profile = () => {
                                                                     user?.phone
                                                                 }
                                                                 disabled={
-                                                                    store?.auth_type ===
+                                                                    appStore?.auth_type ===
                                                                     'email'
                                                                         ? false
                                                                         : true
@@ -285,7 +276,7 @@ const Profile = () => {
                                                             user?.phone
                                                         }
                                                         disabled={
-                                                            store?.auth_type ===
+                                                            appStore?.auth_type ===
                                                             'email'
                                                                 ? false
                                                                 : true

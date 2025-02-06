@@ -1,12 +1,10 @@
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
-
-const PaymentConditions = ({ setChecked }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+const PaymentConditions = ({
+    design,
+    appStore,
+    headersetting,
+    setChecked,
+}: any) => {
+    const store_id = appStore?.id || null;
 
     const handleChecked = () => {
         setChecked((prev: any) => !prev);

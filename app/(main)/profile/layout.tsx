@@ -1,11 +1,12 @@
-'use client';
-
+import React from 'react';
 import ProtectedLayer from '@/app/ProtectedLayer';
 import LeftSide from '@/components/dashboard/left-side';
 
-import React, { PropsWithChildren } from 'react';
-
-const ProfileLayout = ({ children }: PropsWithChildren) => {
+export default async function ProfileLayout({
+    children,
+}: Readonly<{
+    children: React.ReactNode;
+}>) {
     return (
         <ProtectedLayer>
             <div className="sm:container px-5 pt-8">
@@ -16,6 +17,4 @@ const ProfileLayout = ({ children }: PropsWithChildren) => {
             </div>
         </ProtectedLayer>
     );
-};
-
-export default ProfileLayout;
+}

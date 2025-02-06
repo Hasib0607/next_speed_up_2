@@ -7,13 +7,13 @@ import Right from './right';
 import { Bars4Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Search3 from '../components/search3';
-import { imgUrl, profileImg } from '@/site-settings/siteUrl';
+import { imgUrl } from '@/site-settings/siteUrl';
 import { IoSearchCircleOutline } from 'react-icons/io5';
 
 import { red } from '@/site-settings/color';
 import { btnhover } from '@/site-settings/style';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import defaultUserImage from '@/assets/default-user-image.png';
+
 import { useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
@@ -235,9 +235,8 @@ export default function HeaderFour({ headersetting, menu, design }: any) {
                                             <img
                                                 src={
                                                     user?.image
-                                                        ? profileImg +
-                                                          user?.image
-                                                        : `${defaultUserImage.src}`
+                                                        ? user?.image
+                                                        : user?.social_img
                                                 }
                                                 alt=""
                                                 className="object-fit"

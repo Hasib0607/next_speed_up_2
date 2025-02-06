@@ -14,7 +14,7 @@ const PasswordForgot = () => {
         forgot_password_pages[DEFAULT];
 
 
-    return <>{design?.login_page !== "null" && ForgotPasswordComponent && <ForgotPasswordComponent />}</>;
+    return design?.login_page !== "null" && ForgotPasswordComponent && <ForgotPasswordComponent />;
 
 };
 

@@ -1,10 +1,10 @@
-'use client'
-
 import React from 'react';
+import getDesign from '@/utils/fetcher/getDesign';
+import getStore from '@/utils/fetcher/getStore';
 import ChangePassword from '@/components/ChangePassword';
 
-const ChangePasswordPage = () => {
-    return <ChangePassword />;
-};
-
-export default ChangePasswordPage;
+export default async function ChangePasswordPage() {
+    const design = await getDesign();
+    const appStore = await getStore();
+    return <ChangePassword design={design} appStore={appStore} />;
+}

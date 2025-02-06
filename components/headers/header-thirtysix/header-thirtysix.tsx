@@ -9,14 +9,11 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs';
 import { FaBars } from 'react-icons/fa';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
-
-import defaultUserImage from '@/assets/default-user-image.png';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
-
 import { useRouter } from 'next/navigation';
 import Search3 from '../components/search3';
 import SideCategory from '../components/side-category';
@@ -122,7 +119,7 @@ const HeaderThirtySix = ({ headersetting, design }: any) => {
                                                         src={
                                                             user?.image
                                                                 ? user?.image
-                                                                : `${defaultUserImage.src}`
+                                                                : user?.social_img
                                                         }
                                                         alt=""
                                                         className="object-fit"

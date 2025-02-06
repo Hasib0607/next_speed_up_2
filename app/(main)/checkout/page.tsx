@@ -3,6 +3,7 @@ import ProtectedLayer from '@/app/ProtectedLayer';
 import Checkout from '@/components/Checkout';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 import { imgUrl } from '@/site-settings/siteUrl';
+import getDesign from '@/utils/fetcher/getDesign';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import getStore from '@/utils/fetcher/getStore';
 
@@ -17,19 +18,29 @@ export async function generateMetadata() {
 }
 
 export default async function CheckoutPage() {
-    const store = await getStore();
-    
+    const appStore = await getStore();
+    const design = await getDesign();
+    const headersetting = await getHeaderSetting();
+
     return (
         <>
-            {store?.auth_type !== 'EasyOrder' ? (
+            {appStore?.auth_type !== 'EasyOrder' ? (
                 <ProtectedLayer>
                     <CheckoutGtm />
-                    <Checkout />
+                    <Checkout
+                        design={design}
+                        appStore={appStore}
+                        headersetting={headersetting}
+                    />
                 </ProtectedLayer>
             ) : (
                 <>
                     <CheckoutGtm />
-                    <Checkout />
+                    <Checkout
+                        design={design}
+                        appStore={appStore}
+                        headersetting={headersetting}
+                    />
                 </>
             )}
         </>

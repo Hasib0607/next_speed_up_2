@@ -4,10 +4,10 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import './dashboard.css';
 import { usePathname } from 'next/navigation';
-
 import { useSelector } from 'react-redux';
 
 const LeftSide = () => {
+
     const pathname = usePathname();
 
     const { referralCode } = useSelector((state: any) => state.auth); // Access updated Redux state
