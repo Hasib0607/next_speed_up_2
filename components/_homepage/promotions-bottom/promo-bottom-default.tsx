@@ -7,7 +7,7 @@ const PromoBottomDefault = ({ banner }: BannerProps) => {
         <div className="bg-white py-8">
             <div className="container">
                 <div className="flex flex-wrap justify-between mx-4 md:mx-0  items-center gap-4 px-6">
-                    {banner?.length > 0 && banner?.length > 0 &&
+                    {banner?.length > 0 &&
                         banner?.map((ban: Banner) => (
                             <div
                                 key={ban?.id}

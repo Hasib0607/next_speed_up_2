@@ -5,16 +5,16 @@ import { TWENTY_EIGHT } from '@/consts';
 
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { customizeCheckout } from '@/utils/customizeDesign';
-import { useSelector } from 'react-redux';
 
-const PaymentGateway = ({ selectPayment, setSelectPayment }: any) => {
+const PaymentGateway = ({
+    design,
+    appStore,
+    headersetting,
+    selectPayment,
+    setSelectPayment,
+}: any) => {
+    const store_id = appStore?.id || null;
     const module_id = 106;
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
-
-    const home = useSelector((state: any) => state?.home);
-    const { design, headersetting } = home || {};
 
     const {
         data: moduleIdDetailsData,
@@ -66,138 +66,141 @@ const PaymentGateway = ({ selectPayment, setSelectPayment }: any) => {
                         </div>
 
                         <div className="flex gap-2 flex-wrap sm:flex-nowrap">
-                        {headersetting?.amarpay === 'active' && (
-                        <div
-                            style={{
-                                backgroundColor:
-                                    selectPayment === 'amarpay'
-                                        ? design?.header_color
-                                        : '#fff',
-                                color:
-                                    selectPayment === 'amarpay'
-                                        ? design?.text_color
-                                        : '#000',
-                            }}
-                            className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
-                            onClick={() => handleSelect('amarpay')}
-                        >
-                            <p className="font-semibold tracking-wider">
-                                {headersetting?.amarpay_text}
-                            </p>
-                        </div>
-                    )}
+                            {headersetting?.amarpay === 'active' && (
+                                <div
+                                    style={{
+                                        backgroundColor:
+                                            selectPayment === 'amarpay'
+                                                ? design?.header_color
+                                                : '#fff',
+                                        color:
+                                            selectPayment === 'amarpay'
+                                                ? design?.text_color
+                                                : '#000',
+                                    }}
+                                    className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
+                                    onClick={() => handleSelect('amarpay')}
+                                >
+                                    <p className="font-semibold tracking-wider">
+                                        {headersetting?.amarpay_text}
+                                    </p>
+                                </div>
+                            )}
 
-                    {headersetting?.online === 'active' && (
-                        <div
-                            style={{
-                                backgroundColor:
-                                    selectPayment === 'online'
-                                        ? design?.header_color
-                                        : '#fff',
-                                color:
-                                    selectPayment === 'online'
-                                        ? design?.text_color
-                                        : '#000',
-                            }}
-                            className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
-                            onClick={() => handleSelect('online')}
-                        >
-                            <p className="font-semibold tracking-wider">
-                                SSL Commerz
-                            </p>
-                        </div>
-                    )}
+                            {headersetting?.online === 'active' && (
+                                <div
+                                    style={{
+                                        backgroundColor:
+                                            selectPayment === 'online'
+                                                ? design?.header_color
+                                                : '#fff',
+                                        color:
+                                            selectPayment === 'online'
+                                                ? design?.text_color
+                                                : '#000',
+                                    }}
+                                    className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
+                                    onClick={() => handleSelect('online')}
+                                >
+                                    <p className="font-semibold tracking-wider">
+                                        SSL Commerz
+                                    </p>
+                                </div>
+                            )}
 
-                    {headersetting?.bkash === 'active' && (
-                        <div
-                            style={{
-                                backgroundColor:
-                                    selectPayment === 'bkash'
-                                        ? design?.header_color
-                                        : '#fff',
-                                color:
-                                    selectPayment === 'bkash'
-                                        ? design?.text_color
-                                        : '#000',
-                            }}
-                            className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
-                            onClick={() => handleSelect('bkash')}
-                        >
-                            <div className="flex justify-center items-center w-auto min-w-20">
-                                {checkoutData?.full_payment ? (
-                                    checkoutData?.full_payment
-                                ) : (
-                                    <div className="flex gap-2 w-auto">
-                                        {headersetting?.bkash_text ===
-                                        'bKash Payment Img' ? (
-                                            <img
-                                                src={bkashLogo.src}
-                                                className="h-6 md:h-8"
-                                                alt="bkashLogo"
-                                            />
+                            {headersetting?.bkash === 'active' && (
+                                <div
+                                    style={{
+                                        backgroundColor:
+                                            selectPayment === 'bkash'
+                                                ? design?.header_color
+                                                : '#fff',
+                                        color:
+                                            selectPayment === 'bkash'
+                                                ? design?.text_color
+                                                : '#000',
+                                    }}
+                                    className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
+                                    onClick={() => handleSelect('bkash')}
+                                >
+                                    <div className="flex justify-center items-center w-auto min-w-20">
+                                        {checkoutData?.full_payment ? (
+                                            checkoutData?.full_payment
                                         ) : (
-                                            <p className="font-semibold tracking-wider">
-                                                {headersetting?.bkash_text}
-                                            </p>
+                                            <div className="flex gap-2 w-auto">
+                                                {headersetting?.bkash_text ===
+                                                'bKash Payment Img' ? (
+                                                    <img
+                                                        src={bkashLogo.src}
+                                                        className="h-6 md:h-8"
+                                                        alt="bkashLogo"
+                                                    />
+                                                ) : (
+                                                    <p className="font-semibold tracking-wider">
+                                                        {
+                                                            headersetting?.bkash_text
+                                                        }
+                                                    </p>
+                                                )}
+                                            </div>
                                         )}
                                     </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
+                                </div>
+                            )}
 
-                    {headersetting?.cod === 'active' && (
-                        <div
-                            style={{
-                                backgroundColor:
-                                    selectPayment === 'cod'
-                                        ? design?.header_color
-                                        : '#fff',
-                                color:
-                                    selectPayment === 'cod'
-                                        ? design?.text_color
-                                        : '#000',
-                            }}
-                            className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
-                            onClick={() => handleSelect('cod')}
-                        >
-                            <p className="font-semibold tracking-wider">
-                                {design?.template_id === '29'
-                                    ? 'ক্যাশ অন ডেলিভারি'
-                                    : headersetting?.cod_text}
-                            </p>
-                        </div>
-                    )}
+                            {headersetting?.cod === 'active' && (
+                                <div
+                                    style={{
+                                        backgroundColor:
+                                            selectPayment === 'cod'
+                                                ? design?.header_color
+                                                : '#fff',
+                                        color:
+                                            selectPayment === 'cod'
+                                                ? design?.text_color
+                                                : '#000',
+                                    }}
+                                    className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
+                                    onClick={() => handleSelect('cod')}
+                                >
+                                    <p className="font-semibold tracking-wider">
+                                        {design?.template_id === '29'
+                                            ? 'ক্যাশ অন ডেলিভারি'
+                                            : headersetting?.cod_text}
+                                    </p>
+                                </div>
+                            )}
 
-                    {activeModule && (
-                        <div
-                            style={{
-                                backgroundColor:
-                                    selectPayment === 'ap'
-                                        ? design?.header_color
-                                        : '#fff',
-                                color:
-                                    selectPayment === 'ap'
-                                        ? design?.text_color
-                                        : '#000',
-                            }}
-                            className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
-                            onClick={() => handleSelect('ap')}
-                        >
-                            <div className="flex justify-between items-center lg:cursor-pointer">
-                                <h3 className="font-semibold tracking-wider">
-                                    {design?.checkout_page === TWENTY_EIGHT ||
-                                    design?.template_id === '29'
-                                        ? 'অ্যাডভান্স পেমেন্ট'
-                                        : `${
-                                              checkoutData?.partial_payment
-                                                  ? checkoutData?.partial_payment
-                                                  : 'Advance Payment'
-                                          }`}
-                                </h3>
-                            </div>
-                        </div>
-                    )}
+                            {activeModule && (
+                                <div
+                                    style={{
+                                        backgroundColor:
+                                            selectPayment === 'ap'
+                                                ? design?.header_color
+                                                : '#fff',
+                                        color:
+                                            selectPayment === 'ap'
+                                                ? design?.text_color
+                                                : '#000',
+                                    }}
+                                    className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
+                                    onClick={() => handleSelect('ap')}
+                                >
+                                    <div className="flex justify-between items-center lg:cursor-pointer">
+                                        <h3 className="font-semibold tracking-wider">
+                                            {design?.checkout_page ===
+                                                TWENTY_EIGHT ||
+                                            design?.template_id === '29'
+                                                ? 'অ্যাডভান্স পেমেন্ট'
+                                                : `${
+                                                      checkoutData?.partial_payment
+                                                          ? checkoutData?.partial_payment
+                                                          : 'Advance Payment'
+                                                  }`}
+                                        </h3>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

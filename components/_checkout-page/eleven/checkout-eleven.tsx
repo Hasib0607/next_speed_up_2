@@ -9,12 +9,8 @@ import Discount from '../_components/discount/discount';
 import Address from '../_components/address/address';
 import PaymentGateway from './payment-gateway/payment-gateway';
 
-const CheckOutTwentyOne = () => {
-    const home = useSelector((state: any) => state?.home);
-    const { design, headersetting } = home || {};
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
+    const store_id = appStore?.id || null;
 
     const { cartList } = useSelector((state: any) => state.cart);
 
@@ -93,43 +89,51 @@ const CheckOutTwentyOne = () => {
                 </div>
                 <div className="grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-1 gap-14">
                     <div className="">
-                    <div
-                className={`${
-                    design?.template_id === '34'
-                        ? 'bg-thirty-one border border-white'
-                        : 'bg-white'
-                }  shadow sm:rounded-md sm:overflow-hidden mb-5`}
-                
-            >
-                <div className="px-4 py-5 space-y-6 sm:p-6">
-                        <Address
-                            selectAddress={selectAddress}
-                            setSelectAddress={setSelectAddress}
-                            design={design}
-                            setToken={setToken}
-                            token={token}
-                            setUserAddress={setUserAddress}
-                            userPhone={userPhone}
-                            setUserPhone={setUserPhone}
-                            setUserName={setUserName}
-                        />
-                    
-                    </div></div>
+                        <div
+                            className={`${
+                                design?.template_id === '34'
+                                    ? 'bg-thirty-one border border-white'
+                                    : 'bg-white'
+                            }  shadow sm:rounded-md sm:overflow-hidden mb-5`}
+                        >
+                            <div className="px-4 py-5 space-y-6 sm:p-6">
+                                <Address
+                                    design={design}
+                                    appStore={appStore}
+                                    selectAddress={selectAddress}
+                                    setSelectAddress={setSelectAddress}
+                                    setToken={setToken}
+                                    token={token}
+                                    setUserAddress={setUserAddress}
+                                    userPhone={userPhone}
+                                    setUserPhone={setUserPhone}
+                                    setUserName={setUserName}
+                                />
+                            </div>
+                        </div>
                         <Discount
+                            design={design}
+                            appStore={appStore}
+                            headersetting={headersetting}
                             setCouponDis={setCouponDis}
                             setShippingArea={setShippingArea}
                             setCoupon={setCoupon}
                             setCouponResult={setCouponResult}
                             couponResult={couponResult}
-                            design={design}
                         />
                         <PaymentGateway
+                            design={design}
+                            appStore={appStore}
+                            headersetting={headersetting}
                             selectPayment={selectPayment}
                             setSelectPayment={setSelectPayment}
                         />
                     </div>
                     <div className="border-l-2 pl-8">
                         <YourOrders
+                            design={design}
+                            appStore={appStore}
+                            headersetting={headersetting}
                             couponDis={couponDis}
                             setCouponDis={setCouponDis}
                             couponResult={couponResult}
@@ -148,4 +152,4 @@ const CheckOutTwentyOne = () => {
     );
 };
 
-export default CheckOutTwentyOne;
+export default CheckOutEleven;

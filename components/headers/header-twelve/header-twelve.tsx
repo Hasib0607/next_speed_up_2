@@ -1,7 +1,7 @@
 'use client';
+
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useEffect, useState } from 'react';
-
 import { headerBg } from '@/site-settings/color';
 import { imgUrl } from '@/site-settings/siteUrl';
 import {
@@ -25,7 +25,6 @@ import {
     IoLogoWhatsapp,
     IoSearchCircleOutline,
 } from 'react-icons/io5';
-
 import HeaderCatTwelve from './header-cat-twelve';
 import './header-twelve.css';
 import Search3 from '../components/search3';
@@ -79,18 +78,18 @@ const HeaderTwelve = ({ design, menu, headersetting, cartList }: any) => {
     .all-hover:hover {
       color:  ${design?.text_color};
       background: ${design?.header_color};
-  }
-    .menu-hover:hover {
-      color:  ${design?.header_color};
-  }
-  
-  .font-twelve {
-    font-family: 'Libre Franklin', sans-serif;
-  }
+    }
+        .menu-hover:hover {
+        color:  ${design?.header_color};
+    }
+    
+    .font-twelve {
+        font-family: 'Libre Franklin', sans-serif;
+    }
 
-  h1, p, span, button, li, ul {
-    font-family: 'Libre Franklin', sans-serif;
-  }
+    h1, p, span, button, li, ul {
+        font-family: 'Libre Franklin', sans-serif;
+    }
     `;
 
     return (

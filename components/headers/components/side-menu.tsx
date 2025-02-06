@@ -42,7 +42,7 @@ const SideMenu = React.memo(({ setOpen, design, menu, menuLoading }: any) => {
                                 <div key={item.id}>
                                     <Link
                                         onClick={() => setOpen(false)}
-                                        href={item?.url ? `/${item.url}` : '/'}
+                                        href={item?.custom_link ? `${item?.custom_link}` :`/${item.url}`}
                                     >
                                         <p className="menu-hover uppercase sm:text-base text-sm text-gray-500 font-medium">
                                             {item.name}

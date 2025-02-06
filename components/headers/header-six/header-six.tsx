@@ -1,19 +1,16 @@
 'use client';
 
+import Link from 'next/link';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
-
-import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
 import { AiFillLinkedin, AiOutlineClose } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs';
 import { FaFacebook } from 'react-icons/fa';
 import { GrInstagram, GrYoutube } from 'react-icons/gr';
 import { IoLogoWhatsapp } from 'react-icons/io5';
-
 import HeaderSixCat from './header-six-cat';
 import HeaderSixMenu from './header-six-menu';
-
 import Search3 from '../components/search3';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';

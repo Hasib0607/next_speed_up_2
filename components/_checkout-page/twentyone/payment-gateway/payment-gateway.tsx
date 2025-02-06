@@ -5,16 +5,16 @@ import { TWENTY_EIGHT } from '@/consts';
 
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { customizeCheckout } from '@/utils/customizeDesign';
-import { useSelector } from 'react-redux';
 
-const PaymentGateway = ({ selectPayment, setSelectPayment }: any) => {
+const PaymentGateway = ({
+    design,
+    appStore,
+    headersetting,
+    selectPayment,
+    setSelectPayment,
+}: any) => {
+    const store_id = appStore?.id || null;
     const module_id = 106;
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
-
-    const home = useSelector((state: any) => state?.home);
-    const { design, headersetting } = home || {};
 
     const {
         data: moduleIdDetailsData,

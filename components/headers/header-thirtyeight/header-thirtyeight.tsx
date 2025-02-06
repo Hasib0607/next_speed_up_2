@@ -3,12 +3,9 @@
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
-
 import { AiOutlineClose } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs';
 import { HiMenu, HiOutlineShoppingBag } from 'react-icons/hi';
-
-import defaultUserImage from '@/assets/default-user-image.png';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
@@ -142,7 +139,7 @@ const HeaderThirtyEight = ({ headersetting, design, menu }: any) => {
                                                         src={
                                                             user?.image
                                                                 ? user?.image
-                                                                : `${defaultUserImage.src}`
+                                                                : user?.social_img
                                                         }
                                                         alt=""
                                                         className="object-fit"

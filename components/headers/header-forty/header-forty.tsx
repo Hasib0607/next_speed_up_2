@@ -8,7 +8,6 @@ import { BsSearch } from 'react-icons/bs';
 import { IoBagOutline, IoSearchOutline } from 'react-icons/io5';
 import { RiMenu2Line } from 'react-icons/ri';
 
-import defaultUserImage from '@/assets/default-user-image.png';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
@@ -204,7 +203,7 @@ const HeaderForty = ({ headersetting, design, menu }: any) => {
                                                 src={
                                                     user?.image
                                                         ? user?.image
-                                                        : `${defaultUserImage.src}`
+                                                        : user?.social_img
                                                 }
                                                 alt=""
                                                 className="object-fit"

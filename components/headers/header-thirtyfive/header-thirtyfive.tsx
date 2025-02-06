@@ -1,6 +1,6 @@
 'use client';
 
-import { imgUrl, profileImg } from '@/site-settings/siteUrl';
+import { imgUrl } from '@/site-settings/siteUrl';
 import useAnnouncementScroll from '@/utils/use-annoucement-height';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
@@ -9,8 +9,6 @@ import { Fragment, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { CgMenuLeft } from 'react-icons/cg';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
-
-import defaultUserImage from '@/assets/default-user-image.png';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { REDUX_PERSIST } from '@/consts';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
@@ -192,9 +190,8 @@ const HeaderThirtyFive = ({ design, headersetting, menu }: any) => {
                                                     <img
                                                         src={
                                                             user?.image
-                                                                ? profileImg +
-                                                                  user?.image
-                                                                : `${defaultUserImage.src}`
+                                                                ? user?.image
+                                                                : user?.social_img
                                                         }
                                                         alt=""
                                                         className="object-fit"

@@ -10,13 +10,12 @@ import {
     useUserAddressUpdateMutation,
 } from '@/redux/features/checkOut/checkOutApi';
 import { setCheckoutFromData } from '@/redux/features/checkOut/checkOutSlice';
-import { RootState } from '@/redux/store';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getValueByKey } from './customLang';
 import { classNames } from '@/helpers/littleSpicy';
@@ -33,6 +32,8 @@ type FormValues = {
 };
 
 const CheckoutFrom = ({
+    design,
+    appStore,
     setOpen,
     addressRefetch,
     modal,
@@ -47,11 +48,8 @@ const CheckoutFrom = ({
     // fields to show
     const [fields, setFields] = useState([]);
     const [districtArr, setDistrictArr] = useState([]);
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
 
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
+    const store_id = appStore?.id || null;
 
     const {
         data: districtData,

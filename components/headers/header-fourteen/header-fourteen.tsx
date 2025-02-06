@@ -12,7 +12,7 @@ import { HiUser } from 'react-icons/hi';
 import { RiCloseCircleLine, RiMenu2Line } from 'react-icons/ri';
 import Search3 from '../components/search3';
 import SideMenu from './side-menu';
-import defaultUserImage from '@/assets/default-user-image.png';
+
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { classNames } from '@/helpers/littleSpicy';
 import { useRouter } from 'next/navigation';
@@ -186,9 +186,8 @@ const HeaderFourteen = ({ headersetting, design, menu }: any) => {
                                                     <img
                                                         src={
                                                             user?.image
-                                                                ? profileImg +
-                                                                  user?.image
-                                                                : `${defaultUserImage.src}`
+                                                                ? user?.image
+                                                                : user?.social_img
                                                         }
                                                         alt=""
                                                         className="object-fit"

@@ -1,9 +1,10 @@
-"use client";
+import ProfileComponent from '@/components/Profile';
+import getDesign from '@/utils/fetcher/getDesign';
+import getStore from '@/utils/fetcher/getStore';
 
-import ProfileComponent from "@/components/Profile";
+export default async function Profile() {
+    const design = await getDesign();
+    const appStore = await getStore();
 
-const Profile = () => {
-  return <ProfileComponent />;
-};
-
-export default Profile;
+    return <ProfileComponent design={design} appStore={appStore} />;
+}

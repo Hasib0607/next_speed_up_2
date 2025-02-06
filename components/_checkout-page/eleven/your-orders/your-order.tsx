@@ -34,6 +34,9 @@ import { numberParser } from '@/helpers/numberParser';
 import { TWENTY_EIGHT } from '@/consts';
 
 const YourOrders = ({
+    design,
+    appStore,
+    headersetting,
     couponDis,
     setCouponDis,
     coupon,
@@ -42,6 +45,7 @@ const YourOrders = ({
     shippingArea,
     couponResult,
 }: any) => {
+    const store_id = appStore?.id || null;
     const isAuthenticated = useAuth();
 
     const referral_code = getFromLocalStorage('referralCode');
@@ -62,12 +66,6 @@ const YourOrders = ({
         email: userEmail,
         address: userAddress,
     } = checkoutFromData || {};
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
-
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { user } = useSelector((state: RootState) => state.auth);
@@ -160,25 +158,25 @@ const YourOrders = ({
             product: cart,
             store_id,
             name: checkEasyNotUser(
-                store,
+                appStore,
                 userName,
                 selectAddress?.name,
                 isAuthenticated
             ),
             phone: checkEasyNotUser(
-                store,
+                appStore,
                 userPhone,
                 selectAddress?.phone,
                 isAuthenticated
             ),
             email: checkEasyNotUser(
-                store,
+                appStore,
                 userEmail,
                 selectAddress?.email,
                 isAuthenticated
             ),
             address: checkEasyNotUser(
-                store,
+                appStore,
                 userAddress,
                 selectAddress?.address,
                 isAuthenticated
@@ -198,7 +196,7 @@ const YourOrders = ({
         [
             cart,
             store_id,
-            store,
+            appStore,
             userName,
             userPhone,
             userEmail,
@@ -398,6 +396,7 @@ const YourOrders = ({
                                             cartId={item?.cartId}
                                             item={item}
                                             setIsOpen={setIsOpen}
+                                            store_id={store_id}
                                         />
                                     </div>
                                 ))}
@@ -561,11 +560,8 @@ const YourOrders = ({
 
 export default YourOrders;
 
-const Single = ({ item, setIsOpen, files, cartId }: any) => {
+const Single = ({ item, setIsOpen, files, cartId, store_id }: any) => {
     const module_id = 104;
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
 
     const {
         data: moduleIdDetailsData,

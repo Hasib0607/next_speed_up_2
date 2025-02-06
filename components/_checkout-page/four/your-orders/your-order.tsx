@@ -6,8 +6,8 @@ import {
 } from '@/redux/features/cart/cartSlice';
 import FileUploadModal from '@/utils/FileUploadModal';
 import { CrossCircledIcon } from '@radix-ui/react-icons';
-import { AiOutlineUpload } from "react-icons/ai";
-import { FaEdit } from "react-icons/fa";
+import { AiOutlineUpload } from 'react-icons/ai';
+import { FaEdit } from 'react-icons/fa';
 import { getPrice } from '@/helpers/getPrice';
 import { productImg } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
@@ -34,6 +34,9 @@ import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 
 const YourOrders = ({
+    design,
+    appStore,
+    headersetting,
     couponDis,
     setCouponDis,
     coupon,
@@ -43,6 +46,7 @@ const YourOrders = ({
     shippingArea,
     couponResult,
 }: any) => {
+    const store_id = appStore?.id || null;
     const isAuthenticated = useAuth();
 
     const referral_code = getFromLocalStorage('referralCode');
@@ -63,12 +67,6 @@ const YourOrders = ({
         email: userEmail,
         address: userAddress,
     } = checkoutFromData || {};
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
-
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { user } = useSelector((state: RootState) => state.auth);
@@ -161,25 +159,25 @@ const YourOrders = ({
             product: cart,
             store_id,
             name: checkEasyNotUser(
-                store,
+                appStore,
                 userName,
                 selectAddress?.name,
                 isAuthenticated
             ),
             phone: checkEasyNotUser(
-                store,
+                appStore,
                 userPhone,
                 selectAddress?.phone,
                 isAuthenticated
             ),
             email: checkEasyNotUser(
-                store,
+                appStore,
                 userEmail,
                 selectAddress?.email,
                 isAuthenticated
             ),
             address: checkEasyNotUser(
-                store,
+                appStore,
                 userAddress,
                 selectAddress?.address,
                 isAuthenticated
@@ -199,7 +197,7 @@ const YourOrders = ({
         [
             cart,
             store_id,
-            store,
+            appStore,
             userName,
             userPhone,
             userEmail,
@@ -354,7 +352,8 @@ const YourOrders = ({
 
     useEffect(() => {
         if (
-            checked && data?.total &&
+            checked &&
+            data?.total &&
             data?.payment_type &&
             data?.product &&
             data?.name &&
@@ -366,7 +365,7 @@ const YourOrders = ({
         } else {
             setIsAbleToOrder(false);
         }
-    }, [data,checked, shippingArea]);
+    }, [data, checked, shippingArea]);
 
     return (
         <div
@@ -378,16 +377,16 @@ const YourOrders = ({
             }
         >
             {store_id === 1850 && (
-        <h1 className="my-3 text-xl font-semibold">
-          Ship From Abroad{" "}
-          <span className="text-gray-700 text-sm font-medium">
-            (Delivery in 15 to 20 days)
-          </span>
-        </h1>
-      )}
-      <h3 className="text-center font-semibold text-lg text-black">
-        Your Items
-      </h3>
+                <h1 className="my-3 text-xl font-semibold">
+                    Ship From Abroad{' '}
+                    <span className="text-gray-700 text-sm font-medium">
+                        (Delivery in 15 to 20 days)
+                    </span>
+                </h1>
+            )}
+            <h3 className="text-center font-semibold text-lg text-black">
+                Your Items
+            </h3>
             {cartList ? (
                 <>
                     <div className="my-6">
@@ -404,6 +403,7 @@ const YourOrders = ({
                                             cartId={item?.cartId}
                                             item={item}
                                             setIsOpen={setIsOpen}
+                                            store_id={store_id}
                                         />
                                     </div>
                                 ))}
@@ -418,24 +418,19 @@ const YourOrders = ({
                     </h3>
                 </div>
             )}
-<hr className="my-5" />
-            <div
-                className="my-5 text-gray-500"
-                style={{ fontWeight: 500 }}
-            >
+            <hr className="my-5" />
+            <div className="my-5 text-gray-500" style={{ fontWeight: 500 }}>
                 <div className="flex justify-between items-center">
-                    <p>
-                        {'Sub Total'}
-                    </p>
+                    <p>{'Sub Total'}</p>
                     <p>
                         <BDT price={numberParser(total)} />
                     </p>
                 </div>
                 <div className="flex justify-between items-center">
+                    <p>{'Discount'}</p>
                     <p>
-                        {'Discount'}
+                        <BDT price={couponDis} />
                     </p>
-                    <p><BDT price={couponDis} /></p>
                 </div>
 
                 {couponDis > 0 && (
@@ -456,15 +451,13 @@ const YourOrders = ({
                 )}
 
                 <div className="flex justify-between items-center">
+                    <p>{'Tax'}</p>
                     <p>
-                        {'Tax'}
+                        <BDT price={numberParser(tax)} />
                     </p>
-                    <p><BDT price={numberParser(tax)} /></p>
                 </div>
                 <div className="flex justify-between items-center">
-                    <p>
-                        {'Estimated Shipping'}
-                    </p>
+                    <p>{'Estimated Shipping'}</p>
                     {shippingArea === '--Select Area--' ? (
                         <p>
                             <BDT /> 0
@@ -475,11 +468,9 @@ const YourOrders = ({
                         </p>
                     )}
                 </div>
-                
+
                 <div className="flex justify-between items-center">
-                    <p>
-                        {'Total'}
-                    </p>
+                    <p>{'Total'}</p>
                     {shippingArea === '--Select Area--' ||
                     shippingArea === null ? (
                         <p>
@@ -517,7 +508,7 @@ const YourOrders = ({
                     className={`flex justify-center items-center font-semibold tracking-wider my-1 hover:border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] hover:bg-transparent border-gray-300 w-full py-3 disabled:border disabled:bg-gray-400 disabled:cursor-not-allowed disabled:border-gray-300  ${!isAbleToOrder ? btnhover : null}`}
                     onClick={() => handleCheckout()}
                 >
-                    {store_id !== 5184 ? "Place Order" : "Confirm Order"}
+                    {store_id !== 5184 ? 'Place Order' : 'Confirm Order'}
                 </button>
             )}
             <FileUploadModal
@@ -534,11 +525,8 @@ const YourOrders = ({
 
 export default YourOrders;
 
-const Single = ({ item, setIsOpen, files, cartId }: any) => {
+const Single = ({ item, setIsOpen, files, cartId, store_id }: any) => {
     const module_id = 104;
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
 
     const {
         data: moduleIdDetailsData,
@@ -558,43 +546,47 @@ const Single = ({ item, setIsOpen, files, cartId }: any) => {
 
     return (
         <div
-        key={item.id}
-        className="grid grid-cols-5 space-y-2 space-x-1 items-center last:border-0 border-b border-gray-400 py-2"
-      >
-        <div className="flex items-center gap-2 col-span-3">
-          <div className="w-14">
-            <img className="w-14 h-14 " src={productImg + item.image[0]} alt="" />
-          </div>
-          <div className="flex flex-col gap-x-2 gap-y-1 pl-2 justify-start">
-            <h3 className="text-black text-md  font-normal">
-              <Link href={"/product/" + item?.id + "/" + item?.slug}>
-                {item?.name.slice(0, 25)}
-                {item?.name.length > 25 && "..."}
-              </Link>
-            </h3>
-            <p className="text-sm">
-              &#2547; {parseInt(item?.price)} * {item?.qty}{" "}
-            </p>
-          </div>
+            key={item.id}
+            className="grid grid-cols-5 space-y-2 space-x-1 items-center last:border-0 border-b border-gray-400 py-2"
+        >
+            <div className="flex items-center gap-2 col-span-3">
+                <div className="w-14">
+                    <img
+                        className="w-14 h-14 "
+                        src={productImg + item.image[0]}
+                        alt=""
+                    />
+                </div>
+                <div className="flex flex-col gap-x-2 gap-y-1 pl-2 justify-start">
+                    <h3 className="text-black text-md  font-normal">
+                        <Link href={'/product/' + item?.id + '/' + item?.slug}>
+                            {item?.name.slice(0, 25)}
+                            {item?.name.length > 25 && '...'}
+                        </Link>
+                    </h3>
+                    <p className="text-sm">
+                        &#2547; {parseInt(item?.price)} * {item?.qty}{' '}
+                    </p>
+                </div>
+            </div>
+
+            <div className="text-md font-semibold justify-self-center">
+                <BDT price={item?.price * item?.qty} />
+            </div>
+            <div className="justify-self-end flex items-center gap-x-2">
+                <MdDelete
+                    onClick={() => dispatch(removeFromCartList(item?.cartId))}
+                    className="text-2xl lg:cursor-pointer"
+                />
+                {activeModule && (
+                    <button
+                        onClick={() => openModal()}
+                        className="text-2xl lg:cursor-pointer"
+                    >
+                        {file ? <FaEdit /> : <AiOutlineUpload />}
+                    </button>
+                )}
+            </div>
         </div>
-  
-        <div className="text-md font-semibold justify-self-center">
-          <BDT price={item?.price * item?.qty} />
-        </div>
-        <div className="justify-self-end flex items-center gap-x-2">
-          <MdDelete
-            onClick={() => dispatch(removeFromCartList(item?.cartId))}
-            className="text-2xl lg:cursor-pointer"
-          />
-          {activeModule && (
-            <button
-              onClick={() => openModal()}
-              className="text-2xl lg:cursor-pointer"
-            >
-              {file ? <FaEdit /> : <AiOutlineUpload />}
-            </button>
-          )}
-        </div>
-      </div>
     );
 };

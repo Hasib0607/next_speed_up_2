@@ -79,8 +79,18 @@ const HeroSeven = ({ slider, design }: any) => {
                                 </a>
                             )}
                         </div>
-                        <Image
+                        {/* <Image
                             className="rounded-lg h-auto min-w-full object-cover"
+                            src={`${sliderImg}/${s.image}`}
+                            alt="Hero Banner"
+                            width={100}
+                            height={100}
+                            unoptimized
+                            placeholder="blur"
+                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk4G4vAgABqwEGEzLyIQAAAABJRU5ErkJggg=="
+                        /> */}
+                        <img
+                            className="rounded-lg h-auto min-w-full"
                             src={`${sliderImg}/${s.image}`}
                             alt="Hero Banner"
                             width={100}

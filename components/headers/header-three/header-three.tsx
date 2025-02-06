@@ -11,8 +11,6 @@ import {
 
 import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
-
-import defaultUserImage from '@/assets/default-user-image.png';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
@@ -253,9 +251,8 @@ const HeaderThree = ({ headersetting, design, menu }: any) => {
                                                 <img
                                                     src={
                                                         user?.image
-                                                            ? profileImg +
-                                                              user?.image
-                                                            : `${defaultUserImage.src}`
+                                                            ? user?.image
+                                                            : user?.social_img
                                                     }
                                                     alt=""
                                                     className="object-fit"

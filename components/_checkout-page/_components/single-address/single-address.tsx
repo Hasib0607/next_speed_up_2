@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 
 const SingleAddress = ({
     item,
+    design,
     addressArr,
     setEdit,
     setEditItem,
@@ -17,8 +18,6 @@ const SingleAddress = ({
     setSelectAddress,
     addressRefetch,
 }: any) => {
-    const { design } = useSelector((state: RootState) => state.home); // Access updated Redux state
-
     const { user } = useSelector((state: RootState) => state.auth);
 
     const handleEdit = () => {

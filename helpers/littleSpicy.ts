@@ -1,3 +1,4 @@
+import { HTML_TAG_PATTERN } from '@/consts';
 import { numberParser } from './numberParser';
 
 export const getLastArr = (arr: any[]): any => arr.at(arr.length - 1);
@@ -51,3 +52,8 @@ export const getSecondPathName = (pathname: any): string =>
 export const classNames = (
     ...classes: (string | boolean | null | undefined)[]
 ): string => classes.filter(Boolean).join(' ');
+
+
+export const htmlTagsRemover = (htmlString: any) => {
+    return htmlString.replace(HTML_TAG_PATTERN, '') || '';
+}

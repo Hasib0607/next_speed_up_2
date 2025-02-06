@@ -9,14 +9,11 @@ import { GrInstagram, GrYoutube } from 'react-icons/gr';
 import { IoLogoWhatsapp } from 'react-icons/io5';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { RiShoppingBagLine } from 'react-icons/ri';
-
 import { imgUrl } from '@/site-settings/siteUrl';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import SideMenu from '../components/side-menu';
 import Search3 from '../components/search3';
-
-import defaultUserImage from '@/assets/default-user-image.png';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
@@ -272,7 +269,7 @@ const HeaderTwentyEight = ({ headersetting, design, menu }: any) => {
                                                             src={
                                                                 user?.image
                                                                     ? user?.image
-                                                                    : `${defaultUserImage.src}`
+                                                                    : user?.social_img
                                                             }
                                                             alt=""
                                                             className="object-fit"

@@ -8,12 +8,8 @@ import Address from '../_components/address/address';
 import YourOrders from './your-orders/your-order';
 import Discount from './discount/discount';
 
-const CheckOutTwentyOne = () => {
-    const home = useSelector((state: any) => state?.home);
-    const { design, headersetting } = home || {};
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+const CheckOutTwentyOne = ({ design, appStore, headersetting }: any) => {
+    const store_id = appStore?.id || null;
 
     const { cartList } = useSelector((state: any) => state.cart);
 
@@ -84,8 +80,9 @@ const CheckOutTwentyOne = () => {
         );
     }
 
-    const  formFieldStyle = 'w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:border-gray-400'
-    
+    const formFieldStyle =
+        'w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:border-gray-400';
+
     return (
         <div
             className={`${
@@ -115,9 +112,10 @@ const CheckOutTwentyOne = () => {
                             >
                                 <div className="px-4 py-5 space-y-6 sm:p-6">
                                     <Address
+                                        design={design}
+                                        appStore={appStore}
                                         selectAddress={selectAddress}
                                         setSelectAddress={setSelectAddress}
-                                        design={design}
                                         setToken={setToken}
                                         token={token}
                                         setUserAddress={setUserAddress}
@@ -129,12 +127,14 @@ const CheckOutTwentyOne = () => {
                                 </div>
                             </div>
                             <Discount
+                                design={design}
+                                appStore={appStore}
+                                headersetting={headersetting}
                                 setCouponDis={setCouponDis}
                                 setShippingArea={setShippingArea}
                                 setCoupon={setCoupon}
                                 setCouponResult={setCouponResult}
                                 couponResult={couponResult}
-                                design={design}
                             />
                             {/* don't remove this below */}
                             {/* <div className="border border-gray-300 rounded-md p-6">
@@ -146,6 +146,9 @@ const CheckOutTwentyOne = () => {
                         </div>
                         <div className="mt-5 lg:mt-0 lg:col-span-1">
                             <YourOrders
+                                design={design}
+                                appStore={appStore}
+                                headersetting={headersetting}
                                 couponDis={couponDis}
                                 setCouponDis={setCouponDis}
                                 couponResult={couponResult}

@@ -39,6 +39,9 @@ import { numberParser } from '@/helpers/numberParser';
 import { TWENTY_EIGHT } from '@/consts';
 
 const YourOrders = ({
+    design,
+    appStore,
+    headersetting,
     couponDis,
     setCouponDis,
     coupon,
@@ -48,6 +51,7 @@ const YourOrders = ({
     shippingArea,
     couponResult,
 }: any) => {
+    const store_id = appStore?.id || null;
     const isAuthenticated = useAuth();
 
     const referral_code = getFromLocalStorage('referralCode');
@@ -79,12 +83,6 @@ const YourOrders = ({
             ),
         [districtArr, userDistrict]
     );
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
-
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { user } = useSelector((state: RootState) => state.auth);
@@ -177,32 +175,32 @@ const YourOrders = ({
             product: cart,
             store_id,
             name: checkEasyNotUser(
-                store,
+                appStore,
                 userName,
                 selectAddress?.name,
                 isAuthenticated
             ),
             phone: checkEasyNotUser(
-                store,
+                appStore,
                 userPhone,
                 selectAddress?.phone,
                 isAuthenticated
             ),
             email: checkEasyNotUser(
-                store,
+                appStore,
                 userEmail,
                 selectAddress?.email,
                 isAuthenticated
             ),
             address: checkEasyNotUser(
-                store,
+                appStore,
                 userAddress,
                 selectAddress?.address,
                 isAuthenticated
             ),
             note: selectAddress?.note,
             district: checkEasyNotUser(
-                store,
+                appStore,
                 districts?.bn_name,
                 selectAddress?.district?.bn_name,
                 isAuthenticated
@@ -220,7 +218,7 @@ const YourOrders = ({
         [
             cart,
             store_id,
-            store,
+            appStore,
             userName,
             userPhone,
             userEmail,
@@ -553,6 +551,9 @@ const YourOrders = ({
                     )}
                 </div>
                 <PaymentGateway
+                    design={design}
+                    appStore={appStore}
+                    headersetting={headersetting}
                     selectPayment={selectPayment}
                     setSelectPayment={setSelectPayment}
                 />

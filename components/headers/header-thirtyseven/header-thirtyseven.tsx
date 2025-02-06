@@ -9,11 +9,8 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs';
 import { FaUser } from 'react-icons/fa';
 import { HiMenu } from 'react-icons/hi';
-
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
-
-import defaultUserImage from '@/assets/default-user-image.png';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
@@ -191,7 +188,7 @@ const HeaderThirtySeven = ({ headersetting, design, menu }: any) => {
                                                         src={
                                                             user?.image
                                                                 ? user?.image
-                                                                : `${defaultUserImage.src}`
+                                                                : user?.social_img
                                                         }
                                                         alt=""
                                                         className="object-fit"

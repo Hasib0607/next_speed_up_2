@@ -11,12 +11,8 @@ import PaymentGateway from '../_components/payment-gateway/payment-gateway';
 import PaymentConditions from '../_components/payment-conditions';
 import Discount from '../_components/discount/discount';
 
-const CheckOutTwentyOne = () => {
-    const home = useSelector((state: any) => state?.home);
-    const { design, headersetting } = home || {};
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+const CheckOutFive = ({ design, appStore, headersetting }: any) => {
+    const store_id = appStore?.id || null;
 
     const { cartList } = useSelector((state: any) => state.cart);
 
@@ -103,9 +99,10 @@ const CheckOutTwentyOne = () => {
                     >
                         <div className="px-4 py-5 space-y-6 sm:p-6">
                             <Address
+                                design={design}
+                                appStore={appStore}
                                 selectAddress={selectAddress}
                                 setSelectAddress={setSelectAddress}
-                                design={design}
                                 setToken={setToken}
                                 token={token}
                                 setUserAddress={setUserAddress}
@@ -116,26 +113,38 @@ const CheckOutTwentyOne = () => {
                         </div>
                     </div>
                     <Discount
+                        design={design}
+                        appStore={appStore}
+                        headersetting={headersetting}
                         setCouponDis={setCouponDis}
                         setShippingArea={setShippingArea}
                         setCoupon={setCoupon}
                         setCouponResult={setCouponResult}
                         couponResult={couponResult}
-                        design={design}
                     />
                     <div className="shadow sm:rounded-md sm:overflow-hidden my-5">
                         <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                             <PaymentGateway
+                                design={design}
+                                appStore={appStore}
+                                headersetting={headersetting}
                                 selectPayment={selectPayment}
                                 setSelectPayment={setSelectPayment}
                             />
                         </div>
                     </div>
-                    <PaymentConditions />
+                    <PaymentConditions
+                        design={design}
+                        appStore={appStore}
+                        headersetting={headersetting}
+                    />
                 </div>
 
                 <div className="mt-5 lg:mt-0 lg:col-span-1">
                     <YourOrders
+                        design={design}
+                        appStore={appStore}
+                        headersetting={headersetting}
                         couponDis={couponDis}
                         setCouponDis={setCouponDis}
                         couponResult={couponResult}
@@ -154,4 +163,4 @@ const CheckOutTwentyOne = () => {
     );
 };
 
-export default CheckOutTwentyOne;
+export default CheckOutFive;

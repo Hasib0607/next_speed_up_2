@@ -15,13 +15,9 @@ import PaymentConditions from '../_components/payment-conditions';
 import { RootState } from '@/redux/store';
 import Booking from '@/components/BookingFrom';
 
-const CheckOutTwentyOne = () => {
+const CheckOutSeven = ({ design, appStore, headersetting }: any) => {
+    const store_id = appStore?.id || null;
     const module_id = 108;
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 
@@ -134,11 +130,12 @@ const CheckOutTwentyOne = () => {
                                     >
                                         <div className="px-4 py-5 space-y-6 sm:p-6">
                                             <Address
+                                                design={design}
+                                                appStore={appStore}
                                                 selectAddress={selectAddress}
                                                 setSelectAddress={
                                                     setSelectAddress
                                                 }
-                                                design={design}
                                                 setToken={setToken}
                                                 token={token}
                                                 setUserAddress={setUserAddress}
@@ -155,28 +152,40 @@ const CheckOutTwentyOne = () => {
                     <div className="shadow sm:rounded-md sm:overflow-hidden my-5">
                         <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                             <Discount
+                                design={design}
+                                appStore={appStore}
+                                headersetting={headersetting}
                                 setShippingArea={setShippingArea}
                                 setCouponResult={setCouponResult}
                                 bookingStatus={bookingStatus}
                                 setCouponDis={setCouponDis}
                                 couponResult={couponResult}
                                 setCoupon={setCoupon}
-                                design={design}
                             />
                         </div>
                     </div>
                     <div className="shadow sm:rounded-md sm:overflow-hidden my-5">
                         <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                             <PaymentGateway
+                                design={design}
+                                appStore={appStore}
+                                headersetting={headersetting}
                                 selectPayment={selectPayment}
                                 setSelectPayment={setSelectPayment}
                             />
                         </div>
                     </div>
-                    <PaymentConditions />
+                    <PaymentConditions
+                        design={design}
+                        appStore={appStore}
+                        headersetting={headersetting}
+                    />
                 </div>
                 <div className="mt-5 lg:mt-0 lg:col-span-1">
                     <YourOrders
+                        design={design}
+                        appStore={appStore}
+                        headersetting={headersetting}
                         couponDis={couponDis}
                         setCouponDis={setCouponDis}
                         couponResult={couponResult}
@@ -196,4 +205,4 @@ const CheckOutTwentyOne = () => {
     );
 };
 
-export default CheckOutTwentyOne;
+export default CheckOutSeven;

@@ -2,8 +2,6 @@
 
 import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
-
-import defaultUserImage from '@/assets/default-user-image.png';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
@@ -100,7 +98,12 @@ const HeaderSeven = ({ design, headersetting, menu }: any) => {
             >
                 <style>{styleCss}</style>
                 <div className="flex flex-row justify-between items-center nav-menu sm:container px-5 lg:py-0 py-1">
-                    <Search searchInput={searchInput} setSearchInput={setSearchInput} screen backdrop/>
+                    <Search
+                        searchInput={searchInput}
+                        setSearchInput={setSearchInput}
+                        screen
+                        backdrop
+                    />
                     <div className="flex items-center lg:gap-0  gap-5">
                         <div>
                             <CgMenuLeft
@@ -152,7 +155,7 @@ const HeaderSeven = ({ design, headersetting, menu }: any) => {
                                                         src={
                                                             user?.image
                                                                 ? user?.image
-                                                                : `${defaultUserImage.src}`
+                                                                : user?.social_img
                                                         }
                                                         alt=""
                                                         className="object-fit"
