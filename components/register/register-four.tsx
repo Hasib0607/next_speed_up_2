@@ -1,7 +1,7 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import Link from 'next/link';
 import { imgUrl } from '@/site-settings/siteUrl';
@@ -26,13 +26,9 @@ type FormValues = {
     error: string;
 };
 
-const RegisterFour = () => {
+const RegisterFour = ({ headersetting, appStore }: any) => {
     const module_id = 120;
-    const home = useSelector((state: any) => state?.home);
-    const { headersetting } = home || {};
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = appStore?.id || null;
 
     const router = useRouter();
 
@@ -72,7 +68,10 @@ const RegisterFour = () => {
         );
         setLoading(true);
 
-        if (store?.auth_type === 'phone' || store?.auth_type === 'EasyOrder') {
+        if (
+            appStore?.auth_type === 'phone' ||
+            appStore?.auth_type === 'EasyOrder'
+        ) {
             registerByPhone({ ...data, store_id })
                 .unwrap()
                 .then((res: any) => {
@@ -144,8 +143,9 @@ const RegisterFour = () => {
                                     </Link>
                                 </div>
                                 <form onSubmit={handleSubmit(onSubmit)}>
-                                    {(store?.auth_type === 'phone' ||
-                                        store?.auth_type === 'EasyOrder') && (
+                                    {(appStore?.auth_type === 'phone' ||
+                                        appStore?.auth_type ===
+                                            'EasyOrder') && (
                                         <div className="mb-6">
                                             <input
                                                 autoComplete="tel"
@@ -158,7 +158,8 @@ const RegisterFour = () => {
                                             />
                                         </div>
                                     )}
-                                    {store?.auth_type === 'email' && (
+
+                                    {appStore?.auth_type === 'email' && (
                                         <div className="mb-6">
                                             <input
                                                 autoComplete="email"
@@ -171,7 +172,8 @@ const RegisterFour = () => {
                                             />
                                         </div>
                                     )}
-                                    {store?.auth_type === 'email' && (
+
+                                    {appStore?.auth_type === 'email' && (
                                         <div className="mb-6 relative">
                                             <input
                                                 autoComplete="new-password"

@@ -1,40 +1,26 @@
-'use client';
-
-import GuestLayer from '@/app/GuestLayer';
 import { DEFAULT } from '@/consts';
-import useAuth from '@/hooks/useAuth';
-import { RootState } from '@/redux/store';
+import GuestLayer from '@/app/GuestLayer';
+import { redirect } from 'next/navigation';
 import { register_pages } from '@/utils/dynamic-import/registerPages/registerPages';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
-const Register = () => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
+const Register = ({ design, appStore, headersetting }: any) => {
+    const RegisterComponent =
+        register_pages[design?.login_page] || register_pages[DEFAULT];
 
-    const RegisterComponent = register_pages[design?.login_page] || register_pages[DEFAULT];
-
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-
-    const router = useRouter();
-    const isAuthenticated = useAuth();
-
-    useEffect(() => {
-        if (store?.auth_type === 'EasyOrder') {
-            router.push('/login');
-        }
-    }, [isAuthenticated, router, store]);
+    if (appStore?.auth_type === 'EasyOrder') {
+        redirect('/login');
+    }
 
     return (
-        <>
-            <GuestLayer>
-                {design?.login_page !== "null" && RegisterComponent && (
-                    <RegisterComponent />
-                )}
-            </GuestLayer>
-        </>
+        <GuestLayer>
+            {design?.login_page !== 'null' && RegisterComponent && (
+                <RegisterComponent
+                    design={design}
+                    appStore={appStore}
+                    headersetting={headersetting}
+                />
+            )}
+        </GuestLayer>
     );
 };
 

@@ -1,22 +1,20 @@
 'use client';
+
 import { useLogInMutation } from '@/redux/features/auth/authApi';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
-import { RootState } from '@/redux/store';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const cls =
     'py-3 px-4 border border-gray-300 rounded-md placeholder:text-gray-500 text-sm focus:outline-0 w-full';
 
-const LoginOne = ({ design }: any) => {
+const LoginOne = ({ design, appStore }: any) => {
     const module_id = 120;
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);
     const [show, setShow] = useState(false);
@@ -89,8 +87,8 @@ const LoginOne = ({ design }: any) => {
                     Login
                 </h4>
 
-                {store?.auth_type === 'phone' ||
-                store?.auth_type === 'EasyOrder' ? (
+                {appStore?.auth_type === 'phone' ||
+                appStore?.auth_type === 'EasyOrder' ? (
                     <div className="mb-6 w-full">
                         <input
                             autoComplete="tel"
@@ -167,7 +165,7 @@ const LoginOne = ({ design }: any) => {
                     )}
                 </div>
 
-                {(store?.auth_type !== 'EasyOrder' || activeModule) && (
+                {(appStore?.auth_type !== 'EasyOrder' || activeModule) && (
                     <p className="text-base font-medium text-[#5A5A5A]">
                         Don&apos;t have any account?
                         <Link

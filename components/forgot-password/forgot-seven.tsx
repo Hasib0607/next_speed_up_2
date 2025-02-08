@@ -1,4 +1,5 @@
 'use client';
+
 import { imgUrl } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
 import Link from 'next/link';
@@ -15,34 +16,42 @@ import {
     useResetUserPasswordMutation,
 } from '@/redux/features/user/userApi';
 
-const ForgotSeven = () => {
+const ForgotSeven = ({ design, appStore, headersetting }: any) => {
     const [user, setUser] = useState({});
     const [page, setPage] = useState('find');
 
     return (
-        <>
-            <div className=" mx-auto bg-white h-[100vh]">
-                <section className="flex justify-center">
-                    <div className="max-w-md">
-                        {page === 'otp' ? (
-                            <Verifying
-                                setPage={setPage}
-                                setUser={setUser}
-                                user={user}
-                            />
-                        ) : page === 'find' ? (
-                            <Finding setPage={setPage} setUser={setUser} />
-                        ) : (
-                            <Changeing
-                                setUser={setUser}
-                                setPage={setPage}
-                                user={user}
-                            />
-                        )}
-                    </div>
-                </section>
-            </div>
-        </>
+        <div className=" mx-auto bg-white h-[100vh]">
+            <section className="flex justify-center">
+                <div className="max-w-md">
+                    {page === 'otp' ? (
+                        <Verifying
+                            design={design}
+                            headersetting={headersetting}
+                            setPage={setPage}
+                            setUser={setUser}
+                            user={user}
+                        />
+                    ) : page === 'find' ? (
+                        <Finding
+                            design={design}
+                            appStore={appStore}
+                            headersetting={headersetting}
+                            setPage={setPage}
+                            setUser={setUser}
+                        />
+                    ) : (
+                        <Changeing
+                            design={design}
+                            headersetting={headersetting}
+                            setUser={setUser}
+                            setPage={setPage}
+                            user={user}
+                        />
+                    )}
+                </div>
+            </section>
+        </div>
     );
 };
 
@@ -168,10 +177,9 @@ const Finding = ({ setPage, setUser }: any) => {
         </form>
     );
 };
-const Verifying = ({ setPage, setUser, user }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
+const Verifying = ({ setPage, setUser, user, design, headersetting }: any) => {
     const [loading, setLoading] = useState(false);
+
     const {
         register,
         handleSubmit,
@@ -263,10 +271,7 @@ const Verifying = ({ setPage, setUser, user }: any) => {
         </form>
     );
 };
-const Changeing = ({ setPage, setUser, user }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
-
+const Changeing = ({ setPage, setUser, user, design, headersetting }: any) => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
@@ -360,6 +365,7 @@ const Changeing = ({ setPage, setUser, user }: any) => {
                     The field is required!
                 </p>
             )}
+
             {errors.password?.type === 'minLength' && (
                 <p className="text-red-300 font-sans font-semibold mt-0">
                     {' '}
@@ -387,6 +393,7 @@ const Changeing = ({ setPage, setUser, user }: any) => {
                     The field is required!
                 </p>
             )}
+
             {errors.confirm_password?.type === 'minLength' && (
                 <p className="text-red-300 font-sans font-semibold mt-0">
                     {' '}
