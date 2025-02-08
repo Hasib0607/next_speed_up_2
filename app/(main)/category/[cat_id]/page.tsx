@@ -4,7 +4,7 @@ import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 
 // components imports
-import Shop from '@/components/Shop';
+import Category from '@/components/Category';
 import getDesign from '@/utils/fetcher/getDesign';
 
 export async function generateMetadata() {
@@ -12,13 +12,18 @@ export async function generateMetadata() {
     const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
     return {
-        title: `${websiteName} | Shop`,
+        title: `${websiteName} | Category`,
         icons: { icon: `${imgUrl}${headersetting?.favicon}` },
     };
 }
 
-export default async function ShopPage() {
+export default async function SubcategoryPage({
+    params,
+}: {
+    params: Promise<{ cat_id: any }>;
+}) {
     const design = await getDesign();
+    const catId = (await params).cat_id;
 
-    return <Shop design={design} />;
+    return <Category design={design} catId={catId} />;
 }

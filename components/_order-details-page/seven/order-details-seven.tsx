@@ -2,29 +2,22 @@
 
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-
 import BookingInformation from '@/components/dashboard/components/booking-information';
-
 import GiveReview from '@/components/_order-details-page/components/review';
-
 import OrderStatus from '@/components/dashboard/components/order-status';
 import PaymentAgain from '@/components/dashboard/components/payment-again';
 import DataLoader from '@/components/loaders/data-loader';
-
 import { useOrderDetailsQuery } from '@/redux/features/user/userApi';
 import { productImg } from '@/site-settings/siteUrl';
 import BDT from '@/utils/bdt';
-
 import { useGetProductDetailsQuery } from '@/redux/features/products/productApi';
-import { RootState } from '@/redux/store';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { FaCopy } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import './order-details-seven.css';
 
-const OrderDetailsSeven = () => {
+const OrderDetailsSeven = ({ appStore, order_id }: any) => {
     const [order, setOrder] = useState<any>({});
     const [booking, setBooking] = useState({});
     const [transaction, setTransaction] = useState({});
@@ -32,7 +25,6 @@ const OrderDetailsSeven = () => {
     const [productLink, setProductLink] = useState(null);
     const [copied, setCopied] = useState(false);
 
-    const { order_id } = useParams();
     const router = useRouter();
 
     const {
@@ -109,6 +101,7 @@ const OrderDetailsSeven = () => {
                                 setCopied={setCopied}
                                 copied={copied}
                                 orderDetailsRefetch={orderDetailsRefetch}
+                                appStore={appStore}
                             />
                         ))}
 
@@ -220,9 +213,9 @@ const Single = ({
     orderItem,
     productLink,
     orderDetailsRefetch,
+    appStore,
 }: any) => {
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = appStore?.id || null;
 
     const productId = item?.product_id;
 
@@ -363,6 +356,7 @@ const Single = ({
                     setOpen={setOpen}
                     item={item}
                     orderDetailsRefetch={orderDetailsRefetch}
+                    appStore={appStore}
                 />
             </td>
         </tr>

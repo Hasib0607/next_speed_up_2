@@ -23,15 +23,7 @@ export async function generateMetadata({
 
     const headersetting = await getHeaderSetting();
 
-    if (!headersetting) {
-        throw new Error('Data not found');
-    }
-
     const store_id = headersetting?.store_id;
-
-    if (!store_id || !headersetting) {
-        throw new Error('Store ID or Header setting not available');
-    }
 
     const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
@@ -39,10 +31,6 @@ export async function generateMetadata({
         store_id,
         productId,
     });
-
-    // if (!productData) {
-    //     throw new Error('Product not found');
-    // }
 
     if (productData == undefined || productData == null) {
         redirect('/');
@@ -84,24 +72,12 @@ export default async function SingleProductDetails({
     const design = await getDesign();
     const headersetting = await getHeaderSetting();
 
-    if (!headersetting) {
-        throw new Error('Data not found');
-    }
-
     const store_id = headersetting?.store_id;
-
-    if (!store_id) {
-        throw new Error('Store ID not available');
-    }
 
     const productData = await getProductDetails({
         store_id,
         productId,
     });
-
-    // if (!productData) {
-    //     throw new Error('Product not found');
-    // }
 
     if (productData == undefined || productData == null) {
         redirect('/');

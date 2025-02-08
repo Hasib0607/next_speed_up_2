@@ -1,7 +1,6 @@
 'use client';
 
 import { useUserReviewMutation } from '@/redux/features/user/userApi';
-import { RootState } from '@/redux/store';
 
 import {
     Dialog,
@@ -13,12 +12,15 @@ import {
 import { Fragment, useRef, useState } from 'react';
 
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-const GiveReview = ({ setOpen, open, item, orderDetailsRefetch }: any) => {
-    const { store } = useSelector((state: RootState) => state.appStore);
-
+const GiveReview = ({
+    setOpen,
+    open,
+    item,
+    orderDetailsRefetch,
+    appStore,
+}: any) => {
     const cancelButtonRef = useRef(null);
     const [userReview] = useUserReviewMutation();
     const [rating, setRating] = useState(0);
@@ -41,10 +43,10 @@ const GiveReview = ({ setOpen, open, item, orderDetailsRefetch }: any) => {
 
     const onSubmit = (data: any) => {
         userReview({
-            name: store?.name,
+            name: appStore?.name,
             order_id: item?.order_id,
             product_id: item?.product_id,
-            store_id: store?.store_id,
+            store_id: appStore?.id,
             rating,
             ...data,
         })

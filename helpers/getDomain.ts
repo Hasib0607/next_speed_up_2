@@ -14,5 +14,5 @@ export default async function getDomain() {
     }
 
     return url;
-    // return "fashionmaart.com";
+    // return "savantstylefashion.com";
 }

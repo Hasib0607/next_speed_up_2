@@ -24,7 +24,6 @@ import { SiGmail } from 'react-icons/si';
 
 import SideMenu from '../components/side-menu';
 import Search3 from '../components/search3';
-import defaultUserImage from '@/assets/default-user-image.png';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';
@@ -111,7 +110,6 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
     }, []);
 
     // CSS START FROM HERE
-
     const styleCss = `
         @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin&display=swap');
         .navbarTwentyOne.openMenu {
@@ -395,7 +393,7 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                                                 <Menu.Item>
                                                     {({ active }) => (
                                                         <Link
-                                                            href="profile/order"
+                                                            href="/profile/order"
                                                             className={classNames(
                                                                 active
                                                                     ? 'bg-gray-100'
@@ -643,8 +641,9 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                                                 <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
                                                     <img
                                                         src={
-                                                            profileImg +
                                                             user?.image
+                                                                ? user?.image
+                                                                : user?.social_img
                                                         }
                                                         alt=""
                                                         className="object-fit"
@@ -682,7 +681,7 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                                                         <Menu.Item>
                                                             {({ active }) => (
                                                                 <Link
-                                                                    href="profile/order"
+                                                                    href="/profile/order"
                                                                     className={classNames(
                                                                         active
                                                                             ? 'bg-gray-100'

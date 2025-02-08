@@ -10,23 +10,23 @@ import {
 } from '@/utils/_cart-utils/cart-utils';
 import BDT from '@/utils/bdt';
 import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { useMemo } from 'react';
 import { numberParser } from '@/helpers/numberParser';
 
-const SingleCartProduct = ({ product }: any) => {
+const SingleCartProduct = ({ product, design }: any) => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const home = useSelector((state: any) => state?.home);
-    const { design } = home || {};
-
     const cartProductVariant = useMemo(
-        () => product?.variant?.find((item: any) => item?.id == product?.variant_id ) || {},
+        () =>
+            product?.variant?.find(
+                (item: any) => item?.id == product?.variant_id
+            ) || {},
         [product]
     );
-    
+
     return (
         <motion.li
             initial={{ y: 0, opacity: 1 }}
@@ -60,7 +60,8 @@ const SingleCartProduct = ({ product }: any) => {
                                     </p>
                                     <p
                                         style={{
-                                            backgroundColor: cartProductVariant?.color,
+                                            backgroundColor:
+                                                cartProductVariant?.color,
                                         }}
                                         className="w-4 h-4 rounded-full ring-1 ring-offset-2 ring-gray-600"
                                     ></p>
@@ -78,13 +79,15 @@ const SingleCartProduct = ({ product }: any) => {
                                 <p className="font-semibold text-sm">
                                     Unit:{' '}
                                     <span className="font-normal text-sm">
-                                        {cartProductVariant?.volume + ' ' + cartProductVariant?.unit}
+                                        {cartProductVariant?.volume +
+                                            ' ' +
+                                            cartProductVariant?.unit}
                                     </span>
                                 </p>
                             ) : null}
                         </div>
                         <p className="sm:text-sm text-xs text-gray-600">
-                            <span className='text-sm'>
+                            <span className="text-sm">
                                 Total Price:{' '}
                                 <BDT price={parseInt(product?.price)} />
                             </span>
@@ -128,11 +131,12 @@ const SingleCartProduct = ({ product }: any) => {
                             </div>
                         </div>
                         <p className="text-gray-900 flex text-center font-semibold text-base">
-                            <span className='text-sm'>
+                            <span className="text-sm">
                                 Total Price:{' '}
                                 <BDT
                                     price={
-                                        numberParser(product?.price) * product?.qty
+                                        numberParser(product?.price) *
+                                        product?.qty
                                     }
                                 />
                             </span>
@@ -171,7 +175,7 @@ const SingleCartProduct = ({ product }: any) => {
                 </div>
                 <p className="text-gray-900 flex text-center font-semibold text-base">
                     {' '}
-                    {parseInt(product?.price) * product?.qty} BDT
+                    {numberParser(product?.price) * product?.qty} BDT
                 </p>
             </div>
         </motion.li>
