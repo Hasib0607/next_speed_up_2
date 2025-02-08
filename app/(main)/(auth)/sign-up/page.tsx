@@ -1,21 +1,30 @@
-import Register from "@/components/Register";
-import capitalizeFirstLetter from "@/helpers/capitalizeFirstLetter";
-
-import { imgUrl } from "@/site-settings/siteUrl";
-import getHeaderSetting from "@/utils/fetcher/getHeaderSetting";
+import Register from '@/components/Register';
+import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
+import { imgUrl } from '@/site-settings/siteUrl';
+import getDesign from '@/utils/fetcher/getDesign';
+import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
+import getStore from '@/utils/fetcher/getStore';
 
 export async function generateMetadata() {
-  const headersetting = await getHeaderSetting();
-  const websiteName = capitalizeFirstLetter(headersetting?.website_name);
+    const headersetting = await getHeaderSetting();
+    const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
-  return {
-    title: `${websiteName} | Register`,
-    icons: { icon: `${imgUrl}${headersetting?.favicon}`},
-  };
+    return {
+        title: `${websiteName} | Register`,
+        icons: { icon: `${imgUrl}${headersetting?.favicon}` },
+    };
 }
 
-const Signup = async () => {
-  return <Register />;
-};
+export default async function RegisterPage() {
+    const design = await getDesign();
+    const appStore = await getStore();
+    const headersetting = await getHeaderSetting();
 
-export default Signup;
+    return (
+        <Register
+            design={design}
+            appStore={appStore}
+            headersetting={headersetting}
+        />
+    );
+}

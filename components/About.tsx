@@ -5,35 +5,32 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import OvalLoader from '@/components/loaders/oval-loader';
 import { useGetPageDataQuery } from '@/redux/features/page/pageApi';
-import parse from 'html-react-parser';
 import { getPathName } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
+import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 
-// Define the type for the 
-// interface PageData {
-//     name: string;
-//     details: string;
-//     slug: string;
-// }
+// Define the type for the
+interface PageData {
+    name: string;
+    details: string;
+    slug: string;
+    [key: string]: any;
+}
 
 const About = ({ design, menu, page }: any) => {
     const pathName = usePathname();
     const currentPath = getPathName(pathName);
     const store_id = numberParser(design?.store_id) || null;
 
-    
     const pageItems = useMemo(
         () => page?.find((item: any) => item?.link === currentPath),
         [page, currentPath]
     );
-    
-    const slug = pageItems?.slug
-    
-    console.log('slug 2', pageItems?.slug);
-    console.log('currentPath', currentPath);
 
-    const [pageDetails, setPageDetails] = useState<any>({});
-    
+    const slug = pageItems?.slug;
+
+    const [pageDetails, setPageDetails] = useState<PageData | null>(null);
+
     const {
         data: pageDetailsData,
         isLoading: pageDetailsLoading,
@@ -41,25 +38,13 @@ const About = ({ design, menu, page }: any) => {
         isError: pageDetailsError,
     } = useGetPageDataQuery({ store_id, slug });
 
-    // useEffect(() => {
-    //     const result = page?.find((item: any) => item?.link === currentPath);
-
-    //     if (result) {
-    //         setSlug(result?.slug);
-    //     }
-
-    // }, [page, pathName, store_id,currentPath]);
-
     useEffect(() => {
         if (pageDetailsSuccess) {
             const pageData = pageDetailsData?.data || {};
-            console.log("pageDetailsData:",pageDetailsData);
-            
+
             setPageDetails(pageData);
         }
-    console.log('pageDetails', pageDetails);
-
-    }, [pageDetailsData, pageDetailsSuccess,pageDetails]);
+    }, [pageDetailsData, pageDetailsSuccess, pageDetails]);
 
     const currentLinks = page?.filter(
         (item: any) =>
@@ -81,7 +66,6 @@ const About = ({ design, menu, page }: any) => {
             background: ${design?.header_color};
         }
     `;
-
 
     return (
         <div
@@ -108,7 +92,7 @@ const About = ({ design, menu, page }: any) => {
                             {pageDetails?.name}
                         </h1>
                         {/*  Directly pass details */}
-                        {parse(pageDetails?.details)}{' '}
+                        <DangerouslySafeHTML content={pageDetails?.details} />
                     </div>
 
                     <div

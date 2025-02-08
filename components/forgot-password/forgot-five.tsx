@@ -1,55 +1,55 @@
 'use client';
+
 import {
     useForgotUserPasswordMutation,
     useForgotVerifyUserPasswordMutation,
     useResetUserPasswordMutation,
 } from '@/redux/features/user/userApi';
-import { RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-const ForgotFive = () => {
+const ForgotFive = ({ design, appStore }: any) => {
     const [user, setUser] = useState({});
     const [page, setPage] = useState('find');
 
     return (
-        <>
-            <div className="container mx-auto py-20 lg:py-[320px]">
-                <section className="flex justify-center">
-                    <div className="max-w-[560px] mx-auto text-center bg-white relative overflow-hidden  py-6 px-6 w-full md:px-[60px] drop-shadow-xl my-10">
-                        {page === 'otp' ? (
-                            <Verifying
-                                setPage={setPage}
-                                setUser={setUser}
-                                user={user}
-                            />
-                        ) : page === 'find' ? (
-                            <Finding setPage={setPage} setUser={setUser} />
-                        ) : (
-                            <Changeing
-                                setUser={setUser}
-                                setPage={setPage}
-                                user={user}
-                            />
-                        )}
-                    </div>
-                </section>
-            </div>
-        </>
+        <div className="container mx-auto py-20 lg:py-[320px]">
+            <section className="flex justify-center">
+                <div className="max-w-[560px] mx-auto text-center bg-white relative overflow-hidden  py-6 px-6 w-full md:px-[60px] drop-shadow-xl my-10">
+                    {page === 'otp' ? (
+                        <Verifying
+                            design={design}
+                            setPage={setPage}
+                            setUser={setUser}
+                            user={user}
+                        />
+                    ) : page === 'find' ? (
+                        <Finding
+                            design={design}
+                            appStore={appStore}
+                            setPage={setPage}
+                            setUser={setUser}
+                        />
+                    ) : (
+                        <Changeing
+                            design={design}
+                            setUser={setUser}
+                            setPage={setPage}
+                            user={user}
+                        />
+                    )}
+                </div>
+            </section>
+        </div>
     );
 };
 
 export default ForgotFive;
 
-const Finding = ({ setPage, setUser }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+const Finding = ({ setPage, setUser, design, appStore }: any) => {
+    const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);
 
@@ -93,8 +93,8 @@ const Finding = ({ setPage, setUser }: any) => {
             <h4 className="text-3xl font-semibold my-3 text-black text-center">
                 Find Your Account
             </h4>
-            {store?.auth_type === 'phone' ||
-            store?.auth_type === 'EasyOrder' ? (
+            {appStore?.auth_type === 'phone' ||
+            appStore?.auth_type === 'EasyOrder' ? (
                 <input
                     {...register('phone', { required: true })}
                     type="number"
@@ -109,6 +109,7 @@ const Finding = ({ setPage, setUser }: any) => {
                     className="mt-1 p-2 border focus:ring-gray-500 focus:border-gray-500 block w-full shadow-sm sm:text-sm border-gray-300"
                 />
             )}
+
             {errors.phone?.type === 'required' && (
                 <p className="text-red-300 font-sans font-semibold mt-0">
                     The field is required!
@@ -135,10 +136,9 @@ const Finding = ({ setPage, setUser }: any) => {
         </form>
     );
 };
-const Verifying = ({ setPage, setUser, user }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
+const Verifying = ({ setPage, setUser, user, design }: any) => {
     const [loading, setLoading] = useState(false);
+
     const {
         register,
         handleSubmit,
@@ -172,6 +172,7 @@ const Verifying = ({ setPage, setUser, user }: any) => {
                 });
         }
     };
+
     return (
         <form
             className="border border-gray-300 rounded-2xl p-6 md:m-14 flex flex-col space-y-4 w-full"
@@ -214,10 +215,7 @@ const Verifying = ({ setPage, setUser, user }: any) => {
         </form>
     );
 };
-const Changeing = ({ setPage, setUser, user }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
+const Changeing = ({ setPage, setUser, user, design }: any) => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
@@ -293,6 +291,7 @@ const Changeing = ({ setPage, setUser, user }: any) => {
                     The field is required!
                 </p>
             )}
+
             {errors.password?.type === 'minLength' && (
                 <p className="text-red-300 font-sans font-semibold mt-0">
                     {' '}
@@ -315,6 +314,7 @@ const Changeing = ({ setPage, setUser, user }: any) => {
                     The field is required!
                 </p>
             )}
+
             {errors.confirm_password?.type === 'minLength' && (
                 <p className="text-red-300 font-sans font-semibold mt-0">
                     {' '}

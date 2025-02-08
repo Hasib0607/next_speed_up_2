@@ -5,56 +5,64 @@ import {
     useForgotVerifyUserPasswordMutation,
     useResetUserPasswordMutation,
 } from '@/redux/features/user/userApi';
-import { RootState } from '@/redux/store';
 import { imgUrl } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Loading from '@/components/loaders/loading';
 
-const ForgotEleven = () => {
+const ForgotEleven = ({ design, appStore, headersetting }: any) => {
     const [user, setUser] = useState({});
     const [page, setPage] = useState('find');
 
     return (
-        <>
-            <div className=" mx-auto bg-white h-[100vh]">
-                <section className="flex justify-center">
-                    <div className="max-w-md">
-                        {page === 'otp' ? (
-                            <Verifying
-                                setPage={setPage}
-                                setUser={setUser}
-                                user={user}
-                            />
-                        ) : page === 'find' ? (
-                            <Finding setPage={setPage} setUser={setUser} />
-                        ) : (
-                            <Changeing
-                                setUser={setUser}
-                                setPage={setPage}
-                                user={user}
-                            />
-                        )}
-                    </div>
-                </section>
-            </div>
-        </>
+        <div className=" mx-auto bg-white h-[100vh]">
+            <section className="flex justify-center">
+                <div className="max-w-md">
+                    {page === 'otp' ? (
+                        <Verifying
+                            design={design}
+                            headersetting={headersetting}
+                            setPage={setPage}
+                            setUser={setUser}
+                            user={user}
+                        />
+                    ) : page === 'find' ? (
+                        <Finding
+                            design={design}
+                            appStore={appStore}
+                            headersetting={headersetting}
+                            setPage={setPage}
+                            setUser={setUser}
+                        />
+                    ) : (
+                        <Changeing
+                            design={design}
+                            headersetting={headersetting}
+                            setUser={setUser}
+                            setPage={setPage}
+                            user={user}
+                        />
+                    )}
+                </div>
+            </section>
+        </div>
     );
 };
 
 export default ForgotEleven;
 
-const Finding = ({ setPage, setUser }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+const Finding = ({
+    setPage,
+    setUser,
+    design,
+    appStore,
+    headersetting,
+}: any) => {
+    const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);
 
@@ -108,8 +116,8 @@ const Finding = ({ setPage, setUser }: any) => {
                 </h2>
             </div>
 
-            {store?.auth_type === 'phone' ||
-            store?.auth_type === 'EasyOrder' ? (
+            {appStore?.auth_type === 'phone' ||
+            appStore?.auth_type === 'EasyOrder' ? (
                 <div className="flex justify-start flex-col items-start mb-6">
                     <label
                         htmlFor="email"
@@ -169,9 +177,7 @@ const Finding = ({ setPage, setUser }: any) => {
         </form>
     );
 };
-const Verifying = ({ setPage, setUser, user }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
+const Verifying = ({ setPage, setUser, user, design, headersetting }: any) => {
     const [loading, setLoading] = useState(false);
     const {
         register,
@@ -263,10 +269,7 @@ const Verifying = ({ setPage, setUser, user }: any) => {
         </form>
     );
 };
-const Changeing = ({ setPage, setUser, user }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
-
+const Changeing = ({ setPage, setUser, user, design, headersetting }: any) => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
@@ -360,6 +363,7 @@ const Changeing = ({ setPage, setUser, user }: any) => {
                     The field is required!
                 </p>
             )}
+
             {errors.password?.type === 'minLength' && (
                 <p className="text-red-300 font-sans font-semibold mt-0">
                     {' '}

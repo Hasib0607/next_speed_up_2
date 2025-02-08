@@ -1,77 +1,64 @@
 'use client';
 
-// import { clearMessage } from "@/redux/features/message.slice";
-
 import Loading from '@/components/loaders/loading';
 import {
     useForgotUserPasswordMutation,
     useForgotVerifyUserPasswordMutation,
     useResetUserPasswordMutation,
 } from '@/redux/features/user/userApi';
-import { RootState } from '@/redux/store';
+
 import { btnhover } from '@/site-settings/style';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-const ForgotFour = () => {
+const ForgotFour = ({ design, appStore }: any) => {
     const [user, setUser] = useState({});
     const [page, setPage] = useState('find');
 
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        // dispatch(clearMessage());
-    }, [dispatch]);
-
     return (
-        <>
-            <div
-                className={`${
-                    design?.template_id === '34'
-                        ? 'bg-thirty-one'
-                        : 'bg-[#F4F7FF]'
-                } py-20`}
-            >
-                <div className="container mx-auto ">
-                    <section className="flex justify-center">
-                        <div className="max-w-md">
-                            {page === 'otp' ? (
-                                <Verifying
-                                    setPage={setPage}
-                                    setUser={setUser}
-                                    user={user}
-                                />
-                            ) : page === 'find' ? (
-                                <Finding setPage={setPage} setUser={setUser} />
-                            ) : (
-                                <Changeing
-                                    setUser={setUser}
-                                    setPage={setPage}
-                                    user={user}
-                                />
-                            )}
-                        </div>
-                    </section>
-                </div>
+        <div
+            className={`${
+                design?.template_id === '34' ? 'bg-thirty-one' : 'bg-[#F4F7FF]'
+            } py-20`}
+        >
+            <div className="container mx-auto ">
+                <section className="flex justify-center">
+                    <div className="max-w-md">
+                        {page === 'otp' ? (
+                            <Verifying
+                                design={design}
+                                setPage={setPage}
+                                setUser={setUser}
+                                user={user}
+                            />
+                        ) : page === 'find' ? (
+                            <Finding
+                                design={design}
+                                appStore={appStore}
+                                setPage={setPage}
+                                setUser={setUser}
+                            />
+                        ) : (
+                            <Changeing
+                                design={design}
+                                setUser={setUser}
+                                setPage={setPage}
+                                user={user}
+                            />
+                        )}
+                    </div>
+                </section>
             </div>
-        </>
+        </div>
     );
 };
 
 export default ForgotFour;
 
-const Finding = ({ setPage, setUser }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+const Finding = ({ setPage, setUser, design, appStore }: any) => {
+    const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);
 
@@ -116,8 +103,8 @@ const Finding = ({ setPage, setUser }: any) => {
             <h4 className="text-3xl font-semibold my-3 text-center">
                 Reset Your Password
             </h4>
-            {store?.auth_type === 'phone' ||
-            store?.auth_type === 'EasyOrder' ? (
+            {appStore?.auth_type === 'phone' ||
+            appStore?.auth_type === 'EasyOrder' ? (
                 <div className="w-full">
                     <input
                         {...register('phone', { required: true })}
@@ -158,9 +145,8 @@ const Finding = ({ setPage, setUser }: any) => {
         </form>
     );
 };
-const Verifying = ({ setPage, setUser, user }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
+
+const Verifying = ({ setPage, setUser, user, design }: any) => {
     const [loading, setLoading] = useState(false);
     const {
         register,
@@ -233,10 +219,8 @@ const Verifying = ({ setPage, setUser, user }: any) => {
         </form>
     );
 };
-const Changeing = ({ setPage, setUser, user }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
 
+const Changeing = ({ setPage, setUser, user, design }: any) => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 

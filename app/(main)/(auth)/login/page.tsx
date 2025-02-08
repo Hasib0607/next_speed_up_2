@@ -1,21 +1,30 @@
-import SignIn from "@/components/SignIn";
-
-import capitalizeFirstLetter from "@/helpers/capitalizeFirstLetter";
-import getHeaderSetting from "@/utils/fetcher/getHeaderSetting";
-import { imgUrl } from "@/site-settings/siteUrl";
+import { imgUrl } from '@/site-settings/siteUrl';
+import LogIn from '@/components/LogIn';
+import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
+import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
+import getDesign from '@/utils/fetcher/getDesign';
+import getStore from '@/utils/fetcher/getStore';
 
 export async function generateMetadata() {
-  const headersetting = await getHeaderSetting();
-  const websiteName = capitalizeFirstLetter(headersetting?.website_name);
+    const headersetting = await getHeaderSetting();
+    const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
-  return {
-    title: `${websiteName} | Login`,
-    icons: { icon: imgUrl + headersetting?.favicon },
-  };
+    return {
+        title: `${websiteName} | Login`,
+        icons: { icon: imgUrl + headersetting?.favicon },
+    };
 }
 
-const LoginPage = async () => {
-  return <SignIn/>;
-};
+export default async function LoginPage() {
+    const design = await getDesign();
+    const appStore = await getStore();
+    const headersetting = await getHeaderSetting();
 
-export default LoginPage;
+    return (
+        <LogIn
+            design={design}
+            appStore={appStore}
+            headersetting={headersetting}
+        />
+    );
+}

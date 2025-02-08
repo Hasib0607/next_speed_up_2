@@ -11,10 +11,11 @@ const nextConfig: NextConfig = {
     //         },
     //     ],
     // },
-    images: {
-        domains: ['admin.ebitans.com'],
-        formats: ['image/webp'],
-    },
+    // this should be applied
+    // images: {
+    //     domains: ['admin.ebitans.com'],
+    //     formats: ['image/webp'],
+    // },
     experimental: {
         // memoryManagement: true,
         // appDir: true,
