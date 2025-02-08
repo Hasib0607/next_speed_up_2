@@ -1,4 +1,5 @@
 'use client';
+
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import Pagination from '@/components/_category-page/components/pagination';

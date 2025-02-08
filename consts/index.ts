@@ -62,6 +62,6 @@ function url() {
     return ''; // Optional: return an empty string if window is undefined (e.g., in server-side rendering)
 }
 
-// export const name = "fashionmaart.com";
+// export const name = "savantstylefashion.com";
 export const name = url();
 // console.log(name);

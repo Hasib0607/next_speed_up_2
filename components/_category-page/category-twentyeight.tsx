@@ -1,16 +1,15 @@
 'use client';
+
 import Card58 from '@/components/card/card58';
 import Card6 from '@/components/card/card6';
 import Skeleton from '@/components/loaders/skeleton';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { IoGridSharp } from 'react-icons/io5';
 import { TiTick } from 'react-icons/ti';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
 import Pagination from '@/components/_category-page/components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
@@ -25,7 +24,6 @@ import InfiniteLoader from '../loaders/infinite-loader';
 const CategoryTwentyEight = ({ catId, store_id, design }: any) => {
     const module_id = 105;
     const dispatch = useDispatch();
-    const { id: data }: any = useParams<{ id: string }>();
 
     const [grid, setGrid] = useState('H');
     const [open, setOpen] = useState(false);
@@ -33,7 +31,6 @@ const CategoryTwentyEight = ({ catId, store_id, design }: any) => {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
-    const [select, setSelect] = useState(parseInt(data?.id));
 
     const categoryStore = useSelector((state: any) => state?.category);
     const category = categoryStore?.categories || [];
@@ -55,9 +52,10 @@ const CategoryTwentyEight = ({ catId, store_id, design }: any) => {
         border-bottom: 2px solid ${design?.header_color};
     }
  `;
+
     return (
         <div>
-            <Location />
+            <Location catId={catId} />
 
             <div className="sm:container px-5">
                 <style>{styleCss}</style>
@@ -73,7 +71,7 @@ const CategoryTwentyEight = ({ catId, store_id, design }: any) => {
                                     key={item?.id}
                                     item={item}
                                     design={design}
-                                    select={select}
+                                    select={catId}
                                 />
                             ))}
                         </div>
@@ -98,7 +96,6 @@ const CategoryTwentyEight = ({ catId, store_id, design }: any) => {
                         <div className="flex-1">
                             <ProductSection
                                 catId={catId}
-                                open={open}
                                 grid={grid}
                                 hasMore={hasMore}
                                 paginate={paginate}
@@ -129,7 +126,6 @@ export default CategoryTwentyEight;
 
 const ProductSection = ({
     grid,
-    open,
     catId,
     page,
     setPage,
@@ -146,6 +142,7 @@ const ProductSection = ({
     const [products, setProducts] = useState<any[]>([]);
     const [infiniteProducts, setInfiniteProducts] = useState<any[]>([]);
 
+
     const {
         data: categoryPageProductsData,
         isLoading: categoryPageProductsLoading,
@@ -159,14 +156,13 @@ const ProductSection = ({
         setPage((prevPage: number) => prevPage + 1);
     };
 
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
-
     useEffect(() => {
         categoryPageProductsRefetch();
         if (paginate?.total > 0) {
             const more = numberParser(paginate?.total / 8, true) > page;
             setHasMore(more);
+        }else if(infiniteProducts?.length === 0){
+            setHasMore(false);
         }
     }, [
         page,
@@ -175,6 +171,7 @@ const ProductSection = ({
         priceValue,
         paginate,
         setHasMore,
+        infiniteProducts
     ]);
 
     useEffect(() => {
@@ -333,25 +330,27 @@ const ProductSection = ({
     );
 };
 
-const Location = () => {
+const Location = ({ catId }: any) => {
     const [activecat, setActivecat] = useState(false);
-    const { id: data }: any = useParams<{ id: string }>();
     const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
+
     useEffect(() => {
+        const category = categoryStore?.categories || [];
+
         for (let i = 0; i < category.length; i++) {
             if (category[i]?.subcategories) {
                 for (let j = 0; j < category[i].subcategories.length; j++) {
-                    if (category[i]?.subcategories[j]?.id == data) {
+                    if (category[i]?.subcategories[j]?.id == catId) {
                         setActivecat(category[i]?.subcategories[j]?.name);
                     }
                 }
             }
-            if (category[i]?.id == data) {
+            if (category[i]?.id == catId) {
                 setActivecat(category[i].name);
             }
         }
-    }, [category]);
+    }, [categoryStore, catId]);
+
     return (
         <div className="w-full bg-[#f1f1f1] flex flex-col justify-center items-center py-5 mb-5">
             <h1 className="text-3xl font-medium ">প্রোডাক্ট</h1>
@@ -408,18 +407,20 @@ const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
 
 const SingleCat = ({ item, design, select }: any) => {
     const [show, setShow] = useState(false);
-    const { id }: any = useParams<{ id: string }>();
+
     useEffect(() => {
         if (item.cat) {
             for (let i = 0; i < item.cat.length; i++) {
-                item.cat[i].id == id && setShow(true);
+                item.cat[i].id == select && setShow(true);
             }
         }
-    }, [item?.cat, id]);
+    }, [item?.cat, select]);
+
     const activeColor = `text-[${design?.header_color}] flex items-center gap-x-2 font-medium`;
     const inactiveColor = 'text-gray-500 flex items-center gap-x-2 font-medium';
     const activesub = `text-[${design?.header_color}] text-sm w-max`;
     const inactivesub = `text-gray-600 text-sm w-max`;
+
     return (
         <div className="">
             <div className="w-full mb-2">
@@ -427,7 +428,9 @@ const SingleCat = ({ item, design, select }: any) => {
                     <Link
                         onClick={() => setShow(!show)}
                         href={'/category/' + item.id}
-                        className={id == item?.id ? activeColor : inactiveColor}
+                        className={
+                            select == item?.id ? activeColor : inactiveColor
+                        }
                     >
                         <div
                             className={`${
@@ -442,7 +445,7 @@ const SingleCat = ({ item, design, select }: any) => {
                         </div>
                         <p
                             style={
-                                parseInt(id) === parseInt(item?.id)
+                                numberParser(select) === numberParser(item?.id)
                                     ? { color: `${design.header_color}` }
                                     : {}
                             }

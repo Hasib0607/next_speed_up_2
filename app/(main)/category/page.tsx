@@ -1,7 +1,8 @@
-import Shop from "@/components/Shop";
+import Shop from '@/components/Shop';
+import getDesign from '@/utils/fetcher/getDesign';
 
-const ShopPage = () => {
-  return <Shop/>;
-};
+export default async function CategoryPage() {
+    const design = await getDesign();
 
-export default ShopPage;
+    return <Shop design={design} />;
+}
