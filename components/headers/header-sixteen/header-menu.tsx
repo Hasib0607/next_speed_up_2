@@ -62,7 +62,11 @@ const HeaderMenu = ({ headersetting, menu, design }: any) => {
     return (
         <div>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <style>{styleCss}</style>
             <div
                 className={`bg-slate-50 z-[5]  border-b-[1px] relative  ${
@@ -182,7 +186,11 @@ const HeaderMenu = ({ headersetting, menu, design }: any) => {
                     )}
                     {searchTxt && (
                         <div className="left-0 sm:ml-[7%] w-full sm:w-[80%] md:w-[80%] lg:w-[83%] absolute top-10">
-                            <Search3 search={searchTxt} setSearch={setSearch} />
+                            <Search3
+                                search={searchTxt}
+                                setSearch={setSearch}
+                                design={design}
+                            />
                         </div>
                     )}
                 </div>

@@ -1,10 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { imgUrl } from '@/site-settings/siteUrl';
-
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs';
@@ -15,45 +14,33 @@ import { ImUser } from 'react-icons/im';
 import { TbPhoneCall } from 'react-icons/tb';
 import { TiArrowSortedUp } from 'react-icons/ti';
 import { useSelector } from 'react-redux';
-import Search3 from '../components/search3';
-import SideMenu from '../components/side-menu';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import useAuth from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
+import { RootState } from '@/redux/store';
+import { useLogOutMutation } from '@/redux/features/auth/authApi';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import useAuth from '@/hooks/useAuth';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
+import BDT from '@/utils/bdt';
+import SideMenu from '../components/side-menu';
 import {
     useGetCategoryQuery,
     useGetSubCategoryQuery,
 } from '@/redux/features/category/categoryApi';
-import { RootState } from '@/redux/store';
-
-import BDT from '@/utils/bdt';
-import { customizeHeader } from '@/utils/customizeDesign';
-import { useRouter } from 'next/navigation';
+import { numberParser } from '@/helpers/numberParser';
 import { subTotal } from '@/utils/_cart-utils/cart-utils';
-import { SingleCat } from '../components/single-cat';
-import { cancelIcon } from '@/assets/svg';
+import Search from './search';
 
-const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
-    const router = useRouter();
-    const isAuthenticated = useAuth();
-
-    const [heading, setHeading] = useState('');
-    const [active, setActive] = useState(true);
-    const [border, setBorder] = useState(true);
-    const [open, setOpen] = useState(false);
-    const [searchTxt, setSearch] = useState('');
-    const [openMenu, setOpenMenu] = useState(false);
-    const [openCart, setOpenCart] = useState(false);
-    const [openCat, setOpenCat] = useState(false);
-
+const HeaderFortyTwo = ({ headersetting, design, menu }: any) => {
     const { data: categoryData } = useGetCategoryQuery({});
     const { data: subCategoryData } = useGetSubCategoryQuery({});
 
     const category = categoryData?.data || [];
     const subCategory = subCategoryData?.data || [];
+
+    const router = useRouter();
+    const isAuthenticated = useAuth();
 
     const authStore = useSelector((state: RootState) => state?.auth);
     const user = authStore?.user || {};
@@ -63,21 +50,21 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
     const handleLogOut = () => {
         logOut({});
         removeFromLocalStorage(REDUX_PERSIST);
-        router.push('/');
+        router.push('/login');
     };
+
+    const [open, setOpen] = useState(false);
+    const [openMenu, setOpenMenu] = useState(false);
+
+    const [openCat, setOpenCat] = useState(false);
+    const [searchTxt, setSearch] = useState('');
+    const [heading, setHeading] = useState('');
+    const [active, setActive] = useState(true);
+    const [border, setBorder] = useState(true);
+    const [openCart, setOpenCart] = useState(false);
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const total = subTotal(cartList);
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
-
-    // custom
-    const headerData = customizeHeader.find((item) => item.id == store_id);
-
-    const handleClose = () => {
-        setSearch('');
-    };
 
     // for category open
     if (openCat === true) {
@@ -99,8 +86,11 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
         }, 1000);
     }
 
+    const handleClose = () => {
+        setSearch('');
+    };
+
     useEffect(() => {
-        // sticky navbar
         const changeNavbar = () => {
             if (window.scrollY >= 120) {
                 setOpenMenu(true);
@@ -146,7 +136,11 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
       .border-hover-menu:hover{
         border: 1px solid ${design?.text_color};
       }
-    
+
+      .bg-color-in-header {
+          color:  ${design?.header_color};
+          background: ${design?.text_color};
+      }
       .font-twenty-one {
         font-family: 'Work Sans', sans-serif;
       }
@@ -154,7 +148,7 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
       h1, p, span, button, li, ul, a, div, h2, h3, h4, h5, h6  {
         font-family: 'Work Sans', sans-serif;
       }
-`;
+        `;
 
     return (
         <div className="">
@@ -165,7 +159,6 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
                 design={design}
             />
             <style>{styleCss}</style>
-
             {/* top menu  */}
             <div className="flex justify-between items-center sm:container px-5 py-3">
                 <div className="flex items-center justify-between gap-x-5 w-full">
@@ -219,18 +212,16 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
                                 </div>
                             </div>
                             <div
-                                className={`absolute z-[15] top-14 left-0 w-full ${
+                                className={`absolute z-20 top-24 left-0 w-full ${
                                     openMenu ? 'hidden' : 'block'
                                 }`}
                             >
                                 {searchTxt && (
-                                    <div className="absolute z-20 top-1 xl:right-0 -right-24 w-full rounded-md">
-                                        <Search3
-                                            search={searchTxt}
-                                            setSearch={setSearch}
-                                            design={design}
-                                        />
-                                    </div>
+                                    <Search
+                                        search={searchTxt}
+                                        setSearch={setSearch}
+                                        design={design}
+                                    />
                                 )}
                             </div>
                         </div>
@@ -399,7 +390,8 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
                         className="lg:flex hidden items-center gap-3 lg:cursor-pointer"
                     >
                         <p>
-                            {cartList?.length} item(s) - <BDT /> {total}
+                            {cartList?.length} item(s) - <BDT />
+                            {total}
                         </p>
                         <div className="bg-color py-2 px-2 rounded-md">
                             <HiShoppingCart className="text-xl" />
@@ -407,8 +399,39 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
                     </div>
                 </div>
             </div>
-
-            {/* bottom menu */}
+            {/* category show in small device */}
+            <div
+                className="lg:hidden block bg-color"
+                style={{
+                    overflowX: 'auto',
+                    scrollbarWidth: 'none',
+                    msOverflowStyle: 'none',
+                }}
+            >
+                <style jsx>
+                    {`
+                        div::-webkit-scrollbar {
+                            display: none;
+                        }
+                    `}
+                </style>
+                <div className="sm:container py-3 px-5 flex justify-center w-max  overflow-x-auto whitespace-nowrap text-white">
+                    {category?.slice(0, 5)?.map((cat: any, index: number) => (
+                        <div key={cat.id} className="flex items-center">
+                            <Link href={'/category/' + cat?.id}>
+                                <ul className="">
+                                    <li className="font-medium uppercase">
+                                        {cat?.name}
+                                    </li>
+                                </ul>
+                            </Link>
+                            {index < category?.slice(0, 5)?.length - 1 && (
+                                <span className="mx-2 text-white">|</span>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </div>
 
             {/* category section  */}
             <div
@@ -425,7 +448,7 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
                         <div className={`lg:block  hidden relative`}>
                             <div
                                 onClick={() => setOpenCat(!openCat)}
-                                className={`bg-[#83C341] text-[14px] flex justify-between lg:cursor-pointer pl-3 pr-12 gap-2 py-2 items-center z-[12] relative w-max`}
+                                className={`bg-color-in-header text-[14px] flex justify-between lg:cursor-pointer pl-3 pr-12 gap-2 py-2 items-center z-[12] relative w-max`}
                             >
                                 <div>
                                     <FiBarChart className="text-[28px] text-white rotate-90" />
@@ -480,7 +503,7 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
                                                     (dataId: any) => (
                                                         <div key={dataId.id}>
                                                             {item.id ===
-                                                                Number(
+                                                                numberParser(
                                                                     dataId.parent
                                                                 ) && (
                                                                 <TiArrowSortedUp
@@ -502,7 +525,7 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
                                                             className={`relative`}
                                                         >
                                                             {item.id ===
-                                                                Number(
+                                                                numberParser(
                                                                     subItem.parent
                                                                 ) && (
                                                                 <div
@@ -577,82 +600,49 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
                 ></div>
             )}
 
-            {headerData?.id ? (
-                // show category
-                <div className={`px-4 z-[7] block lg:hidden`}>
-                    <ul
-                        className={`pt-5 top-0 bg-white duration-500 fixed md:w-96 w-64 sm:w-80 overflow-y-auto bottom-0 pb-5 z-[7] lg:cursor-pointer ${open ? 'left-0' : 'left-[-140%]'}`}
-                    >
-                        <div className="pb-7 pt-3 px-6">
-                            <div className="text-xl border-b-[2px] pb-5 text-center text-color flex justify-between items-center">
-                                <p>Category</p>
-                                <div
-                                    onClick={() => setOpen(!open)}
-                                    className="h-8"
-                                >
-                                    {cancelIcon}
-                                </div>
-                            </div>
-                            <div className="flex flex-col gap-3">
-                                {category?.map((item: any) => (
-                                    <SingleCat
-                                        key={item?.id}
-                                        item={item}
-                                        open={open}
-                                        setOpen={setOpen}
-                                        design={design}
+            <div className="block lg:hidden">
+                {/* menu */}
+                <ul
+                    className={`lg:hidden bg-white fixed sm:w-[350px] md:w-[400px] w-[250px] top-0 overflow-y-auto bottom-0 pb-5 duration-1000 z-10 lg:cursor-pointer ${
+                        open ? 'left-0' : 'left-[-160%]'
+                    } `}
+                >
+                    <div className="flex justify-between px-6 py-4 lg:hidden">
+                        <div>
+                            {headersetting?.logo === null ? (
+                                <Link href="/">
+                                    <p className="text-xl uppercase">
+                                        {headersetting?.website_name}
+                                    </p>
+                                </Link>
+                            ) : (
+                                <Link href="/">
+                                    <img
+                                        className="h-10"
+                                        src={imgUrl + headersetting?.logo}
+                                        alt="logo"
                                     />
-                                ))}
-                            </div>
+                                </Link>
+                            )}
                         </div>
-                    </ul>
-                </div>
-            ) : (
-                // show menu
-                <div className="block lg:hidden">
-                    {/* menu */}
-                    <ul
-                        className={`lg:hidden bg-white fixed sm:w-[350px] md:w-[400px] w-[250px] top-0 overflow-y-auto bottom-0 pb-5 duration-1000 z-10 lg:cursor-pointer ${
-                            open ? 'left-0' : 'left-[-160%]'
-                        } `}
-                    >
-                        <div className="flex justify-between px-6 py-4 lg:hidden">
-                            <div>
-                                {headersetting?.logo === null ? (
-                                    <Link href="/">
-                                        <p className="text-xl uppercase">
-                                            {headersetting?.website_name}
-                                        </p>
-                                    </Link>
-                                ) : (
-                                    <Link href="/">
-                                        <img
-                                            className="h-10"
-                                            src={imgUrl + headersetting?.logo}
-                                            alt="logo"
-                                        />
-                                    </Link>
-                                )}
-                            </div>
-                            <XMarkIcon
-                                onClick={() => setOpen(!open)}
-                                className="h-7"
-                            />
-                        </div>
+                        <XMarkIcon
+                            onClick={() => setOpen(!open)}
+                            className="h-7"
+                        />
+                    </div>
 
-                        <div className="px-6">
-                            <SideMenu
-                                setOpen={setOpen}
-                                design={design}
-                                menu={menu}
-                                menuLoading={false}
-                            />
-                        </div>
-                    </ul>
-                </div>
-            )}
+                    <div className="px-6">
+                        <SideMenu
+                            setOpen={setOpen}
+                            design={design}
+                            menu={menu}
+                            menuLoading={false}
+                        />
+                    </div>
+                </ul>
+            </div>
         </div>
     );
 };
 
-export default HeaderThirtyFour;
+export default HeaderFortyTwo;

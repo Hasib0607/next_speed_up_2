@@ -1,4 +1,5 @@
 'use client';
+
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Popover, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
@@ -7,7 +8,6 @@ import Link from 'next/link';
 import { Fragment } from 'react';
 
 const HeaderDefault = ({ navigation, headersetting, menu }: any) => {
-    
     return (
         <div className="relative bg-white sm:container px-5">
             <div className="mx-auto">
@@ -58,18 +58,16 @@ const HeaderDefault = ({ navigation, headersetting, menu }: any) => {
                                           ))}
                                 </div>
                                 <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-3">
-                                     <Link
-                                        href="/login">
-                                    <button className="py-2 px-4 bg-[#f1593A] text-white font-semibold rounded-lg shadow-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
-                                        Login
-                                    </button>
-                                        </Link>
-                                        <Link
-                                        href="/sign-up">
-                                    <button className="py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
-                                        Register
-                                    </button>
-                                        </Link>
+                                    <Link href="/login">
+                                        <button className="py-2 px-4 bg-[#f1593A] text-white font-semibold rounded-lg shadow-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                                            Login
+                                        </button>
+                                    </Link>
+                                    <Link href="/sign-up">
+                                        <button className="py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                                            Register
+                                        </button>
+                                    </Link>
                                 </div>
                             </nav>
                         </div>

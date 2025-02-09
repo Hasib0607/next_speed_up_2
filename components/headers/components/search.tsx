@@ -1,20 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
 import { useGetSearchProductQuery } from '@/redux/features/home/homeApi';
 import { productImg } from '@/site-settings/siteUrl';
-
 import Link from 'next/link';
 import BDT from '@/utils/bdt';
 import { motion } from 'framer-motion';
-import { useSelector } from 'react-redux';
 import { productCurrentPrice } from '@/helpers/littleSpicy';
 import { BsSearch } from 'react-icons/bs';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { IoSearchCircleOutline } from 'react-icons/io5';
 
 const Search = ({
+    design,
     searchInput,
     setSearchInput,
     btnOn,
@@ -69,15 +67,18 @@ const Search = ({
                     )}
                 </>
             )}
+
             {search && (
                 <div className="lg:w-[500px] md:w-[350px] w-[400px] xl:w-[800px] absolute left-[50%] top-16 translate-x-[-50%] z-50 ">
                     <SearchBox
+                        design={design}
                         search={search}
                         setSearch={setSearch}
                         setSearchInput={setSearchInput}
                     />
                 </div>
             )}
+
             {btnOn && (
                 <IoSearchCircleOutline
                     onClick={() => setSearchInput(!searchInput)}
@@ -90,9 +91,13 @@ const Search = ({
 
 export default Search;
 
-export const SearchBox = ({ search, setSearch, setSearchInput }: any) => {
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+export const SearchBox = ({
+    search,
+    setSearch,
+    setSearchInput,
+    design,
+}: any) => {
+    const store_id = design?.store_id || null;
 
     const [result, setResult] = useState([]);
 

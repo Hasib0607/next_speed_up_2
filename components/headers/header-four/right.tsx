@@ -132,6 +132,7 @@ export default function Right({ open, setOpen }: any) {
 
 const Subcategory = ({ item, open, setOpen }: any) => {
     const [showSub, setShowSub] = useState(false);
+    
     return (
         <div
             key={item.id}

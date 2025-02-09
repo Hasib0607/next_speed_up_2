@@ -1,4 +1,5 @@
 'use client';
+
 import {
     getFromLocalStorage,
     removeFromLocalStorage,
@@ -10,10 +11,9 @@ import {
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-const VerifyOtpOne = () => {
+const VerifyOtpOne = ({ appStore }: any) => {
     const localStorageAuthTypeName = process.env
         .NEXT_PUBLIC_LOCAL_STORAGE_AUTH_TYPE_NAME as any;
     const localStorageNewAuthName = process.env
@@ -23,8 +23,6 @@ const VerifyOtpOne = () => {
     const [resendOtp] = useResendOtpMutation();
 
     const router = useRouter();
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
 
     const [loading, setLoading] = useState(false);
     const [counter, setCounter] = useState(120);
@@ -135,8 +133,8 @@ const VerifyOtpOne = () => {
                     onSubmit={handleSubmit(onSubmit)}
                 >
                     <h3 className="font-medium text-[#423b3b] text-center mb-3 max-w-[560px] mx-auto">
-                        {store?.auth_type === 'phone' ||
-                        store?.auth_type === 'EasyOrder'
+                        {appStore?.auth_type === 'phone' ||
+                        appStore?.auth_type === 'EasyOrder'
                             ? `The OTP code has been sent to ${authType}.`
                             : `The OTP code has been sent to ${authType}. Please check in spam/ junk folder as well.`}
                     </h3>

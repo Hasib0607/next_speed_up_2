@@ -97,7 +97,11 @@ const HeaderFourteen = ({ headersetting, design, menu }: any) => {
             }`}
         >
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <style>{styleCss}</style>
             {open && (
                 <div
@@ -131,7 +135,7 @@ const HeaderFourteen = ({ headersetting, design, menu }: any) => {
                     </div>
                     {searchTxt && (
                         <div className="relative">
-                            <Search3 search={searchTxt} setSearch={setSearch} />
+                            <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
                         </div>
                     )}
                 </div>

@@ -39,7 +39,7 @@ const HeaderMenu = ({ headersetting, design, menu }: any) => {
     return (
         <div className="relative">
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar open={openCart} setOpen={setOpenCart} design={design}/>
             <div className=" flex justify-between items-center">
                 <div>
                     {headersetting?.logo === null ? (
@@ -139,7 +139,7 @@ const HeaderMenu = ({ headersetting, design, menu }: any) => {
             </div>
             {searchTxt && (
                 <div className="w-128 absolute top-5 right-28">
-                    <Search3 search={searchTxt} setSearch={setSearch} />
+                    <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
                 </div>
             )}
         </div>

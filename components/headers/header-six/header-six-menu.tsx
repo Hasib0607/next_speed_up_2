@@ -11,9 +11,7 @@ import { FaFacebook } from 'react-icons/fa';
 import { GrInstagram, GrYoutube } from 'react-icons/gr';
 import { HiMenu } from 'react-icons/hi';
 import { IoLogoWhatsapp } from 'react-icons/io5';
-
 import SideMenu from '../components/side-menu';
-
 import './header-six.css';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { useRouter } from 'next/navigation';
@@ -21,11 +19,7 @@ import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { REDUX_PERSIST } from '@/consts';
-import { DividerVerticalIcon } from '@radix-ui/react-icons';
-
-function classNames(...classes: any) {
-    return classes.filter(Boolean).join(' ');
-}
+import { classNames } from '@/helpers/littleSpicy';
 
 const HeaderSixMenu = ({ menu, design, headersetting }: any) => {
     const router = useRouter();
@@ -54,7 +48,11 @@ const HeaderSixMenu = ({ menu, design, headersetting }: any) => {
         <div>
             <style>{styleCss}</style>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <div className="flex flex-row gap-6 sm:container px-5 py-3 items-center justify-between">
                 <div
                     onClick={() => setOpen(!open)}
@@ -208,15 +206,6 @@ const HeaderSixMenu = ({ menu, design, headersetting }: any) => {
                         >
                             <Link href="">
                                 <CgShoppingBag className="text-3xl font-thin" />
-                                {/* <p
-                  style={{
-                    background: design?.header_color,
-                    color: design?.text_color,
-                  }}
-                  className=" text-sm absolute top-0 -right-2 rounded-full w-fit px-1.5 h-fit"
-                >
-                  {cartList.length}
-                </p> */}
                                 <p className="lg:block hidden">Cart</p>
                             </Link>
                         </div>
@@ -295,6 +284,7 @@ const HeaderSixMenu = ({ menu, design, headersetting }: any) => {
                                     <GrYoutube className="text-lg " />
                                 </a>
                             )}
+                            
                             {headersetting?.lined_in_link && (
                                 <a
                                     href={headersetting?.lined_in_link}

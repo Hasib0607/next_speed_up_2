@@ -335,7 +335,7 @@ export default function HeaderTwenty({ headersetting, menu, design }: any) {
                     </div>
                     {searchTxt && (
                         <div className="left-0 sm:ml-[7%] w-full sm:w-[80%] md:w-[80%] lg:w-[83%] absolute top-12">
-                            <Search3 search={searchTxt} setSearch={setSearch} />
+                            <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
                         </div>
                     )}
                 </div>

@@ -101,7 +101,11 @@ const HeaderThirty = ({ headersetting, design, menu }: any) => {
         <div>
             <style>{styleCss}</style>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <div className="">
                 {/* header top  */}
                 <div
@@ -219,6 +223,7 @@ const HeaderThirty = ({ headersetting, design, menu }: any) => {
                                 <Search3
                                     search={searchTxt}
                                     setSearch={setSearch}
+                                    design={design}
                                 />
                             </div>
                         )}

@@ -98,6 +98,7 @@ const HeaderThirtySix = ({ headersetting, design }: any) => {
                                 <Search3
                                     search={searchTxt}
                                     setSearch={setSearch}
+                                    design={design}
                                 />
                             </div>
                         )}

@@ -25,20 +25,22 @@ interface SingleCatProps {
     item: Category;
     open: boolean;
     setOpen: (open: boolean) => void;
+    design:any;
 }
 
 export const SingleCat: React.FC<SingleCatProps> = ({
     item,
     open,
     setOpen,
+    design
 }) => {
     const [show, setShow] = useState(false);
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = design?.store_id || null;
+    
     const mobileNavThreeIcon = customizeMobileNavThree.find(
         (item) => item.id == store_id
     );
+    
     return (
         <>
             <div className="w-full flex justify-between py-3 lg:cursor-pointer">

@@ -22,8 +22,7 @@ const HeaderSixteen = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = design?.store_id || null;
 
     const authStore = useSelector((state: RootState) => state?.auth);
     const user = authStore?.user || {};

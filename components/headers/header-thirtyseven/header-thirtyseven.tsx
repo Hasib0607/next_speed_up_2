@@ -108,7 +108,11 @@ const HeaderThirtySeven = ({ headersetting, design, menu }: any) => {
             <div className="header-thirty-seven h-20 flex items-center">
                 <style>{styleCss}</style>
                 {/* CartSideBar open  */}
-                <CartSideBar open={openCart} setOpen={setOpenCart} />
+                <CartSideBar
+                    open={openCart}
+                    setOpen={setOpenCart}
+                    design={design}
+                />
 
                 <div className="sm:container px-5 flex justify-between items-center gap-x-5 w-full">
                     <div className="lg:mr-20">
@@ -170,6 +174,7 @@ const HeaderThirtySeven = ({ headersetting, design, menu }: any) => {
                                     <Search3
                                         search={searchTxt}
                                         setSearch={setSearch}
+                                        design={design}
                                     />
                                 </div>
                             )}

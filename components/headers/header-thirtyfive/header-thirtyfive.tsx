@@ -121,7 +121,7 @@ const HeaderThirtyFive = ({ design, headersetting, menu }: any) => {
                     )}
                     {searchTxt && (
                         <div className="lg:w-[500px] md:w-[350px] w-[400px] xl:w-[800px] absolute left-[50%] top-16 translate-x-[-50%] z-50 ">
-                            <Search3 search={searchTxt} setSearch={setSearch} />
+                            <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
                         </div>
                     )}
                     <div className="flex justify-between items-center lg:gap-0 gap-5 lg:border-r-2 border-black w-full h-20">
@@ -319,7 +319,11 @@ const HeaderThirtyFive = ({ design, headersetting, menu }: any) => {
                 )}
 
                 {/* CartSideBar open  */}
-                <CartSideBar open={openCart} setOpen={setOpenCart} />
+                <CartSideBar
+                    open={openCart}
+                    setOpen={setOpenCart}
+                    design={design}
+                />
             </div>
             {/* tablet and mobile view  */}
             {/* screen touch menu close  */}

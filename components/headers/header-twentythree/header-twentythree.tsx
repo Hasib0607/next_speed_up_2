@@ -111,7 +111,11 @@ const HeaderTwentyThree = ({ headersetting, design }: any) => {
     return (
         <div>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <style>{styleCss}</style>
             <div
                 className={`sm:container px-5 flex justify-between items-center sm:pt-5 pt-2 pb-2`}
@@ -185,6 +189,7 @@ const HeaderTwentyThree = ({ headersetting, design }: any) => {
                         {searchTxt && (
                             <div className="relative top-5 right-0 w-96">
                                 <Search3
+                                design={design}
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />

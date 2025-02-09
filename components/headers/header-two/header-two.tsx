@@ -66,7 +66,11 @@ const HeaderTwo = ({ headersetting, design, menu }: any) => {
         <div className="sm:container px-5">
             <style>{styleCss}</style>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
 
             <div className="flex justify-between py-4 items-center">
                 <div className="flex space-x-5 items-center">
@@ -123,6 +127,7 @@ const HeaderTwo = ({ headersetting, design, menu }: any) => {
                             </p>
                         )}
                         <Search
+                            design={design}
                             searchInput={searchInput}
                             setSearchInput={setSearchInput}
                             className={'flex w-96'}

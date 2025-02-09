@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-// import Announcement from '@/components/Announcement';
 import getDesign from '@/utils/fetcher/getDesign';
 // import { headers } from 'next/headers';
 // import { GetServerSideProps } from 'next';
@@ -48,7 +47,7 @@ export default async function RootLayout({
     const headersetting = await getHeaderSetting();
     const favicon = imgUrl + headersetting?.favicon;
 
-    const fbPixel = headersetting?.facebook_pixel;
+    const FACEBOOK_PIXEL_ID = headersetting?.facebook_pixel;
     const googleAnalytics = headersetting?.gtm?.google_analytics;
     const googleSearchConsole = headersetting?.gtm?.google_search_console;
 
@@ -103,11 +102,44 @@ export default async function RootLayout({
                 height={4} 
                 showSpinner={false} 
             /> */}
-                {/* <Announcement design={design} /> */}
+                {FACEBOOK_PIXEL_ID && (
+                    <>
+                        {/* Facebook Pixel Script */}
+                        <Script
+                            id="facebook-pixel"
+                            strategy="afterInteractive"
+                            dangerouslySetInnerHTML={{
+                                __html: `
+                                !function(f,b,e,v,n,t,s)
+                                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                                n.queue=[];t=b.createElement(e);t.async=!0;
+                                t.src=v;s=b.getElementsByTagName(e)[0];
+                                s.parentNode.insertBefore(t,s)}(window, document,'script',
+                                'https://connect.facebook.net/en_US/fbevents.js');
+                                fbq('init', '${FACEBOOK_PIXEL_ID}');
+                                fbq('track', 'PageView');
+                            `,
+                            }}
+                        />
+
+                        {/* NoScript Fallback for Users with Disabled JavaScript */}
+                        <noscript>
+                            <img
+                                height="1"
+                                width="1"
+                                style={{ display: 'none' }}
+                                src={`https://www.facebook.com/tr?id=${FACEBOOK_PIXEL_ID}&ev=PageView&noscript=1`}
+                                alt="Facebook Pixel"
+                            />
+                        </noscript>
+                    </>
+                )}
                 <AppWrapper design={design} appStore={appStore}>
                     {children}
                 </AppWrapper>
-                {fbPixel && (
+                {/* {fbPixel && (
                     <>
                         <Script id="facebook-pixel" strategy="afterInteractive">
                             {`
@@ -132,7 +164,7 @@ export default async function RootLayout({
                             />
                         </noscript>
                     </>
-                )}
+                )} */}
             </body>
         </html>
     );

@@ -1,4 +1,5 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import Card6 from '@/components/card/card6';
 import Card60 from '@/components/card/card60';
@@ -129,7 +130,6 @@ export default CategoryThirtyFour;
 
 const ProductSection = ({
     grid,
-    open,
     catId,
     page,
     setPage,
@@ -159,8 +159,6 @@ const ProductSection = ({
         setPage((prevPage: number) => prevPage + 1);
     };
 
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
 
     useEffect(() => {
         categoryPageProductsRefetch();

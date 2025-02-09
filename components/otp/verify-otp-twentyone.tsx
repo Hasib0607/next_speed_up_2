@@ -1,7 +1,7 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { imgUrl } from '@/site-settings/siteUrl';
@@ -16,12 +16,11 @@ import {
     removeFromLocalStorage,
 } from '@/helpers/localStorage';
 import Loading from '../loaders/loading';
-import { RootState } from '@/redux/store';
 
 export const cls =
     'w-full rounded-md border border-[#E9EDF4] py-3 px-5 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-primary ';
 
-const VerifyOtpTwentyOne = () => {
+const VerifyOtpTwentyOne = ({ appStore, headersetting, design }: any) => {
     const localStorageAuthTypeName = process.env
         .NEXT_PUBLIC_LOCAL_STORAGE_AUTH_TYPE_NAME as any;
     const localStorageNewAuthName = process.env
@@ -31,11 +30,6 @@ const VerifyOtpTwentyOne = () => {
     const [resendOtp] = useResendOtpMutation();
 
     const router = useRouter();
-
-    const home = useSelector((state: RootState) => state?.home);
-    const { headersetting, design } = home || {};
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
 
     const [loading, setLoading] = useState(false);
     const [counter, setCounter] = useState(120);
@@ -157,8 +151,8 @@ const VerifyOtpTwentyOne = () => {
                                         />
                                     </Link>
                                     <h3 className="font-medium text-[#423b3b] text-center mb-3 max-w-[560px] mx-auto">
-                                        {store?.auth_type === 'phone' ||
-                                        store?.auth_type === 'EasyOrder'
+                                        {appStore?.auth_type === 'phone' ||
+                                        appStore?.auth_type === 'EasyOrder'
                                             ? `The OTP code has been sent to ${authType}.`
                                             : `The OTP code has been sent to ${authType}. Please check in spam/ junk folder as well.`}
                                     </h3>
@@ -193,6 +187,7 @@ const VerifyOtpTwentyOne = () => {
                                                 Resend OTP
                                             </p>
                                         )}
+
                                         {resend === true && counter > 0 && (
                                             <p className="text-gray-600 -mt-5 mb-5">
                                                 Resend OTP in {counter} Seconds

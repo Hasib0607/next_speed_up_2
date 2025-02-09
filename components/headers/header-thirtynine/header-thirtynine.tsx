@@ -1,6 +1,6 @@
 'use client';
 
-import { imgUrl, profileImg } from '@/site-settings/siteUrl';
+import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -102,7 +102,11 @@ const HeaderThirtyNine = ({ headersetting, menu, design }: any) => {
             } fixed z-[5] duration-500 top-0 left-0 flex items-center bg-color text-white w-full`}
         >
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
 
             <style>{styleCss}</style>
             <div className="flex items-center justify-between sm:container px-5 w-full">
@@ -173,6 +177,7 @@ const HeaderThirtyNine = ({ headersetting, menu, design }: any) => {
                                     <Search3
                                         search={searchTxt}
                                         setSearch={setSearch}
+                                        design={design}
                                     />
                                 </div>
                             )}

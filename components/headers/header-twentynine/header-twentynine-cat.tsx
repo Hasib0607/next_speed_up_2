@@ -180,7 +180,7 @@ const HeaderTwentyNineCat = ({ design }: any) => {
 
                     {searchTxt && (
                         <div className="relative -top-9">
-                            <Search3 search={searchTxt} setSearch={setSearch} />
+                            <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
                         </div>
                     )}
                 </div>

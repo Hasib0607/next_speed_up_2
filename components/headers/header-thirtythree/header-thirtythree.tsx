@@ -196,6 +196,7 @@ const HeaderThirtyThree = ({ headersetting, design, menu }: any) => {
                                 }`}
                             >
                                 <Search3
+                                    design={design}
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />
@@ -515,6 +516,7 @@ const HeaderThirtyThree = ({ headersetting, design, menu }: any) => {
                                 className={`absolute z-20 top-3 left-0 w-full`}
                             >
                                 <Search3
+                                    design={design}
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />

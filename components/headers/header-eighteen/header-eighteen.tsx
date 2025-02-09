@@ -104,7 +104,11 @@ const HeaderEighteen = ({ headersetting, design, menu }: any) => {
     return (
         <div>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <div className={`${openMenu && 'navbarSixteen openMenu'}`}>
                 <div
                     className={`grid sm:container px-5 items-center ${
@@ -146,6 +150,7 @@ const HeaderEighteen = ({ headersetting, design, menu }: any) => {
                             {searchTxt && (
                                 <div className="relative">
                                     <Search3
+                                        design={design}
                                         search={searchTxt}
                                         setSearch={setSearch}
                                     />
