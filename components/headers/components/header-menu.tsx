@@ -39,7 +39,11 @@ const HeaderMenu = ({ headersetting, design, menu }: any) => {
     return (
         <div className="relative">
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} design={design}/>
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <div className=" flex justify-between items-center">
                 <div>
                     {headersetting?.logo === null ? (
@@ -82,18 +86,17 @@ const HeaderMenu = ({ headersetting, design, menu }: any) => {
                             </>
                         )}
                         {searchInput && (
-                            <div className="absolute -top-6 ">
+                            <div className="absolute center">
                                 <input
                                     value={searchTxt}
                                     onChange={(e) => setSearch(e.target.value)}
                                     type="text"
-                                    className="xl:w-60  absolute -left-60 lg:w-60 border-gray-300 outline-none focus:outline-none focus:border-gray-200 focus:ring-0 text-black"
+                                    className="xl:w-60 p-2 absolute -left-60 lg:w-60 border-gray-300 outline-none focus:outline-none focus:border-gray-200 focus:ring-0 text-black"
                                     placeholder="Search your products "
                                 />
-                                <XMarkIcon className="absolute z-10" />
                                 <p
                                     style={{ color: headerBg }}
-                                    className="absolute z-10 -left-6 top-3"
+                                    className="absolute z-10 center right-1"
                                     onClick={handleClose}
                                 >
                                     <AiOutlineClose className="text-xl lg:cursor-pointer" />
@@ -136,12 +139,16 @@ const HeaderMenu = ({ headersetting, design, menu }: any) => {
                         </div>
                     </div>
                 </div>
+                {searchTxt && (
+                    <div className="absolute w-128 top-10 right-0">
+                        <Search3
+                            search={searchTxt}
+                            setSearch={setSearch}
+                            design={design}
+                        />
+                    </div>
+                )}
             </div>
-            {searchTxt && (
-                <div className="w-128 absolute top-5 right-28">
-                    <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
-                </div>
-            )}
         </div>
     );
 };

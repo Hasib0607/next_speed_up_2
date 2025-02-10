@@ -1,6 +1,6 @@
+import Skeleton from '@/components/loaders/TextSkeleton';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
-import Skeleton from '@/components/loaders/TextSkeleton';
 
 const Hero = dynamic(() => import('@/components/Hero'));
 const FeaturedCategory = dynamic(() => import('@/components/FeaturedCategory'));
@@ -71,7 +71,7 @@ const RenderSection = ({
         case 'product':
             return <Product design={design} headersetting={headersetting} />;
         case 'new_arrival':
-            return <NewArrival design={design} />;
+            return <NewArrival design={design} headersetting={headersetting} />;
         case 'best_sell_product':
             return (
                 <BestSellProduct

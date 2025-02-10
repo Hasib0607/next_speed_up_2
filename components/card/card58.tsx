@@ -1,32 +1,38 @@
 'use client';
 
-import { productImg } from '@/site-settings/siteUrl';
-import BDT from '@/utils/bdt';
-
-import Rate from '@/utils/rate';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { customizeModalPopup } from '@/utils/customizeDesign';
-
 import shape from '@/assets/img/shape.png';
-import { numberParser } from '@/helpers/numberParser';
-import QuickView from '@/utils/quick-view';
-import { RootState } from '@/redux/store';
+import { getDataByType } from '@/helpers/getCustomDataByType';
 import {
     howMuchSave,
     isAvailable,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
+import { numberParser } from '@/helpers/numberParser';
+import {
+    useGetDesignQuery,
+    useGetHeaderSettingsQuery,
+} from '@/redux/features/home/homeApi';
+import { RootState } from '@/redux/store';
+import { productImg } from '@/site-settings/siteUrl';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
+import BDT from '@/utils/bdt';
+import { customizeModalPopup } from '@/utils/customizeDesign';
+import QuickView from '@/utils/quick-view';
+import Rate from '@/utils/rate';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Details from '../_product-details-page/components/details';
-import { useGetDesignQuery } from '@/redux/features/home/homeApi';
 
-const Card58 = ({ item, buttonObj }: any) => {
+const Card58 = ({ item, type = '' }: any) => {
     const { data: designData } = useGetDesignQuery({});
     const design = designData?.data || {};
+
+    const { data: headerData } = useGetHeaderSettingsQuery({});
+    const headersetting = headerData?.data || {};
+
+    // console.log('card 58', headersetting);
 
     const store_id = design?.store_id || null;
 
@@ -61,6 +67,8 @@ const Card58 = ({ item, buttonObj }: any) => {
     const bgColor = 'var(--header-color)';
     const textColor = 'var(--text-color)';
 
+    const customDesignData = getDataByType(headersetting, type);
+
     const {
         button,
         button_color,
@@ -68,7 +76,11 @@ const Card58 = ({ item, buttonObj }: any) => {
         button1,
         button1_color,
         button1_bg_color,
-    } = buttonObj || {};
+        is_buy_now_cart,
+        is_buy_now_cart1,
+    } = customDesignData || {};
+
+    const isEmpty = Object.keys(customDesignData).length === 0;
 
     const styleCss = `
     .searchHover:hover {
@@ -252,7 +264,7 @@ const Card58 = ({ item, buttonObj }: any) => {
                 </div>
                 {productAvailablity && (
                     <>
-                        {!button && !button1 && (
+                        {isEmpty && (
                             <div
                                 onClick={add_cart_item}
                                 className="bg-color flex px-2 py-2 justify-center gap-1 items-center lg:cursor-pointer mt-1"
@@ -260,27 +272,34 @@ const Card58 = ({ item, buttonObj }: any) => {
                                 কার্টে যোগ করুন
                             </div>
                         )}
-                        {button ||
-                            (button1 && (
-                                <>
-                                    {button && (
-                                        <div
-                                            onClick={buy_now}
-                                            className="c58_button flex px-2 py-2 justify-center gap-1 items-center lg:cursor-pointer"
-                                        >
-                                            {button}
-                                        </div>
-                                    )}
-                                    {button1 && (
-                                        <div
-                                            onClick={add_cart_item}
-                                            className="c58_button1 flex px-2 py-2 justify-center gap-1 items-center lg:cursor-pointer mt-1"
-                                        >
-                                            {button1}
-                                        </div>
-                                    )}
-                                </>
-                            ))}
+                        {(button || button1) && (
+                            <>
+                                {button && (
+                                    <div
+                                        onClick={
+                                            numberParser(is_buy_now_cart) == 1
+                                                ? buy_now
+                                                : add_cart_item
+                                        }
+                                        className="c58_button flex px-2 py-2 justify-center gap-1 items-center lg:cursor-pointer"
+                                    >
+                                        {button}
+                                    </div>
+                                )}
+                                {button1 && (
+                                    <div
+                                        onClick={
+                                            numberParser(is_buy_now_cart1) == 1
+                                                ? buy_now
+                                                : add_cart_item
+                                        }
+                                        className="c58_button1 flex px-2 py-2 justify-center gap-1 items-center lg:cursor-pointer mt-1"
+                                    >
+                                        {button1}
+                                    </div>
+                                )}
+                            </>
+                        )}
                     </>
                 )}
 

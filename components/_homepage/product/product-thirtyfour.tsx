@@ -33,6 +33,7 @@ const ProductThirtyFour = ({ product, design, headersetting }: any) => {
     const sectionHeadingData = custom_design?.product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         sectionHeadingData || {};
+console.log("okokok");
 
     return (
         <div className="bg-[#F9F8FF]">
@@ -51,7 +52,11 @@ const ProductThirtyFour = ({ product, design, headersetting }: any) => {
                             product
                                 ?.slice(0, 10)
                                 ?.map((item: any) => (
-                                    <Card60 item={item} key={item.id} />
+                                    <Card60
+                                        item={item}
+                                        key={item.id}
+                                        type={'product'}
+                                    />
                                 ))}
                     </div>
                 </div>

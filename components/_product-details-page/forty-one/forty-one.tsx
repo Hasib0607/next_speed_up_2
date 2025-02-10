@@ -1,4 +1,5 @@
 'use client';
+
 import Skeleton from '@/components/loaders/skeleton';
 import { numberParser } from '@/helpers/numberParser';
 import {

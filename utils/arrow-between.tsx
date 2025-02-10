@@ -1,8 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 const Arrowbetween = ({ nextEl, prevEl }: any) => {
-    // const { design } = useTheme()
-
     const styleCss = `
    
     .arrow-hover:hover {

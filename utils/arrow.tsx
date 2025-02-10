@@ -7,14 +7,14 @@ const Arrow = ({ nextEl, prevEl, design }: any) => {
         color:${design?.header_color};
         background-color:${design?.text_color};
         border:1px solid ${design?.header_color};
-}
+        }
 
-.arrowDesign:hover{
-    background-color:${design?.header_color};
-    color:${design?.text_color};
-    border:1px solid ${design?.text_color};
-}
-        }`;
+        .arrowDesign:hover{
+            background-color:${design?.header_color};
+            color:${design?.text_color};
+            border:1px solid ${design?.text_color};
+        }
+    `;
 
     return (
         <div className="flex justify-end  gap-2">

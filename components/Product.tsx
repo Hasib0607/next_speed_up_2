@@ -34,10 +34,6 @@ const Product = ({ design, headersetting }: any) => {
     } = useGetFeatureProductQuery({});
     const feature_product = featureProductData?.data || [];
 
-    // console.log("lgo p d",design,);
-    // console.log("lgo p h",headersetting);
-    // console.log("best_sell_product",best_sell_product);
-    // console.log("feature_product",feature_product);
 
     return (
         <>

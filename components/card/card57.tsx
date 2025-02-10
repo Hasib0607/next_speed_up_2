@@ -15,7 +15,6 @@ import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import {
     howMuchSave,
     isAvailable,
-    isRegularPriceLineThrough,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { RootState } from '@/redux/store';

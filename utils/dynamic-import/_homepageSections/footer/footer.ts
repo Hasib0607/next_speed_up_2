@@ -24,9 +24,9 @@ export const footers: any = {
     eighteen: dynamic(() => import('@/components/footers/footer-eighteen')),
     nineteen: dynamic(() => import('@/components/footers/footer-nineteen')),
     twenty: dynamic(() => import('@/components/footers/footer-twenty')),
-    // twentyone: dynamic(
-    //   () => import("@/components/footers/footer-twentyone")
-    // ),
+    twentyone: dynamic(
+      () => import("@/components/footers/footer-twentyone")
+    ),
     twentytwo: dynamic(() => import('@/components/footers/footer-twentytwo')),
     twentythree: dynamic(
         () => import('@/components/footers/footer-twentythree')
