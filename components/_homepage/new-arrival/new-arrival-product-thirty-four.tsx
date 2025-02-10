@@ -87,7 +87,7 @@ const NewArrivalProductThirtyFour = ({
                         {product?.length > 0 &&
                             product?.slice(0, 10)?.map((item: any) => (
                                 <SwiperSlide key={item?.id}>
-                                    <Card60 item={item} />
+                                    <Card60 item={item} type={"new_arrival"} />
                                 </SwiperSlide>
                             ))}
                     </DefaultSlider>

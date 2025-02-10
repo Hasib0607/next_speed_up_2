@@ -57,6 +57,7 @@ const ProductTwentyEight = ({ category, design }: any) => {
                                 id={cat?.id}
                                 card={'58'}
                                 count={6}
+                                btnType={'product'}
                             />
                         </div>
                     ))}

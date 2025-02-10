@@ -124,6 +124,7 @@ const MobileNavThree = ({ design }: MobileNavProps) => {
                                         </div>
                                     )}
                                     <CartSideBar
+                                    design={design}
                                         open={openCart}
                                         setOpen={setOpenCart}
                                     />
@@ -190,7 +191,7 @@ const MobileNavThree = ({ design }: MobileNavProps) => {
             </div>
 
             <AnimatePresence>
-                {searchshow && <SearchDiv setSearchshow={setSearchshow} />}
+                {searchshow && <SearchDiv setSearchshow={setSearchshow} design={design}/>}
             </AnimatePresence>
         </>
     );
@@ -200,9 +201,10 @@ export default MobileNavThree;
 
 interface SearchDivProps {
     setSearchshow: (show: boolean) => void;
+    design:any;
 }
 
-const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow }) => {
+const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow,design }) => {
     const [searchTxt, setSearch] = useState('');
 
     return (
@@ -239,7 +241,7 @@ const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow }) => {
                 </div>
                 {searchTxt && (
                     <div className="absolute z-20 top-4 xl:right-0 -right-24 w-full rounded-md">
-                        <Search3 search={searchTxt} setSearch={setSearch} />
+                        <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
                     </div>
                 )}
             </motion.div>
@@ -275,6 +277,7 @@ export const SingleCat: React.FC<SingleCatProps> = ({
 
     const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
     const store_id = store?.id || null;
+
     const mobileNavThreeIcon = customizeMobileNavThree.find(
         (item) => item.id == store_id
     );

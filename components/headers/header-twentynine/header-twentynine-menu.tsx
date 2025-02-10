@@ -15,9 +15,7 @@ import SideMenu from '../components/side-menu';
 import '../header-six/header-six.css';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 
-
-const HeaderTwentyNineMenu = ({ menu, design, headersetting}: any) => {
-    
+const HeaderTwentyNineMenu = ({ menu, design, headersetting }: any) => {
     const [open, setOpen] = useState(false);
     const [openCart, setOpenCart] = useState(false);
 
@@ -39,7 +37,11 @@ const HeaderTwentyNineMenu = ({ menu, design, headersetting}: any) => {
         >
             <style>{styleCss}</style>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
 
             <div className="flex flex-row gap-6 sm:container px-5 py-3 items-center justify-between">
                 <div
@@ -92,7 +94,6 @@ const HeaderTwentyNineMenu = ({ menu, design, headersetting}: any) => {
                         </ul>
                     </div>
                     <div className="flex lg:gap-6 gap-2 text-gray-500 mr-3">
-
                         <div className="flex flex-col justify-center items-center relative">
                             <div
                                 onClick={() => setOpenCart(!openCart)}

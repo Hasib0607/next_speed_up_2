@@ -84,7 +84,7 @@ const RegisterSeven = ({ headersetting, appStore }: any) => {
                     }
                 })
                 .catch((error: any) => {
-                    toast.error(error?.status || 'Something went wrong');
+                    toast.error(error?.data?.message || 'Something went wrong');
                     setLoading(false);
                 });
         } else {
@@ -98,7 +98,7 @@ const RegisterSeven = ({ headersetting, appStore }: any) => {
                     }
                 })
                 .catch((error: any) => {
-                    toast.error(error?.status || 'Something went wrong');
+                    toast.error(error?.data?.message || 'Something went wrong');
                     setLoading(false);
                 });
         }

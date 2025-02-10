@@ -102,7 +102,11 @@ const HeaderTwentyFour = ({ headersetting, design, menu }: any) => {
     return (
         <div>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <style>{styleCss}</style>
             <div
                 className={`flex items-center justify-between bg-[#F2E1D9] h-20  ${
@@ -176,6 +180,7 @@ const HeaderTwentyFour = ({ headersetting, design, menu }: any) => {
                                     <Search3
                                         search={searchTxt}
                                         setSearch={setSearch}
+                                        design={design}
                                     />
                                 </div>
                             )}

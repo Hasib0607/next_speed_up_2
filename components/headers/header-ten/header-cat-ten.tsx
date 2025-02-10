@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
-
 import Search3 from '../components/search3';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import {
@@ -33,7 +32,11 @@ const HeaderCatTen = ({ menu, design }: any) => {
     return (
         <div>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <nav
                 style={{
                     background: design?.header_color,
@@ -148,15 +151,14 @@ const HeaderCatTen = ({ menu, design }: any) => {
                     </ul>
                     <div className="flex gap-3 items-center">
                         <div className="flex items-center relative">
-                          {searchTxt.length === 0 && 
-                          
-                            <p
-                                className="lg:cursor-pointer absolute right-2"
-                                onClick={() => setSearchInput(!searchInput)}
-                            >
-                                <BsSearch className="text-2xl" />
-                            </p>
-                          }
+                            {searchTxt.length === 0 && (
+                                <p
+                                    className="lg:cursor-pointer absolute right-2"
+                                    onClick={() => setSearchInput(!searchInput)}
+                                >
+                                    <BsSearch className="text-2xl" />
+                                </p>
+                            )}
                             {searchInput && (
                                 <div className="relative -top-6">
                                     <input
@@ -169,15 +171,15 @@ const HeaderCatTen = ({ menu, design }: any) => {
                                         className="xl:w-60 absolute -left-60 lg:w-60 h-12 border-gray-300 outline-none focus:outline-none focus:border-gray-200 focus:ring-0 text-black"
                                         placeholder="Search your products "
                                     />
-                                        <p
-                                            style={{
-                                                color: design?.header_color,
-                                            }}
-                                            className="absolute z-10 -left-6 top-4"
-                                            onClick={handleClose}
-                                        >
-                                            <AiOutlineClose className="text-md lg:cursor-pointer" />
-                                        </p>
+                                    <p
+                                        style={{
+                                            color: design?.header_color,
+                                        }}
+                                        className="absolute z-10 -left-6 top-4"
+                                        onClick={handleClose}
+                                    >
+                                        <AiOutlineClose className="text-md lg:cursor-pointer" />
+                                    </p>
                                 </div>
                             )}
                             {searchTxt && (
@@ -185,6 +187,7 @@ const HeaderCatTen = ({ menu, design }: any) => {
                                     <Search3
                                         search={searchTxt}
                                         setSearch={setSearch}
+                                        design={design}
                                     />
                                 </div>
                             )}

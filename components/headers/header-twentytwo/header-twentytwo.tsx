@@ -6,7 +6,7 @@ import { FaSearch } from 'react-icons/fa';
 import { FiUser } from 'react-icons/fi';
 import { GiShoppingBag } from 'react-icons/gi';
 import { Menu, Transition } from '@headlessui/react';
-import { imgUrl, profileImg } from '@/site-settings/siteUrl';
+import { imgUrl } from '@/site-settings/siteUrl';
 import { RiCloseCircleLine, RiMenu2Line } from 'react-icons/ri';
 import Search3 from '../components/search3';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
@@ -92,7 +92,11 @@ const HeaderTwentyTwo = ({ headersetting, design, menu }: any) => {
         <>
             <div className="py-3 px-6 block lg:hidden">
                 {/* CartSideBar open  */}
-                <CartSideBar open={openCart} setOpen={setOpenCart} />
+                <CartSideBar
+                    open={openCart}
+                    setOpen={setOpenCart}
+                    design={design}
+                />
                 <div className="flex justify-between item-center">
                     <div
                         onClick={() => setOpen(!open)}
@@ -168,6 +172,7 @@ const HeaderTwentyTwo = ({ headersetting, design, menu }: any) => {
                         {searchTxt && (
                             <div className="left-0 sm:ml-[7%] w-full sm:w-[80%] md:w-[80%] lg:w-[83%] absolute top-32">
                                 <Search3
+                                design={design}
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />

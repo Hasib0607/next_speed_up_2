@@ -58,8 +58,6 @@ const CategoryTwentyFive = ({ catId, store_id, design }: any) => {
                         <div className="flex-1">
                             <ProductSection
                                 catId={catId}
-                                open={open}
-                                grid={grid}
                                 hasMore={hasMore}
                                 paginate={paginate}
                                 setHasMore={setHasMore}
@@ -88,8 +86,6 @@ const CategoryTwentyFive = ({ catId, store_id, design }: any) => {
 export default CategoryTwentyFive;
 
 const ProductSection = ({
-    grid,
-    open,
     catId,
     page,
     setPage,
@@ -119,8 +115,6 @@ const ProductSection = ({
         setPage((prevPage: number) => prevPage + 1);
     };
 
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
 
     useEffect(() => {
         categoryPageProductsRefetch();

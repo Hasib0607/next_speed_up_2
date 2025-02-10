@@ -159,7 +159,11 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
     return (
         <div className="">
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <style>{styleCss}</style>
 
             {/* top menu  */}
@@ -224,6 +228,7 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
                                         <Search3
                                             search={searchTxt}
                                             setSearch={setSearch}
+                                            design={design}
                                         />
                                     </div>
                                 )}
@@ -595,6 +600,7 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
                                         item={item}
                                         open={open}
                                         setOpen={setOpen}
+                                        design={design}
                                     />
                                 ))}
                             </div>

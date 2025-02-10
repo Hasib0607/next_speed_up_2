@@ -171,7 +171,7 @@ const HeaderSixCat = ({ design }: any) => {
 
                 <div className="relative">
                     {searchTxt && (
-                        <Search3 search={searchTxt} setSearch={setSearch} />
+                        <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
                     )}
                 </div>
             </div>

@@ -99,7 +99,11 @@ const HeaderTwentySix = ({ headersetting, design, menu }: any) => {
         <div>
             <style>{styleCss}</style>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
 
             <div className="">
                 {/* header top  */}
@@ -275,6 +279,7 @@ const HeaderTwentySix = ({ headersetting, design, menu }: any) => {
                         {searchTxt && (
                             <div className="absolute z-[15] top-8 xl:right-0 -right-24 w-full">
                                 <Search3
+                                    design={design}
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />
@@ -319,6 +324,7 @@ const HeaderTwentySix = ({ headersetting, design, menu }: any) => {
                         {searchTxt && (
                             <div className="absolute z-10 top-1 w-full">
                                 <Search3
+                                    design={design}
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />

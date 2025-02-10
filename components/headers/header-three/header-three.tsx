@@ -1,7 +1,7 @@
 'use client';
 
 import { location } from '@/assets/svg';
-import { imgUrl, profileImg } from '@/site-settings/siteUrl';
+import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import {
     ArrowLeftIcon,

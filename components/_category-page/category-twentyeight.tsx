@@ -142,7 +142,6 @@ const ProductSection = ({
     const [products, setProducts] = useState<any[]>([]);
     const [infiniteProducts, setInfiniteProducts] = useState<any[]>([]);
 
-
     const {
         data: categoryPageProductsData,
         isLoading: categoryPageProductsLoading,
@@ -161,7 +160,7 @@ const ProductSection = ({
         if (paginate?.total > 0) {
             const more = numberParser(paginate?.total / 8, true) > page;
             setHasMore(more);
-        }else if(infiniteProducts?.length === 0){
+        } else if (infiniteProducts?.length === 0) {
             setHasMore(false);
         }
     }, [
@@ -171,7 +170,7 @@ const ProductSection = ({
         priceValue,
         paginate,
         setHasMore,
-        infiniteProducts
+        infiniteProducts,
     ]);
 
     useEffect(() => {

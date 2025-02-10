@@ -1,3 +1,4 @@
+import { FORTY_TWO } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const headers: any = {
@@ -108,5 +109,8 @@ export const headers: any = {
     ),
     forty: dynamic(
         () => import('@/components/headers/header-forty/header-forty')
+    ),
+    [FORTY_TWO]: dynamic(
+        () => import('@/components/headers/header-fortytwo/header-fortytwo')
     ),
 };

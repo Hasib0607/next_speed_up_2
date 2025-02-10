@@ -76,6 +76,7 @@ export default function HeaderEight({ design, headersetting, menu }: any) {
                                 <Search3
                                     search={searchTxt}
                                     setSearch={setSearch}
+                                    design={design}
                                 />
                             </div>
                         )}
@@ -350,16 +351,16 @@ const Sticky = ({ setSearchInput, searchInput, headersetting, menu }: any) => {
     const [openMenu, setOpenMenu] = useState(false);
 
     useEffect(() => {
-      const changeNavbar = () => {
-          if (window.scrollY >= 150) {
-              setOpenMenu(true);
-          } else {
-              setOpenMenu(false);
-          }
-      };
-      window.addEventListener('scroll', changeNavbar);
-    })
-    
+        const changeNavbar = () => {
+            if (window.scrollY >= 150) {
+                setOpenMenu(true);
+            } else {
+                setOpenMenu(false);
+            }
+        };
+        window.addEventListener('scroll', changeNavbar);
+    });
+
     return (
         openMenu && (
             <motion.div
@@ -518,7 +519,6 @@ const SingleMenu = ({ item }: any) => {
 
 const Cat = ({ item }: any) => {
     const { data: categoryData } = useGetCategoryQuery({});
-
     const category = categoryData?.data || [];
 
     const [show, setShow] = useState(false);

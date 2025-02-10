@@ -99,6 +99,7 @@ const HeaderSeven = ({ design, headersetting, menu }: any) => {
                 <style>{styleCss}</style>
                 <div className="flex flex-row justify-between items-center nav-menu sm:container px-5 lg:py-0 py-1">
                     <Search
+                    design={design}
                         searchInput={searchInput}
                         setSearchInput={setSearchInput}
                         screen
@@ -280,7 +281,11 @@ const HeaderSeven = ({ design, headersetting, menu }: any) => {
                     </div>
                 </div>
                 {/* CartSideBar open  */}
-                <CartSideBar open={openCart} setOpen={setOpenCart} />
+                <CartSideBar
+                    open={openCart}
+                    setOpen={setOpenCart}
+                    design={design}
+                />
             </div>
 
             {/* tablet and mobile view  */}

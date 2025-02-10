@@ -2,6 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
 const ArrowSquare = ({ nextEl, prevEl, design }: any) => {
+    
     return (
         <div className="flex  justify-between w-full items-center gap-2 ">
             <div

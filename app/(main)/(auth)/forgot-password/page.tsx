@@ -1,4 +1,4 @@
-import PasswordForgot from '@/components/PasswordForgot';
+import ForgetPassword from '@/components/ForgetPassword';
 import getDesign from '@/utils/fetcher/getDesign';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import getStore from '@/utils/fetcher/getStore';
@@ -9,7 +9,7 @@ export default async function ForgetPasswordPage() {
     const headersetting = await getHeaderSetting();
 
     return (
-        <PasswordForgot
+        <ForgetPassword
             design={design}
             appStore={appStore}
             headersetting={headersetting}

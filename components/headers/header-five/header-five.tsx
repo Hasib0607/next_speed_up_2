@@ -445,7 +445,7 @@ const HeaderFive = ({ headersetting, design, menu }: any) => {
                         <SearchIcon />
                     )}
                     {search && (
-                        <Search3 search={search} setSearch={setSearch} />
+                        <Search3 search={search} setSearch={setSearch} design={design}/>
                     )}
                 </div>
             </div>

@@ -39,6 +39,8 @@ export const THIRTY_SEVEN = 'thirtyseven';
 export const THIRTY_EIGHT = 'thirtyeight';
 export const THIRTY_NINE = 'thirtynine';
 export const FORTY = 'forty';
+export const FORTY_ONE = 'fortyone';
+export const FORTY_TWO = 'fortytwo';
 
 // regex
 export const HTML_TAG_PATTERN = /<[^>]*>/g;
@@ -62,6 +64,6 @@ function url() {
     return ''; // Optional: return an empty string if window is undefined (e.g., in server-side rendering)
 }
 
-// export const name = "savantstylefashion.com";
+// export const name = "watchtimebd.com";
 export const name = url();
 // console.log(name);

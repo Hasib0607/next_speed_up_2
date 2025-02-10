@@ -73,7 +73,11 @@ const HeaderForty = ({ headersetting, design, menu }: any) => {
         <div className="relative">
             <style>{styleCss}</style>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <div
                 className={`fixed ${openSearch ? 'right-0' : '-right-[350px]'} duration-500 top-0 bg-white h-full w-[350px] z-10 pt-5 shadow-2xl`}
             >
@@ -105,7 +109,7 @@ const HeaderForty = ({ headersetting, design, menu }: any) => {
                 </div>
                 {searchTxt && (
                     <div className="absolute z-20 top-32 xl:right-0 -right-24 w-full rounded-md">
-                        <Search3 search={searchTxt} setSearch={setSearch} />
+                        <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
                     </div>
                 )}
             </div>

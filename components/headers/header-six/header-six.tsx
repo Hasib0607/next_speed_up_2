@@ -37,7 +37,7 @@ const HeaderSix = ({ headersetting, design, menu }: any) => {
     const handleClose = () => {
         setSearch('');
     };
-    console.log(!searchTxt);
+    // console.log(!searchTxt);
 
     useEffect(() => {
         // scroll navbar
@@ -324,7 +324,11 @@ const HeaderSix = ({ headersetting, design, menu }: any) => {
                     </div>
                     {searchTxt && (
                         <div className="relative">
-                            <Search3 search={searchTxt} setSearch={setSearch} />
+                            <Search3
+                                search={searchTxt}
+                                setSearch={setSearch}
+                                design={design}
+                            />
                         </div>
                     )}
                 </div>

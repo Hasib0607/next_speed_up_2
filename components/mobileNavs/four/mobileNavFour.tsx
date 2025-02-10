@@ -7,19 +7,16 @@ import {
 } from '@heroicons/react/24/solid';
 import React, { useState } from 'react';
 import Link from 'next/link';
-
 import { motion, AnimatePresence } from 'framer-motion';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
-
 import { useSelector } from 'react-redux';
-
 import { iconImg } from '@/site-settings/siteUrl';
 import { MobileNavProps } from '@/types';
 import { RootState } from '@/redux/store';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import Search3 from '@/components/headers/components/search3';
 import { cancelIcon, gridIcon, searchIcon } from '@/assets/svg';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import Search3 from '@/components/headers/components/search3';
 
 const MobileNavFour = ({ design }: MobileNavProps) => {
     const [open, setOpen] = useState(false);
@@ -104,7 +101,7 @@ const MobileNavFour = ({ design }: MobileNavProps) => {
                             </div>
                         )}
                     </div>
-                    <CartSideBar open={openCart} setOpen={setOpenCart} />
+                    <CartSideBar open={openCart} setOpen={setOpenCart} design={design}/>
                 </div>
                 <Link href="/profile" passHref>
                     <div
@@ -147,7 +144,9 @@ const MobileNavFour = ({ design }: MobileNavProps) => {
             </div>
 
             <AnimatePresence>
-                {searchshow && <SearchDiv setSearchshow={setSearchshow} />}
+                {searchshow && (
+                    <SearchDiv setSearchshow={setSearchshow} design={design} />
+                )}
             </AnimatePresence>
         </>
     );
@@ -157,9 +156,10 @@ export default MobileNavFour;
 
 interface SearchDivProps {
     setSearchshow: (show: boolean) => void;
+    design: any;
 }
 
-const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow }) => {
+const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow, design }) => {
     const [searchTxt, setSearch] = useState('');
     return (
         <>
@@ -195,7 +195,11 @@ const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow }) => {
                 </div>
                 {searchTxt && (
                     <div className="w-[95%] absolute top-10 left-1/2 -translate-x-1/2">
-                        <Search3 search={searchTxt} setSearch={setSearch} />
+                        <Search3
+                            search={searchTxt}
+                            setSearch={setSearch}
+                            design={design}
+                        />
                     </div>
                 )}
             </motion.div>

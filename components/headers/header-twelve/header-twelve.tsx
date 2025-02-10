@@ -478,7 +478,7 @@ const HeaderTwelve = ({ design, menu, headersetting, cartList }: any) => {
                 </div>
                 {searchTxt && (
                     <div className="left-[15px] right-[15px] absolute top-28  z-50">
-                        <Search3 search={searchTxt} setSearch={setSearch} />
+                        <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
                     </div>
                 )}
             </div>

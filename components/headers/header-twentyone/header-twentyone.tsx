@@ -1,6 +1,6 @@
 'use client';
 
-import { imgUrl, profileImg } from '@/site-settings/siteUrl';
+import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -159,7 +159,11 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
             <style>{styleCss}</style>
 
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             {/* sticky nav search  */}
             <div
                 className={`w-full bg-white fixed top-0 left-0 h-[150px] z-[100] duration-500 ${
@@ -192,6 +196,7 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                     {searchTxtUp && (
                         <div className="relative -top-3">
                             <Search3
+                            design={design}
                                 search={searchTxtUp}
                                 setSearch={setSearchUp}
                             />
@@ -324,6 +329,7 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                             {searchTxt && (
                                 <div className="absolute z-[15] top-2 left-0 pl-16 w-full">
                                     <Search3
+                                    design={design}
                                         search={searchTxt}
                                         setSearch={setSearch}
                                     />

@@ -24,6 +24,7 @@ const HeaderDown = ({ headersetting, menu }: any) => {
     const { data: categoryData } = useGetCategoryQuery({});
 
     const category = categoryData?.data || [];
+    
     return (
         <div>
             <div className="sm:container px-5 lg:h-[120px] h-12 flex justify-between items-center my-2">

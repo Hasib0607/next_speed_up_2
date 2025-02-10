@@ -4,24 +4,28 @@ import { productImg } from '@/site-settings/siteUrl';
 import BDT from '@/utils/bdt';
 
 import Link from 'next/link';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { HiOutlineDocumentText } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '@/redux/store';
+import { getDataByType } from '@/helpers/getCustomDataByType';
 import {
     howMuchSave,
     isAvailable,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
+import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
+import { RootState } from '@/redux/store';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
 
-const Card60 = ({ item, buttonObj }: any) => {
-    const secondImg = item?.image[1] ? item?.image[1] : item?.image[0];
+const Card60 = ({ item, type = '' }: any) => {
+    const { data: headerData } = useGetHeaderSettingsQuery({});
+    const headersetting = headerData?.data || {};
 
+    const secondImg = item?.image[1] ? item?.image[1] : item?.image[0];
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 
@@ -53,6 +57,7 @@ const Card60 = ({ item, buttonObj }: any) => {
             handleAddToCart();
         }
     };
+
     const buy_now = () => {
         if (item?.variant?.length > 0) {
             setOpen(!open);
@@ -65,6 +70,8 @@ const Card60 = ({ item, buttonObj }: any) => {
     const bgColor = 'var(--header-color)';
     const textColor = 'var(--text-color)';
 
+    const customDesignData = getDataByType(headersetting, type);
+
     const {
         button,
         button_color,
@@ -72,7 +79,11 @@ const Card60 = ({ item, buttonObj }: any) => {
         button1,
         button1_color,
         button1_bg_color,
-    } = buttonObj || {};
+        is_buy_now_cart,
+        is_buy_now_cart1,
+    } = customDesignData || {};
+
+    const isEmpty = Object.keys(customDesignData).length === 0;
 
     const styleCss = `
     .searchHover:hover {
@@ -206,7 +217,7 @@ const Card60 = ({ item, buttonObj }: any) => {
                             <div>
                                 {productAvailablity && (
                                     <>
-                                        {!button && !button1 ? (
+                                        {isEmpty ? (
                                             <div
                                                 onClick={add_cart_item}
                                                 className="bg-color flex py-2 searchHover duration-500 justify-center gap-1 items-center relative rounded-md z-[1] lg:cursor-pointer font-bold "
@@ -215,25 +226,37 @@ const Card60 = ({ item, buttonObj }: any) => {
                                             </div>
                                         ) : (
                                             <>
-                                                {button && (
+                                                {(button || button1) && (
                                                     <div
-                                                        onClick={buy_now}
+                                                        onClick={
+                                                            numberParser(
+                                                                is_buy_now_cart
+                                                            ) == 1
+                                                                ? buy_now
+                                                                : add_cart_item
+                                                        }
                                                         className="c60_button mb-2 flex py-2 mt-2 searchHover duration-500 justify-center gap-1 items-center relative rounded-md z-[1] lg:cursor-pointer font-bold "
                                                     >
                                                         {button}
                                                     </div>
                                                 )}
+                                                {button1 && (
+                                                    <div
+                                                        onClick={
+                                                            numberParser(
+                                                                is_buy_now_cart1
+                                                            ) == 1
+                                                                ? buy_now
+                                                                : add_cart_item
+                                                        }
+                                                        className="c60_button1 flex py-2 searchHover duration-500 justify-center gap-1 items-center relative rounded-md z-[1] lg:cursor-pointer font-bold "
+                                                    >
+                                                        {button1}
+                                                    </div>
+                                                )}
                                             </>
                                         )}
                                     </>
-                                )}
-                                {button1 && (
-                                    <div
-                                        onClick={add_cart_item}
-                                        className="c60_button1 flex py-2 searchHover duration-500 justify-center gap-1 items-center relative rounded-md z-[1] lg:cursor-pointer font-bold "
-                                    >
-                                        {button1}
-                                    </div>
                                 )}
                             </div>
                         )}

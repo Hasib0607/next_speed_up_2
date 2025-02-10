@@ -99,7 +99,11 @@ const HeaderTwentyEight = ({ headersetting, design, menu }: any) => {
         <div>
             <style>{styleCss}</style>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <div className="">
                 {/* header top  */}
                 <div className="bg-[#131522] text-white border-b">
@@ -217,6 +221,7 @@ const HeaderTwentyEight = ({ headersetting, design, menu }: any) => {
                                     <Search3
                                         search={searchTxt}
                                         setSearch={setSearch}
+                                        design={design}
                                     />
                                 </div>
                             )}
