@@ -89,8 +89,11 @@ const LoginTwentyOne = ({ headersetting, design, appStore }: any) => {
     .text-color {
         color:  ${design?.header_color};
     }
-   
       `;
+
+      console.log("ded");
+      
+
     return (
         <div className="py-20 lg:py-[120px] sm:container px-5 xl:px-24">
             <div className="">
@@ -114,12 +117,11 @@ const LoginTwentyOne = ({ headersetting, design, appStore }: any) => {
             <div
                 className={`grid grid-cols-1 ${
                     appStore?.auth_type === 'EasyOrder'
-                        ? 'md:grid-cols-2 max-w-[500px] mx-auto'
+                        ? 'md:grid-cols-1 max-w-[500px] mx-auto'
                         : 'mx-auto'
                 }`}
             >
                 <style>{styleCss}</style>
-                <div className="flex flex-wrap">
                     <section className="" id="sign-in">
                         <div className="flex flex-wrap mx-auto">
                             <div className="w-full px-4">
@@ -227,7 +229,6 @@ const LoginTwentyOne = ({ headersetting, design, appStore }: any) => {
                             {/* <RegisterTwentyOne /> */}
                         </section>
                     )}
-                </div>
             </div>
         </div>
     );

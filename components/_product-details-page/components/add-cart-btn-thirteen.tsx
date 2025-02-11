@@ -1,5 +1,6 @@
 'use client';
 
+import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
 import { RootState } from '@/redux/store';
 import {
     isActiveCart,
@@ -35,7 +36,8 @@ const AddCartBtnThirteen = ({
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const { headersetting } = useSelector((state: RootState) => state.home); // Access updated Redux state
+    const { data: headerData } = useGetHeaderSettingsQuery({});
+    const headersetting = headerData?.data || {};
 
     const { button } =
         headersetting?.custom_design?.single_product_page?.[0] || {};
@@ -139,7 +141,6 @@ const AddCartBtnThirteen = ({
     const decNum = () => {
         setQty((prevCount: any) => (prevCount > 1 ? prevCount - 1 : 1));
     };
-
 
     useEffect(() => {
         if (variantId) {

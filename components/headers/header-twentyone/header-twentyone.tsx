@@ -10,7 +10,7 @@ import { BiBarChart } from 'react-icons/bi';
 import { BsSearch } from 'react-icons/bs';
 import { FaFacebook } from 'react-icons/fa';
 import { FiUser } from 'react-icons/fi';
-
+import { GiShoppingCart } from 'react-icons/gi';
 import { GrInstagram, GrYoutube } from 'react-icons/gr';
 import { HiMenu } from 'react-icons/hi';
 import {
@@ -21,7 +21,6 @@ import {
 } from 'react-icons/io';
 import { RiArrowDownSLine } from 'react-icons/ri';
 import { SiGmail } from 'react-icons/si';
-
 import SideMenu from '../components/side-menu';
 import Search3 from '../components/search3';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
@@ -37,10 +36,13 @@ import {
 } from '@/redux/features/category/categoryApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { numberParser } from '@/helpers/numberParser';
 
 const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
+
+    const store_id = numberParser(design?.store_id) || null;
 
     const [openCat, setOpenCat] = useState(false);
     const [searchTxt, setSearch] = useState('');
@@ -120,7 +122,6 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
             z-index: 10;
             top:0;
             animation: fadeIn 0.2s ease-in both;
-    
           }
         .navbarSixteen.openMenu:hover {
             opacity: 1;
@@ -135,7 +136,6 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
       }
         .menu-hover:hover {
           color:  ${design?.header_color};
-         
       }
       .border-cat {
         border: 2px solid ${design?.header_color};
@@ -143,21 +143,17 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
       .border-hover-menu:hover{
         border: 1px solid ${design?.text_color};
       }
-    
-      
       .font-twenty-one {
         font-family: 'Libre Franklin', sans-serif;
       }
-    
       h1, p, span, button, li, ul, a, div, h2, h3, h4, h5, h6  {
         font-family: 'Libre Franklin', sans-serif;
       }
-`;
+    `;
 
     return (
         <div className="">
             <style>{styleCss}</style>
-
             {/* CartSideBar open  */}
             <CartSideBar
                 open={openCart}
@@ -196,7 +192,7 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                     {searchTxtUp && (
                         <div className="relative -top-3">
                             <Search3
-                            design={design}
+                                design={design}
                                 search={searchTxtUp}
                                 setSearch={setSearchUp}
                             />
@@ -275,8 +271,11 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
             </div>
 
             {/* middle menu  */}
-
-            <div className={`pt-3`}>
+            <div
+                className={`${
+                    (store_id === 3601 || store_id === 3904) && 'bg-color'
+                } pt-3`}
+            >
                 <div className="flex justify-between items-center sm:container px-5 pb-3">
                     <div
                         onClick={() => setOpen(!open)}
@@ -329,7 +328,7 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                             {searchTxt && (
                                 <div className="absolute z-[15] top-2 left-0 pl-16 w-full">
                                     <Search3
-                                    design={design}
+                                        design={design}
                                         search={searchTxt}
                                         setSearch={setSearch}
                                     />
@@ -454,6 +453,17 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                                 <FiUser className="text-3xl font-semibold lg:block hidden" />
                             </Link>
                         )}
+
+                        <div
+                            onClick={() => setOpenCart(!openCart)}
+                            className="flex flex-col justify-center items-center relative lg:cursor-pointer"
+                        >
+                            <GiShoppingCart className="text-3xl font-thin" />
+                            
+                        </div>
+                        <div className="ml-2 lg:block hidden">
+                            <p className={`text-sm`}>My Cart</p>
+                        </div>
                     </div>
                 </div>
             </div>

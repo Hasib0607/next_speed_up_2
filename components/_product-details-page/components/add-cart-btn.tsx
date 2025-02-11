@@ -7,11 +7,14 @@ import {
     isEqlQty,
     isQtyLeft,
 } from '@/utils/_cart-utils/cart-utils';
-
+import { HiMinus, HiPlus } from 'react-icons/hi';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { getDataByType } from '@/helpers/getCustomDataByType';
+import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
 
 const AddCartBtn = ({
     setQty,
@@ -26,17 +29,35 @@ const AddCartBtn = ({
     filterV,
     onClick,
     buttonOne,
+    roundedBtn,
     product,
     children,
 }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
+    const router = useRouter();
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const { headersetting } = useSelector((state: RootState) => state.home); // Access updated Redux state
+    const { data: headerData } = useGetHeaderSettingsQuery({});
+    const headersetting = headerData?.data || {};
 
-    const { button } =
-        headersetting?.custom_design?.single_product_page?.[0] || {};
+    const customDesignData = getDataByType(
+        headersetting,
+        'single_product_page'
+    );
+
+    const {
+        button,
+        button_color,
+        button_bg_color,
+        button1,
+        button1_color,
+        button1_bg_color,
+        is_buy_now_cart,
+        is_buy_now_cart1,
+    } = customDesignData || {};
+
+    const isEmpty = Object.keys(customDesignData).length === 0;
 
     const isDisabled = useMemo(
         () => isEqlQty(product, variantId, cartList),
@@ -207,6 +228,11 @@ const AddCartBtn = ({
         }
     };
 
+    const buy_now = () => {
+        onClick();
+        router.push('/checkout');
+    };
+
     useEffect(() => {
         if (variantId) {
             setQty(1);
@@ -214,45 +240,105 @@ const AddCartBtn = ({
     }, [variantId, setQty]);
 
     return (
-        <div className="flex lg2:flex-row flex-col justify-start lg2:items-center gap-8 py-10">
-            <div className="flex border border-gray-300 divide-x-2 rounded-md w-max">
-                <div
-                    className="h-12 w-12  flex justify-center items-center hover:bg-black rounded-l-md hover:text-white font-semibold transition-all duration-300 ease-linear"
-                    onClick={decNum}
-                >
-                    <MinusIcon width={15} />
-                </div>
-                {isDisabled ? (
-                    <div className="center w-24 py-2 text-lg font-semibold">
-                        {qty}
-                    </div>
-                ) : (
+        <div className="flex flex-wrap lg2:flex-row flex-col justify-start lg2:items-center gap-5 py-5">
+            {roundedBtn ? (
+                <div className="w-max flex items-center">
+                    <button
+                        className="px-4 py-3 border border-gray-100 rounded-tl-full rounded-bl-full text-xl bg-gray-50 text-black"
+                        type="button"
+                        onClick={decNum}
+                    >
+                        <HiMinus />
+                    </button>
                     <input
                         type="number"
-                        className="form-control w-24 text-center border-0 outline-none py-2 text-lg font-semibold remove-arrow"
+                        className="form-control w-14 text-center border border-gray-100 outline-none py-[8px] text-lg font-semibold remove-arrow"
                         value={qty}
                         ref={inputRef}
                         onChange={(e) => handleInputChange(e)}
                     />
-                )}
-                <div
-                    className="h-12 w-12  flex justify-center items-center hover:bg-black rounded-r-md hover:text-white font-semibold transition-all duration-300 ease-linear"
-                    onClick={incNum}
-                >
-                    <PlusIcon width={15} />
+                    <button
+                        className="px-4 py-3 border border-gray-100 rounded-tr-full rounded-br-full text-xl bg-gray-50 text-black"
+                        type="button"
+                        onClick={incNum}
+                    >
+                        <HiPlus />
+                    </button>
                 </div>
-            </div>
+            ) : (
+                <div className="flex border border-gray-300 divide-x-2 rounded-md w-max">
+                    <div
+                        className="h-12 w-12  flex justify-center items-center hover:bg-black rounded-l-md hover:text-white font-semibold transition-all duration-300 ease-linear cursor-pointer"
+                        onClick={decNum}
+                    >
+                        <MinusIcon width={15} />
+                    </div>
+                    {isDisabled ? (
+                        <div className="center w-24 py-2 text-lg font-semibold">
+                            {qty}
+                        </div>
+                    ) : (
+                        <input
+                            type="number"
+                            className="form-control w-24 text-center border-0 outline-none py-2 text-lg font-semibold remove-arrow"
+                            value={qty}
+                            ref={inputRef}
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                    )}
+                    <div
+                        className="h-12 w-12  flex justify-center items-center hover:bg-black rounded-r-md hover:text-white font-semibold transition-all duration-300 ease-linear cursor-pointer"
+                        onClick={incNum}
+                    >
+                        <PlusIcon width={15} />
+                    </div>
+                </div>
+            )}
             <div className="">
                 {productQuantity === 0 ? (
                     <button className={buttonOne}>Out of Stock</button>
                 ) : (
                     <>
-                        <button className={buttonOne} onClick={onClick}>
-                            {children ? children : button || 'Add to cart'}
-                        </button>
+                        {isEmpty && (
+                            <div onClick={onClick} className={buttonOne}>
+                                {children ? children : 'Add to cart'}
+                            </div>
+                        )}
+                        {button && (
+                            <button
+                                className={buttonOne}
+                                onClick={
+                                    numberParser(is_buy_now_cart) == 1
+                                        ? buy_now
+                                        : onClick
+                                }
+                            >
+                                {button}
+                            </button>
+                        )}
                     </>
                 )}
             </div>
+            {isEmpty && (
+                <div onClick={buy_now} className={buttonOne}>
+                    {'ORDER NOW'}
+                </div>
+            )}
+            {button1 && (
+                <button
+                    onClick={
+                        numberParser(is_buy_now_cart1) == 1 ? buy_now : onClick
+                    }
+                    type="submit"
+                    className={
+                        buttonOne
+                            ? buttonOne
+                            : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`
+                    }
+                >
+                    {button1}
+                </button>
+            )}
         </div>
     );
 };

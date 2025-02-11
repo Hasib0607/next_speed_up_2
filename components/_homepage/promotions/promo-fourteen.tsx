@@ -1,7 +1,6 @@
 import { bannerImg } from '@/site-settings/siteUrl';
 
 const PromoFourteen = ({ banner }: any) => {
-
     return (
         <>
             {banner?.length > 0 && (
@@ -27,17 +26,18 @@ const PromoFourteen = ({ banner }: any) => {
                                 ))}
                         </div>
                         <div className="lg2:col-span-1 col-span-2 ">
-                            {banner?.length > 5 && banner
-                                ?.slice(4, 5)
-                                ?.map((item: any, index: number) => (
-                                    <div className="" key={index}>
-                                        <img
-                                            className="min-h-[345px] w-full object-cover object-center"
-                                            src={bannerImg + item?.image}
-                                            alt=""
-                                        />
-                                    </div>
-                                ))}
+                            {banner?.length > 4 &&
+                                banner
+                                    ?.slice(4, 5)
+                                    ?.map((item: any, index: number) => (
+                                        <div className="" key={index}>
+                                            <img
+                                                className="min-h-[345px] w-full object-cover object-center"
+                                                src={bannerImg + item?.image}
+                                                alt=""
+                                            />
+                                        </div>
+                                    ))}
                         </div>
                     </div>
                 </div>

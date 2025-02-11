@@ -64,6 +64,6 @@ function url() {
     return ''; // Optional: return an empty string if window is undefined (e.g., in server-side rendering)
 }
 
-// export const name = "watchtimebd.com";
+// export const name = "stylekitbd.com";
 export const name = url();
 // console.log(name);

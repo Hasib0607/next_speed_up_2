@@ -7,7 +7,7 @@ const Rate = ({ rating, className }: any) => {
                 rating={rating}
                 starRatedColor="#FBC029"
                 numberOfStars={5}
-                starDimension="18px"
+                starDimension="16px"
                 starSpacing="2px"
             />
         </div>

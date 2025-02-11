@@ -88,6 +88,7 @@ export default async function SingleProductDetails({
             <ViewContentGtm product={productData} />
             <ProductDetails
                 design={design}
+                headersetting={headersetting}
                 product={productData}
                 productId={productId}
             />
