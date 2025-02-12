@@ -1,4 +1,5 @@
 'use client';
+
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { CgMenuGridO } from 'react-icons/cg';
@@ -19,6 +20,7 @@ import { numberParser } from '@/helpers/numberParser';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
 import InfiniteLoader from '../loaders/infinite-loader';
+import { NotFoundMsg } from '@/utils/little-components';
 
 const CategoryEleven = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -28,7 +30,6 @@ const CategoryEleven = ({ catId, store_id, design }: any) => {
     const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
 
     const categoryStore = useSelector((state: any) => state?.category);
@@ -56,8 +57,8 @@ const CategoryEleven = ({ catId, store_id, design }: any) => {
     .border-hover:hover {
         border: 1px solid  ${bgColor};
     }
- 
     `;
+
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
             <style>{styleCss}</style>
@@ -99,15 +100,12 @@ const CategoryEleven = ({ catId, store_id, design }: any) => {
                         />
                     </div>
                     {/* All product card  */}
-
                     <div className="mt-4 mb-6 mx-4 md:mx-0 ">
                         <ProductSection
                             catId={catId}
                             open={open}
                             grid={grid}
-                            hasMore={hasMore}
                             paginate={paginate}
-                            setHasMore={setHasMore}
                             page={page}
                             setPage={setPage}
                             isPagination={isPagination}
@@ -138,9 +136,7 @@ const ProductSection = ({
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -169,18 +165,7 @@ const ProductSection = ({
 
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -255,12 +240,20 @@ const ProductSection = ({
                         style={{ height: 'auto', overflow: 'hidden' }}
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
-                        hasMore={hasMore}
-                        loader={<InfiniteLoader />}
+                        hasMore={paginate?.has_more_pages}
+                        loader={
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            (categoryPageProductsLoading && <InfiniteLoader />)
+                        }
                         endMessage={
-                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                No More Products
-                            </p>
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            categoryPageProductsLoading ? (
+                                <InfiniteLoader />
+                            ) : (
+                                <NotFoundMsg message={'No More Products'} />
+                            )
                         }
                     >
                         {grid === 'H' && (

@@ -1,4 +1,5 @@
 'use client';
+
 import Card17 from '@/components/card/card17';
 import Card6 from '@/components/card/card6';
 import Skeleton from '@/components/loaders/skeleton';
@@ -19,6 +20,7 @@ import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
 import { setSort } from '@/redux/features/filters/filterSlice';
 import InfiniteLoader from '../loaders/infinite-loader';
+import { NotFoundMsg } from '@/utils/little-components';
 
 const CategoryTwelve = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -28,7 +30,6 @@ const CategoryTwelve = ({ catId, store_id, design }: any) => {
     const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
 
     const categoryStore = useSelector((state: any) => state?.category);
@@ -46,17 +47,16 @@ const CategoryTwelve = ({ catId, store_id, design }: any) => {
     const textColor = design?.text_color;
 
     const styleCss = `
-    .text-hover:hover {
-      color:  ${bgColor};
-    }
-    .filter {
-        color:${textColor};
-        background:${bgColor};
-    }
-    .border-hover:hover {
-        border: 1px solid  ${bgColor};
-    }
- 
+        .text-hover:hover {
+        color:  ${bgColor};
+        }
+        .filter {
+            color:${textColor};
+            background:${bgColor};
+        }
+        .border-hover:hover {
+            border: 1px solid  ${bgColor};
+        }
     `;
 
     return (
@@ -106,9 +106,7 @@ const CategoryTwelve = ({ catId, store_id, design }: any) => {
                             catId={catId}
                             open={open}
                             grid={grid}
-                            hasMore={hasMore}
                             paginate={paginate}
-                            setHasMore={setHasMore}
                             page={page}
                             setPage={setPage}
                             isPagination={isPagination}
@@ -139,9 +137,7 @@ const ProductSection = ({
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -170,18 +166,7 @@ const ProductSection = ({
 
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -256,12 +241,20 @@ const ProductSection = ({
                         style={{ height: 'auto', overflow: 'hidden' }}
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
-                        hasMore={hasMore}
-                        loader={<InfiniteLoader />}
+                        hasMore={paginate?.has_more_pages}
+                        loader={
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            (categoryPageProductsLoading && <InfiniteLoader />)
+                        }
                         endMessage={
-                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                No More Products
-                            </p>
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            categoryPageProductsLoading ? (
+                                <InfiniteLoader />
+                            ) : (
+                                <NotFoundMsg message={'No More Products'} />
+                            )
                         }
                     >
                         {grid === 'H' && (
@@ -353,6 +346,7 @@ const ProductSection = ({
         </>
     );
 };
+
 const Filter = ({ onChange, setGrid, setOpen, open }: any) => {
     return (
         <div>
@@ -417,6 +411,7 @@ const Filter = ({ onChange, setGrid, setOpen, open }: any) => {
 const SingleCat = ({ item, design }: any) => {
     const [show, setShow] = useState(false);
     const { id }: any = useParams<{ id: string }>();
+
     useEffect(() => {
         if (item.cat) {
             for (let i = 0; i < item.cat.length; i++) {

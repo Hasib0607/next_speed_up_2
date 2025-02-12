@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: any = {
-    color: "",
+    color: '',
     price: null,
     sort: null,
-    statusBtn:'All'
+    statusBtn: 'All',
 };
 
 export const filterSlice = createSlice({
@@ -23,9 +23,16 @@ export const filterSlice = createSlice({
         setStatusBtn: (state, action: PayloadAction<any>) => {
             state.statusBtn = action.payload;
         },
+        resetFilters: (state) => {
+            state.color = '';
+            state.price = null;
+            state.sort = null;
+            state.statusBtn = 'All';
+        },
     },
 });
 
-export const {setColor,setPrice,setSort,setStatusBtn} = filterSlice.actions;
+export const { setColor, setPrice, setSort, setStatusBtn, resetFilters } =
+    filterSlice.actions;
 // Export the reducer
 export const { reducerPath, reducer } = filterSlice;

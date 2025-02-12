@@ -20,6 +20,7 @@ import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
 import { numberParser } from '@/helpers/numberParser';
 import InfiniteLoader from '../loaders/infinite-loader';
+import { NotFoundMsg } from '@/utils/little-components';
 
 const CategoryTwo = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -28,7 +29,6 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
     const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
 
     const { data: modulesData } = useGetModulesQuery({ store_id });
@@ -48,15 +48,15 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
     const styleCss = `
     .text-hover:hover {
       color:  ${bgColor};
-  }
-  .filter {
-    color:${textColor};
-    background:${bgColor};
-  }
-  .border-hover:hover {
-    border: 1px solid  ${bgColor};
-  }
-`;
+    }
+    .filter {
+        color:${textColor};
+        background:${bgColor};
+    }
+    .border-hover:hover {
+        border: 1px solid  ${bgColor};
+    }
+    `;
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
@@ -106,9 +106,7 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
                             catId={catId}
                             open={open}
                             grid={grid}
-                            hasMore={hasMore}
                             paginate={paginate}
-                            setHasMore={setHasMore}
                             page={page}
                             setPage={setPage}
                             isPagination={isPagination}
@@ -138,9 +136,7 @@ const ProductSection = ({
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -169,18 +165,7 @@ const ProductSection = ({
 
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -255,12 +240,20 @@ const ProductSection = ({
                         style={{ height: 'auto', overflow: 'hidden' }}
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
-                        hasMore={hasMore}
-                        loader={<InfiniteLoader />}
+                        hasMore={paginate?.has_more_pages}
+                        loader={
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            (categoryPageProductsLoading && <InfiniteLoader />)
+                        }
                         endMessage={
-                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                No More Products
-                            </p>
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            categoryPageProductsLoading ? (
+                                <InfiniteLoader />
+                            ) : (
+                                <NotFoundMsg message={'No More Products'} />
+                            )
                         }
                     >
                         {grid === 'H' && (
@@ -417,6 +410,7 @@ const Filter = ({ onChange, setGrid, setOpen, open }: any) => {
 const SingleCat = ({ item, design }: any) => {
     const [show, setShow] = useState(false);
     const { id }: any = useParams<{ id: string }>();
+
     useEffect(() => {
         if (item.cat) {
             for (let i = 0; i < item.cat.length; i++) {
@@ -424,10 +418,12 @@ const SingleCat = ({ item, design }: any) => {
             }
         }
     }, [item?.cat, id]);
+
     const activeColor = `text-[${design?.header_color}] flex-1 text-sm font-medium`;
     const inactiveColor = 'text-gray-500 flex-1 text-sm font-medium';
     const activesub = `text-[${design?.header_color}] pb-2 text-sm`;
     const inactivesub = `text-gray-600 pb-2 text-sm`;
+
     return (
         <>
             <div className="w-full flex py-3 lg:cursor-pointer">

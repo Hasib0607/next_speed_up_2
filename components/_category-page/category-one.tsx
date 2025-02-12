@@ -18,6 +18,7 @@ import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { RootState } from '@/redux/store';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
 import Pagination from '@/components/_category-page/components/pagination';
+import { NotFoundMsg } from '@/utils/little-components';
 
 const CategoryOne = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -34,8 +35,6 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
     const { color: activeColor, price: priceValue } = filtersData || {};
 
     const [paginate, setPaginate] = useState<any>({});
-    const [hasMore, setHasMore] = useState<any>(true);
-
     // setting the initial page number
     const [page, setPage] = useState(1);
 
@@ -66,11 +65,7 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
 
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [page, activeColor, categoryPageProductsRefetch, priceValue, paginate]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -110,7 +105,7 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
             });
         }
     }, [isPagination, paginate, page, products]);
-    
+
     const currentCatName = category?.find(
         (item: any) => item?.id == currentSecondPath
     );
@@ -207,12 +202,24 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
                                         }}
                                         dataLength={infiniteProducts?.length}
                                         next={nextPageFetch}
-                                        hasMore={hasMore}
-                                        loader={<InfiniteLoader />}
+                                        hasMore={paginate?.has_more_pages}
+                                        loader={
+                                            paginate?.has_more_pages ||
+                                            categoryPageProductsFetching ||
+                                            (categoryPageProductsLoading && (
+                                                <InfiniteLoader />
+                                            ))
+                                        }
                                         endMessage={
-                                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                                No More Products
-                                            </p>
+                                            paginate?.has_more_pages ||
+                                            categoryPageProductsFetching ||
+                                            categoryPageProductsLoading ? (
+                                                <InfiniteLoader />
+                                            ) : (
+                                                <NotFoundMsg
+                                                    message={'No More Products'}
+                                                />
+                                            )
                                         }
                                     >
                                         <div className="grid md:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">

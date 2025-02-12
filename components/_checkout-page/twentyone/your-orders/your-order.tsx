@@ -352,6 +352,8 @@ const YourOrders = ({
     }, [headersetting?.tax, total]);
 
     useEffect(() => {
+        // let isValidPhone = getCheckedValue(data?.phone, PHONE_NUMBER_REGEX);
+        // let isValidEmail = getCheckedValue(data?.email, EMAIL_REGEX);
         if (
             data?.total &&
             data?.payment_type &&

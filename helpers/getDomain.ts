@@ -14,5 +14,5 @@ export default async function getDomain() {
     }
 
     return url;
-    // return "stylekitbd.com";
+    // return "uncleflix.com";
 }

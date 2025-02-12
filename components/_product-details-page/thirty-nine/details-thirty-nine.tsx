@@ -24,9 +24,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { HSlider } from '../components/slider';
 import AddCartBtn from '../components/add-cart-btn';
 
-const DetailsThirtyNine = ({ design, product, children, buttonStyle }: any) => {
-    const { headersetting } = useSelector((state: RootState) => state.home);
-
+const DetailsThirtyNine = ({
+    design,
+    product,
+    children,
+    buttonStyle,
+    headersetting,
+}: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
 
@@ -161,10 +165,12 @@ const DetailsThirtyNine = ({ design, product, children, buttonStyle }: any) => {
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
+
     const save = howMuchSave(product);
-    const parsedRating = numberParser(product?.rating, true);
-    const parsedNumberRating = numberParser(product?.number_rating);
 
     const handleAddToCart = () => {
         addToCart({
@@ -183,6 +189,8 @@ const DetailsThirtyNine = ({ design, product, children, buttonStyle }: any) => {
             productQuantity,
         });
     };
+
+    console.log('variantId', variantId);
 
     const styleCss = `
     .btn-hover:hover {
@@ -330,7 +338,7 @@ const DetailsThirtyNine = ({ design, product, children, buttonStyle }: any) => {
                         </div>
                         <div className="text-[#5a5a5a] text-sm">
                             {productQuantity !== 0 ? (
-                                <p>
+                                <p className="space-x-2">
                                     <span className="font-medium">
                                         {productQuantity}
                                     </span>
