@@ -19,7 +19,7 @@ import DetailsThirtyNine from './details-thirty-nine';
 import { NotFoundMsg } from '@/utils/little-components';
 import VideoPlayer from '../components/video-player';
 
-const ThirtyNine = ({ store_id, productId, design }: any) => {
+const ThirtyNine = ({ store_id, productId, design, headersetting }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -82,7 +82,11 @@ const ThirtyNine = ({ store_id, productId, design }: any) => {
         <div className="">
             <div className="sm:container px-5">
                 {detailsContentSkeleton}
-                <DetailsThirtyNine design={design} product={product} />
+                <DetailsThirtyNine
+                    design={design}
+                    product={product}
+                    headersetting={headersetting}
+                />
 
                 {/* ************************ tab component start ***************************** */}
                 <div className="mt-14 bg-white">

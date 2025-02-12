@@ -1,4 +1,5 @@
 'use client';
+
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -17,16 +18,15 @@ import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
 import { setSort } from '@/redux/features/filters/filterSlice';
 import InfiniteLoader from '../loaders/infinite-loader';
+import CategoryBreadcrumb from '@/utils/CategoryBreadcrumb';
+import { NotFoundMsg } from '@/utils/little-components';
 
 const CategoryThirtyFive = ({ catId, store_id, design }: any) => {
     const module_id = 105;
     const dispatch = useDispatch();
 
-    const [grid, setGrid] = useState('H');
-    const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
     const [show, setShow] = useState(true);
 
@@ -49,13 +49,13 @@ const CategoryThirtyFive = ({ catId, store_id, design }: any) => {
     .text-hover:hover {
         color:  ${design?.header_color};
         } 
-`;
+    `;
 
     return (
         <div>
             <div className="border-b-2 py-3 mb-2 border-black">
                 <style>{styleCss}</style>
-                <Location />
+                <CategoryBreadcrumb catId={catId} />
             </div>
             <div className="sm:container px-5 sm:py-10 py-5">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
@@ -100,19 +100,12 @@ const CategoryThirtyFive = ({ catId, store_id, design }: any) => {
                                 dispatch(setSort(e.target.value));
                                 setPage(1);
                             }}
-                            setGrid={setGrid}
-                            setOpen={setOpen}
-                            open={open}
                             paginate={paginate}
                         />
                         <div className="flex-1">
                             <ProductSection
                                 catId={catId}
-                                open={open}
-                                grid={grid}
-                                hasMore={hasMore}
                                 paginate={paginate}
-                                setHasMore={setHasMore}
                                 page={page}
                                 setPage={setPage}
                                 isPagination={isPagination}
@@ -138,14 +131,10 @@ const CategoryThirtyFive = ({ catId, store_id, design }: any) => {
 export default CategoryThirtyFive;
 
 const ProductSection = ({
-    grid,
-    open,
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -169,23 +158,9 @@ const ProductSection = ({
         setPage((prevPage: number) => prevPage + 1);
     };
 
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
-
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -198,7 +173,6 @@ const ProductSection = ({
             const productsData = categoryPageProductsData?.data?.products || [];
             const paginationData =
                 categoryPageProductsData?.data?.pagination || {};
-
             setPaginate(paginationData);
             setProducts(productsData);
         }
@@ -246,12 +220,20 @@ const ProductSection = ({
                         style={{ height: 'auto', overflow: 'hidden' }}
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
-                        hasMore={hasMore}
-                        loader={<InfiniteLoader />}
+                        hasMore={paginate?.has_more_pages}
+                        loader={
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            (categoryPageProductsLoading && <InfiniteLoader />)
+                        }
                         endMessage={
-                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                No More Products
-                            </p>
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            categoryPageProductsLoading ? (
+                                <InfiniteLoader />
+                            ) : (
+                                <NotFoundMsg message={'No More Products'} />
+                            )
                         }
                     >
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 px-2 sm:px-0">
@@ -288,34 +270,6 @@ const ProductSection = ({
                 </div>
             )}
         </>
-    );
-};
-
-const Location = () => {
-    const [activecat, setActivecat] = useState(null);
-    const { id }: any = useParams<{ id: string }>();
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
-
-    useEffect(() => {
-        for (let i = 0; i < category.length; i++) {
-            if (category[i]?.subcategories) {
-                for (let j = 0; j < category[i].subcategories.length; j++) {
-                    if (category[i]?.subcategories[j]?.id == id) {
-                        setActivecat(category[i]?.subcategories[j]?.name);
-                    }
-                }
-            }
-            if (category[i]?.id == id) {
-                setActivecat(category[i].name);
-            }
-        }
-    }, [category]);
-    return (
-        <div className="w-full sm:container px-5 text-[#414141] flex gap-1 items-center justify-start py-2 text-sm">
-            <p>Home </p>
-            <p> / Shop / {activecat}</p>
-        </div>
     );
 };
 

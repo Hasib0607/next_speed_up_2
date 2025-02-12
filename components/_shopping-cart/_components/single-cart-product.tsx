@@ -12,9 +12,10 @@ import BDT from '@/utils/bdt';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { MinusIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useMemo } from 'react';
 import { numberParser } from '@/helpers/numberParser';
+import { removeFromCartList } from '@/redux/features/cart/cartSlice';
 
 const SingleCartProduct = ({ product, design }: any) => {
     const dispatch = useDispatch<AppDispatch>();
@@ -44,14 +45,28 @@ const SingleCartProduct = ({ product, design }: any) => {
 
                 <div className="ml-4 flex justify-around flex-col">
                     <div className="flex flex-col">
-                        <Link
-                            href={
-                                '/product/' + product?.id + '/' + product?.slug
-                            }
-                            className="sm:text-sm text-xs text-gray-900 focus:outline-none"
-                        >
-                            {product?.name}
-                        </Link>
+                        <div className="flex justify-between lg:cursor-pointer">
+                            <Link
+                                href={
+                                    '/product/' +
+                                    product?.id +
+                                    '/' +
+                                    product?.slug
+                                }
+                                className="sm:text-sm text-xs text-gray-900 focus:outline-none"
+                            >
+                                {product?.name}
+                            </Link>
+                            <TrashIcon
+                                onClick={() =>
+                                    dispatch(
+                                        removeFromCartList(product?.cartId)
+                                    )
+                                }
+                                width={15}
+                                className={'text-gray-700'}
+                            />{' '}
+                        </div>
                         <div className="flex items-center">
                             {cartProductVariant?.color ? (
                                 <div className="flex items-center gap-2 pr-2">

@@ -18,7 +18,7 @@ import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getValueByKey } from './customLang';
-import { classNames } from '@/helpers/littleSpicy';
+import { classNames, getCheckedValue } from '@/helpers/littleSpicy';
 
 type FormValues = {
     name: string;
@@ -195,11 +195,12 @@ const CheckoutFrom = ({
         }
 
         if (name === 'phone') {
-            let isValidValue = PHONE_NUMBER_REGEX.test(value.toString());
-            if (!isValidValue) {
+            let isValidPhone = getCheckedValue(value, PHONE_NUMBER_REGEX);
+            if (!isValidPhone) {
                 setError('phone', {
                     type: 'manual',
-                    message: 'Invalid phone number',
+                    message: 'Need 11 digits',
+                    // message: 'Invalid phone number',
                 });
             } else {
                 clearErrors(name);
@@ -207,8 +208,8 @@ const CheckoutFrom = ({
             }
         }
         if (name === 'email') {
-            let isValidValue = EMAIL_REGEX.test(value.toString());
-            if (!isValidValue) {
+            let isValidEmail = getCheckedValue(value, EMAIL_REGEX);
+            if (!isValidEmail) {
                 setError('email', {
                     type: 'manual',
                     message: 'Invalid email address',
@@ -250,6 +251,7 @@ const CheckoutFrom = ({
         }
         modal ? setOpen(false) : null;
     };
+
     // update address
     const updateAddress = (data: any) => {
         // exporting data with product id
@@ -285,7 +287,7 @@ const CheckoutFrom = ({
         }
     }, [districtData, districtSuccess]);
 
-    // Extracting data from db
+    // Extracting language from db
     useEffect(() => {
         const userFormFields = userFormFieldsData?.data || [];
         const filteredFields = userFormFields?.filter(

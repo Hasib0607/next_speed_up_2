@@ -8,22 +8,19 @@ import Skeleton from '@/components/loaders/skeleton';
 import Card50 from '@/components/card/card50';
 import Link from 'next/link';
 import './category-twentyfive.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { numberParser } from '@/helpers/numberParser';
 import InfiniteLoader from '../loaders/infinite-loader';
+import { NotFoundMsg } from '@/utils/little-components';
 
 const CategoryTwentyFive = ({ catId, store_id, design }: any) => {
     const module_id = 105;
-    const dispatch = useDispatch();
 
-    const [grid, setGrid] = useState('H');
-    const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
 
     const categoryStore = useSelector((state: any) => state?.category);
@@ -48,8 +45,6 @@ const CategoryTwentyFive = ({ catId, store_id, design }: any) => {
                                     item={item}
                                     key={item?.id}
                                     design={design}
-                                    setPage={setPage}
-                                    setHasMore={setHasMore}
                                 />
                             ))}
                         </div>
@@ -58,9 +53,7 @@ const CategoryTwentyFive = ({ catId, store_id, design }: any) => {
                         <div className="flex-1">
                             <ProductSection
                                 catId={catId}
-                                hasMore={hasMore}
                                 paginate={paginate}
-                                setHasMore={setHasMore}
                                 page={page}
                                 setPage={setPage}
                                 isPagination={isPagination}
@@ -89,9 +82,7 @@ const ProductSection = ({
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -115,21 +106,9 @@ const ProductSection = ({
         setPage((prevPage: number) => prevPage + 1);
     };
 
-
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -142,7 +121,6 @@ const ProductSection = ({
             const productsData = categoryPageProductsData?.data?.products || [];
             const paginationData =
                 categoryPageProductsData?.data?.pagination || {};
-
             setPaginate(paginationData);
             setProducts(productsData);
         }
@@ -186,12 +164,24 @@ const ProductSection = ({
                                 style={{ height: 'auto', overflow: 'hidden' }}
                                 dataLength={infiniteProducts?.length}
                                 next={nextPageFetch}
-                                hasMore={hasMore}
-                                loader={<InfiniteLoader />}
+                                hasMore={paginate?.has_more_pages}
+                                loader={
+                                    paginate?.has_more_pages ||
+                                    categoryPageProductsFetching ||
+                                    (categoryPageProductsLoading && (
+                                        <InfiniteLoader />
+                                    ))
+                                }
                                 endMessage={
-                                    <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                        No More Products
-                                    </p>
+                                    paginate?.has_more_pages ||
+                                    categoryPageProductsFetching ||
+                                    categoryPageProductsLoading ? (
+                                        <InfiniteLoader />
+                                    ) : (
+                                        <NotFoundMsg
+                                            message={'No More Products'}
+                                        />
+                                    )
                                 }
                             >
                                 {infiniteProducts?.length > 0 && (
@@ -221,16 +211,10 @@ const ProductSection = ({
     );
 };
 
-const SingleCat = ({
-    item,
-    design,
-    select,
-    setSelect,
-    setPage,
-    setHasMore,
-}: any) => {
+const SingleCat = ({ item, design, select, setSelect }: any) => {
     const [show, setShow] = useState(false);
     const { id }: any = useParams<{ id: string }>();
+
     useEffect(() => {
         if (item.cat) {
             for (let i = 0; i < item.cat.length; i++) {
@@ -238,10 +222,12 @@ const SingleCat = ({
             }
         }
     }, [item?.cat, id]);
+
     const activeColor = `text-[${design?.header_color}] w-max`;
     const inactiveColor = 'text-gray-500 w-max';
     const activesub = `text-[${design?.header_color}] text-sm w-max`;
     const inactivesub = `text-gray-600 text-sm w-max`;
+
     return (
         <div onMouseLeave={() => setShow(false)} className="relative">
             <div
@@ -292,8 +278,6 @@ const SingleCat = ({
                                 <Link
                                     onClick={() => {
                                         setSelect(item.id);
-                                        setPage(1);
-                                        setHasMore(true);
                                     }}
                                     href={'/category/' + sub?.id}
                                 >

@@ -6,6 +6,7 @@ import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 // components imports
 import Shop from '@/components/Shop';
 import getDesign from '@/utils/fetcher/getDesign';
+import ResetFilter from '@/utils/ResetFilter';
 
 export async function generateMetadata() {
     const headersetting = await getHeaderSetting();
@@ -20,5 +21,10 @@ export async function generateMetadata() {
 export default async function ShopPage() {
     const design = await getDesign();
 
-    return <Shop design={design} />;
+    return (
+        <>
+            <ResetFilter />
+            <Shop design={design} />
+        </>
+    );
 }

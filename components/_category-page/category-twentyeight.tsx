@@ -20,6 +20,8 @@ import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
 import { setSort } from '@/redux/features/filters/filterSlice';
 import InfiniteLoader from '../loaders/infinite-loader';
+import CategoryBreadcrumb from '@/utils/CategoryBreadcrumb';
+import { NotFoundMsg } from '@/utils/little-components';
 
 const CategoryTwentyEight = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -29,7 +31,6 @@ const CategoryTwentyEight = ({ catId, store_id, design }: any) => {
     const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
 
     const categoryStore = useSelector((state: any) => state?.category);
@@ -51,11 +52,11 @@ const CategoryTwentyEight = ({ catId, store_id, design }: any) => {
     .sec-twenty-nine{
         border-bottom: 2px solid ${design?.header_color};
     }
- `;
+    `;
 
     return (
         <div>
-            <Location catId={catId} />
+            <CategoryBreadcrumb catId={catId} />
 
             <div className="sm:container px-5">
                 <style>{styleCss}</style>
@@ -97,9 +98,7 @@ const CategoryTwentyEight = ({ catId, store_id, design }: any) => {
                             <ProductSection
                                 catId={catId}
                                 grid={grid}
-                                hasMore={hasMore}
                                 paginate={paginate}
-                                setHasMore={setHasMore}
                                 page={page}
                                 setPage={setPage}
                                 isPagination={isPagination}
@@ -129,9 +128,7 @@ const ProductSection = ({
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -157,21 +154,7 @@ const ProductSection = ({
 
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        } else if (infiniteProducts?.length === 0) {
-            setHasMore(false);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-        infiniteProducts,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -231,12 +214,20 @@ const ProductSection = ({
                         style={{ height: 'auto', overflow: 'hidden' }}
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
-                        hasMore={hasMore}
-                        loader={<InfiniteLoader />}
+                        hasMore={paginate?.has_more_pages}
+                        loader={
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            (categoryPageProductsLoading && <InfiniteLoader />)
+                        }
                         endMessage={
-                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                No More Products
-                            </p>
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            categoryPageProductsLoading ? (
+                                <InfiniteLoader />
+                            ) : (
+                                <NotFoundMsg message={'No More Products'} />
+                            )
                         }
                     >
                         {grid === 'H' && (
@@ -326,38 +317,6 @@ const ProductSection = ({
                 </div>
             )}
         </>
-    );
-};
-
-const Location = ({ catId }: any) => {
-    const [activecat, setActivecat] = useState(false);
-    const categoryStore = useSelector((state: any) => state?.category);
-
-    useEffect(() => {
-        const category = categoryStore?.categories || [];
-
-        for (let i = 0; i < category.length; i++) {
-            if (category[i]?.subcategories) {
-                for (let j = 0; j < category[i].subcategories.length; j++) {
-                    if (category[i]?.subcategories[j]?.id == catId) {
-                        setActivecat(category[i]?.subcategories[j]?.name);
-                    }
-                }
-            }
-            if (category[i]?.id == catId) {
-                setActivecat(category[i].name);
-            }
-        }
-    }, [categoryStore, catId]);
-
-    return (
-        <div className="w-full bg-[#f1f1f1] flex flex-col justify-center items-center py-5 mb-5">
-            <h1 className="text-3xl font-medium ">প্রোডাক্ট</h1>
-            <div className="flex items-center gap-1">
-                <p>Home</p>
-                <p>/ {activecat}</p>
-            </div>
-        </div>
     );
 };
 

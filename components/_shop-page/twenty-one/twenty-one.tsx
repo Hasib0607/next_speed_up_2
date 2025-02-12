@@ -330,7 +330,7 @@ const Location = () => {
             <h1 className="text-3xl font-medium ">Product</h1>
             <div className="flex items-center gap-1">
                 <p>Home</p>
-                <p>/ {'shop'}</p>
+                <p>/ Shop</p>
             </div>
         </div>
     );

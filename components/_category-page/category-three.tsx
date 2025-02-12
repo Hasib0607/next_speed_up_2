@@ -5,10 +5,7 @@ import Card23 from '@/components/card/card23';
 import Card6 from '@/components/card/card6';
 import Skeleton from '@/components/loaders/skeleton';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import {
-    useGetCategoryPageProductsQuery,
-    useGetColorsQuery,
-} from '@/redux/features/shop/shopApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
 import { Bars3Icon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -17,14 +14,13 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { CgMenuGridO } from 'react-icons/cg';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { ThreeDots } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { setSort } from '@/redux/features/filters/filterSlice';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
 import { numberParser } from '@/helpers/numberParser';
 import InfiniteLoader from '../loaders/infinite-loader';
+import { NotFoundMsg } from '@/utils/little-components';
 
 const CategoryThree = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -34,7 +30,6 @@ const CategoryThree = ({ catId, store_id, design }: any) => {
     const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
 
     const categoryStore = useSelector((state: any) => state?.category);
@@ -42,7 +37,7 @@ const CategoryThree = ({ catId, store_id, design }: any) => {
 
     const { data: modulesData } = useGetModulesQuery({ store_id });
     const modules = modulesData?.data || [];
-    
+
     const paginationModule = modules?.find(
         (item: any) => item?.modulus_id === module_id
     );
@@ -52,17 +47,17 @@ const CategoryThree = ({ catId, store_id, design }: any) => {
     const textColor = design?.text_color;
 
     const styleCss = `
-    .text-hover:hover {
-      color:  ${bgColor};
-  }
-  .filter {
-    color:${textColor};
-    background:${bgColor};
-  }
-  .border-hover:hover {
-    border: 1px solid  ${bgColor};
-  }
-`;
+        .text-hover:hover {
+        color:  ${bgColor};
+        }
+        .filter {
+            color:${textColor};
+            background:${bgColor};
+        }
+        .border-hover:hover {
+            border: 1px solid  ${bgColor};
+        }
+    `;
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
@@ -112,9 +107,7 @@ const CategoryThree = ({ catId, store_id, design }: any) => {
                             catId={catId}
                             open={open}
                             grid={grid}
-                            hasMore={hasMore}
                             paginate={paginate}
-                            setHasMore={setHasMore}
                             page={page}
                             setPage={setPage}
                             isPagination={isPagination}
@@ -145,9 +138,7 @@ const ProductSection = ({
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -176,18 +167,7 @@ const ProductSection = ({
 
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -262,49 +242,61 @@ const ProductSection = ({
                         style={{ height: 'auto', overflow: 'hidden' }}
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
-                        hasMore={hasMore}
-                        loader={<InfiniteLoader />}
+                        hasMore={paginate?.has_more_pages}
+                        loader={
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            (categoryPageProductsLoading && <InfiniteLoader />)
+                        }
                         endMessage={
-                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                No More Products
-                            </p>
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            categoryPageProductsLoading ? (
+                                <InfiniteLoader />
+                            ) : (
+                                <NotFoundMsg message={'No More Products'} />
+                            )
                         }
                     >
                         {grid === 'H' && (
                             <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 xl:grid-cols-4 md:gap-5 grid-cols-2 gap-2 mt-10">
-                                {infiniteProducts?.map((item: any, key: number) => (
-                                    <motion.div
-                                        key={key}
-                                        initial={{ scale: 0 }}
-                                        animate={{ scale: 1 }}
-                                        transition={{
-                                            duration: 0.5,
-                                            ease: 'linear',
-                                        }}
-                                    >
-                                        <Card23 item={item} />
-                                    </motion.div>
-                                ))}
+                                {infiniteProducts?.map(
+                                    (item: any, key: number) => (
+                                        <motion.div
+                                            key={key}
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{
+                                                duration: 0.5,
+                                                ease: 'linear',
+                                            }}
+                                        >
+                                            <Card23 item={item} />
+                                        </motion.div>
+                                    )
+                                )}
                             </div>
                         )}
                         <AnimatePresence>
                             {grid === 'V' && (
                                 <div className="grid grid-cols-1 lg:gap-5 md:gap-5 gap-2 mt-10">
-                                    {infiniteProducts?.map((item: any, key: number) => (
-                                        <motion.div
-                                            key={key}
-                                            className=""
-                                            initial={{ translateX: 200 }}
-                                            animate={{ translateX: 0 }}
-                                            transition={{
-                                                duration: 0.5,
-                                                ease: 'linear',
-                                                type: 'tween',
-                                            }}
-                                        >
-                                            <Card6 item={item} />
-                                        </motion.div>
-                                    ))}
+                                    {infiniteProducts?.map(
+                                        (item: any, key: number) => (
+                                            <motion.div
+                                                key={key}
+                                                className=""
+                                                initial={{ translateX: 200 }}
+                                                animate={{ translateX: 0 }}
+                                                transition={{
+                                                    duration: 0.5,
+                                                    ease: 'linear',
+                                                    type: 'tween',
+                                                }}
+                                            >
+                                                <Card6 item={item} />
+                                            </motion.div>
+                                        )
+                                    )}
                                 </div>
                             )}
                         </AnimatePresence>
@@ -420,6 +412,7 @@ const Filter = ({ onChange, setGrid, setOpen, open }: any) => {
 const SingleCat = ({ item, design }: any) => {
     const [show, setShow] = useState(false);
     const { id }: any = useParams<{ id: string }>();
+
     useEffect(() => {
         if (item.cat) {
             for (let i = 0; i < item.cat.length; i++) {
@@ -427,10 +420,12 @@ const SingleCat = ({ item, design }: any) => {
             }
         }
     }, [item?.cat, id]);
+
     const activeColor = `text-[${design?.header_color}] flex-1 text-sm font-medium`;
     const inactiveColor = 'text-gray-500 flex-1 text-sm font-medium';
     const activesub = `text-[${design?.header_color}] pb-2 text-sm`;
     const inactivesub = `text-gray-600 pb-2 text-sm`;
+
     return (
         <>
             <div className="w-full flex py-3 lg:cursor-pointer">

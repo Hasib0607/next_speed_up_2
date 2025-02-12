@@ -5,14 +5,15 @@ export const NotFoundMsg = ({ message, className }: any) => {
         <div className="center flex-1">
             <h3
                 className={
-                    className ? className : 'text-xl font-sans font-bold py-5'
+                    className ?? 'text-xl font-sans font-bold py-5'
                 }
             >
-                {message}
+                {message ?? "Not Found"}
             </h3>
         </div>
     );
 };
+
 
 export const AlertPopups = () => {
     const [showFirstAlert, setShowFirstAlert] = useState(true); // First alert visibility

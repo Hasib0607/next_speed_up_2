@@ -91,9 +91,6 @@ const LoginTwentyOne = ({ headersetting, design, appStore }: any) => {
     }
       `;
 
-      console.log("ded");
-      
-
     return (
         <div className="py-20 lg:py-[120px] sm:container px-5 xl:px-24">
             <div className="">
@@ -122,113 +119,113 @@ const LoginTwentyOne = ({ headersetting, design, appStore }: any) => {
                 }`}
             >
                 <style>{styleCss}</style>
-                    <section className="" id="sign-in">
-                        <div className="flex flex-wrap mx-auto">
-                            <div className="w-full px-4">
-                                <div className="w-full mx-auto text-center bg-white rounded-lg relative overflow-hidden py-5 sm:px-10">
-                                    <div className="mb-10 md:mb-6 text-center">
-                                        <div className="inline-block">
-                                            <h2 className="text-xl font-bold mt-2 uppercase">
-                                                Login
-                                            </h2>
-                                        </div>
+                <section className="" id="sign-in">
+                    <div className="flex flex-wrap mx-auto">
+                        <div className="w-full px-4">
+                            <div className="w-full mx-auto text-center bg-white rounded-lg relative overflow-hidden py-5 sm:px-10">
+                                <div className="mb-10 md:mb-6 text-center">
+                                    <div className="inline-block">
+                                        <h2 className="text-xl font-bold mt-2 uppercase">
+                                            Login
+                                        </h2>
                                     </div>
-                                    <form onSubmit={handleSubmit(onSubmit)}>
-                                        {appStore?.auth_type === 'phone' ||
-                                        appStore?.auth_type === 'EasyOrder' ? (
-                                            <div className="mb-6">
-                                                <input
-                                                    autoComplete="tel"
-                                                    type="Number"
-                                                    placeholder="Phone"
-                                                    {...register('phone', {
-                                                        required: true,
-                                                    })}
-                                                    className={cls}
-                                                />
-                                            </div>
-                                        ) : (
-                                            <div className="mb-6">
-                                                <input
-                                                    autoComplete="tel"
-                                                    type="email"
-                                                    placeholder="Email"
-                                                    {...register('phone', {
-                                                        required: true,
-                                                    })}
-                                                    className={cls}
-                                                />
-                                            </div>
-                                        )}
-                                        <div className="mb-6 relative">
+                                </div>
+                                <form onSubmit={handleSubmit(onSubmit)}>
+                                    {appStore?.auth_type === 'phone' ||
+                                    appStore?.auth_type === 'EasyOrder' ? (
+                                        <div className="mb-6">
                                             <input
-                                                type={`${show ? 'text' : 'password'}`}
-                                                placeholder="Password"
-                                                {...register('password', {
+                                                autoComplete="tel"
+                                                type="Number"
+                                                placeholder="Phone"
+                                                {...register('phone', {
                                                     required: true,
                                                 })}
                                                 className={cls}
                                             />
-                                            <div className="absolute right-2 top-1/2 -translate-y-1/2 z-[2] lg:cursor-pointer">
-                                                {show ? (
-                                                    <BsEye
-                                                        onClick={() =>
-                                                            setShow(!show)
-                                                        }
-                                                    />
-                                                ) : (
-                                                    <BsEyeSlash
-                                                        onClick={() =>
-                                                            setShow(!show)
-                                                        }
-                                                    />
-                                                )}
-                                            </div>
                                         </div>
-                                        <div className="mb-10">
-                                            {loading ? (
-                                                <Loading />
+                                    ) : (
+                                        <div className="mb-6">
+                                            <input
+                                                autoComplete="tel"
+                                                type="email"
+                                                placeholder="Email"
+                                                {...register('phone', {
+                                                    required: true,
+                                                })}
+                                                className={cls}
+                                            />
+                                        </div>
+                                    )}
+                                    <div className="mb-6 relative">
+                                        <input
+                                            type={`${show ? 'text' : 'password'}`}
+                                            placeholder="Password"
+                                            {...register('password', {
+                                                required: true,
+                                            })}
+                                            className={cls}
+                                        />
+                                        <div className="absolute right-2 top-1/2 -translate-y-1/2 z-[2] lg:cursor-pointer">
+                                            {show ? (
+                                                <BsEye
+                                                    onClick={() =>
+                                                        setShow(!show)
+                                                    }
+                                                />
                                             ) : (
-                                                <input
-                                                    type="submit"
-                                                    value="Sign In"
-                                                    className={`w-full font-bold tracking-wider rounded-md py-3 px-5 cart-btn text-base lg:cursor-pointer transition ${btnhover}`}
+                                                <BsEyeSlash
+                                                    onClick={() =>
+                                                        setShow(!show)
+                                                    }
                                                 />
                                             )}
                                         </div>
-                                    </form>
+                                    </div>
+                                    <div className="mb-10">
+                                        {loading ? (
+                                            <Loading />
+                                        ) : (
+                                            <input
+                                                type="submit"
+                                                value="Sign In"
+                                                className={`w-full font-bold tracking-wider rounded-md py-3 px-5 cart-btn text-base lg:cursor-pointer transition ${btnhover}`}
+                                            />
+                                        )}
+                                    </div>
+                                </form>
 
-                                    <Link
-                                        href="/forgot-password"
-                                        className="text-base inline-block mb-2 text-[#adadad] hover:underline hover:text-primary"
-                                    >
-                                        Forgot Password?
-                                    </Link>
-                                    {(appStore?.auth_type !== 'EasyOrder' ||
-                                        activeModule) && (
-                                        <p className="text-base text-[#adadad]">
-                                            Don&apos;t Have an Account?
-                                            <a
-                                                href="/sign-up"
-                                                className="text-primary hover:underline text-color"
-                                            >
-                                                Sign Up
-                                            </a>
-                                        </p>
-                                    )}
-                                    <div></div>
-                                </div>
+                                <Link
+                                    href="/forgot-password"
+                                    className="text-base inline-block mb-2 text-[#adadad] hover:underline hover:text-primary"
+                                >
+                                    Forgot Password?
+                                </Link>
+                                {(appStore?.auth_type !== 'EasyOrder' ||
+                                    activeModule) && (
+                                    <p className="text-base text-[#adadad]">
+                                        Don&apos;t Have an Account?
+                                        <a
+                                            href="/sign-up"
+                                            className="text-primary hover:underline text-color"
+                                        >
+                                            Sign Up
+                                        </a>
+                                    </p>
+                                )}
+                                <div></div>
                             </div>
                         </div>
-                        <div className="flex justify-center w-full">
-                            {/* <LoginWith /> */}
-                        </div>
+                    </div>
+                    <div className="flex justify-center w-full">
+                        {/* <LoginWith /> */}
+                    </div>
+                </section>
+                {appStore?.auth_type !== 'EasyOrder' && (
+                    <section className="" id="sign-up">
+                        {/* <RegisterTwentyOne /> */}
                     </section>
-                    {appStore?.auth_type !== 'EasyOrder' && (
-                        <section className="" id="sign-up">
-                            {/* <RegisterTwentyOne /> */}
-                        </section>
-                    )}
+                )}
             </div>
         </div>
     );

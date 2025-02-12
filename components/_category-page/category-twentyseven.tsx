@@ -1,4 +1,5 @@
 'use client';
+
 import Card51 from '@/components/card/card51';
 import Skeleton from '@/components/loaders/skeleton';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
@@ -16,16 +17,16 @@ import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { numberParser } from '@/helpers/numberParser';
 import { setSort } from '@/redux/features/filters/filterSlice';
 import InfiniteLoader from '../loaders/infinite-loader';
+import CategoryBreadcrumb from '@/utils/CategoryBreadcrumb';
+import { NotFoundMsg } from '@/utils/little-components';
 
 const CategoryTwentySeven = ({ catId, store_id, design }: any) => {
     const module_id = 105;
     const dispatch = useDispatch();
 
-    const [grid, setGrid] = useState('H');
     const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
     const [active, setActive] = useState(true);
 
@@ -54,12 +55,12 @@ const CategoryTwentySeven = ({ catId, store_id, design }: any) => {
     .grid-active {
       color:  ${design?.header_color};
       border: 1px solid ${design?.header_color};
-  }
- `;
+    }
+    `;
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
-            <Location />
+            <CategoryBreadcrumb catId={catId} />
 
             <div className="">
                 <style>{styleCss}</style>
@@ -82,7 +83,7 @@ const CategoryTwentySeven = ({ catId, store_id, design }: any) => {
                                     open ? 'max-h-[1000px]' : 'max-h-0'
                                 } ${active ? 'overflow-hidden' : ''}`}
                             >
-                                {category?.map((item: any, key: number) => (
+                                {category?.map((item: any) => (
                                     <SingleCat
                                         key={item?.id}
                                         item={item}
@@ -97,20 +98,13 @@ const CategoryTwentySeven = ({ catId, store_id, design }: any) => {
                                 dispatch(setSort(e.target.value));
                                 setPage(1);
                             }}
-                            setGrid={setGrid}
-                            setOpen={setOpen}
-                            open={open}
                         />
                     </div>
                     <div className="col-span-1 md:col-span-9 flex flex-col min-h-[100vh-200px] h-full ">
                         <div className="flex-1">
                             <ProductSection
                                 catId={catId}
-                                open={open}
-                                grid={grid}
-                                hasMore={hasMore}
                                 paginate={paginate}
-                                setHasMore={setHasMore}
                                 page={page}
                                 setPage={setPage}
                                 isPagination={isPagination}
@@ -136,14 +130,10 @@ const CategoryTwentySeven = ({ catId, store_id, design }: any) => {
 export default CategoryTwentySeven;
 
 const ProductSection = ({
-    grid,
-    open,
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -167,23 +157,9 @@ const ProductSection = ({
         setPage((prevPage: number) => prevPage + 1);
     };
 
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
-
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -244,12 +220,20 @@ const ProductSection = ({
                         style={{ height: 'auto', overflow: 'hidden' }}
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
-                        hasMore={hasMore}
-                        loader={<InfiniteLoader />}
+                        hasMore={paginate?.has_more_pages}
+                        loader={
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            (categoryPageProductsLoading && <InfiniteLoader />)
+                        }
                         endMessage={
-                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                No More Products
-                            </p>
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            categoryPageProductsLoading ? (
+                                <InfiniteLoader />
+                            ) : (
+                                <NotFoundMsg message={'No More Products'} />
+                            )
                         }
                     >
                         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-2 sm:px-0">
@@ -347,6 +331,7 @@ const Filter = ({ onChange }: any) => {
 const SingleCat = ({ item, setOpen, design }: any) => {
     const [show, setShow] = useState(false);
     const { id }: any = useParams<{ id: string }>();
+
     useEffect(() => {
         if (item.cat) {
             for (let i = 0; i < item.cat.length; i++) {
@@ -354,10 +339,12 @@ const SingleCat = ({ item, setOpen, design }: any) => {
             }
         }
     }, [item?.cat, id]);
+
     const activeColor = `text-[${design?.header_color}] flex-1 text-lg font-medium`;
     const inactiveColor = 'text-gray-500 flex-1 text-lg font-medium';
     const activesub = `text-[${design?.header_color}] py-2 px-4 text-sm`;
     const inactivesub = `text-gray-600 py-2 px-4 text-sm`;
+
     return (
         <div className="">
             <div className="w-full border rounded-xl mb-2">

@@ -4,12 +4,30 @@ import { numberParser } from './numberParser';
 export const getLastArr = (arr: any[]): any => arr.at(arr.length - 1);
 export const getFastArr = (arr: any[]): any => arr.at(0);
 
-export const productCurrentPrice = (product: any) =>
-    numberParser(
-        product?.product_offer?.status
-            ? product?.product_offer?.offer_price
-            : product?.calculate_regular_price
-    );
+export const getCheckedValue = (value: any, regEx: any) => {
+    return regEx.test(value.toString());
+};
+
+export const productCurrentPrice = (product: any, variantId?: any) => {
+    const { variant } = product || [];
+
+    const productVariant = variant?.find((item: any) => item?.id === variantId);
+    const additionalPrice = productVariant?.additional_price;
+
+    if (variant?.length > 0 && variantId) {
+        return numberParser(
+            product?.product_offer?.status
+                ? product?.product_offer?.offer_price + additionalPrice
+                : product?.calculate_regular_price + additionalPrice
+        );
+    } else {
+        return numberParser(
+            product?.product_offer?.status
+                ? product?.product_offer?.offer_price
+                : product?.calculate_regular_price
+        );
+    }
+};
 
 export const isRegularPriceLineThrough = (product: any) => {
     const offerPrice = numberParser(product?.product_offer?.offer_price);
@@ -53,7 +71,6 @@ export const classNames = (
     ...classes: (string | boolean | null | undefined)[]
 ): string => classes.filter(Boolean).join(' ');
 
-
 export const htmlTagsRemover = (htmlString: any) => {
     return htmlString.replace(HTML_TAG_PATTERN, '') || '';
-}
+};

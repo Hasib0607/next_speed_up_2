@@ -17,11 +17,11 @@ const FilterByPriceNew = () => {
     const dispatch = useDispatch();
 
     const handleInputChange = () => {
-        if (inputRef.current.value === '0') {
-            dispatch(setPrice(null));
-        }else{
-            dispatch(setPrice(inputRef.current.value));
-        }
+        // if (inputRef.current.value === '0') {
+        //     dispatch(setPrice(null));
+        // }else{
+        // }
+        dispatch(setPrice(inputRef.current.value));
     };
 
     return (
@@ -40,7 +40,7 @@ const FilterByPriceNew = () => {
             <input
                 min="0"
                 max="10000"
-                defaultValue={0}
+                defaultValue={priceValue ?? 0}
                 onChange={handleInputChange}
                 id="range"
                 type="range"
