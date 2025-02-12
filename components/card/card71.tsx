@@ -16,8 +16,11 @@ import {
 import { RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
+import ProdMultiCategory from '@/utils/prod-multi-category';
 
 const Card71 = ({ item }: any) => {
+    const category = item?.category || [];
+
     const [open, setOpen] = useState(false);
 
     const { cartList } = useSelector((state: RootState) => state.cart);
@@ -80,11 +83,16 @@ const Card71 = ({ item }: any) => {
                             {item?.name}
                         </h1>
                     </Link>
-                    <Link href={'/category/' + item?.category}>
-                        <h1 className="text-sm sm:text-[15px] capitalize truncate">
-                            {item?.category}
-                        </h1>{' '}
-                    </Link>
+                    {Array.isArray(category) && category?.length > 0 && (
+                        <p className="text-sm sm:text-[15px] capitalize">
+                            <ProdMultiCategory
+                                category={category}
+                                className={
+                                    'text-sm sm:text-[15px] capitalize truncate'
+                                }
+                            />
+                        </p>
+                    )}
                 </div>
 
                 <div className="font-semibold flex items-center gap-2 w-full">
@@ -100,7 +108,7 @@ const Card71 = ({ item }: any) => {
                     </div>
                 </div>
 
-                {item?.variant.length !== 0 ? (
+                {item?.variant?.length > 0 ? (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="flex text-color text-center py-3 border hover:border-2 border-gray-700 mt-3 rounded-md justify-center gap-1 items-center relative z-[1] lg:cursor-pointer">
                             <HiOutlineDocumentText className="text-lg" />

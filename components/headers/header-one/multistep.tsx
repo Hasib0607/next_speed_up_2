@@ -13,7 +13,7 @@ const MultiStep = ({ category, subCategory, children }: any) => {
                     {children}
                 </button>
 
-                <ul className="bg-white border rounded-lg transform scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top min-w-32 grid gap-6 px-5 py-6 sm:gap-6 sm:p-8 w-max">
+                <ul id='header-one' className="bg-white border rounded-lg transform scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top min-w-32 grid gap-6 px-5 py-6 sm:gap-6 sm:p-8 w-max">
                     {category?.map((item: any) => (
                         <Cat
                             key={item.id}

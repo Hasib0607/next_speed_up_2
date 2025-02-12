@@ -33,7 +33,6 @@ const ProductThirtyFour = ({ product, design, headersetting }: any) => {
     const sectionHeadingData = custom_design?.product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         sectionHeadingData || {};
-console.log("okokok");
 
     return (
         <div className="bg-[#F9F8FF]">

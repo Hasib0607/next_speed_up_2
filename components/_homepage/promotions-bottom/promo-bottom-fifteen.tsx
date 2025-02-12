@@ -7,7 +7,7 @@ import { bannerImg } from '@/site-settings/siteUrl';
 const PromoBottomFifteen = ({ banner }: any) => {
     return (
         <div>
-            {banner?.length > 1 && banner[2] && (
+            {banner?.length > 0 && (
                 <div className="sm:container px-5 sm:py-10 py-5">
                     <h1 className="text-3xl mb-5 sm:mb-10 font-bold">
                         Weekly Deals
@@ -41,8 +41,8 @@ const PromoBottomFifteen = ({ banner }: any) => {
                         modules={[Pagination, Autoplay]}
                         className="mySwiper"
                     >
-                        {banner?.length > 2 && banner?.slice(2, banner?.length)?.map((item: any) => (
-                            <SwiperSlide className="" key={item?.id}>
+                        {banner?.map((item: any) => (
+                            <SwiperSlide key={item?.id}>
                                 <div className="relative group">
                                     <a
                                         href={item?.link}

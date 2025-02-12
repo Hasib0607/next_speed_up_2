@@ -1,10 +1,7 @@
 'use client';
 
 import { RootState } from '@/redux/store';
-import {
-    isActiveCart,
-    isQtyLeft,
-} from '@/utils/_cart-utils/cart-utils';
+import { isActiveCart, isQtyLeft } from '@/utils/_cart-utils/cart-utils';
 
 import { IoMdCart } from 'react-icons/io';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
@@ -20,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import { numberParser } from '@/helpers/numberParser';
 
 const AddCartBtnFortyTwo = ({
+    headersetting,
     setQty,
     qty,
     variant,
@@ -34,9 +32,8 @@ const AddCartBtnFortyTwo = ({
     buttonOne,
     product,
 }: any) => {
-    const { headersetting } = useSelector((state: RootState) => state.home); // Access updated Redux state
-
     const store_id = numberParser(headersetting?.store_id) || null;
+
     const customizeTextData = customizeSingleProductPage.find(
         (item) => item.id == store_id
     );

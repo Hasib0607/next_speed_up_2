@@ -1,198 +1,229 @@
-// "use client";
+'use client';
 
-// import { profileImg } from "@/site-settings/siteUrl";
-// import Rate from "@/utils/rate";
-// import { Tab } from "@headlessui/react";
-// import moment from "moment";
-// import Details from "./details-fortytwo";
+import { profileImg } from '@/site-settings/siteUrl';
+import Rate from '@/utils/rate';
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
+import moment from 'moment';
+import DetailsFortyTwo from './details-fortytwo';
+import { useEffect, useState } from 'react';
+import Skeleton from '@/components/loaders/skeleton';
 
-// import { useEffect, useState } from "react";
+import Card72 from '@/components/card/card72';
+import { customizeSingleProductPage } from '@/utils/customizeDesign';
+import { numberParser } from '@/helpers/numberParser';
+import VideoPlayer from '../components/video-player';
+import {
+    useGetFeatureProductQuery,
+    useGetProductDetailsQuery,
+    useGetRelatedProductsQuery,
+    useGetReviewsQuery,
+} from '@/redux/features/products/productApi';
+import { NotFoundMsg } from '@/utils/little-components';
+import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
+import FeatureProductFortyTwo from '@/components/_homepage/feature-product/feature-product-fortytwo';
 
+const FortyTwo = ({ store_id, design, headersetting, productId }: any) => {
+    const singleProductPageData = customizeSingleProductPage.find(
+        (item) => item.id == store_id
+    );
 
-// import FeatureProductInProductDetailsPage42 from "@/components/_homepage/feature-product/feature-product-in-details-forty-two";
-// import Card72 from "@/components/card/card72";
-// import { customizeSingleProductPage } from "@/utils/customizeDesign";
+    const {
+        data: productDetailsData,
+        isLoading: productDetailsLoading,
+        isError: productDetailsError,
+        isSuccess: productDetailsSuccess,
+    } = useGetProductDetailsQuery({ store_id, productId });
 
-// const FortyTwo = ({ data, updatedData }: any) => {
-//   const { design, store_id } = useTheme();
+    const {
+        data: featureProductData,
+        isLoading: featureProductLoading,
+        isSuccess: featureProductSuccess,
+    } = useGetFeatureProductQuery({});
 
-//   const singleProductPageData = customizeSingleProductPage.find(
-//     (item) => item.id == store_id
-//   );
+    const {
+        data: relatedProductsData,
+        isLoading: relatedProductsLoading,
+        isError: relatedProductsError,
+        isSuccess: relatedProductsSuccess,
+    } = useGetRelatedProductsQuery({ productId });
 
-//   const url = getDomain();
+    const {
+        data: reviewsData,
+        isLoading: reviewsLoading,
+        isError: reviewsError,
+        isSuccess: reviewsSuccess,
+    } = useGetReviewsQuery({ productId });
 
-//   const [featureProduct, setFeatureProduct] = useState<any>([]);
-//   const { data: productDetailsData, fetchStatus } = useQuery({
-//     queryKey: ["pd-39"],
-//     queryFn: () => getProductDetails(updatedData),
-//     enabled: !!updatedData.slug && !!updatedData.store_id,
-//   });
+    const [product, setProduct] = useState<any>({});
+    const [featureProduct, setFeatureProduct] = useState<any>([]);
+    const [relatedProducts, setRelatedProducts] = useState<any>([]);
+    const [reviews, setReviews] = useState<any>({});
 
-//   const { data: relatedProducts } = useQuery({
-//     queryKey: ["rp-39"],
-//     queryFn: () => getRelatedProducts(updatedData?.product_id),
-//     enabled: !!updatedData.slug && !!updatedData.store_id,
-//   });
+    useEffect(() => {
+        if (productDetailsSuccess && productDetailsData) {
+            const productData = productDetailsData?.data || {};
+            setProduct(productData);
+        }
+    }, [productDetailsData, productDetailsSuccess]);
 
-//   const { data: reviews } = useQuery({
-//     queryKey: ["rv-39"],
-//     queryFn: () => getReviews(updatedData),
-//     enabled: !!updatedData.slug && !!updatedData.store_id,
-//   });
+    useEffect(() => {
+        if (featureProductSuccess && featureProductData) {
+            const feature_product = featureProductData?.data || [];
+            setFeatureProduct(feature_product);
+        }
+    }, [featureProductData, featureProductSuccess]);
 
-//   const { product, vrcolor, variant } = productDetailsData || {};
+    useEffect(() => {
+        if (relatedProductsSuccess && relatedProductsData) {
+            const relatedProductsArr = relatedProductsData?.data || [];
+            setRelatedProducts(relatedProductsArr);
+        }
+    }, [relatedProductsData, relatedProductsSuccess]);
 
-//   const {
-//     data: featureProductData,
-//     isLoading: featureLoading,
-//     isSuccess: featureSuccess,
-//   } = useGetSettingQuery({ domain: url, slug: "feature_product" });
-//   useEffect(() => {
-//     if (featureProductData) {
-//       const getFeatureProductData = featureProductData?.data || [];
-//       setFeatureProduct(getFeatureProductData);
-//     }
-//   }, [featureSuccess, featureProductData]);
-//   return (
-//     <div className="">
-//       <div className="sm:container px-5">
-//         <Details
-//           fetchStatus={fetchStatus}
-//           data={data}
-//           product={product}
-//           vrcolor={vrcolor}
-//           variant={variant}
-//         />
+    useEffect(() => {
+        if (reviewsSuccess && reviewsData) {
+            setReviews(reviewsData);
+        }
+    }, [reviewsData, reviewsSuccess]);
 
-//         {/* Feature Products */}
-//         <div>
-//           <FeatureProductInProductDetailsPage42
-//             feature_product={featureProduct}
-//             design={design}
-//             store_id={store_id}
-//           />
-//         </div>
+    let detailsContentSkeleton;
 
-//         {/* ************************ tab component start ***************************** */}
-//         <div
-//           className="bg-white"
-//           style={
-//             {
-//               "--header-color": design?.header_color,
-//               "--text-color": design?.text_color,
-//             } as React.CSSProperties
-//           }
-//         >
-//           <Tab.Group>
-//             {/* Tab List */}
-//             <Tab.List className="px-4 bg-[#DDDDDD] flex flex-col md:flex-row md:space-x-8">
-//               <Tab
-//                 className={({ selected }) =>
-//                   selected
-//                     ? "bg-[var(--header-color)] px-3 py-2 text-sm md:text-base lg:text-xl focus:outline-none underline-offset-4 border-hidden rounded md:rounded-none mb-2 md:mb-0"
-//                     : "text-sm md:text-base lg:text-xl mb-2 md:mb-0"
-//                 }
-//               >
-//                 Product Information
-//               </Tab>
-//               {singleProductPageData?.review_not_show ? (
-//                 ""
-//               ) : (
-//                 <>
-//                   <Tab
-//                     className={({ selected }) =>
-//                       selected
-//                         ? "bg-[var(--header-color)] px-3 py-2 text-sm md:text-base lg:text-xl focus:outline-none underline-offset-4 border-hidden rounded md:rounded-none"
-//                         : "text-sm md:text-base lg:text-xl"
-//                     }
-//                   >
-//                     Customer Reviews
-//                   </Tab>
-//                 </>
-//               )}
-//             </Tab.List>
+    if (productDetailsLoading && !productDetailsError) {
+        detailsContentSkeleton = <Skeleton />;
+    }
 
-//             {/* Tab Panels */}
-//             <Tab.Panels className="p-4 md:p-5">
-//               {/* Product Information Panel */}
-//               <Tab.Panel>
-//                 <div>
-//                   <div
-//                     dangerouslySetInnerHTML={{
-//                       __html: productDetailsData?.product?.description,
-//                     }}
-//                     className="apiHtml text-sm md:text-base leading-relaxed"
-//                   ></div>
-//                 </div>
-//               </Tab.Panel>
+    let relatedContentSkeleton;
 
-//               {/* Customer Reviews Panel */}
-//               <Tab.Panel>
-//                 {reviews?.error ? (
-//                   <div className="text-center text-red-500 text-sm md:text-base">
-//                     {reviews?.error}
-//                   </div>
-//                 ) : (
-//                   reviews?.map((item: any) => (
-//                     <UserReview
-//                       key={item?.id}
-//                       review={item}
-//                       className="mb-4 last:mb-0"
-//                     />
-//                   ))
-//                 )}
-//               </Tab.Panel>
-//             </Tab.Panels>
-//           </Tab.Group>
-//         </div>
-//         {/* ************************ tab component end ***************************** */}
+    if (relatedProductsLoading && !relatedProductsError) {
+        relatedContentSkeleton = <p>Loading related...</p>;
+    }
+    const reviewsArr = reviews?.data || [];
 
-//         {product && product?.video_link && (
-//           <VideoPlayer videoUrl={product?.video_link} />
-//         )}
+    return (
+        <div className="sm:container px-5">
+            {detailsContentSkeleton}
+            <DetailsFortyTwo
+                design={design}
+                headersetting={headersetting}
+                product={product}
+            />
 
-//         <Related product={relatedProducts} />
-//       </div>
-//     </div>
-//   );
-// };
+            {/* Feature Products */}
+            <div>
+                <FeatureProductFortyTwo
+                    feature_product={featureProduct}
+                    design={design}
+                    headersetting={headersetting}
+                />
+            </div>
 
-// export default FortyTwo;
+            {/* ************************ tab component start ***************************** */}
+            <div className="bg-white">
+                <TabGroup>
+                    {/* Tab List */}
+                    <TabList className="px-4 bg-[#DDDDDD] flex flex-col md:flex-row md:space-x-8">
+                        <Tab
+                            className={({ selected }) =>
+                                selected
+                                    ? 'bg-[var(--header-color)] px-3 py-2 text-sm md:text-base lg:text-xl focus:outline-none underline-offset-4 border-hidden rounded md:rounded-none mb-2 md:mb-0'
+                                    : 'text-sm md:text-base lg:text-xl mb-2 md:mb-0'
+                            }
+                        >
+                            Product Information
+                        </Tab>
+                        {singleProductPageData?.review_not_show ? (
+                            ''
+                        ) : (
+                            <Tab
+                                className={({ selected }) =>
+                                    selected
+                                        ? 'bg-[var(--header-color)] px-3 py-2 text-sm md:text-base lg:text-xl focus:outline-none underline-offset-4 border-hidden rounded md:rounded-none'
+                                        : 'text-sm md:text-base lg:text-xl'
+                                }
+                            >
+                                Customer Reviews
+                            </Tab>
+                        )}
+                    </TabList>
 
-// const UserReview = ({ review }: any) => {
-//   return (
-//     <div className=" bg-slate-50 p-5">
-//       <div className="avatar">
-//         <div className="w-20 h-20 rounded-full">
-//           <img
-//             src={profileImg + review?.image}
-//             className="rounded-full h-full w-full"
-//             alt=""
-//           />
-//         </div>
-//       </div>
-//       <Rate className="text-base" rating={review?.rating} />
-//       <p className="text-xs font-semibold mt-2">{review?.name}</p>
-//       <p className="text-sm font-light mt-2">
-//         {moment(new Date(review?.cd)).format("DD/MM/YYYY")}
-//       </p>
-//       <p className="text-base font-semiBold mt-2">{review?.comment}</p>
-//     </div>
-//   );
-// };
+                    {/* Tab Panels */}
+                    <TabPanels className="p-4 md:p-5">
+                        {/* Product Information Panel */}
+                        <TabPanel>
+                            <div className="bg-slate-50 rounded-lg p-5">
+                                <DangerouslySafeHTML
+                                    content={product?.description}
+                                    className={
+                                        'text-sm md:text-base leading-relaxed'
+                                    }
+                                />
+                            </div>
+                        </TabPanel>
 
-// const Related = ({ product }: any) => {
-//   return (
-//     <div className="py-5 sm:py-10">
-//       <div>
-//         <h1 className="text-2xl pb-3">RELATED PRODUCTS</h1>
-//       </div>
-//       <div className="grid grid-cols-2 md:grid-cols-3 gap-1 sm:gap-3 lg:grid-cols-5 xl:grid-cols-6 justify-center">
-//         {product
-//           ?.slice(0, 10)
-//           .map((item: any, id: any) => <Card72 item={item} key={id} />)}
-//       </div>
-//     </div>
-//   );
-// };
+                        {/* Customer Reviews Panel */}
+                        <TabPanel>
+                            {reviews?.status && reviewsArr.length > 0 ? (
+                                reviewsArr?.map((item: any, index: any) => (
+                                    <UserReview review={item} key={index} />
+                                ))
+                            ) : (
+                                <NotFoundMsg message={reviews?.message} />
+                            )}
+                        </TabPanel>
+                    </TabPanels>
+                </TabGroup>
+            </div>
+            {/* ************************ tab component end ***************************** */}
+
+            {product && product?.video_link && (
+                <VideoPlayer videoUrl={product?.video_link} />
+            )}
+
+            {relatedContentSkeleton}
+            <Related product={relatedProducts} />
+        </div>
+    );
+};
+
+export default FortyTwo;
+
+const UserReview = ({ review }: any) => {
+    const parsedRating = numberParser(review?.rating, true);
+
+    return (
+        <div className=" bg-slate-50 p-5">
+            <div className="avatar">
+                <div className="w-20 h-20 rounded-full">
+                    <img
+                        src={profileImg + review?.image}
+                        className="rounded-full h-full w-full"
+                        alt=""
+                    />
+                </div>
+            </div>
+            <Rate className="text-base" rating={parsedRating} />
+            <p className="text-xs font-semibold mt-2">{review?.name}</p>
+            <p className="text-sm font-light mt-2">
+                {moment(new Date(review?.cd)).format('DD/MM/YYYY')}
+            </p>
+            <p className="text-base font-semiBold mt-2">{review?.comment}</p>
+        </div>
+    );
+};
+
+const Related = ({ product }: any) => {
+    return (
+        <div className="py-5 sm:py-10">
+            <div>
+                <h1 className="text-2xl pb-3">RELATED PRODUCTS</h1>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-1 sm:gap-3 lg:grid-cols-5 xl:grid-cols-6 justify-center">
+                {product
+                    ?.slice(0, 10)
+                    ?.map((item: any, id: any) => (
+                        <Card72 item={item} key={id} />
+                    ))}
+            </div>
+        </div>
+    );
+};
