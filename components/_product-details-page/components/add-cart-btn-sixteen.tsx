@@ -183,7 +183,11 @@ const AddCartBtnSixteen = ({
                 <button
                     onClick={onClick}
                     type="submit"
-                    className={buttonOne ? buttonOne : 'flex group bg-gray-200'}
+                    className={
+                        buttonOne
+                            ? buttonOne
+                            : 'flex group bg-gray-200 lg:cursor-pointer'
+                    }
                 >
                     {button || '+ ADD TO CART'}
                 </button>

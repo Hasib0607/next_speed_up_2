@@ -64,6 +64,6 @@ function url() {
     return ''; // Optional: return an empty string if window is undefined (e.g., in server-side rendering)
 }
 
-// export const name = "qutobd.com";
+// export const name = "zamzamonlineshop.store";
 export const name = url();
 // console.log(qutobd.com);

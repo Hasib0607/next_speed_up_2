@@ -29,7 +29,7 @@ import { SwiperSlide } from 'swiper/react';
 import VideoPlayer from '../components/video-player';
 import DetailsThirtyEight from './details-thirty-eight';
 
-const ThirtyEight = ({ store_id, productId, design }: any) => {
+const ThirtyEight = ({ store_id, productId, design, headersetting }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -128,6 +128,7 @@ const ThirtyEight = ({ store_id, productId, design }: any) => {
                     {detailsContentSkeleton}
                     <DetailsThirtyEight
                         design={design}
+                        headersetting={headersetting}
                         product={product}
                         setOpen={setOpen}
                         open={open}

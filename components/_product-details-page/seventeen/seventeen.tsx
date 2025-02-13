@@ -22,10 +22,10 @@ import { SwiperSlide } from 'swiper/react';
 import ProdMultiCategory from '@/utils/prod-multi-category';
 import moment from 'moment';
 import VideoPlayer from '../components/video-player';
-import Details from './details-seventeen';
+import DetailsSeventeen from './details-seventeen';
 import './style.css';
 
-const Seventeen = ({ store_id, productId, design }: any) => {
+const Seventeen = ({ store_id, productId, design, headersetting }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -114,7 +114,11 @@ const Seventeen = ({ store_id, productId, design }: any) => {
             <div className="container mx-auto">
                 <div className="xl:mx-80 mx-5">
                     {detailsContentSkeleton}
-                    <Details product={product} design={design} />
+                    <DetailsSeventeen
+                        product={product}
+                        design={design}
+                        headersetting={headersetting}
+                    />
                 </div>
             </div>
             <div className="py-14">

@@ -8,13 +8,6 @@ import parse from 'html-react-parser';
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
-import {
-    FacebookIcon,
-    FacebookShareButton,
-    WhatsappIcon,
-    WhatsappShareButton,
-} from 'react-share';
 import { getProductQuantity } from '@/helpers/getProductQuantity';
 import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
 import { saveToLocalStorage } from '@/helpers/localStorage';
@@ -22,6 +15,13 @@ import { numberParser } from '@/helpers/numberParser';
 import { AppDispatch, RootState } from '@/redux/store';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import CallForPrice from '@/utils/call-for-price';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    FacebookIcon,
+    FacebookShareButton,
+    WhatsappIcon,
+    WhatsappShareButton,
+} from 'react-share';
 import { toast } from 'react-toastify';
 import AddCartBtn from './add-cart-btn';
 import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
@@ -34,7 +34,7 @@ const DetailsEight = ({
     buttonStyle,
     roundedBtn,
     social,
-    headersetting
+    headersetting,
 }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
@@ -181,7 +181,10 @@ const DetailsEight = ({
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
     const save = howMuchSave(product);
     const parsedRating = numberParser(product?.rating, true);
 

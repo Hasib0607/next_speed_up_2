@@ -52,9 +52,9 @@ export const shops: any = {
     // twentyseven: dynamic(
     //   () => import("@/components/headers/header-twentyseven/header-twentyseven")
     // ),
-    // twentyeight: dynamic(
-    //   () => import("@/components/headers/header-twentyeight/header-twentyeight")
-    // ),
+    twentyeight: dynamic(
+      () => import("@/components/_shop-page/twenty-eight/twenty-eight")
+    ),
     // twentynine: dynamic(
     //   () => import("@/components/headers/header-twentynine/header-twentynine")
     // ),

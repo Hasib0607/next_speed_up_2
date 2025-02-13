@@ -1,23 +1,23 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import img from '@/assets/bg-image/twenty-four-shop.webp';
+import CategoryBreadcrumb from '@/components/_category-page/components/CategoryBreadcrumb';
 import Pagination from '@/components/_category-page/components/pagination';
-import Skeleton from '@/components/loaders/skeleton';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import Card49 from '@/components/card/card49';
-import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
-import { RootState } from '@/redux/store';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import Skeleton from '@/components/loaders/skeleton';
 import { numberParser } from '@/helpers/numberParser';
 import { setSort } from '@/redux/features/filters/filterSlice';
-import InfiniteLoader from '../loaders/infinite-loader';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
 import { NotFoundMsg } from '@/utils/little-components';
-import CategoryBreadcrumb from '@/utils/CategoryBreadcrumb';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
+import InfiniteLoader from '../loaders/infinite-loader';
 
 const CategoryTwentyFour = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -285,7 +285,7 @@ const SingleCat = ({ item, design }: any) => {
     const inactiveColor = 'text-gray-500 w-max';
     const activesub = `text-[${design?.header_color}] text-sm w-max`;
     const inactivesub = `text-gray-600 text-sm w-max`;
-    
+
     return (
         <div onMouseLeave={() => setShow(false)} className="relative">
             <div

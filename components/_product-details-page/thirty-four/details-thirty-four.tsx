@@ -35,9 +35,13 @@ import {
 import { HSlider } from '../components/slider';
 import AddCartBtn from '../components/add-cart-btn';
 
-const Details = ({ design, product, children, buttonStyle }: any) => {
-    const { headersetting } = useSelector((state: RootState) => state.home);
-
+const DetailsThirtyFour = ({
+    design,
+    product,
+    children,
+    buttonStyle,
+    headersetting,
+}: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
 
@@ -172,7 +176,10 @@ const Details = ({ design, product, children, buttonStyle }: any) => {
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
     const save = howMuchSave(product);
     const parsedRating = numberParser(product?.rating, true);
     const parsedNumberRating = numberParser(product?.number_rating);
@@ -441,4 +448,4 @@ const Details = ({ design, product, children, buttonStyle }: any) => {
     );
 };
 
-export default Details;
+export default DetailsThirtyFour;

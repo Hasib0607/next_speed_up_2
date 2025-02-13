@@ -412,12 +412,14 @@ const Filter = ({ onChange, setGrid, setOpen, open }: any) => {
 const SingleCat = ({ item }: any) => {
     const [show, setShow] = useState(false);
     const { id }: any = useParams<{ id: string }>();
+    
     useEffect(() => {
         if (item.cat) {
             for (let i = 0; i < item.cat.length; i++) {
                 item.cat[i].id == id && setShow(true);
             }
         }
+
     }, [item?.cat, id]);
     return (
         <>

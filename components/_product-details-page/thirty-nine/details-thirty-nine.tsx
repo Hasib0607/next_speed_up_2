@@ -169,7 +169,6 @@ const DetailsThirtyNine = ({
         () => productCurrentPrice(product, variantId),
         [product, variantId]
     );
-
     const save = howMuchSave(product);
 
     const handleAddToCart = () => {
@@ -189,8 +188,6 @@ const DetailsThirtyNine = ({
             productQuantity,
         });
     };
-
-    console.log('variantId', variantId);
 
     const styleCss = `
     .btn-hover:hover {
@@ -253,7 +250,7 @@ const DetailsThirtyNine = ({
                         setActiveImg={setActiveImg}
                     />
                 </div>
-                <div className="md:col-span-4 space-y-3 sticky top-20 h-max mt-3 md:mt-40">
+                <div className="md:col-span-4 space-y-3 sticky top-20 h-max mt-3">
                     <h2 className="lg:text-3xl text-2xl text-[#212121] font-semibold">
                         {product?.name}
                     </h2>
