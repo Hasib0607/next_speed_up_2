@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getDataByType } from '@/helpers/getCustomDataByType';
 import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
+import { classNames } from '@/helpers/littleSpicy';
 
 const AddCartBtn = ({
     setQty,
@@ -239,8 +240,32 @@ const AddCartBtn = ({
         }
     }, [variantId, setQty]);
 
+    const cssStyle = `
+    .c_button {
+        color:  ${button_color};
+        background: ${button_bg_color};
+        border: 2px solid transparent;
+    }
+    .c_button:hover {
+        color:  ${button_color};
+        background: transparent;
+        border: 2px solid ${button_color};
+    }
+    .c_button1 {
+        color:  ${button1_color};
+        background: ${button1_bg_color};
+        border: 2px solid transparent;
+    }
+    .c_button1:hover {
+        color:  ${button1_color};
+        background: transparent;
+        border: 2px solid ${button1_color};
+    }
+    `;
+
     return (
         <div className="flex flex-wrap lg2:flex-row flex-col justify-start lg2:items-center gap-5 py-5">
+            <style>{cssStyle}</style>
             {roundedBtn ? (
                 <div className="w-max flex items-center">
                     <button
@@ -306,7 +331,7 @@ const AddCartBtn = ({
                         )}
                         {button && (
                             <button
-                                className={buttonOne}
+                                className={classNames(buttonOne, 'c_button')}
                                 onClick={
                                     numberParser(is_buy_now_cart) == 1
                                         ? buy_now
@@ -330,11 +355,12 @@ const AddCartBtn = ({
                         numberParser(is_buy_now_cart1) == 1 ? buy_now : onClick
                     }
                     type="submit"
-                    className={
+                    className={classNames(
                         buttonOne
                             ? buttonOne
-                            : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`
-                    }
+                            : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`,
+                        'c_button1'
+                    )}
                 >
                     {button1}
                 </button>

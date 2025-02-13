@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
 import CheckoutFrom from '@/components/_checkout-page/_components/checkout-from';
 import SingleAddress from '@/components/_checkout-page/_components/single-address/single-address';
-import { TWENTY_EIGHT } from '@/consts';
+import { ONE, TWENTY_EIGHT } from '@/consts';
 import useAuth from '@/hooks/useAuth';
 import QuickView from '@/utils/quick-view';
 
@@ -109,7 +109,7 @@ const Address = ({
             <div className={className ? className : 'col-span-6 sm:col-span-4'}>
                 <div className="flex justify-between items-center pb-3">
                     {design?.template_id === '29' ||
-                    design?.checkout_page === TWENTY_EIGHT ||
+                    design?.checkout_page === TWENTY_EIGHT || ONE  ||
                     store_id === 3601 ? (
                         <label
                             htmlFor="name"

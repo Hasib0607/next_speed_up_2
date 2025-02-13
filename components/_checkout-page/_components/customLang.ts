@@ -9,6 +9,9 @@ const langArr: LangObj[] = [
     },
     {
         address: 'ঠিকানা',
+    },
+    {
+        district: 'জেলা',
     }
 ];
 

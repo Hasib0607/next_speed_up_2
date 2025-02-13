@@ -1,6 +1,6 @@
 'use client';
 
-import { EMAIL_REGEX, PHONE_NUMBER_REGEX } from '@/consts';
+import { EMAIL_REGEX, ONE, PHONE_NUMBER_REGEX, TWENTY_EIGHT } from '@/consts';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 import useAuth from '@/hooks/useAuth';
 import {
@@ -293,6 +293,7 @@ const CheckoutFrom = ({
         const filteredFields = userFormFields?.filter(
             (item: any) => item.status !== 0 && item.name !== 'language'
         );
+        console.log('userFormFieldsData', userFormFieldsData);
 
         if (userFormFieldsSuccess) {
             setFields(filteredFields);
@@ -337,6 +338,8 @@ const CheckoutFrom = ({
                                         className="block text-sm font-medium text-gray-700 capitalize"
                                     >
                                         {design?.template_id === '29' ||
+                                        design?.checkout_page === ONE ||
+                                        TWENTY_EIGHT ||
                                         store_id === 3601
                                             ? getValueByKey(item?.name)
                                             : item?.name}
