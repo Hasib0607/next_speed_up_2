@@ -16,14 +16,13 @@ import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import { useEffect, useState } from 'react';
 
+import './five.css';
 import moment from 'moment';
 import { SwiperSlide } from 'swiper/react';
-
-import Details from './details-sixteen';
-import './five.css';
 import VideoPlayer from '../components/video-player';
+import DetailsSixteen from './details-sixteen';
 
-const Sixteen = ({ store_id, productId, design }: any) => {
+const Sixteen = ({ store_id, productId, design, headersetting }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -85,7 +84,11 @@ const Sixteen = ({ store_id, productId, design }: any) => {
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
             {detailsContentSkeleton}
-            <Details product={product} design={design} />
+            <DetailsSixteen
+                product={product}
+                design={design}
+                headersetting={headersetting}
+            />
             {/* ************************ tab component start ***************************** */}
             <div className="my-10 bg-gray-100 sm:py-10 py-5">
                 <TabGroup>

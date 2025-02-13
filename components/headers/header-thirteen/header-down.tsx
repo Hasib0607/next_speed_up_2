@@ -49,7 +49,7 @@ const HeaderDown = ({ headersetting, menu }: any) => {
                 </div>
                 <div className="hidden lg:flex space-x-3 mt-2">
                     {category?.slice(0, 5)?.map((item: any, id: any) => (
-                        <Link href={'category/' + item?.id} key={item?.id}>
+                        <Link href={'/category/' + item?.id} key={item?.id}>
                             <SingleCats item={item} color={colors[id]} />
                         </Link>
                     ))}

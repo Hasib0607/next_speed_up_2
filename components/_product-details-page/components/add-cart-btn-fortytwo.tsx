@@ -154,15 +154,7 @@ const AddCartBtnFortyTwo = ({
     return (
         <div className="flex flex-col justify-start gap-3 py-1 lg:w-96">
             <p className="text-sm">Quantity</p>
-            <div
-                className="flex border border-black rounded-md w-max"
-                // style={
-                //   {
-                //     "--header-color": design?.header_color,
-                //     "--text-color": design?.text_color,
-                //   } as React.CSSProperties
-                // }
-            >
+            <div className="flex border border-black rounded-md w-max">
                 <div
                     className="h-12 w-12  flex justify-center items-center bg-[var(--header-color)] rounded-l-md hover:text-white font-semibold lg:cursor-pointer transition-all duration-300 ease-linear"
                     onClick={decNum}

@@ -1,27 +1,27 @@
 'use client';
 
+import CategoryBreadcrumb from '@/components/_category-page/components/CategoryBreadcrumb';
+import Pagination from '@/components/_category-page/components/pagination';
 import Card47 from '@/components/card/card47';
 import Card6 from '@/components/card/card6';
+import Skeleton from '@/components/loaders/skeleton';
+import { numberParser } from '@/helpers/numberParser';
 import { setSort } from '@/redux/features/filters/filterSlice';
-import { MinusIcon, PlusIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { NotFoundMsg } from '@/utils/little-components';
+import { Bars3Icon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { IoGridSharp } from 'react-icons/io5';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Skeleton from '@/components/loaders/skeleton';
-import Pagination from '@/components/_category-page/components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { numberParser } from '@/helpers/numberParser';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { RootState } from '@/redux/store';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
-import InfiniteLoader from '../loaders/infinite-loader';
-import CategoryBreadcrumb from '@/utils/CategoryBreadcrumb';
-import { NotFoundMsg } from '@/utils/little-components';
 
 const CategoryTwentyThree = ({ catId, store_id, design }: any) => {
     const module_id = 105;

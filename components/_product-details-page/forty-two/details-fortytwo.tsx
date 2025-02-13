@@ -161,7 +161,10 @@ const DetailsFortyTwo = ({
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
     const save = howMuchSave(product);
 
     const handleAddToCart = () => {
@@ -351,8 +354,7 @@ const DetailsFortyTwo = ({
                                 <p>
                                     <span className="font-medium">
                                         {productQuantity}
-                                    </span>
-                                    {" "}
+                                    </span>{' '}
                                     <span className="text-green-500">
                                         In Stock!
                                     </span>

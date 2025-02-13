@@ -1,24 +1,24 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { motion } from 'framer-motion';
-import { useParams } from 'next/navigation';
+import CategoryBreadcrumb from '@/components/_category-page/components/CategoryBreadcrumb';
 import Pagination from '@/components/_category-page/components/pagination';
-import Skeleton from '@/components/loaders/skeleton';
 import Card66 from '@/components/card/card66';
-import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
+import Skeleton from '@/components/loaders/skeleton';
+import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { numberParser } from '@/helpers/numberParser';
+import { NotFoundMsg } from '@/utils/little-components';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
+import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import InfiniteLoader from '../loaders/infinite-loader';
-import CategoryBreadcrumb from '@/utils/CategoryBreadcrumb';
-import { NotFoundMsg } from '@/utils/little-components';
 
 const CategoryThirtyEight = ({ catId, store_id, design }: any) => {
     const { id: data }: any = useParams<{ id: string }>();

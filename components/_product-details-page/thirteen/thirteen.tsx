@@ -24,7 +24,7 @@ import Details from './details-thirteen';
 import './five.css';
 import VideoPlayer from '../components/video-player';
 
-const Thirteen = ({ store_id, productId, design }: any) => {
+const Thirteen = ({ store_id, productId, design, headersetting }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -85,7 +85,12 @@ const Thirteen = ({ store_id, productId, design }: any) => {
     return (
         <div className="bg-white sm:container px-5 sm:py-10 py-5">
             {detailsContentSkeleton}
-            <Details product={product} design={design} social />
+            <Details
+                product={product}
+                design={design}
+                headersetting={headersetting}
+                social
+            />
 
             {/* ************************ tab component start ***************************** */}
             <div className="mt-14">

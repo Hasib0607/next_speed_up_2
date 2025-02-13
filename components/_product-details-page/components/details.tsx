@@ -36,11 +36,17 @@ import { AppDispatch, RootState } from '@/redux/store';
 
 import ProdMultiCategory from '@/utils/prod-multi-category';
 import AddCartBtn from './add-cart-btn';
+import {
+    useGetDesignQuery,
+    useGetHeaderSettingsQuery,
+} from '@/redux/features/home/homeApi';
 
 const Details = ({ product, children, cod, zoomable, buttonStyle }: any) => {
-    const { headersetting, design } = useSelector(
-        (state: RootState) => state.home
-    );
+    const { data: designData } = useGetDesignQuery({});
+    const design = designData?.data || {};
+
+    const { data: headerData } = useGetHeaderSettingsQuery({});
+    const headersetting = headerData?.data || {};
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux state
@@ -176,7 +182,10 @@ const Details = ({ product, children, cod, zoomable, buttonStyle }: any) => {
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
     const save = howMuchSave(product);
 
     const parsedNumberRating = numberParser(product?.number_rating);
@@ -202,7 +211,7 @@ const Details = ({ product, children, cod, zoomable, buttonStyle }: any) => {
 
     const buttonOne = buttonStyle
         ? buttonStyle
-        : 'font-bold text-white bg-gray-600 rounded-md w-60 py-3 text-center';
+        : 'font-bold text-white bg-gray-600 rounded-md w-60 py-3 text-center lg:cursor-pointer';
 
     return (
         <div className="grid md:grid-cols-8 grid-cols-1 gap-4 w-full">

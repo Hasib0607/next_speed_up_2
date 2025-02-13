@@ -23,7 +23,7 @@ import DetailsFortyOne from './details-forty-one';
 import { NotFoundMsg } from '@/utils/little-components';
 import VideoPlayer from '../components/video-player';
 
-const FortyOne = ({ store_id, productId, design }: any) => {
+const FortyOne = ({ store_id, productId, design, headersetting }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -87,7 +87,11 @@ const FortyOne = ({ store_id, productId, design }: any) => {
             <div className="">
                 <div className="sm:container px-5 sm:py-10 py-5">
                     {detailsContentSkeleton}
-                    <DetailsFortyOne design={design} product={product} />
+                    <DetailsFortyOne
+                        design={design}
+                        product={product}
+                        headersetting={headersetting}
+                    />
                 </div>
                 {/* ************************ tab component start ***************************** */}
                 <div className="my-10 bg-gray-100 sm:py-10 py-5">

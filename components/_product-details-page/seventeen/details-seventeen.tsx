@@ -26,9 +26,12 @@ import {
 } from '../components/imageVariations';
 import ZoomHSlider from '../components/zoom-slider';
 
-const Details = ({ product, design, children }: any) => {
-    const { headersetting } = useSelector((state: RootState) => state.home);
-
+const DetailsSeventeen = ({
+    product,
+    design,
+    children,
+    headersetting,
+}: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
 
@@ -163,7 +166,10 @@ const Details = ({ product, design, children }: any) => {
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
     const save = howMuchSave(product);
     const parsedNumberRating = numberParser(product?.number_rating);
     const parsedRating = numberParser(product?.rating, true);
@@ -290,9 +296,7 @@ const Details = ({ product, design, children }: any) => {
                         )}
 
                         <div className="flex items-center">
-                            <div className="w-auto text-xl">
-                                Availability:
-                            </div>
+                            <div className="w-auto text-xl">Availability:</div>
                             <div className="text-[#212121] text-lg pl-2">
                                 {productQuantity !== 0 ? (
                                     <p>
@@ -387,4 +391,4 @@ const Details = ({ product, design, children }: any) => {
     );
 };
 
-export default Details;
+export default DetailsSeventeen;

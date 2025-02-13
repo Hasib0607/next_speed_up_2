@@ -27,7 +27,7 @@ import { SwiperSlide } from 'swiper/react';
 import VideoPlayer from '../components/video-player';
 import DetailsForty from './details-forty';
 
-const Forty = ({ store_id, productId, design }: any) => {
+const Forty = ({ store_id, productId, design, headersetting }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -103,7 +103,11 @@ const Forty = ({ store_id, productId, design }: any) => {
             </div>
 
             {detailsContentSkeleton}
-            <DetailsForty design={design} product={product}>
+            <DetailsForty
+                design={design}
+                product={product}
+                headersetting={headersetting}
+            >
                 {Array.isArray(category) && category?.length > 0 && (
                     <div className="flex flex-col space-y-3">
                         <p className="text-base text-[#5a5a5a]">

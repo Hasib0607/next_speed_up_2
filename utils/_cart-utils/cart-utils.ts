@@ -1,5 +1,6 @@
 'use client';
 
+import { numberParser } from '@/helpers/numberParser';
 import {
     addToCartList,
     decreaseQuantity,
@@ -116,10 +117,10 @@ export const grandTotal = (
     couponDis: any
 ) => {
     const gTotal =
-        parseInt(total) +
-        parseInt(tax) +
-        parseInt(shippingArea) -
-        parseInt(couponDis);
+        numberParser(total) +
+        numberParser(tax) +
+        numberParser(shippingArea) -
+        numberParser(couponDis);
 
     return gTotal;
 };

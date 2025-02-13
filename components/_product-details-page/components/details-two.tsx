@@ -177,7 +177,10 @@ const Details = ({
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
     const save = howMuchSave(product);
     const parsedRating = numberParser(product?.rating, true);
     const parsedNumberRating = numberParser(product?.number_rating);
@@ -232,7 +235,7 @@ const Details = ({
 
     const buttonOne = buttonStyle
         ? buttonStyle
-        : 'font-bold text-white bg-gray-600 rounded-md w-max px-10 py-3 text-center';
+        : 'font-bold text-white bg-gray-600 rounded-md w-max px-10 py-3 text-center lg:cursor-pointer';
 
     return (
         <div className="bg-white h-full ">

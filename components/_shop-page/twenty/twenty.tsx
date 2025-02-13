@@ -237,6 +237,7 @@ const ShopProductSection = ({
 
 const SingleCat = ({ item }: any) => {
     const [show, setShow] = useState(false);
+    
     return (
         <div onMouseLeave={() => setShow(false)} className="relative">
             <div

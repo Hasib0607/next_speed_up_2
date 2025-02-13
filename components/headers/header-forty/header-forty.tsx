@@ -34,7 +34,6 @@ const HeaderForty = ({ headersetting, design, menu }: any) => {
     const [openSearch, setOpenSearch] = useState(false);
 
     const { data: categoryData } = useGetCategoryQuery({});
-
     const category = categoryData?.data || [];
 
     const authStore = useSelector((state: RootState) => state?.auth);

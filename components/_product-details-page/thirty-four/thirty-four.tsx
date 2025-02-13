@@ -21,13 +21,13 @@ import Link from 'next/link';
 import { AiOutlineHome } from 'react-icons/ai';
 import { SwiperSlide } from 'swiper/react';
 
-import Details from './details-thirty-four';
 import './five.css';
 import ProdMultiCategory from '@/utils/prod-multi-category';
 import { NotFoundMsg } from '@/utils/little-components';
 import VideoPlayer from '../components/video-player';
+import DetailsThirtyFour from './details-thirty-four';
 
-const ThirtyFour = ({ store_id, productId, design }: any) => {
+const ThirtyFour = ({ store_id, productId, design, headersetting }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -113,8 +113,9 @@ const ThirtyFour = ({ store_id, productId, design }: any) => {
             </div>
             <div className="sm:container px-5 py-5">
                 {detailsContentSkeleton}
-                <Details
+                <DetailsThirtyFour
                     design={design}
+                    headersetting={headersetting}
                     product={product}
                     buttonStyle={buttonTwentyThree}
                 />

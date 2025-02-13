@@ -33,9 +33,7 @@ import {
     Units,
 } from '../components/imageVariations';
 
-const Details = ({ design, children, product, social }: any) => {
-    const { headersetting } = useSelector((state: RootState) => state.home);
-
+const Details = ({ design, headersetting, children, product, social }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux state
 

@@ -125,7 +125,7 @@ const BestSellerTwentyEight = ({
                         {best_sell_product?.slice(0, 10)?.map((item: any) => (
                             <SwiperSlide key={item?.id}>
                                 <div className="px-2 pb-3">
-                                    <Card58 item={item} />
+                                    <Card58 item={item} type={"best_sell_product"}/>
                                 </div>
                             </SwiperSlide>
                         ))}

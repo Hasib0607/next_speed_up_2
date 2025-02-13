@@ -1,24 +1,24 @@
 'use client';
 
+import CategoryBreadcrumb from '@/components/_category-page/components/CategoryBreadcrumb';
+import Pagination from '@/components/_category-page/components/pagination';
 import Card56 from '@/components/card/card56';
+import Skeleton from '@/components/loaders/skeleton';
+import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { NotFoundMsg } from '@/utils/little-components';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Skeleton from '@/components/loaders/skeleton';
-import Pagination from '@/components/_category-page/components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
-import { RootState } from '@/redux/store';
-import { numberParser } from '@/helpers/numberParser';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import InfiniteLoader from '../loaders/infinite-loader';
-import { NotFoundMsg } from '@/utils/little-components';
-import CategoryBreadcrumb from '@/utils/CategoryBreadcrumb';
 
 const CategoryTwentySix = ({ catId, store_id, design }: any) => {
     const module_id = 105;

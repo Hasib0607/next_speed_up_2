@@ -20,7 +20,7 @@ import VideoPlayer from '../components/video-player';
 import DetailsThirtySeven from './details-thirty-seven';
 import { NotFoundMsg } from '@/utils/little-components';
 
-const ThirtySeven = ({ store_id, productId, design }: any) => {
+const ThirtySeven = ({ store_id, productId, design, headersetting }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -86,6 +86,7 @@ const ThirtySeven = ({ store_id, productId, design }: any) => {
                 {detailsContentSkeleton}
                 <DetailsThirtySeven
                     design={design}
+                    headersetting={headersetting}
                     product={product}
                     setOpen={setOpen}
                     open={open}

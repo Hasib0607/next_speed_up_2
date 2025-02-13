@@ -1,26 +1,26 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { IoIosArrowForward } from 'react-icons/io';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { useParams } from 'next/navigation';
-import Card31 from '@/components/card/card31';
-import Link from 'next/link';
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
-import './category-seventeen.css';
+import CategoryBreadcrumb from '@/components/_category-page/components/CategoryBreadcrumb';
 import Pagination from '@/components/_category-page/components/pagination';
-import { useDispatch, useSelector } from 'react-redux';
+import Card31 from '@/components/card/card31';
+import Skeleton from '@/components/loaders/skeleton';
+import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { numberParser } from '@/helpers/numberParser';
+import { NotFoundMsg } from '@/utils/little-components';
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { IoIosArrowForward } from 'react-icons/io';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
+import InfiniteLoader from '../loaders/infinite-loader';
+import './category-seventeen.css';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
-import Skeleton from '@/components/loaders/skeleton';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import InfiniteLoader from '../loaders/infinite-loader';
-import { NotFoundMsg } from '@/utils/little-components';
-import CategoryBreadcrumb from '@/utils/CategoryBreadcrumb';
 
 const CategorySeventeen = ({ catId, store_id, design }: any) => {
     const module_id = 105;
