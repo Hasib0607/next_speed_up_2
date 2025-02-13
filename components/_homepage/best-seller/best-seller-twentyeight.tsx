@@ -59,9 +59,9 @@ const BestSellerTwentyEight = ({
         content = <p>Loading.....</p>;
     }
 
-    if (!bestSellProductLoading && best_sell_product?.length == 0) {
-        content = <p>Not product Found!</p>;
-    }
+    // if (!bestSellProductLoading && best_sell_product?.length == 0) {
+    //     content = <p>Not product Found!</p>;
+    // }
 
     if (!bestSellProductLoading && best_sell_product?.length > 0) {
         content = (

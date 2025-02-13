@@ -14,5 +14,5 @@ export default async function getDomain() {
     }
 
     return url;
-    // return "zamzamonlineshop.store";
+    // return "qutobd.com";
 }
