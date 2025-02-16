@@ -7,7 +7,6 @@ import {
 import FileUploadModal from '@/utils/FileUploadModal';
 import { CrossCircledIcon } from '@radix-ui/react-icons';
 
-import { getPrice } from '@/helpers/getPrice';
 import { productImg } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
 import BDT from '@/utils/bdt';
@@ -37,6 +36,7 @@ import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
 import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { TWENTY_EIGHT } from '@/consts';
+import { howMuchSave } from '@/helpers/littleSpicy';
 
 const YourOrders = ({
     design,
@@ -126,13 +126,7 @@ const YourOrders = ({
     const cart = updatedCartList?.map((item: any) => ({
         id: item?.id,
         quantity: item?.qty,
-        discount:
-            numberParser(item?.regular_price) -
-            getPrice(
-                item?.regular_price,
-                item?.discount_price,
-                item?.discount_type
-            )!,
+        discount:howMuchSave(item) ?? 0,
         price: item?.price,
         variant_id: item?.variant_id,
         items: item?.items,

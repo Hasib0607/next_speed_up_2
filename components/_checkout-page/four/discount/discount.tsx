@@ -6,8 +6,6 @@ import {
 } from '@/redux/features/checkOut/checkOutApi';
 
 import { AppDispatch } from '@/redux/store';
-
-import { getDiscount } from '@/helpers/getDiscount';
 import { numberParser } from '@/helpers/numberParser';
 import { btnhover } from '@/site-settings/style';
 import { subTotal } from '@/utils/_cart-utils/cart-utils';
@@ -17,6 +15,7 @@ import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { getDiscountAmount } from '@/helpers/getDiscount';
 
 const Discount = ({
     design,
@@ -61,7 +60,7 @@ const Discount = ({
         const total = numberParser(sTotal);
 
         if (maxPurchase >= total && minPurchase <= total) {
-            const result: any = getDiscount(
+            const result: any = getDiscountAmount(
                 total,
                 res?.discount_amount,
                 res?.discount_type
@@ -69,7 +68,7 @@ const Discount = ({
             const dis = numberParser(total - result);
             return dis;
         } else if (!numberParser(res?.max_purchase) && minPurchase <= total) {
-            const result: any = getDiscount(
+            const result: any = getDiscountAmount(
                 total,
                 res?.discount_amount,
                 res?.discount_type

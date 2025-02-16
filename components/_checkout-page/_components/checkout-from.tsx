@@ -293,7 +293,6 @@ const CheckoutFrom = ({
         const filteredFields = userFormFields?.filter(
             (item: any) => item.status !== 0 && item.name !== 'language'
         );
-        console.log('userFormFieldsData', userFormFieldsData);
 
         if (userFormFieldsSuccess) {
             setFields(filteredFields);

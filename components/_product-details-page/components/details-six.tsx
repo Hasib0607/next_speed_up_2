@@ -41,10 +41,10 @@ const DetailsSix = ({
     setOpen,
     multiCat,
     buttonStyle,
-    zoomable
+    zoomable,
 }: any) => {
     const { headersetting } = useSelector((state: RootState) => state.home);
-
+    const store_id = numberParser(design?.store_id) || null;
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
 
@@ -232,7 +232,7 @@ const DetailsSix = ({
 
             <div className="grid grid-cols-1 md:grid-cols-10 gap-5">
                 <div className="md:col-span-5">
-                {zoomable ? (
+                    {zoomable ? (
                         <ZoomHSlider
                             design={design}
                             product={product}
@@ -265,6 +265,7 @@ const DetailsSix = ({
                                 </span>
                             )}{' '}
                         </div>
+                        {}
                         {product?.discount_type === 'percent' &&
                             product?.discount_price > 0 && (
                                 <p className="text-md text-gray-400">
@@ -273,14 +274,20 @@ const DetailsSix = ({
                             )}
                     </div>
 
-                    <Rate rating={parsedRating} />
+                    {store_id !== 10218 && (
+                        <>
+                            <Rate rating={parsedRating} />
 
-                    <div className="h-[1px] bg-gray-300 w-full"></div>
+                            <div className="h-[1px] bg-gray-300 w-full"></div>
 
-                    <div className="text-sm text-[#5a5a5a] leading-6 apiHtml">
-                        {parse(`${product?.description?.slice(0, 250)}`)}{' '}
-                        {product?.description?.length > 250 && '...'}
-                    </div>
+                            <div className="text-sm text-[#5a5a5a] leading-6 apiHtml">
+                                {parse(
+                                    `${product?.description?.slice(0, 250)}`
+                                )}{' '}
+                                {product?.description?.length > 250 && '...'}
+                            </div>
+                        </>
+                    )}
 
                     {/* color and size  */}
                     {currentVariation?.colorsAndSizes && (

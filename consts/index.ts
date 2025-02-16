@@ -65,5 +65,6 @@ function url() {
 }
 
 // export const name = "zamzamonlineshop.store";
+// export const name = "savantstylefashion.com";
 export const name = url();
 // console.log(qutobd.com);

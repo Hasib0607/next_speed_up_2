@@ -66,18 +66,16 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
 
     if (cartList?.length === 0) {
         return (
-            <>
-                <div className="flex justify-center items-center min-h-[70vh]">
-                    <div className="text-center">
-                        <h3 className="text-gray-400 text-2xl font-bold">
-                            You have no product in your cart!{' '}
-                        </h3>
-                        <h6 className="text-gray-400 text-xl font-semibold">
-                            Please Add Some Product
-                        </h6>
-                    </div>
+            <div className="flex justify-center items-center min-h-[70vh]">
+                <div className="text-center">
+                    <h3 className="text-gray-400 text-2xl font-bold">
+                        You have no product in your cart!{' '}
+                    </h3>
+                    <h6 className="text-gray-400 text-xl font-semibold">
+                        Please Add Some Product
+                    </h6>
                 </div>
-            </>
+            </div>
         );
     }
 
@@ -116,6 +114,7 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
                             appStore={appStore}
                             headersetting={headersetting}
                             setCouponDis={setCouponDis}
+                            shippingArea={shippingArea}
                             setShippingArea={setShippingArea}
                             setCoupon={setCoupon}
                             setCouponResult={setCouponResult}
@@ -137,6 +136,7 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
                             couponDis={couponDis}
                             setCouponDis={setCouponDis}
                             couponResult={couponResult}
+                            setCouponResult={setCouponResult}
                             selectAddress={selectAddress}
                             selectPayment={selectPayment}
                             shippingArea={shippingArea}
