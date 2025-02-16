@@ -5,7 +5,7 @@ import {
     useCheckCouponAvailabilityQuery,
 } from '@/redux/features/checkOut/checkOutApi';
 import { AppDispatch, RootState } from '@/redux/store';
-import { getDiscount } from '@/helpers/getDiscount';
+import { getDiscountAmount } from '@/helpers/getDiscount';
 import { numberParser } from '@/helpers/numberParser';
 import { btnhover } from '@/site-settings/style';
 import { subTotal } from '@/utils/_cart-utils/cart-utils';
@@ -60,7 +60,7 @@ const DiscountSeven = ({
         const total = numberParser(sTotal);
 
         if (maxPurchase >= total && minPurchase <= total) {
-            const result: any = getDiscount(
+            const result: any = getDiscountAmount(
                 total,
                 res?.discount_amount,
                 res?.discount_type
@@ -68,7 +68,7 @@ const DiscountSeven = ({
             const dis = numberParser(total - result);
             return dis;
         } else if (!numberParser(res?.max_purchase) && minPurchase <= total) {
-            const result: any = getDiscount(
+            const result: any = getDiscountAmount(
                 total,
                 res?.discount_amount,
                 res?.discount_type

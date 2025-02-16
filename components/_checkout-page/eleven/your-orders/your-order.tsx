@@ -6,8 +6,6 @@ import {
 } from '@/redux/features/cart/cartSlice';
 import FileUploadModal from '@/utils/FileUploadModal';
 import { CrossCircledIcon } from '@radix-ui/react-icons';
-
-import { getPrice } from '@/helpers/getPrice';
 import { productImg } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
 import BDT from '@/utils/bdt';
@@ -32,6 +30,8 @@ import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
 import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { TWENTY_EIGHT } from '@/consts';
+import { howMuchSave } from '@/helpers/littleSpicy';
+import { setCouponShow } from '@/helpers/setDiscount';
 
 const YourOrders = ({
     design,
@@ -44,6 +44,7 @@ const YourOrders = ({
     selectPayment,
     shippingArea,
     couponResult,
+    setCouponResult,
 }: any) => {
     const store_id = appStore?.id || null;
     const isAuthenticated = useAuth();
@@ -91,10 +92,13 @@ const YourOrders = ({
 
     const handleCouponRemove = () => {
         setCouponDis(0);
+        setCouponResult({ code_status: false });
         toast.error('Coupon removed!');
     };
 
     const gTotal = grandTotal(total, tax, shippingArea, couponDis);
+
+    const couponShow = setCouponShow(couponResult, total, shippingArea);
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -109,13 +113,7 @@ const YourOrders = ({
     const cart = updatedCartList?.map((item: any) => ({
         id: item?.id,
         quantity: item?.qty,
-        discount:
-            numberParser(item?.regular_price) -
-            getPrice(
-                item?.regular_price,
-                item?.discount_price,
-                item?.discount_type
-            )!,
+        discount: howMuchSave(item) ?? 0,
         price: item?.price,
         variant_id: item?.variant_id,
         items: item?.items,
@@ -372,38 +370,30 @@ const YourOrders = ({
                     ? 'bg-thirty-one border border-white'
                     : 'bg-gray-200 '
             } sm:rounded-md`}
-            style={
-                {
-                    '--header-color': design?.header_color,
-                    '--text-color': design?.text_color,
-                } as React.CSSProperties
-            }
         >
             <h3 className="text-base text-black bg-[#FAEBD7] p-5">Products</h3>
             {cartList ? (
-                <>
-                    <div className="my-5">
-                        <div className="flex flex-col justify-between pt-5">
-                            {/* Replace with your content */}
-                            <div className="px-2 h-2/3 overflow-y-auto">
-                                {cartList?.map((item: any, index: any) => (
-                                    <div
-                                        key={index}
-                                        onClick={() => setCartId(item?.cartId)}
-                                    >
-                                        <Single
-                                            files={files}
-                                            cartId={item?.cartId}
-                                            item={item}
-                                            setIsOpen={setIsOpen}
-                                            store_id={store_id}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
+                <div className="my-5">
+                    <div className="flex flex-col justify-between pt-5">
+                        {/* Replace with your content */}
+                        <div className="px-2 h-2/3 overflow-y-auto">
+                            {cartList?.map((item: any, index: any) => (
+                                <div
+                                    key={index}
+                                    onClick={() => setCartId(item?.cartId)}
+                                >
+                                    <Single
+                                        files={files}
+                                        cartId={item?.cartId}
+                                        item={item}
+                                        setIsOpen={setIsOpen}
+                                        store_id={store_id}
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
-                </>
+                </div>
             ) : (
                 <div className="">
                     <h3 className="text-center font-semibold text-lg ">
@@ -434,10 +424,12 @@ const YourOrders = ({
                             ? 'ডিসকাউন্ট'
                             : 'Discount'}
                     </p>
-                    <p>{<BDT price={couponDis} />}</p>
+                    <p>
+                        <BDT price={couponDis} />
+                    </p>
                 </div>
 
-                {couponDis > 0 && (
+                {couponShow && (
                     <div className="space-x-4 my-3">
                         <button
                             className="relative inline-flex font-semibold justify-between gap-2 items-center px-2 space-y-2 text-sm shadow rounded-full bg-green-500 text-gray-900"

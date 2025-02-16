@@ -1,7 +1,8 @@
-import { getPrice } from '@/helpers/getPrice';
 import { productImg } from '@/site-settings/siteUrl';
-import Taka from '@/utils/Taka';
+import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
 import Link from 'next/link';
+import BDT from '@/utils/bdt';
+import { numberParser } from '@/helpers/numberParser';
 
 const ProductCardSix = ({ item }: any) => {
     const overlyImage = `
@@ -13,14 +14,13 @@ const ProductCardSix = ({ item }: any) => {
     }
     .mainContainer:hover .image {
         opacity: 0.3;
-      }
+    }
       
     `;
-    let discountPrice1 = getPrice(
-        item?.regular_price,
-        item?.discount_price,
-        item?.discount_type
-    );
+
+    const price = productCurrentPrice(item);
+    const save = howMuchSave(item);
+
     return (
         <div className="bg-gray-200 group xl:h-[300px] lg:h-[300px] relative overflow-hidden mainContainer">
             <style>{overlyImage}</style>
@@ -49,19 +49,22 @@ const ProductCardSix = ({ item }: any) => {
                                     {item?.name.charAt(0).toUpperCase() +
                                         item?.name.slice(1)}
                                 </p>
-                                {/* <p className='text-sm w-[1000px]  xl:w-[130px]  lg:w-[130px]  md:w-[130px]' style={{ height: '30px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{item?.category .charAt(0).toUpperCase() + item?.category .slice(1)}</p> */}
                             </div>
                             <div className="flex">
-                                <p className="line-through text-sm">
-                                    {' '}
-                                    <Taka />
-                                    {item.regular_price}
-                                </p>
-                                <p className="text-sm font-medium">
-                                    {' '}
-                                    <Taka />
-                                    {discountPrice1}
-                                </p>
+                                {save > 0 && (
+                                    <p className="line-through text-sm">
+                                        {' '}
+                                        <BDT
+                                            price={numberParser(
+                                                item?.regular_price
+                                            )}
+                                        />
+                                    </p>
+                                )}
+                                <div className="text-sm font-medium">
+                                    <BDT />
+                                    {price}
+                                </div>
                             </div>
                         </div>
                     </Link>

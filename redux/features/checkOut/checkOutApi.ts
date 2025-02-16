@@ -12,8 +12,20 @@ export const checkOutApi = apiSlice.injectEndpoints({
             }),
         }),
         checkCouponValidation: builder.query<any, any>({
-            query: ({ store_id, coupon_code }) => ({
-                url: `verifycoupon/${store_id}/${coupon_code}`,
+            query: ({
+                store_id,
+                coupon_code,
+                total,
+                selectedShippingArea,
+            }) => ({
+                url: `verifycoupon/${store_id}/${coupon_code}/${total}/${selectedShippingArea}`,
+                method: 'GET',
+            }),
+            keepUnusedDataFor: 0,
+        }),
+        couponAutoApply: builder.query<any, any>({
+            query: ({ store_id, total, selectedShippingArea }) => ({
+                url: `verifycoupon-auto-apply/${store_id}/${total}/${selectedShippingArea}`,
                 method: 'GET',
             }),
             keepUnusedDataFor: 0,

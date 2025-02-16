@@ -1,38 +1,17 @@
 'use client';
 
-import { getPrice } from '@/helpers/getPrice';
-import { useGetSingleProductQuery } from '@/redux/features/products/productApi';
+import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
+import { numberParser } from '@/helpers/numberParser';
 import { productImg } from '@/site-settings/siteUrl';
+import BDT from '@/utils/bdt';
 import ProdMultiCategory from '@/utils/prod-multi-category';
-import Taka from '@/utils/Taka';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
-const ProductCardThreeSingleCard = ({ item, productId, store_id }: any) => {
+const ProductCardThreeSingleCard = ({ item }: any) => {
     const category = item?.category || [];
-    const [camp, setCamp] = useState<any>(null);
 
-    const productGetPrice = getPrice(
-        item?.regular_price,
-        item?.discount_price,
-        item?.discount_type
-    );
-    const campPrice = getPrice(
-        productGetPrice,
-        parseInt(camp?.discount_amount),
-        camp?.discount_type
-    );
-
-    const { data, isLoading, isSuccess } = useGetSingleProductQuery({
-        store_id,
-        productId,
-    });
-
-    useEffect(() => {
-        if (isSuccess) {
-            setCamp(data);
-        }
-    }, [isSuccess, data]);
+    const price = productCurrentPrice(item);
+    const save = howMuchSave(item);
 
     return (
         <div className="col-span-1 xl:col-span-2 lg:col-span-2 rounded-lg bg-gray-200 group relative">
@@ -75,25 +54,20 @@ const ProductCardThreeSingleCard = ({ item, productId, store_id }: any) => {
                                 )}
                         </div>
                         <div>
-                            <div className="line-through text-gray-400 text-sm">
-                                {camp?.status !== 'active' &&
-                                (item.discount_type === 'no_discount' ||
-                                    item.discount_price === '0.00') ? (
-                                    ' '
-                                ) : (
-                                    <p>
-                                        <Taka />
-                                        {Math.trunc(item?.regular_price)}
-                                    </p>
-                                )}
+                            {save > 0 && (
+                                <p className="line-through text-gray-400 text-sm">
+                                    {' '}
+                                    <BDT
+                                        price={numberParser(
+                                            item?.regular_price
+                                        )}
+                                    />
+                                </p>
+                            )}
+                            <div className="text-lg font-bold">
+                                <BDT />
+                                {price}
                             </div>
-                            <p className="text-lg font-bold">
-                                {' '}
-                                <Taka />
-                                {camp?.status === 'active'
-                                    ? campPrice
-                                    : productGetPrice}
-                            </p>
                         </div>
                     </div>
                 </div>
