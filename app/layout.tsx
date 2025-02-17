@@ -11,6 +11,7 @@ import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import { imgUrl } from '@/site-settings/siteUrl';
 import SetFavicon from '@/utils/useSetFavicon';
 import { GoogleTagManager } from '@next/third-parties/google';
+import NextTopLoader from 'nextjs-toploader';
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -97,11 +98,18 @@ export default async function RootLayout({
                 <GoogleTagManager
                     gtmId={headersetting?.gtm?.google_tag_manager}
                 />
-                {/* <NextTopLoader 
-                color={design?.themeColor || "#29D"} 
-                height={4} 
-                showSpinner={false} 
-            /> */}
+
+                <NextTopLoader
+                    color={'#29D'}
+                    initialPosition={0.08}
+                    crawlSpeed={200}
+                    height={2}
+                    crawl={true}
+                    showSpinner={false}
+                    easing="ease"
+                    speed={200}
+                />
+
                 {FACEBOOK_PIXEL_ID && (
                     <>
                         {/* Facebook Pixel Script */}

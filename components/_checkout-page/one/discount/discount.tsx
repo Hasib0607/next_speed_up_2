@@ -9,7 +9,6 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { numberParser } from '@/helpers/numberParser';
 import { btnhover } from '@/site-settings/style';
 import { subTotal } from '@/utils/_cart-utils/cart-utils';
-
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaRegArrowAltCircleRight } from 'react-icons/fa';
@@ -17,13 +16,14 @@ import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { TWENTY_EIGHT } from '@/consts';
-import { getDiscountAmount } from '@/helpers/getDiscount';
+import { setDiscount } from '@/helpers/setDiscount';
 
 const Discount = ({
     design,
     appStore,
     headersetting,
     setCouponDis,
+    shippingArea,
     setShippingArea,
     setCoupon,
     setCouponResult,
@@ -36,10 +36,14 @@ const Discount = ({
     } = useForm();
 
     const dispatch: AppDispatch = useDispatch();
-
     const store_id = appStore?.id || null;
 
     const cartList = useSelector((state: RootState) => state.cart.cartList);
+    const selectedPayment = useSelector(
+        (state: RootState) => state.paymentFilter.paymentMethod
+    );
+    const sTotal = subTotal(cartList);
+    const total = numberParser(sTotal);
 
     const { checkoutFromData } = useSelector(
         (state: RootState) => state.checkout
@@ -61,40 +65,6 @@ const Discount = ({
         refetch: couponRefetch,
     } = useCheckCouponAvailabilityQuery({ store_id });
 
-    const setDiscount = (res: any) => {
-        setCoupon(res?.code);
-        const sTotal = subTotal(cartList);
-        const minPurchase = numberParser(res?.min_purchase);
-        const maxPurchase = numberParser(res?.max_purchase);
-        const total = numberParser(sTotal);
-
-        if (maxPurchase >= total && minPurchase <= total) {
-            const result: any = getDiscountAmount(
-                total,
-                res?.discount_amount,
-                res?.discount_type
-            );
-            const dis = numberParser(total - result);
-            return dis;
-        } else if (!numberParser(res?.max_purchase) && minPurchase <= total) {
-            const result: any = getDiscountAmount(
-                total,
-                res?.discount_amount,
-                res?.discount_type
-            );
-            const dis = numberParser(total - result);
-            return dis;
-        } else {
-            toast.warning(
-                `Please purchase minimum ${res?.min_purchase}tk ${
-                    res?.max_purchase && `to maximum ${res?.max_purchase}tk`
-                }`,
-                { toastId: res.id }
-            );
-            return 0;
-        }
-    };
-
     const onSubmit = ({ coupon_code }: any) => {
         setLoading(true);
         if (coupon_code != '') {
@@ -103,6 +73,9 @@ const Discount = ({
                     {
                         store_id,
                         coupon_code,
+                        total,
+                        selectedShippingArea,
+                        selectedPayment,
                     },
                     { forceRefetch: true }
                 )
@@ -111,8 +84,16 @@ const Discount = ({
                 .then((res: any) => {
                     const couponValidation = res?.data || {};
                     if (res?.status) {
-                        setCouponResult(couponValidation);
-                        const result = setDiscount(couponValidation);
+                        setCouponResult({
+                            ...couponValidation,
+                            code_status: res?.status,
+                        });
+                        setCoupon(couponValidation?.code);
+                        const result = setDiscount(
+                            couponValidation,
+                            total,
+                            shippingArea
+                        );
                         setCouponDis(result);
                         toast.success(
                             'Successfully Applied Coupon',
@@ -125,6 +106,10 @@ const Discount = ({
                 .catch((couponValidationError: any) => {
                     const { status } = couponValidationError || {};
                     const { message } = couponValidationError?.data || {};
+                    setCouponResult((prev: any) => ({
+                        ...prev,
+                        code_status: couponValidationError?.data?.status,
+                    }));
                     if (status == 404) {
                         setLoading(false);
                         toast.error(message, { toastId: message });
@@ -154,6 +139,60 @@ const Discount = ({
             setSelectedShippingArea('2');
         }
     }, [headersetting, district, setShippingArea, selectedShippingArea]);
+
+    // set auto coupon
+    useEffect(() => {
+        if (total > 0 && selectedShippingArea !== null) {
+            dispatch(
+                checkOutApi.endpoints.couponAutoApply.initiate(
+                    {
+                        store_id,
+                        total,
+                        selectedShippingArea,
+                        selectedPayment,
+                    },
+                    { forceRefetch: true }
+                )
+            )
+                .unwrap()
+                .then((res: any) => {
+                    const autoCouponValidation = res?.data || {};
+                    if (res?.status) {
+                        setCouponResult({
+                            ...autoCouponValidation,
+                            code_status: res?.status,
+                        });
+                        setCoupon(autoCouponValidation?.code);
+                        const result = setDiscount(
+                            autoCouponValidation,
+                            total,
+                            shippingArea
+                        );
+                        setCouponDis(result);
+                    }
+                })
+                .catch((couponValidationError: any) => {
+                    const { status } = couponValidationError || {};
+                    setCouponResult((prev: any) => ({
+                        ...prev,
+                        code_status: couponValidationError?.data?.status,
+                    }));
+                    if (status == 404) {
+                        setCouponDis(0);
+                    }
+                });
+        }
+    }, [
+        setCouponDis,
+        dispatch,
+        store_id,
+        setCoupon,
+        setCouponResult,
+        total,
+        shippingArea,
+        selectedShippingArea,
+        selectedPayment,
+    ]);
 
     // get coupon status
     useEffect(() => {

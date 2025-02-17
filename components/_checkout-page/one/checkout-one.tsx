@@ -24,9 +24,6 @@ const CheckOutOne = ({ design, appStore, headersetting }: any) => {
     const [couponDis, setCouponDis] = useState(0);
     const [coupon, setCoupon] = useState(null);
     const [shippingArea, setShippingArea] = useState<any>(null);
-    const [selectPayment, setSelectPayment] = useState(
-        headersetting?.cod === 'active' ? 'cod' : ''
-    );
     const [selectAddress, setSelectAddress] = useState(null);
     const [couponResult, setCouponResult] = useState(null);
 
@@ -66,7 +63,6 @@ const CheckOutOne = ({ design, appStore, headersetting }: any) => {
 
     if (cartList?.length === 0) {
         return (
-            <>
                 <div className="flex justify-center items-center min-h-[70vh]">
                     <div className="text-center">
                         <h3 className="text-gray-400 text-2xl font-bold">
@@ -77,7 +73,6 @@ const CheckOutOne = ({ design, appStore, headersetting }: any) => {
                         </h6>
                     </div>
                 </div>
-            </>
         );
     }
 
@@ -139,6 +134,7 @@ const CheckOutOne = ({ design, appStore, headersetting }: any) => {
                                 appStore={appStore}
                                 headersetting={headersetting}
                                 setCouponDis={setCouponDis}
+                                shippingArea={shippingArea}
                                 setShippingArea={setShippingArea}
                                 setCoupon={setCoupon}
                                 setCouponResult={setCouponResult}
@@ -159,8 +155,6 @@ const CheckOutOne = ({ design, appStore, headersetting }: any) => {
                                 setCouponDis={setCouponDis}
                                 couponResult={couponResult}
                                 selectAddress={selectAddress}
-                                selectPayment={selectPayment}
-                                setSelectPayment={setSelectPayment}
                                 shippingArea={shippingArea}
                                 coupon={coupon}
                                 userAddress={userAddress}

@@ -15,7 +15,7 @@ import Link from 'next/link';
 
 import { useUserPlaceOrderMutation } from '@/redux/features/checkOut/checkOutApi';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
-import { RootState } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
 import { grandTotal, subTotal } from '@/utils/_cart-utils/cart-utils';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
@@ -41,7 +41,6 @@ const YourOrders = ({
     setCouponDis,
     coupon,
     selectAddress,
-    selectPayment,
     shippingArea,
     couponResult,
     setCouponResult,
@@ -61,6 +60,7 @@ const YourOrders = ({
     const { checkoutFromData } = useSelector(
         (state: RootState) => state.checkout
     ); // Access updated Redux state
+
     const {
         name: userName,
         phone: userPhone,
@@ -70,25 +70,19 @@ const YourOrders = ({
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { user } = useSelector((state: RootState) => state.auth);
+    const selectedPayment = useSelector(
+        (state: RootState) => state.paymentFilter.paymentMethod
+    );
     const smsCount = numberParser(headersetting?.total_sms);
 
     const router = useRouter();
-    const dispatch = useDispatch();
+    const dispatch:AppDispatch = useDispatch();
 
     const formData = new FormData();
 
     const total = subTotal(cartList);
 
     const [userPlaceOrder] = useUserPlaceOrderMutation();
-
-    if (
-        total < numberParser(couponResult?.min_purchase) ||
-        (numberParser(couponResult?.max_purchase) &&
-            total > numberParser(couponResult?.max_purchase)) ||
-        !couponDis
-    ) {
-        couponDis = 0;
-    }
 
     const handleCouponRemove = () => {
         setCouponDis(0);
@@ -182,9 +176,9 @@ const YourOrders = ({
             note: selectAddress?.note,
             district: selectAddress?.district?.bn_name,
             address_id: selectAddress?.id,
-            payment_type: selectPayment,
+            payment_type: selectedPayment,
             subtotal: numberParser(total),
-            shipping: numberParser(shippingArea),
+            shipping: shippingArea,
             total: gTotal,
             discount: couponDis,
             tax,
@@ -201,7 +195,7 @@ const YourOrders = ({
             userAddress,
             selectAddress,
             isAuthenticated,
-            selectPayment,
+            selectedPayment,
             total,
             shippingArea,
             gTotal,
@@ -226,10 +220,10 @@ const YourOrders = ({
         phone: data.phone,
         email: data.email,
         address: data.address,
-        note: data?.note,
-        district: data?.district,
-        address_id: data?.address_id,
-        payment_type: selectPayment,
+        note: data.note,
+        district: data.district,
+        address_id: data.address_id,
+        payment_type: data.payment_type,
         subtotal: data.subtotal,
         shipping: data.shipping,
         total: data.total,
@@ -258,9 +252,9 @@ const YourOrders = ({
                 toastId: data.payment_type,
             });
         }
-        if (shippingArea === null) {
+        if (data.shipping === null) {
             toast.warning('Please Select Shipping Area', {
-                toastId: shippingArea,
+                toastId: data.shipping,
             });
         }
 
@@ -355,13 +349,13 @@ const YourOrders = ({
             data?.name &&
             (data?.phone || data?.email) &&
             data?.address &&
-            shippingArea !== null
+            data?.shipping !== null
         ) {
             setIsAbleToOrder(true);
         } else {
             setIsAbleToOrder(false);
         }
-    }, [data, shippingArea]);
+    }, [data]);
 
     return (
         <div

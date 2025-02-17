@@ -37,6 +37,7 @@ import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { TWENTY_EIGHT } from '@/consts';
 import { howMuchSave } from '@/helpers/littleSpicy';
+import { setCouponShow } from '@/helpers/setDiscount';
 
 const YourOrders = ({
     design,
@@ -46,8 +47,6 @@ const YourOrders = ({
     setCouponDis,
     coupon,
     selectAddress,
-    selectPayment,
-    setSelectPayment,
     shippingArea,
     couponResult,
 }: any) => {
@@ -66,6 +65,7 @@ const YourOrders = ({
     const { checkoutFromData } = useSelector(
         (state: RootState) => state.checkout
     ); // Access updated Redux state
+
     const {
         name: userName,
         phone: userPhone,
@@ -86,6 +86,9 @@ const YourOrders = ({
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { user } = useSelector((state: RootState) => state.auth);
+    const selectedPayment = useSelector(
+        (state: RootState) => state.paymentFilter.paymentMethod
+    );
     const smsCount = numberParser(headersetting?.total_sms);
 
     const router = useRouter();
@@ -97,21 +100,14 @@ const YourOrders = ({
 
     const [userPlaceOrder] = useUserPlaceOrderMutation();
 
-    if (
-        total < numberParser(couponResult?.min_purchase) ||
-        (numberParser(couponResult?.max_purchase) &&
-            total > numberParser(couponResult?.max_purchase)) ||
-        !couponDis
-    ) {
-        couponDis = 0;
-    }
-
     const handleCouponRemove = () => {
         setCouponDis(0);
         toast.error('Coupon removed!');
     };
 
     const gTotal = grandTotal(total, tax, shippingArea, couponDis);
+
+    const couponShow = setCouponShow(couponResult, total, shippingArea);
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -126,7 +122,7 @@ const YourOrders = ({
     const cart = updatedCartList?.map((item: any) => ({
         id: item?.id,
         quantity: item?.qty,
-        discount:howMuchSave(item) ?? 0,
+        discount: howMuchSave(item) ?? 0,
         price: item?.price,
         variant_id: item?.variant_id,
         items: item?.items,
@@ -200,9 +196,9 @@ const YourOrders = ({
                 isAuthenticated
             ),
             address_id: selectAddress?.id,
-            payment_type: selectPayment,
+            payment_type: selectedPayment,
             subtotal: numberParser(total),
-            shipping: numberParser(shippingArea),
+            shipping: shippingArea,
             total: gTotal,
             discount: couponDis,
             tax,
@@ -219,7 +215,7 @@ const YourOrders = ({
             userAddress,
             selectAddress,
             isAuthenticated,
-            selectPayment,
+            selectedPayment,
             total,
             shippingArea,
             gTotal,
@@ -245,10 +241,10 @@ const YourOrders = ({
         phone: data.phone,
         email: data.email,
         address: data.address,
-        note: data?.note,
-        district: data?.district,
-        address_id: data?.address_id,
-        payment_type: selectPayment,
+        note: data.note,
+        district: data.district,
+        address_id: data.address_id,
+        payment_type: data.payment_type,
         subtotal: data.subtotal,
         shipping: data.shipping,
         total: data.total,
@@ -277,9 +273,9 @@ const YourOrders = ({
                 toastId: data.payment_type,
             });
         }
-        if (shippingArea === null) {
+        if (data.shipping === null) {
             toast.warning('Please Select Shipping Area', {
-                toastId: shippingArea,
+                toastId: data.shipping,
             });
         }
 
@@ -375,13 +371,13 @@ const YourOrders = ({
             (data?.phone || data?.email) &&
             data?.address &&
             data?.district &&
-            shippingArea !== null
+            data?.shipping !== null
         ) {
             setIsAbleToOrder(true);
         } else {
             setIsAbleToOrder(false);
         }
-    }, [data, shippingArea]);
+    }, [data]);
 
     return (
         <div
@@ -451,7 +447,7 @@ const YourOrders = ({
                         <BDT price={numberParser(total)} />
                     </p>
                 </div>
-                {couponDis > 0 && (
+                {couponShow > 0 && (
                     <>
                         <div className="flex justify-between items-center">
                             <p>
@@ -548,8 +544,6 @@ const YourOrders = ({
                     design={design}
                     appStore={appStore}
                     headersetting={headersetting}
-                    selectPayment={selectPayment}
-                    setSelectPayment={setSelectPayment}
                 />
             </div>
 

@@ -24,9 +24,6 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
     const [couponDis, setCouponDis] = useState(0);
     const [coupon, setCoupon] = useState(null);
     const [shippingArea, setShippingArea] = useState<any>(null);
-    const [selectPayment, setSelectPayment] = useState(
-        headersetting?.cod === 'active' ? 'cod' : ''
-    );
     const [selectAddress, setSelectAddress] = useState(null);
     const [couponResult, setCouponResult] = useState(null);
 
@@ -124,8 +121,6 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
                             design={design}
                             appStore={appStore}
                             headersetting={headersetting}
-                            selectPayment={selectPayment}
-                            setSelectPayment={setSelectPayment}
                         />
                     </div>
                     <div className="border-l-2 pl-8">
@@ -138,7 +133,6 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
                             couponResult={couponResult}
                             setCouponResult={setCouponResult}
                             selectAddress={selectAddress}
-                            selectPayment={selectPayment}
                             shippingArea={shippingArea}
                             coupon={coupon}
                             userAddress={userAddress}
