@@ -32,6 +32,7 @@ import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
 import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { howMuchSave } from '@/helpers/littleSpicy';
+import { setCouponShow } from '@/helpers/setDiscount';
 
 const YourOrders = ({
     design,
@@ -41,7 +42,6 @@ const YourOrders = ({
     setCouponDis,
     coupon,
     selectAddress,
-    selectPayment,
     shippingArea,
     couponResult,
     bookingStatus,
@@ -70,6 +70,9 @@ const YourOrders = ({
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { user } = useSelector((state: RootState) => state.auth);
+    const selectedPayment = useSelector(
+        (state: RootState) => state.paymentFilter.paymentMethod
+    );
     const smsCount = numberParser(headersetting?.total_sms);
 
     const router = useRouter();
@@ -96,6 +99,8 @@ const YourOrders = ({
     };
 
     const gTotal = grandTotal(total, tax, shippingArea, couponDis);
+    
+        const couponShow = setCouponShow(couponResult, total, shippingArea);
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -193,9 +198,9 @@ const YourOrders = ({
             drop_location: checkoutBookingFromData?.drop_location,
             comment: checkoutBookingFromData?.comment,
             time: checkoutBookingFromData?.time,
-            payment_type: selectPayment,
+            payment_type: selectedPayment,
             subtotal: numberParser(total),
-            shipping: numberParser(shippingArea),
+            shipping: shippingArea,
             total: gTotal,
             discount: couponDis,
             tax,
@@ -212,7 +217,7 @@ const YourOrders = ({
             userAddress,
             selectAddress,
             isAuthenticated,
-            selectPayment,
+            selectedPayment,
             total,
             shippingArea,
             gTotal,
@@ -235,20 +240,20 @@ const YourOrders = ({
     // Append data to formData
     Object.entries({
         store_id,
-        name: data?.name,
-        phone: data?.phone,
-        email: data?.email,
-        address: data?.address,
-        note: data?.note,
-        district: data?.district,
-        address_id: data?.address_id,
+        name: data.name,
+        phone: data.phone,
+        email: data.email,
+        address: data.address,
+        note: data.note,
+        district: data.district,
+        address_id: data.address_id,
         start_date: data.start_date,
-        end_date: data?.end_date,
-        pickup_location: data?.pickup_location,
-        drop_location: data?.drop_location,
-        comment: data?.comment,
-        time: data?.time,
-        payment_type: data?.payment_type,
+        end_date: data.end_date,
+        pickup_location: data.pickup_location,
+        drop_location: data.drop_location,
+        comment: data.comment,
+        time: data.time,
+        payment_type: data.payment_type,
         subtotal: data.subtotal,
         shipping: data.shipping,
         total: data.total,
@@ -281,9 +286,9 @@ const YourOrders = ({
                 toastId: data.payment_type,
             });
         }
-        if (shippingArea === null) {
+        if (data.shipping === null) {
             toast.warning('Please Select Shipping Area', {
-                toastId: shippingArea,
+                toastId: data.shipping,
             });
         }
 
@@ -377,7 +382,7 @@ const YourOrders = ({
             data?.product &&
             data?.name &&
             (data?.phone || data?.email) &&
-            shippingArea !== null
+            data.shipping !== null
         ) {
             if (bookingStatus && !data?.address) {
                 setIsAbleToOrder(true);
@@ -389,7 +394,7 @@ const YourOrders = ({
         } else {
             setIsAbleToOrder(false);
         }
-    }, [data, bookingStatus, shippingArea]);
+    }, [data, bookingStatus]);
 
     return (
         <div
@@ -455,7 +460,7 @@ const YourOrders = ({
                     </p>
                 </div>
 
-                {couponDis > 0 && (
+                {couponShow > 0 && (
                     <div className="space-x-4 my-3">
                         <button
                             className="relative inline-flex font-semibold justify-between gap-2 items-center px-2 space-y-2 text-sm shadow rounded-full bg-green-500 text-gray-900"

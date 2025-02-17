@@ -26,9 +26,6 @@ const CheckOutFive = ({ design, appStore, headersetting }: any) => {
     const [couponDis, setCouponDis] = useState(0);
     const [coupon, setCoupon] = useState(null);
     const [shippingArea, setShippingArea] = useState<any>(null);
-    const [selectPayment, setSelectPayment] = useState(
-        headersetting?.cod === 'active' ? 'cod' : ''
-    );
     const [selectAddress, setSelectAddress] = useState(null);
     const [couponResult, setCouponResult] = useState(null);
 
@@ -117,6 +114,7 @@ const CheckOutFive = ({ design, appStore, headersetting }: any) => {
                         appStore={appStore}
                         headersetting={headersetting}
                         setCouponDis={setCouponDis}
+                        shippingArea={shippingArea}
                         setShippingArea={setShippingArea}
                         setCoupon={setCoupon}
                         setCouponResult={setCouponResult}
@@ -128,8 +126,6 @@ const CheckOutFive = ({ design, appStore, headersetting }: any) => {
                                 design={design}
                                 appStore={appStore}
                                 headersetting={headersetting}
-                                selectPayment={selectPayment}
-                                setSelectPayment={setSelectPayment}
                             />
                         </div>
                     </div>
@@ -149,8 +145,6 @@ const CheckOutFive = ({ design, appStore, headersetting }: any) => {
                         setCouponDis={setCouponDis}
                         couponResult={couponResult}
                         selectAddress={selectAddress}
-                        selectPayment={selectPayment}
-                        setSelectPayment={setSelectPayment}
                         shippingArea={shippingArea}
                         coupon={coupon}
                         userAddress={userAddress}

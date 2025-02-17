@@ -1,20 +1,22 @@
 'use client';
 
 import bkashLogo from '@/assets/paymentMethodLogo/bkashLogo.png';
-import { TWENTY_EIGHT } from '@/consts';
-
+import { classNames } from '@/helpers/littleSpicy';
+import { setSelectPayment } from '@/redux/features/filters/paymentFilterSlice';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
-import { customizeCheckout } from '@/utils/customizeDesign';
+import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
 const PaymentGateway = ({
     design,
     appStore,
-    headersetting,
-    selectPayment,
-    setSelectPayment,
+    headersetting
 }: any) => {
     const store_id = appStore?.id || null;
     const module_id = 106;
+
+    const dispatch:AppDispatch = useAppDispatch();
 
     const {
         data: moduleIdDetailsData,
@@ -24,188 +26,168 @@ const PaymentGateway = ({
     } = useGetModuleStatusQuery({ store_id, module_id });
     const activeModule = moduleIdDetailsData?.status || false;
 
-    const checkoutData = customizeCheckout.find((item) => item.id == store_id);
+    const selectedPayment = useSelector((state:RootState) => state.paymentFilter.paymentMethod)
 
     const handleSelect = (e: string) => {
-        setSelectPayment(e);
+        dispatch(setSelectPayment(e));
     };
 
+    const btnStyle =
+        'p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300 cursor-pointer';
+
     return (
-        <>
-            <div className="shadow sm:rounded-md sm:overflow-hidden my-5">
-                <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
-                    <div className="col-span-6 sm:col-span-4">
-                        <div className="flex flex-col gap-2 justify-between pb-3">
+        <div className="shadow sm:rounded-md sm:overflow-hidden my-5">
+            <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
+                <div className="col-span-6 sm:col-span-4">
+                    <div className="flex flex-col gap-2 justify-between pb-3">
+                        <label
+                            htmlFor="email-address"
+                            className="block text-xl font-semibold text-gray-700"
+                        >
+                            Payment{' '}
+                            <span className="text-sm">
+                                ( Please Select Your Payment Method )
+                            </span>
+                        </label>
+
+                        {store_id === 4736 && (
                             <label
                                 htmlFor="email-address"
-                                className="block text-xl font-semibold text-gray-700"
+                                className="block text-sm bg-black text-white font-semibold p-2 rounded-md"
                             >
-                                Payment{' '}
-                                <span className="text-sm">
-                                    ( Please Select Your Payment Method )
-                                </span>
+                                ১৫০ টাকা এডভ্যান্স পেমেন্ট করতে এই বক্স এ ক্লিক
+                                করুন
                             </label>
-                            {store_id === 4736 && (
-                                <label
-                                    htmlFor="email-address"
-                                    className="block text-sm bg-black text-white font-semibold p-2 rounded-md"
-                                >
-                                    ১৫০ টাকা এডভ্যান্স পেমেন্ট করতে এই বক্স এ
-                                    ক্লিক করুন
-                                </label>
-                            )}
-                            {store_id === 4812 && (
-                                <label
-                                    htmlFor="email-address"
-                                    className="block text-sm bg-black text-white font-semibold p-2 rounded-md"
-                                >
-                                    ২০০ টাকা অগ্ৰীম পেমেন্ট অথবা সম্পূর্ণ
-                                    পেমেন্ট করে আপনার অর্ডারটি নিশ্চিত করুন।
-                                </label>
-                            )}
-                        </div>
+                        )}
 
-                        <div className="flex gap-2 flex-wrap sm:flex-nowrap">
-                            {headersetting?.amarpay === 'active' && (
-                                <div
-                                    style={{
-                                        backgroundColor:
-                                            selectPayment === 'amarpay'
-                                                ? design?.header_color
-                                                : '#fff',
-                                        color:
-                                            selectPayment === 'amarpay'
-                                                ? design?.text_color
-                                                : '#000',
-                                    }}
-                                    className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
-                                    onClick={() => handleSelect('amarpay')}
-                                >
-                                    <p className="font-semibold tracking-wider">
-                                        {headersetting?.amarpay_text}
-                                    </p>
-                                </div>
-                            )}
+                        {store_id === 4812 && (
+                            <label
+                                htmlFor="email-address"
+                                className="block text-sm bg-black text-white font-semibold p-2 rounded-md"
+                            >
+                                ২০০ টাকা অগ্ৰীম পেমেন্ট অথবা সম্পূর্ণ পেমেন্ট
+                                করে আপনার অর্ডারটি নিশ্চিত করুন।
+                            </label>
+                        )}
+                    </div>
 
-                            {headersetting?.online === 'active' && (
-                                <div
-                                    style={{
-                                        backgroundColor:
-                                            selectPayment === 'online'
-                                                ? design?.header_color
-                                                : '#fff',
-                                        color:
-                                            selectPayment === 'online'
-                                                ? design?.text_color
-                                                : '#000',
-                                    }}
-                                    className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
-                                    onClick={() => handleSelect('online')}
-                                >
-                                    <p className="font-semibold tracking-wider">
-                                        SSL Commerz
-                                    </p>
-                                </div>
-                            )}
+                    <div className="flex gap-2 flex-wrap sm:flex-nowrap">
+                        {headersetting?.uddoktapay === 'active' && (
+                            <div
+                                className={classNames(
+                                    btnStyle,
+                                    selectedPayment === 'uddoktapay'
+                                        ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                        : `bg-[#fff] text-[#000]`
+                                )}
+                                onClick={() => handleSelect('uddoktapay')}
+                            >
+                                <p className="font-semibold tracking-wider">
+                                    {headersetting?.uddoktapay_text}
+                                </p>
+                            </div>
+                        )}
 
-                            {headersetting?.bkash === 'active' && (
-                                <div
-                                    style={{
-                                        backgroundColor:
-                                            selectPayment === 'bkash'
-                                                ? design?.header_color
-                                                : '#fff',
-                                        color:
-                                            selectPayment === 'bkash'
-                                                ? design?.text_color
-                                                : '#000',
-                                    }}
-                                    className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
-                                    onClick={() => handleSelect('bkash')}
-                                >
-                                    <div className="flex justify-center items-center w-auto min-w-20">
-                                        {checkoutData?.full_payment ? (
-                                            checkoutData?.full_payment
+                        {headersetting?.amarpay === 'active' && (
+                            <div
+                                className={classNames(
+                                    btnStyle,
+                                    selectedPayment === 'amarpay'
+                                        ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                        : `bg-[#fff] text-[#000]`
+                                )}
+                                onClick={() => handleSelect('amarpay')}
+                            >
+                                <p className="font-semibold tracking-wider">
+                                    {headersetting?.amarpay_text}
+                                </p>
+                            </div>
+                        )}
+
+                        {headersetting?.online === 'active' && (
+                            <div
+                                className={classNames(
+                                    btnStyle,
+                                    selectedPayment === 'online'
+                                        ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                        : `bg-[#fff] text-[#000]`
+                                )}
+                                onClick={() => handleSelect('online')}
+                            >
+                                <p className="font-semibold tracking-wider">
+                                    SSL Commerz
+                                </p>
+                            </div>
+                        )}
+
+                        {headersetting?.bkash === 'active' && (
+                            <div
+                                className={classNames(
+                                    btnStyle,
+                                    selectedPayment === 'bkash'
+                                        ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                        : `bg-[#fff] text-[#000]`
+                                )}
+                                onClick={() => handleSelect('bkash')}
+                            >
+                                <div className="flex justify-center items-center w-auto min-w-20">
+                                    <div className="flex gap-2 w-auto">
+                                        {headersetting?.bkash_text ===
+                                        'bKash Payment Img' ? (
+                                            <img
+                                                src={bkashLogo.src}
+                                                className="h-6 md:h-8"
+                                                alt="bkashLogo"
+                                            />
                                         ) : (
-                                            <div className="flex gap-2 w-auto">
-                                                {headersetting?.bkash_text ===
-                                                'bKash Payment Img' ? (
-                                                    <img
-                                                        src={bkashLogo.src}
-                                                        className="h-6 md:h-8"
-                                                        alt="bkashLogo"
-                                                    />
-                                                ) : (
-                                                    <p className="font-semibold tracking-wider">
-                                                        {
-                                                            headersetting?.bkash_text
-                                                        }
-                                                    </p>
-                                                )}
-                                            </div>
+                                            <p className="font-semibold tracking-wider">
+                                                {headersetting?.bkash_text}
+                                            </p>
                                         )}
                                     </div>
                                 </div>
-                            )}
+                            </div>
+                        )}
 
-                            {headersetting?.cod === 'active' && (
-                                <div
-                                    style={{
-                                        backgroundColor:
-                                            selectPayment === 'cod'
-                                                ? design?.header_color
-                                                : '#fff',
-                                        color:
-                                            selectPayment === 'cod'
-                                                ? design?.text_color
-                                                : '#000',
-                                    }}
-                                    className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
-                                    onClick={() => handleSelect('cod')}
-                                >
-                                    <p className="font-semibold tracking-wider">
-                                        {design?.template_id === '29'
-                                            ? 'ক্যাশ অন ডেলিভারি'
-                                            : headersetting?.cod_text}
-                                    </p>
-                                </div>
-                            )}
+                        {headersetting?.cod === 'active' && (
+                            <div
+                                className={classNames(
+                                    btnStyle,
+                                    selectedPayment === 'cod'
+                                        ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                        : `bg-[#fff] text-[#000]`
+                                )}
+                                onClick={() => handleSelect('cod')}
+                            >
+                                <p className="font-semibold tracking-wider">
+                                    {design?.template_id === '29'
+                                        ? 'ক্যাশ অন ডেলিভারি'
+                                        : headersetting?.cod_text}
+                                </p>
+                            </div>
+                        )}
 
-                            {activeModule && (
-                                <div
-                                    style={{
-                                        backgroundColor:
-                                            selectPayment === 'ap'
-                                                ? design?.header_color
-                                                : '#fff',
-                                        color:
-                                            selectPayment === 'ap'
-                                                ? design?.text_color
-                                                : '#000',
-                                    }}
-                                    className="p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300"
-                                    onClick={() => handleSelect('ap')}
-                                >
-                                    <div className="flex justify-between items-center lg:cursor-pointer">
-                                        <h3 className="font-semibold tracking-wider">
-                                            {design?.checkout_page ===
-                                                TWENTY_EIGHT ||
-                                            design?.template_id === '29'
-                                                ? 'অ্যাডভান্স পেমেন্ট'
-                                                : `${
-                                                      checkoutData?.partial_payment
-                                                          ? checkoutData?.partial_payment
-                                                          : 'Advance Payment'
-                                                  }`}
-                                        </h3>
-                                    </div>
+                        {activeModule && (
+                            <div
+                                className={classNames(
+                                    btnStyle,
+                                    selectedPayment === 'ap'
+                                        ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                        : `bg-[#fff] text-[#000]`
+                                )}
+                                onClick={() => handleSelect('ap')}
+                            >
+                                <div className="flex justify-between items-center lg:cursor-pointer">
+                                    <h3 className="font-semibold tracking-wider">
+                                        {headersetting?.ap_text}
+                                    </h3>
                                 </div>
-                            )}
-                        </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

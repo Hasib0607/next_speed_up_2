@@ -41,6 +41,7 @@ import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { TWENTY_EIGHT } from '@/consts';
 import { howMuchSave } from '@/helpers/littleSpicy';
+import { setCouponShow } from '@/helpers/setDiscount';
 
 const YourOrders = ({
     design,
@@ -50,7 +51,6 @@ const YourOrders = ({
     setCouponDis,
     coupon,
     selectAddress,
-    selectPayment,
     shippingArea,
     couponResult,
 }: any) => {
@@ -69,6 +69,7 @@ const YourOrders = ({
     const { checkoutFromData } = useSelector(
         (state: RootState) => state.checkout
     ); // Access updated Redux state
+
     const {
         name: userName,
         phone: userPhone,
@@ -78,6 +79,9 @@ const YourOrders = ({
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { user } = useSelector((state: RootState) => state.auth);
+    const selectedPayment = useSelector(
+        (state: RootState) => state.paymentFilter.paymentMethod
+    );
     const smsCount = numberParser(headersetting?.total_sms);
 
     const router = useRouter();
@@ -89,21 +93,14 @@ const YourOrders = ({
 
     const [userPlaceOrder] = useUserPlaceOrderMutation();
 
-    if (
-        total < numberParser(couponResult?.min_purchase) ||
-        (numberParser(couponResult?.max_purchase) &&
-            total > numberParser(couponResult?.max_purchase)) ||
-        !couponDis
-    ) {
-        couponDis = 0;
-    }
-
     const handleCouponRemove = () => {
         setCouponDis(0);
         toast.error('Coupon removed!');
     };
 
     const gTotal = grandTotal(total, tax, shippingArea, couponDis);
+
+    const couponShow = setCouponShow(couponResult, total, shippingArea);
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -187,9 +184,9 @@ const YourOrders = ({
             note: selectAddress?.note,
             district: selectAddress?.district?.bn_name,
             address_id: selectAddress?.id,
-            payment_type: selectPayment,
+            payment_type: selectedPayment,
             subtotal: numberParser(total),
-            shipping: numberParser(shippingArea),
+            shipping: shippingArea,
             total: gTotal,
             discount: couponDis,
             tax,
@@ -206,7 +203,7 @@ const YourOrders = ({
             userAddress,
             selectAddress,
             isAuthenticated,
-            selectPayment,
+            selectedPayment,
             total,
             shippingArea,
             gTotal,
@@ -231,10 +228,10 @@ const YourOrders = ({
         phone: data.phone,
         email: data.email,
         address: data.address,
-        note: data?.note,
-        district: data?.district,
-        address_id: data?.address_id,
-        payment_type: selectPayment,
+        note: data.note,
+        district: data.district,
+        address_id: data.address_id,
+        payment_type: data.payment_type,
         subtotal: data.subtotal,
         shipping: data.shipping,
         total: data.total,
@@ -263,9 +260,9 @@ const YourOrders = ({
                 toastId: data.payment_type,
             });
         }
-        if (shippingArea === null) {
+        if (data.shipping === null) {
             toast.warning('Please Select Shipping Area', {
-                toastId: shippingArea,
+                toastId: data.shipping,
             });
         }
 
@@ -360,13 +357,13 @@ const YourOrders = ({
             data?.name &&
             (data?.phone || data?.email) &&
             data?.address &&
-            shippingArea !== null
+            data?.shipping !== null
         ) {
             setIsAbleToOrder(true);
         } else {
             setIsAbleToOrder(false);
         }
-    }, [data, shippingArea]);
+    }, [data]);
 
     return (
         <div
@@ -438,7 +435,7 @@ const YourOrders = ({
                     <p>{<BDT price={couponDis} />}</p>
                 </div>
 
-                {couponDis > 0 && (
+                {couponShow && (
                     <div className="space-x-4 my-3">
                         <button
                             className="relative inline-flex font-semibold justify-between gap-2 items-center px-2 space-y-2 text-sm shadow rounded-full bg-green-500 text-gray-900"

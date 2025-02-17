@@ -33,3 +33,35 @@ export const setCouponShow = (res: any, total: any, shippingArea: number) => {
         return status;
     }
 };
+
+        // setCoupon(res?.code);
+        // const sTotal = subTotal(cartList);
+        // const minPurchase = numberParser(res?.min_purchase);
+        // const maxPurchase = numberParser(res?.max_purchase);
+        // const total = numberParser(sTotal);
+
+        // if (maxPurchase >= total && minPurchase <= total) {
+        //     const result: any = getDiscountAmount(
+        //         total,
+        //         res?.discount_amount,
+        //         res?.discount_type
+        //     );
+        //     const dis = numberParser(total - result);
+        //     return dis;
+        // } else if (!numberParser(res?.max_purchase) && minPurchase <= total) {
+        //     const result: any = getDiscountAmount(
+        //         total,
+        //         res?.discount_amount,
+        //         res?.discount_type
+        //     );
+        //     const dis = numberParser(total - result);
+        //     return dis;
+        // } else {
+        //     toast.warning(
+        //         `Please purchase minimum ${res?.min_purchase}tk ${
+        //             res?.max_purchase && `to maximum ${res?.max_purchase}tk`
+        //         }`,
+        //         { toastId: res.id }
+        //     );
+        //     return 0;
+        // }

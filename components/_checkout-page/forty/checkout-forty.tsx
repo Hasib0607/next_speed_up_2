@@ -6,7 +6,6 @@ import {
 } from '@/redux/features/checkOut/checkOutApi';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-
 import Address from '../_components/address/address';
 import YourOrders from './your-orders/your-order';
 import Discount from '../_components/discount-seven/discount-seven';
@@ -37,9 +36,6 @@ const CheckOutForty = ({ design, appStore, headersetting }: any) => {
     const [couponDis, setCouponDis] = useState(0);
     const [coupon, setCoupon] = useState(null);
     const [shippingArea, setShippingArea] = useState<any>(null);
-    const [selectPayment, setSelectPayment] = useState(
-        headersetting?.cod === 'active' ? 'cod' : ''
-    );
     const [selectAddress, setSelectAddress] = useState(null);
     const [couponResult, setCouponResult] = useState(null);
     const [bookingData, setBookingData] = useState<any>(null);
@@ -157,12 +153,13 @@ const CheckOutForty = ({ design, appStore, headersetting }: any) => {
                                 design={design}
                                 appStore={appStore}
                                 headersetting={headersetting}
-                                setShippingArea={setShippingArea}
-                                setCouponResult={setCouponResult}
-                                bookingStatus={bookingStatus}
                                 setCouponDis={setCouponDis}
-                                couponResult={couponResult}
+                                shippingArea={shippingArea}
+                                setShippingArea={setShippingArea}
                                 setCoupon={setCoupon}
+                                setCouponResult={setCouponResult}
+                                couponResult={couponResult}
+                                bookingStatus={bookingStatus}
                                 className={''}
                             />
                         </div>
@@ -173,8 +170,6 @@ const CheckOutForty = ({ design, appStore, headersetting }: any) => {
                                 design={design}
                                 appStore={appStore}
                                 headersetting={headersetting}
-                                selectPayment={selectPayment}
-                                setSelectPayment={setSelectPayment}
                             />
                         </div>
                     </div>
@@ -194,7 +189,6 @@ const CheckOutForty = ({ design, appStore, headersetting }: any) => {
                         setCouponDis={setCouponDis}
                         couponResult={couponResult}
                         selectAddress={selectAddress}
-                        selectPayment={selectPayment}
                         shippingArea={shippingArea}
                         coupon={coupon}
                         userAddress={userAddress}

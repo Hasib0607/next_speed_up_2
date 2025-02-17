@@ -12,6 +12,7 @@ import { authSlice } from './features/auth/authSlice';
 import { userSlice } from './features/user/userSlice';
 import { affiliateUserSlice } from './features/affiliateUser/affiliateUserSlice';
 import { checkOutSlice } from './features/checkOut/checkOutSlice';
+import { paymentFilterSlice } from './features/filters/paymentFilterSlice';
 
 // import slices
 const rootReducer = combineReducers({
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
     [userSlice.reducerPath]: userSlice.reducer,
     [affiliateUserSlice.reducerPath]: affiliateUserSlice.reducer,
     [filterSlice.reducerPath]: filterSlice.reducer,
+    [paymentFilterSlice.reducerPath]: paymentFilterSlice.reducer,
     [authSlice.reducerPath]: authSlice.reducer,
 });
 

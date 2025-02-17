@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import Address from '../_components/address/address';
 import YourOrders from './your-orders/your-order';
 import Discount from './discount/discount';
-import PaymentGateway from './payment-gateway/payment-gateway';
+import PaymentGateway from '../_components/payment-gateway/payment-gateway';
 import PaymentConditions from '../_components/payment-conditions';
 
 const CheckOutFour = ({ design, appStore, headersetting }: any) => {
@@ -25,12 +25,8 @@ const CheckOutFour = ({ design, appStore, headersetting }: any) => {
     const [couponDis, setCouponDis] = useState(0);
     const [coupon, setCoupon] = useState(null);
     const [shippingArea, setShippingArea] = useState<any>(null);
-    const [selectPayment, setSelectPayment] = useState(
-        headersetting?.cod === 'active' ? 'cod' : ''
-    );
     const [selectAddress, setSelectAddress] = useState(null);
     const [couponResult, setCouponResult] = useState(null);
-
     const [token, setToken] = useState(null);
     const [userName, setUserName] = useState(null);
     const [userPhone, setUserPhone] = useState(null);
@@ -74,18 +70,16 @@ const CheckOutFour = ({ design, appStore, headersetting }: any) => {
 
     if (cartList?.length === 0) {
         return (
-            <>
-                <div className="flex justify-center items-center min-h-[70vh]">
-                    <div className="text-center">
-                        <h3 className="text-gray-400 text-2xl font-bold">
-                            You have no product in your cart!{' '}
-                        </h3>
-                        <h6 className="text-gray-400 text-xl font-semibold">
-                            Please Add Some Product
-                        </h6>
-                    </div>
+            <div className="flex justify-center items-center min-h-[70vh]">
+                <div className="text-center">
+                    <h3 className="text-gray-400 text-2xl font-bold">
+                        You have no product in your cart!{' '}
+                    </h3>
+                    <h6 className="text-gray-400 text-xl font-semibold">
+                        Please Add Some Product
+                    </h6>
                 </div>
-            </>
+            </div>
         );
     }
 
@@ -124,18 +118,21 @@ const CheckOutFour = ({ design, appStore, headersetting }: any) => {
                             appStore={appStore}
                             headersetting={headersetting}
                             setCouponDis={setCouponDis}
+                            shippingArea={shippingArea}
                             setShippingArea={setShippingArea}
                             setCoupon={setCoupon}
                             setCouponResult={setCouponResult}
                             couponResult={couponResult}
                         />
-                        <PaymentGateway
-                            design={design}
-                            appStore={appStore}
-                            headersetting={headersetting}
-                            selectPayment={selectPayment}
-                            setSelectPayment={setSelectPayment}
-                        />
+                        <div className="shadow sm:rounded-md sm:overflow-hidden my-5">
+                            <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
+                                <PaymentGateway
+                                    design={design}
+                                    appStore={appStore}
+                                    headersetting={headersetting}
+                                />
+                            </div>
+                        </div>
                         <PaymentConditions
                             design={design}
                             appStore={appStore}
@@ -152,7 +149,6 @@ const CheckOutFour = ({ design, appStore, headersetting }: any) => {
                             setCouponDis={setCouponDis}
                             couponResult={couponResult}
                             selectAddress={selectAddress}
-                            selectPayment={selectPayment}
                             shippingArea={shippingArea}
                             coupon={coupon}
                             userAddress={userAddress}

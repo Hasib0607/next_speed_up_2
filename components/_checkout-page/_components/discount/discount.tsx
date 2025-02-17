@@ -5,7 +5,7 @@ import {
     useCheckCouponAvailabilityQuery,
 } from '@/redux/features/checkOut/checkOutApi';
 
-import { AppDispatch } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
 import { numberParser } from '@/helpers/numberParser';
 import { btnhover } from '@/site-settings/style';
 import { subTotal } from '@/utils/_cart-utils/cart-utils';
@@ -34,10 +34,10 @@ const Discount = ({
     } = useForm();
 
     const dispatch: AppDispatch = useDispatch();
-
     const store_id = appStore?.id || null;
 
-    const cartList = useSelector((state: any) => state.cart.cartList);
+    const cartList = useSelector((state: RootState) => state.cart.cartList);
+    const selectedPayment = useSelector((state:RootState) => state.paymentFilter.paymentMethod)
     const sTotal = subTotal(cartList);
     const total = numberParser(sTotal);
 
@@ -64,6 +64,7 @@ const Discount = ({
                         coupon_code,
                         total,
                         selectedShippingArea,
+                        selectedPayment
                     },
                     { forceRefetch: true }
                 )
@@ -127,7 +128,7 @@ const Discount = ({
             setSelectedShippingArea(headersetting?.selected_shipping_area);
             const initialAreaCost =
                 headersetting?.[
-                    `shipping_area_${headersetting.selected_shipping_area}_cost`
+                    `shipping_area_${headersetting?.selected_shipping_area}_cost`
                 ];
             if (initialAreaCost >= 0) {
                 setShippingArea(initialAreaCost);
@@ -144,6 +145,7 @@ const Discount = ({
                         store_id,
                         total,
                         selectedShippingArea,
+                        selectedPayment
                     },
                     { forceRefetch: true }
                 )
@@ -185,6 +187,7 @@ const Discount = ({
         total,
         shippingArea,
         selectedShippingArea,
+        selectedPayment
     ]);
 
     // get coupon status
