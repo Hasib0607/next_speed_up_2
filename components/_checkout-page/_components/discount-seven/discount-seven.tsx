@@ -22,8 +22,6 @@ const DiscountSeven = ({
     setCouponDis,
     shippingArea,
     setShippingArea,
-    setCoupon,
-    setCouponResult,
     bookingStatus,
     className,
 }: any) => {
@@ -38,7 +36,9 @@ const DiscountSeven = ({
     const store_id = appStore?.id || null;
 
     const cartList = useSelector((state: RootState) => state.cart.cartList);
-    const selectedPayment = useSelector((state:RootState) => state.paymentFilter.paymentMethod)
+    const selectedPayment = useSelector(
+        (state: RootState) => state.paymentFilter.paymentMethod
+    );
     const sTotal = subTotal(cartList);
     const total = numberParser(sTotal);
 
@@ -55,60 +55,48 @@ const DiscountSeven = ({
         refetch: couponRefetch,
     } = useCheckCouponAvailabilityQuery({ store_id });
 
-
     const onSubmit = ({ coupon_code }: any) => {
-            setLoading(true);
-            if (coupon_code != '') {
-                dispatch(
-                    checkOutApi.endpoints.checkCouponValidation.initiate(
-                        {
-                            store_id,
-                            coupon_code,
-                            total,
-                            selectedShippingArea,
-                            selectedPayment
-                        },
-                        { forceRefetch: true }
-                    )
+        setLoading(true);
+        if (coupon_code != '') {
+            dispatch(
+                checkOutApi.endpoints.checkCouponValidation.initiate(
+                    {
+                        store_id,
+                        coupon_code,
+                        total,
+                        selectedShippingArea,
+                        selectedPayment,
+                    },
+                    { forceRefetch: true }
                 )
-                    .unwrap()
-                    .then((res: any) => {
-                        const couponValidation = res?.data || {};
-                        if (res?.status) {
-                            setCouponResult({
-                                ...couponValidation,
-                                code_status: res?.status,
-                            });
-                            setCoupon(couponValidation?.code);
-                            const result = setDiscount(
-                                couponValidation,
-                                total,
-                                shippingArea
-                            );
-                            setCouponDis(result);
-                            toast.success(
-                                'Successfully Applied Coupon',
-                                couponValidation?.id
-                            );
-                            reset();
-                            setLoading(false);
-                        }
-                    })
-                    .catch((couponValidationError: any) => {
-                        const { status } = couponValidationError || {};
-                        const { message } = couponValidationError?.data || {};
-                        setCouponResult((prev: any) => ({
-                            ...prev,
-                            code_status: couponValidationError?.data?.status,
-                        }));
-                        if (status == 404) {
-                            setLoading(false);
-                            toast.error(message, { toastId: message });
-                        }
-                    });
-            }
-        };
-    
+            )
+                .unwrap()
+                .then((res: any) => {
+                    const couponValidation = res?.data || {};
+                    if (res?.status) {
+                        const result = setDiscount(
+                            couponValidation,
+                            total,
+                            shippingArea
+                        );
+                        setCouponDis(result);
+                        toast.success(
+                            'Successfully Applied Coupon',
+                            couponValidation?.id
+                        );
+                        reset();
+                        setLoading(false);
+                    }
+                })
+                .catch((couponValidationError: any) => {
+                    const { status } = couponValidationError || {};
+                    if (status == 404) {
+                        setCouponDis(0);
+                        setLoading(false);
+                    }
+                });
+        }
+    };
 
     const getCostByAreaId = (id: string): number | null => {
         if (id === '1') return headersetting?.shipping_area_1_cost;
@@ -148,7 +136,7 @@ const DiscountSeven = ({
                         store_id,
                         total,
                         selectedShippingArea,
-                        selectedPayment
+                        selectedPayment,
                     },
                     { forceRefetch: true }
                 )
@@ -157,11 +145,6 @@ const DiscountSeven = ({
                 .then((res: any) => {
                     const autoCouponValidation = res?.data || {};
                     if (res?.status) {
-                        setCouponResult({
-                            ...autoCouponValidation,
-                            code_status: res?.status,
-                        });
-                        setCoupon(autoCouponValidation?.code);
                         const result = setDiscount(
                             autoCouponValidation,
                             total,
@@ -170,12 +153,8 @@ const DiscountSeven = ({
                         setCouponDis(result);
                     }
                 })
-                .catch((couponValidationError: any) => {
-                    const { status } = couponValidationError || {};
-                    setCouponResult((prev: any) => ({
-                        ...prev,
-                        code_status: couponValidationError?.data?.status,
-                    }));
+                .catch((couponAutoValidationError: any) => {
+                    const { status } = couponAutoValidationError || {};
                     if (status == 404) {
                         setCouponDis(0);
                     }
@@ -185,12 +164,10 @@ const DiscountSeven = ({
         setCouponDis,
         dispatch,
         store_id,
-        setCoupon,
-        setCouponResult,
         total,
         shippingArea,
         selectedShippingArea,
-        selectedPayment
+        selectedPayment,
     ]);
 
     // get coupon status
@@ -202,113 +179,107 @@ const DiscountSeven = ({
     }, [couponData, couponSuccess]);
 
     return (
-        <>
-            <div
-                className={
-                    className
-                        ? className
-                        : 'grid sm:flex flex-wrap justify-between items-center grid-cols-6 gap-6'
-                }
-            >
-                {!bookingStatus && (
-                    <div className="col-span-6 sm:col-span-3">
-                        <div className="flex justify-between gap-4 items-center pb-3">
-                            <label
-                                htmlFor="name"
-                                className="block sm:text-xl text-base font-semibold text-gray-700"
+        <div
+            className={
+                className
+                    ? className
+                    : 'grid sm:flex flex-wrap justify-between items-center grid-cols-6 gap-6'
+            }
+        >
+            {!bookingStatus && (
+                <div className="col-span-6 sm:col-span-3">
+                    <div className="flex justify-between gap-4 items-center pb-3">
+                        <label
+                            htmlFor="name"
+                            className="block sm:text-xl text-base font-semibold text-gray-700"
+                        >
+                            Shipping Area
+                        </label>
+                        <div>
+                            <select
+                                id="shippingArea"
+                                name="shippingArea"
+                                onChange={(e: any) => handleShippingChange(e)}
+                                value={selectedShippingArea || ''}
+                                className="mt-1 block sm:w-full w-36 py-2 font-semibold border capitalize border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                             >
-                                Shipping Area
-                            </label>
-                            <div>
-                                <select
-                                    id="shippingArea"
-                                    name="shippingArea"
-                                    onChange={(e: any) =>
-                                        handleShippingChange(e)
-                                    }
-                                    value={selectedShippingArea || ''}
-                                    className="mt-1 block sm:w-full w-36 py-2 font-semibold border capitalize border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
-                                >
-                                    <option value={'0'}>--Select Area--</option>
-                                    {headersetting?.shipping_area_1 && (
-                                        <option value={'1'}>
-                                            {headersetting?.shipping_area_1}
-                                        </option>
-                                    )}
-                                    {headersetting?.shipping_area_2 && (
-                                        <option value={'2'}>
-                                            {headersetting?.shipping_area_2}
-                                        </option>
-                                    )}
-                                    {headersetting?.shipping_area_3 && (
-                                        <option value={'3'}>
-                                            {headersetting?.shipping_area_3}
-                                        </option>
-                                    )}
-                                </select>
-                            </div>
+                                <option value={'0'}>--Select Area--</option>
+                                {headersetting?.shipping_area_1 && (
+                                    <option value={'1'}>
+                                        {headersetting?.shipping_area_1}
+                                    </option>
+                                )}
+                                {headersetting?.shipping_area_2 && (
+                                    <option value={'2'}>
+                                        {headersetting?.shipping_area_2}
+                                    </option>
+                                )}
+                                {headersetting?.shipping_area_3 && (
+                                    <option value={'3'}>
+                                        {headersetting?.shipping_area_3}
+                                    </option>
+                                )}
+                            </select>
                         </div>
                     </div>
-                )}
+                </div>
+            )}
 
-                {store_id !== 3601 && store_id !== 3904 && couponAvailable && (
-                    <div className="">
-                        <div className="flex sm:flex-row flex-col gap-4 justify-between items-start sm:items-center pb-3 ">
-                            <label
-                                htmlFor="name"
-                                className="block sm:text-xl font-semibold text-gray-700 pb-2 sm:pb-0"
-                            >
-                                {'Discount'}
-                            </label>
-                            <form
-                                onSubmit={handleSubmit(onSubmit)}
-                                className="flex items-start gap-y-2"
-                            >
-                                <div className="flex flex-col justify-center">
-                                    <input
-                                        {...register('coupon_code', {
-                                            required: true,
-                                        })}
-                                        type={'text'}
-                                        className="border border-gray-400 py-2 px-2 rounded-sm w-full"
+            {store_id !== 3601 && store_id !== 3904 && couponAvailable && (
+                <div className="">
+                    <div className="flex sm:flex-row flex-col gap-4 justify-between items-start sm:items-center pb-3 ">
+                        <label
+                            htmlFor="name"
+                            className="block sm:text-xl font-semibold text-gray-700 pb-2 sm:pb-0"
+                        >
+                            {'Discount'}
+                        </label>
+                        <form
+                            onSubmit={handleSubmit(onSubmit)}
+                            className="flex items-start gap-y-2"
+                        >
+                            <div className="flex flex-col justify-center">
+                                <input
+                                    {...register('coupon_code', {
+                                        required: true,
+                                    })}
+                                    type={'text'}
+                                    className="border border-gray-400 py-2 px-2 rounded-sm w-full"
+                                />
+                            </div>
+                            {loading ? (
+                                <div
+                                    style={{
+                                        backgroundColor: design?.header_color,
+                                        color: design?.text_color,
+                                    }}
+                                    className={`px-4 py-2 ml-2 font-semibold rounded-sm lg:cursor-pointer text-lg ${btnhover}`}
+                                >
+                                    <RotatingLines
+                                        width="20"
+                                        strokeColor="#6495ED"
+                                        strokeWidth="6"
                                     />
                                 </div>
-                                {loading ? (
-                                    <div
-                                        style={{
-                                            backgroundColor:
-                                                design?.header_color,
-                                            color: design?.text_color,
-                                        }}
-                                        className={`px-4 py-2 ml-2 font-semibold rounded-sm lg:cursor-pointer text-lg ${btnhover}`}
-                                    >
-                                        <RotatingLines
-                                            width="20"
-                                            strokeColor="#6495ED"
-                                            strokeWidth="6"
-                                        />
-                                    </div>
-                                ) : (
-                                    <input
-                                        type={'submit'}
-                                        value={'Apply'}
-                                        style={{
-                                            backgroundColor:
-                                                design?.header_color,
-                                            color: design?.text_color,
-                                        }}
-                                        className={`px-4 py-2 ml-2 font-semibold rounded-sm lg:cursor-pointer text-lg ${btnhover}`}
-                                    />
-                                )}
-                            </form>
-                        </div>
-                        {errors.code && (
-                            <span className="text-red-500">Field is empty</span>
-                        )}
+                            ) : (
+                                <input
+                                    type={'submit'}
+                                    value={'Apply'}
+                                    style={{
+                                        backgroundColor: design?.header_color,
+                                        color: design?.text_color,
+                                    }}
+                                    className={`px-4 py-2 ml-2 font-semibold rounded-sm lg:cursor-pointer text-lg ${btnhover}`}
+                                />
+                            )}
+                        </form>
                     </div>
-                )}
-            </div>
-        </>
+                    {errors.code && (
+                        <span className="text-red-500">Field is empty</span>
+                    )}
+                </div>
+            )}
+        </div>
     );
 };
 

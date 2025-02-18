@@ -35,13 +35,8 @@ const CheckOutSeven = ({ design, appStore, headersetting }: any) => {
     } = useGetCampaignQuery({ store_id });
 
     const [couponDis, setCouponDis] = useState(0);
-    const [coupon, setCoupon] = useState(null);
     const [shippingArea, setShippingArea] = useState<any>(null);
-    const [selectPayment, setSelectPayment] = useState(
-        headersetting?.cod === 'active' ? 'cod' : ''
-    );
     const [selectAddress, setSelectAddress] = useState(null);
-    const [couponResult, setCouponResult] = useState(null);
     const [bookingData, setBookingData] = useState<any>(null);
 
     const [token, setToken] = useState(null);
@@ -91,20 +86,19 @@ const CheckOutSeven = ({ design, appStore, headersetting }: any) => {
 
     if (cartList?.length === 0) {
         return (
-            <>
-                <div className="flex justify-center items-center min-h-[70vh]">
-                    <div className="text-center">
-                        <h3 className="text-gray-400 text-2xl font-bold">
-                            You have no product in your cart!{' '}
-                        </h3>
-                        <h6 className="text-gray-400 text-xl font-semibold">
-                            Please Add Some Product
-                        </h6>
-                    </div>
+            <div className="flex justify-center items-center min-h-[70vh]">
+                <div className="text-center">
+                    <h3 className="text-gray-400 text-2xl font-bold">
+                        You have no product in your cart!{' '}
+                    </h3>
+                    <h6 className="text-gray-400 text-xl font-semibold">
+                        Please Add Some Product
+                    </h6>
                 </div>
-            </>
+            </div>
         );
     }
+    
 
     return (
         <div className="bg-white container px-5">
@@ -155,12 +149,10 @@ const CheckOutSeven = ({ design, appStore, headersetting }: any) => {
                                 design={design}
                                 appStore={appStore}
                                 headersetting={headersetting}
+                                shippingArea={shippingArea}
                                 setShippingArea={setShippingArea}
-                                setCouponResult={setCouponResult}
                                 bookingStatus={bookingStatus}
                                 setCouponDis={setCouponDis}
-                                couponResult={couponResult}
-                                setCoupon={setCoupon}
                             />
                         </div>
                     </div>
@@ -170,8 +162,6 @@ const CheckOutSeven = ({ design, appStore, headersetting }: any) => {
                                 design={design}
                                 appStore={appStore}
                                 headersetting={headersetting}
-                                selectPayment={selectPayment}
-                                setSelectPayment={setSelectPayment}
                             />
                         </div>
                     </div>
@@ -188,11 +178,8 @@ const CheckOutSeven = ({ design, appStore, headersetting }: any) => {
                         headersetting={headersetting}
                         couponDis={couponDis}
                         setCouponDis={setCouponDis}
-                        couponResult={couponResult}
                         selectAddress={selectAddress}
-                        selectPayment={selectPayment}
                         shippingArea={shippingArea}
-                        coupon={coupon}
                         userAddress={userAddress}
                         userPhone={userPhone}
                         userName={userName}

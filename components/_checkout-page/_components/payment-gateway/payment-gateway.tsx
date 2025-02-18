@@ -1,23 +1,27 @@
 'use client';
 
 import bkashLogo from '@/assets/paymentMethodLogo/bkashLogo.png';
+import { TWENTY_EIGHT } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { setSelectPayment } from '@/redux/features/filters/paymentFilterSlice';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
-import { useAppDispatch, useAppSelector } from '@/redux/features/rtkHooks/rtkHooks';
+import {
+    useAppDispatch,
+    useAppSelector,
+} from '@/redux/features/rtkHooks/rtkHooks';
 import { AppDispatch, RootState } from '@/redux/store';
-import { customizeCheckout } from '@/utils/customizeDesign';
 
 const PaymentGateway = ({
     design,
     appStore,
-    className,
     headersetting,
+    className,
+    btnStyleClass,
 }: any) => {
     const store_id = appStore?.id || null;
     const module_id = 106;
 
-    const dispatch:AppDispatch = useAppDispatch();
+    const dispatch: AppDispatch = useAppDispatch();
 
     const {
         data: moduleIdDetailsData,
@@ -28,47 +32,78 @@ const PaymentGateway = ({
 
     const activeModule = moduleIdDetailsData?.status || false;
 
-    const checkoutData = customizeCheckout.find((item) => item.id == store_id);
-
-    const selectedPayment = useAppSelector((state:RootState) => state.paymentFilter.paymentMethod)
+    const selectedPayment = useAppSelector(
+        (state: RootState) => state.paymentFilter.paymentMethod
+    );
 
     const handleSelect = (e: string) => {
         dispatch(setSelectPayment(e));
     };
 
     const btnStyle =
+        btnStyleClass ??
         'p-5 rounded w-max transition-colors duration-300 lg:cursor-pointer flex justify-between border border-gray-300';
 
     return (
         <div className={className ? className : 'col-span-6 sm:col-span-4'}>
             <div className="flex justify-between items-center pb-3">
-                <label
-                    htmlFor="email-address"
-                    className="block text-xl font-semibold text-gray-700"
-                >
-                    Payment{' '}
-                    {!selectedPayment && (
-                        <span className="text-sm text-red-500">
-                            ( Please Select Your Payment Method ) *
+                {design?.checkout_page === TWENTY_EIGHT ||
+                design?.template_id === '29' ? (
+                    <label
+                        htmlFor="payment-gateway"
+                        className="block text-md md:text-xl font-semibold text-gray-700"
+                    >
+                        পেমেন্ট{' '}
+                        <span className="text-xs md:text-sm">
+                            (আপনার পেমেন্ট পদ্ধতি নির্বাচন করুন)
                         </span>
-                    )}
-                </label>
+                    </label>
+                ) : (
+                    <label
+                        htmlFor="email-address"
+                        className="block text-xl font-semibold text-gray-700"
+                    >
+                        Payment{' '}
+                        {!selectedPayment && (
+                            <span className="text-sm text-red-500">
+                                ( Please Select Your Payment Method ) *
+                            </span>
+                        )}
+                    </label>
+                )}
             </div>
 
             {store_id === 3274 && (
-                        <div className="mb-2 text-sm text-red-500">
-                            <h1>
-                                অর্ডার কনফার্ম করতে ডেলিভারি চার্জ বিকাশে সেন্ড
-                                মানি করুন। রেফেরেন্সে আপনার অর্ডার নাম্বারটি
-                                দিন।{' '}
-                            </h1>
-                            <p>
-                                বিকাশ :{' '}
-                                <span className="font-bold">01867255123</span>{' '}
-                                (personal).
-                            </p>
-                        </div>
-                    )}
+                <div className="mb-2 text-sm text-red-500">
+                    <h1>
+                        অর্ডার কনফার্ম করতে ডেলিভারি চার্জ বিকাশে সেন্ড মানি
+                        করুন। রেফেরেন্সে আপনার অর্ডার নাম্বারটি দিন।{' '}
+                    </h1>
+                    <p>
+                        বিকাশ : <span className="font-bold">01867255123</span>{' '}
+                        (personal).
+                    </p>
+                </div>
+            )}
+
+            {store_id === 4736 && (
+                <label
+                    htmlFor="email-address"
+                    className="block text-sm bg-black text-white font-semibold p-2 rounded-md"
+                >
+                    ১৫০ টাকা এডভ্যান্স পেমেন্ট করতে এই বক্স এ ক্লিক করুন
+                </label>
+            )}
+
+            {store_id === 4812 && (
+                <label
+                    htmlFor="email-address"
+                    className="block text-sm bg-black text-white font-semibold p-2 rounded-md"
+                >
+                    ২০০ টাকা অগ্ৰীম পেমেন্ট অথবা সম্পূর্ণ পেমেন্ট করে আপনার
+                    অর্ডারটি নিশ্চিত করুন।
+                </label>
+            )}
 
             <div className="flex gap-2 flex-wrap md:flex-nowrap">
                 {headersetting?.uddoktapay === 'active' && (
@@ -130,10 +165,6 @@ const PaymentGateway = ({
                         onClick={() => handleSelect('bkash')}
                     >
                         <div className="flex justify-center items-center w-auto min-w-20">
-                        {checkoutData?.full_payment ? (
-                                        checkoutData?.full_payment
-                                    ) :(
-
                             <div className="flex gap-2 w-auto">
                                 {headersetting?.bkash_text ===
                                 'bKash Payment Img' ? (
@@ -148,7 +179,6 @@ const PaymentGateway = ({
                                     </p>
                                 )}
                             </div>
-                                    )}
                         </div>
                     </div>
                 )}

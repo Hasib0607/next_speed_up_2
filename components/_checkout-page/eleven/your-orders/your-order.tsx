@@ -32,6 +32,7 @@ import { numberParser } from '@/helpers/numberParser';
 import { TWENTY_EIGHT } from '@/consts';
 import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
+import { setCouponResult } from '@/redux/features/filters/couponSlice';
 
 const YourOrders = ({
     design,
@@ -39,11 +40,8 @@ const YourOrders = ({
     headersetting,
     couponDis,
     setCouponDis,
-    coupon,
     selectAddress,
     shippingArea,
-    couponResult,
-    setCouponResult,
 }: any) => {
     const store_id = appStore?.id || null;
     const isAuthenticated = useAuth();
@@ -70,13 +68,17 @@ const YourOrders = ({
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { user } = useSelector((state: RootState) => state.auth);
+    const { couponResult } = useSelector(
+        (state: RootState) => state.couponSlice
+    );
+
     const selectedPayment = useSelector(
         (state: RootState) => state.paymentFilter.paymentMethod
     );
     const smsCount = numberParser(headersetting?.total_sms);
 
     const router = useRouter();
-    const dispatch:AppDispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
 
     const formData = new FormData();
 
@@ -86,7 +88,7 @@ const YourOrders = ({
 
     const handleCouponRemove = () => {
         setCouponDis(0);
-        setCouponResult({ code_status: false });
+        dispatch(setCouponResult({ code: null, code_status: false }));
         toast.error('Coupon removed!');
     };
 
@@ -182,7 +184,7 @@ const YourOrders = ({
             total: gTotal,
             discount: couponDis,
             tax,
-            coupon: coupon || '',
+            coupon: couponResult?.code || '',
             referral_code: referral_code || '', // Include referral code if available
         }),
         [
@@ -201,7 +203,7 @@ const YourOrders = ({
             gTotal,
             couponDis,
             tax,
-            coupon,
+            couponResult,
             referral_code,
         ]
     );

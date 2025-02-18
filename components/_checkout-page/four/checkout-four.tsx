@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import Address from '../_components/address/address';
 import YourOrders from './your-orders/your-order';
-import Discount from './discount/discount';
+import Discount from '../_components/discount/discount';
 import PaymentGateway from '../_components/payment-gateway/payment-gateway';
 import PaymentConditions from '../_components/payment-conditions';
 
@@ -23,10 +23,8 @@ const CheckOutFour = ({ design, appStore, headersetting }: any) => {
     } = useGetCampaignQuery({ store_id });
 
     const [couponDis, setCouponDis] = useState(0);
-    const [coupon, setCoupon] = useState(null);
     const [shippingArea, setShippingArea] = useState<any>(null);
     const [selectAddress, setSelectAddress] = useState(null);
-    const [couponResult, setCouponResult] = useState(null);
     const [token, setToken] = useState(null);
     const [userName, setUserName] = useState(null);
     const [userPhone, setUserPhone] = useState(null);
@@ -120,9 +118,9 @@ const CheckOutFour = ({ design, appStore, headersetting }: any) => {
                             setCouponDis={setCouponDis}
                             shippingArea={shippingArea}
                             setShippingArea={setShippingArea}
-                            setCoupon={setCoupon}
-                            setCouponResult={setCouponResult}
-                            couponResult={couponResult}
+                            shippingColOne
+                            shippingOff
+                            select
                         />
                         <div className="shadow sm:rounded-md sm:overflow-hidden my-5">
                             <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -147,10 +145,8 @@ const CheckOutFour = ({ design, appStore, headersetting }: any) => {
                             headersetting={headersetting}
                             couponDis={couponDis}
                             setCouponDis={setCouponDis}
-                            couponResult={couponResult}
                             selectAddress={selectAddress}
                             shippingArea={shippingArea}
-                            coupon={coupon}
                             userAddress={userAddress}
                             userPhone={userPhone}
                             userName={userName}

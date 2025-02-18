@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import YourOrders from './your-orders/your-order';
 import Discount from '../_components/discount/discount';
 import Address from '../_components/address/address';
-import PaymentGateway from './payment-gateway/payment-gateway';
+import PaymentGateway from '../_components/payment-gateway/payment-gateway';
 
 const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
     const store_id = appStore?.id || null;
@@ -22,11 +22,8 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
     } = useGetCampaignQuery({ store_id });
 
     const [couponDis, setCouponDis] = useState(0);
-    const [coupon, setCoupon] = useState(null);
     const [shippingArea, setShippingArea] = useState<any>(null);
     const [selectAddress, setSelectAddress] = useState(null);
-    const [couponResult, setCouponResult] = useState(null);
-
     const [token, setToken] = useState(null);
     const [userName, setUserName] = useState(null);
     const [userPhone, setUserPhone] = useState(null);
@@ -76,6 +73,9 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
         );
     }
 
+    const btnStyleClass =
+        'p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300 cursor-pointer';
+
     return (
         <div className={`bg-white pb-8`}>
             <div className="sm:container px-5 xl:px-24">
@@ -113,15 +113,17 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
                             setCouponDis={setCouponDis}
                             shippingArea={shippingArea}
                             setShippingArea={setShippingArea}
-                            setCoupon={setCoupon}
-                            setCouponResult={setCouponResult}
-                            couponResult={couponResult}
                         />
-                        <PaymentGateway
-                            design={design}
-                            appStore={appStore}
-                            headersetting={headersetting}
-                        />
+                        <div className="shadow sm:rounded-md sm:overflow-hidden my-5">
+                            <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
+                                <PaymentGateway
+                                    design={design}
+                                    appStore={appStore}
+                                    headersetting={headersetting}
+                                    btnStyleClass={btnStyleClass}
+                                />
+                            </div>
+                        </div>
                     </div>
                     <div className="border-l-2 pl-8">
                         <YourOrders
@@ -130,11 +132,8 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
                             headersetting={headersetting}
                             couponDis={couponDis}
                             setCouponDis={setCouponDis}
-                            couponResult={couponResult}
-                            setCouponResult={setCouponResult}
                             selectAddress={selectAddress}
                             shippingArea={shippingArea}
-                            coupon={coupon}
                             userAddress={userAddress}
                             userPhone={userPhone}
                             userName={userName}
