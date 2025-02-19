@@ -31,6 +31,7 @@ import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
+import { setCouponResult } from '@/redux/features/filters/couponSlice';
 
 const YourOrders = ({
     design,
@@ -38,10 +39,8 @@ const YourOrders = ({
     headersetting,
     couponDis,
     setCouponDis,
-    coupon,
     selectAddress,
     shippingArea,
-    couponResult,
     bookingStatus,
 }: any) => {
     const store_id = appStore?.id || null;
@@ -68,6 +67,10 @@ const YourOrders = ({
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { user } = useSelector((state: RootState) => state.auth);
+    const { couponResult } = useSelector(
+        (state: RootState) => state.couponSlice
+    );
+
     const selectedPayment = useSelector(
         (state: RootState) => state.paymentFilter.paymentMethod
     );
@@ -84,12 +87,13 @@ const YourOrders = ({
 
     const handleCouponRemove = () => {
         setCouponDis(0);
+        dispatch(setCouponResult({ code: null, code_status: false }));
         toast.error('Coupon removed!');
     };
 
     const gTotal = grandTotal(total, tax, shippingArea, couponDis);
-    
-        const couponShow = setCouponShow(couponResult, total, shippingArea);
+
+    const couponShow = setCouponShow(couponResult, total, shippingArea);
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -104,7 +108,7 @@ const YourOrders = ({
     const cart = updatedCartList?.map((item: any) => ({
         id: item?.id,
         quantity: item?.qty,
-        discount:howMuchSave(item) ?? 0,
+        discount: howMuchSave(item) ?? 0,
         price: item?.price,
         variant_id: item?.variant_id,
         items: item?.items,
@@ -193,7 +197,7 @@ const YourOrders = ({
             total: gTotal,
             discount: couponDis,
             tax,
-            coupon: coupon || '',
+            coupon: couponResult?.code || '',
             referral_code: referral_code || '', // Include referral code if available
         }),
         [
@@ -212,7 +216,7 @@ const YourOrders = ({
             gTotal,
             couponDis,
             tax,
-            coupon,
+            couponResult,
             referral_code,
             checkoutBookingFromData,
             bookingStatus,
@@ -386,15 +390,7 @@ const YourOrders = ({
     }, [data, bookingStatus]);
 
     return (
-        <div
-            className="overflow-hidden bg-[#F4F4F4]"
-            style={
-                {
-                    '--header-color': design?.header_color,
-                    '--text-color': design?.text_color,
-                } as React.CSSProperties
-            }
-        >
+        <div className="overflow-hidden bg-[#F4F4F4]">
             <h3 className="text-sm px-2 w-full py-2">
                 {bookingStatus ? 'Booking Details' : 'SHOPPING BAG'}
             </h3>

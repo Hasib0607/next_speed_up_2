@@ -23,7 +23,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import PaymentGateway from '../payment-gateway/payment-gateway';
+import PaymentGateway from '../../_components/payment-gateway/payment-gateway';
 import Swal from 'sweetalert2';
 
 // Helper function to conditionally select a value
@@ -33,6 +33,7 @@ import { numberParser } from '@/helpers/numberParser';
 import { TWENTY_EIGHT } from '@/consts';
 import { RootState } from '@/redux/store';
 import { howMuchSave } from '@/helpers/littleSpicy';
+import { setCouponResult } from '@/redux/features/filters/couponSlice';
 
 const YourOrders = ({
     design,
@@ -40,12 +41,8 @@ const YourOrders = ({
     headersetting,
     couponDis,
     setCouponDis,
-    coupon,
     selectAddress,
-    selectPayment,
-    setSelectPayment,
     shippingArea,
-    couponResult,
 }: any) => {
     const store_id = appStore?.id || null;
     const isAuthenticated = useAuth();
@@ -62,6 +59,7 @@ const YourOrders = ({
     const { checkoutFromData } = useSelector(
         (state: RootState) => state.checkout
     ); // Access updated Redux state
+
     const {
         name: userName,
         phone: userPhone,
@@ -70,6 +68,14 @@ const YourOrders = ({
     } = checkoutFromData || {};
 
     const { cartList } = useSelector((state: RootState) => state.cart);
+    const { couponResult } = useSelector(
+        (state: RootState) => state.couponSlice
+    );
+
+    const selectedPayment = useSelector(
+        (state: RootState) => state.paymentFilter.paymentMethod
+    );
+
     const { user } = useSelector((state: RootState) => state.auth);
     const smsCount = numberParser(headersetting?.total_sms);
 
@@ -82,17 +88,9 @@ const YourOrders = ({
 
     const [userPlaceOrder] = useUserPlaceOrderMutation();
 
-    if (
-        total < numberParser(couponResult?.min_purchase) ||
-        (numberParser(couponResult?.max_purchase) &&
-            total > numberParser(couponResult?.max_purchase)) ||
-        !couponDis
-    ) {
-        couponDis = 0;
-    }
-
     const handleCouponRemove = () => {
         setCouponDis(0);
+        dispatch(setCouponResult({ code: null, code_status: false }));
         toast.error('Coupon removed!');
     };
 
@@ -111,7 +109,7 @@ const YourOrders = ({
     const cart = updatedCartList?.map((item: any) => ({
         id: item?.id,
         quantity: item?.qty,
-        discount:howMuchSave(item) ?? 0,
+        discount: howMuchSave(item) ?? 0,
         price: item?.price,
         variant_id: item?.variant_id,
         items: item?.items,
@@ -180,13 +178,13 @@ const YourOrders = ({
             note: selectAddress?.note,
             district: selectAddress?.district?.bn_name,
             address_id: selectAddress?.id,
-            payment_type: selectPayment,
+            payment_type: selectedPayment,
             subtotal: numberParser(total),
             shipping: numberParser(shippingArea),
             total: gTotal,
             discount: couponDis,
             tax,
-            coupon: coupon || '',
+            coupon: couponResult?.code || '',
             referral_code: referral_code || '', // Include referral code if available
         }),
         [
@@ -199,13 +197,13 @@ const YourOrders = ({
             userAddress,
             selectAddress,
             isAuthenticated,
-            selectPayment,
+            selectedPayment,
             total,
             shippingArea,
             gTotal,
             couponDis,
             tax,
-            coupon,
+            couponResult,
             referral_code,
         ]
     );
@@ -224,10 +222,10 @@ const YourOrders = ({
         phone: data.phone,
         email: data.email,
         address: data.address,
-        note: data?.note,
-        district: data?.district,
-        address_id: data?.address_id,
-        payment_type: selectPayment,
+        note: data.note,
+        district: data.district,
+        address_id: data.address_id,
+        payment_type: data.payment_type,
         subtotal: data.subtotal,
         shipping: data.shipping,
         total: data.total,
@@ -256,9 +254,9 @@ const YourOrders = ({
                 toastId: data.payment_type,
             });
         }
-        if (shippingArea === null) {
+        if (data.shipping === null) {
             toast.warning('Please Select Shipping Area', {
-                toastId: shippingArea,
+                toastId: data.shipping,
             });
         }
 
@@ -355,13 +353,15 @@ const YourOrders = ({
             data?.name &&
             (data?.phone || data?.email) &&
             data?.address &&
-            shippingArea !== null
+            data.shipping !== null
         ) {
             setIsAbleToOrder(true);
         } else {
             setIsAbleToOrder(false);
         }
-    }, [data, shippingArea]);
+    }, [data]);
+
+    const btnStyleClass = 'py-2 px-5 rounded-full space-y-2 w-full sm:w-max transition-colors duration-300 relative flex justify-center items-center border border-gray-300 lg:cursor-pointer';
 
     return (
         <div
@@ -370,12 +370,6 @@ const YourOrders = ({
                     ? 'bg-thirty-one border border-white'
                     : 'bg-gray-200 '
             } p-5 sm:rounded-md`}
-            style={
-                {
-                    '--header-color': design?.header_color,
-                    '--text-color': design?.text_color,
-                } as React.CSSProperties
-            }
         >
             <h3 className="text-center font-semibold text-lg ">
                 {design?.template_id === '29' ||
@@ -523,11 +517,10 @@ const YourOrders = ({
                     )}
                 </div>
                 <PaymentGateway
-                design={design}
-                appStore={appStore}
-                headersetting={headersetting}
-                    selectPayment={selectPayment}
-                    setSelectPayment={setSelectPayment}
+                    design={design}
+                    appStore={appStore}
+                    headersetting={headersetting}
+                    btnStyleClass={btnStyleClass}
                 />
             </div>
 

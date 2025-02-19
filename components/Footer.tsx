@@ -16,18 +16,17 @@ const Footer = ({ design, headersetting, menu }: any) => {
     const category = categoryData?.data || [];
 
     return (
-        <>
-            {design?.footer !== 'null' && FooterComponent && (
-                <FooterComponent
-                    design={design}
-                    category={category}
-                    headersetting={headersetting}
-                    store_id={store_id}
-                    menu={menu}
-                    page={page}
-                />
-            )}
-        </>
+        design?.footer !== 'null' &&
+        FooterComponent && (
+            <FooterComponent
+                design={design}
+                category={category}
+                headersetting={headersetting}
+                store_id={store_id}
+                menu={menu}
+                page={page}
+            />
+        )
     );
 };
 

@@ -13,7 +13,7 @@ export default async function getDomain() {
         url = url.replace('www.', '');
     }
 
-    return url;
-    // return "savantstylefashion.com";
+    // return url;
+    return "savantstylefashion.com";
     // return "qutobd.com";
 }

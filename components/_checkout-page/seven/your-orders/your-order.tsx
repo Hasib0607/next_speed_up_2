@@ -12,10 +12,8 @@ import { FaEdit } from 'react-icons/fa';
 import { productImg } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
 import BDT from '@/utils/bdt';
-
 import useAuth from '@/hooks/useAuth';
 import Link from 'next/link';
-
 import { useUserPlaceOrderMutation } from '@/redux/features/checkOut/checkOutApi';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { RootState } from '@/redux/store';
@@ -33,6 +31,7 @@ import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
+import { setCouponResult } from '@/redux/features/filters/couponSlice';
 
 const YourOrders = ({
     design,
@@ -40,10 +39,8 @@ const YourOrders = ({
     headersetting,
     couponDis,
     setCouponDis,
-    coupon,
     selectAddress,
     shippingArea,
-    couponResult,
     bookingStatus,
 }: any) => {
     const store_id = appStore?.id || null;
@@ -61,6 +58,7 @@ const YourOrders = ({
     const { checkoutFromData, checkoutBookingFromData } = useSelector(
         (state: RootState) => state.checkout
     ); // Access updated Redux state
+
     const {
         name: userName,
         phone: userPhone,
@@ -70,9 +68,14 @@ const YourOrders = ({
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { user } = useSelector((state: RootState) => state.auth);
+    const { couponResult } = useSelector(
+        (state: RootState) => state.couponSlice
+    );
+
     const selectedPayment = useSelector(
         (state: RootState) => state.paymentFilter.paymentMethod
     );
+
     const smsCount = numberParser(headersetting?.total_sms);
 
     const router = useRouter();
@@ -84,23 +87,15 @@ const YourOrders = ({
 
     const [userPlaceOrder] = useUserPlaceOrderMutation();
 
-    if (
-        total < numberParser(couponResult?.min_purchase) ||
-        (numberParser(couponResult?.max_purchase) &&
-            total > numberParser(couponResult?.max_purchase)) ||
-        !couponDis
-    ) {
-        couponDis = 0;
-    }
-
     const handleCouponRemove = () => {
         setCouponDis(0);
+        dispatch(setCouponResult({ code: null, code_status: false }));
         toast.error('Coupon removed!');
     };
 
     const gTotal = grandTotal(total, tax, shippingArea, couponDis);
-    
-        const couponShow = setCouponShow(couponResult, total, shippingArea);
+
+    const couponShow = setCouponShow(couponResult, total, shippingArea);
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -115,7 +110,7 @@ const YourOrders = ({
     const cart = updatedCartList?.map((item: any) => ({
         id: item?.id,
         quantity: item?.qty,
-        discount:howMuchSave(item) ?? 0,
+        discount: howMuchSave(item) ?? 0,
         price: item?.price,
         variant_id: item?.variant_id,
         items: item?.items,
@@ -160,7 +155,7 @@ const YourOrders = ({
             name: bookingStatus
                 ? checkoutBookingFromData?.name
                 : checkEasyNotUser(
-                    appStore,
+                      appStore,
                       userName,
                       selectAddress?.name,
                       isAuthenticated
@@ -168,7 +163,7 @@ const YourOrders = ({
             phone: bookingStatus
                 ? checkoutBookingFromData?.phone
                 : checkEasyNotUser(
-                    appStore,
+                      appStore,
                       userPhone,
                       selectAddress?.phone,
                       isAuthenticated
@@ -176,7 +171,7 @@ const YourOrders = ({
             email: bookingStatus
                 ? checkoutBookingFromData?.email
                 : checkEasyNotUser(
-                    appStore,
+                      appStore,
                       userEmail,
                       selectAddress?.email,
                       isAuthenticated
@@ -184,7 +179,7 @@ const YourOrders = ({
             address: bookingStatus
                 ? ''
                 : checkEasyNotUser(
-                    appStore,
+                      appStore,
                       userAddress,
                       selectAddress?.address,
                       isAuthenticated
@@ -204,7 +199,7 @@ const YourOrders = ({
             total: gTotal,
             discount: couponDis,
             tax,
-            coupon: coupon || '',
+            coupon: couponResult?.code || '',
             referral_code: referral_code || '', // Include referral code if available
         }),
         [
@@ -223,7 +218,7 @@ const YourOrders = ({
             gTotal,
             couponDis,
             tax,
-            coupon,
+            couponResult,
             referral_code,
             checkoutBookingFromData,
             bookingStatus,
@@ -397,15 +392,7 @@ const YourOrders = ({
     }, [data, bookingStatus]);
 
     return (
-        <div
-            className="pl-3 pr-3"
-            style={
-                {
-                    '--header-color': design?.header_color,
-                    '--text-color': design?.text_color,
-                } as React.CSSProperties
-            }
-        >
+        <div className="pl-3 pr-3">
             <h3 className="font-semibold text-xl text-black">Your Order</h3>
 
             {cartList ? (

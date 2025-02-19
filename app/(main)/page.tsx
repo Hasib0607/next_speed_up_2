@@ -13,14 +13,12 @@ export default async function Home() {
     const banner = await getBanner();
 
     return (
-        <>
-            <HomePage
-                design={design}
-                headersetting={headersetting}
-                layout={layout}
-                slider={slider}
-                banner={banner}
-            />
-        </>
+        <HomePage
+            design={design}
+            headersetting={headersetting}
+            layout={layout}
+            slider={slider}
+            banner={banner}
+        />
     );
 }

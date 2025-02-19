@@ -89,8 +89,8 @@ const LoginTwentyNine = ({ design, appStore, headersetting }: any) => {
     .text-color {
         color:  ${design?.header_color};
     }
-   
       `;
+
     return (
         <div className="border mt-32 max-w-2xl mx-auto py-5 rounded-lg shadow-2xl">
             <style>{styleCss}</style>

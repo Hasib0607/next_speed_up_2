@@ -33,6 +33,7 @@ import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
+import { setCouponResult } from '@/redux/features/filters/couponSlice';
 
 const YourOrders = ({
     design,
@@ -40,11 +41,9 @@ const YourOrders = ({
     headersetting,
     couponDis,
     setCouponDis,
-    coupon,
     selectAddress,
     checked,
     shippingArea,
-    couponResult,
 }: any) => {
     const store_id = appStore?.id || null;
     const isAuthenticated = useAuth();
@@ -69,6 +68,9 @@ const YourOrders = ({
     } = checkoutFromData || {};
 
     const { cartList } = useSelector((state: RootState) => state.cart);
+    const { couponResult } = useSelector(
+        (state: RootState) => state.couponSlice
+    );
     const selectedPayment = useSelector(
         (state: RootState) => state.paymentFilter.paymentMethod
     );
@@ -84,24 +86,15 @@ const YourOrders = ({
 
     const [userPlaceOrder] = useUserPlaceOrderMutation();
 
-    if (
-        total < numberParser(couponResult?.min_purchase) ||
-        (numberParser(couponResult?.max_purchase) &&
-            total > numberParser(couponResult?.max_purchase)) ||
-        !couponDis
-    ) {
-        couponDis = 0;
-    }
-
     const handleCouponRemove = () => {
         setCouponDis(0);
+        dispatch(setCouponResult({ code: null, code_status: false }));
         toast.error('Coupon removed!');
     };
 
     const gTotal = grandTotal(total, tax, shippingArea, couponDis);
 
-    
-        const couponShow = setCouponShow(couponResult, total, shippingArea);
+    const couponShow = setCouponShow(couponResult, total, shippingArea);
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -116,7 +109,7 @@ const YourOrders = ({
     const cart = updatedCartList?.map((item: any) => ({
         id: item?.id,
         quantity: item?.qty,
-        discount:howMuchSave(item) ?? 0,
+        discount: howMuchSave(item) ?? 0,
         price: item?.price,
         variant_id: item?.variant_id,
         items: item?.items,
@@ -191,7 +184,7 @@ const YourOrders = ({
             total: gTotal,
             discount: couponDis,
             tax,
-            coupon: coupon || '',
+            coupon: couponResult?.code || '',
             referral_code: referral_code || '', // Include referral code if available
         }),
         [
@@ -210,7 +203,7 @@ const YourOrders = ({
             gTotal,
             couponDis,
             tax,
-            coupon,
+            couponResult,
             referral_code,
         ]
     );
@@ -368,14 +361,7 @@ const YourOrders = ({
     }, [data, checked]);
 
     return (
-        <div
-            style={
-                {
-                    '--header-color': design?.header_color,
-                    '--text-color': design?.text_color,
-                } as React.CSSProperties
-            }
-        >
+        <div>
             {store_id === 1850 && (
                 <h1 className="my-3 text-xl font-semibold">
                     Ship From Abroad{' '}

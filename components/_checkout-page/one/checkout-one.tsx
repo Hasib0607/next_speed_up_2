@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import Address from '../_components/address/address';
 import YourOrders from './your-orders/your-order';
-import Discount from './discount/discount';
+import Discount from '../_components/discount/discount';
 import PaymentConditions from '../_components/payment-conditions';
 
 const CheckOutOne = ({ design, appStore, headersetting }: any) => {
@@ -22,11 +22,8 @@ const CheckOutOne = ({ design, appStore, headersetting }: any) => {
     } = useGetCampaignQuery({ store_id });
 
     const [couponDis, setCouponDis] = useState(0);
-    const [coupon, setCoupon] = useState(null);
     const [shippingArea, setShippingArea] = useState<any>(null);
     const [selectAddress, setSelectAddress] = useState(null);
-    const [couponResult, setCouponResult] = useState(null);
-
     const [token, setToken] = useState(null);
     const [userName, setUserName] = useState(null);
     const [userPhone, setUserPhone] = useState(null);
@@ -63,16 +60,16 @@ const CheckOutOne = ({ design, appStore, headersetting }: any) => {
 
     if (cartList?.length === 0) {
         return (
-                <div className="flex justify-center items-center min-h-[70vh]">
-                    <div className="text-center">
-                        <h3 className="text-gray-400 text-2xl font-bold">
-                            You have no product in your cart!{' '}
-                        </h3>
-                        <h6 className="text-gray-400 text-xl font-semibold">
-                            Please Add Some Product
-                        </h6>
-                    </div>
+            <div className="flex justify-center items-center min-h-[70vh]">
+                <div className="text-center">
+                    <h3 className="text-gray-400 text-2xl font-bold">
+                        You have no product in your cart!{' '}
+                    </h3>
+                    <h6 className="text-gray-400 text-xl font-semibold">
+                        Please Add Some Product
+                    </h6>
                 </div>
+            </div>
         );
     }
 
@@ -136,9 +133,9 @@ const CheckOutOne = ({ design, appStore, headersetting }: any) => {
                                 setCouponDis={setCouponDis}
                                 shippingArea={shippingArea}
                                 setShippingArea={setShippingArea}
-                                setCoupon={setCoupon}
-                                setCouponResult={setCouponResult}
-                                couponResult={couponResult}
+                                shippingColOne
+                                shippingOff
+                                bn
                             />
                             <PaymentConditions
                                 design={design}
@@ -153,10 +150,8 @@ const CheckOutOne = ({ design, appStore, headersetting }: any) => {
                                 headersetting={headersetting}
                                 couponDis={couponDis}
                                 setCouponDis={setCouponDis}
-                                couponResult={couponResult}
                                 selectAddress={selectAddress}
                                 shippingArea={shippingArea}
-                                coupon={coupon}
                                 userAddress={userAddress}
                                 userPhone={userPhone}
                                 userName={userName}
