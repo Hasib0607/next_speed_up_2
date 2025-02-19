@@ -37,8 +37,10 @@ import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-const HeaderTwelve = ({ design, menu, headersetting, cartList }: any) => {
+const HeaderTwelve = ({ design, menu, headersetting }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -71,6 +73,8 @@ const HeaderTwelve = ({ design, menu, headersetting, cartList }: any) => {
 
     // CSS START FROM HERE
     const bgColor = design?.header_color;
+
+    const cartList = useSelector((state: RootState) => state.cart.cartList);
 
     const styleCss = `
     @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin&display=swap');

@@ -17,7 +17,7 @@ interface PageData {
     [key: string]: any;
 }
 
-const About = ({ design, menu, page }: any) => {
+const CustomPage = ({ design, menu, page }: any) => {
     const pathName = usePathname();
     const currentPath = getPathName(pathName);
     const store_id = numberParser(design?.store_id) || null;
@@ -65,6 +65,24 @@ const About = ({ design, menu, page }: any) => {
             font-weight: 700;
             background: ${design?.header_color};
         }
+        .singlePage h1 {
+          font-size: 32px;
+        }
+        .singlePage h2 {
+          font-size: 24px;
+        }
+        .singlePage h3 {
+          font-size: 20px;
+        }
+        .singlePage h4 {
+          font-size: 16px;
+        }
+        .singlePage h5 {
+          font-size: 13.28px;
+        }
+        .singlePage h6 {
+          font-size: 10.72px;
+        }
     `;
 
     return (
@@ -87,7 +105,7 @@ const About = ({ design, menu, page }: any) => {
 
             {pageDetails && (
                 <div className="sm:container px-5 sm:py-10 py-5 lg:flex justify-between gap-20">
-                    <div className="">
+                    <div className="singlePage">
                         <h1 className="font-bold text-3xl pb-10">
                             {pageDetails?.name}
                         </h1>
@@ -156,4 +174,4 @@ const About = ({ design, menu, page }: any) => {
     );
 };
 
-export default About;
+export default CustomPage;

@@ -19,6 +19,7 @@ import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
+import { classNames } from '@/helpers/littleSpicy';
 
 const HeaderThirtyFive = ({ design, headersetting, menu }: any) => {
     const router = useRouter();
@@ -58,6 +59,7 @@ const HeaderThirtyFive = ({ design, headersetting, menu }: any) => {
         z-index: 10;
         animation: fadeIn 0.6s ease-in both;
       }
+        
      .bg-seven-header {
        color:  ${design?.text_color};
        background: ${design?.header_color};
@@ -367,7 +369,3 @@ const HeaderThirtyFive = ({ design, headersetting, menu }: any) => {
 };
 
 export default HeaderThirtyFive;
-
-function classNames(...classes: any) {
-    return classes.filter(Boolean).join(' ');
-}

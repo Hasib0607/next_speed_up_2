@@ -4,6 +4,7 @@ import {
     setBestSellProduct,
     setFeatureProduct,
     setProduct,
+    setStoreId,
 } from './productSlice';
 
 // Inject the getHome mutation endpoint into apiSlice
@@ -16,9 +17,10 @@ export const productApi = apiSlice.injectEndpoints({
             }),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
-                    const { data } = await queryFulfilled;
+                    const { data  } = await queryFulfilled;
                     if (data) {
                         dispatch(setProduct(data?.data)); // Dispatch the action with the received data
+                        dispatch(setStoreId(data?.store_id)); // Dispatch the action with the received data
                     }
                 } catch (error) {
                     dispatch(setProduct(null));

@@ -6,10 +6,7 @@ export default async function MobileBottomMenu() {
     const MobileNavComponent = mobile_navs[design?.mobile_bottom_menu];
 
     return (
-        <>
-            {design?.mobile_bottom_menu !== 'null' && MobileNavComponent && (
-                <MobileNavComponent design={design} />
-            )}
-        </>
+        design?.mobile_bottom_menu !== 'null' &&
+        MobileNavComponent && <MobileNavComponent design={design} />
     );
 }

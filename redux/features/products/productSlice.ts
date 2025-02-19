@@ -6,7 +6,7 @@ const initialState: any = {
     product: null,
     bestSellProduct: null,
     featureProduct: null,
-    // cartList: [],
+    storeId:null
 };
 
 export const productSlice = createSlice({
@@ -15,6 +15,9 @@ export const productSlice = createSlice({
     reducers: {
         setProduct: (state, action: PayloadAction<any>) => {
             state.product = action.payload;
+        },
+        setStoreId: (state, action: PayloadAction<any>) => {
+            state.storeId = action.payload;
         },
         setRelatedProduct: (state, action: PayloadAction<any>) => {
             state.related = action.payload;
@@ -37,7 +40,8 @@ export const {
     setRelatedProduct,
     setCampaignProduct,
     setBestSellProduct,
-    setFeatureProduct
+    setFeatureProduct,
+    setStoreId
 } = productSlice.actions;
 // Export the reducer
 export const { reducerPath, reducer } = productSlice;
