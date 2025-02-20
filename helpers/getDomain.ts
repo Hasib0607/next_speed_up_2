@@ -13,7 +13,18 @@ export default async function getDomain() {
         url = url.replace('www.', '');
     }
 
+
+    if (process.env.NODE_ENV === 'production') {
+        return url;
+    }
+
+    url = "savantstylefashion.com";
+    // url = 'shr.localhost:3000';
+    // url = "qutobd.com";
+
     return url;
+
+
     // return "savantstylefashion.com";
     // return "qutobd.com";
 }

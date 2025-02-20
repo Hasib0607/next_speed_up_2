@@ -64,7 +64,16 @@ function url() {
     return ''; // Optional: return an empty string if window is undefined (e.g., in server-side rendering)
 }
 
-// export const name = "zamzamonlineshop.store";
-// export const name = "savantstylefashion.com";
-export const name = url();
-// console.log(qutobd.com);
+
+let urlName;
+
+urlName = "savantstylefashion.com";
+// urlName = "shr.localhost:3000";
+// urlName = "qutobd.com";
+
+if (process.env.NODE_ENV === 'production') {
+    urlName = url();
+}
+
+export const name = urlName;
+
