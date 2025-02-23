@@ -67,7 +67,8 @@ function url() {
 
 let urlName;
 
-urlName = "savantstylefashion.com";
+urlName = "stylekitbd.com";
+// urlName = "2ndpagebooks.com";
 // urlName = "shr.localhost:3000";
 // urlName = "qutobd.com";
 

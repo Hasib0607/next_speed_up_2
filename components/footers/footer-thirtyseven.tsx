@@ -40,6 +40,7 @@ const FooterThirtySeven = ({
         left: 0;
     }
     `;
+
     return (
         <div className={`bg-[#191919] text-white`}>
             <footer className="">
@@ -67,7 +68,7 @@ const FooterThirtySeven = ({
                                     Products
                                 </h1>
                                 <div className="mt-5">
-                                    {category?.slice(0, 6).map((data: any) => (
+                                    {category?.slice(0, 6)?.map((data: any) => (
                                         <Link
                                             href={'/category/' + data?.id}
                                             key={data?.id}
@@ -84,19 +85,17 @@ const FooterThirtySeven = ({
                                     Pages
                                 </h1>
                                 <div className="mt-5 list-none">
-                                    {menu?.map((m: any) =>
-                                        m?.name !== 'Category' ? (
-                                            <li key={m?.id}>
-                                                <Link
-                                                    href={m?.url}
-                                                    className="text-base footerColor font-normal leading-relaxed "
-                                                >
-                                                    {' '}
-                                                    {m?.name}
-                                                </Link>
-                                            </li>
-                                        ) : null
-                                    )}
+                                    {menu?.map((m: any) => (
+                                        <li key={m?.id}>
+                                            <Link
+                                                href={m?.url}
+                                                className="text-base footerColor font-normal leading-relaxed "
+                                            >
+                                                {' '}
+                                                {m?.name}
+                                            </Link>
+                                        </li>
+                                    ))}
                                     {result?.map((m: any) => (
                                         <li key={m?.id}>
                                             <Link

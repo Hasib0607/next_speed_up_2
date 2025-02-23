@@ -2,25 +2,25 @@
 
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
-import PaginationComponent from '@/components/_category-page/components/pagination-new';
-import Card12 from '@/components/card/card12';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import Skeleton from '@/components/loaders/skeleton';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { HiOutlineAdjustments } from 'react-icons/hi';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
 import Filters from '@/components/_category-page/components/filters';
 import SingleCategory from '@/components/_category-page/components/single-category';
-import { getPathName } from '@/helpers/littleSpicy';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import { RootState } from '@/redux/store';
-import { usePathname } from 'next/navigation';
-import { useDispatch, useSelector } from 'react-redux';
-import { numberParser } from '@/helpers/numberParser';
+import Card12 from '@/components/card/card12';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
+import Skeleton from '@/components/loaders/skeleton';
+import PaginationComponent from '@/components/paginations/pagination-new';
+import { getPathName } from '@/helpers/littleSpicy';
+import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { HiOutlineAdjustments } from 'react-icons/hi';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Seven = ({ store_id }: any) => {
     const module_id = 105;

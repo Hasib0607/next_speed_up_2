@@ -1,19 +1,19 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import Pagination from '@/components/_category-page/components/pagination';
-import Skeleton from '@/components/loaders/skeleton';
 import Card44 from '@/components/card/card44';
-import Link from 'next/link';
-import { useSelector } from 'react-redux';
+import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
+import { numberParser } from '@/helpers/numberParser';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { numberParser } from '@/helpers/numberParser';
 import { NotFoundMsg } from '@/utils/little-components';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useSelector } from 'react-redux';
 import InfiniteLoader from '../loaders/infinite-loader';
 
 const CategoryTwenty = ({ catId, store_id, design }: any) => {

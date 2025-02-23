@@ -17,7 +17,8 @@ export default async function getDomain() {
         return url;
     }
 
-    url = "savantstylefashion.com";
+    url = "stylekitbd.com";
+    // url = "2ndpagebooks.com";
     // url = 'shr.localhost:3000';
     // url = "qutobd.com";
 

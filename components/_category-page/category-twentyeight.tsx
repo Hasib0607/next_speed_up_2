@@ -1,10 +1,10 @@
 'use client';
 
 import CategoryBreadcrumb from '@/components/_category-page/components/CategoryBreadcrumb';
-import Pagination from '@/components/_category-page/components/pagination';
 import Card58 from '@/components/card/card58';
 import Card6 from '@/components/card/card6';
 import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
 import { numberParser } from '@/helpers/numberParser';
 import { setSort } from '@/redux/features/filters/filterSlice';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
@@ -245,9 +245,9 @@ const ProductSection = ({
                                             }}
                                         >
                                             <Card58
-                                            item={item}
-                                            type={'shop_page'}
-                                        />
+                                                item={item}
+                                                type={'shop_page'}
+                                            />
                                         </motion.div>
                                     )
                                 )}
@@ -292,10 +292,7 @@ const ProductSection = ({
                                         ease: 'linear',
                                     }}
                                 >
-                                    <Card58
-                                            item={item}
-                                            type={'shop_page'}
-                                        />
+                                    <Card58 item={item} type={'shop_page'} />
                                 </motion.div>
                             ))}
                         </div>

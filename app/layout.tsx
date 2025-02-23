@@ -49,8 +49,14 @@ export default async function RootLayout({
     const favicon = imgUrl + headersetting?.favicon;
 
     const FACEBOOK_PIXEL_ID = headersetting?.facebook_pixel;
-    const googleAnalytics = headersetting?.gtm?.google_analytics;
-    const googleSearchConsole = headersetting?.gtm?.google_search_console;
+    const gtmId = headersetting?.gtm;
+    const googleSearchConsole = headersetting?.google_search_console;
+
+    // console.log("headersetting",headersetting);
+
+    // console.log("googleAnalytics",googleAnalytics);
+    // console.log("googleSearchConsole",googleSearchConsole);
+    // console.log("FACEBOOK_PIXEL_ID",FACEBOOK_PIXEL_ID);
 
     // Check if the current route is the homepage
     // const pathname = headersList.get('x-nextjs-route');
@@ -59,10 +65,10 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <head>
-                {googleAnalytics && (
+                {gtmId && (
                     <>
                         <Script
-                            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
+                            src={`https://www.googletagmanager.com/gtag/js?id=${gtmId}`}
                             strategy="afterInteractive"
                         />
                         <Script
@@ -73,7 +79,7 @@ export default async function RootLayout({
                                 window.dataLayer = window.dataLayer || [];
                                 function gtag(){dataLayer.push(arguments);}
                                 gtag('js', new Date());
-                                gtag('config', '${googleAnalytics}');
+                                gtag('config', '${gtmId}');
                             `}
                         </Script>
                     </>
@@ -95,9 +101,7 @@ export default async function RootLayout({
                 }
             >
                 <SetFavicon faviconUrl={favicon} />
-                <GoogleTagManager
-                    gtmId={headersetting?.gtm?.google_tag_manager}
-                />
+                <GoogleTagManager gtmId={gtmId} />
 
                 <NextTopLoader
                     color={'#29D'}

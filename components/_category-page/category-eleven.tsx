@@ -1,26 +1,26 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import { CgMenuGridO } from 'react-icons/cg';
 import Card21 from '@/components/card/card21';
 import Card6 from '@/components/card/card6';
-import { PlusIcon, Bars3Icon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import Pagination from '@/components/_category-page/components/pagination';
-import { setSort } from '@/redux/features/filters/filterSlice';
 import Skeleton from '@/components/loaders/skeleton';
-import { useDispatch, useSelector } from 'react-redux';
+import Pagination from '@/components/paginations/pagination';
+import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { numberParser } from '@/helpers/numberParser';
+import { NotFoundMsg } from '@/utils/little-components';
+import { Bars3Icon, PlusIcon } from '@heroicons/react/24/outline';
+import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { CgMenuGridO } from 'react-icons/cg';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
+import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
-import InfiniteLoader from '../loaders/infinite-loader';
-import { NotFoundMsg } from '@/utils/little-components';
 
 const CategoryEleven = ({ catId, store_id, design }: any) => {
     const module_id = 105;

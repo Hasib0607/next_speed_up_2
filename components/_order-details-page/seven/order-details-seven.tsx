@@ -245,8 +245,6 @@ const Single = ({
 
                     let value = input.value;
 
-                    console.log('dte', value);
-
                     let tempTextarea = document.createElement('textarea');
                     tempTextarea.value = value;
 

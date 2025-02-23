@@ -1,24 +1,24 @@
 'use client';
 
 import ProductCardOne from '@/components/card/product-card/product-card-one';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import InfiniteLoader from '@/components/loaders/infinite-loader';
 import Skeleton from '@/components/loaders/skeleton';
-import './category-four.css';
+import Pagination from '@/components/paginations/pagination';
+import { getPathName, getSecondPathName } from '@/helpers/littleSpicy';
+import { numberParser } from '@/helpers/numberParser';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { NotFoundMsg } from '@/utils/little-components';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
+import './category-four.css';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
-import { getPathName, getSecondPathName } from '@/helpers/littleSpicy';
-import { numberParser } from '@/helpers/numberParser';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { RootState } from '@/redux/store';
-import InfiniteLoader from '@/components/loaders/infinite-loader';
-import Pagination from '@/components/_category-page/components/pagination';
-import { NotFoundMsg } from '@/utils/little-components';
 
 const CategoryOne = ({ catId, store_id, design }: any) => {
     const module_id = 105;

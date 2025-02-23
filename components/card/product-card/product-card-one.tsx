@@ -107,15 +107,14 @@ const ProductCardOne = ({ item, store_id }: any) => {
                     </div>
 
                     {productAvailablity && save > 0 && (
-                        <>
-                            <div className="absolute z-[3] top-2 right-2 bg-[#ff576d] px-[5px] py-[2px] h-[22px] rounded-md text-white flex justify-center items-center text-xs font-semibold">
-                                Save
-                                {item.discount_type === 'fixed' && (
-                                    <BDT price={price} />
-                                )}
-                                {item.discount_type === 'percent' && '%'}
-                            </div>
-                        </>
+                        <div className="absolute z-[3] top-2 right-2 bg-[#ff576d] px-[5px] py-[2px] h-[22px] rounded-md text-white flex justify-center items-center text-xs font-semibold">
+                            Save
+                            {item.discount_type === 'fixed' && (
+                                <BDT price={save} />
+                            )}
+                            {item.discount_type === 'percent' &&
+                                ` ${item.discount_price}%`}
+                        </div>
                     )}
                 </figure>
                 <div className="card-body p-4 bg-white">

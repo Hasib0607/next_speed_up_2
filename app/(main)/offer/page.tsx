@@ -1,11 +1,7 @@
-import OfferPage from '@/components/OfferPage';
+import Offer from '@/components/Offer';
+import getDesign from '@/utils/fetcher/getDesign';
 
-const page = () => {
-    return (
-        <>
-            <OfferPage />
-        </>
-    );
-};
-
-export default page;
+export default async function OfferPage() {
+    const design = await getDesign();
+    return <Offer design={design} />;
+}

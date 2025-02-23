@@ -7,12 +7,15 @@ import './five.css';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 
+import InfiniteLoader from '@/components/loaders/infinite-loader';
+import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
 import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import { MinusIcon, PlusIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import { Bars3Icon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -20,9 +23,6 @@ import { useEffect, useState } from 'react';
 import { CgMenuGridO } from 'react-icons/cg';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
-import Pagination from '@/components/_category-page/components/pagination';
-import Skeleton from '@/components/loaders/skeleton';
-import InfiniteLoader from '@/components/loaders/infinite-loader';
 
 const Five = ({ design, store_id }: any) => {
     const module_id = 105;

@@ -2,17 +2,17 @@
 
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
-import Pagination from '@/components/_category-page/components/pagination';
 import Card17 from '@/components/card/card17';
 import Card6 from '@/components/card/card6';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
 import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
 import { numberParser } from '@/helpers/numberParser';
 import { setSort } from '@/redux/features/filters/filterSlice';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
-import { MinusIcon, PlusIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import { Bars3Icon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -412,14 +412,13 @@ const Filter = ({ onChange, setGrid, setOpen, open }: any) => {
 const SingleCat = ({ item }: any) => {
     const [show, setShow] = useState(false);
     const { id }: any = useParams<{ id: string }>();
-    
+
     useEffect(() => {
         if (item.cat) {
             for (let i = 0; i < item.cat.length; i++) {
                 item.cat[i].id == id && setShow(true);
             }
         }
-
     }, [item?.cat, id]);
     return (
         <>

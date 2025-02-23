@@ -1,21 +1,21 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import './category-four.css';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { catImg } from '@/site-settings/siteUrl';
-import BreadcrumbHeadingWrapper from './components/breadcrumb-heading-wrapper';
 import ProductCardTwo from '@/components/card/product-card/product-card-two';
-import { usePathname } from 'next/navigation';
 import { getPathName, getSecondPathName } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import Pagination from './components/pagination';
-import InfiniteLoader from '../loaders/infinite-loader';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { catImg } from '@/site-settings/siteUrl';
 import { NotFoundMsg } from '@/utils/little-components';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useSelector } from 'react-redux';
+import InfiniteLoader from '../loaders/infinite-loader';
+import Pagination from '../paginations/pagination';
+import './category-four.css';
+import BreadcrumbHeadingWrapper from './components/breadcrumb-heading-wrapper';
 
 const CategoryFour = ({ catId, store_id }: any) => {
     const module_id = 105;

@@ -1,6 +1,14 @@
 import { HTML_TAG_PATTERN } from '@/consts';
 import { numberParser } from './numberParser';
 
+// Utility function to truncate the string
+export const truncateString = (str: any, maxLength: any) => {
+    if (str.length > maxLength) {
+        return str.substring(0, maxLength) + '...';
+    }
+    return str;
+};
+
 export const getLastArr = (arr: any[]): any => arr.at(arr.length - 1);
 export const getFastArr = (arr: any[]): any => arr.at(0);
 

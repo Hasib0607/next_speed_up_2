@@ -1,7 +1,7 @@
 'use client';
 
 import { name } from '@/consts';
-import { getQueryString } from '@/helpers/getQueryString';
+import { getQueryString } from '@/helpers/queryStrings';
 import { apiSlice } from '../api/apiSlice';
 
 // Inject the getHome mutation endpoint into apiSlice
