@@ -13,6 +13,7 @@ export default async function getDomain() {
         url = url.replace('www.', '');
     }
 
+
     if (process.env.NODE_ENV === 'production') {
         return url;
     }
@@ -23,6 +24,7 @@ export default async function getDomain() {
     // url = "qutobd.com";
 
     return url;
+
 
     // return "savantstylefashion.com";
     // return "qutobd.com";
