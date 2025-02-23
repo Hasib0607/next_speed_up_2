@@ -1,20 +1,20 @@
 'use client';
-import Pagination from '@/components/_category-page/components/pagination';
 import Card39 from '@/components/card/card39';
+import InfiniteLoader from '@/components/loaders/infinite-loader';
 import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
+import { numberParser } from '@/helpers/numberParser';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
 import img from './imageBg/shop-header.webp';
 import './nineteen.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { RootState } from '@/redux/store';
-import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
-import { numberParser } from '@/helpers/numberParser';
-import InfiniteLoader from '@/components/loaders/infinite-loader';
 
 const Nineteen = ({ design, store_id }: any) => {
     const module_id = 105;

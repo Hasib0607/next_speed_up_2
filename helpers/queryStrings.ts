@@ -2,6 +2,7 @@ export const getQueryString = (
     filtersData: any,
 ) => {
     let queryString = '';
+    
     if (filtersData) {
         const {
             color: activeColor,
@@ -25,6 +26,7 @@ export const setQueryString = (
     sort: any
 ) => {
     let queryString = '';
+
     const encodedColor = encodeURIComponent(activeColor);
     if (activeColor) {
         queryString += `&colorFilter=${encodedColor}`;

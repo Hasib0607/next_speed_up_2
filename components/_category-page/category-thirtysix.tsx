@@ -1,9 +1,9 @@
 'use client';
 
 import CategoryBreadcrumb from '@/components/_category-page/components/CategoryBreadcrumb';
-import Pagination from '@/components/_category-page/components/pagination';
 import Card63 from '@/components/card/card63';
 import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
 import { numberParser } from '@/helpers/numberParser';
 import { setSort } from '@/redux/features/filters/filterSlice';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';

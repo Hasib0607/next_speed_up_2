@@ -2,26 +2,26 @@
 
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
-import PaginationComponent from '@/components/_category-page/components/pagination-new';
 import Card12 from '@/components/card/card12';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Skeleton from '@/components/loaders/skeleton';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { HiOutlineAdjustments } from 'react-icons/hi';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
-import { useDispatch, useSelector } from 'react-redux';
+import PaginationComponent from '@/components/paginations/pagination-new';
 import { getPathName, getSecondPathName } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
+import { NotFoundMsg } from '@/utils/little-components';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { HiOutlineAdjustments } from 'react-icons/hi';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
+import InfiniteLoader from '../loaders/infinite-loader';
 import Filters from './components/filters';
 import SingleCategory from './components/single-category';
-import InfiniteLoader from '../loaders/infinite-loader';
-import { NotFoundMsg } from '@/utils/little-components';
 
 const Seven = ({ catId, store_id }: any) => {
     const module_id = 105;

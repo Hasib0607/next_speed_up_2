@@ -1,26 +1,26 @@
 'use client';
 
 // import Pagination from "@/components/_category-page/category/pagination";
+import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
+import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import Card38 from '@/components/card/card38';
 import Card6 from '@/components/card/card6';
+import InfiniteLoader from '@/components/loaders/infinite-loader';
 import Skeleton from '@/components/loaders/skeleton';
-import { MinusIcon, PlusIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import Pagination from '@/components/paginations/pagination';
+import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { Bars3Icon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { BiFilter } from 'react-icons/bi';
 import { VscClose } from 'react-icons/vsc';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Pagination from '@/components/_category-page/components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { RootState } from '@/redux/store';
-import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
-import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
-import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import { numberParser } from '@/helpers/numberParser';
-import InfiniteLoader from '@/components/loaders/infinite-loader';
 
 const Eighteen = ({ design, store_id }: any) => {
     const module_id = 105;

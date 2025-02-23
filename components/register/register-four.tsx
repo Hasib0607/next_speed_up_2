@@ -116,8 +116,7 @@ const RegisterFour = ({ headersetting, appStore }: any) => {
                         <div className="w-full px-4">
                             <div className="max-w-[525px] mx-auto text-center bg-white rounded-lg relative overflow-hidden py-16 px-10 sm:px-12 md:px-[60px]">
                                 <div className="mb-10 md:mb-16 text-center">
-                                    <Link
-                                        href="/"
+                                    <div
                                         className="inline-block max-w-[160px] mx-auto"
                                     >
                                         {headersetting?.logo === null ? (
@@ -140,7 +139,7 @@ const RegisterFour = ({ headersetting, appStore }: any) => {
                                                 />
                                             </Link>
                                         )}
-                                    </Link>
+                                    </div>
                                 </div>
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     {(appStore?.auth_type === 'phone' ||

@@ -1,9 +1,9 @@
 'use client';
 import img from '@/assets/bg-image/twenty-four-shop.webp';
-import Pagination from '@/components/_category-page/components/pagination';
 import Card49 from '@/components/card/card49';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
 import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
 import { numberParser } from '@/helpers/numberParser';
 import { setSort } from '@/redux/features/filters/filterSlice';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';

@@ -1,26 +1,26 @@
 'use client';
 
+import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
+import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import Card58 from '@/components/card/card58';
 import Card6 from '@/components/card/card6';
-import { MinusIcon, PlusIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import InfiniteLoader from '@/components/loaders/infinite-loader';
+import Pagination from '@/components/paginations/pagination';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { NotFoundMsg } from '@/utils/little-components';
+import { Bars3Icon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { IoGridSharp } from 'react-icons/io5';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import ShopBreadcrumb from '../_components/shop-breadcrumb';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
-import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
-import Pagination from '@/components/_category-page/components/pagination';
-import { RootState } from '@/redux/store';
-import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
-import InfiniteLoader from '@/components/loaders/infinite-loader';
-import { NotFoundMsg } from '@/utils/little-components';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import { useParams } from 'next/navigation';
+import ShopBreadcrumb from '../_components/shop-breadcrumb';
 
 const TwentyEight = ({ design, store_id }: any) => {
     const module_id = 105;
@@ -187,68 +187,65 @@ const ShopProductSection = ({
     return (
         <>
             {!isPagination ? (
-                    <InfiniteScroll
-                        style={{ height: 'auto', overflow: 'hidden' }}
-                        dataLength={infiniteProducts?.length}
-                        next={nextPageFetch}
-                        hasMore={paginate?.has_more_pages}
-                        loader={
-                            paginate?.has_more_pages ||
-                            shopPageProductsFetching ||
-                            (shopPageProductsLoading && <InfiniteLoader />)
-                        }
-                        endMessage={
-                            paginate?.has_more_pages ||
-                            shopPageProductsFetching ||
-                            shopPageProductsLoading ? (
-                                <InfiniteLoader />
-                            ) : (
-                                <NotFoundMsg message={'No More Products'} />
-                            )
-                        }
-                    >
-                        {grid === 'H' && (
-                            <div className="grid grid-cols-2 md:grid-cols-3 lg2:grid-cols-4 xl:grid-cols-5 gap-4 px-2 sm:px-0">
+                <InfiniteScroll
+                    style={{ height: 'auto', overflow: 'hidden' }}
+                    dataLength={infiniteProducts?.length}
+                    next={nextPageFetch}
+                    hasMore={paginate?.has_more_pages}
+                    loader={
+                        paginate?.has_more_pages ||
+                        shopPageProductsFetching ||
+                        (shopPageProductsLoading && <InfiniteLoader />)
+                    }
+                    endMessage={
+                        paginate?.has_more_pages ||
+                        shopPageProductsFetching ||
+                        shopPageProductsLoading ? (
+                            <InfiniteLoader />
+                        ) : (
+                            <NotFoundMsg message={'No More Products'} />
+                        )
+                    }
+                >
+                    {grid === 'H' && (
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg2:grid-cols-4 xl:grid-cols-5 gap-4 px-2 sm:px-0">
+                            {infiniteProducts?.map((item: any) => (
+                                <motion.div
+                                    key={item?.id}
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    exit={{ scale: 0 }}
+                                    transition={{
+                                        duration: 0.5,
+                                        ease: 'linear',
+                                    }}
+                                >
+                                    <Card58 item={item} type={'shop_page'} />
+                                </motion.div>
+                            ))}
+                        </div>
+                    )}
+                    <AnimatePresence>
+                        {grid === 'V' && (
+                            <div className="grid grid-cols-1 gap-4 px-2 sm:px-0">
                                 {infiniteProducts?.map((item: any) => (
                                     <motion.div
                                         key={item?.id}
-                                        initial={{ scale: 0 }}
-                                        animate={{ scale: 1 }}
-                                        exit={{ scale: 0 }}
+                                        initial={{ translateX: 200 }}
+                                        animate={{ translateX: 0 }}
                                         transition={{
                                             duration: 0.5,
                                             ease: 'linear',
+                                            type: 'tween',
                                         }}
                                     >
-                                        <Card58
-                                            item={item}
-                                            type={'shop_page'}
-                                        />
+                                        <Card6 item={item} />
                                     </motion.div>
                                 ))}
                             </div>
                         )}
-                        <AnimatePresence>
-                            {grid === 'V' && (
-                                <div className="grid grid-cols-1 gap-4 px-2 sm:px-0">
-                                    {infiniteProducts?.map((item: any) => (
-                                        <motion.div
-                                            key={item?.id}
-                                            initial={{ translateX: 200 }}
-                                            animate={{ translateX: 0 }}
-                                            transition={{
-                                                duration: 0.5,
-                                                ease: 'linear',
-                                                type: 'tween',
-                                            }}
-                                        >
-                                            <Card6 item={item} />
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            )}
-                        </AnimatePresence>
-                    </InfiniteScroll>
+                    </AnimatePresence>
+                </InfiniteScroll>
             ) : (
                 <>
                     {grid === 'H' && (

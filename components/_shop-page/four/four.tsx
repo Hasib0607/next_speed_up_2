@@ -1,18 +1,18 @@
 'use client';
 
-import ProductCardTwo from '@/components/card/product-card/product-card-two';
 import BreadcrumbHeadingWrapper from '@/components/_category-page/components/breadcrumb-heading-wrapper';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { useEffect, useState } from 'react';
+import ProductCardTwo from '@/components/card/product-card/product-card-two';
+import InfiniteLoader from '@/components/loaders/infinite-loader';
+import Pagination from '@/components/paginations/pagination';
+import { getPathName } from '@/helpers/littleSpicy';
+import { numberParser } from '@/helpers/numberParser';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
-import { getPathName } from '@/helpers/littleSpicy';
 import { RootState } from '@/redux/store';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
-import Pagination from '@/components/_category-page/components/pagination';
-import { numberParser } from '@/helpers/numberParser';
-import InfiniteLoader from '@/components/loaders/infinite-loader';
 
 const Four = ({ store_id }: any) => {
     const module_id = 105;
@@ -113,9 +113,7 @@ const Four = ({ store_id }: any) => {
                             dataLength={infiniteProducts?.length}
                             next={nextPageFetch}
                             hasMore={hasMore}
-                            loader={
-                                <InfiniteLoader />
-                            }
+                            loader={<InfiniteLoader />}
                             endMessage={
                                 <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
                                     No More Products
@@ -123,12 +121,14 @@ const Four = ({ store_id }: any) => {
                             }
                         >
                             <div className="flex flex-wrap gap-4 justify-center my-10">
-                                {infiniteProducts?.map((product: any, index: number) => (
-                                    <ProductCardTwo
-                                        key={`${product?.id}-${index}`}
-                                        item={product}
-                                    />
-                                ))}
+                                {infiniteProducts?.map(
+                                    (product: any, index: number) => (
+                                        <ProductCardTwo
+                                            key={`${product?.id}-${index}`}
+                                            item={product}
+                                        />
+                                    )
+                                )}
                             </div>
                         </InfiniteScroll>
                     </div>
@@ -163,7 +163,6 @@ const Four = ({ store_id }: any) => {
                     />
                 </div>
             ) : null}
-            
         </div>
     );
 };

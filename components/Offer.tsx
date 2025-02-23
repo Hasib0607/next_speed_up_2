@@ -12,16 +12,13 @@ import { useGetEbiAnalyticsMutation } from '@/redux/features/offer/offerApi';
 import { useGetCampaignQuery } from '@/redux/features/checkOut/checkOutApi';
 import useGeoLocation from '@/hooks/useGeoLocation';
 import { numberParser } from '@/helpers/numberParser';
+import { notFound } from 'next/navigation';
 
-const OfferPage = () => {
+const Offer = ({ design }: any) => {
+    const store_id = numberParser(design?.store_id) || null;
+
     const { address, fetchAddress } = useGeoLocation();
-
-    const home = useSelector((state: RootState) => state?.home);
-    const { user } = useSelector((state: RootState) => state?.auth);
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-
-    const { design } = home || {};
-    const store_id = store?.id || null;
+    const { user } = useSelector((state: RootState) => state?.auth); // Access updated Redux state
 
     const [device, setDevice] = useState(null);
     const [offer, setOffer] = useState<any>([]);
@@ -43,14 +40,17 @@ const OfferPage = () => {
         try {
             const response = await fetch('https://ipapi.co/json/');
             if (!response.ok) {
-                throw new Error('Failed to fetch data');
+                notFound()
             }
+            console.log("response",response);
+            
             const data = await response.json();
+            console.log("data",data);
             setIP(data.ip);
             setState(data.region);
             setPostal(data.postal);
-            setLatitude(numberParser(data.latitude));
-            setLongitude(numberParser(data.longitude));
+            setLatitude(data.latitude);
+            setLongitude(data.longitude);
             setCountryName(data.country_name);
             setCountryCode(data.country_code);
             setCity(data.city);
@@ -130,7 +130,7 @@ const OfferPage = () => {
     }, [campaignsSuccess, campaignsData]);
 
     useEffect(() => {
-        if(latitude && longitude){
+        if (latitude && longitude) {
             fetchAddress(latitude, longitude);
         }
     }, [latitude, longitude, fetchAddress]);
@@ -263,7 +263,7 @@ const OfferPage = () => {
     );
 };
 
-export default OfferPage;
+export default Offer;
 
 const CampainPage = ({ campaign, design }: any) => {
     return (

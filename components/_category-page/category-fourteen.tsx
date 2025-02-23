@@ -1,6 +1,14 @@
 'use client';
 
 import Card32 from '@/components/card/card32';
+import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
+import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { NotFoundMsg } from '@/utils/little-components';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -8,18 +16,10 @@ import { useEffect, useState } from 'react';
 import { BiFilterAlt } from 'react-icons/bi';
 import { IoIosArrowForward } from 'react-icons/io';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Pagination from '@/components/_category-page/components/pagination';
-import { setSort } from '@/redux/features/filters/filterSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
-import { RootState } from '@/redux/store';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { numberParser } from '@/helpers/numberParser';
+import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
-import InfiniteLoader from '../loaders/infinite-loader';
-import Skeleton from '@/components/loaders/skeleton';
-import { NotFoundMsg } from '@/utils/little-components';
 
 const CategoryFourteen = ({ catId, store_id, design }: any) => {
     const module_id = 105;

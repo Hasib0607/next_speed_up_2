@@ -1,8 +1,8 @@
 'use client';
-import Pagination from '@/components/_category-page/components/pagination';
 import Card50 from '@/components/card/card50';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
 import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
 import { numberParser } from '@/helpers/numberParser';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';

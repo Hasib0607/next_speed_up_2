@@ -3,19 +3,19 @@
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import ProductCardOne from '@/components/card/product-card/product-card-one';
-import Skeleton from '@/components/loaders/skeleton';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
-import Pagination from '@/components/_category-page/components/pagination';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
+import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
 import { getPathName } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
 import MotionLink from '@/utils/motion-link';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
 
 const One = ({ store_id }: any) => {
