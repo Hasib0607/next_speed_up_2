@@ -67,7 +67,7 @@ function url() {
 
 let urlName;
 
-urlName = "stylekitbd.com";
+urlName = "savantstylefashion.com";
 // urlName = "2ndpagebooks.com";
 // urlName = "shr.localhost:3000";
 // urlName = "qutobd.com";
@@ -77,4 +77,3 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 export const name = urlName;
-

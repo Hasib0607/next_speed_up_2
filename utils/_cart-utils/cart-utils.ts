@@ -1,5 +1,6 @@
 'use client';
 
+import { getCampainOfferDiscount } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
 import {
     addToCartList,
@@ -110,6 +111,20 @@ export const subTotal = (cartList: any) => {
     return total;
 };
 
+export const totalCampainOffer = (cartList: any) => {
+    const offerPriceList = cartList?.map((item: any) => {
+        let offerPrice = getCampainOfferDiscount(item);
+        return offerPrice * item.qty;
+    });
+
+    const offerPriceTotal = offerPriceList?.reduce(
+        (previousValue: any, currentValue: any) => previousValue + currentValue,
+        0
+    );
+
+    return offerPriceTotal;
+};
+
 export const grandTotal = (
     total: any,
     tax: any,
@@ -155,7 +170,7 @@ export const addToCart = ({
     filterV?: any[];
     productQuantity: number;
 }) => {
-    const hasInCartList = isActiveCart( product, cartList,variantId);
+    const hasInCartList = isActiveCart(product, cartList, variantId);
     const isAbleToCart = isQtyLeft(product, variantId, qty, cartList);
 
     const addOnBoard = () => {

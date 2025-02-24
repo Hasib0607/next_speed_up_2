@@ -26,7 +26,7 @@ export default async function CheckoutPage() {
         <>
             {appStore?.auth_type !== 'EasyOrder' ? (
                 <ProtectedLayer>
-                    <CheckoutGtm />
+                    <CheckoutGtm headersetting={headersetting} />
                     <Checkout
                         design={design}
                         appStore={appStore}
@@ -35,7 +35,7 @@ export default async function CheckoutPage() {
                 </ProtectedLayer>
             ) : (
                 <>
-                    <CheckoutGtm />
+                    <CheckoutGtm headersetting={headersetting} />
                     <Checkout
                         design={design}
                         appStore={appStore}

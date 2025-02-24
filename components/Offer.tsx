@@ -14,7 +14,7 @@ import useGeoLocation from '@/hooks/useGeoLocation';
 import { numberParser } from '@/helpers/numberParser';
 import { notFound } from 'next/navigation';
 
-const Offer = ({ design }: any) => {
+const Offer = ({ design, ipData }: any) => {
     const store_id = numberParser(design?.store_id) || null;
 
     const { address, fetchAddress } = useGeoLocation();
@@ -37,15 +37,17 @@ const Offer = ({ design }: any) => {
     const [city, setCity] = useState('');
 
     const getData = async () => {
+        console.log('ipData', ipData);
+
         try {
-            const response = await fetch('https://ipapi.co/json/');
-            if (!response.ok) {
-                notFound()
-            }
+            const response = await fetch("/api/ip");
+            // if (!response.ok) {
+            //     notFound()
+            // }
             console.log("response",response);
-            
+
             const data = await response.json();
-            console.log("data",data);
+            console.log("IP Data:",data);
             setIP(data.ip);
             setState(data.region);
             setPostal(data.postal);
@@ -61,7 +63,7 @@ const Offer = ({ design }: any) => {
 
     useEffect(() => {
         getData();
-    }, []);
+    });
 
     const [campaign, setCampaign] = useState([]);
     const [load, setLoad] = useState(false);
@@ -216,13 +218,13 @@ const Offer = ({ design }: any) => {
                     (sDate >= Date.now() ||
                         eDate <= Date.now() ||
                         campaign?.length === 0) ? (
-                        <>
-                            <div className="font-semibold">
-                                <div className="flex justify-center  items-center text-xl ">
-                                    Offer Not Available Data
+   
+                            <div className="flex justify-center items-center h-auto md:h-[calc(100vh-500px)]">
+                                <div className="text-xl text-red-500 font-semibold">
+                                    Offer Not Available!
                                 </div>
                             </div>
-                        </>
+                     
                     ) : (
                         <>
                             {start_date <= Date.now() &&
