@@ -1,9 +1,6 @@
 'use client';
 
-import {
-    clearCartList,
-    removeFromCartList,
-} from '@/redux/features/cart/cartSlice';
+import { removeFromCartList } from '@/redux/features/cart/cartSlice';
 import FileUploadModal from '@/utils/FileUploadModal';
 import { CrossCircledIcon } from '@radix-ui/react-icons';
 
@@ -13,18 +10,16 @@ import BDT from '@/utils/bdt';
 
 import useAuth from '@/hooks/useAuth';
 import Link from 'next/link';
+import { handlePlaceOrder } from '@/components/_checkout-page/_components/handlePlaceOrder';
 
-import { useUserPlaceOrderMutation } from '@/redux/features/checkOut/checkOutApi';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 
 import { grandTotal, subTotal } from '@/utils/_cart-utils/cart-utils';
-import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import PaymentGateway from '../../_components/payment-gateway/payment-gateway';
-import Swal from 'sweetalert2';
 
 // Helper function to conditionally select a value
 import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
@@ -76,17 +71,13 @@ const YourOrders = ({
         (state: RootState) => state.paymentFilter.paymentMethod
     );
 
-    const { user } = useSelector((state: RootState) => state.auth);
     const smsCount = numberParser(headersetting?.total_sms);
 
-    const router = useRouter();
     const dispatch = useDispatch();
 
     const formData = new FormData();
 
     const total = subTotal(cartList);
-
-    const [userPlaceOrder] = useUserPlaceOrderMutation();
 
     const handleCouponRemove = () => {
         setCouponDis(0);
@@ -236,104 +227,13 @@ const YourOrders = ({
     }).forEach(([key, value]) => appendFormData(key, value));
 
     const handleCheckout = async () => {
-        if (!userAddress && !data.address) {
-            toast.warning('Please Select The Address', {
-                toastId: userAddress,
-            });
-        }
-        if (!userPhone && !user) {
-            toast.warning('Please write your phone number', {
-                toastId: userPhone,
-            });
-        }
-        if (!userName && !user) {
-            toast.warning('Please write your name', { toastId: userName });
-        }
-        if (!data.payment_type) {
-            toast.warning('Please Select Payment Method', {
-                toastId: data.payment_type,
-            });
-        }
-        if (data.shipping === null) {
-            toast.warning('Please Select Shipping Area', {
-                toastId: data.shipping,
-            });
-        }
-
-        const placeOrder = () => {
-            setIsLoading(true);
-            userPlaceOrder(formData)
-                .unwrap()
-                .then(({ data, status }: any) => {
-                    const { order, url } = data || {};
-
-                    if (status) {
-                        dispatch(clearCartList());
-                        if (url) {
-                            window.location.replace(url);
-                        } else {
-                            toast.success(
-                                `Your #${order?.reference_no} order complete successfully!`
-                            );
-                            setIsLoading(false);
-                            router.push('/thank-you');
-                        }
-                    } else {
-                        toast.error('Can not place order, please try again!');
-                        setIsLoading(false);
-                    }
-                })
-                .catch((error) => {
-                    if ('data' in error) {
-                        const errorData = error as any;
-                        if (errorData?.status == 404) {
-                            toast.error(errorData?.data?.message);
-                        } else {
-                            toast.error(
-                                'Something went wrong! Please try again.'
-                            );
-                        }
-                    }
-                    setIsLoading(false);
-                });
-        };
-
-        if (isAbleToOrder) {
-            if (smsCount > 0) {
-                placeOrder();
-            } else {
-                Swal.fire({
-                    title: 'Do you want to continue?',
-                    text: 'Your vendor does not have any SMS left!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Continue',
-                    reverseButtons: true,
-                }).then((result: any) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: 'Are you sure?',
-                            text: 'You cannot get SMS for order confirmation and also cannot receive login credentials!',
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Proceed',
-                            reverseButtons: true,
-                        }).then((result: any) => {
-                            if (result.isConfirmed) {
-                                placeOrder();
-                                toast.success(
-                                    `Your order placed without sms confirmation!`
-                                );
-                            }
-                        });
-                    }
-                });
-            }
-        }
+        handlePlaceOrder(
+            isAbleToOrder,
+            smsCount,
+            formData,
+            dispatch,
+            setIsLoading
+        );
     };
 
     useEffect(() => {
@@ -361,7 +261,8 @@ const YourOrders = ({
         }
     }, [data]);
 
-    const btnStyleClass = 'py-2 px-5 rounded-full space-y-2 w-full sm:w-max transition-colors duration-300 relative flex justify-center items-center border border-gray-300 lg:cursor-pointer';
+    const btnStyleClass =
+        'py-2 px-5 rounded-full space-y-2 w-full sm:w-max transition-colors duration-300 relative flex justify-center items-center border border-gray-300 lg:cursor-pointer';
 
     return (
         <div
@@ -545,7 +446,7 @@ const YourOrders = ({
                 <button
                     disabled={!isAbleToOrder}
                     className={`flex justify-center items-center font-semibold tracking-wider my-1 rounded-full border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] hover:bg-transparent border-gray-300 w-full py-3 disabled:border disabled:bg-gray-400 disabled:cursor-not-allowed disabled:border-gray-300  ${!isAbleToOrder ? btnhover : null}`}
-                    onClick={() => handleCheckout()}
+                    onClick={handleCheckout}
                 >
                     {design?.template_id === '29' ||
                     store_id === 3601 ||

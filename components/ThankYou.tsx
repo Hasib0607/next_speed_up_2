@@ -26,7 +26,7 @@ const ThankYou = () => {
     }, [isHydrated, msg]);
 
     return (
-        <div className="flex flex-col gap-3 justify-center items-center font-bold  h-auto md:h-[calc(100vh-300px)]">
+        <div className="flex flex-col gap-3 justify-center items-center font-bold h-auto md:h-[calc(100vh-300px)]">
             <TiTickOutline className="text-green-500 text-6xl" />
             <p className="text-2xl lg:text-3xl">Thank you for your order</p>
 

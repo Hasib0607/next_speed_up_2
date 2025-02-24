@@ -85,7 +85,7 @@ export default async function SingleProductDetails({
 
     return (
         <div>
-            <ViewContentGtm product={productData} />
+            <ViewContentGtm product={productData} headersetting={headersetting} />
             <ProductDetails
                 design={design}
                 headersetting={headersetting}

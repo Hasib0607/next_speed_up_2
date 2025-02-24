@@ -1,25 +1,38 @@
-/* eslint-disable no-cond-assign */
+import { numberParser } from './numberParser';
 
 export const getPrice = (
     regular_price: any,
     discount_price: any,
-    discount_type: any
+    discount_type: string,
+    getTypeWiseDiscount?: boolean
 ) => {
+    const regularPrice = numberParser(regular_price);
+    const discountPrice = numberParser(discount_price);
+
     if (discount_type === 'percent') {
-        const price = Math.ceil(
-            regular_price -
-                (parseFloat(discount_price) / 100) * parseFloat(regular_price)
+        const price = numberParser(
+            regularPrice - (discountPrice / 100) * regularPrice
         );
-        return price;
+        if (getTypeWiseDiscount) {
+            return numberParser((discountPrice / 100) * regularPrice);
+        } else {
+            return price;
+        }
     }
     if (discount_type === 'fixed') {
-        const price = Math.ceil(
-            parseFloat(regular_price) - parseFloat(discount_price)
-        );
-        return price;
+        const price = numberParser(regularPrice - discountPrice, true);
+        if (getTypeWiseDiscount) {
+            return numberParser(discountPrice, true);
+        } else {
+            return price;
+        }
     }
     if (discount_type === 'no_discount') {
-        const price = Math.ceil(parseFloat(regular_price));
-        return price;
+        const price = numberParser(regularPrice, true);
+        if (getTypeWiseDiscount) {
+            return numberParser(regularPrice, true);
+        } else {
+            return price;
+        }
     }
 };

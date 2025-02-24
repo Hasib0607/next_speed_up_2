@@ -56,7 +56,7 @@ export default async function RootLayout({
 
     // console.log("googleAnalytics",googleAnalytics);
     // console.log("googleSearchConsole",googleSearchConsole);
-    // console.log("FACEBOOK_PIXEL_ID",FACEBOOK_PIXEL_ID);
+    // console.log("FACEBOOK_PIXEL_ID",headersetting);
 
     // Check if the current route is the homepage
     // const pathname = headersList.get('x-nextjs-route');
@@ -131,6 +131,7 @@ export default async function RootLayout({
                                 s.parentNode.insertBefore(t,s)}(window, document,'script',
                                 'https://connect.facebook.net/en_US/fbevents.js');
                                 fbq('init', '${FACEBOOK_PIXEL_ID}');
+                                fbq('track', 'PageView');
                             `,
                             }}
                         />
