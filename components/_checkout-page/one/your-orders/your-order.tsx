@@ -16,11 +16,11 @@ import {
     handleIncrement,
 } from '@/utils/_cart-utils/cart-utils';
 
-import { RootState } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
 import { grandTotal, subTotal } from '@/utils/_cart-utils/cart-utils';
 import { useEffect, useMemo, useState } from 'react';
 import { handlePlaceOrder } from '@/components/_checkout-page/_components/handlePlaceOrder';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import PaymentGateway from '../payment-gateway/payment-gateway';
 
@@ -32,6 +32,7 @@ import { TWENTY_EIGHT } from '@/consts';
 import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
 import { setCouponResult } from '@/redux/features/filters/couponSlice';
+import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 
 const YourOrders = ({
     design,
@@ -77,6 +78,11 @@ const YourOrders = ({
     );
 
     const { cartList } = useSelector((state: RootState) => state.cart);
+
+    const { totalcampainOfferAmount } = useSelector(
+        (state: RootState) => state.campainOfferFilters
+    );
+
     const { couponResult } = useSelector(
         (state: RootState) => state.couponSlice
     );
@@ -85,23 +91,23 @@ const YourOrders = ({
         (state: RootState) => state.paymentFilter.paymentMethod
     );
 
-    const smsCount = numberParser(headersetting?.total_sms);
-
-    const dispatch = useDispatch();
-
     const formData = new FormData();
-
+    const dispatch: AppDispatch = useAppDispatch();
     const total = subTotal(cartList);
+    const smsCount = numberParser(headersetting?.total_sms);
+    const couponShow = setCouponShow(couponResult, total, shippingArea);
+    const totalDis = useMemo(
+        () => couponDis + totalcampainOfferAmount,
+        [couponDis, totalcampainOfferAmount]
+    );
+
+    const gTotal = grandTotal(total, tax, shippingArea, totalDis);
 
     const handleCouponRemove = () => {
         setCouponDis(0);
         dispatch(setCouponResult({ code: null, code_status: false }));
         toast.error('Coupon removed!');
     };
-
-    const gTotal = grandTotal(total, tax, shippingArea, couponDis);
-
-    const couponShow = setCouponShow(couponResult, total, shippingArea);
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -194,7 +200,7 @@ const YourOrders = ({
             subtotal: numberParser(total),
             shipping: shippingArea,
             total: gTotal,
-            discount: couponDis,
+            discount: totalDis,
             tax,
             coupon: couponResult?.code || '',
             referral_code: referral_code || '', // Include referral code if available
@@ -213,7 +219,7 @@ const YourOrders = ({
             total,
             shippingArea,
             gTotal,
-            couponDis,
+            totalDis,
             tax,
             couponResult,
             referral_code,
@@ -273,8 +279,7 @@ const YourOrders = ({
             data?.name &&
             (data?.phone || data?.email) &&
             data?.address &&
-            data?.district &&
-            data?.shipping !== null
+            data?.district
         ) {
             setIsAbleToOrder(true);
         } else {
@@ -283,15 +288,7 @@ const YourOrders = ({
     }, [data]);
 
     return (
-        <div
-            className="border p-5 sm:rounded-md shadow"
-            style={
-                {
-                    '--header-color': design?.header_color,
-                    '--text-color': design?.text_color,
-                } as React.CSSProperties
-            }
-        >
+        <div className="border p-5 sm:rounded-md shadow">
             <div className="mb-12">
                 <h3 className="text-center font-semibold text-xl">
                     প্রোডাক্ট ডিটেইল
@@ -350,7 +347,7 @@ const YourOrders = ({
                         <BDT price={numberParser(total)} />
                     </p>
                 </div>
-                {couponShow > 0 && (
+                {totalDis > 0 && (
                     <>
                         <div className="flex justify-between items-center">
                             <p>
@@ -360,23 +357,27 @@ const YourOrders = ({
                                     : 'Discount'}
                             </p>
                             <p>
-                                <BDT price={couponDis} />
+                                <BDT price={totalDis} />
                             </p>
                         </div>
-                        <div className="space-x-4 my-3">
-                            <button
-                                className="relative inline-flex font-semibold justify-between gap-2 items-center px-2 space-y-2 text-sm shadow rounded-full bg-green-500 text-gray-900"
-                                data-dismiss-target="#badge-dismiss-yellow"
-                                aria-label="Remove"
-                            >
-                                {couponResult?.code}
-                                <CrossCircledIcon
-                                    className="absolute -top-3 -right-3 text-red-400 size-5"
-                                    onClick={handleCouponRemove}
-                                />
-                                <span className="sr-only">Remove badge</span>
-                            </button>
-                        </div>
+                        {couponShow && (
+                            <div className="space-x-4 my-3">
+                                <button
+                                    className="relative inline-flex font-semibold justify-between gap-2 items-center px-2 space-y-2 text-sm shadow rounded-full bg-green-500 text-gray-900"
+                                    data-dismiss-target="#badge-dismiss-yellow"
+                                    aria-label="Remove"
+                                >
+                                    {couponResult?.code}
+                                    <CrossCircledIcon
+                                        className="absolute -top-3 -right-3 text-red-400 size-5"
+                                        onClick={handleCouponRemove}
+                                    />
+                                    <span className="sr-only">
+                                        Remove badge
+                                    </span>
+                                </button>
+                            </div>
+                        )}
                     </>
                 )}
 
@@ -400,7 +401,8 @@ const YourOrders = ({
                             ? 'এস্টিমেটেড শিপিং'
                             : 'Estimated Shipping'}
                     </p>
-                    {shippingArea === '--Select Area--' ? (
+                    {shippingArea === '--Select Area--' ||
+                    shippingArea === null ? (
                         <p>
                             <BDT /> 0
                         </p>
@@ -418,30 +420,9 @@ const YourOrders = ({
                             ? 'মোট'
                             : 'Total'}
                     </p>
-                    {shippingArea === '--Select Area--' ||
-                    shippingArea === null ? (
-                        <p>
-                            {
-                                <BDT
-                                    price={
-                                        numberParser(total + tax) - couponDis
-                                    }
-                                />
-                            }
-                        </p>
-                    ) : (
-                        <p>
-                            {
-                                <BDT
-                                    price={
-                                        numberParser(total + tax) +
-                                        numberParser(shippingArea) -
-                                        couponDis
-                                    }
-                                />
-                            }
-                        </p>
-                    )}
+                    <p>
+                        <BDT price={gTotal} />
+                    </p>
                 </div>
                 <PaymentGateway
                     design={design}
@@ -491,7 +472,7 @@ const YourOrders = ({
 export default YourOrders;
 
 const Single = ({ item }: any) => {
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useAppDispatch();
 
     return (
         <div

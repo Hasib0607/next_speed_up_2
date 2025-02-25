@@ -1,4 +1,5 @@
 'use client';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
     Pagination,
@@ -84,6 +85,7 @@ const HeroTen = ({ slider, design }: any) => {
       color: ${bgColor};
   }
     `;
+
     return (
         <div className="group z-0 relative">
             <style>{styleCss}</style>
@@ -135,17 +137,6 @@ const HeroTen = ({ slider, design }: any) => {
                                     {s?.subtitle}
                                 </p>
                             </div>
-                            {s?.link && (
-                                <a
-                                    href={s?.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <h1 className="md:mt-10 mt-3 lg:px-5 px-2 lg:py-2 py-1 bg-black text-white font-seven lg:text-lg text-xs rounded-md w-max">
-                                        Go To Collection
-                                    </h1>
-                                </a>
-                            )}
                         </div>
                         <img
                             className="min-w-full h-auto "

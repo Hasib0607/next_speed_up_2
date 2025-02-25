@@ -1,4 +1,5 @@
 'use client';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
     Pagination,
@@ -89,15 +90,6 @@ const HeroSixteen = ({ slider, design }: any) => {
                                 <p className="md:text-xl text-sm leading-none">
                                     {s?.subtitle}
                                 </p>
-                                <a
-                                    href={s?.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <div className="flex font-twelve mt-3 lg:mt-14 lg:px-7 px-2 rounded-full lg:py-3 py-1 text-black text-sm font-bold shop-link w-max lg:cursor-pointer bg-transparent border-black border duration-500 items-center space-x-1">
-                                        <h1 className="">SHOP NOW</h1>
-                                    </div>
-                                </a>
                             </div>
                         </div>
                         <img

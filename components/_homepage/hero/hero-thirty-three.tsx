@@ -40,7 +40,6 @@ const HeroThirtyThree = ({ slider, design }: any) => {
     };
 
     const styleCss = `
-
     .swiper-pagination-five {
       position: absolute;
       bottom: 20px !important;
@@ -52,7 +51,6 @@ const HeroThirtyThree = ({ slider, design }: any) => {
       z-index: 1000;
       gap: 5px;
   }
-  
   .swiper-pagination-five .swiper-pagination-bullet {
       border-radius: 50%;
       width: 12px;
@@ -61,7 +59,6 @@ const HeroThirtyThree = ({ slider, design }: any) => {
       background:  ${textColor};
   
   }
-  
   .swiper-pagination-five .swiper-pagination-bullet-active {
       width: 12px;
       height: 12px;
@@ -81,8 +78,8 @@ const HeroThirtyThree = ({ slider, design }: any) => {
       border: 1px solid ${bgColor};
       
   }
-
     `;
+
     return (
         <div className=" mt-0 xl:mt-0 bg-white relative heroElevenBgImage">
             <style>{styleCss}</style>

@@ -111,31 +111,33 @@ export const subTotal = (cartList: any) => {
     return total;
 };
 
-export const totalCampainOffer = (cartList: any) => {
-    const offerPriceList = cartList?.map((item: any) => {
+export const totalCampainOfferDiscount = (cartList: any) => {
+    const campainOfferDiscountList = cartList?.map((item: any) => {
         let offerPrice = getCampainOfferDiscount(item);
-        return offerPrice * item.qty;
+        return offerPrice;
     });
 
-    const offerPriceTotal = offerPriceList?.reduce(
+    const campainOfferDiscountListTotal = campainOfferDiscountList?.reduce(
         (previousValue: any, currentValue: any) => previousValue + currentValue,
         0
     );
 
-    return offerPriceTotal;
+    return campainOfferDiscountListTotal;
 };
 
 export const grandTotal = (
     total: any,
     tax: any,
     shippingArea: any,
-    couponDis: any
+    totalDis: any
 ) => {
     const gTotal =
-        numberParser(total) +
-        numberParser(tax) +
-        numberParser(shippingArea) -
-        numberParser(couponDis);
+        shippingArea === '--Select Area--' || shippingArea === null
+            ? numberParser(total) + numberParser(tax) - numberParser(totalDis)
+            : numberParser(total) +
+              numberParser(tax) +
+              numberParser(shippingArea) -
+              numberParser(totalDis);
 
     return gTotal;
 };

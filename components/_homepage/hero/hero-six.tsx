@@ -1,10 +1,12 @@
 'use client';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, Navigation, Controller } from 'swiper/modules';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { BsArrowRight } from 'react-icons/bs';
 import { sliderImg } from '@/site-settings/siteUrl';
@@ -62,9 +64,9 @@ const HeroSix = ({ slider, design }: any) => {
         background: ${bgColor};
         color: ${textColor};
         border: 1px solid ${bgColor};
-        
     }
     `;
+
     return (
         <div className="group z-0 relative bg-white sm:container px-5">
             <style>{styleCss}</style>
@@ -100,7 +102,7 @@ const HeroSix = ({ slider, design }: any) => {
                 {slider?.map((s: any) => (
                     <SwiperSlide key={s.id}>
                         <div className="absolute top-1/2 -translate-y-1/2 left-[10%] max-w-[50%]">
-                            <div style={{ color: s?.color }} className="">
+                            <div style={{ color: s?.color }}>
                                 <h1 className="xl:text-4xl md:text-[24px] text-[14px] font-seven mb-1 md:mb-3 font-bold">
                                     {s?.title}
                                 </h1>
@@ -108,18 +110,6 @@ const HeroSix = ({ slider, design }: any) => {
                                     {s?.subtitle}
                                 </p>
                             </div>
-                            {s?.link && (
-                                <a
-                                    href={s?.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <h1 className="md:mt-10 mt-3 lg:px-5 px-2 lg:py-2 py-1 bg-black text-white font-seven lg:text-lg text-xs rounded-md w-max">
-                                        Go To Collection{' '}
-                                        <BsArrowRight className="inline lg:ml-3 ml-1 lg:text-2xl text-sm " />
-                                    </h1>
-                                </a>
-                            )}
                         </div>
                         <img
                             className="h-auto min-w-full"

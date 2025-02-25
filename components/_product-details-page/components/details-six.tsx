@@ -183,7 +183,6 @@ const DetailsSix = ({
         () => productCurrentPrice(product, variantId),
         [product, variantId]
     );
-    console.log('product', product);
 
     const save = useMemo(
         () => howMuchSave(product, variantId),
@@ -270,7 +269,6 @@ const DetailsSix = ({
                                 </span>
                             )}{' '}
                         </div>
-                        {}
                         {product?.discount_type === 'percent' &&
                             product?.discount_price > 0 && (
                                 <p className="text-md text-gray-400">

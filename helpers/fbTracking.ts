@@ -1,3 +1,4 @@
+// PageView
 export const PageView = () => {
   if (typeof window !== "undefined" && window.fbq) {
     window.fbq("track", "PageView");
@@ -6,14 +7,15 @@ export const PageView = () => {
   }
 };
 
-export const Purchase = (value: any) => {
+// Purchase
+export const Purchase = (value: any, currency: any) => {
   if (typeof window !== "undefined" && window.fbq) {
-    window.fbq("track", "Purchase", { value });
+    window.fbq("track", "Purchase", { value, currency });
   } else {
     console.warn("Facebook Pixel (fbq) is not initialized.");
   }
 };
-
+// AddToCart
 export const AddToCart = (item: any) => {
   if (typeof window !== "undefined" && window.fbq) {
     window.fbq("track", "AddToCart", { item });
@@ -22,6 +24,7 @@ export const AddToCart = (item: any) => {
   }
 };
 
+// Checkout
 export const Checkout = ( price: any, sku: any, currency: any) => {
   if (typeof window !== "undefined" && window.fbq) {
     window.fbq("track", "Checkout", { price, sku, currency });
@@ -30,6 +33,7 @@ export const Checkout = ( price: any, sku: any, currency: any) => {
   }
 };
 
+// ViewContent
 export const ViewContent = (
   content_ids: any,
   content_type: any,

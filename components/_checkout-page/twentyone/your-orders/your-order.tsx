@@ -17,7 +17,7 @@ import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { grandTotal, subTotal } from '@/utils/_cart-utils/cart-utils';
 import { useEffect, useMemo, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import PaymentGateway from '../../_components/payment-gateway/payment-gateway';
 
@@ -26,9 +26,11 @@ import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
 import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { TWENTY_EIGHT } from '@/consts';
-import { RootState } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
 import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponResult } from '@/redux/features/filters/couponSlice';
+import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
+import { setCouponShow } from '@/helpers/setDiscount';
 
 const YourOrders = ({
     design,
@@ -62,7 +64,12 @@ const YourOrders = ({
         address: userAddress,
     } = checkoutFromData || {};
 
-    const { cartList } = useSelector((state: RootState) => state.cart);
+   const { cartList } = useSelector((state: RootState) => state.cart);
+
+    const { totalcampainOfferAmount } = useSelector(
+        (state: RootState) => state.campainOfferFilters
+    );
+
     const { couponResult } = useSelector(
         (state: RootState) => state.couponSlice
     );
@@ -71,21 +78,23 @@ const YourOrders = ({
         (state: RootState) => state.paymentFilter.paymentMethod
     );
 
-    const smsCount = numberParser(headersetting?.total_sms);
-
-    const dispatch = useDispatch();
-
     const formData = new FormData();
-
+    const dispatch: AppDispatch = useAppDispatch();
     const total = subTotal(cartList);
+    const smsCount = numberParser(headersetting?.total_sms);
+    const couponShow = setCouponShow(couponResult, total, shippingArea);
+    const totalDis = useMemo(
+        () => couponDis + totalcampainOfferAmount,
+        [couponDis, totalcampainOfferAmount]
+    );
+
+    const gTotal = grandTotal(total, tax, shippingArea, totalDis);
 
     const handleCouponRemove = () => {
         setCouponDis(0);
         dispatch(setCouponResult({ code: null, code_status: false }));
         toast.error('Coupon removed!');
     };
-
-    const gTotal = grandTotal(total, tax, shippingArea, couponDis);
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -96,7 +105,8 @@ const YourOrders = ({
         }
         return cart; // Return the cart as is if there's no corresponding product in data
     });
-    // howMuchSave(item)
+    
+    // 
     const cart = updatedCartList?.map((item: any) => ({
         id: item?.id,
         quantity: item?.qty,
@@ -173,7 +183,7 @@ const YourOrders = ({
             subtotal: numberParser(total),
             shipping: numberParser(shippingArea),
             total: gTotal,
-            discount: couponDis,
+            discount: totalDis,
             tax,
             coupon: couponResult?.code || '',
             referral_code: referral_code || '', // Include referral code if available
@@ -192,7 +202,7 @@ const YourOrders = ({
             total,
             shippingArea,
             gTotal,
-            couponDis,
+            totalDis,
             tax,
             couponResult,
             referral_code,
@@ -341,7 +351,7 @@ const YourOrders = ({
                     <p>{<BDT price={couponDis} />}</p>
                 </div>
 
-                {couponDis > 0 && (
+                {couponShow > 0 && (
                     <div className="space-x-4 my-3">
                         <button
                             className="relative inline-flex font-semibold justify-between gap-2 items-center px-2 space-y-2 text-sm shadow rounded-full bg-green-500 text-gray-900"
@@ -374,7 +384,7 @@ const YourOrders = ({
                             ? 'এস্টিমেটেড শিপিং'
                             : 'Estimated Shipping'}
                     </p>
-                    {shippingArea === '--Select Area--' ? (
+                    {shippingArea === '--Select Area--' || shippingArea === null ? (
                         <p>
                             <BDT /> 0
                         </p>
@@ -392,30 +402,14 @@ const YourOrders = ({
                             ? 'মোট'
                             : 'Total'}
                     </p>
-                    {shippingArea === '--Select Area--' ||
-                    shippingArea === null ? (
                         <p>
-                            {
+                            
                                 <BDT
                                     price={
-                                        numberParser(total + tax) - couponDis
+                                        gTotal
                                     }
                                 />
-                            }
                         </p>
-                    ) : (
-                        <p>
-                            {
-                                <BDT
-                                    price={
-                                        numberParser(total + tax) +
-                                        numberParser(shippingArea) -
-                                        couponDis
-                                    }
-                                />
-                            }
-                        </p>
-                    )}
                 </div>
                 <PaymentGateway
                     design={design}
@@ -484,13 +478,12 @@ const Single = ({ item, setIsOpen, files, cartId, store_id }: any) => {
         setIsOpen(true);
     }
 
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useAppDispatch();
 
     const file = files.some((i: any) => i.cartId === cartId);
 
     return (
         <div
-            // key={item.id}
             className="flex flex-col sm:flex-row justify-start sm:justify-between space-y-2 space-x-1 sm:items-center border-b-2 border-gray-300 py-2 "
         >
             <div className="flex items-center gap-2">

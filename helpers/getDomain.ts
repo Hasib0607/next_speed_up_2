@@ -17,13 +17,10 @@ export default async function getDomain() {
         return url;
     }
 
-    url = "savantstylefashion.com";
+    url = "livicabd.com";
     // url = "2ndpagebooks.com";
     // url = 'shr.localhost:3000';
     // url = "qutobd.com";
 
     return url;
-
-    // return "savantstylefashion.com";
-    // return "qutobd.com";
 }

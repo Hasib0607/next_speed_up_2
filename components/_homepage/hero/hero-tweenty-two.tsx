@@ -1,4 +1,5 @@
 'use client';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
     Pagination,
@@ -14,12 +15,12 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-// import './heroSixteenCss/herosixteen.css'
 import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { sliderImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const HeroTwentyTwo = ({ slider, design }: any) => {
     let menu = [''];
@@ -89,9 +90,8 @@ const HeroTwentyTwo = ({ slider, design }: any) => {
     .arrow-color:hover {
         color: ${bgColor};
     }
-
-
       `;
+
     return (
         <div className="group z-0 relative ">
             <style>{styleCss}</style>
@@ -148,8 +148,8 @@ const HeroTwentyTwo = ({ slider, design }: any) => {
                                 <p className="md:text-xl text-sm">
                                     {s?.subtitle}
                                 </p>
-                                <a
-                                    href={s?.link}
+                                <Link
+                                    href={s?.link ?? '#'}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
@@ -157,7 +157,7 @@ const HeroTwentyTwo = ({ slider, design }: any) => {
                                         subscribe
                                         <AiOutlineArrowRight className="text-white inline ml-2" />
                                     </div>{' '}
-                                </a>
+                                </Link>
                             </div>
                         </div>
 

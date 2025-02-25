@@ -15,7 +15,7 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { grandTotal, subTotal } from '@/utils/_cart-utils/cart-utils';
 import { useEffect, useMemo, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 // Helper function to conditionally select a value
@@ -27,6 +27,7 @@ import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
 import { setCouponResult } from '@/redux/features/filters/couponSlice';
 import { handlePlaceOrder } from '@/components/_checkout-page/_components/handlePlaceOrder';
+import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 
 const YourOrders = ({
     design,
@@ -61,6 +62,11 @@ const YourOrders = ({
     } = checkoutFromData || {};
 
     const { cartList } = useSelector((state: RootState) => state.cart);
+
+    const { totalcampainOfferAmount } = useSelector(
+        (state: RootState) => state.campainOfferFilters
+    );
+
     const { couponResult } = useSelector(
         (state: RootState) => state.couponSlice
     );
@@ -68,23 +74,24 @@ const YourOrders = ({
     const selectedPayment = useSelector(
         (state: RootState) => state.paymentFilter.paymentMethod
     );
-    const smsCount = numberParser(headersetting?.total_sms);
-
-    const dispatch: AppDispatch = useDispatch();
 
     const formData = new FormData();
-
+    const dispatch: AppDispatch = useAppDispatch();
     const total = subTotal(cartList);
+    const smsCount = numberParser(headersetting?.total_sms);
+    const couponShow = setCouponShow(couponResult, total, shippingArea);
+    const totalDis = useMemo(
+        () => couponDis + totalcampainOfferAmount,
+        [couponDis, totalcampainOfferAmount]
+    );
+
+    const gTotal = grandTotal(total, tax, shippingArea, totalDis);
 
     const handleCouponRemove = () => {
         setCouponDis(0);
         dispatch(setCouponResult({ code: null, code_status: false }));
         toast.error('Coupon removed!');
     };
-
-    const gTotal = grandTotal(total, tax, shippingArea, couponDis);
-
-    const couponShow = setCouponShow(couponResult, total, shippingArea);
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -172,7 +179,7 @@ const YourOrders = ({
             subtotal: numberParser(total),
             shipping: shippingArea,
             total: gTotal,
-            discount: couponDis,
+            discount: totalDis,
             tax,
             coupon: couponResult?.code || '',
             referral_code: referral_code || '', // Include referral code if available
@@ -191,7 +198,7 @@ const YourOrders = ({
             total,
             shippingArea,
             gTotal,
-            couponDis,
+            totalDis,
             tax,
             couponResult,
             referral_code,
@@ -320,7 +327,7 @@ const YourOrders = ({
                             : 'Discount'}
                     </p>
                     <p>
-                        <BDT price={couponDis} />
+                        <BDT price={totalDis} />
                     </p>
                 </div>
 
@@ -348,7 +355,7 @@ const YourOrders = ({
                             ? 'ট্যাক্স'
                             : 'Tax'}
                     </p>
-                    <p>{<BDT price={numberParser(tax)} />}</p>
+                    <p><BDT price={numberParser(tax)} /></p>
                 </div>
                 <div className="flex justify-between items-center">
                     <p>
@@ -357,7 +364,7 @@ const YourOrders = ({
                             ? 'এস্টিমেটেড শিপিং'
                             : 'Estimated Shipping'}
                     </p>
-                    {shippingArea === '--Select Area--' ? (
+                    {shippingArea === '--Select Area--' || shippingArea === null ? (
                         <p>
                             <BDT /> 0
                         </p>
@@ -375,30 +382,10 @@ const YourOrders = ({
                             ? 'মোট'
                             : 'Total'}
                     </p>
-                    {shippingArea === '--Select Area--' ||
-                    shippingArea === null ? (
-                        <p>
-                            {
-                                <BDT
-                                    price={
-                                        numberParser(total + tax) - couponDis
-                                    }
-                                />
-                            }
-                        </p>
-                    ) : (
-                        <p>
-                            {
-                                <BDT
-                                    price={
-                                        numberParser(total + tax) +
-                                        numberParser(shippingArea) -
-                                        couponDis
-                                    }
-                                />
-                            }
-                        </p>
-                    )}
+
+                    <p>
+                        <BDT price={gTotal} />
+                    </p>
                 </div>
             </div>
 
@@ -462,13 +449,12 @@ const Single = ({ item, setIsOpen, files, cartId, store_id }: any) => {
         setIsOpen(true);
     }
 
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useAppDispatch();
 
     const file = files.some((i: any) => i.cartId === cartId);
 
     return (
         <div
-            // key={item.id}
             className="flex flex-col sm:flex-row justify-start sm:justify-between space-y-2 space-x-1 sm:items-center border-b-2 border-gray-300 py-2 "
         >
             <div className="flex items-center gap-2">

@@ -6,6 +6,7 @@ import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 
 const Footer = ({ design, headersetting, menu }: any) => {
     const store_id = design?.store_id || null;
+    // console.log("dataLayer",window.dataLayer);
 
     const FooterComponent = footers[design?.footer];
 

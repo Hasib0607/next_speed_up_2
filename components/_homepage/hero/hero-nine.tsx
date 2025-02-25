@@ -1,4 +1,5 @@
 'use client';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, Navigation, Controller } from 'swiper/modules';
 // Import Swiper styles
@@ -7,8 +8,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-
-import { BsPlusLg } from 'react-icons/bs';
 import { sliderImg } from '@/site-settings/siteUrl';
 import './hero-nine.css';
 
@@ -50,8 +49,8 @@ const HeroNine = ({ slider, design }: any) => {
         transform: scale(1.05);
         color:  white;
     }
-  
     `;
+
     return (
         <div className="group z-0 relative">
             <style>{styleCss}</style>
@@ -100,18 +99,6 @@ const HeroNine = ({ slider, design }: any) => {
                                     <p className="md:text-xl text-sm leading-none mb-5">
                                         {s?.subtitle}
                                     </p>
-                                    {s?.link && (
-                                        <a
-                                            href={s?.link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            <div className="flex font-twelve lg:px-5 px-2 lg:py-2 py-1 text-black lg:text-lg text-xs shop-link w-max lg:cursor-pointer bg-transparent border-black border duration-500 items-center space-x-1">
-                                                <BsPlusLg className="lg:text-sm " />
-                                                <h1 className="">SHOP NOW</h1>
-                                            </div>
-                                        </a>
-                                    )}
                                 </div>
                             </div>
 
