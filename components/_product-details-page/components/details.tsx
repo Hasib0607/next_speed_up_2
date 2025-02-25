@@ -186,7 +186,11 @@ const Details = ({ product, children, cod, zoomable, buttonStyle }: any) => {
         () => productCurrentPrice(product, variantId),
         [product, variantId]
     );
-    const save = howMuchSave(product);
+
+    const save = useMemo(
+        () => howMuchSave(product, variantId),
+        [product, variantId]
+    );
 
     const parsedNumberRating = numberParser(product?.number_rating);
     const parsedRating = numberParser(product?.rating, true);
@@ -277,7 +281,7 @@ const Details = ({ product, children, cod, zoomable, buttonStyle }: any) => {
                         {save > 0 && (
                             <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                 <BDT />
-                                {numberParser(product?.regular_price)}
+                                {variantId !== null ? save : numberParser(product?.regular_price)}
                             </span>
                         )}{' '}
                     </div>
@@ -286,7 +290,7 @@ const Details = ({ product, children, cod, zoomable, buttonStyle }: any) => {
                         product?.discount_price > 0 && (
                             <p className="text-md text-gray-400">
                                 {' '}
-                                {Math.trunc(product?.discount_price)}% Off
+                                {numberParser(product?.discount_price)}% Off
                             </p>
                         )}
                 </div>

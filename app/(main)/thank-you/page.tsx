@@ -1,13 +1,13 @@
-import ThankYou from "@/components/ThankYou";
-import PurchaseGtm from "./PurchaseGtm";
+import ThankYou from '@/components/ThankYou';
+import PurchaseGtm from './PurchaseGtm';
+import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 
-const ThankYouPage = () => {
-  return (
-    <>
-      <PurchaseGtm />
-      <ThankYou />
-    </>
-  );
-};
-
-export default ThankYouPage;
+export default async function ThankYouPage() {
+    const headersetting = await getHeaderSetting();
+    return (
+        <>
+            <PurchaseGtm headersetting={headersetting} />
+            <ThankYou />
+        </>
+    );
+}

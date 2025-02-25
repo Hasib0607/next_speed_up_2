@@ -21,6 +21,7 @@ import 'swiper/css/effect-fade';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { BiRightArrowAlt } from 'react-icons/bi';
 import { sliderImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const HeroTwentyOne = ({ slider, design }: any) => {
     let menu = [''];
@@ -147,8 +148,8 @@ const HeroTwentyOne = ({ slider, design }: any) => {
                                     {s?.subtitle}
                                 </p>
                                 {s?.link && (
-                                    <a
-                                        href={s?.link}
+                                    <Link
+                                        href={s?.link ?? '#'}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
@@ -160,7 +161,7 @@ const HeroTwentyOne = ({ slider, design }: any) => {
                                             Shop Now{' '}
                                             <BiRightArrowAlt className="inline" />
                                         </h1>
-                                    </a>
+                                    </Link>
                                 )}
                             </div>
                         </div>

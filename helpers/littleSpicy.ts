@@ -107,8 +107,18 @@ export const howMuchSave = (product: any, variantId?: any) => {
 };
 
 export const getCampainOfferDiscount = (product: any | undefined) => {
+    const { price,qty } = product || {};
+
+    const calculatedDiscountPrice = getPrice(
+        price,
+        product?.product_offer?.discount_amount,
+        product?.product_offer?.discount_type,
+        true
+    );
+
     if (product?.product_offer?.status) {
-        return numberParser(product?.product_offer?.offer_price);
+        const productCalculatedDiscount = (calculatedDiscountPrice ?? 0) * qty 
+        return productCalculatedDiscount;
     } else {
         return 0;
     }

@@ -119,7 +119,6 @@ const HeroThirty = ({ slider, design }: any) => {
                     nextEl: `.${nextEl}`,
                 }}
                 speed={1000}
-                // effect={"fade"}
                 loop={true}
                 pagination={pagination}
                 autoplay={{
@@ -148,18 +147,6 @@ const HeroThirty = ({ slider, design }: any) => {
                                 <p className="md:text-xl text-sm">
                                     {s?.subtitle}
                                 </p>
-                                {s?.link && (
-                                    <a
-                                        href={s?.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <h1 className="lg:px-10 mt-1 lg:mt-5 px-3 lg:py-2 py-2 btn-slider duration-300 lg:text-lg text-xs w-max lg:cursor-pointer uppercase font-medium">
-                                            Explore Now{' '}
-                                            <ArrowRightIcon className="inline h-5 ml-1" />
-                                        </h1>
-                                    </a>
-                                )}
                             </div>
                         </div>
 

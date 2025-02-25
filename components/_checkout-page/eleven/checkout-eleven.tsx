@@ -8,20 +8,17 @@ import YourOrders from './your-orders/your-order';
 import Discount from '../_components/discount/discount';
 import Address from '../_components/address/address';
 import PaymentGateway from '../_components/payment-gateway/payment-gateway';
-import { totalCampainOffer } from '@/utils/_cart-utils/cart-utils';
-import { setTotalProductDis } from '@/redux/features/filters/offerFilterSlice';
+import { totalCampainOfferDiscount } from '@/utils/_cart-utils/cart-utils';
+import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 
 const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
     const store_id = appStore?.id || null;
 
-    const dispatch:AppDispatch = useAppDispatch()
+    const dispatch: AppDispatch = useAppDispatch();
 
     const { cartList } = useSelector((state: RootState) => state.cart);
-    // const {totalOfferPrice}  = useSelector((state: RootState) => state.offerFilters);
-
-    // console.log('tOfferPrice', totalOfferPrice);
 
     const {
         data: campaignsData,
@@ -39,12 +36,18 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
     const [userAddress, setUserAddress] = useState(null);
     const [campaign, setCampaign] = useState([]);
 
+    const cartTotalCampainOfferDiscountAmount = useMemo(
+        () => totalCampainOfferDiscount(cartList),
+        [cartList]
+    );
+
     useEffect(() => {
-        const cartTotalOfferPrice = totalCampainOffer(cartList)
-        if (cartTotalOfferPrice > 0) {
-            dispatch(setTotalProductDis(cartTotalOfferPrice));
+        if (cartTotalCampainOfferDiscountAmount > 0) {
+            dispatch(setTotalCampainOfferDis(cartTotalCampainOfferDiscountAmount));
+        } else {
+            dispatch(setTotalCampainOfferDis(0));
         }
-    }, [cartList,dispatch]);
+    }, [cartTotalCampainOfferDiscountAmount, dispatch]);
 
     useEffect(() => {
         const isCampaigns = campaignsData?.data || {};

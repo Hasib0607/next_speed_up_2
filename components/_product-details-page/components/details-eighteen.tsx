@@ -184,7 +184,11 @@ const DetailsEighteen = ({
         () => productCurrentPrice(product, variantId),
         [product, variantId]
     );
-    const save = howMuchSave(product);
+
+    const save = useMemo(
+        () => howMuchSave(product, variantId),
+        [product, variantId]
+    );
     const parsedRating = numberParser(product?.rating, true);
 
     const handleAddToCart = () => {
@@ -271,7 +275,7 @@ const DetailsEighteen = ({
                         {save > 0 && (
                             <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                 <BDT />
-                                {numberParser(product?.regular_price)}
+                                {variantId !== null ? save : numberParser(product?.regular_price)}
                             </span>
                         )}{' '}
                     </div>

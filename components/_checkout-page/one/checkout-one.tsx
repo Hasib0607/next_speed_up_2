@@ -1,18 +1,22 @@
 'use client';
 
 import { useGetCampaignQuery } from '@/redux/features/checkOut/checkOutApi';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import Address from '../_components/address/address';
 import YourOrders from './your-orders/your-order';
 import Discount from '../_components/discount/discount';
 import PaymentConditions from '../_components/payment-conditions';
+import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
+import { AppDispatch, RootState } from '@/redux/store';
+import { totalCampainOfferDiscount } from '@/utils/_cart-utils/cart-utils';
+import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
 
 const CheckOutOne = ({ design, appStore, headersetting }: any) => {
     const store_id = appStore?.id || null;
-
-    const { cartList } = useSelector((state: any) => state.cart);
+    const dispatch: AppDispatch = useAppDispatch();
+    const { cartList } = useSelector((state: RootState) => state.cart);
 
     const {
         data: campaignsData,
@@ -29,6 +33,21 @@ const CheckOutOne = ({ design, appStore, headersetting }: any) => {
     const [userPhone, setUserPhone] = useState(null);
     const [userAddress, setUserAddress] = useState(null);
     const [campaign, setCampaign] = useState([]);
+
+    const cartTotalCampainOfferDiscountAmount = useMemo(
+        () => totalCampainOfferDiscount(cartList),
+        [cartList]
+    );
+
+    useEffect(() => {
+        if (cartTotalCampainOfferDiscountAmount > 0) {
+            dispatch(
+                setTotalCampainOfferDis(cartTotalCampainOfferDiscountAmount)
+            );
+        } else {
+            dispatch(setTotalCampainOfferDis(0));
+        }
+    }, [cartTotalCampainOfferDiscountAmount, dispatch]);
 
     useEffect(() => {
         const isCampaigns = campaignsData?.data || {};

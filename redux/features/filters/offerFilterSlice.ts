@@ -1,17 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: any = {
-    totalOfferPrice: null,
+    totalcampainOfferAmount: 0,
 };
 
-export const offerFilterSlice = createSlice({
-    name: 'offerFilters',
+export const campainOfferFilterSlice = createSlice({
+    name: 'campainOfferFilters',
     initialState,
     reducers: {
-        setTotalProductDis: (state, action: PayloadAction<any>) => {
-            state.totalOfferPrice = action.payload;
+        setTotalCampainOfferDis: (state, action: PayloadAction<any>) => {
+            state.totalcampainOfferAmount = action.payload;
         },
     },
 });
 
-export const { setTotalProductDis } = offerFilterSlice.actions;
+export const { setTotalCampainOfferDis } = campainOfferFilterSlice.actions;

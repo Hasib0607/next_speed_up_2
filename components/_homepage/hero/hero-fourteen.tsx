@@ -15,7 +15,6 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-// import './heroSixteenCss/herosixteen.css'
 import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
@@ -41,7 +40,6 @@ const HeroFourteen = ({ slider, design }: any) => {
     };
 
     const styleCss = `
-
       .swiper-pagination-fourteen {
         position: absolute;
         bottom: 20px !important;
@@ -81,9 +79,8 @@ const HeroFourteen = ({ slider, design }: any) => {
     .arrow-color:hover {
         color: ${bgColor};
     }
-
-
       `;
+
     return (
         <div className="group z-0 relative ">
             <style>{styleCss}</style>
@@ -142,15 +139,6 @@ const HeroFourteen = ({ slider, design }: any) => {
                                 </p>
                             </div>
                         </div>
-                        <a
-                            href={s?.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <h1 className="lg:px-5 px-2 lg:py-2 py-1 bg-transparent border-white border-2 text-white font-seven lg:text-lg text-xs md:block hidden w-max absolute bottom-[25%] btn-color duration-500 lg:cursor-pointer lg:left-60 md:left-[120px] left-10">
-                                Shop now
-                            </h1>
-                        </a>
                         <img
                             className="h-auto min-w-full"
                             src={sliderImg + s.image}

@@ -19,6 +19,7 @@ import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { sliderImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const HeroThirtyOne = ({ slider, design }: any) => {
     const nextEl = 'hero-slider-next';
@@ -40,7 +41,6 @@ const HeroThirtyOne = ({ slider, design }: any) => {
     };
 
     const styleCss = `
-
       .swiper-pagination-twentyseven {
         position: absolute;
         bottom: 20px !important;
@@ -118,7 +118,6 @@ const HeroThirtyOne = ({ slider, design }: any) => {
                     nextEl: `.${nextEl}`,
                 }}
                 speed={1000}
-                // effect={"fade"}
                 loop={true}
                 pagination={pagination}
                 autoplay={{
@@ -148,8 +147,8 @@ const HeroThirtyOne = ({ slider, design }: any) => {
                                     {s?.subtitle}
                                 </p>
                                 {s?.link && (
-                                    <a
-                                        href={s?.link}
+                                    <Link
+                                        href={s?.link ?? '#'}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
@@ -157,7 +156,7 @@ const HeroThirtyOne = ({ slider, design }: any) => {
                                             Explore Now{' '}
                                             <ArrowRightIcon className="inline h-5 ml-1" />
                                         </h1>
-                                    </a>
+                                    </Link>
                                 )}
                             </div>
                         </div>

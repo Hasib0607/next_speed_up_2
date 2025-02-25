@@ -60,7 +60,6 @@ const HeroThirtySix = ({ slider, design }: any) => {
         opacity: 1;
         border-radius: 50% !important;
         background:  ${textColor};
-    
     }
     
     .swiper-pagination-twentyseven .swiper-pagination-bullet-active {
@@ -69,7 +68,6 @@ const HeroThirtySix = ({ slider, design }: any) => {
         border-radius: 25px !important;
         transition-duration: 500ms;
         background: ${bgColor};
-
     }
 
     .btn-slider {
@@ -77,6 +75,7 @@ const HeroThirtySix = ({ slider, design }: any) => {
         background: ${design?.header_color};
         border: 2px solid transparent;
     }
+
     .btn-slider:hover {
         color:  ${design?.header_color};
         background: ${design?.text_color};
@@ -90,8 +89,8 @@ const HeroThirtySix = ({ slider, design }: any) => {
     .arrow-color {
         color: ${bgColor};
     }
-
 `;
+
     return (
         <div className="z-0 relative group mt-16">
             <style>{styleCss}</style>
@@ -118,7 +117,6 @@ const HeroThirtySix = ({ slider, design }: any) => {
                     nextEl: `.${nextEl}`,
                 }}
                 speed={1000}
-                // effect={"fade"}
                 loop={true}
                 pagination={pagination}
                 autoplay={{
@@ -149,18 +147,6 @@ const HeroThirtySix = ({ slider, design }: any) => {
                                         {s?.subtitle}
                                     </p>
                                 </div>
-                                {s?.link && (
-                                    <a
-                                        href={s?.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <h1 className="lg:px-10 mt-1 lg:mt-5 px-3 lg:py-2 py-1 btn-slider duration-300 lg:text-lg text-xs w-max lg:cursor-pointer uppercase font-medium">
-                                            Explore Now{' '}
-                                            <ArrowRightIcon className="inline h-5 ml-1" />
-                                        </h1>
-                                    </a>
-                                )}
                             </div>
                         </div>
 

@@ -4,7 +4,7 @@ import {
     useGetBookingFormFieldsQuery,
     useGetCampaignQuery,
 } from '@/redux/features/checkOut/checkOutApi';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import Address from '../_components/address/address';
@@ -12,13 +12,16 @@ import YourOrders from './your-orders/your-order';
 import Discount from '../_components/discount-seven/discount-seven';
 import PaymentGateway from '../_components/payment-gateway/payment-gateway';
 import PaymentConditions from '../_components/payment-conditions';
-import { RootState } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
 import Booking from '@/components/BookingFrom';
+import { totalCampainOfferDiscount } from '@/utils/_cart-utils/cart-utils';
+import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
+import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 
 const CheckOutSeven = ({ design, appStore, headersetting }: any) => {
     const store_id = appStore?.id || null;
     const module_id = 108;
-
+    const dispatch: AppDispatch = useAppDispatch();
     const { cartList } = useSelector((state: RootState) => state.cart);
 
     const {
@@ -45,6 +48,21 @@ const CheckOutSeven = ({ design, appStore, headersetting }: any) => {
     const [userAddress, setUserAddress] = useState(null);
     const [campaign, setCampaign] = useState([]);
     const [bookingStatus, setBookingStatus] = useState<boolean>(false);
+
+    const cartTotalCampainOfferDiscountAmount = useMemo(
+        () => totalCampainOfferDiscount(cartList),
+        [cartList]
+    );
+
+    useEffect(() => {
+        if (cartTotalCampainOfferDiscountAmount > 0) {
+            dispatch(
+                setTotalCampainOfferDis(cartTotalCampainOfferDiscountAmount)
+            );
+        } else {
+            dispatch(setTotalCampainOfferDis(0));
+        }
+    }, [cartTotalCampainOfferDiscountAmount, dispatch]);
 
     useEffect(() => {
         const isCampaigns = campaignsData?.data || {};
@@ -98,7 +116,6 @@ const CheckOutSeven = ({ design, appStore, headersetting }: any) => {
             </div>
         );
     }
-    
 
     return (
         <div className="bg-white container px-5">

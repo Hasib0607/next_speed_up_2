@@ -132,17 +132,6 @@ const HeroNineteen = ({ slider, design }: any) => {
                                 <h1 className="xl:text-4xl md:text-[24px] text-[14px] font-bold">
                                     {s?.title}
                                 </h1>
-                                {s?.link && (
-                                    <a
-                                        href={s?.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <h1 className="lg:px-5 px-2 lg:py-2 py-1 hover:bg-[#f7f3e3] bg-[#F1EBD1] text-[#837B5D] lg:text-lg text-xs border border-black w-max">
-                                            SHOP NOW
-                                        </h1>
-                                    </a>
-                                )}
                             </div>
                         </div>
                         <img

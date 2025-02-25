@@ -1,4 +1,5 @@
 'use client';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, Navigation, Controller } from 'swiper/modules';
 
@@ -8,7 +9,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { BiRightArrowAlt } from 'react-icons/bi';
 import { sliderImg } from '@/site-settings/siteUrl';
 
 const HeroTwelve = ({ slider, design }: any) => {
@@ -31,43 +31,41 @@ const HeroTwelve = ({ slider, design }: any) => {
     };
 
     const styleCss = `
-    .swiper-pagination-twelve {
-        position: absolute;
-        bottom: 10px !important;
-        left: 50% !important;
-        transform: translateX(-50%);
-        width: auto !important;
-        margin: 0;
-        z-index: 1000;
+        .swiper-pagination-twelve {
+            position: absolute;
+            bottom: 10px !important;
+            left: 50% !important;
+            transform: translateX(-50%);
+            width: auto !important;
+            margin: 0;
+            z-index: 1000;
+        }
+        .swiper-pagination-twelve .swiper-pagination-bullet {
+        background:  ${textColor};
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+        opacity: 1;
     }
-    .swiper-pagination-twelve .swiper-pagination-bullet {
-    background:  ${textColor};
-    border-radius: 50%;
-	width: 15px;
-	height: 15px;
-	opacity: 1;
-  }
-  .swiper-pagination-twelve .swiper-pagination-bullet-active {
-    background: ${bgColor};
-    width: 15px;
-	height: 15px;
-    border-radius: 25px;
-    transition-duration: 500ms;
+    .swiper-pagination-twelve .swiper-pagination-bullet-active {
+        background: ${bgColor};
+        width: 15px;
+        height: 15px;
+        border-radius: 25px;
+        transition-duration: 500ms;
 
-  }
-  .shop-link {
-      border:1px solid ${bgColor};
-      color:  ${bgColor};
+    }
+    .shop-link {
+        border:1px solid ${bgColor};
+        color:  ${bgColor};
 
-  }
-  .shop-link:hover {
-      background: ${bgColor};
-      border:1px solid transparent;
-      transform: scale(1.05);
-      color:  ${textColor};
-  }
-
-
+    }
+    .shop-link:hover {
+        background: ${bgColor};
+        border:1px solid transparent;
+        transform: scale(1.05);
+        color:  ${textColor};
+    }
     `;
 
     return (
@@ -116,16 +114,6 @@ const HeroTwelve = ({ slider, design }: any) => {
                                 <p className="md:text-lg text-xs md:leading-5">
                                     {s?.subtitle}
                                 </p>
-                                <a
-                                    href={s?.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <h1 className="lg:px-10 px-3 md:py-2 py-1 shop-link duration-300 lg:text-lg text-xs sm:text-left w-max  lg:cursor-pointer uppercase font-medium">
-                                        Shop Now{' '}
-                                        <BiRightArrowAlt className="inline" />
-                                    </h1>
-                                </a>
                             </div>
                         </div>
 

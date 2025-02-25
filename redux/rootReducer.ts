@@ -14,7 +14,7 @@ import { affiliateUserSlice } from './features/affiliateUser/affiliateUserSlice'
 import { checkOutSlice } from './features/checkOut/checkOutSlice';
 import { paymentFilterSlice } from './features/filters/paymentFilterSlice';
 import { couponSlice } from './features/filters/couponSlice';
-import { offerFilterSlice } from './features/filters/offerFilterSlice';
+import { campainOfferFilterSlice } from './features/filters/offerFilterSlice';
 
 // import slices
 const rootReducer = combineReducers({
@@ -31,7 +31,7 @@ const rootReducer = combineReducers({
     [affiliateUserSlice.reducerPath]: affiliateUserSlice.reducer,
     [filterSlice.reducerPath]: filterSlice.reducer,
     [paymentFilterSlice.reducerPath]: paymentFilterSlice.reducer,
-    [offerFilterSlice.reducerPath]: offerFilterSlice.reducer,
+    [campainOfferFilterSlice.reducerPath]: campainOfferFilterSlice.reducer,
     [couponSlice.reducerPath]: couponSlice.reducer,
     [authSlice.reducerPath]: authSlice.reducer,
 });

@@ -11,14 +11,14 @@ import { btnhover } from '@/site-settings/style';
 import BDT from '@/utils/bdt';
 import useAuth from '@/hooks/useAuth';
 import Link from 'next/link';
-import { useUserPlaceOrderMutation } from '@/redux/features/checkOut/checkOutApi';
+
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
-import { RootState } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
 import { grandTotal, subTotal } from '@/utils/_cart-utils/cart-utils';
-import { useRouter } from 'next/navigation';
+
 import { useEffect, useMemo, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { handlePlaceOrder } from '@/components/_checkout-page/_components/handlePlaceOrder';
 // Helper function to conditionally select a value
@@ -28,6 +28,7 @@ import { numberParser } from '@/helpers/numberParser';
 import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
 import { setCouponResult } from '@/redux/features/filters/couponSlice';
+import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 
 const YourOrders = ({
     design,
@@ -61,35 +62,37 @@ const YourOrders = ({
         address: userAddress,
     } = checkoutFromData || {};
 
-    const { cartList } = useSelector((state: RootState) => state.cart);
-    const { user } = useSelector((state: RootState) => state.auth);
-    const { couponResult } = useSelector(
-        (state: RootState) => state.couponSlice
-    );
-
-    const selectedPayment = useSelector(
-        (state: RootState) => state.paymentFilter.paymentMethod
-    );
-    const smsCount = numberParser(headersetting?.total_sms);
-
-    const router = useRouter();
-    const dispatch = useDispatch();
-
-    const formData = new FormData();
-
-    const total = subTotal(cartList);
-
-    const [userPlaceOrder] = useUserPlaceOrderMutation();
-
-    const handleCouponRemove = () => {
-        setCouponDis(0);
-        dispatch(setCouponResult({ code: null, code_status: false }));
-        toast.error('Coupon removed!');
-    };
-
-    const gTotal = grandTotal(total, tax, shippingArea, couponDis);
-
-    const couponShow = setCouponShow(couponResult, total, shippingArea);
+       const { cartList } = useSelector((state: RootState) => state.cart);
+    
+        const { totalcampainOfferAmount } = useSelector(
+            (state: RootState) => state.campainOfferFilters
+        );
+    
+        const { couponResult } = useSelector(
+            (state: RootState) => state.couponSlice
+        );
+    
+        const selectedPayment = useSelector(
+            (state: RootState) => state.paymentFilter.paymentMethod
+        );
+    
+        const formData = new FormData();
+        const dispatch: AppDispatch = useAppDispatch();
+        const total = subTotal(cartList);
+        const smsCount = numberParser(headersetting?.total_sms);
+        const couponShow = setCouponShow(couponResult, total, shippingArea);
+        const totalDis = useMemo(
+            () => couponDis + totalcampainOfferAmount,
+            [couponDis, totalcampainOfferAmount]
+        );
+    
+        const gTotal = grandTotal(total, tax, shippingArea, totalDis);
+    
+        const handleCouponRemove = () => {
+            setCouponDis(0);
+            dispatch(setCouponResult({ code: null, code_status: false }));
+            toast.error('Coupon removed!');
+        };
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -191,7 +194,7 @@ const YourOrders = ({
             subtotal: numberParser(total),
             shipping: shippingArea,
             total: gTotal,
-            discount: couponDis,
+            discount: totalDis,
             tax,
             coupon: couponResult?.code || '',
             referral_code: referral_code || '', // Include referral code if available
@@ -210,7 +213,7 @@ const YourOrders = ({
             total,
             shippingArea,
             gTotal,
-            couponDis,
+            totalDis,
             tax,
             couponResult,
             referral_code,
@@ -342,7 +345,7 @@ const YourOrders = ({
                 <div className="flex justify-between items-center">
                     <p>{'Discount'}</p>
                     <p>
-                        <BDT price={couponDis} />
+                        <BDT price={totalDis} />
                     </p>
                 </div>
 
@@ -371,7 +374,8 @@ const YourOrders = ({
                 </div>
                 <div className="flex justify-between items-center last:border-0 border-b border-gray-200 py-3">
                     <p>{'Estimated Shipping'}</p>
-                    {shippingArea === '--Select Area--' ? (
+                    {shippingArea === '--Select Area--' ||
+                    shippingArea === null ? (
                         <p>
                             <BDT /> 0
                         </p>
@@ -384,30 +388,12 @@ const YourOrders = ({
 
                 <div className="flex justify-between items-center last:border-0 border-b border-gray-200 py-3">
                     <p>{'Total'}</p>
-                    {shippingArea === '--Select Area--' ||
-                    shippingArea === null ? (
                         <p>
-                            {
+                            
                                 <BDT
-                                    price={
-                                        numberParser(total + tax) - couponDis
-                                    }
+                                    price={gTotal}
                                 />
-                            }
                         </p>
-                    ) : (
-                        <p>
-                            {
-                                <BDT
-                                    price={
-                                        numberParser(total + tax) +
-                                        numberParser(shippingArea) -
-                                        couponDis
-                                    }
-                                />
-                            }
-                        </p>
-                    )}
                 </div>
             </div>
 
@@ -455,7 +441,7 @@ const Single = ({ item, setIsOpen, files, cartId, store_id }: any) => {
         setIsOpen(true);
     }
 
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useAppDispatch();
 
     const file = files.some((i: any) => i.cartId === cartId);
 

@@ -50,13 +50,14 @@ export default async function RootLayout({
 
     const FACEBOOK_PIXEL_ID = headersetting?.facebook_pixel;
     const gtmId = headersetting?.gtm;
+    const googleAnalytics = headersetting?.google_analytics;
     const googleSearchConsole = headersetting?.google_search_console;
 
     // console.log("headersetting",headersetting);
 
     // console.log("googleAnalytics",googleAnalytics);
     // console.log("googleSearchConsole",googleSearchConsole);
-    // console.log("FACEBOOK_PIXEL_ID",headersetting);
+    // console.log("headersetting",headersetting);
 
     // Check if the current route is the homepage
     // const pathname = headersList.get('x-nextjs-route');
@@ -65,10 +66,10 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <head>
-                {gtmId && (
+                {googleAnalytics && (
                     <>
                         <Script
-                            src={`https://www.googletagmanager.com/gtag/js?id=${gtmId}`}
+                            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
                             strategy="afterInteractive"
                         />
                         <Script
@@ -79,7 +80,7 @@ export default async function RootLayout({
                                 window.dataLayer = window.dataLayer || [];
                                 function gtag(){dataLayer.push(arguments);}
                                 gtag('js', new Date());
-                                gtag('config', '${gtmId}');
+                                gtag('config', '${googleAnalytics}');
                             `}
                         </Script>
                     </>
@@ -100,8 +101,18 @@ export default async function RootLayout({
                     } as React.CSSProperties
                 }
             >
-                <SetFavicon faviconUrl={favicon} />
+                  {/* {gtmId && (
+                    <noscript>
+                        <iframe
+                            src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+                            height="0"
+                            width="0"
+                            style={{ display: 'none', visibility: 'hidden' }}
+                        />
+                    </noscript>
+                )} */}
                 <GoogleTagManager gtmId={gtmId} />
+                <SetFavicon faviconUrl={favicon} />
 
                 <NextTopLoader
                     color={'#29D'}
