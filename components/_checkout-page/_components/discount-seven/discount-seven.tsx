@@ -14,6 +14,7 @@ import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { setDiscount } from '@/helpers/setDiscount';
+import { setSelectedShippingArea } from '@/redux/features/filters/shippingAreaFilterSlice';
 
 const DiscountSeven = ({
     design,
@@ -39,14 +40,14 @@ const DiscountSeven = ({
     const selectedPayment = useSelector(
         (state: RootState) => state.paymentFilter.paymentMethod
     );
+    const { selectedShippingArea } = useSelector(
+        (state: RootState) => state.shippingAreaFilter
+    );
     const sTotal = subTotal(cartList);
     const total = numberParser(sTotal);
 
     const [loading, setLoading] = useState(false);
     const [couponAvailable, setCouponAvailable] = useState(false);
-    const [selectedShippingArea, setSelectedShippingArea] = useState<
-        string | null | ''
-    >(null);
 
     const {
         data: couponData,
@@ -109,14 +110,16 @@ const DiscountSeven = ({
         const areaId = e.target.value;
         const selectedCost = getCostByAreaId(areaId);
         if (areaId) {
-            setSelectedShippingArea(areaId);
+            dispatch(setSelectedShippingArea(areaId));
             setShippingArea(selectedCost);
         }
     };
 
     useEffect(() => {
         if (headersetting?.selected_shipping_area) {
-            setSelectedShippingArea(headersetting?.selected_shipping_area);
+            dispatch(
+                setSelectedShippingArea(headersetting?.selected_shipping_area)
+            );
             const initialAreaCost =
                 headersetting?.[
                     `shipping_area_${headersetting.selected_shipping_area}_cost`
@@ -125,7 +128,7 @@ const DiscountSeven = ({
                 setShippingArea(initialAreaCost);
             }
         }
-    }, [headersetting, setShippingArea]);
+    }, [headersetting, setShippingArea, dispatch]);
 
     // set auto coupon
     useEffect(() => {

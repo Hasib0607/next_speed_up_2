@@ -29,6 +29,11 @@ import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
 import { setCouponResult } from '@/redux/features/filters/couponSlice';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
+import {
+    setCustomer,
+    setGrandTotal,
+    setPurchaseList,
+} from '@/redux/features/purchase/purchaseSlice';
 
 const YourOrders = ({
     design,
@@ -62,37 +67,37 @@ const YourOrders = ({
         address: userAddress,
     } = checkoutFromData || {};
 
-       const { cartList } = useSelector((state: RootState) => state.cart);
-    
-        const { totalcampainOfferAmount } = useSelector(
-            (state: RootState) => state.campainOfferFilters
-        );
-    
-        const { couponResult } = useSelector(
-            (state: RootState) => state.couponSlice
-        );
-    
-        const selectedPayment = useSelector(
-            (state: RootState) => state.paymentFilter.paymentMethod
-        );
-    
-        const formData = new FormData();
-        const dispatch: AppDispatch = useAppDispatch();
-        const total = subTotal(cartList);
-        const smsCount = numberParser(headersetting?.total_sms);
-        const couponShow = setCouponShow(couponResult, total, shippingArea);
-        const totalDis = useMemo(
-            () => couponDis + totalcampainOfferAmount,
-            [couponDis, totalcampainOfferAmount]
-        );
-    
-        const gTotal = grandTotal(total, tax, shippingArea, totalDis);
-    
-        const handleCouponRemove = () => {
-            setCouponDis(0);
-            dispatch(setCouponResult({ code: null, code_status: false }));
-            toast.error('Coupon removed!');
-        };
+    const { cartList } = useSelector((state: RootState) => state.cart);
+
+    const { totalcampainOfferAmount } = useSelector(
+        (state: RootState) => state.campainOfferFilters
+    );
+
+    const { couponResult } = useSelector(
+        (state: RootState) => state.couponSlice
+    );
+
+    const selectedPayment = useSelector(
+        (state: RootState) => state.paymentFilter.paymentMethod
+    );
+
+    const formData = new FormData();
+    const dispatch: AppDispatch = useAppDispatch();
+    const total = subTotal(cartList);
+    const smsCount = numberParser(headersetting?.total_sms);
+    const couponShow = setCouponShow(couponResult, total, shippingArea);
+    const totalDis = useMemo(
+        () => couponDis + totalcampainOfferAmount,
+        [couponDis, totalcampainOfferAmount]
+    );
+
+    const gTotal = grandTotal(total, tax, shippingArea, totalDis);
+
+    const handleCouponRemove = () => {
+        setCouponDis(0);
+        dispatch(setCouponResult({ code: null, code_status: false }));
+        toast.error('Coupon removed!');
+    };
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -256,6 +261,17 @@ const YourOrders = ({
     }).forEach(([key, value]) => appendFormData(key, value));
 
     const handleCheckout = async () => {
+        dispatch(setPurchaseList(cartList));
+        dispatch(setGrandTotal(gTotal));
+        dispatch(
+            setCustomer({
+                name: data.name,
+                phone: data.phone,
+                email: data.email,
+                address: data.address,
+            })
+        );
+        // placeorder
         handlePlaceOrder(
             isAbleToOrder,
             smsCount,
@@ -388,12 +404,9 @@ const YourOrders = ({
 
                 <div className="flex justify-between items-center last:border-0 border-b border-gray-200 py-3">
                     <p>{'Total'}</p>
-                        <p>
-                            
-                                <BDT
-                                    price={gTotal}
-                                />
-                        </p>
+                    <p>
+                        <BDT price={gTotal} />
+                    </p>
                 </div>
             </div>
 

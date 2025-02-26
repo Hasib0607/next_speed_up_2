@@ -29,6 +29,11 @@ import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
 import { setCouponResult } from '@/redux/features/filters/couponSlice';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
+import {
+    setCustomer,
+    setGrandTotal,
+    setPurchaseList,
+} from '@/redux/features/purchase/purchaseSlice';
 
 const YourOrders = ({
     design,
@@ -62,7 +67,7 @@ const YourOrders = ({
         address: userAddress,
     } = checkoutFromData || {};
 
-   const { cartList } = useSelector((state: RootState) => state.cart);
+    const { cartList } = useSelector((state: RootState) => state.cart);
 
     const { totalcampainOfferAmount } = useSelector(
         (state: RootState) => state.campainOfferFilters
@@ -234,6 +239,17 @@ const YourOrders = ({
     }).forEach(([key, value]) => appendFormData(key, value));
 
     const handleCheckout = async () => {
+        dispatch(setPurchaseList(cartList));
+        dispatch(setGrandTotal(gTotal));
+        dispatch(
+            setCustomer({
+                name: data.name,
+                phone: data.phone,
+                email: data.email,
+                address: data.address,
+            })
+        );
+        // placeorder
         handlePlaceOrder(
             isAbleToOrder,
             smsCount,
@@ -326,7 +342,7 @@ const YourOrders = ({
                     </p>
                 </div>
 
-                {couponShow > 0 && (
+                {couponShow  && (
                     <div className="space-x-4 my-3">
                         <button
                             className="relative inline-flex font-semibold justify-between gap-2 items-center px-2 space-y-2 text-sm shadow rounded-full bg-green-500 text-gray-900"
@@ -364,12 +380,9 @@ const YourOrders = ({
 
                 <div className="flex justify-between items-center">
                     <p>{'Total'}</p>
-                        <p>
-                            
-                                <BDT
-                                    price={gTotal}
-                                />
-                        </p>
+                    <p>
+                        <BDT price={gTotal} />
+                    </p>
                 </div>
             </div>
 

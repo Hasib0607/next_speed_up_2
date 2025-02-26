@@ -31,6 +31,11 @@ import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponResult } from '@/redux/features/filters/couponSlice';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 import { setCouponShow } from '@/helpers/setDiscount';
+import {
+    setCustomer,
+    setGrandTotal,
+    setPurchaseList,
+} from '@/redux/features/purchase/purchaseSlice';
 
 const YourOrders = ({
     design,
@@ -64,7 +69,7 @@ const YourOrders = ({
         address: userAddress,
     } = checkoutFromData || {};
 
-   const { cartList } = useSelector((state: RootState) => state.cart);
+    const { cartList } = useSelector((state: RootState) => state.cart);
 
     const { totalcampainOfferAmount } = useSelector(
         (state: RootState) => state.campainOfferFilters
@@ -105,8 +110,8 @@ const YourOrders = ({
         }
         return cart; // Return the cart as is if there's no corresponding product in data
     });
-    
-    // 
+
+    //
     const cart = updatedCartList?.map((item: any) => ({
         id: item?.id,
         quantity: item?.qty,
@@ -236,7 +241,19 @@ const YourOrders = ({
         referral_code: data.referral_code,
     }).forEach(([key, value]) => appendFormData(key, value));
 
+
     const handleCheckout = async () => {
+        dispatch(setPurchaseList(cartList));
+        dispatch(setGrandTotal(gTotal));
+        dispatch(
+            setCustomer({
+                name: data.name,
+                phone: data.phone,
+                email: data.email,
+                address: data.address,
+            })
+        );
+        // placeorder
         handlePlaceOrder(
             isAbleToOrder,
             smsCount,
@@ -348,10 +365,10 @@ const YourOrders = ({
                             ? 'ডিসকাউন্ট'
                             : 'Discount'}
                     </p>
-                    <p>{<BDT price={couponDis} />}</p>
+                    <p>{<BDT price={totalDis} />}</p>
                 </div>
 
-                {couponShow > 0 && (
+                {couponShow && (
                     <div className="space-x-4 my-3">
                         <button
                             className="relative inline-flex font-semibold justify-between gap-2 items-center px-2 space-y-2 text-sm shadow rounded-full bg-green-500 text-gray-900"
@@ -384,7 +401,8 @@ const YourOrders = ({
                             ? 'এস্টিমেটেড শিপিং'
                             : 'Estimated Shipping'}
                     </p>
-                    {shippingArea === '--Select Area--' || shippingArea === null ? (
+                    {shippingArea === '--Select Area--' ||
+                    shippingArea === null ? (
                         <p>
                             <BDT /> 0
                         </p>
@@ -402,14 +420,9 @@ const YourOrders = ({
                             ? 'মোট'
                             : 'Total'}
                     </p>
-                        <p>
-                            
-                                <BDT
-                                    price={
-                                        gTotal
-                                    }
-                                />
-                        </p>
+                    <p>
+                        <BDT price={gTotal} />
+                    </p>
                 </div>
                 <PaymentGateway
                     design={design}
@@ -483,9 +496,7 @@ const Single = ({ item, setIsOpen, files, cartId, store_id }: any) => {
     const file = files.some((i: any) => i.cartId === cartId);
 
     return (
-        <div
-            className="flex flex-col sm:flex-row justify-start sm:justify-between space-y-2 space-x-1 sm:items-center border-b-2 border-gray-300 py-2 "
-        >
+        <div className="flex flex-col sm:flex-row justify-start sm:justify-between space-y-2 space-x-1 sm:items-center border-b-2 border-gray-300 py-2 ">
             <div className="flex items-center gap-2">
                 <div className="w-14 relative">
                     <img

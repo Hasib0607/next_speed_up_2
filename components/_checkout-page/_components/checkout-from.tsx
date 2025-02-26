@@ -328,7 +328,7 @@ const CheckoutFrom = ({
                             : handleSubmit(addAddress)
                     }
                 >
-                    <div className="px-4 py-5 space-y-6 sm:p-6">
+                    <div className="px-4 py-5 space-y-6 sm:p-6 w-auto md:min-w-[500px]">
                         {fields?.length > 0 &&
                             fields?.map((item: any, index: number) => (
                                 <div key={index}>
@@ -376,7 +376,21 @@ const CheckoutFrom = ({
                                             )}
                                         </select>
                                     ) : (
-                                        <input
+                                        item?.name == 'address' || item?.name == 'note'  ?
+                                        <textarea
+                                            {...register(item?.name)}
+                                            name={item?.name}
+                                            id={item?.name}
+                                            onInput={() =>
+                                                handleFieldChange(item?.name)
+                                            }
+                                            autoComplete={"address-level1"}
+                                            className={classNames(
+                                                fieldStyle,
+                                                'remove-arrow'
+                                            )}
+                                        />
+                                        : <input
                                             {...register(item?.name)}
                                             type={
                                                 item?.name == 'phone'

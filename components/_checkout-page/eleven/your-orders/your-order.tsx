@@ -28,6 +28,11 @@ import { setCouponShow } from '@/helpers/setDiscount';
 import { setCouponResult } from '@/redux/features/filters/couponSlice';
 import { handlePlaceOrder } from '@/components/_checkout-page/_components/handlePlaceOrder';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
+import {
+    setCustomer,
+    setGrandTotal,
+    setPurchaseList,
+} from '@/redux/features/purchase/purchaseSlice';
 
 const YourOrders = ({
     design,
@@ -233,6 +238,17 @@ const YourOrders = ({
     }).forEach(([key, value]) => appendFormData(key, value));
 
     const handleCheckout = async () => {
+        dispatch(setPurchaseList(cartList));
+        dispatch(setGrandTotal(gTotal));
+        dispatch(
+            setCustomer({
+                name: data.name,
+                phone: data.phone,
+                email: data.email,
+                address: data.address,
+            })
+        );
+        // placeorder
         handlePlaceOrder(
             isAbleToOrder,
             smsCount,
@@ -355,7 +371,9 @@ const YourOrders = ({
                             ? 'ট্যাক্স'
                             : 'Tax'}
                     </p>
-                    <p><BDT price={numberParser(tax)} /></p>
+                    <p>
+                        <BDT price={numberParser(tax)} />
+                    </p>
                 </div>
                 <div className="flex justify-between items-center">
                     <p>
@@ -364,7 +382,8 @@ const YourOrders = ({
                             ? 'এস্টিমেটেড শিপিং'
                             : 'Estimated Shipping'}
                     </p>
-                    {shippingArea === '--Select Area--' || shippingArea === null ? (
+                    {shippingArea === '--Select Area--' ||
+                    shippingArea === null ? (
                         <p>
                             <BDT /> 0
                         </p>
@@ -454,9 +473,7 @@ const Single = ({ item, setIsOpen, files, cartId, store_id }: any) => {
     const file = files.some((i: any) => i.cartId === cartId);
 
     return (
-        <div
-            className="flex flex-col sm:flex-row justify-start sm:justify-between space-y-2 space-x-1 sm:items-center border-b-2 border-gray-300 py-2 "
-        >
+        <div className="flex flex-col sm:flex-row justify-start sm:justify-between space-y-2 space-x-1 sm:items-center border-b-2 border-gray-300 py-2 ">
             <div className="flex items-center gap-2">
                 <div className="w-14 relative">
                     <img

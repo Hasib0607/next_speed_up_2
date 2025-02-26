@@ -28,6 +28,7 @@ export const setCouponShow = (res: any, total: any, shippingArea?: number) => {
                 res?.discount_amount,
                 shippingArea
             ) || 0;
+
         return disResult >= 0;
     } else {
         return status;

@@ -2,8 +2,8 @@
 
 import {
     useGetBookingFormFieldsQuery,
-    useGetCampaignQuery,
 } from '@/redux/features/checkOut/checkOutApi';
+
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Address from '../_components/address/address';
@@ -16,6 +16,10 @@ import BookingFrom from '@/components/BookingFrom';
 import { totalCampainOfferDiscount } from '@/utils/_cart-utils/cart-utils';
 import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
+import {
+    setGrandTotal,
+    setPurchaseList,
+} from '@/redux/features/purchase/purchaseSlice';
 
 const CheckOutForty = ({ design, appStore, headersetting }: any) => {
     const store_id = appStore?.id || null;
@@ -29,13 +33,6 @@ const CheckOutForty = ({ design, appStore, headersetting }: any) => {
         isSuccess: userBookingFormFieldsSuccess,
     } = useGetBookingFormFieldsQuery({ store_id, module_id });
 
-    const {
-        data: campaignsData,
-        isLoading: campaignsLoading,
-        isSuccess: campaignsSuccess,
-        refetch: campaignsRefetch,
-    } = useGetCampaignQuery({ store_id });
-
     const [couponDis, setCouponDis] = useState(0);
     const [shippingArea, setShippingArea] = useState<any>(null);
     const [selectAddress, setSelectAddress] = useState(null);
@@ -45,7 +42,6 @@ const CheckOutForty = ({ design, appStore, headersetting }: any) => {
     const [userName, setUserName] = useState(null);
     const [userPhone, setUserPhone] = useState(null);
     const [userAddress, setUserAddress] = useState(null);
-    const [campaign, setCampaign] = useState([]);
     const [bookingStatus, setBookingStatus] = useState<boolean>(false);
 
     const cartTotalCampainOfferDiscountAmount = useMemo(
@@ -64,26 +60,10 @@ const CheckOutForty = ({ design, appStore, headersetting }: any) => {
     }, [cartTotalCampainOfferDiscountAmount, dispatch]);
 
     useEffect(() => {
-        const isCampaigns = campaignsData?.data || {};
-        const fetchCampaignData = () => {
-            if (campaignsSuccess && isCampaigns) {
-                setCampaign(isCampaigns);
-            }
-        };
-        fetchCampaignData();
-    }, [campaignsSuccess, campaignsData]);
+        dispatch(setPurchaseList([]));
+        dispatch(setGrandTotal(0));
+    }, [dispatch]);
 
-    // free delivery
-    const free: any = campaign?.find(
-        (item: any) =>
-            item?.discount_amount === '0' && item?.status === 'active'
-    );
-    const freeId = free?.campaignProducts?.map((item: any) => item?.id);
-    const campProdId = cartList?.map((item: any) => item?.id);
-
-    const freeDelivery = campProdId?.every((item: any) =>
-        freeId?.includes(item)
-    );
 
     // Extracting data from db
     useEffect(() => {
@@ -95,11 +75,6 @@ const CheckOutForty = ({ design, appStore, headersetting }: any) => {
         }
     }, [userBookingFormFieldsData, userBookingFormFieldsSuccess]);
 
-    useEffect(() => {
-        if (freeDelivery && shippingArea) {
-            setShippingArea(0);
-        }
-    }, [freeDelivery, shippingArea]);
 
     if (cartList?.length === 0) {
         return (

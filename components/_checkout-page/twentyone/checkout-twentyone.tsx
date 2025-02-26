@@ -1,6 +1,5 @@
 'use client';
 
-import { useGetCampaignQuery } from '@/redux/features/checkOut/checkOutApi';
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -9,20 +8,21 @@ import YourOrders from './your-orders/your-order';
 import Discount from '../_components/discount/discount';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
-import { totalCampainOfferDiscount } from '@/utils/_cart-utils/cart-utils';
+import {
+    getCampainOfferDeliveryFee,
+    totalCampainOfferDiscount,
+} from '@/utils/_cart-utils/cart-utils';
 import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
+import { setGrandTotal, setPurchaseList } from '@/redux/features/purchase/purchaseSlice';
 
 const CheckOutTwentyOne = ({ design, appStore, headersetting }: any) => {
     const store_id = appStore?.id || null;
     const dispatch: AppDispatch = useAppDispatch();
     const { cartList } = useSelector((state: RootState) => state.cart);
 
-    const {
-        data: campaignsData,
-        isLoading: campaignsLoading,
-        isSuccess: campaignsSuccess,
-        refetch: campaignsRefetch,
-    } = useGetCampaignQuery({ store_id });
+    const { selectedShippingArea } = useSelector(
+        (state: RootState) => state.shippingAreaFilter
+    );
 
     const [couponDis, setCouponDis] = useState(0);
     const [shippingArea, setShippingArea] = useState<any>(null);
@@ -31,13 +31,16 @@ const CheckOutTwentyOne = ({ design, appStore, headersetting }: any) => {
     const [userName, setUserName] = useState(null);
     const [userPhone, setUserPhone] = useState(null);
     const [userAddress, setUserAddress] = useState(null);
-    const [campaign, setCampaign] = useState([]);
 
     const cartTotalCampainOfferDiscountAmount = useMemo(
         () => totalCampainOfferDiscount(cartList),
         [cartList]
     );
-
+    const cartTotalCampainOfferDelivery = useMemo(
+        () => getCampainOfferDeliveryFee(cartList, selectedShippingArea),
+        [cartList, selectedShippingArea]
+    );
+    
     useEffect(() => {
         if (cartTotalCampainOfferDiscountAmount > 0) {
             dispatch(
@@ -49,32 +52,10 @@ const CheckOutTwentyOne = ({ design, appStore, headersetting }: any) => {
     }, [cartTotalCampainOfferDiscountAmount, dispatch]);
 
     useEffect(() => {
-        const isCampaigns = campaignsData?.data || {};
-        const fetchCampaignData = () => {
-            if (campaignsSuccess && isCampaigns) {
-                setCampaign(isCampaigns);
-            }
-        };
-        fetchCampaignData();
-    }, [campaignsSuccess, campaignsData]);
+        dispatch(setPurchaseList([]));
+        dispatch(setGrandTotal(0));
+    }, [dispatch]);
 
-    // free delivery
-    const free: any = campaign?.find(
-        (item: any) =>
-            item?.discount_amount === '0' && item?.status === 'active'
-    );
-    const freeId = free?.campaignProducts?.map((item: any) => item?.id);
-    const campProdId = cartList?.map((item: any) => item?.id);
-
-    const freeDelivery = campProdId?.every((item: any) =>
-        freeId?.includes(item)
-    );
-
-    useEffect(() => {
-        if (freeDelivery && shippingArea) {
-            setShippingArea(0);
-        }
-    }, [freeDelivery, shippingArea]);
 
     if (cartList?.length === 0) {
         return (
