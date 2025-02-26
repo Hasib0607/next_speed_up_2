@@ -67,9 +67,9 @@ function url() {
 
 let urlName;
 
-urlName = "livicabd.com";
+// urlName = "livicabd.com";
 // urlName = "2ndpagebooks.com";
-// urlName = "shr.localhost:3000";
+urlName = "shr.localhost:3000";
 // urlName = "qutobd.com";
 
 if (process.env.NODE_ENV === 'production') {

@@ -38,6 +38,11 @@ import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
 import { setCouponResult } from '@/redux/features/filters/couponSlice';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
+import {
+    setCustomer,
+    setGrandTotal,
+    setPurchaseList,
+} from '@/redux/features/purchase/purchaseSlice';
 
 const YourOrders = ({
     design,
@@ -243,6 +248,17 @@ const YourOrders = ({
     }).forEach(([key, value]) => appendFormData(key, value));
 
     const handleCheckout = async () => {
+        dispatch(setPurchaseList(cartList));
+        dispatch(setGrandTotal(gTotal));
+        dispatch(
+            setCustomer({
+                name: data.name,
+                phone: data.phone,
+                email: data.email,
+                address: data.address,
+            })
+        );
+        // placeorder
         handlePlaceOrder(
             isAbleToOrder,
             smsCount,
@@ -378,7 +394,8 @@ const YourOrders = ({
                             ? 'এস্টিমেটেড শিপিং'
                             : 'Estimated Shipping'}
                     </p>
-                    {shippingArea === '--Select Area--' || shippingArea === null ? (
+                    {shippingArea === '--Select Area--' ||
+                    shippingArea === null ? (
                         <p>
                             <BDT /> 0
                         </p>

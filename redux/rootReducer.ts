@@ -15,12 +15,15 @@ import { checkOutSlice } from './features/checkOut/checkOutSlice';
 import { paymentFilterSlice } from './features/filters/paymentFilterSlice';
 import { couponSlice } from './features/filters/couponSlice';
 import { campainOfferFilterSlice } from './features/filters/offerFilterSlice';
+import { shippingAreaFilterSlice } from './features/filters/shippingAreaFilterSlice';
+import { purchaseSlice } from './features/purchase/purchaseSlice';
 
 // import slices
 const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
     [homeSlice.reducerPath]: homeSlice.reducer,
     [cartSlice.reducerPath]: cartSlice.reducer,
+    [purchaseSlice.reducerPath]: purchaseSlice.reducer,
     [checkOutSlice.reducerPath]: checkOutSlice.reducer,
     [storeSlice.reducerPath]: storeSlice.reducer,
     [productSlice.reducerPath]: productSlice.reducer,
@@ -32,6 +35,7 @@ const rootReducer = combineReducers({
     [filterSlice.reducerPath]: filterSlice.reducer,
     [paymentFilterSlice.reducerPath]: paymentFilterSlice.reducer,
     [campainOfferFilterSlice.reducerPath]: campainOfferFilterSlice.reducer,
+    [shippingAreaFilterSlice.reducerPath]: shippingAreaFilterSlice.reducer,
     [couponSlice.reducerPath]: couponSlice.reducer,
     [authSlice.reducerPath]: authSlice.reducer,
 });

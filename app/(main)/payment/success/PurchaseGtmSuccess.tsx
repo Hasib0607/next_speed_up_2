@@ -7,7 +7,7 @@ import { sendGTMEvent } from '@next/third-parties/google';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-const PurchaseGtm = ({ headersetting }: any) => {
+const PurchaseGtmSuccess = ({ headersetting }: any) => {
     const { purchaseList, grandTotal, customer } = useSelector(
         (state: RootState) => state.purchase
     );
@@ -54,4 +54,4 @@ const PurchaseGtm = ({ headersetting }: any) => {
     return null;
 };
 
-export default PurchaseGtm;
+export default PurchaseGtmSuccess;

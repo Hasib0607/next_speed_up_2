@@ -1,7 +1,6 @@
 'use client';
 
 import './checkoutfiveorder.css';
-import { useGetCampaignQuery } from '@/redux/features/checkOut/checkOutApi';
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Address from '../_components/address/address';
@@ -14,18 +13,11 @@ import { totalCampainOfferDiscount } from '@/utils/_cart-utils/cart-utils';
 import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 import { AppDispatch, RootState } from '@/redux/store';
+import { setGrandTotal, setPurchaseList } from '@/redux/features/purchase/purchaseSlice';
 
 const CheckOutFive = ({ design, appStore, headersetting }: any) => {
-    const store_id = appStore?.id || null;
     const dispatch: AppDispatch = useAppDispatch();
     const { cartList } = useSelector((state: RootState) => state.cart);
-
-    const {
-        data: campaignsData,
-        isLoading: campaignsLoading,
-        isSuccess: campaignsSuccess,
-        refetch: campaignsRefetch,
-    } = useGetCampaignQuery({ store_id });
 
     const [couponDis, setCouponDis] = useState(0);
     const [shippingArea, setShippingArea] = useState<any>(null);
@@ -34,7 +26,6 @@ const CheckOutFive = ({ design, appStore, headersetting }: any) => {
     const [userName, setUserName] = useState(null);
     const [userPhone, setUserPhone] = useState(null);
     const [userAddress, setUserAddress] = useState(null);
-    const [campaign, setCampaign] = useState([]);
 
     const cartTotalCampainOfferDiscountAmount = useMemo(
         () => totalCampainOfferDiscount(cartList),
@@ -51,33 +42,11 @@ const CheckOutFive = ({ design, appStore, headersetting }: any) => {
         }
     }, [cartTotalCampainOfferDiscountAmount, dispatch]);
 
-    useEffect(() => {
-        const isCampaigns = campaignsData?.data || {};
-        const fetchCampaignData = () => {
-            if (campaignsSuccess && isCampaigns) {
-                setCampaign(isCampaigns);
-            }
-        };
-        fetchCampaignData();
-    }, [campaignsSuccess, campaignsData]);
+     useEffect(() => {
+            dispatch(setPurchaseList([]));
+            dispatch(setGrandTotal(0));
+        }, [dispatch]);
 
-    // free delivery
-    const free: any = campaign?.find(
-        (item: any) =>
-            item?.discount_amount === '0' && item?.status === 'active'
-    );
-    const freeId = free?.campaignProducts?.map((item: any) => item?.id);
-    const campProdId = cartList?.map((item: any) => item?.id);
-
-    const freeDelivery = campProdId?.every((item: any) =>
-        freeId?.includes(item)
-    );
-
-    useEffect(() => {
-        if (freeDelivery && shippingArea) {
-            setShippingArea(0);
-        }
-    }, [freeDelivery, shippingArea]);
 
     if (cartList?.length === 0) {
         return (

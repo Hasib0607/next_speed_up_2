@@ -1,5 +1,6 @@
 'use client';
 
+import { isDeliveryChargeDiscount } from '@/helpers/getTypeWiseDiscount';
 import { getCampainOfferDiscount } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
 import {
@@ -123,6 +124,18 @@ export const totalCampainOfferDiscount = (cartList: any) => {
     );
 
     return campainOfferDiscountListTotal;
+};
+
+export const getCampainOfferDeliveryFee = (
+    cartList: any,
+    selectedShippingArea: any
+) => {
+    const campainOfferDiscountList = cartList?.map((item: any) => {
+        let offer = isDeliveryChargeDiscount(item, selectedShippingArea);
+        return offer ?? false;
+    });
+
+    console.log('campainOfferDiscountList', campainOfferDiscountList);
 };
 
 export const grandTotal = (
