@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
@@ -9,14 +9,12 @@ import { imgUrl } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
 import { toast } from 'react-toastify';
 import { useLogInMutation } from '@/redux/features/auth/authApi';
-import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import Loading from '../loaders/loading';
 
 export const cls =
     'py-2 px-4 md:px-5 w-full appearance-none transition duration-150 ease-in-out border text-input text-xs lg:text-sm font-body rounded-md placeholder-body min-h-12 bg-white border-gray-300 focus:outline-none focus:border-heading h-11 md:h-12';
 
-const LoginSeven = ({ headersetting, appStore }: any) => {
-    const module_id = 120;
+const LoginSeven = ({ headersetting, appStore, activeModule }: any) => {
     const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);
@@ -25,20 +23,6 @@ const LoginSeven = ({ headersetting, appStore }: any) => {
     const router = useRouter();
 
     const [logIn] = useLogInMutation();
-
-    const {
-        data: moduleIdDetailsData,
-        isLoading: moduleIdDetailLoading,
-        isError: moduleIdDetailError,
-        isSuccess: moduleIdDetailSuccess,
-    } = useGetModuleStatusQuery({ store_id, module_id });
-    const activeModule = moduleIdDetailsData?.status || false;
-
-    useEffect(() => {
-        if (moduleIdDetailError) {
-            toast.error('Failed to fetch module data. Please try again.');
-        }
-    }, [moduleIdDetailError]);
 
     const { register, handleSubmit } = useForm();
 
@@ -211,9 +195,6 @@ const LoginSeven = ({ headersetting, appStore }: any) => {
                                         </Link>
                                     </p>
                                 )}
-                                <div className="flex justify-center w-full">
-                                    {/* <LoginWith /> it was commented out */}
-                                </div>
                             </div>
                         </div>
                     </div>

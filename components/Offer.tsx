@@ -4,18 +4,16 @@ import { useEffect, useState } from 'react';
 import Countdown from 'react-countdown';
 import DateRange from './offer/date-range';
 import GetProductByProductId from './offer/get-prod-by-prodid';
-import SpecificDate from './offer/specific-data';
+import SpecificDate from './offer/specific-date';
 import Skeleton from './loaders/skeleton';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useGetEbiAnalyticsMutation } from '@/redux/features/offer/offerApi';
 import { useGetCampaignQuery } from '@/redux/features/checkOut/checkOutApi';
 import useGeoLocation from '@/hooks/useGeoLocation';
-import { numberParser } from '@/helpers/numberParser';
-import { notFound } from 'next/navigation';
 
 const Offer = ({ design, ipData }: any) => {
-    const store_id = numberParser(design?.store_id) || null;
+    const store_id = design?.store_id || null;
 
     const { address, fetchAddress } = useGeoLocation();
     const { user } = useSelector((state: RootState) => state?.auth); // Access updated Redux state
@@ -40,14 +38,14 @@ const Offer = ({ design, ipData }: any) => {
         console.log('ipData', ipData);
 
         try {
-            const response = await fetch("/api/ip");
+            const response = await fetch('/api/ip');
             // if (!response.ok) {
             //     notFound()
             // }
-            console.log("response",response);
+            // console.log('response', response);
 
             const data = await response.json();
-            console.log("IP Data:",data);
+            console.log('IP Data:', data);
             setIP(data.ip);
             setState(data.region);
             setPostal(data.postal);
@@ -66,7 +64,6 @@ const Offer = ({ design, ipData }: any) => {
     });
 
     const [campaign, setCampaign] = useState([]);
-    const [load, setLoad] = useState(false);
 
     const [getEbiAnalytics] = useGetEbiAnalyticsMutation();
 
@@ -113,22 +110,18 @@ const Offer = ({ design, ipData }: any) => {
     const {
         data: campaignsData,
         isLoading: campaignsLoading,
+        isError: campaignError,
         isSuccess: campaignsSuccess,
         refetch: campaignsRefetch,
     } = useGetCampaignQuery({ store_id });
 
     useEffect(() => {
-        const isCampaigns = campaignsData?.data || {};
-        const fetchCampaignData = () => {
-            if (campaignsSuccess && isCampaigns) {
-                setCampaign(isCampaigns);
-                setLoad(false);
-            } else {
-                setLoad(false);
-            }
-        };
-        setLoad(true);
-        fetchCampaignData();
+        const isCampaigns = campaignsData?.status;
+        const allCampaigns = campaignsData?.data;
+
+        if (campaignsSuccess && isCampaigns && allCampaigns?.length > 0) {
+            setCampaign(allCampaigns);
+        }
     }, [campaignsSuccess, campaignsData]);
 
     useEffect(() => {
@@ -203,65 +196,58 @@ const Offer = ({ design, ipData }: any) => {
         }
     };
 
+    if (campaignsLoading && !campaignError) {
+        return <Skeleton />;
+    }
+
     return (
-        <>
-            {load ? (
-                <>
-                    <Skeleton />
-                </>
-            ) : (
-                <div className="sm:container px-5 sm:py-10 py-5 mt-20">
-                    {(start_date >= Date.now() ||
-                        end_date <= Date.now() ||
-                        offer?.length === 0 ||
-                        offer?.products?.length === 0) &&
-                    (sDate >= Date.now() ||
-                        eDate <= Date.now() ||
-                        campaign?.length === 0) ? (
-   
-                            <div className="flex justify-center items-center h-auto md:h-[calc(100vh-500px)]">
-                                <div className="text-xl text-red-500 font-semibold">
-                                    Offer Not Available!
-                                </div>
-                            </div>
-                     
-                    ) : (
-                        <>
-                            {start_date <= Date.now() &&
-                                Date.now() <= end_date &&
-                                offer?.products?.length !== 0 && (
-                                    <div>
-                                        <div className="py-5">
-                                            <div className="flex flex-wrap justify-between items-center sm:gap-4 shadow-lg py-3">
-                                                <h3 className="font-bold text-2xl font-sans my-2">
-                                                    {offer?.name}
-                                                </h3>
-                                                <div className="flex flex-wrap sm:flex-nowrap  sm:justify-end items-center sm:space-x-2 ">
-                                                    <p className="text-xl font-semibold min-w-fit">
-                                                        End Time :{' '}
-                                                    </p>
-                                                    <Countdown
-                                                        date={
-                                                            Date.now() +
-                                                            (end_date -
-                                                                Date.now())
-                                                        }
-                                                        renderer={renderer}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <GetProductByProductId
-                                            offerProducts={offer?.products}
-                                        />
-                                    </div>
-                                )}
-                        </>
-                    )}
-                    <CampainPage design={design} campaign={campaign} />
+        <div className="sm:container px-5 sm:py-10 py-5 mt-20">
+            {(start_date >= Date.now() ||
+                end_date <= Date.now() ||
+                offer?.length === 0 ||
+                offer?.products?.length === 0) &&
+            (sDate >= Date.now() ||
+                eDate <= Date.now() ||
+                campaign?.length === 0) ? (
+                <div className="flex justify-center items-center h-auto md:h-[calc(100vh-500px)]">
+                    <div className="text-xl text-red-500 font-semibold">
+                        Offer Not Available!
+                    </div>
                 </div>
+            ) : (
+                <>
+                    {start_date <= Date.now() &&
+                        Date.now() <= end_date &&
+                        offer?.length !== 0 && (
+                            <div>
+                                <div className="py-5">
+                                    <div className="flex flex-wrap justify-between items-center sm:gap-4 shadow-lg py-3">
+                                        <h3 className="font-bold text-2xl font-sans my-2">
+                                            {offer?.name}
+                                        </h3>
+                                        <div className="flex flex-wrap sm:flex-nowrap  sm:justify-end items-center sm:space-x-2 ">
+                                            <p className="text-xl font-semibold min-w-fit">
+                                                End Time :{' '}
+                                            </p>
+                                            <Countdown
+                                                date={
+                                                    Date.now() +
+                                                    (end_date - Date.now())
+                                                }
+                                                renderer={renderer}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <GetProductByProductId
+                                    offerProducts={offer?.products}
+                                />
+                            </div>
+                        )}
+                    <CampainPage design={design} campaign={campaign} />
+                </>
             )}
-        </>
+        </div>
     );
 };
 
@@ -269,18 +255,16 @@ export default Offer;
 
 const CampainPage = ({ campaign, design }: any) => {
     return (
-        <>
-            <div>
-                {campaign?.map((item: any, id: any) => (
-                    <GetComponent
-                        key={id}
-                        component={item?.length_type}
-                        item={item}
-                        design={design}
-                    />
-                ))}
-            </div>
-        </>
+        <div>
+            {campaign?.map((item: any) => (
+                <GetComponent
+                    key={item?.id}
+                    component={item?.length_type}
+                    item={item}
+                    design={design}
+                />
+            ))}
+        </div>
     );
 };
 

@@ -1,9 +1,6 @@
-// import useTheme from '../../../@/hooks/useTheme';
-
 const SectionHeadingTwentySeven = ({ title, subtitle, title_color }: any) => {
     return (
         <div className="my-5 pb-5 w-full">
-            {/* <style>{classes}</style> */}
             <div className="text-left">
                 <h3
                     style={{ color: title_color }}

@@ -36,10 +36,10 @@ const CheckOutTwentyOne = ({ design, appStore, headersetting }: any) => {
         () => totalCampainOfferDiscount(cartList),
         [cartList]
     );
-    const cartTotalCampainOfferDelivery = useMemo(
-        () => getCampainOfferDeliveryFee(cartList, selectedShippingArea),
-        [cartList, selectedShippingArea]
-    );
+    // const cartTotalCampainOfferDelivery = useMemo(
+    //     () => getCampainOfferDeliveryFee(cartList, selectedShippingArea),
+    //     [cartList, selectedShippingArea]
+    // );
     
     useEffect(() => {
         if (cartTotalCampainOfferDiscountAmount > 0) {

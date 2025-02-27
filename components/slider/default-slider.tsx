@@ -22,13 +22,16 @@ const DefaultSlider = ({
     prevEl,
     children,
     breakpoints,
+    navigation,
     className,
+    loop,
     pagination,
     paginationType,
 }: any) => {
     return (
         <Swiper
             autoplay={{ delay: 2500 }}
+            loop={loop}
             speed={1000}
             modules={[
                 Autoplay,
@@ -43,7 +46,7 @@ const DefaultSlider = ({
             //   pagination,
             //   type: paginationType,
             // }}
-            navigation={{
+            navigation={navigation ? navigation : {
                 prevEl: `.${prevEl}`,
                 nextEl: `.${nextEl}`,
             }}

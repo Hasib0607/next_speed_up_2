@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
@@ -9,14 +9,17 @@ import { imgUrl } from '@/site-settings/siteUrl';
 import Loading from '../loaders/loading';
 import { btnhover } from '@/site-settings/style';
 import { toast } from 'react-toastify';
-import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { useLogInMutation } from '@/redux/features/auth/authApi';
 
 export const cls =
     'w-full rounded-md border border-[#E9EDF4] py-3 px-5 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-primary ';
 
-const LoginTwentyOne = ({ headersetting, design, appStore }: any) => {
-    const module_id = 120;
+const LoginTwentyOne = ({
+    headersetting,
+    design,
+    appStore,
+    activeModule,
+}: any) => {
     const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);
@@ -24,20 +27,6 @@ const LoginTwentyOne = ({ headersetting, design, appStore }: any) => {
 
     const router = useRouter();
     const [logIn] = useLogInMutation();
-
-    const {
-        data: moduleIdDetailsData,
-        isLoading: moduleIdDetailLoading,
-        isError: moduleIdDetailError,
-        isSuccess: moduleIdDetailSuccess,
-    } = useGetModuleStatusQuery({ store_id, module_id });
-    const activeModule = moduleIdDetailsData?.status || false;
-
-    useEffect(() => {
-        if (moduleIdDetailError) {
-            toast.error('Failed to fetch module data. Please try again.');
-        }
-    }, [moduleIdDetailError]);
 
     const { register, handleSubmit } = useForm();
 
@@ -205,27 +194,19 @@ const LoginTwentyOne = ({ headersetting, design, appStore }: any) => {
                                     activeModule) && (
                                     <p className="text-base text-[#adadad]">
                                         Don&apos;t Have an Account?
-                                        <a
+                                        <Link
                                             href="/sign-up"
                                             className="text-primary hover:underline text-color"
                                         >
                                             Sign Up
-                                        </a>
+                                        </Link>
                                     </p>
                                 )}
                                 <div></div>
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-center w-full">
-                        {/* <LoginWith /> */}
-                    </div>
                 </section>
-                {appStore?.auth_type !== 'EasyOrder' && (
-                    <section className="" id="sign-up">
-                        {/* <RegisterTwentyOne /> */}
-                    </section>
-                )}
             </div>
         </div>
     );
