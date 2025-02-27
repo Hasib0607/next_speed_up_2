@@ -17,9 +17,9 @@ export default async function getDomain() {
         return url;
     }
 
-    // url = "livicabd.com";
+    url = '10starbd.com';
     // url = "2ndpagebooks.com";
-    url = 'shr.localhost:3000';
+    // url = 'shr.localhost:3000';
     // url = "qutobd.com";
 
     return url;

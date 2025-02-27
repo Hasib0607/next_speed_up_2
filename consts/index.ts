@@ -64,12 +64,12 @@ function url() {
     return ''; // Optional: return an empty string if window is undefined (e.g., in server-side rendering)
 }
 
-
 let urlName;
 
-// urlName = "livicabd.com";
+urlName = '10starbd.com';
+// urlName = "texturetwist.shop";
 // urlName = "2ndpagebooks.com";
-urlName = "shr.localhost:3000";
+// urlName = "shr.localhost:3000";
 // urlName = "qutobd.com";
 
 if (process.env.NODE_ENV === 'production') {
