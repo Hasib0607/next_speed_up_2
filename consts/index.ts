@@ -66,10 +66,10 @@ function url() {
 
 let urlName;
 
-urlName = '10starbd.com';
+// urlName = 'nexmanbd.com';
 // urlName = "texturetwist.shop";
 // urlName = "2ndpagebooks.com";
-// urlName = "shr.localhost:3000";
+urlName = "shr.localhost:3000";
 // urlName = "qutobd.com";
 
 if (process.env.NODE_ENV === 'production') {

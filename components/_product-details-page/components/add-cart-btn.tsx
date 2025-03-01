@@ -228,7 +228,7 @@ const AddCartBtn = ({
             updateQuantity(isAbleQtyChange, inputValue);
         }
     };
-
+    
     const buy_now = () => {
         onClick();
         router.push('/checkout');
@@ -263,6 +263,7 @@ const AddCartBtn = ({
     }
     `;
 
+    
     return (
         <div className="flex flex-wrap lg2:flex-row flex-col justify-start lg2:items-center gap-5 py-5">
             <style>{cssStyle}</style>

@@ -1,13 +1,14 @@
 import './promo-twentytwo.css';
 import { bannerImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 
 const PromoTwentyTwo = ({ banner }: any) => {
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
-            {banner?.length > 0 && banner?.slice(0, 1)?.map((item: any, index: number) => (
+            {banner?.length > 0 && banner?.map((item: any, index: number) => (
                 <div className="relative group mt-5" key={index}>
-                    <a
+                    <Link
                         href={item?.link}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -17,10 +18,10 @@ const PromoTwentyTwo = ({ banner }: any) => {
                             src={bannerImg + item?.image}
                             alt=""
                         />
-                    </a>
+                    </Link>
                     <div className="absolute w-max z-[1] top-[40%] xl:top-[40%] lg:top-[50%] md:top-[45%] left-[50%] xl:left-[80%] lg:left-[80%] md:left-[50%] -translate-x-[50%] -translate-y-[50%]">
                         <h1 className="text-md xl:text-5xl lg:text-4xl md:text-3xl font-medium text-black text-3xl ">
-                            shopping everyday{' '}
+                            shopping everyday {' '}
                         </h1>
                         <div className="flex justify-end mt-5">
                             <div
@@ -37,6 +38,7 @@ const PromoTwentyTwo = ({ banner }: any) => {
                     </div>
                 </div>
             ))}
+
             {banner?.length > 1 && banner?.slice(1, 2)?.map((item: any, index: number) => (
                 <div className="relative group mt-5" key={index}>
                     <img

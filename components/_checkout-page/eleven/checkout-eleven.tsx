@@ -65,6 +65,9 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
         );
     }
 
+    const formFieldStyle =
+    'w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:border-gray-400';
+
     const btnStyleClass =
         'p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300 cursor-pointer';
 
@@ -81,7 +84,7 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
                                 design?.template_id === '34'
                                     ? 'bg-thirty-one border border-white'
                                     : 'bg-white'
-                            }  shadow sm:rounded-md sm:overflow-hidden mb-5`}
+                            } shadow sm:rounded-md sm:overflow-hidden mb-5`}
                         >
                             <div className="px-4 py-5 space-y-6 sm:p-6">
                                 <Address
@@ -94,7 +97,7 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
                                     setUserAddress={setUserAddress}
                                     userPhone={userPhone}
                                     setUserPhone={setUserPhone}
-                                    setUserName={setUserName}
+                                    formFieldStyle={formFieldStyle}
                                 />
                             </div>
                         </div>

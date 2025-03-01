@@ -46,7 +46,6 @@ const YourOrders = ({
     couponDis,
     setCouponDis,
     selectAddress,
-    shippingArea,
 }: any) => {
     const store_id = appStore?.id || null;
     const isAuthenticated = useAuth();
@@ -59,6 +58,7 @@ const YourOrders = ({
     const [isOpen, setIsOpen] = useState(false);
     const [files, setFiles] = useState([]);
     const [cartId, setCartId] = useState(null);
+    const [shippingAreaCost, setShippingArea] = useState(null);
 
     const { checkoutFromData } = useSelector(
         (state: RootState) => state.checkout
@@ -100,13 +100,13 @@ const YourOrders = ({
     const dispatch: AppDispatch = useAppDispatch();
     const total = subTotal(cartList);
     const smsCount = numberParser(headersetting?.total_sms);
-    const couponShow = setCouponShow(couponResult, total, shippingArea);
+    const couponShow = setCouponShow(couponResult, total, shippingAreaCost);
     const totalDis = useMemo(
         () => couponDis + totalcampainOfferAmount,
         [couponDis, totalcampainOfferAmount]
     );
 
-    const gTotal = grandTotal(total, tax, shippingArea, totalDis);
+    const gTotal = grandTotal(total, tax, shippingAreaCost, totalDis);
 
     const handleCouponRemove = () => {
         setCouponDis(0);
@@ -200,10 +200,11 @@ const YourOrders = ({
                 selectAddress?.district?.bn_name,
                 isAuthenticated
             ),
+            district_id: selectAddress?.district_id || districts?.id,
             address_id: selectAddress?.id,
             payment_type: selectedPayment,
             subtotal: numberParser(total),
-            shipping: shippingArea,
+            shipping: shippingAreaCost,
             total: gTotal,
             discount: totalDis,
             tax,
@@ -222,7 +223,7 @@ const YourOrders = ({
             isAuthenticated,
             selectedPayment,
             total,
-            shippingArea,
+            shippingAreaCost,
             gTotal,
             totalDis,
             tax,
@@ -286,6 +287,17 @@ const YourOrders = ({
             setTax(tax);
         }
     }, [headersetting?.tax, total]);
+
+    // shippingCost by district
+    useEffect(() => {
+        if (data?.district_id && data?.district_id === 1) {
+            setShippingArea(headersetting?.shipping_area_1_cost);
+        } else if (data?.district_id) {
+            setShippingArea(headersetting?.shipping_area_2_cost);
+        } else {
+            setShippingArea(null);
+        }
+    }, [data, headersetting]);
 
     useEffect(() => {
         if (
@@ -417,14 +429,13 @@ const YourOrders = ({
                             ? 'এস্টিমেটেড শিপিং'
                             : 'Estimated Shipping'}
                     </p>
-                    {shippingArea === '--Select Area--' ||
-                    shippingArea === null ? (
+                    {shippingAreaCost === null ? (
                         <p>
                             <BDT /> 0
                         </p>
                     ) : (
                         <p>
-                            <BDT price={shippingArea ? shippingArea : 0} />
+                            <BDT price={shippingAreaCost} />
                         </p>
                     )}
                 </div>

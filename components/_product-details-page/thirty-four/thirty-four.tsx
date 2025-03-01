@@ -21,11 +21,11 @@ import Link from 'next/link';
 import { AiOutlineHome } from 'react-icons/ai';
 import { SwiperSlide } from 'swiper/react';
 
-import './five.css';
 import ProdMultiCategory from '@/utils/prod-multi-category';
 import { NotFoundMsg } from '@/utils/little-components';
 import VideoPlayer from '../components/video-player';
 import DetailsThirtyFour from './details-thirty-four';
+import { RiArrowRightSLine } from 'react-icons/ri';
 
 const ThirtyFour = ({ store_id, productId, design, headersetting }: any) => {
     const {
@@ -89,7 +89,7 @@ const ThirtyFour = ({ store_id, productId, design, headersetting }: any) => {
     const reviewsArr = reviews?.data || [];
 
     const buttonTwentyThree =
-        'cart-btn-details font-bold py-[11px] w-48 border border-gray-300 rounded';
+        'font-bold py-3 text-center w-48 border border-gray-300 rounded lg:cursor-pointer';
 
     return (
         <div className="bg-[#F9F8FF]">
@@ -99,8 +99,8 @@ const ThirtyFour = ({ store_id, productId, design, headersetting }: any) => {
                         <Link href="/">
                             <AiOutlineHome className="" />
                         </Link>
+                        <RiArrowRightSLine />
                         <p>
-                            {/* <RiArrowRightSLine /> */}
                             <ProdMultiCategory
                                 category={category}
                                 count={1}

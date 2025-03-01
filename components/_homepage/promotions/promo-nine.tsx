@@ -1,4 +1,5 @@
 import { bannerImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const PromoNine = ({ banner }: any) => {
     return (
@@ -6,13 +7,13 @@ const PromoNine = ({ banner }: any) => {
             <div className="bg-white">
                 <div className="grid sm:grid-cols-2 gap-6">
                     {banner?.length > 0 &&
-                        banner?.slice(0, 2)?.map((ban: any) => (
+                        banner?.map((ban: any) => (
                             <div
                                 key={ban.id}
                                 className="relative overflow-hidden"
                             >
                                 {ban?.link && (
-                                    <a
+                                    <Link
                                         href={ban?.link}
                                         target="_blank"
                                         rel="noopener noreferrer"
@@ -20,7 +21,7 @@ const PromoNine = ({ banner }: any) => {
                                         <div className="flex font-twelve lg:px-5 px-2 lg:py-2 py-1 text-black lg:text-lg text-xs shop-link w-max z-[5] absolute xl:bottom-20 lg:bottom-32 bottom-10 lg:cursor-pointer xl:left-[60px] lg:left-32 md:left-[120px] left-[60px] bg-transparent border-black border duration-500 items-center space-x-1">
                                             <h1 className="">SHOP NOW</h1>
                                         </div>
-                                    </a>
+                                    </Link>
                                 )}
                                 <img
                                     alt="gallery"

@@ -150,9 +150,12 @@ const Discount = ({
                 headersetting?.[
                     `shipping_area_${headersetting?.selected_shipping_area}_cost`
                 ];
+
             if (initialAreaCost >= 0) {
                 setShippingArea(initialAreaCost);
             }
+        } else {
+            dispatch(setSelectedShippingArea(null));
         }
     }, [headersetting, setShippingArea, dispatch]);
 

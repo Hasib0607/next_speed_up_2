@@ -9,6 +9,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './promo-seven.css';
 import { bannerImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const PromoSeven = ({ banner }: any) => {
     const prevEl = 'promo_seven_Prev';
@@ -22,7 +23,7 @@ const PromoSeven = ({ banner }: any) => {
                         key={ban.id}
                         className="relative shine overflow-hidden"
                     >
-                        <a
+                        <Link
                             href={ban?.link}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -32,7 +33,7 @@ const PromoSeven = ({ banner }: any) => {
                                 className="min-w-full object-cover object-center block h-auto rounded-md lg:cursor-pointer"
                                 src={bannerImg + ban?.image}
                             />
-                        </a>
+                        </Link>
                         <div className="absolute top-0 bottom-0 left-4 flex justify-start items-center "></div>
                     </div>
                 ))}

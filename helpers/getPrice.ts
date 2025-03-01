@@ -10,29 +10,26 @@ export const getPrice = (
     const discountPrice = numberParser(discount_price);
 
     if (discount_type === 'percent') {
-        const price = numberParser(
-            regularPrice - (discountPrice / 100) * regularPrice
-        );
+        const price = regularPrice - (discountPrice / 100) * regularPrice;
         if (getTypeWiseDiscount) {
-            return numberParser((discountPrice / 100) * regularPrice);
+            return (discountPrice / 100) * regularPrice;
         } else {
             return price;
         }
     }
     if (discount_type === 'fixed') {
-        const price = numberParser(regularPrice - discountPrice, true);
+        const price = regularPrice - discountPrice;
         if (getTypeWiseDiscount) {
-            return numberParser(discountPrice, true);
+            return discountPrice;
         } else {
             return price;
         }
     }
     if (discount_type === 'no_discount') {
-        const price = numberParser(regularPrice, true);
         if (getTypeWiseDiscount) {
-            return numberParser(regularPrice, true);
+            return 0;
         } else {
-            return price;
+            return regularPrice;
         }
     }
 };
