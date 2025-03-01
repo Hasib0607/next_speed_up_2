@@ -157,11 +157,8 @@ const HeaderTwo = ({ headersetting, design, menu }: any) => {
                                     <img
                                         src={
                                             user?.image
-                                                ? profileImg + user?.image
+                                                ? user?.image
                                                 : user?.social_img
-                                                  ? profileImg +
-                                                    user?.social_img
-                                                  : `${defaultUserImage.src}`
                                         }
                                         alt=""
                                         className="object-fit h-8 w-8 rounded-full overflow-hidden"

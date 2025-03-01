@@ -2,7 +2,6 @@
 
 import Card67 from '@/components/card/card67';
 import DefaultSlider from '@/components/slider/default-slider';
-import { useState } from 'react';
 import { Pagination } from 'swiper/modules';
 import { SwiperSlide } from 'swiper/react';
 
@@ -11,8 +10,6 @@ const FeatureProductThirtyNine = ({
     headersetting,
     feature_product,
 }: any) => {
-    const [animate, setAnimate] = useState(false);
-
     let isLoop = feature_product.length > 1;
 
     const prevEl = 'feature-product-prev-thirtynine';
@@ -100,11 +97,7 @@ const FeatureProductThirtyNine = ({
                         feature_product?.slice(0, 10)?.map((item: any) => (
                             <SwiperSlide key={item?.id}>
                                 <div
-                                    className={`${
-                                        animate
-                                            ? 'translate-y-0'
-                                            : 'translate-y-[25px]'
-                                    } duration-1000`}
+                                    className={`duration-1000`}
                                 >
                                     <Card67 item={item} />
                                 </div>

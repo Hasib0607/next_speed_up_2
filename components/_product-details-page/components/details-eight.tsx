@@ -299,7 +299,7 @@ const DetailsEight = ({
                                 {save > 0 && (
                                     <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                         <BDT />
-                                        {variantId !== null ? save : numberParser(product?.regular_price)}
+                                        {variantId !== null ? price + save : numberParser(product?.regular_price)}
                                     </span>
                                 )}{' '}
                             </div>

@@ -1,12 +1,13 @@
 import { bannerImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const PromoTwo = ({ banner }: any) => {
     return (
-        <>
-            <div className="sm:container px-5 sm:py-10 py-5">
-                {banner?.length > 0 && banner?.slice(0, 1)?.map((b: any) => (
+        <div className="sm:container px-5 sm:py-10 py-5">
+            {banner?.length > 0 &&
+                banner?.map((b: any) => (
                     <div key={b?.id} className="relative overflow-hidden">
-                        <a
+                        <Link
                             href={b?.link}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -16,11 +17,10 @@ const PromoTwo = ({ banner }: any) => {
                                 src={bannerImg + b?.image}
                                 alt=""
                             />
-                        </a>
+                        </Link>
                     </div>
                 ))}
-            </div>
-        </>
+        </div>
     );
 };
 

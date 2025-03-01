@@ -180,7 +180,12 @@ const DetailsThirtyFour = ({
         () => productCurrentPrice(product, variantId),
         [product, variantId]
     );
-    const save = howMuchSave(product);
+
+    const save = useMemo(
+        () => howMuchSave(product, variantId),
+        [product, variantId]
+    );
+
     const parsedRating = numberParser(product?.rating, true);
     const parsedNumberRating = numberParser(product?.number_rating);
 
@@ -204,22 +209,22 @@ const DetailsThirtyFour = ({
 
     const styleCss = `
     .btn-hover:hover {
-        color:   ${design?.text_color};
+        color: ${design?.text_color};
         background:${design?.header_color};
     }
     .text-color {
-        color:  ${design?.header_color};
+        color: ${design?.header_color};
     }
     .buy-now {
-        color:   ${design?.text_color};
+        color: ${design?.text_color};
         background:${design?.header_color};
     }
     .buy-now:hover {
-        color:   white;
+        color: white;
         background:#83C341;
     }
     .cart-color {
-        color:  ${design?.header_color};
+        color: ${design?.header_color};
         border-bottom: 2px solid ${design?.header_color};
     }
     .border-hover:hover {
@@ -275,7 +280,9 @@ const DetailsThirtyFour = ({
                             {save > 0 && (
                                 <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                     <BDT />
-                                    {numberParser(product?.regular_price)}
+                                    {variantId !== null
+                                        ? price + save
+                                        : numberParser(product?.regular_price)}
                                 </span>
                             )}{' '}
                         </div>

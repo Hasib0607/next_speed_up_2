@@ -21,18 +21,18 @@ const PromoTwentyEight = ({ banner }: any) => {
             <div className="relative flex flex-col md:flex-row justify-between md:items-center">
                 <div className="pb-2">
                     <SectionHeadingTwentySeven
-                        title={'আরও দেখুন, '}
+                        title={'আরও দেখুন,'}
                         subtitle={'ভাল জিনিস আপনার জন্য অপেক্ষা করছে'}
                     />
                 </div>
                 <div className=" gap-2 flex lg:cursor-pointer">
                     <div
-                        className={`${prevEl}   text-gray-600 arrow-color  h-10 w-10 flex justify-center items-center bg-white rounded-full left-4 top-[50%] -translate-y-1/2`}
+                        className={`${prevEl} text-gray-600 arrow-color  h-10 w-10 flex justify-center items-center bg-white rounded-full left-4 top-[50%] -translate-y-1/2`}
                     >
                         <BsArrowLeft className="h-6 font-serif font-bold" />
                     </div>
                     <div
-                        className={`${nextEl}  text-gray-600 arrow-color  h-10 w-10 flex justify-center items-center bg-white rounded-full right-4 top-[50%] -translate-y-1/2 `}
+                        className={`${nextEl} text-gray-600 arrow-color  h-10 w-10 flex justify-center items-center bg-white rounded-full right-4 top-[50%] -translate-y-1/2 `}
                     >
                         <BsArrowRight className="h-6 font-serif font-bold" />
                     </div>

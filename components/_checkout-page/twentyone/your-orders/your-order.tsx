@@ -186,7 +186,7 @@ const YourOrders = ({
             address_id: selectAddress?.id,
             payment_type: selectedPayment,
             subtotal: numberParser(total),
-            shipping: numberParser(shippingArea),
+            shipping: shippingArea,
             total: gTotal,
             discount: totalDis,
             tax,
@@ -240,7 +240,6 @@ const YourOrders = ({
         coupon: data.coupon,
         referral_code: data.referral_code,
     }).forEach(([key, value]) => appendFormData(key, value));
-
 
     const handleCheckout = async () => {
         dispatch(setPurchaseList(cartList));

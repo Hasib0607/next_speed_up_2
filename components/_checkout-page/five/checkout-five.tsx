@@ -13,7 +13,10 @@ import { totalCampainOfferDiscount } from '@/utils/_cart-utils/cart-utils';
 import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 import { AppDispatch, RootState } from '@/redux/store';
-import { setGrandTotal, setPurchaseList } from '@/redux/features/purchase/purchaseSlice';
+import {
+    setGrandTotal,
+    setPurchaseList,
+} from '@/redux/features/purchase/purchaseSlice';
 
 const CheckOutFive = ({ design, appStore, headersetting }: any) => {
     const dispatch: AppDispatch = useAppDispatch();
@@ -42,28 +45,28 @@ const CheckOutFive = ({ design, appStore, headersetting }: any) => {
         }
     }, [cartTotalCampainOfferDiscountAmount, dispatch]);
 
-     useEffect(() => {
-            dispatch(setPurchaseList([]));
-            dispatch(setGrandTotal(0));
-        }, [dispatch]);
-
+    useEffect(() => {
+        dispatch(setPurchaseList([]));
+        dispatch(setGrandTotal(0));
+    }, [dispatch]);
 
     if (cartList?.length === 0) {
         return (
-            <>
-                <div className="flex justify-center items-center min-h-[70vh]">
-                    <div className="text-center">
-                        <h3 className="text-gray-400 text-2xl font-bold">
-                            You have no product in your cart!{' '}
-                        </h3>
-                        <h6 className="text-gray-400 text-xl font-semibold">
-                            Please Add Some Product
-                        </h6>
-                    </div>
+            <div className="flex justify-center items-center min-h-[70vh]">
+                <div className="text-center">
+                    <h3 className="text-gray-400 text-2xl font-bold">
+                        You have no product in your cart!{' '}
+                    </h3>
+                    <h6 className="text-gray-400 text-xl font-semibold">
+                        Please Add Some Product
+                    </h6>
                 </div>
-            </>
+            </div>
         );
     }
+
+    const formFieldStyle =
+        'w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:border-gray-400';
 
     return (
         <div className="container">
@@ -90,7 +93,7 @@ const CheckOutFive = ({ design, appStore, headersetting }: any) => {
                                 setUserAddress={setUserAddress}
                                 userPhone={userPhone}
                                 setUserPhone={setUserPhone}
-                                setUserName={setUserName}
+                                formFieldStyle={formFieldStyle}
                             />
                         </div>
                     </div>

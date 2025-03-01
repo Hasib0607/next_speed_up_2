@@ -49,7 +49,7 @@ export const productCurrentPrice = (product: any, variantId?: any) => {
         product?.calculate_regular_price
     );
 
-    const calculateDiscountPrice = getPrice(
+    const calculatedDiscount = getPrice(
         product?.regular_price,
         product?.discount_price,
         product?.discount_type,
@@ -57,9 +57,10 @@ export const productCurrentPrice = (product: any, variantId?: any) => {
     );
 
     if (variant?.length > 0 && variantId) {
-        return numberParser(
-            regularPrice + additionalPrice - (calculateDiscountPrice ?? 0)
-        );
+        const calculatedVariantPrice =
+            regularPrice + additionalPrice - (calculatedDiscount ?? 0);
+
+        return calculatedVariantPrice;
     } else {
         return calculateRegularPrice;
     }
@@ -90,24 +91,22 @@ export const howMuchSave = (product: any, variantId?: any) => {
         product?.calculate_regular_price
     );
 
-    // const calculateDiscountPrice = getPrice(
-    //     variantRegularPrice,
-    //     product?.discount_price,
-    //     product?.discount_type,
-    //     true
-    // );
+    const calculateDiscount = getPrice(
+        variantRegularPrice,
+        product?.discount_price,
+        product?.discount_type,
+        true
+    );
 
     if (variant?.length > 0 && variantId) {
-        return numberParser(
-            variantRegularPrice
-        );
+        return calculateDiscount ?? 0;
     } else {
-        return numberParser(regularPrice - calculateRegularPrice);
+        return regularPrice - calculateRegularPrice;
     }
 };
 
 export const getCampainOfferDiscount = (product: any | undefined) => {
-    const { price,qty } = product || {};
+    const { price, qty } = product || {};
 
     const calculatedDiscountPrice = getPrice(
         price,
@@ -117,7 +116,7 @@ export const getCampainOfferDiscount = (product: any | undefined) => {
     );
 
     if (product?.product_offer?.status) {
-        const productCalculatedDiscount = (calculatedDiscountPrice ?? 0) * qty 
+        const productCalculatedDiscount = (calculatedDiscountPrice ?? 0) * qty;
         return productCalculatedDiscount;
     } else {
         return 0;

@@ -74,6 +74,9 @@ const CheckOutFour = ({ design, appStore, headersetting }: any) => {
         );
     }
 
+    const formFieldStyle =
+    'w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:border-gray-400';
+
     return (
         <div className="" style={{ backgroundColor: '#F3F4F6' }}>
             <h2 className="py-10 text-4xl font-semibold text-center">
@@ -100,7 +103,7 @@ const CheckOutFour = ({ design, appStore, headersetting }: any) => {
                                     setUserAddress={setUserAddress}
                                     userPhone={userPhone}
                                     setUserPhone={setUserPhone}
-                                    setUserName={setUserName}
+                                    formFieldStyle={formFieldStyle}
                                 />
                             </div>
                         </div>

@@ -1,15 +1,16 @@
 import { bannerImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const PromoTwentyNine = ({ banner }: any) => {
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
             <div className="grid xl:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-6 ">
-                {banner?.length > 0 && banner?.slice(0, 3)?.map((ban: any) => (
+                {banner?.length > 0 && banner?.map((ban: any) => (
                     <div
                         key={ban?.id}
                         className="relative overflow-hidden shine-three shine-three-one"
                     >
-                        <a
+                        <Link
                             href={ban?.link}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -19,7 +20,7 @@ const PromoTwentyNine = ({ banner }: any) => {
                                 className="w-full h-auto lg:cursor-pointer ease-in-out duration-700"
                                 src={bannerImg + ban?.image}
                             />
-                        </a>
+                        </Link>
                     </div>
                 ))}
             </div>
