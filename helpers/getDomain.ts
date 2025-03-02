@@ -18,9 +18,9 @@ export default async function getDomain() {
     }
 
     // url = 'nexmanbd.com';
-    // url = "2ndpagebooks.com";
-    url = 'shr.localhost:3000';
-    // url = "qutobd.com";
+    // url = "swifttrading.store";
+    url = "ezara.shop";
+    // url = 'shr.localhost:3000';
 
     return url;
 }

@@ -1,27 +1,27 @@
 'use client';
 
-import React, { Fragment, useEffect, useState } from 'react';
-import { Menu, Transition } from '@headlessui/react';
-import { CgShoppingBag } from 'react-icons/cg';
-import { IoSearchOutline } from 'react-icons/io5';
-import { AiOutlineClose } from 'react-icons/ai';
-import { HiMenu } from 'react-icons/hi';
-import { FiUser } from 'react-icons/fi';
-import Link from 'next/link';
-import { imgUrl } from '@/site-settings/siteUrl';
-import Search3 from '../components/search3';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import SideMenuWithCategory from './side-menu-with-category';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { useRouter } from 'next/navigation';
-import useAuth from '@/hooks/useAuth';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
+import useAuth from '@/hooks/useAuth';
+import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { imgUrl } from '@/site-settings/siteUrl';
+import { Menu, Transition } from '@headlessui/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Fragment, useEffect, useState } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
+import { CgShoppingBag } from 'react-icons/cg';
+import { FiUser } from 'react-icons/fi';
+import { HiMenu } from 'react-icons/hi';
+import { IoSearchOutline } from 'react-icons/io5';
+import { useSelector } from 'react-redux';
+import Search3 from '../components/search3';
+import SideMenuWithCategory from './side-menu-with-category';
 
 const HeaderTwentyThree = ({ headersetting, design }: any) => {
     const router = useRouter();
@@ -189,7 +189,7 @@ const HeaderTwentyThree = ({ headersetting, design }: any) => {
                         {searchTxt && (
                             <div className="relative top-5 right-0 w-96">
                                 <Search3
-                                design={design}
+                                    design={design}
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />

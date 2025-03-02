@@ -11,6 +11,9 @@ import {
     useGetReviewsQuery,
 } from '@/redux/features/products/productApi';
 
+import { FaWhatsapp } from 'react-icons/fa';
+import { FiPhone } from 'react-icons/fi';
+
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import { numberParser } from '@/helpers/numberParser';
@@ -80,6 +83,11 @@ const ThirtySeven = ({ store_id, productId, design, headersetting }: any) => {
     }
     const reviewsArr = reviews?.data || [];
 
+    const addCartClassName =
+        'flex flex-col justify-start items-center gap-3 py-1 w-96';
+    const buttonStyle =
+        'w-full min-w-48 flex items-center gap-2 rounded-md text-center py-3 justify-center lg:cursor-pointer cart-btn-thirty-seven';
+
     return (
         <div className="bg-[#F1F9DD]">
             <div className="sm:container px-5">
@@ -87,10 +95,24 @@ const ThirtySeven = ({ store_id, productId, design, headersetting }: any) => {
                 <DetailsThirtySeven
                     design={design}
                     headersetting={headersetting}
+                    addCartClassName={addCartClassName}
                     product={product}
                     setOpen={setOpen}
+                    buttonStyle={buttonStyle}
                     open={open}
-                />
+                >
+                    <div className={addCartClassName}>
+                        <div className={buttonStyle}>
+                            <FiPhone /> <p>{headersetting?.phone}</p>
+                        </div>
+                    </div>
+                    <div className={addCartClassName}>
+                        <div className={buttonStyle}>
+                            <FaWhatsapp />{' '}
+                            <p>{headersetting?.whatsapp_phone}</p>
+                        </div>
+                    </div>
+                </DetailsThirtySeven>
 
                 {/* ************************ tab component start ***************************** */}
                 <div className="mt-14 bg-white">

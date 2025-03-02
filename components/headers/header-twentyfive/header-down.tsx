@@ -8,9 +8,9 @@ import { useState } from 'react';
 import { CgShoppingBag } from 'react-icons/cg';
 import { IoSearchCircleOutline } from 'react-icons/io5';
 
-import Search3 from '../components/search3';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import Search3 from '../components/search3';
 
 const HeaderDown = ({ design, menu, headersetting }: any) => {
     const [searchTxt, setSearch] = useState('');
@@ -73,7 +73,11 @@ const HeaderDown = ({ design, menu, headersetting }: any) => {
                     </div>
                     {searchTxt && (
                         <div className="lg:w-full left-0 absolute top-1 z-50">
-                            <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
+                            <Search3
+                                search={searchTxt}
+                                setSearch={setSearch}
+                                design={design}
+                            />
                         </div>
                     )}
                 </div>

@@ -1,22 +1,18 @@
 'use client';
 
 import BDT from '@/utils/bdt';
-
-import { subTotal } from '@/utils/_cart-utils/cart-utils';
-import { Dialog, Transition } from '@headlessui/react';
-import { ShoppingBagIcon } from '@heroicons/react/24/outline';
-
 import Link from 'next/link';
-import { Fragment, useState } from 'react';
-
-import SingleCartProduct from '@/components/_shopping-cart/_components/single-cart-product';
-import { useSelector } from 'react-redux';
-import { XIcon } from 'react-share';
+import { useState } from 'react';
 import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
+import { ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { CartSideBar } from '../_components/cart-side-bar';
+import { subTotal } from '@/utils/_cart-utils/cart-utils';
 
 const CartPopUpThree = ({ design }: any) => {
     const [open, setOpen] = useState(false);
     const { cartList } = useSelector((state: RootState) => state.cart);
+    const total = subTotal(cartList);
 
     return (
         <>
@@ -58,120 +54,30 @@ const CartPopUpThree = ({ design }: any) => {
                     </div>
                 </div>
             </div>
-            <CartSideBar open={open} setOpen={setOpen} design={design} />
+            <CartSideBar open={open} setOpen={setOpen} design={design}>
+                <div className="w-full flex justify-center  bottom-0 right-0">
+                    <Link
+                        onClick={() => setOpen(false)}
+                        href="/checkout"
+                        className="w-full flex justify-between items-center py-4 divide-x-2 my-3 mx-6 px-6 rounded-md"
+                        style={{
+                            color: design?.text_color,
+                            backgroundColor: design?.header_color,
+                        }}
+                    >
+                        <p className="sm:text-base text-sm font-bold ">
+                            {design?.template_id === '29'
+                                ? 'অর্ডার করুন'
+                                : 'Checkout'}
+                        </p>{' '}
+                        <p className="pl-4 sm:text-base text-sm">
+                            {total} <BDT />
+                        </p>
+                    </Link>
+                </div>
+            </CartSideBar>
         </>
     );
 };
 
 export default CartPopUpThree;
-
-export const CartSideBar = (props: any) => {
-    return (
-        <Drawer {...props}>
-            <ShoppingCart {...props} />
-        </Drawer>
-    );
-};
-
-export const Drawer = ({ open, setOpen, children }: any) => {
-    return (
-        <Transition.Root show={open} as={Fragment}>
-            <Dialog as="div" className="relative z-[110]" onClose={setOpen}>
-                <Transition.Child
-                    as={Fragment}
-                    enter="ease-in-out duration-500"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in-out duration-500"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                >
-                    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-                </Transition.Child>
-
-                <div className="fixed inset-0 overflow-hidden">
-                    <div className="absolute inset-0 overflow-hidden">
-                        <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-                            <Transition.Child
-                                as={Fragment}
-                                enter="transform transition ease-in-out duration-500 sm:duration-700"
-                                enterFrom="translate-x-full"
-                                enterTo="translate-x-0"
-                                leave="transform transition ease-in-out duration-500 sm:duration-700"
-                                leaveFrom="translate-x-0"
-                                leaveTo="translate-x-full"
-                            >
-                                <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                                    {children}
-                                </Dialog.Panel>
-                            </Transition.Child>
-                        </div>
-                    </div>
-                </div>
-            </Dialog>
-        </Transition.Root>
-    );
-};
-
-const ShoppingCart = ({ setOpen, design }: any) => {
-    const { cartList } = useSelector((state: RootState) => state.cart);
-
-    const total = subTotal(cartList);
-
-    return (
-        <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl relative">
-            <div className="flex-1 ">
-                <div className="flex items-start justify-between bg-black py-3 px-3  top-0  right-0 w-full">
-                    <Dialog.Title className="text-lg font-medium text-white uppercase">
-                        Your Cart
-                    </Dialog.Title>
-                    <XIcon
-                        onClick={() => setOpen(false)}
-                        color={'white'}
-                        className="h-6 w-6 lg:cursor-pointer"
-                        aria-hidden="true"
-                    />
-                </div>
-
-                <div className="my-6 px-6">
-                    <div className="flow-root">
-                        <ul
-                            role="list"
-                            className="-my-6 divide-y divide-gray-200"
-                        >
-                            {cartList?.map((product: any, index: number) => (
-                                <SingleCartProduct
-                                    key={index}
-                                    product={product}
-                                    setOpen={setOpen}
-                                    design={design}
-                                />
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div className="w-full flex justify-center  bottom-0 right-0">
-                <Link
-                    onClick={() => setOpen(false)}
-                    href="/checkout"
-                    className="w-full flex justify-between items-center py-4 divide-x-2 my-3 mx-6 px-6 rounded-md"
-                    style={{
-                        color: design?.text_color,
-                        backgroundColor: design?.header_color,
-                    }}
-                >
-                    <p className="sm:text-base text-sm font-bold ">
-                        {design?.template_id === '29'
-                            ? 'অর্ডার করুন'
-                            : 'Checkout'}
-                    </p>{' '}
-                    <p className="pl-4 sm:text-base text-sm">
-                        {total} <BDT />
-                    </p>
-                </Link>
-            </div>
-        </div>
-    );
-};

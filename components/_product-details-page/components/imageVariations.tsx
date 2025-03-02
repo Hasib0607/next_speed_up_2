@@ -50,7 +50,6 @@ export const ColorsOnly = ({ color, setColor, variant, setActiveImg }: any) => {
 };
 
 export const Sizes = ({ size, setSize, variant, setActiveImg }: any) => {
-    
     return (
         <>
             {variant?.length > 0 && (
@@ -107,7 +106,6 @@ export const Colors = ({
 };
 
 // sub components
-
 export const Unit = ({ item, select, setSelect, setActiveImg }: any) => {
     return (
         <div
@@ -116,7 +114,9 @@ export const Unit = ({ item, select, setSelect, setActiveImg }: any) => {
                 setActiveImg(item?.image);
             }}
             className={`border px-1 w-auto h-10 flex justify-center items-center font-sans text-sm rounded cursor-pointer ${
-                item === select ? 'border-gray-900' : 'border-gray-300'
+                item === select
+                    ? 'bg-[var(--header-color)] text-[var(--text-color)]'
+                    : 'border-gray-900'
             }`}
         >
             {item?.volume + ' ' + item?.unit}
@@ -133,8 +133,8 @@ export const Size = ({ item, select, setSelect, setActiveImg }: any) => {
             }}
             className={`border px-4 py-3 w-auto h-10 flex justify-center items-center font-sans font-medium rounded cursor-pointer ${
                 item?.size === select?.size
-                    ? 'border-gray-900'
-                    : 'border-gray-300'
+                    ? 'bg-[var(--header-color)] text-[var(--text-color)]'
+                    : 'border-gray-900'
             }`}
         >
             {item?.size}

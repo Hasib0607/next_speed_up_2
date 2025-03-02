@@ -1,27 +1,27 @@
 'use client';
 
-import React, { Fragment, useEffect, useState } from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
-import { RiShoppingBagLine } from 'react-icons/ri';
-import { Menu, Transition } from '@headlessui/react';
-import { MdKeyboardArrowDown } from 'react-icons/md';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import { REDUX_PERSIST } from '@/consts';
+import { classNames } from '@/helpers/littleSpicy';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
+import useAuth from '@/hooks/useAuth';
+import { useLogOutMutation } from '@/redux/features/auth/authApi';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { RootState } from '@/redux/store';
 import { imgUrl } from '@/site-settings/siteUrl';
+import { Menu, Transition } from '@headlessui/react';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Fragment, useEffect, useState } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { MdKeyboardArrowDown } from 'react-icons/md';
+import { RiShoppingBagLine } from 'react-icons/ri';
+import { useSelector } from 'react-redux';
 import LoginTwentyOne from '../../sign-in/signin-twentyone';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { classNames } from '@/helpers/littleSpicy';
-import { useRouter } from 'next/navigation';
-import useAuth from '@/hooks/useAuth';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { REDUX_PERSIST } from '@/consts';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
 const HeaderTwentySix = ({ headersetting, design, menu }: any) => {
     const router = useRouter();

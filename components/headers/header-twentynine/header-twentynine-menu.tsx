@@ -12,8 +12,8 @@ import { HiMenu } from 'react-icons/hi';
 import { IoLogoWhatsapp } from 'react-icons/io5';
 import SideMenu from '../components/side-menu';
 
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import '../header-six/header-six.css';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 
 const HeaderTwentyNineMenu = ({ menu, design, headersetting }: any) => {
     const [open, setOpen] = useState(false);

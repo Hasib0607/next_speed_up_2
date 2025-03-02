@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { AiFillLinkedin, AiOutlineClose } from 'react-icons/ai';
 import { FaFacebook } from 'react-icons/fa';
 import { IoLogoWhatsapp, IoSearchOutline } from 'react-icons/io5';
@@ -9,24 +9,24 @@ import { RiShoppingBagLine } from 'react-icons/ri';
 import { Menu, Transition } from '@headlessui/react';
 import { BiUser } from 'react-icons/bi';
 
-import { GrInstagram, GrYoutube } from 'react-icons/gr';
-import Link from 'next/link';
-import { imgUrl } from '@/site-settings/siteUrl';
-import { MdKeyboardArrowDown } from 'react-icons/md';
-import SideMenu from '../components/side-menu';
-import Search3 from '../components/search3';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { classNames } from '@/helpers/littleSpicy';
-import { useRouter } from 'next/navigation';
-import useAuth from '@/hooks/useAuth';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { REDUX_PERSIST } from '@/consts';
-import { useSelector } from 'react-redux';
+import { classNames } from '@/helpers/littleSpicy';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
+import useAuth from '@/hooks/useAuth';
+import { useLogOutMutation } from '@/redux/features/auth/authApi';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 import { RootState } from '@/redux/store';
+import { imgUrl } from '@/site-settings/siteUrl';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { GrInstagram, GrYoutube } from 'react-icons/gr';
+import { MdKeyboardArrowDown } from 'react-icons/md';
+import { useSelector } from 'react-redux';
+import Search3 from '../components/search3';
+import SideMenu from '../components/side-menu';
 
 const HeaderThirtyOne = ({ headersetting, design, menu }: any) => {
     const router = useRouter();

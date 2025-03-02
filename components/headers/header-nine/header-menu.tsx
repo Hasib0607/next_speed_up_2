@@ -1,22 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
-import { HiOutlineShoppingBag } from 'react-icons/hi';
-import { BsSearch } from 'react-icons/bs';
-import { AiOutlineSetting } from 'react-icons/ai';
-import { Fragment } from 'react';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import { REDUX_PERSIST } from '@/consts';
+import { classNames } from '@/helpers/littleSpicy';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
+import useAuth from '@/hooks/useAuth';
+import { useLogOutMutation } from '@/redux/features/auth/authApi';
+import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import Link from 'next/link';
-import { imgUrl } from '@/site-settings/siteUrl';
-import Search3 from '../components/search3';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { REDUX_PERSIST } from '@/consts';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import useAuth from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
-import { classNames } from '@/helpers/littleSpicy';
+import { Fragment, useState } from 'react';
+import { AiOutlineClose, AiOutlineSetting } from 'react-icons/ai';
+import { BsSearch } from 'react-icons/bs';
+import { HiOutlineShoppingBag } from 'react-icons/hi';
+import Search3 from '../components/search3';
 
 function HeaderMenu({ headersetting, design }: any) {
     const router = useRouter();
@@ -101,7 +99,11 @@ function HeaderMenu({ headersetting, design }: any) {
 
                     {searchTxt && (
                         <div className="relative">
-                            <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
+                            <Search3
+                                search={searchTxt}
+                                setSearch={setSearch}
+                                design={design}
+                            />
                         </div>
                     )}
                 </div>

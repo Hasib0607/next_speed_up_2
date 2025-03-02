@@ -1,22 +1,22 @@
 'use client';
 
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import useAuth from '@/hooks/useAuth';
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { IoMdMenu } from 'react-icons/io';
 import { IoSearchOutline } from 'react-icons/io5';
 import { RiShoppingBagLine } from 'react-icons/ri';
 import Search3 from '../components/search3';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { useRouter } from 'next/navigation';
-import useAuth from '@/hooks/useAuth';
 
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
+import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 

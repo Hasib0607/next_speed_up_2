@@ -1,26 +1,26 @@
 'use client';
 
-import { Menu, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
-import { FaUserCircle } from 'react-icons/fa';
-import { AiOutlineClose } from 'react-icons/ai';
-import { BsSearch } from 'react-icons/bs';
-import { HiMenu, HiOutlineShoppingBag } from 'react-icons/hi';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { RootState } from '@/redux/store';
 import { imgUrl } from '@/site-settings/siteUrl';
+import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Fragment, useState } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
+import { BsSearch } from 'react-icons/bs';
+import { FaUserCircle } from 'react-icons/fa';
+import { HiMenu, HiOutlineShoppingBag } from 'react-icons/hi';
+import { useSelector } from 'react-redux';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 
 const HeaderThirtyEight = ({ headersetting, design, menu }: any) => {
     const router = useRouter();

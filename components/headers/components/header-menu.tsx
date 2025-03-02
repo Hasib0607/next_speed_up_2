@@ -3,7 +3,6 @@
 import { headerBg } from '@/site-settings/color';
 import { imgUrl } from '@/site-settings/siteUrl';
 
-import { XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -11,12 +10,12 @@ import { BsSearch } from 'react-icons/bs';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
 
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { RootState } from '@/redux/store';
 import { subTotal } from '@/utils/_cart-utils/cart-utils';
 import BDT from '@/utils/bdt';
-import Category from '../header-three/category';
 import Search3 from '../components/search3';
+import Category from '../header-three/category';
 
 const HeaderMenu = ({ headersetting, design, menu }: any) => {
     const [searchTxt, setSearch] = useState('');
