@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import { getDataByType } from '@/helpers/getCustomDataByType';
 import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
 import { classNames } from '@/helpers/littleSpicy';
+import { IoMdCart } from 'react-icons/io';
 
 const AddCartBtn = ({
     setQty,
@@ -32,6 +33,7 @@ const AddCartBtn = ({
     buttonOne,
     roundedBtn,
     product,
+    className,
     children,
 }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
@@ -228,7 +230,7 @@ const AddCartBtn = ({
             updateQuantity(isAbleQtyChange, inputValue);
         }
     };
-    
+
     const buy_now = () => {
         onClick();
         router.push('/checkout');
@@ -263,9 +265,13 @@ const AddCartBtn = ({
     }
     `;
 
-    
     return (
-        <div className="flex flex-wrap lg2:flex-row flex-col justify-start lg2:items-center gap-5 py-5">
+        <div
+            className={
+                className ??
+                'flex flex-wrap lg2:flex-row flex-col justify-start lg2:items-center gap-5 py-5'
+            }
+        >
             <style>{cssStyle}</style>
             {roundedBtn ? (
                 <div className="w-max flex items-center">
@@ -294,7 +300,7 @@ const AddCartBtn = ({
             ) : (
                 <div className="flex border border-gray-300 divide-x-2 rounded-md w-max">
                     <div
-                        className="h-12 w-12  flex justify-center items-center hover:bg-black rounded-l-md hover:text-white font-semibold transition-all duration-300 ease-linear cursor-pointer"
+                        className="h-12 w-12 flex justify-center items-center hover:bg-black rounded-l-md hover:text-white font-semibold transition-all duration-300 ease-linear cursor-pointer"
                         onClick={decNum}
                     >
                         <MinusIcon width={15} />
@@ -306,7 +312,7 @@ const AddCartBtn = ({
                     ) : (
                         <input
                             type="number"
-                            className="form-control w-24 text-center border-0 outline-none py-2 text-lg font-semibold remove-arrow"
+                            className="bg-transparent form-control w-24 text-center border-0 outline-none py-2 text-lg font-semibold remove-arrow"
                             value={qty}
                             ref={inputRef}
                             onChange={(e) => handleInputChange(e)}
@@ -320,34 +326,64 @@ const AddCartBtn = ({
                     </div>
                 </div>
             )}
-            <div className="">
-                {productQuantity === 0 ? (
-                    <button className={buttonOne}>Out of Stock</button>
-                ) : (
-                    <>
-                        {isEmpty && (
-                            <div onClick={onClick} className={buttonOne}>
-                                {children ? children : 'Add to cart'}
-                            </div>
-                        )}
-                        {button && (
-                            <button
-                                className={classNames(buttonOne, 'c_button')}
-                                onClick={
-                                    numberParser(is_buy_now_cart) == 1
-                                        ? buy_now
-                                        : onClick
-                                }
-                            >
+
+            {productQuantity === 0 ? (
+                <button className={buttonOne}>Out of Stock</button>
+            ) : (
+                <>
+                    {isEmpty && (
+                        <button
+                            onClick={onClick}
+                            className={classNames(
+                                buttonOne
+                                    ? buttonOne
+                                    : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`,
+                                'c_button1'
+                            )}
+                        >
+                            <p className="center gap-2">
+                                <IoMdCart />
+                                {children ?? 'Add to cart'}
+                            </p>
+                        </button>
+                    )}
+                    {button && (
+                        <button
+                            className={classNames(
+                                buttonOne
+                                    ? buttonOne
+                                    : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`,
+                                'c_button1'
+                            )}
+                            onClick={
+                                numberParser(is_buy_now_cart) == 1
+                                    ? buy_now
+                                    : onClick
+                            }
+                        >
+                            <p className="center gap-2">
+                                <IoMdCart />
                                 {button}
-                            </button>
-                        )}
-                    </>
-                )}
-            </div>
+                            </p>
+                        </button>
+                    )}
+                </>
+            )}
+
             {isEmpty && (
-                <div onClick={buy_now} className={buttonOne}>
-                    {'ORDER NOW'}
+                <div
+                    onClick={buy_now}
+                    className={classNames(
+                        buttonOne
+                            ? buttonOne
+                            : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`,
+                        'c_button1'
+                    )}
+                >
+                    <p className="center gap-2">
+                        <IoMdCart />
+                        {'ORDER NOW'}
+                    </p>
                 </div>
             )}
             {button1 && (
@@ -363,7 +399,10 @@ const AddCartBtn = ({
                         'c_button1'
                     )}
                 >
-                    {button1}
+                    <p className="center gap-2">
+                        <IoMdCart />
+                        {button1}
+                    </p>
                 </button>
             )}
         </div>

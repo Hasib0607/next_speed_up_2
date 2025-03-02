@@ -1,22 +1,22 @@
 'use client';
 
+import { cancelIcon, gridIcon, searchIcon } from '@/assets/svg';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import Search3 from '@/components/headers/components/search3';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { RootState } from '@/redux/store';
+import { iconImg } from '@/site-settings/siteUrl';
+import { MobileNavProps } from '@/types';
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import {
     HomeIcon,
     ShoppingCartIcon,
     UserIcon,
 } from '@heroicons/react/24/solid';
-import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { iconImg } from '@/site-settings/siteUrl';
-import { MobileNavProps } from '@/types';
-import { RootState } from '@/redux/store';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { cancelIcon, gridIcon, searchIcon } from '@/assets/svg';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import Search3 from '@/components/headers/components/search3';
 
 const MobileNavFour = ({ design }: MobileNavProps) => {
     const [open, setOpen] = useState(false);
@@ -101,7 +101,11 @@ const MobileNavFour = ({ design }: MobileNavProps) => {
                             </div>
                         )}
                     </div>
-                    <CartSideBar open={openCart} setOpen={setOpenCart} design={design}/>
+                    <CartSideBar
+                        open={openCart}
+                        setOpen={setOpenCart}
+                        design={design}
+                    />
                 </div>
                 <Link href="/profile" passHref>
                     <div

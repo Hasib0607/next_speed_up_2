@@ -110,7 +110,7 @@ const FeatureProductTwentyOne = ({
                     {feature_product?.length > 0 &&
                         feature_product?.slice(0, 10)?.map((item: any) => (
                             <SwiperSlide key={item.id}>
-                                <Card45 item={item} />
+                                <Card45 item={item} type={'feature_product'} />
                             </SwiperSlide>
                         ))}
                 </DefaultSlider>

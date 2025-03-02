@@ -42,7 +42,7 @@ const DetailsEighteen = ({
     description,
     zoomable,
     sku,
-    rate
+    rate,
 }: any) => {
     const { headersetting } = useSelector((state: RootState) => state.home);
 
@@ -257,14 +257,14 @@ const DetailsEighteen = ({
                     </div>
                 </div>
                 <div className="lg:col-span-4 space-y-8 font-seven">
-                    {sku && 
-                    <p className="text-sm text-[#5a5a5a] font-seven">
-                        <span className="font-semibold text-[#212121] font-seven">
-                            SKU:
-                        </span>{' '}
-                        {product?.SKU}
-                    </p>
-                    }
+                    {sku && (
+                        <p className="text-sm text-[#5a5a5a] font-seven">
+                            <span className="font-semibold text-[#212121] font-seven">
+                                SKU:
+                            </span>{' '}
+                            {product?.SKU}
+                        </p>
+                    )}
                     <h1 className="text-2xl text-[#212121] font-bold mb-3">
                         {product?.name}
                     </h1>
@@ -275,15 +275,17 @@ const DetailsEighteen = ({
                         {save > 0 && (
                             <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                 <BDT />
-                                {variantId !== null ? price + save : numberParser(product?.regular_price)}
+                                {variantId !== null
+                                    ? price + save
+                                    : numberParser(product?.regular_price)}
                             </span>
                         )}{' '}
                     </div>
-                    {rate && 
-                    <div>
-                        <Rate rating={parsedRating} />
-                    </div>
-                    }
+                    {rate && (
+                        <div>
+                            <Rate rating={parsedRating} />
+                        </div>
+                    )}
                     <div className="h-[1px] bg-gray-300 w-full"></div>
 
                     {/* color and size  */}
@@ -369,10 +371,10 @@ const DetailsEighteen = ({
                         <div className="">Availability:</div>
                         <div className="text-[#212121] ">
                             {productQuantity !== 0 ? (
-                                <p>
+                                <p className='space-x-2'>
                                     <span className="font-medium">
                                         {productQuantity}
-                                    </span>{' '}
+                                    </span>
                                     <span className="text-green-500">
                                         In Stock!
                                     </span>

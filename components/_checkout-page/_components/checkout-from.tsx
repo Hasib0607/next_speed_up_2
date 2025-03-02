@@ -159,6 +159,7 @@ const CheckoutFrom = ({
     const schemaResolver = generateDynamicSchema(fields);
 
     // ex: { name: '', phone: '', address: '',note: '',district: '', };
+    
 
     const defaultValues = edit
         ? { ...editItem, district: editItem?.district_id }

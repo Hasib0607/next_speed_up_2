@@ -269,7 +269,7 @@ background: white;
                 >
                     {product?.slice(0, 10)?.map((productData: any) => (
                         <SwiperSlide key={productData.id}>
-                            <Card45 item={productData} />
+                            <Card45 item={productData} type={'single_product_page'} />
                         </SwiperSlide>
                     ))}
                 </DefaultSlider>

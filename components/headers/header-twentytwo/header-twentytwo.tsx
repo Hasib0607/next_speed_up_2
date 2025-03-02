@@ -1,24 +1,24 @@
 'use client';
 
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import { REDUX_PERSIST } from '@/consts';
+import { classNames } from '@/helpers/littleSpicy';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
+import useAuth from '@/hooks/useAuth';
+import { useLogOutMutation } from '@/redux/features/auth/authApi';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { RootState } from '@/redux/store';
+import { imgUrl } from '@/site-settings/siteUrl';
+import { Menu, Transition } from '@headlessui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { FiUser } from 'react-icons/fi';
 import { GiShoppingBag } from 'react-icons/gi';
-import { Menu, Transition } from '@headlessui/react';
-import { imgUrl } from '@/site-settings/siteUrl';
 import { RiCloseCircleLine, RiMenu2Line } from 'react-icons/ri';
-import Search3 from '../components/search3';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { classNames } from '@/helpers/littleSpicy';
-import { useRouter } from 'next/navigation';
-import useAuth from '@/hooks/useAuth';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { REDUX_PERSIST } from '@/consts';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import Search3 from '../components/search3';
 
 const HeaderTwentyTwo = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
@@ -172,7 +172,7 @@ const HeaderTwentyTwo = ({ headersetting, design, menu }: any) => {
                         {searchTxt && (
                             <div className="left-0 sm:ml-[7%] w-full sm:w-[80%] md:w-[80%] lg:w-[83%] absolute top-32">
                                 <Search3
-                                design={design}
+                                    design={design}
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />

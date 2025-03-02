@@ -2,21 +2,21 @@
 
 import { imgUrl } from '@/site-settings/siteUrl';
 
-import Link from 'next/link';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { RiCloseCircleLine, RiMenu3Fill } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
 
-import BDT from '@/utils/bdt';
-import SideMenu from '../components/side-menu';
-import Search3 from '../components/search3';
-import SideCategory from '../components/side-category';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { RootState } from '@/redux/store';
 import { subTotal } from '@/utils/_cart-utils/cart-utils';
+import BDT from '@/utils/bdt';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import Search3 from '../components/search3';
+import SideCategory from '../components/side-category';
+import SideMenu from '../components/side-menu';
 
 const HeaderMenu = ({ headersetting, menu, design }: any) => {
     const [searchInput, setSearchInput] = useState(false);

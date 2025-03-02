@@ -1,27 +1,29 @@
 'use client';
 
-import React, { useState } from 'react';
-import { BsSearch } from 'react-icons/bs';
-import { BiLogOut } from 'react-icons/bi';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import { BiLogOut } from 'react-icons/bi';
+import { BsSearch } from 'react-icons/bs';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
-import { MdOutlineManageAccounts } from 'react-icons/md';
-import { MdOutlineAccountCircle } from 'react-icons/md';
+import {
+    MdOutlineAccountCircle,
+    MdOutlineManageAccounts,
+} from 'react-icons/md';
 import { RiAccountPinCircleFill } from 'react-icons/ri';
+import { useSelector } from 'react-redux';
 
-import Link from 'next/link';
 import useAuth from '@/hooks/useAuth';
-import Search3 from '../components/search3';
-import { useRouter } from 'next/navigation';
-import { imgUrl } from '@/site-settings/siteUrl';
 import { headerBg } from '@/site-settings/color';
+import { imgUrl } from '@/site-settings/siteUrl';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Search3 from '../components/search3';
 
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { REDUX_PERSIST } from '@/consts';
-import { RootState } from '@/redux/store';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import { useLogOutMutation } from '@/redux/features/auth/authApi';
+import { RootState } from '@/redux/store';
 
 const HeaderElevenHeaderMenu = ({ headersetting, design }: any) => {
     const router = useRouter();
@@ -96,7 +98,11 @@ const HeaderElevenHeaderMenu = ({ headersetting, design }: any) => {
                     </div>
                     {searchTxt && (
                         <div className="relative -top-10">
-                            <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
+                            <Search3
+                                search={searchTxt}
+                                setSearch={setSearch}
+                                design={design}
+                            />
                         </div>
                     )}
                 </div>

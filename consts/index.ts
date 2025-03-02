@@ -1,3 +1,4 @@
+// numbers
 export const DEFAULT = 'default';
 export const ONE = 'one';
 export const TWO = 'two';
@@ -42,6 +43,10 @@ export const FORTY = 'forty';
 export const FORTY_ONE = 'fortyone';
 export const FORTY_TWO = 'fortytwo';
 
+// dynamic colors
+export const HeaderColor = 'var(--header-color)';
+export const TextColor = 'var(--text-color)';
+
 // regex
 export const HTML_TAG_PATTERN = /<[^>]*>/g;
 export const GMAP_IFRAME_SRC_LINK = /src="([^"]+)"/;
@@ -68,9 +73,9 @@ let urlName;
 
 // urlName = 'nexmanbd.com';
 // urlName = "texturetwist.shop";
-// urlName = "2ndpagebooks.com";
-urlName = "shr.localhost:3000";
-// urlName = "qutobd.com";
+// urlName = "swifttrading.store";
+urlName = 'ezara.shop';
+// urlName = "shr.localhost:3000";
 
 if (process.env.NODE_ENV === 'production') {
     urlName = url();

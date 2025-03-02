@@ -1,5 +1,10 @@
 'use client';
 
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import {
+    useGetCategoryQuery,
+    useGetSubCategoryQuery,
+} from '@/redux/features/category/categoryApi';
 import Link from 'next/link';
 import { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -9,11 +14,6 @@ import { HiMenu } from 'react-icons/hi';
 import { IoIosArrowForward } from 'react-icons/io';
 import { RiArrowDownSLine } from 'react-icons/ri';
 import Search3 from '../components/search3';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import {
-    useGetCategoryQuery,
-    useGetSubCategoryQuery,
-} from '@/redux/features/category/categoryApi';
 
 const HeaderCatTwelve = ({ design }: any) => {
     const [openCat, setOpenCat] = useState(false);
@@ -46,10 +46,10 @@ const HeaderCatTwelve = ({ design }: any) => {
         <div className="sm:container px-5 flex flex-row gap-6 items-center justify-between ">
             {/* CartSideBar open  */}
             <CartSideBar
-                    open={openCart}
-                    setOpen={setOpenCart}
-                    design={design}
-                />
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             {searchTxt && (
                 <div
                     onClick={() => {
@@ -182,7 +182,11 @@ const HeaderCatTwelve = ({ design }: any) => {
 
                     {searchTxt && (
                         <div className="relative -top-10">
-                            <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
+                            <Search3
+                                search={searchTxt}
+                                setSearch={setSearch}
+                                design={design}
+                            />
                         </div>
                     )}
                 </div>

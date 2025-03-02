@@ -1,11 +1,11 @@
 'use client';
 
-import Link from 'next/link';
-import { Fragment, useEffect, useState } from 'react';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { Fragment, useEffect, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { CgMenuLeft, CgShoppingBag } from 'react-icons/cg';
 import Search from '../components/search';
@@ -19,8 +19,8 @@ import { useRouter } from 'next/navigation';
 
 import { classNames } from '@/helpers/littleSpicy';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
 const HeaderSeven = ({ design, headersetting, menu }: any) => {
     const router = useRouter();
@@ -99,7 +99,7 @@ const HeaderSeven = ({ design, headersetting, menu }: any) => {
                 <style>{styleCss}</style>
                 <div className="flex flex-row justify-between items-center nav-menu sm:container px-5 lg:py-0 py-1">
                     <Search
-                    design={design}
+                        design={design}
                         searchInput={searchInput}
                         setSearchInput={setSearchInput}
                         screen

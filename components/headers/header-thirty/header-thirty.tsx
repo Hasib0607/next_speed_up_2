@@ -17,16 +17,16 @@ import Link from 'next/link';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
 
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 
 const HeaderThirty = ({ headersetting, design, menu }: any) => {

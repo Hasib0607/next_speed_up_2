@@ -1,9 +1,16 @@
 'use client';
 
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import { REDUX_PERSIST } from '@/consts';
+import { classNames } from '@/helpers/littleSpicy';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
+import useAuth from '@/hooks/useAuth';
+import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { ArrowLeftIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
 import { AiFillLinkedin } from 'react-icons/ai';
 import { CgShoppingBag } from 'react-icons/cg';
@@ -13,13 +20,6 @@ import { HiMenu } from 'react-icons/hi';
 import { IoLogoWhatsapp } from 'react-icons/io5';
 import SideMenu from '../components/side-menu';
 import './header-six.css';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { useRouter } from 'next/navigation';
-import useAuth from '@/hooks/useAuth';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { REDUX_PERSIST } from '@/consts';
-import { classNames } from '@/helpers/littleSpicy';
 
 const HeaderSixMenu = ({ menu, design, headersetting }: any) => {
     const router = useRouter();
@@ -284,7 +284,7 @@ const HeaderSixMenu = ({ menu, design, headersetting }: any) => {
                                     <GrYoutube className="text-lg " />
                                 </a>
                             )}
-                            
+
                             {headersetting?.lined_in_link && (
                                 <a
                                     href={headersetting?.lined_in_link}

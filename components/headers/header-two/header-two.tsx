@@ -1,6 +1,6 @@
 'use client';
 
-import { imgUrl, profileImg } from '@/site-settings/siteUrl';
+import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Fragment, useState } from 'react';
@@ -11,23 +11,22 @@ import { CgShoppingBag } from 'react-icons/cg';
 import { FaUser } from 'react-icons/fa';
 import { HiMenu } from 'react-icons/hi';
 
-import defaultUserImage from '@/assets/default-user-image.png';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { useRouter } from 'next/navigation';
-import Search from '../components/search';
-import SideCategory from './side-category';
-import SideMenu from './side-menu';
 import {
     useGetCategoryQuery,
     useGetSubCategoryQuery,
 } from '@/redux/features/category/categoryApi';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import Search from '../components/search';
+import SideCategory from './side-category';
+import SideMenu from './side-menu';
 
 const HeaderTwo = ({ headersetting, design, menu }: any) => {
     const router = useRouter();

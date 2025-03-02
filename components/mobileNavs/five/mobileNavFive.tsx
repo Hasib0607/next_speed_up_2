@@ -5,20 +5,20 @@ import {
     ShoppingCartIcon,
     UserIcon,
 } from '@heroicons/react/24/solid';
-import React, { useState } from 'react';
 import Link from 'next/link';
+import React, { useState } from 'react';
 
-import { motion, AnimatePresence } from 'framer-motion';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 
+import { cancelIcon, gridIcon, searchIcon } from '@/assets/svg';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import Search3 from '@/components/headers/components/search3';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { RootState } from '@/redux/store';
 import { iconImg } from '@/site-settings/siteUrl';
 import { MobileNavProps } from '@/types';
-import { RootState } from '@/redux/store';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import Search3 from '@/components/headers/components/search3';
-import { cancelIcon, gridIcon, searchIcon } from '@/assets/svg';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 
 const MobileNavFive = ({ design }: MobileNavProps) => {
     const [searchshow, setSearchshow] = useState(false);
@@ -93,7 +93,11 @@ const MobileNavFive = ({ design }: MobileNavProps) => {
                             <p className="text-sm">{cartList.length}</p>
                         </div>
                     )}
-                    <CartSideBar open={openCart} setOpen={setOpenCart} design={design}/>
+                    <CartSideBar
+                        open={openCart}
+                        setOpen={setOpenCart}
+                        design={design}
+                    />
                 </div>
                 <Link
                     onClick={() => setOpen(false)}
@@ -133,7 +137,9 @@ const MobileNavFive = ({ design }: MobileNavProps) => {
                 </ul>
             </div>
             <AnimatePresence>
-                {searchshow && <SearchDiv setSearchshow={setSearchshow} design={design}/>}
+                {searchshow && (
+                    <SearchDiv setSearchshow={setSearchshow} design={design} />
+                )}
             </AnimatePresence>
         </>
     );
@@ -143,10 +149,13 @@ export default MobileNavFive;
 
 interface SearchDivProps {
     setSearchshow: (show: boolean) => void; // Type the function appropriately
-    design:any
+    design: any;
 }
 
-export const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow,design }) => {
+export const SearchDiv: React.FC<SearchDivProps> = ({
+    setSearchshow,
+    design,
+}) => {
     const [searchTxt, setSearch] = useState('');
 
     return (
@@ -185,7 +194,11 @@ export const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow,design }) =>
                 </div>
                 {searchTxt && (
                     <div className="mx-5">
-                        <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
+                        <Search3
+                            search={searchTxt}
+                            setSearch={setSearch}
+                            design={design}
+                        />
                     </div>
                 )}
             </motion.nav>

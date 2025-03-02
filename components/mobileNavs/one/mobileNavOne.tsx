@@ -1,22 +1,22 @@
 'use client';
 
+import { cancelIcon, gridOutlineIcon, searchIcon } from '@/assets/svg';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import Search3 from '@/components/headers/components/search3';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { RootState } from '@/redux/store';
+import { iconImg } from '@/site-settings/siteUrl';
+import { MobileNavProps } from '@/types';
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import {
     HomeIcon,
     ShoppingCartIcon,
     UserIcon,
 } from '@heroicons/react/24/solid';
-import React, { useState, FC } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import React, { FC, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { iconImg } from '@/site-settings/siteUrl';
-import { RootState } from '@/redux/store';
-import { cancelIcon, gridOutlineIcon, searchIcon } from '@/assets/svg';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import Search3 from '@/components/headers/components/search3';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { MobileNavProps } from '@/types';
 
 const MobileNavOne = ({ design }: MobileNavProps) => {
     const [active, setActive] = useState('home');
@@ -143,7 +143,11 @@ const MobileNavOne = ({ design }: MobileNavProps) => {
                             </div>
                         )}
                     </div>
-                    <CartSideBar open={openCart} setOpen={setOpenCart} design={design}/>
+                    <CartSideBar
+                        open={openCart}
+                        setOpen={setOpenCart}
+                        design={design}
+                    />
                 </div>
 
                 <Link
@@ -192,7 +196,9 @@ const MobileNavOne = ({ design }: MobileNavProps) => {
             </div>
 
             <AnimatePresence>
-                {searchshow && <SearchDiv setSearchshow={setSearchshow} design={design}/>}
+                {searchshow && (
+                    <SearchDiv setSearchshow={setSearchshow} design={design} />
+                )}
             </AnimatePresence>
         </>
     );
@@ -202,10 +208,10 @@ export default MobileNavOne;
 
 interface SearchDivProps {
     setSearchshow: React.Dispatch<React.SetStateAction<boolean>>;
-    design:any;
+    design: any;
 }
 
-const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow,design }) => {
+const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow, design }) => {
     const [searchTxt, setSearch] = useState('');
 
     return (
@@ -242,7 +248,11 @@ const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow,design }) => {
                 </div>
                 {searchTxt && (
                     <div className="absolute z-20 top-4 xl:right-0 -right-24 w-full rounded-md">
-                        <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
+                        <Search3
+                            search={searchTxt}
+                            setSearch={setSearch}
+                            design={design}
+                        />
                     </div>
                 )}
             </motion.div>

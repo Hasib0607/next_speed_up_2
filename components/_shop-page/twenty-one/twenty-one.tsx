@@ -251,7 +251,10 @@ const ShopProductSection = ({
                                             ease: 'linear',
                                         }}
                                     >
-                                        <Card45 item={item} />
+                                        <Card45
+                                            item={item}
+                                            type={'single_product_page'}
+                                        />
                                     </motion.div>
                                 ))}
                             </div>
@@ -293,7 +296,10 @@ const ShopProductSection = ({
                                         ease: 'linear',
                                     }}
                                 >
-                                    <Card45 item={item} />
+                                    <Card45
+                                        item={item}
+                                        type={'single_product_page'}
+                                    />
                                 </motion.div>
                             ))}
                         </div>

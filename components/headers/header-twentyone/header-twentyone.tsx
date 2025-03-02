@@ -1,9 +1,22 @@
 'use client';
 
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import { REDUX_PERSIST } from '@/consts';
+import { classNames } from '@/helpers/littleSpicy';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
+import { numberParser } from '@/helpers/numberParser';
+import useAuth from '@/hooks/useAuth';
+import { useLogOutMutation } from '@/redux/features/auth/authApi';
+import {
+    useGetCategoryQuery,
+    useGetSubCategoryQuery,
+} from '@/redux/features/category/categoryApi';
+import { RootState } from '@/redux/store';
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 import { AiFillLinkedin, AiOutlineClose } from 'react-icons/ai';
 import { BiBarChart } from 'react-icons/bi';
@@ -21,22 +34,9 @@ import {
 } from 'react-icons/io';
 import { RiArrowDownSLine } from 'react-icons/ri';
 import { SiGmail } from 'react-icons/si';
-import SideMenu from '../components/side-menu';
-import Search3 from '../components/search3';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { useRouter } from 'next/navigation';
-import useAuth from '@/hooks/useAuth';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { REDUX_PERSIST } from '@/consts';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { classNames } from '@/helpers/littleSpicy';
-import {
-    useGetCategoryQuery,
-    useGetSubCategoryQuery,
-} from '@/redux/features/category/categoryApi';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { numberParser } from '@/helpers/numberParser';
+import Search3 from '../components/search3';
+import SideMenu from '../components/side-menu';
 
 const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
@@ -459,7 +459,6 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                             className="flex flex-col justify-center items-center relative lg:cursor-pointer"
                         >
                             <GiShoppingCart className="text-3xl font-thin" />
-                            
                         </div>
                         <div className="ml-2 lg:block hidden">
                             <p className={`text-sm`}>My Cart</p>
