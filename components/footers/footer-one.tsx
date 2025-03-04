@@ -196,24 +196,28 @@ const FooterOne = ({
             </div>
             <div className="bg-gray-100 mb-14 lg:mb-0">
                 <div className="sm:container px-5 py-4 flex flex-wrap justify-center">
-                    <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm">
-                        © {date} All Rights Received{' '}
+                    <p className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm">
+                        <span>
+                        © {date} All Rights Received
+                        </span>
                         <Link
                             href="/"
                             className="font-semibold text-red-700 menu-hover"
                         >
                             {headersetting?.website_name}
-                        </Link>{' '}
-                        | Developed by{' '}
-                        <a
+                        </Link>
+                        <span>
+                        | Developed by
+                        </span>
+                        <Link
                             href="https://ebitans.com/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="font-semibold text-red-700 menu-hover"
                         >
                             eBitans
-                        </a>
-                    </span>
+                        </Link>
+                    </p>
                 </div>
             </div>
             {/* <Messenger /> */}

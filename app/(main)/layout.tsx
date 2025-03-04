@@ -23,8 +23,8 @@ export default async function RootLayout({
             <Announcement design={design} />
             <Header />
             {children}
-            <CartPopUp design={design} />
             <MobileBottomMenu />
+            <CartPopUp design={design} />
             <Footer design={design} headersetting={headersetting} menu={menu} />
         </>
     );

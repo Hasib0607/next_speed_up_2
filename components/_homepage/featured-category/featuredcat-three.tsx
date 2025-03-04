@@ -5,7 +5,7 @@ import Card24 from '@/components/card/card24';
 import SliderEleven from '@/components/slider/slider-eleven';
 import { SwiperSlide } from 'swiper/react';
 
-const FeaturedThree = ({ product, category, design }: any) => {
+const FeaturedThree = ({ product, category, design,headersetting }: any) => {
     const prev1 = 'category_Prev1';
     const next1 = 'category_Next1';
 
@@ -14,6 +14,7 @@ const FeaturedThree = ({ product, category, design }: any) => {
 
     const prev3 = 'category_Prev3';
     const next3 = 'category_Next3';
+
     const customDesign = `
     .footerFiveBorderCustom {
         margin: 0;
@@ -26,7 +27,6 @@ const FeaturedThree = ({ product, category, design }: any) => {
         position: absolute;
         background: linear-gradient(to right, ${design?.header_color} 60px, rgb(235, 235, 235) 10px) !important;
         height: 2px;
-
         content: '';
         bottom: 0;
         right: 0;

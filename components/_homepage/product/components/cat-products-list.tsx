@@ -36,27 +36,21 @@ const CatProductsList = ({
         );
     }
 
-    return (
+    return categoryProducts?.length > 0 ? (
         <div
             className={
                 className ??
                 'grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg2:grid-cols-4 xl:grid-cols-5 xl3:grid-cols-6 gap-2 sm:gap-5'
             }
         >
-            {categoryProducts?.length > 0
-                ? categoryProducts
-                      ?.slice(0, count)
-                      ?.map((productData: Product) => (
-                          <div key={productData.id}>
-                              <Cards
-                                  item={productData}
-                                  card={card}
-                                  btnType={btnType}
-                              />
-                          </div>
-                      ))
-                : children}
+            {categoryProducts?.slice(0, count)?.map((productData: Product) => (
+                <div key={productData.id}>
+                    <Cards item={productData} card={card} btnType={btnType} />
+                </div>
+            ))}
         </div>
+    ) : (
+        children
     );
 };
 

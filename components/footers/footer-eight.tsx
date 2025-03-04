@@ -191,23 +191,23 @@ const FooterEight = ({
                         )}
                     </div>
                     <div className="">
-                        <p className="">
-                            © {date} All Rights Received{' '}
+                        <p className="space-x-2">
+                            © {date} All Rights Received
                             <Link
                                 href="/"
                                 className="font-semibold text-red-700 menu-hover"
                             >
                                 {headersetting?.website_name}
-                            </Link>{' '}
-                            | Developed by{' '}
-                            <a
+                            </Link>
+                            | Developed by
+                            <Link
                                 href="https://ebitans.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="font-semibold text-red-700 menu-hover"
                             >
                                 eBitans
-                            </a>
+                            </Link>
                         </p>
                     </div>
                 </div>

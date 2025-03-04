@@ -101,7 +101,7 @@ export default async function RootLayout({
                     } as React.CSSProperties
                 }
             >
-                  {/* {gtmId && (
+                {/* {gtmId && (
                     <noscript>
                         <iframe
                             src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}

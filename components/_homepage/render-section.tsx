@@ -1,6 +1,7 @@
 import Skeleton from '@/components/loaders/TextSkeleton';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
+import BlogSection from './blog/blog-section';
 
 const Hero = dynamic(() => import('@/components/Hero'));
 const FeaturedCategory = dynamic(() => import('@/components/FeaturedCategory'));
@@ -86,9 +87,9 @@ const RenderSection = ({
         case 'testimonial':
             return (
                 <>
-                    {/* <Suspense fallback={<p>Loading blog...</p>}>
-                                        <BlogSection />
-                                    </Suspense> */}
+                    <Suspense fallback={<p>Loading blog...</p>}>
+                        <BlogSection design={design} />
+                    </Suspense>
                     <Testimonial design={design} />
                 </>
             );
