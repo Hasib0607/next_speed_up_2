@@ -60,8 +60,14 @@ const AddCartBtn = ({
         is_buy_now_cart1,
     } = customDesignData || {};
 
-    const isEmpty = Object.keys(customDesignData).length === 0;
-
+    const isEmpty = useMemo(
+        () => Object.keys(customDesignData).length === 0,
+        [customDesignData]
+    );
+    const hasImages = useMemo(
+        () => variant?.some((item: any) => item?.image),
+        [variant]
+    );
     const isDisabled = useMemo(
         () => isEqlQty(product, variantId, cartList),
         [product, variantId, cartList]
@@ -108,9 +114,12 @@ const AddCartBtn = ({
                     });
                     return;
                 } else if (size === null) {
-                    toast.warning('Please Select Size', {
-                        toastId: product?.id,
-                    });
+                    toast.warning(
+                        `Please Select ${hasImages ? 'Pattern' : 'Size'}`,
+                        {
+                            toastId: product?.id,
+                        }
+                    );
                     return;
                 }
                 // Proceed with quantity addition checks
@@ -164,6 +173,7 @@ const AddCartBtn = ({
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = numberParser(e.target.value) || 1;
+
         const isAbleQtyChange = isQtyLeft(
             product,
             variantId,
@@ -181,9 +191,12 @@ const AddCartBtn = ({
                     });
                     return;
                 } else if (size === null) {
-                    toast.warning('Please Select Size', {
-                        toastId: size,
-                    });
+                    toast.warning(
+                        `Please Select ${hasImages ? 'Pattern' : 'Size'}`,
+                        {
+                            toastId: product?.id,
+                        }
+                    );
                     return;
                 }
                 // Proceed with quantity addition checks

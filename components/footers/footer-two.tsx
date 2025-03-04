@@ -31,22 +31,22 @@ const FooterTwo = ({ menu, headersetting, store_id }: any) => {
                     ))}
                 </div>
                 <p className="text-center pt-5 lg:pb-5 pb-20">
-                    © {date} All Rights Received{' '}
+                    <span>© {date} All Rights Received </span>
                     <Link
                         href="/"
                         className="font-semibold text-red-700 menu-hover"
                     >
                         {headersetting?.website_name}
                     </Link>{' '}
-                    | Developed by{' '}
-                    <a
+                    <span>| Developed by </span>
+                    <Link
                         href="https://ebitans.com/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-semibold text-red-700 menu-hover"
                     >
                         eBitans
-                    </a>
+                    </Link>
                 </p>
             </div>
 

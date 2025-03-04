@@ -7,15 +7,15 @@ const ProductTwentySeven = ({ category, design, headersetting }: any) => {
     const [id, setId] = useState(category[0]?.id);
 
     const { custom_design } = headersetting || {};
-    const sectionHeadingData = custom_design?.product?.[0] || {};
-    const { title = 'Default Title', title_color = '#000' } =
-        sectionHeadingData || {};
+    const cProduct = custom_design?.product?.[0] || {};
+    const { title = "What's trending now", title_color = '#000' } =
+        cProduct || {};
 
     const styleCss = `
-    .active-cat {
-        color:  ${design?.text_color};
-        background: ${design?.header_color};
-    }
+        .active-cat {
+            color:  ${design?.text_color};
+            background: ${design?.header_color};
+        }
     `;
 
     return (

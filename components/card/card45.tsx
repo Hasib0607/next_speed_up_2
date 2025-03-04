@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useState } from 'react';
 import {
+    getCssVariableHex,
     howMuchSave,
     isAvailable,
     productCurrentPrice,
@@ -82,9 +83,9 @@ const Card45 = ({ item, type = '' }: any) => {
         is_buy_now_cart,
         is_buy_now_cart1,
     } = customDesignData || {};
-    
-    const isEmpty = Object.keys(customDesignData).length === 0;
 
+    const isEmpty = Object.keys(customDesignData).length === 0;
+    const bgColor = getCssVariableHex('--header-color');
     const styleCss = `
     .searchHover:hover {
         color:  ${TextColor};
@@ -184,9 +185,9 @@ const Card45 = ({ item, type = '' }: any) => {
                 </Link>
 
                 <div className="flex flex-col gap-2 px-4 py-3 lg:group-hover:pb-[40px] duration-1000 w-full">
-                    <div className="flex gap-x-1 pt-2">
+                    <div className="flex items-baseline gap-x-1 pt-2">
                         <div>
-                            <Rate rating={parsedRating} />
+                            <Rate rating={parsedRating} rate_color={bgColor} />
                         </div>
                         <div className="text-gray-500 sm:text-sm text-xs">
                             ({parsedNumberRating})
@@ -202,7 +203,7 @@ const Card45 = ({ item, type = '' }: any) => {
                     </div>
 
                     <div className="text-gray-600 font-semibold flex items-center gap-2 w-full group-hover:opacity-0 duration-500">
-                        <div className="text-base font-semibold">
+                        <div className="text-base font-semibold text-[var(--header-color)]">
                             <BDT />
                             {price}
                         </div>
@@ -231,38 +232,41 @@ const Card45 = ({ item, type = '' }: any) => {
                                 onClick={add_cart_item}
                                 className="font-medium w-full text-center cart-btn border-transparent rounded-lg lg:cursor-pointer text-xs lg:py-2 pb-2 lg:absolute lg:group-hover:bottom-1 lg:bottom-10 lg:opacity-0 lg:group-hover:opacity-100 duration-500 z-[1] px-4"
                             >
-                                    {'Add to Cart'}
+                                {'Add to Cart'}
                             </div>
                         )}
                         {(button || button1) && (
-                            <div  className='flex flex-col gap-4'>
+                            <div className="flex flex-col gap-4">
                                 <div>
-                                {button && (
-                                    <div
-                                        onClick={
-                                            numberParser(is_buy_now_cart) == 1
-                                                ? buy_now
-                                                : add_cart_item
-                                        }
-                                        className="font-medium w-full text-center c58_btn border-transparent rounded-lg lg:cursor-pointer text-xs lg:py-2 pb-2 lg:absolute lg:group-hover:bottom-1 lg:bottom-10 lg:opacity-0 lg:group-hover:opacity-100 duration-500 z-[1] px-4"
-                                    >
+                                    {button && (
+                                        <div
+                                            onClick={
+                                                numberParser(is_buy_now_cart) ==
+                                                1
+                                                    ? buy_now
+                                                    : add_cart_item
+                                            }
+                                            className="font-medium w-full text-center c58_btn border-transparent rounded-lg lg:cursor-pointer text-xs lg:py-2 pb-2 lg:absolute lg:group-hover:bottom-1 lg:bottom-10 lg:opacity-0 lg:group-hover:opacity-100 duration-500 z-[1] px-4"
+                                        >
                                             {button}
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
                                 </div>
                                 <div>
-                                {button1 && (
-                                    <div
-                                        onClick={
-                                            numberParser(is_buy_now_cart1) == 1
-                                                ? buy_now
-                                                : add_cart_item
-                                        }
-                                        className="font-medium w-full text-center c58_btn rounded-lg lg:cursor-pointer text-xs lg:py-2 pb-2 lg:absolute lg:group-hover:bottom-12 lg:bottom-20 lg:opacity-0 lg:group-hover:opacity-100 duration-500 z-[1] px-4"
-                                    >
+                                    {button1 && (
+                                        <div
+                                            onClick={
+                                                numberParser(
+                                                    is_buy_now_cart1
+                                                ) == 1
+                                                    ? buy_now
+                                                    : add_cart_item
+                                            }
+                                            className="font-medium w-full text-center c58_btn rounded-lg lg:cursor-pointer text-xs lg:py-2 pb-2 lg:absolute lg:group-hover:bottom-12 lg:bottom-20 lg:opacity-0 lg:group-hover:opacity-100 duration-500 z-[1] px-4"
+                                        >
                                             {button1}
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         )}

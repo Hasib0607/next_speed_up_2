@@ -208,24 +208,24 @@ const FooterSix = ({
                 </div>
             </div>
             <hr />
-            <p className="sm:container px-5 pt-3 pb-20 lg:pb-3 text-[13px] font-light text-[#333333]">
-                © {date} All Rights Received{' '}
-                <Link
-                    href="/"
-                    className="font-semibold text-red-700 menu-hover"
-                >
-                    {headersetting?.website_name}
-                </Link>{' '}
-                | Developed by{' '}
-                <a
-                    href="https://ebitans.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-semibold text-red-700 menu-hover"
-                >
-                    eBitans
-                </a>
-            </p>
+            <p className="sm:container px-5 pt-3 pb-20 lg:pb-3 text-[13px] font-light text-[#333333] space-x-2">
+                    <p>© {date} All Rights Received</p>
+                    <Link
+                        href="/"
+                        className="font-semibold text-red-700 menu-hover"
+                    >
+                        {headersetting?.website_name}
+                    </Link>
+                    <p>| Developed by</p>
+                    <Link
+                        href="https://ebitans.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-red-700 menu-hover"
+                    >
+                        eBitans
+                    </Link>
+                </p>
             {/* <Messenger /> */}
             <WhatsApp headersetting={headersetting} />
         </div>

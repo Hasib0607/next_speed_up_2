@@ -199,23 +199,23 @@ const FooterSeven = ({
                     </div>
                 </div>
                 <hr />
-                <p className="container px-5 py-5 text-sm text-gray-600 ">
-                    © {date} All Rights Received{' '}
+                <p className="container px-5 py-5 text-sm text-gray-600 space-x-2">
+                    <span>© {date} All Rights Received</span>
                     <Link
                         href="/"
                         className="font-semibold text-red-700 menu-hover"
                     >
                         {headersetting?.website_name}
-                    </Link>{' '}
-                    | Developed by{' '}
-                    <a
+                    </Link>
+                    <span>| Developed by</span>
+                    <Link
                         href="https://ebitans.com/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-semibold text-red-700 menu-hover"
                     >
                         eBitans
-                    </a>
+                    </Link>
                 </p>
                 {/* <Messenger /> */}
                 <WhatsApp headersetting={headersetting} />

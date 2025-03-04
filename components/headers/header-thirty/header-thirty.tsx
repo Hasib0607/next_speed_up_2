@@ -250,7 +250,7 @@ const HeaderThirty = ({ headersetting, design, menu }: any) => {
                     </div>
                     <div className="flex items-center gap-x-5">
                         <div
-                            onClick={() => setOpenCat(!openCat)}
+                            onClick={() => setOpenCart(!openCart)}
                             className="flex flex-col justify-center items-center relative lg:cursor-pointer"
                         >
                             <RiShoppingBagLine className="text-2xl" />

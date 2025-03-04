@@ -2,6 +2,12 @@ import { HTML_TAG_PATTERN } from '@/consts';
 import { numberParser } from './numberParser';
 import { getPrice } from './getPrice';
 
+// varivable value converter
+export const getCssVariableHex = (variable: string) => {
+    const body = document.body; // Select body instead of documentElement
+    return getComputedStyle(body).getPropertyValue(variable).trim();
+};
+
 // Utility function to truncate the string
 export const truncateString = (str: any, maxLength: any) => {
     if (str.length > maxLength) {
@@ -60,9 +66,9 @@ export const productCurrentPrice = (product: any, variantId?: any) => {
         const calculatedVariantPrice =
             regularPrice + additionalPrice - (calculatedDiscount ?? 0);
 
-        return calculatedVariantPrice;
+        return numberParser(calculatedVariantPrice,true);
     } else {
-        return calculateRegularPrice;
+        return numberParser(calculateRegularPrice,true);
     }
 };
 
@@ -99,9 +105,9 @@ export const howMuchSave = (product: any, variantId?: any) => {
     );
 
     if (variant?.length > 0 && variantId) {
-        return calculateDiscount ?? 0;
+        return numberParser(calculateDiscount,true) ?? 0;
     } else {
-        return regularPrice - calculateRegularPrice;
+        return numberParser((regularPrice - calculateRegularPrice),true);
     }
 };
 

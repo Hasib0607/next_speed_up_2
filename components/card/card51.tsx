@@ -5,6 +5,7 @@ import BDT from '@/utils/bdt';
 import QuickView from '@/utils/quick-view';
 
 import {
+    getCssVariableHex,
     howMuchSave,
     isAvailable,
     productCurrentPrice,
@@ -21,7 +22,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Details from '../_product-details-page/components/details';
 
 const Card51 = ({ item }: any) => {
-
     const dispatch = useDispatch();
 
     const { cartList } = useSelector((state: RootState) => state.cart);
@@ -50,8 +50,8 @@ const Card51 = ({ item }: any) => {
         }
     };
 
-    const bgColor = "var(--header-color)";
-    const textColor = "var(--text-color)";
+    const bgColor = getCssVariableHex('--header-color');
+    const textColor = 'var(--text-color)';
 
     const styleCss = `
     .searchHover:hover {
@@ -78,7 +78,6 @@ const Card51 = ({ item }: any) => {
         background: white;
         border: 1px solid ${bgColor};
     }
-   
     .view-eye:hover .quick-view {
         display: block;
         background: white;
@@ -91,8 +90,8 @@ const Card51 = ({ item }: any) => {
         display: block;
        
       }
-
   `;
+
 
     return (
         <div className="">
@@ -157,9 +156,8 @@ const Card51 = ({ item }: any) => {
 
                     <div className="text-gray-600 font-semibold flex justify-between items-center gap-2 w-full ">
                         <div className="flex items-center gap-2">
-                            <div className="text-base font-semibold">
-                                <BDT />
-                                {price}
+                            <div className="text-sm font-semibold text-[var(--header-color)] border-[var(--header-color)] border-2 rounded-lg px-2 py-1">
+                                <BDT /> {price}
                             </div>
                             {save > 0 && (
                                 <p className="line-through text-gray-400">
@@ -173,7 +171,7 @@ const Card51 = ({ item }: any) => {
                             )}
                         </div>
                         <div>
-                            <Rate rating={parsedRating} />
+                            <Rate rating={parsedRating} rate_color={bgColor}/>
                         </div>
                     </div>
                 </div>

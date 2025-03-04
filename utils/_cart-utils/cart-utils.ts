@@ -183,10 +183,11 @@ export const addToCart = ({
     size?: any;
     color?: any;
     filterV?: any[];
-    productQuantity: number;
+    productQuantity?: number;
 }) => {
     const hasInCartList = isActiveCart(product, cartList, variantId);
     const isAbleToCart = isQtyLeft(product, variantId, qty, cartList);
+    const hasImages = variant?.some((item: any) => item?.image)
 
     const addOnBoard = () => {
         dispatch(
@@ -226,7 +227,7 @@ export const addToCart = ({
                     });
                     return;
                 } else if (size === null) {
-                    toast.warning('Please Select Size', {
+                    toast.warning(`Please Select ${hasImages? "Pattern" : "Size"}`, {
                         toastId: product?.id,
                     });
                     return;
