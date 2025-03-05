@@ -83,7 +83,7 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
     if (openCat === true) {
         setTimeout(() => {
             setActive(false);
-        }, 800);
+        }, 500);
     } else {
         setTimeout(() => {
             setActive(true);
@@ -96,7 +96,7 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
     } else {
         setTimeout(() => {
             setBorder(true);
-        }, 1000);
+        }, 500);
     }
 
     useEffect(() => {
