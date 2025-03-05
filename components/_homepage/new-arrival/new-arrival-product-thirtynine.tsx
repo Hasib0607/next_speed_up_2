@@ -54,11 +54,7 @@ const NewArrivalProductThirtyNine = ({ product, headersetting }: any) => {
                     {product?.length > 0 &&
                         product?.slice(0, 10)?.map((item: any) => (
                             <SwiperSlide key={item?.id}>
-                                <div
-                                    className={`translate-y-[25px] duration-1000`}
-                                >
-                                    <Card67 item={item} />
-                                </div>
+                                <Card67 item={item} />
                             </SwiperSlide>
                         ))}
                 </DefaultSlider>
