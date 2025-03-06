@@ -107,15 +107,15 @@ const HeaderMenu = ({ headersetting, design, menu }: any) => {
                     <div className="flex gap-1 items-center">
                         <div
                             onClick={() => setOpenCart(!openCart)}
-                            className="flex items-center"
+                            className="flex items-center lg:cursor-pointer"
                         >
                             <p
                                 style={{
                                     color: hoverBag ? bgColor : '',
+                                    padding: '4px',
                                 }}
                                 onMouseEnter={() => setHoverBag(true)}
                                 onMouseLeave={() => setHoverBag(false)}
-                                className={`pr-1 lg:cursor-pointer`}
                             >
                                 <HiOutlineShoppingBag className="text-3xl font-thin" />
                             </p>
@@ -129,13 +129,11 @@ const HeaderMenu = ({ headersetting, design, menu }: any) => {
                                 {cartList.length}
                             </p>
                         </div>
-                        <div>
-                            <p
-                                className={`text-lg font-bold lg:cursor-pointer mt-1 hover:text-[${headerBg}]`}
-                            >
-                                <BDT price={total} />
-                            </p>
-                        </div>
+                        <p
+                            className={`text-lg font-bold lg:cursor-default mt-1 hover:text-[${headerBg}]`}
+                        >
+                            <BDT price={total} />
+                        </p>
                     </div>
                 </div>
                 {searchTxt && (

@@ -8,8 +8,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Details from '../_product-details-page/components/details';
 import { numberParser } from '@/helpers/numberParser';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+
 import {
     howMuchSave,
     isAvailable,
@@ -56,7 +55,7 @@ const Card67 = ({ item }: any) => {
   `;
 
     return (
-        <div className="mb-2 bg-white h-[400px] lg:h-[650px] relative group">
+        <div className="mb-2 bg-white relative group">
             <div className="">
                 <style>{styleCss}</style>
                 <Link href={'/product/' + item?.id + '/' + item?.slug}>

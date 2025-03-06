@@ -74,8 +74,8 @@ let urlName;
 // urlName = 'nexmanbd.com';
 // urlName = "kc.design";
 // urlName = "swifttrading.store";
-urlName = '2ndpagebooks.com';
-// urlName = "shr.localhost:3000";
+// urlName = 'skyhidewear.com';
+urlName = "shr.localhost:3000";
 
 if (process.env.NODE_ENV === 'production') {
     urlName = url();

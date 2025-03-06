@@ -46,7 +46,7 @@ const RenderSection = ({
             return (
                 <Suspense
                     fallback={
-                        <div className="relative xl:px-20 lg:px-10 md:px-10 px-5 bg-white pb-5">
+                        <div className="relative xl:px-20 lg:px-10 md:px-10 px-5 bg-gray-400 pb-5">
                             <Skeleton
                                 className={
                                     'rounded-lg h-[200px] w-full xl:h-[700px] lg:h-[480px] md:h-[310px]'
