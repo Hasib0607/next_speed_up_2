@@ -89,7 +89,9 @@ const ThirtyFour = ({ store_id, productId, design, headersetting }: any) => {
     const reviewsArr = reviews?.data || [];
 
     const buttonTwentyThree =
-        'font-bold py-3 text-center w-48 border border-gray-300 rounded lg:cursor-pointer';
+        'text-sm sm:text-base sm:py-[12px] py-3 w-36 lg:w-40 xl:w-48';
+    // const buttonTwentyThree =
+    //     'font-bold py-3 text-center w-48 border border-gray-300 rounded lg:cursor-pointer';
 
     return (
         <div className="bg-[#F9F8FF]">
@@ -230,9 +232,9 @@ const Related = ({ product }: any) => {
                         },
                     }}
                 >
-                    {product?.slice(0, 10).map((item: any) => (
+                    {product?.slice(0, 10)?.map((item: any) => (
                         <SwiperSlide key={item?.id}>
-                            <Card60 item={item} />
+                            <Card60 item={item}  type={'single_product_page'} />
                         </SwiperSlide>
                     ))}
                 </DefaultSlider>

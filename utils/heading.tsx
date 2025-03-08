@@ -13,9 +13,7 @@ const Heading: FC<HeadProps> = ({
     title,
     description,
     keywords,
-    websiteName,
     favicon,
-    logo,
 }) => {
     return (
         <>

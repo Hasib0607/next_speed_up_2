@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-// Blog api start
+// Blog sitemap
 export const fetchBlogSitemapData = async () => {
     try {
         const response = await fetch(
@@ -16,7 +16,6 @@ export const fetchBlogSitemapData = async () => {
     }
 };
 
-// -------------------------------------------------------------------------------------------
 // recent blog data
 export const fetchBlogRecentData = async (store_id: number) => {
     try {
@@ -120,11 +119,11 @@ export const fetchAllBlogData = async (store_id: any, page?: any) => {
         console.error('There was an error fetching the data', error);
     }
 };
-// -------------------------------------------------------------------------------------------
+
 // Blog api end
 
-// Product khujo api start
 
+// Product khujo api start
 
 export const fetchIp = async () => {
     try {

@@ -1,4 +1,5 @@
 'use client';
+
 import Head from 'next/head';
 import { useEffect } from 'react';
 
@@ -25,7 +26,7 @@ function updateFavicon(newFaviconUrl: string): void {
 const SetFavicon: React.FC<SetFaviconProps> = ({ faviconUrl }) => {
     useEffect(() => {
         updateFavicon(faviconUrl);
-    }, []);
+    }, [faviconUrl]);
 
     return (
         <Head>

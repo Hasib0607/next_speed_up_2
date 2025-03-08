@@ -1,11 +1,8 @@
 'use client';
 
 import BDT from '@/utils/bdt';
-
 import CallForPrice from '@/utils/call-for-price';
-
 import Rate from '@/utils/rate';
-
 import parse from 'html-react-parser';
 
 import { getProductQuantity } from '@/helpers/getProductQuantity';
@@ -31,9 +28,10 @@ import {
     WhatsappIcon,
     WhatsappShareButton,
 } from 'react-share';
+import AddCartBtnThirtyFour from '../components/add-cart-btn-thirtyfour';
+import { HSliderThirtyFour } from './slider-thirty-four';
+import ZoomHSlider from '../components/zoom-slider';
 
-import { HSlider } from '../components/slider';
-import AddCartBtn from '../components/add-cart-btn';
 
 const DetailsThirtyFour = ({
     design,
@@ -234,8 +232,8 @@ const DetailsThirtyFour = ({
   `;
 
     const buttonThirtyFour = buttonStyle
-        ? buttonStyle
-        : 'bg-black btn-hover text-white text-xs font-bold sm:py-[16px] py-3 sm:px-16 px-2';
+        ? buttonStyle :
+        "bg-orange-600 btn-hover text-white text-sm sm:text-base sm:py-[12px] py-3 w-36 lg:w-40 xl:w-48"
 
     return (
         <div className="bg-white h-full p-5 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.2)]">
@@ -243,7 +241,15 @@ const DetailsThirtyFour = ({
 
             <div className="grid grid-cols-1 lg2:grid-cols-9 gap-5">
                 <div className="lg2:col-span-4 justify-self-center">
-                    <HSlider
+                    {/* <HSliderThirtyFour
+                        design={design}
+                        product={product}
+                        variant={variant}
+                        activeImg={activeImg}
+                        setActiveImg={setActiveImg}
+                    /> */}
+                     <ZoomHSlider
+                        design={design}
                         product={product}
                         variant={variant}
                         activeImg={activeImg}
@@ -348,7 +354,7 @@ const DetailsThirtyFour = ({
                     )}
 
                     {productQuantity !== 0 && price !== 0 && (
-                        <AddCartBtn
+                        <AddCartBtnThirtyFour
                             qty={qty}
                             setQty={setQty}
                             variant={variant}

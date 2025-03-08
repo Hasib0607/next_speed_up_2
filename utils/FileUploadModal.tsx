@@ -1,9 +1,6 @@
 'use client';
 
-import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useEffect, useState } from 'react';
-import { CgClose } from 'react-icons/cg';
-// import { Modal } from '@/components/_checkout-page/_components/modal';
+import { useEffect, useState } from 'react';
 import QuickView from '@/utils/quick-view';
 
 export default function FileUploadModal({
@@ -104,62 +101,54 @@ export default function FileUploadModal({
     // console.log('file', file);
 
     return (
-        <>
-            <QuickView
-                open={isOpen}
-                setOpen={setIsOpen}
-                design={design}
-                focus
-                auto
-            >
-                <div className="p-10 space-y-12">
-                    <div className="flex justify-between mb-3">
-                        <input
-                            className="focus:outline-none focus:border-0 focus:ring-0 w-[80%]"
-                            type="file"
-                            name="files"
-                            accept=".ai, .psd, .pdf, .jpg, .jpeg, .png, .webp"
-                            multiple
-                            onChange={(e) => onFileChange(e)}
-                        />
-                    </div>
-                    {file?.files?.length > 0 && (
-                        <div className="flex flex-col">
-                            <span>
-                                {file?.files?.length} file
-                                {file?.files?.length > 1 && 's'} uploaded
-                            </span>
-                            <ul className="mt-2 list-disc list-inside">
-                                {file?.files?.map((i: any, index: number) => (
-                                    <li
-                                        key={index}
-                                        className="text-sm text-gray-700"
-                                    >
-                                        {i.name}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                    <div className='mt-3'>
-                        <textarea
-                            onChange={(e: any) => handleDetails(e)}
-                            name=""
-                            id=""
-                            className="w-full border-2 rounded p-2"
-                            placeholder="Please share your asking size, color and customize details"
-                            value={description}
-                        />
-                        <button
-                            disabled={disabled}
-                            onClick={() => handleUpload()}
-                            className="px-4 py-1 bg-green-500 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:cursor-text-red rounded-md mt-2"
-                        >
-                            Upload
-                        </button>
-                    </div>
+        <QuickView open={isOpen} setOpen={setIsOpen} design={design} focus auto>
+            <div className="p-10 space-y-12">
+                <div className="flex justify-between mb-3">
+                    <input
+                        className="focus:outline-none focus:border-0 focus:ring-0 w-[80%]"
+                        type="file"
+                        name="files"
+                        accept=".ai, .psd, .pdf, .jpg, .jpeg, .png, .webp"
+                        multiple
+                        onChange={(e) => onFileChange(e)}
+                    />
                 </div>
-            </QuickView>
-        </>
+                {file?.files?.length > 0 && (
+                    <div className="flex flex-col">
+                        <span>
+                            {file?.files?.length} file
+                            {file?.files?.length > 1 && 's'} uploaded
+                        </span>
+                        <ul className="mt-2 list-disc list-inside">
+                            {file?.files?.map((i: any, index: number) => (
+                                <li
+                                    key={index}
+                                    className="text-sm text-gray-700"
+                                >
+                                    {i.name}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+                <div className="mt-3">
+                    <textarea
+                        onChange={(e: any) => handleDetails(e)}
+                        name=""
+                        id=""
+                        className="w-full border-2 rounded p-2"
+                        placeholder="Please share your asking size, color and customize details"
+                        value={description}
+                    />
+                    <button
+                        disabled={disabled}
+                        onClick={() => handleUpload()}
+                        className="px-4 py-1 bg-green-500 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:cursor-text-red rounded-md mt-2"
+                    >
+                        Upload
+                    </button>
+                </div>
+            </div>
+        </QuickView>
     );
 }

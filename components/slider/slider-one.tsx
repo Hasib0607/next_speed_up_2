@@ -1,4 +1,5 @@
 'use client';
+
 // import Swiper core and required modules
 import {
     Navigation,

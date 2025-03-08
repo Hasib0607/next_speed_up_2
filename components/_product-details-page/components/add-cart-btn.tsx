@@ -262,9 +262,9 @@ const AddCartBtn = ({
         border: 2px solid transparent;
     }
     .c_button:hover {
-        color:  ${button_color};
+        color:  ${button_bg_color};
         background: transparent;
-        border: 2px solid ${button_color};
+        border: 2px solid black;
     }
     .c_button1 {
         color:  ${button1_color};
@@ -272,9 +272,9 @@ const AddCartBtn = ({
         border: 2px solid transparent;
     }
     .c_button1:hover {
-        color:  ${button1_color};
+        color:  ${button1_bg_color};
         background: transparent;
-        border: 2px solid ${button1_color};
+        border: 2px solid black;
     }
     `;
 
@@ -366,7 +366,7 @@ const AddCartBtn = ({
                                 buttonOne
                                     ? buttonOne
                                     : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`,
-                                'c_button1'
+                                'c_button'
                             )}
                             onClick={
                                 numberParser(is_buy_now_cart) == 1
@@ -380,43 +380,44 @@ const AddCartBtn = ({
                             </p>
                         </button>
                     )}
+                    {isEmpty && (
+                        <div
+                            onClick={buy_now}
+                            className={classNames(
+                                buttonOne
+                                    ? buttonOne
+                                    : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`,
+                                'c_button1'
+                            )}
+                        >
+                            <p className="center gap-2">
+                                <IoMdCart />
+                                {'ORDER NOW'}
+                            </p>
+                        </div>
+                    )}
+                    {button1 && (
+                        <button
+                            onClick={
+                                numberParser(is_buy_now_cart1) == 1
+                                    ? buy_now
+                                    : onClick
+                            }
+                            type="submit"
+                            className={classNames(
+                                buttonOne
+                                    ? buttonOne
+                                    : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`,
+                                'c_button1'
+                            )}
+                        >
+                            <p className="center gap-2">
+                                <IoMdCart />
+                                {button1}
+                            </p>
+                        </button>
+                    )}
                 </>
-            )}
-
-            {isEmpty && (
-                <div
-                    onClick={buy_now}
-                    className={classNames(
-                        buttonOne
-                            ? buttonOne
-                            : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`,
-                        'c_button1'
-                    )}
-                >
-                    <p className="center gap-2">
-                        <IoMdCart />
-                        {'ORDER NOW'}
-                    </p>
-                </div>
-            )}
-            {button1 && (
-                <button
-                    onClick={
-                        numberParser(is_buy_now_cart1) == 1 ? buy_now : onClick
-                    }
-                    type="submit"
-                    className={classNames(
-                        buttonOne
-                            ? buttonOne
-                            : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`,
-                        'c_button1'
-                    )}
-                >
-                    <p className="center gap-2">
-                        <IoMdCart />
-                        {button1}
-                    </p>
-                </button>
             )}
         </div>
     );

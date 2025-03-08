@@ -34,8 +34,8 @@ const BestSellerEight = ({ product, headersetting }: any) => {
                     </div>
 
                     <DefaultSlider
-                        prevEl={prev}
                         nextEl={next}
+                        prevEl={prev}
                         breakpoints={{
                             250: {
                                 slidesPerView: 1,

@@ -3,6 +3,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, Navigation, Controller } from 'swiper/modules';
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -14,17 +15,18 @@ import Link from 'next/link';
 const PromoSeven = ({ banner }: any) => {
     const prevEl = 'promo_seven_Prev';
     const nextEl = 'promo_seven_Next';
+console.log("banner",banner);
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5 bg-white">
             <div className=" sm:grid-cols-2 gap-6 md:grid hidden">
-                {banner?.length > 0 && banner?.slice(0, 2)?.map((ban: any) => (
+                {banner?.length > 0 && banner?.map((ban: any) => (
                     <div
                         key={ban.id}
                         className="relative shine overflow-hidden"
                     >
                         <Link
-                            href={ban?.link}
+                            href={ban?.link ?? '#'}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -42,7 +44,7 @@ const PromoSeven = ({ banner }: any) => {
             <div className="group z-0 md:hidden relative">
                 <div className="">
                     <div
-                        className={`${prevEl} bg-gray-500  hover:bg-black text-white  rounded-full transition-all duration-500  ease-linear absolute -left-4  top-1/2 -translate-y-1/2 z-[4] `}
+                        className={`${prevEl} bg-gray-500  hover:bg-black text-white  rounded-full transition-all duration-500  ease-linear absolute -left-4 top-1/2 -translate-y-1/2 z-[4] `}
                     >
                         <ChevronLeftIcon className="h-8 text-2xl font-serif font-bold" />
                     </div>
@@ -66,7 +68,7 @@ const PromoSeven = ({ banner }: any) => {
                     modules={[Pagination, Autoplay, Navigation, Controller]}
                     className="mySwiper relative"
                 >
-                    {banner?.length > 0 && banner?.slice(0, 2)?.map((s: any) => (
+                    {banner?.length > 0 && banner?.map((s: any) => (
                         <SwiperSlide key={s.id}>
                             <img
                                 className="h-auto min-w-full object-cover object-center"
