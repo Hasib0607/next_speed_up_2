@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 // import Swiper core and required modules
 import {
@@ -31,7 +33,7 @@ const DefaultSlider = ({
     return (
         <Swiper
             autoplay={{ delay: 2500 }}
-            loop={loop}
+            loop={loop ?? false}
             speed={1000}
             modules={[
                 Autoplay,
@@ -46,11 +48,11 @@ const DefaultSlider = ({
             //   pagination,
             //   type: paginationType,
             // }}
-            navigation={navigation ? navigation : {
+            navigation={navigation ?? {
                 prevEl: `.${prevEl}`,
                 nextEl: `.${nextEl}`,
             }}
-            className={className ? className : "mySwiper"}
+            className={className ?? "mySwiper"}
         >
             {children}
         </Swiper>

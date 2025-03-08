@@ -2,7 +2,7 @@ import Card14 from '@/components/card/card14';
 
 const DefaultProduct = ({ product, headersetting }: any) => {
     const { custom_design } = headersetting || {};
-    
+
     const sectionHeadingData = custom_design?.product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         sectionHeadingData || {};
@@ -19,11 +19,11 @@ const DefaultProduct = ({ product, headersetting }: any) => {
             </div>
             <div className="container mx-auto">
                 <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6 sm:px-4">
-                    {product?.slice(0, 8)?.map((item: any, id: any) => (
-                        <>
+                    {product
+                        ?.slice(0, 8)
+                        ?.map((item: any, id: any) => (
                             <Card14 item={item} key={id} />
-                        </>
-                    ))}
+                        ))}
                 </div>
             </div>
         </>

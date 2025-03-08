@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 // import Swiper core and required modules
 import {

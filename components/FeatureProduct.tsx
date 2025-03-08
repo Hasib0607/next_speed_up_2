@@ -8,7 +8,7 @@ import { RootState } from '@/redux/store';
 
 const FeatureProduct = ({ design, headersetting }: any) => {
     const FeatureProductComponent =
-        feature_products[design?.feature_product] || feature_products[DEFAULT];
+        feature_products[design?.feature_product] ?? feature_products[DEFAULT];
 
     const products = useSelector((state: RootState) => state?.products);
     const product = products?.product || [];

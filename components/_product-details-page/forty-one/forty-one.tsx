@@ -239,7 +239,7 @@ const Related = ({ product, design }: any) => {
                 <DefaultSlider
                     prevEl={prevEl}
                     nextEl={nextEl}
-                    loop={true}
+                    loop={product?.length > 4}
                     breakpoints={{
                         250: {
                             slidesPerView: 1,

@@ -1,4 +1,5 @@
 'use client';
+
 // created by iazadur
 import React from 'react';
 import { Swiper } from 'swiper/react';
@@ -28,12 +29,13 @@ const GridSliderThirteen = ({
     breakpoints,
     className,
     grid = { rows: 2 },
+    loop,
     ...rest
 }: any) => {
     return (
         <div className="">
             <Swiper
-                loop={true}
+                loop={loop ?? false}
                 breakpoints={breakpoints}
                 autoplay={{
                     delay: 3000,

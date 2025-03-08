@@ -30,7 +30,6 @@ const FeatureProductSeven = ({
         featuredProduct || {};
         
     return (
-        <>
             <div className="container px-5 bg-white py-8">
                 <SectionHeadingSeven titleColor={title_color} title={title} />
                 <div className="grid grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-2 gap-3 md:gap-3">
@@ -61,7 +60,6 @@ const FeatureProductSeven = ({
                     )}
                 </div>
             </div>
-        </>
     );
 };
 

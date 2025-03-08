@@ -47,7 +47,7 @@ const HeaderThirtySix = ({ headersetting, design }: any) => {
         <>
             <div
                 style={{ top: scrollPassed ? 0 : announcementHeight }}
-                className="bg-[#FDD670] h-20 fixed w-full  left-0 z-[6] flex items-center"
+                className="bg-[#FDD670] h-20 sticky w-full left-0 z-[6] flex items-center"
             >
                 <div className="sm:container px-5 flex justify-between items-center gap-x-5 w-full">
                     <div className="flex gap-5 justify-between items-center w-full lg:w-max">

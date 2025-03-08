@@ -49,8 +49,9 @@ const NewArrivalProductsEight = ({ product, design, headersetting }: any) => {
 
     const { custom_design } = headersetting || {};
     const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
-    const { title="New Arrivals", title_color="#000" } = newArrivalProduct || {};
-    
+    const { title = 'New Arrivals', title_color = '#000' } =
+        newArrivalProduct || {};
+
     return (
         <div className="sm:container px-5 sm:py-10 py-5 bg-white">
             <div className="py-5">
