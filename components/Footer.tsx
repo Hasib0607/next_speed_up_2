@@ -9,6 +9,7 @@ const Footer = ({ design, headersetting, menu }: any) => {
     // console.log("dataLayer",window.dataLayer);
 
     const FooterComponent = footers[design?.footer];
+    
 
     const { data: pageData } = useGetPageQuery({});
     const page = pageData?.data || [];

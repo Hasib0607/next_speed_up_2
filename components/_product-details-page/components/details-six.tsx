@@ -32,6 +32,7 @@ import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
 import { ProductSlider } from './product-slider';
 import { HSlider } from './slider';
 import ZoomHSlider from './zoom-slider';
+import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 
 const DetailsSix = ({
     product,
@@ -265,7 +266,9 @@ const DetailsSix = ({
                             {save > 0 && (
                                 <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                     <BDT />
-                                    {variantId !== null ? price + save : numberParser(product?.regular_price)}
+                                    {variantId !== null
+                                        ? price + save
+                                        : numberParser(product?.regular_price)}
                                 </span>
                             )}{' '}
                         </div>
@@ -283,11 +286,11 @@ const DetailsSix = ({
 
                             <div className="h-[1px] bg-gray-300 w-full"></div>
 
-                            <div className="text-sm text-[#5a5a5a] leading-6 apiHtml">
-                                {parse(
-                                    `${product?.description?.slice(0, 250)}`
-                                )}{' '}
-                                {product?.description?.length > 250 && '...'}
+                            <div className="text-sm text-[#5A5A5A] leading-6">
+                                <DangerouslySafeHTML
+                                    content={product?.description}
+                                    className="line-clamp-3"
+                                />
                             </div>
                         </>
                     )}

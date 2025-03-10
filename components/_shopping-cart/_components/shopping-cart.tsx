@@ -22,7 +22,7 @@ import { useMemo } from 'react';
 import { numberParser } from '@/helpers/numberParser';
 import { removeFromCartList } from '@/redux/features/cart/cartSlice';
 import { DialogTitle } from '@headlessui/react';
-
+import { getVariantDetailsById } from '@/helpers/littleSpicy';
 
 const ShoppingCart = ({ setOpen, design, incDecOff, children }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
@@ -68,15 +68,11 @@ const ShoppingCart = ({ setOpen, design, incDecOff, children }: any) => {
 
 export default ShoppingCart;
 
-
 export const SingleCartProduct = ({ product, design, incDecOff }: any) => {
     const dispatch = useDispatch<AppDispatch>();
 
     const cartProductVariant = useMemo(
-        () =>
-            product?.variant?.find(
-                (item: any) => item?.id == product?.variant_id
-            ) || {},
+        () => getVariantDetailsById(product),
         [product]
     );
 

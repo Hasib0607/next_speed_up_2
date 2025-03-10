@@ -20,7 +20,7 @@ export default async function getDomain() {
     // url = 'nexmanbd.com';
     // url = 'kc.design';
     // url = "swifttrading.store";
-    // url = "skyhidewear.com";
+    // url = "mytimebd.store";
     url = 'shr.localhost:3000';
 
     return url;

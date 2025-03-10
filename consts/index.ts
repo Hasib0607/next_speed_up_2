@@ -42,6 +42,8 @@ export const THIRTY_NINE = 'thirtynine';
 export const FORTY = 'forty';
 export const FORTY_ONE = 'fortyone';
 export const FORTY_TWO = 'fortytwo';
+export const FORTY_THREE = 'fortythree';
+export const FORTY_FOUR = 'fortyfour';
 
 // dynamic colors
 export const HeaderColor = 'var(--header-color)';
@@ -74,7 +76,7 @@ let urlName;
 // urlName = 'nexmanbd.com';
 // urlName = "kc.design";
 // urlName = "swifttrading.store";
-// urlName = 'skyhidewear.com';
+// urlName = 'mytimebd.store';
 urlName = "shr.localhost:3000";
 
 if (process.env.NODE_ENV === 'production') {

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: any = {
     selectedShippingArea: null,
+    shippingAreaCost: null,
 };
 
 export const shippingAreaFilterSlice = createSlice({
@@ -11,7 +12,11 @@ export const shippingAreaFilterSlice = createSlice({
         setSelectedShippingArea: (state, action: PayloadAction<any>) => {
             state.selectedShippingArea = action.payload;
         },
+        setShippingAreaCost: (state, action: PayloadAction<any>) => {
+            state.shippingAreaCost = action.payload;
+        },
     },
 });
 
-export const { setSelectedShippingArea } = shippingAreaFilterSlice.actions;
+export const { setSelectedShippingArea, setShippingAreaCost } =
+    shippingAreaFilterSlice.actions;

@@ -1,7 +1,6 @@
 import Skeleton from '@/components/loaders/TextSkeleton';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
-import BlogSection from './blog/blog-section';
 
 const Hero = dynamic(() => import('@/components/Hero'));
 const FeaturedCategory = dynamic(() => import('@/components/FeaturedCategory'));
@@ -11,6 +10,8 @@ const NewArrival = dynamic(() => import('@/components/NewArrival'));
 const BestSellProduct = dynamic(() => import('@/components/BestSellProduct'));
 const FeatureProduct = dynamic(() => import('@/components/FeatureProduct'));
 const Product = dynamic(() => import('@/components/Product'));
+const YouTube = dynamic(() => import('@/components/YouTube'));
+const BlogSection = dynamic(() => import('@/components/BlogSection'));
 const Testimonial = dynamic(() => import('@/components/Testimonial'));
 
 // type ComponentType =
@@ -84,15 +85,16 @@ const RenderSection = ({
             return (
                 <FeatureProduct design={design} headersetting={headersetting} />
             );
-        case 'testimonial':
+        case 'youtube':
+            return <YouTube design={design} headersetting={headersetting} />;
+        case 'blog':
             return (
-                <>
-                    <Suspense fallback={<p>Loading blog...</p>}>
-                        <BlogSection design={design} />
-                    </Suspense>
-                    <Testimonial design={design} />
-                </>
+                <Suspense fallback={<p>Loading blog...</p>}>
+                    <BlogSection design={design} />
+                </Suspense>
             );
+        case 'testimonial':
+            return <Testimonial design={design} />;
         default:
             return null;
     }
