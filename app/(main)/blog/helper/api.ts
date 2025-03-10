@@ -1,16 +1,17 @@
 import { notFound } from 'next/navigation';
 
 // Blog sitemap
-export const fetchBlogSitemapData = async () => {
+export const fetchBlogSitemapData = async (store_id: number) => {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL_BLOG}/blog/site-map`,
+            `${process.env.NEXT_PUBLIC_API_URL_BLOG}/blog/site-map/${store_id}`,
             {
                 next: { revalidate: 10 },
             }
         );
         const data = await response.json();
-        return data?.results;
+
+        return data?.data?.data;
     } catch (error) {
         console.error('There was an error fetching the data', error);
     }
@@ -121,7 +122,6 @@ export const fetchAllBlogData = async (store_id: any, page?: any) => {
 };
 
 // Blog api end
-
 
 // Product khujo api start
 

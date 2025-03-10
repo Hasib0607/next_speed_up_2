@@ -33,7 +33,6 @@ const FooterSeven = ({
     `;
 
     return (
-        <>
             <div>
                 <style>{styleCss}</style>
                 <div className="container px-5 mt-10">
@@ -220,7 +219,6 @@ const FooterSeven = ({
                 {/* <Messenger /> */}
                 <WhatsApp headersetting={headersetting} />
             </div>
-        </>
     );
 };
 

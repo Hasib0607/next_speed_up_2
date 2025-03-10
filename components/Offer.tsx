@@ -12,7 +12,7 @@ import { useGetEbiAnalyticsMutation } from '@/redux/features/offer/offerApi';
 import { useGetCampaignQuery } from '@/redux/features/checkOut/checkOutApi';
 import useGeoLocation from '@/hooks/useGeoLocation';
 
-const Offer = ({ design, ipData }: any) => {
+const Offer = ({ design }: any) => {
     const store_id = design?.store_id || null;
 
     const { address, fetchAddress } = useGeoLocation();
@@ -35,14 +35,14 @@ const Offer = ({ design, ipData }: any) => {
     const [city, setCity] = useState('');
 
     const getData = async () => {
-        console.log('ipData', ipData);
 
         try {
             const response = await fetch('/api/ip');
+            
             // if (!response.ok) {
             //     notFound()
             // }
-            // console.log('response', response);
+            console.log('response', response);
 
             const data = await response.json();
             console.log('IP Data:', data);

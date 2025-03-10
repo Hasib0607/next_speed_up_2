@@ -26,7 +26,7 @@ import "slick-carousel/slick/slick-theme.css";
 export const HSliderThirtyFour = ({design, product, variant, activeImg, setActiveImg }: any) => {
 
   const [id, setId] = useState<any>(null);
-  const [activeMbl, setActiveMbl] = useState(0);
+  const [activeMbl, setActiveMbl] = useState(null);
   const [images, setImages] = useState<any>([]);
 
   //creating the ref
@@ -50,13 +50,7 @@ export const HSliderThirtyFour = ({design, product, variant, activeImg, setActiv
   const gotoPrev = () => {
     customeSlider.current.slickPrev();
   };
-  const goNext = () => {
-    customSlider.current.slickNext();
-  };
 
-  const goPrev = () => {
-    customSlider.current.slickPrev();
-  };
 
   // for image
   useEffect(() => {
@@ -64,16 +58,15 @@ export const HSliderThirtyFour = ({design, product, variant, activeImg, setActiv
     let variantImages;
     if (variant?.length > 0) {
       variantImages = variant
-        .filter((v: any) => v.image != null)
-        .map((v: any) => v.image);
+        ?.filter((v: any) => v.image != null)
+        ?.map((v: any) => v.image);
     }
     if (arr === undefined) return;
-    setImages([...arr, ...(variantImages || [])]);
-  }, [product?.image]);
+    setImages([...arr, ...(variantImages) || []]);
+  }, [product?.image,variant]);
 
   // style css
   const styleCss = `
-
     .icon-color:hover {
         color:${design?.header_color};
         }
@@ -91,6 +84,47 @@ export const HSliderThirtyFour = ({design, product, variant, activeImg, setActiv
   const prev = "single_Prev";
   const next = "single_Next";
 
+    // Custom arrows for main slider
+    const PrevArrow = (props: any) => (
+      <div
+        className={`single_Prev w-12 h-12 text-orange-600 absolute left-5 top-1/2 -translate-y-1/2 z-10 flex justify-center items-center cursor-pointer`}
+        onClick={() => {
+          props.onClick();
+          setId(null);
+        }}
+      >
+        <IoIosArrowBack className="text-4xl font-bold" />
+      </div>
+    );
+  
+    const NextArrow = (props: any) => (
+      <div
+        className={`single_Next w-12 h-12 text-orange-600 absolute right-5 top-1/2 -translate-y-1/2 z-10 flex justify-center items-center cursor-pointer`}
+        onClick={() => {
+          props.onClick();
+          setId(null);
+        }}
+      >
+        <IoIosArrowForward className="text-4xl font-bold" />
+      </div>
+    );
+  
+    // Main slider settings
+    const mainSliderSettings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,  
+      autoplay: id === null,
+      autoplaySpeed: 3000,
+      fade: true,
+      arrows: true,
+      prevArrow: <PrevArrow />,
+      nextArrow: <NextArrow />,
+      beforeChange: () => setActiveImg(""),
+    };
+
   // slider settings for image
   const settings = {
     infinite: images.length > 4 && true,
@@ -98,12 +132,6 @@ export const HSliderThirtyFour = ({design, product, variant, activeImg, setActiv
     slidesToScroll: 1,
     vertical: true,
     verticalSwiping: true,
-    beforeChange: function (currentSlide: any, nextSlide: any) {
-      // console.log("before change", currentSlide, nextSlide);
-    },
-    afterChange: function (currentSlide: any) {
-      // console.log("after change", currentSlide);
-    },
   };
 
   const settingsSmall = {
@@ -111,12 +139,6 @@ export const HSliderThirtyFour = ({design, product, variant, activeImg, setActiv
     slidesToShow: 4,
     slidesToScroll: 1,
     verticalSwiping: true,
-    beforeChange: function (currentSlide: any, nextSlide: any) {
-      // console.log("before change", currentSlide, nextSlide);
-    },
-    afterChange: function (currentSlide: any) {
-      // console.log("after change", currentSlide);
-    },
   };
   
 
@@ -134,7 +156,7 @@ export const HSliderThirtyFour = ({design, product, variant, activeImg, setActiv
           >
             {images.length > 0 &&
               images?.map((item: any, index: any) => (
-                <div key={index}>
+                <div key={item}>
                   <img
                     onClick={() => {
                       setActiveMbl(index);
@@ -174,7 +196,7 @@ export const HSliderThirtyFour = ({design, product, variant, activeImg, setActiv
             className="relative group h-full w-full "
           >
             {images?.slice(0, 10)?.map((item: any, index: any) => (
-              <div key={index}>
+              <div key={item}>
                 <img
                   onClick={() => {
                     setActiveMbl(index);
@@ -193,17 +215,33 @@ export const HSliderThirtyFour = ({design, product, variant, activeImg, setActiv
             <div>
               <BsFillArrowDownSquareFill
                 className="absolute -rotate-90 right-0 top-[50%] -translate-y-[50%] z-10 text-3xl arrow-slick-color"
-                onClick={() => goNext()}
+                onClick={() => gotoNext()}
               />
               <BsFillArrowUpSquareFill
                 className="absolute -rotate-90 left-0 z-10 text-3xl top-[50%] -translate-y-[50%] arrow-slick-color"
-                onClick={() => goPrev()}
+                onClick={() => gotoPrev()}
               />
             </div>
           )}
         </div>
 
+        {/* Main Image Slider */}
         <div className="relative z-[1] sm:col-span-4 col-span-5 overflow-hidden">
+          <Slider {...mainSliderSettings}>
+            {images?.map((item: any) => (
+              <div key={item}>
+                <img
+                  className="h-auto min-w-full"
+                  src={activeImg ? productImg + activeImg : productImg + item}
+                  alt=""
+                />
+              </div>
+            ))}
+          </Slider>
+        </div>
+
+
+        {/* <div className="relative z-[1] sm:col-span-4 col-span-5 overflow-hidden">
           <Swiper
             modules={[Autoplay, A11y, EffectFade, Navigation, Controller]}
             navigation={{
@@ -218,7 +256,7 @@ export const HSliderThirtyFour = ({design, product, variant, activeImg, setActiv
             onSlideChangeTransitionStart={() => setActiveImg("")}
           >
             {images?.map((item: any) => (
-              <SwiperSlide key={item?.id}>
+              <SwiperSlide key={item}>
                 <img
                   className="h-auto min-w-full"
                   src={activeImg ? productImg + activeImg : productImg + item}
@@ -239,7 +277,7 @@ export const HSliderThirtyFour = ({design, product, variant, activeImg, setActiv
               <IoIosArrowForward className="text-4xl font-bold" />
             </div>
           </Swiper>
-        </div>
+        </div> */}
       </div>
     </div>
   );

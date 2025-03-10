@@ -2,6 +2,15 @@ import { HTML_TAG_PATTERN } from '@/consts';
 import { numberParser } from './numberParser';
 import { getPrice } from './getPrice';
 
+// find variant and get details
+export const getVariantDetailsById = (product: any) => {
+    return (
+        product?.variant?.find(
+            (item: any) => item?.id == product?.variant_id
+        ) ?? {}
+    );
+};
+
 // varivable value converter
 export const getCssVariableHex = (variable: string) => {
     const body = document.body; // Select body instead of documentElement
@@ -66,9 +75,9 @@ export const productCurrentPrice = (product: any, variantId?: any) => {
         const calculatedVariantPrice =
             regularPrice + additionalPrice - (calculatedDiscount ?? 0);
 
-        return numberParser(calculatedVariantPrice,true);
+        return numberParser(calculatedVariantPrice, true);
     } else {
-        return numberParser(calculateRegularPrice,true);
+        return numberParser(calculateRegularPrice, true);
     }
 };
 
@@ -105,9 +114,9 @@ export const howMuchSave = (product: any, variantId?: any) => {
     );
 
     if (variant?.length > 0 && variantId) {
-        return numberParser(calculateDiscount,true) ?? 0;
+        return numberParser(calculateDiscount, true) ?? 0;
     } else {
-        return numberParser((regularPrice - calculateRegularPrice),true);
+        return numberParser(regularPrice - calculateRegularPrice, true);
     }
 };
 
