@@ -32,11 +32,6 @@ import AddCartBtnThirtyFour from '../components/add-cart-btn-thirtyfour';
 import { HSliderThirtyFour } from './slider-thirty-four';
 import ZoomHSlider from '../components/zoom-slider';
 
-<<<<<<< HEAD
-import { HSlider } from '../components/slider';
-import AddCartBtn from '../components/add-cart-btn';
-=======
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 const DetailsThirtyFour = ({
     design,
@@ -183,16 +178,12 @@ const DetailsThirtyFour = ({
         () => productCurrentPrice(product, variantId),
         [product, variantId]
     );
-<<<<<<< HEAD
-    const save = howMuchSave(product);
-=======
 
     const save = useMemo(
         () => howMuchSave(product, variantId),
         [product, variantId]
     );
 
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const parsedRating = numberParser(product?.rating, true);
     const parsedNumberRating = numberParser(product?.number_rating);
 

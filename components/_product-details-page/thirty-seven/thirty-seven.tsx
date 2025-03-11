@@ -95,10 +95,7 @@ const ThirtySeven = ({ store_id, productId, design, headersetting }: any) => {
                 <DetailsThirtySeven
                     design={design}
                     headersetting={headersetting}
-<<<<<<< HEAD
-=======
                     addCartClassName={addCartClassName}
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                     product={product}
                     setOpen={setOpen}
                     buttonStyle={buttonStyle}

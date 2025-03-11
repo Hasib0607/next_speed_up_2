@@ -21,18 +21,11 @@ import Link from 'next/link';
 import { AiOutlineHome } from 'react-icons/ai';
 import { SwiperSlide } from 'swiper/react';
 
-<<<<<<< HEAD
-import './five.css';
-=======
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import ProdMultiCategory from '@/utils/prod-multi-category';
 import { NotFoundMsg } from '@/utils/little-components';
 import VideoPlayer from '../components/video-player';
 import DetailsThirtyFour from './details-thirty-four';
-<<<<<<< HEAD
-=======
 import { RiArrowRightSLine } from 'react-icons/ri';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 const ThirtyFour = ({ store_id, productId, design, headersetting }: any) => {
     const {

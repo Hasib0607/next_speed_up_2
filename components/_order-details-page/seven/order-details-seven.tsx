@@ -200,18 +200,7 @@ const OrderDetailsSeven = ({ appStore, order_id }: any) => {
 
 export default OrderDetailsSeven;
 
-<<<<<<< HEAD
-const Single = ({
-    item,
-    order,
-    orderItem,
-    productLink,
-    orderDetailsRefetch,
-    appStore,
-}: any) => {
-=======
 const Single = ({ item, order, orderDetailsRefetch, appStore }: any) => {
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const store_id = appStore?.id || null;
 
     const productId = item?.product_id;
@@ -245,15 +234,10 @@ const Single = ({ item, order, orderDetailsRefetch, appStore }: any) => {
 
     //                 let value = input.value;
 
-<<<<<<< HEAD
-                    let tempTextarea = document.createElement('textarea');
-                    tempTextarea.value = value;
-=======
     //                 let tempTextarea = document.createElement('textarea');
     //                 tempTextarea.value = value;
 
     //                 document.body.appendChild(tempTextarea);
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
     //                 tempTextarea.select();
 

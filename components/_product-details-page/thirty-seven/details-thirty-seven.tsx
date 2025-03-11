@@ -34,10 +34,7 @@ const DetailsThirtySeven = ({
     setOpen,
     buttonStyle,
     headersetting,
-<<<<<<< HEAD
-=======
     addCartClassName
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
