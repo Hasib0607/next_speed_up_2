@@ -4,14 +4,13 @@ import { getFastArr } from '@/helpers/littleSpicy';
 import { useGetAddressQuery } from '@/redux/features/checkOut/checkOutApi';
 import { useEffect, useState } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
-
 import SingleAddress from '@/components/_checkout-page/_components/single-address/single-address';
+import { ONE, TWENTY_EIGHT } from '@/consts';
 import useAuth from '@/hooks/useAuth';
 import QuickView from '@/utils/quick-view';
-import CheckoutFromFortyfour from '../../_components/checkout-from-fortyfour';
-// import CheckoutFromFortyfour from '@/components/_checkout-page/_components/checkout-from-forty-four';
+import CheckoutFormFortyThree from '../checkout-form-fortythree/checkout-form-fortythree';
 
-const AddressFortyFour = ({
+const AddressFortyThree = ({
     design,
     appStore,
     selectAddress,
@@ -101,22 +100,28 @@ const AddressFortyFour = ({
         <>
             <div className={className ? className : 'col-span-6 sm:col-span-4'}>
                 <div className="flex justify-between items-center pb-3">
-                        <p
-                            className="block font-semibold text-gray-900 text-sm md:text-lg">
-                            Contact Info
-                        </p>
+                    {design?.template_id === '29' ||
+                    design?.checkout_page === TWENTY_EIGHT ||
+                    design?.checkout_page === ONE ||
+                        <label
+                            htmlFor="name"
+                            className="block text-md md:text-xl font-semibold text-gray-700 ml-3 md:ml-7"
+                        >
+                            Delivery
+                        </label>
+                    }
                     {isAuthenticated && addressArr?.length > 0 && (
-                        <p
+                        <span
                             className="text-green-600 font-semibold tracking-wider lg:cursor-pointer"
                             onClick={() => handleAdd()}
                         >
                             {' '}
                             + Add
-                        </p>
+                        </span>
                     )}
                 </div>
                 {appStore?.auth_type === 'EasyOrder' && !isAuthenticated ? (
-                    <CheckoutFromFortyfour
+                    <CheckoutFormFortyThree
                         design={design}
                         appStore={appStore}
                         formFieldStyle={formFieldStyle}
@@ -126,7 +131,7 @@ const AddressFortyFour = ({
                 ) : (
                     <div>
                         {!addressArr || addressArr?.length == 0 ? (
-                            <CheckoutFromFortyfour
+                            <CheckoutFormFortyThree
                                 design={design}
                                 appStore={appStore}
                                 formFieldStyle={formFieldStyle}
@@ -143,7 +148,7 @@ const AddressFortyFour = ({
             <QuickView open={open} setOpen={setOpen} design={design} auto>
                 <>
                     {edit && editItem ? (
-                        <CheckoutFromFortyfour
+                        <CheckoutFormFortyThree
                             design={design}
                             appStore={appStore}
                             formFieldStyle={formFieldStyle}
@@ -155,7 +160,7 @@ const AddressFortyFour = ({
                             edit
                         />
                     ) : (
-                        <CheckoutFromFortyfour
+                        <CheckoutFormFortyThree
                             design={design}
                             appStore={appStore}
                             formFieldStyle={formFieldStyle}
@@ -163,7 +168,6 @@ const AddressFortyFour = ({
                             setOpen={setOpen}
                             cancelBtn={addressArr?.length > 0}
                             modal
-                            add
                         />
                     )}
                 </>
@@ -172,4 +176,4 @@ const AddressFortyFour = ({
     );
 };
 
-export default AddressFortyFour;
+export default AddressFortyThree;
