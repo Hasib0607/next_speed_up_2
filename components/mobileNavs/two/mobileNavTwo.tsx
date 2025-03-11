@@ -5,20 +5,20 @@ import {
     ShoppingCartIcon,
     UserIcon,
 } from '@heroicons/react/24/solid';
-import React, { useState, FC } from 'react';
 import Link from 'next/link';
+import React, { FC, useState } from 'react';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
-import { useSelector } from 'react-redux';
-import { iconImg } from '@/site-settings/siteUrl';
-import { MobileNavProps } from '@/types';
+import { cancelIcon, gridIcon, searchIcon } from '@/assets/svg';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import Search3 from '@/components/headers/components/search3';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 import { RootState } from '@/redux/store';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import Search3 from '@/components/headers/components/search3';
-import { cancelIcon, gridIcon, searchIcon } from '@/assets/svg';
+import { iconImg } from '@/site-settings/siteUrl';
+import { MobileNavProps } from '@/types';
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { useSelector } from 'react-redux';
 
 const MobileNavTwo = ({ design }: MobileNavProps) => {
     const [active, setActive] = useState('home');
@@ -145,7 +145,15 @@ const MobileNavTwo = ({ design }: MobileNavProps) => {
                                 <p className="text-xs">{cartList.length}</p>
                             </div>
                         )}
+<<<<<<< HEAD
                         <CartSideBar open={openCart} setOpen={setOpenCart} design={design}/>
+=======
+                        <CartSideBar
+                            open={openCart}
+                            setOpen={setOpenCart}
+                            design={design}
+                        />
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                     </div>
                 </div>
                 <div className="group">

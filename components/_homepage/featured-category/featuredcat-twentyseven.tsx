@@ -11,6 +11,7 @@ import { iconImg, productImg } from '@/site-settings/siteUrl';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useGetCategoryProductQuery } from '@/redux/features/products/productApi';
+import Image from 'next/image';
 
 const FeaturedTwentySeven = ({ category, design, headersetting }: any) => {
     const [id, setId] = useState(category[0]?.id);
@@ -54,7 +55,7 @@ const FeaturedTwentySeven = ({ category, design, headersetting }: any) => {
                 </div>
 
                 <div className="bg-white flex flex-wrap justify-around lg:rounded-full rounded-md py-2 shadow-2xl xl:mx-40 mx-0 px-5 mb-14">
-                    {category?.slice(0, 5)?.map((item: any, index: number) => (
+                    {category?.length > 0 && category?.slice(0, 5)?.map((item: any, index: number) => (
                         <div className="" key={index}>
                             <FeatureCatSix item={item} setId={setId} id={id} />
                         </div>
@@ -88,25 +89,20 @@ const FeaturedTwentySeven = ({ category, design, headersetting }: any) => {
                                                     className="h-24 w-24 object-cover"
                                                 />
                                             </div>
-                                            <div className="absolute bottom-5 right-5">
-                                                <img
+                                            <div className="absolute bottom-5 -right-5">
+                                                <Image
                                                     src={
-                                                        id === 0
-                                                            ? bgImg
-                                                            : id === 1
-                                                              ? bgImg1
-                                                              : id === 2
-                                                                ? bgImg2
-                                                                : id === 3
-                                                                  ? bgImg3
-                                                                  : id === 4
-                                                                    ? bgImg4
-                                                                    : id === 5
-                                                                      ? bgImg5
-                                                                      : null
+                                                        [
+                                                            bgImg,
+                                                            bgImg1,
+                                                            bgImg2,
+                                                            bgImg3,
+                                                            bgImg4,
+                                                            bgImg5,
+                                                        ][id] || ''
                                                     }
                                                     alt=""
-                                                    className="h-48"
+                                                    className="h-40"
                                                 />
                                             </div>
                                         </div>

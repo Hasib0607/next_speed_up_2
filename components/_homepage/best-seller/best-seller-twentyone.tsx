@@ -109,7 +109,7 @@ const BestSellerTwentyOne = ({
                     {best_sell_product?.length > 0 &&
                         best_sell_product?.slice(0, 10)?.map((item: any) => (
                             <SwiperSlide key={item.id}>
-                                <Card45 item={item} />
+                                <Card45 item={item} type={'best_sell_product'} />
                             </SwiperSlide>
                         ))}
                 </DefaultSlider>

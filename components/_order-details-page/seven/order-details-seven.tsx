@@ -22,8 +22,6 @@ const OrderDetailsSeven = ({ appStore, order_id }: any) => {
     const [booking, setBooking] = useState({});
     const [transaction, setTransaction] = useState({});
     const [orderItem, setOrderItem] = useState([]);
-    const [productLink, setProductLink] = useState(null);
-    const [copied, setCopied] = useState(false);
 
     const router = useRouter();
 
@@ -59,7 +57,6 @@ const OrderDetailsSeven = ({ appStore, order_id }: any) => {
             setOrderItem(orderitem);
             setBooking(booking);
             setTransaction(transaction);
-            setProductLink(orderitem[0]?.product_link);
         }
     }, [orderDetailsData, orderDetailsSuccess]);
 
@@ -96,10 +93,6 @@ const OrderDetailsSeven = ({ appStore, order_id }: any) => {
                                 item={item}
                                 key={index}
                                 order={order}
-                                orderItem={orderItem}
-                                productLink={productLink}
-                                setCopied={setCopied}
-                                copied={copied}
                                 orderDetailsRefetch={orderDetailsRefetch}
                                 appStore={appStore}
                             />
@@ -207,6 +200,7 @@ const OrderDetailsSeven = ({ appStore, order_id }: any) => {
 
 export default OrderDetailsSeven;
 
+<<<<<<< HEAD
 const Single = ({
     item,
     order,
@@ -215,12 +209,17 @@ const Single = ({
     orderDetailsRefetch,
     appStore,
 }: any) => {
+=======
+const Single = ({ item, order, orderDetailsRefetch, appStore }: any) => {
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const store_id = appStore?.id || null;
 
     const productId = item?.product_id;
 
     const [open, setOpen] = useState(false);
+    const [copied, setCopied] = useState(false);
     const [product, setProduct] = useState<any>({});
+    const [productLink, setproductLink] = useState<string | null>(null);
 
     const {
         data: productDetailsData,
@@ -232,37 +231,56 @@ const Single = ({
         if (productDetailSuccess) {
             const product = productDetailsData?.data || {};
             setProduct(product);
+            setproductLink(product?.product_link);
         }
     }, [productDetailSuccess, productDetailsData]);
 
-    useEffect(() => {
-        let copyText = document.querySelector('.copy-text');
-        if (copyText !== null) {
-            copyText
-                .querySelector('button')
-                ?.addEventListener('click', function () {
-                    let input: any = copyText.querySelector('input.text');
+    // useEffect(() => {
+    //     let copyText = document.querySelector('.copy-text');
+    //     if (copyText !== null) {
+    //         copyText
+    //             .querySelector('button')
+    //             ?.addEventListener('click', function () {
+    //                 let input: any = copyText.querySelector('input.text');
 
-                    let value = input.value;
+    //                 let value = input.value;
 
+<<<<<<< HEAD
                     let tempTextarea = document.createElement('textarea');
                     tempTextarea.value = value;
+=======
+    //                 let tempTextarea = document.createElement('textarea');
+    //                 tempTextarea.value = value;
 
-                    document.body.appendChild(tempTextarea);
+    //                 document.body.appendChild(tempTextarea);
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
-                    tempTextarea.select();
+    //                 tempTextarea.select();
 
-                    document.execCommand('copy');
+    //                 document.execCommand('copy');
 
-                    document.body.removeChild(tempTextarea);
+    //                 document.body.removeChild(tempTextarea);
 
-                    copyText.classList.add('active');
-                    setTimeout(function () {
-                        copyText.classList.remove('active');
-                    }, 2500);
-                });
+    //                 copyText.classList.add('active');
+    //                 setTimeout(function () {
+    //                     copyText.classList.remove('active');
+    //                 }, 2500);
+    //             });
+    //     }
+    // }, [product]);
+
+    const copyToClipboard = async () => {
+        try {
+            await navigator.clipboard.writeText(productLink ?? '').then(() => {
+                setCopied(true);
+                // Display the toast notification
+                toast.success('Link copied!', { toastId: product?.id });
+                setTimeout(() => setCopied(false), 1500); // Reset "copied" status after 2 seconds
+            });
+        } catch (err) {
+            console.error('Failed to copy text:', err);
         }
-    }, [product]);
+    };
 
     return (
         <tr className="border-b border-gray-300 last:border-b-0">
@@ -311,20 +329,23 @@ const Single = ({
                 </div>
                 {(order?.status === 'Payment Success' ||
                     order?.status === 'Delivered') &&
-                orderItem[0]?.product_link ? (
-                    <div className="copy-text w-full">
-                        <input
-                            type="text"
-                            className="text"
-                            value={productLink ? productLink : ''}
-                            readOnly
-                            disabled
-                        />
-                        <button>
-                            <FaCopy />
-                        </button>
-                    </div>
-                ) : null}
+                    productLink && (
+                        <div className="copy-text w-full">
+                            <input
+                                type="text"
+                                className="text"
+                                value={productLink ?? ''}
+                                readOnly
+                                disabled
+                            />
+                            <button
+                                className={`px-2 py-2 font-semibold rounded-lg transition-all duration-300 ${copied ? 'bg-green-500' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
+                                onClick={copyToClipboard}
+                            >
+                                <FaCopy />
+                            </button>
+                        </div>
+                    )}
             </td>
             <td className="py-5 flex flex-col justify-center items-center gap-1 w-full font-medium text-base">
                 <div>

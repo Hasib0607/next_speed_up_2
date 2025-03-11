@@ -93,6 +93,9 @@ const CheckOutForty = ({ design, appStore, headersetting }: any) => {
         );
     }
 
+    const formFieldStyle =
+    'w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:border-gray-400';
+
     return (
         <div className="container lg:px-28 px-5 mt-10">
             <div className="text-center pb-5">
@@ -130,7 +133,7 @@ const CheckOutForty = ({ design, appStore, headersetting }: any) => {
                                                 setUserAddress={setUserAddress}
                                                 userPhone={userPhone}
                                                 setUserPhone={setUserPhone}
-                                                setUserName={setUserName}
+                                                formFieldStyle={formFieldStyle}
                                             />
                                         </div>
                                     </div>

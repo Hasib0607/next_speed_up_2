@@ -127,6 +127,8 @@ const DiscountSeven = ({
             if (initialAreaCost) {
                 setShippingArea(initialAreaCost);
             }
+        } else {
+            dispatch(setSelectedShippingArea(null));
         }
     }, [headersetting, setShippingArea, dispatch]);
 

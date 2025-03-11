@@ -64,6 +64,7 @@ const FooterThree = ({ headersetting, menu, page }: any) => {
                         <FaFacebookF className="text-2xl footerColor  " />
                       </a>
                     </div>
+<<<<<<< HEAD
                   )}
                   {headersetting?.youtube_link && (
                     <div className="border-2 rounded-full p-2">
@@ -75,6 +76,92 @@ const FooterThree = ({ headersetting, menu, page }: any) => {
                         {" "}
                         <AiFillYoutube className="text-2xl footerColor" />
                       </a>
+=======
+                    <p className="text-sm leading-none text-gray-800 mt-4 text-center">
+                        <span>© {date} All Rights Received </span>
+                        <Link
+                            href="/"
+                            className="font-semibold text-red-700 menu-hover"
+                        >
+                            {headersetting?.website_name}
+                        </Link>
+                        <span>Developed by </span>
+                        <Link
+                            href="https://ebitans.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-semibold text-red-700 menu-hover"
+                        >
+                            eBitans
+                        </Link>
+                    </p>
+                    <div className="flex items-center gap-x-4 mt-3 mb-5">
+                        <div className="flex gap-x-4 ">
+                            {headersetting?.facebook_link && (
+                                <div className="border-2 rounded-full p-2">
+                                    <a
+                                        href={`${headersetting?.facebook_link}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {' '}
+                                        <FaFacebookF className="text-2xl footerColor  " />
+                                    </a>
+                                </div>
+                            )}
+                            {headersetting?.youtube_link && (
+                                <div className="border-2 rounded-full p-2">
+                                    <a
+                                        href={`${headersetting?.youtube_link}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {' '}
+                                        <AiFillYoutube className="text-2xl footerColor" />
+                                    </a>
+                                </div>
+                            )}
+                            {headersetting?.instagram_link && (
+                                <div className="border-2 rounded-full p-2">
+                                    <a
+                                        href={`${headersetting?.instagram_link}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {' '}
+                                        <RiInstagramLine className="text-2xl footerColor" />
+                                    </a>
+                                </div>
+                            )}
+                            {headersetting?.whatsapp_phone && (
+                                <div className="border-2 rounded-full p-2">
+                                    <a
+                                        href={
+                                            'https://api.whatsapp.com/send?phone=' +
+                                            headersetting?.whatsapp_phone
+                                        }
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {' '}
+                                        <AiOutlineWhatsApp className="text-2xl footerColor" />
+                                    </a>
+                                </div>
+                            )}
+                            {headersetting?.lined_in_link && (
+                                <div className="border-2 rounded-full p-2">
+                                    <a
+                                        href={headersetting?.instagram_link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {' '}
+                                        <AiFillLinkedin className="text-2xl footerColor" />
+                                    </a>
+                                </div>
+                            )}
+                        </div>
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                     </div>
                   )}
                   {headersetting?.instagram_link && (

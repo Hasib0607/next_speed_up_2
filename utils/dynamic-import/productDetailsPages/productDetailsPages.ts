@@ -141,7 +141,10 @@ export const product_details_pages: any = {
     [FORTY_TWO]: dynamic(
         () => import('@/components/_product-details-page/forty-two/forty-two')
     ),
+<<<<<<< HEAD
     fortythree: dynamic(
         () => import('@/components/_product-details-page/forty-three/forty-three')
     ),
+=======
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 };

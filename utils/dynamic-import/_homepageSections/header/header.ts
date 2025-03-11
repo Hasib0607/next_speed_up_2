@@ -113,7 +113,10 @@ export const headers: any = {
     [FORTY_TWO]: dynamic(
         () => import('@/components/headers/header-fortytwo/header-fortytwo')
     ),
+<<<<<<< HEAD
     fortythree: dynamic(
         () => import('@/components/headers/header-fortythree/header-fortythree')
     ),
+=======
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 };

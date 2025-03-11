@@ -38,50 +38,42 @@ const Address = ({
 
     if (addressLoading) {
         addressCards = (
-            <>
-                <div className="flex items-center">
-                    {' '}
-                    <RotatingLines
-                        width="25"
-                        strokeColor="#6495ED"
-                        strokeWidth="6"
-                    />
-                    <p>Loading...</p>
-                </div>
-            </>
+            <div className="flex items-center">
+                {' '}
+                <RotatingLines
+                    width="25"
+                    strokeColor="#6495ED"
+                    strokeWidth="6"
+                />
+                <p>Loading...</p>
+            </div>
         );
     }
 
     if (addressError && !addressLoading) {
-        addressCards = (
-            <>
-                <p>Error fetching address data!</p>
-            </>
-        );
+        addressCards = <p>Error fetching address data!</p>;
     }
 
     if (addressSuccess && !addressLoading) {
         addressCards = (
-            <>
-                <div className="grid xl:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 grid-cols-1 gap-4">
-                    {addressArr
-                        ?.slice(0, 4)
-                        ?.map((item: any, index: number) => (
-                            <SingleAddress
-                                item={item}
-                                key={index}
-                                design={design}
-                                setEdit={setEdit}
-                                setEditItem={setEditItem}
-                                setOpen={setOpen}
-                                selectAddress={selectAddress}
-                                setSelectAddress={setSelectAddress}
-                                addressRefetch={addressRefetch}
-                                addressArr={addressArr}
-                            />
-                        ))}
-                </div>
-            </>
+            <div className="grid xl:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 grid-cols-1 gap-4">
+                {addressArr
+                    ?.slice(0, 4)
+                    ?.map((item: any, index: number) => (
+                        <SingleAddress
+                            item={item}
+                            key={index}
+                            design={design}
+                            setEdit={setEdit}
+                            setEditItem={setEditItem}
+                            setOpen={setOpen}
+                            selectAddress={selectAddress}
+                            setSelectAddress={setSelectAddress}
+                            addressRefetch={addressRefetch}
+                            addressArr={addressArr}
+                        />
+                    ))}
+            </div>
         );
     }
 
@@ -109,7 +101,8 @@ const Address = ({
             <div className={className ? className : 'col-span-6 sm:col-span-4'}>
                 <div className="flex justify-between items-center pb-3">
                     {design?.template_id === '29' ||
-                    design?.checkout_page === TWENTY_EIGHT || ONE  ||
+                    design?.checkout_page === TWENTY_EIGHT ||
+                    design?.checkout_page === ONE ||
                     store_id === 3601 ? (
                         <label
                             htmlFor="name"

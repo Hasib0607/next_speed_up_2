@@ -281,7 +281,11 @@ const Details = ({ product, children, cod, zoomable, buttonStyle }: any) => {
                         {save > 0 && (
                             <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                 <BDT />
+<<<<<<< HEAD
                                 {variantId !== null ? save : numberParser(product?.regular_price)}
+=======
+                                {variantId !== null ? price + save : numberParser(product?.regular_price)}
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                             </span>
                         )}{' '}
                     </div>

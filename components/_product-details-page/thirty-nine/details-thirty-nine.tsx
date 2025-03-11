@@ -169,7 +169,15 @@ const DetailsThirtyNine = ({
         () => productCurrentPrice(product, variantId),
         [product, variantId]
     );
+<<<<<<< HEAD
     const save = howMuchSave(product);
+=======
+    
+    const save = useMemo(
+        () => howMuchSave(product, variantId),
+        [product, variantId]
+    );
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
     const handleAddToCart = () => {
         addToCart({

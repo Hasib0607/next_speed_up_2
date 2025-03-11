@@ -1,3 +1,4 @@
+// numbers
 export const DEFAULT = 'default';
 export const ONE = 'one';
 export const TWO = 'two';
@@ -41,6 +42,15 @@ export const THIRTY_NINE = 'thirtynine';
 export const FORTY = 'forty';
 export const FORTY_ONE = 'fortyone';
 export const FORTY_TWO = 'fortytwo';
+<<<<<<< HEAD
+=======
+export const FORTY_THREE = 'fortythree';
+export const FORTY_FOUR = 'fortyfour';
+
+// dynamic colors
+export const HeaderColor = 'var(--header-color)';
+export const TextColor = 'var(--text-color)';
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 // regex
 export const HTML_TAG_PATTERN = /<[^>]*>/g;
@@ -64,6 +74,7 @@ function url() {
     return ''; // Optional: return an empty string if window is undefined (e.g., in server-side rendering)
 }
 
+<<<<<<< HEAD
 
 let urlName;
 
@@ -71,6 +82,15 @@ let urlName;
 // urlName = "2ndpagebooks.com";
 urlName = "moon.localhost:3000";
 // urlName = "qutobd.com";
+=======
+let urlName;
+
+// urlName = 'nexmanbd.com';
+// urlName = "kc.design";
+// urlName = "swifttrading.store";
+// urlName = 'mytimebd.store';
+urlName = "shr.localhost:3000";
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 if (process.env.NODE_ENV === 'production') {
     urlName = url();

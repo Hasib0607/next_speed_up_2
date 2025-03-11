@@ -17,10 +17,18 @@ export default async function getDomain() {
         return url;
     }
 
+<<<<<<< HEAD
     // url = "livicabd.com";
     // url = "2ndpagebooks.com";
     url = 'moon.localhost:3000';
     // url = "qutobd.com";
+=======
+    // url = 'nexmanbd.com';
+    // url = 'kc.design';
+    // url = "swifttrading.store";
+    // url = "mytimebd.store";
+    url = 'shr.localhost:3000';
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
     return url;
 }

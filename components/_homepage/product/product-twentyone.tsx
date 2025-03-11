@@ -52,8 +52,9 @@ const ProductTwentyOne = ({ design, category, headersetting }: any) => {
                 className={
                     'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'
                 }
-                card={'45'}
+                card={'45'} 
                 count={8}
+                btnType={"product"}
             >
                 <div className="text-red-500 text-center py-10 text-xl">
                     No Products Available

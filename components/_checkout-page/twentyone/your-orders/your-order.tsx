@@ -186,7 +186,7 @@ const YourOrders = ({
             address_id: selectAddress?.id,
             payment_type: selectedPayment,
             subtotal: numberParser(total),
-            shipping: numberParser(shippingArea),
+            shipping: shippingArea,
             total: gTotal,
             discount: totalDis,
             tax,

@@ -18,6 +18,7 @@ import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import CallForPrice from '@/utils/call-for-price';
 import { toast } from 'react-toastify';
 
+<<<<<<< HEAD
 import { FaShippingFast } from 'react-icons/fa';
 import { TbTruckReturn } from 'react-icons/tb';
 import { BiSolidCustomize } from 'react-icons/bi';
@@ -31,6 +32,15 @@ import {
 } from '../components/imageVariations';
 import AddCartBtn from '../components/add-cart-btn';
 import { useRouter } from 'next/navigation';
+=======
+import { useRouter } from 'next/navigation';
+import { BiSolidCustomize } from 'react-icons/bi';
+import { FaHome, FaShippingFast } from 'react-icons/fa';
+import { TbTruckReturn } from 'react-icons/tb';
+import AddCartBtn from '../components/add-cart-btn';
+import { Colors, ColorsOnly, Sizes, Units } from './imageVariations-forty-one';
+import { HSlider } from '../components/slider';
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 const DetailsFortyOne = ({
     product,
@@ -63,7 +73,11 @@ const DetailsFortyOne = ({
     const smallest = Math.min(...vPrice);
     const largest = Math.max(...vPrice);
 
+<<<<<<< HEAD
     const [filterV, setFilterV] = useState<any>([]);
+=======
+    const [filterV, setFilteredV] = useState<any>([]);
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
     // all selected state
     const [variantId, setVariantId] = useState<any>(null);
@@ -142,7 +156,11 @@ const DetailsFortyOne = ({
 
     // set which color is selected
     useEffect(() => {
+<<<<<<< HEAD
         setFilterV(
+=======
+        setFilteredV(
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
             variant?.filter((item: any) => item?.color === color?.color)
         );
     }, [color, variant]);
@@ -189,7 +207,14 @@ const DetailsFortyOne = ({
         () => productCurrentPrice(product, variantId),
         [product, variantId]
     );
+<<<<<<< HEAD
     const save = howMuchSave(product);
+=======
+    const save = useMemo(
+        () => howMuchSave(product, variantId),
+        [product, variantId]
+    );
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const parsedRating = numberParser(product?.rating, true);
 
     const handleAddToCart = () => {
@@ -286,12 +311,26 @@ const DetailsFortyOne = ({
                                     - <BDT /> {price + largest}
                                 </p>
                             )}
+<<<<<<< HEAD
                             {largest === smallest && (
                                 <p className="text-gray-500 font-thin line-through text-xl font-seven ml-2">
                                     <BDT />
                                     {price}
                                 </p>
                             )}
+=======
+                            {largest === smallest ||
+                                (save > 0 && (
+                                    <span className="text-gray-500 font-thin line-through text-xl font-seven">
+                                        <BDT />
+                                        {variantId !== null
+                                            ? price + save
+                                            : numberParser(
+                                                  product?.regular_price
+                                              )}
+                                    </span>
+                                ))}{' '}
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                         </div>
                     )}
                     {(variant?.length === 0 || color || size || unit) && (
@@ -301,7 +340,7 @@ const DetailsFortyOne = ({
                             >
                                 <BDT />
                                 {price}{' '}
-                                {save > 0 && (
+                                {price !== save && save > 0 && (
                                     <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                         <BDT />
                                         {numberParser(product?.regular_price)}
@@ -336,13 +375,13 @@ const DetailsFortyOne = ({
                     {/* color and size  */}
                     {currentVariation?.colorsAndSizes && (
                         <>
-                            {' '}
                             <Colors
                                 color={color}
                                 setColor={setColor}
                                 variant_color={variant_color}
                                 setSize={setSize}
                                 setActiveImg={setActiveImg}
+                                productImage={product?.image[0]}
                             />
                             <Sizes
                                 size={size}
@@ -365,15 +404,14 @@ const DetailsFortyOne = ({
 
                     {/* color only  */}
                     {currentVariation?.colorsOnly && (
-                        <>
-                            {' '}
-                            <ColorsOnly
-                                color={color}
-                                setColor={setColor}
-                                variant={variant}
-                                setActiveImg={setActiveImg}
-                            />
-                        </>
+                        <ColorsOnly
+                            color={color}
+                            setColor={setColor}
+                            variant={variant}
+                            variant_color={variant_color}
+                            setActiveImg={setActiveImg}
+                            productImage={product?.image[0]}
+                        />
                     )}
 
                     {/* size only  */}
@@ -429,6 +467,7 @@ const DetailsFortyOne = ({
                             product={product}
                             onClick={handleAddToCart}
                             buttonOne={buttonFortyOne}
+                            roundedBtn
                         />
                     )}
 

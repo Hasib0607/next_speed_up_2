@@ -9,22 +9,18 @@ const ProductDetails = ({ design, headersetting, product, productId }: any) => {
 
     const store_id = numberParser(design?.store_id) || null;
 
-    console.log("design?.single_product_page", design?.single_product_page);
-
     return (
-        <>
-            {design?.single_product_page !== 'null' &&
-                ProductDetailsPageComponent &&
-                store_id && (
-                    <ProductDetailsPageComponent
-                        design={design}
-                        headersetting={headersetting}
-                        productId={productId}
-                        store_id={store_id}
-                        product={product}
-                    />
-                )}
-        </>
+        design?.single_product_page !== 'null' &&
+        ProductDetailsPageComponent &&
+        store_id && (
+            <ProductDetailsPageComponent
+                design={design}
+                headersetting={headersetting}
+                productId={productId}
+                store_id={store_id}
+                product={product}
+            />
+        )
     );
 };
 

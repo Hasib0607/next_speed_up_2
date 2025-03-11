@@ -13,47 +13,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useState } from 'react';
 import {
+    getCssVariableHex,
     howMuchSave,
     isAvailable,
     productCurrentPrice,
 } from '@/helpers/littleSpicy';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
+import { HeaderColor, TextColor } from '@/consts';
+import { getDataByType } from '@/helpers/getCustomDataByType';
+import { useRouter } from 'next/navigation';
 
-const Card45 = ({ item }: any) => {
+const Card45 = ({ item, type = '' }: any) => {
     const { data: headerData } = useGetHeaderSettingsQuery({});
     const headersetting = headerData?.data || {};
 
+    const router = useRouter();
     const secondImg = item?.image[1] ? item?.image[1] : item?.image[0];
-
-    const bgColor = 'var(--header-color)';
-    const textColor = 'var(--text-color)';
-
-    const styleCss = `
-    .searchHover:hover {
-        color:  ${textColor};
-        background: ${bgColor};
-    }
-    .text-color {
-        color:  ${bgColor};
-    }
-    .text-hover:hover {
-        color: ${bgColor};
-      }
-    .bg-color {
-        color:  ${textColor};
-        background: ${bgColor};
-    }
-    .cart-btn {
-        color:  ${textColor};
-        background: ${bgColor};
-    }
-    .cart-btn:hover {
-        color:  ${bgColor};
-        background: transparent;
-        border: 1px solid ${bgColor};
-    }
-  `;
 
     const [open, setOpen] = useState<any>(false);
 
@@ -68,19 +44,93 @@ const Card45 = ({ item }: any) => {
     const parsedRating = numberParser(item?.rating, true);
 
     const handleAddToCart = () => {
-        if (item?.variant?.length > 0) {
+        addToCart({
+            dispatch,
+            product: item,
+            cartList,
+            price,
+            qty: 1,
+            productQuantity: item?.quantity,
+        });
+    };
+
+    const buy_now = () => {
+        if (item?.variant.length !== 0) {
             setOpen(!open);
         } else {
-            addToCart({
-                dispatch,
-                product: item,
-                cartList,
-                price,
-                qty: 1,
-                productQuantity: item?.quantity,
-            });
+            handleAddToCart();
+            router.push('/checkout');
         }
     };
+
+    const add_cart_item = () => {
+        if (item?.variant.length !== 0) {
+            setOpen(!open);
+        } else {
+            handleAddToCart();
+        }
+    };
+
+    const customDesignData = getDataByType(headersetting, type);
+
+    const {
+        button,
+        button_color,
+        button_bg_color,
+        button1,
+        button1_color,
+        button1_bg_color,
+        is_buy_now_cart,
+        is_buy_now_cart1,
+    } = customDesignData || {};
+
+    const isEmpty = Object.keys(customDesignData).length === 0;
+    const bgColor = getCssVariableHex('--header-color');
+    const styleCss = `
+    .searchHover:hover {
+        color:  ${TextColor};
+        background: ${HeaderColor};
+    }
+    .text-color {
+        color:  ${HeaderColor};
+    }
+    .text-hover:hover {
+        color: ${HeaderColor};
+      }
+    .bg-color {
+        color:  ${TextColor};
+        background: ${HeaderColor};
+    }
+    .cart-btn {
+        color:  ${TextColor};
+        background: ${HeaderColor};
+    }
+    .cart-btn:hover {
+        color:  ${HeaderColor};
+        background: transparent;
+        border: 1px solid ${TextColor};
+    }
+    .c58_btn {
+        color:  ${button_color};
+        background: ${button_bg_color};
+        border: 2px solid transparent;
+    }
+    .c58_btn:hover {
+        color:  ${button_color};
+        background: transparent;
+        border: 2px solid ${button_color};
+    }
+    .c58_btn1 {
+        color:  ${button1_color};
+        background: ${button1_bg_color};
+        border: 2px solid transparent;
+    }
+    .c58_btn1:hover {
+        color:  ${button1_color};
+        background: transparent;
+        border: 2px solid ${button1_color};
+    }
+  `;
 
     return (
         <div className="group">
@@ -116,14 +166,17 @@ const Card45 = ({ item }: any) => {
                         {productAvailablity && save > 0 && (
                             <>
                                 <div className="absolute text-center text-xs h-12 w-12 rounded-full flex flex-wrap justify-center items-center bg-color text-white top-2 right-2 ">
-                                    <p className="">
-                                        Dis.{numberParser(item.discount_price)}
-                                        {item.discount_type === 'fixed'
-                                            ? 'TK'
-                                            : ''}
-                                        {item.discount_type === 'percent'
-                                            ? '%'
-                                            : ''}
+                                    <p className="flex flex-col">
+                                        <span>Dis.</span>
+                                        <span className="text-[10px]">
+                                            {numberParser(item.discount_price)}
+                                            {item.discount_type === 'fixed'
+                                                ? 'TK'
+                                                : ''}
+                                            {item.discount_type === 'percent'
+                                                ? '%'
+                                                : ''}
+                                        </span>
                                     </p>
                                 </div>
                             </>
@@ -132,9 +185,9 @@ const Card45 = ({ item }: any) => {
                 </Link>
 
                 <div className="flex flex-col gap-2 px-4 py-3 lg:group-hover:pb-[40px] duration-1000 w-full">
-                    <div className="flex gap-x-1 pt-2">
+                    <div className="flex items-baseline gap-x-1 pt-2">
                         <div>
-                            <Rate rating={parsedRating} />
+                            <Rate rating={parsedRating} rate_color={bgColor} />
                         </div>
                         <div className="text-gray-500 sm:text-sm text-xs">
                             ({parsedNumberRating})
@@ -150,7 +203,7 @@ const Card45 = ({ item }: any) => {
                     </div>
 
                     <div className="text-gray-600 font-semibold flex items-center gap-2 w-full group-hover:opacity-0 duration-500">
-                        <div className="text-base font-semibold">
+                        <div className="text-base font-semibold text-[var(--header-color)]">
                             <BDT />
                             {price}
                         </div>
@@ -164,15 +217,60 @@ const Card45 = ({ item }: any) => {
                         )}
                     </div>
                 </div>
-                {productAvailablity ? (
-                    <div
+                {/* <div
                         onClick={handleAddToCart}
                         className="w-full lg:py-2 pb-2 lg:absolute lg:group-hover:bottom-1 lg:bottom-10 lg:opacity-0 lg:group-hover:opacity-100 duration-500 z-[1] px-4"
                     >
                         <p className=" font-medium w-full text-center cart-btn duration-500 border border-transparent rounded-lg lg:cursor-pointer text-xs py-2">
                             {'Add to Cart'}
                         </p>
-                    </div>
+                    </div> */}
+                {productAvailablity ? (
+                    <>
+                        {isEmpty && (
+                            <div
+                                onClick={add_cart_item}
+                                className="font-medium w-full text-center cart-btn border-transparent rounded-lg lg:cursor-pointer text-xs lg:py-2 pb-2 lg:absolute lg:group-hover:bottom-1 lg:bottom-10 lg:opacity-0 lg:group-hover:opacity-100 duration-500 z-[1] px-4"
+                            >
+                                {'Add to Cart'}
+                            </div>
+                        )}
+                        {(button || button1) && (
+                            <div className="flex flex-col gap-4">
+                                <div>
+                                    {button && (
+                                        <div
+                                            onClick={
+                                                numberParser(is_buy_now_cart) ==
+                                                1
+                                                    ? buy_now
+                                                    : add_cart_item
+                                            }
+                                            className="font-medium w-full text-center c58_btn border-transparent rounded-lg lg:cursor-pointer text-xs lg:py-2 pb-2 lg:absolute lg:group-hover:bottom-1 lg:bottom-10 lg:opacity-0 lg:group-hover:opacity-100 duration-500 z-[1] px-4"
+                                        >
+                                            {button}
+                                        </div>
+                                    )}
+                                </div>
+                                <div>
+                                    {button1 && (
+                                        <div
+                                            onClick={
+                                                numberParser(
+                                                    is_buy_now_cart1
+                                                ) == 1
+                                                    ? buy_now
+                                                    : add_cart_item
+                                            }
+                                            className="font-medium w-full text-center c58_btn rounded-lg lg:cursor-pointer text-xs lg:py-2 pb-2 lg:absolute lg:group-hover:bottom-12 lg:bottom-20 lg:opacity-0 lg:group-hover:opacity-100 duration-500 z-[1] px-4"
+                                        >
+                                            {button1}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </>
                 ) : (
                     <div className="px-4">
                         <a

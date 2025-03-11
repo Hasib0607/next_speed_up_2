@@ -26,7 +26,7 @@ const FeatureProductEleven = ({ feature_product, headersetting }: any) => {
             </div>
 
             <SliderNine prevEl={prev} nextEl={next}>
-                {feature_product?.slice(0, 10).map((item: any) => (
+                {feature_product?.slice(0, 10)?.map((item: any) => (
                     <SwiperSlide key={item.id}>
                         <Card19 item={item} />
                     </SwiperSlide>

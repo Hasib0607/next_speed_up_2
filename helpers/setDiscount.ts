@@ -17,7 +17,7 @@ export const setDiscount = (res: any, total: any, shippingArea?: number) => {
     }
 };
 
-export const setCouponShow = (res: any, total: any, shippingArea?: number) => {
+export const setCouponShow = (res: any, total: any, shippingArea?: any) => {
     const status = res?.code_status;
 
     if (status) {

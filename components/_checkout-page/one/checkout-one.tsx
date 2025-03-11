@@ -44,12 +44,10 @@ const CheckOutOne = ({ design, appStore, headersetting }: any) => {
         }
     }, [cartTotalCampainOfferDiscountAmount, dispatch]);
 
-
     useEffect(() => {
         dispatch(setPurchaseList([]));
         dispatch(setGrandTotal(0));
     }, [dispatch]);
-
 
     if (cartList?.length === 0) {
         return (
@@ -65,6 +63,9 @@ const CheckOutOne = ({ design, appStore, headersetting }: any) => {
             </div>
         );
     }
+
+    const formFieldStyle =
+        'w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:border-gray-400';
 
     return (
         <div className="bg-[#F3F4F6] min-h-screen">
@@ -115,7 +116,7 @@ const CheckOutOne = ({ design, appStore, headersetting }: any) => {
                                         setUserAddress={setUserAddress}
                                         userPhone={userPhone}
                                         setUserPhone={setUserPhone}
-                                        setUserName={setUserName}
+                                        formFieldStyle={formFieldStyle}
                                     />
                                 </div>
                             </div>

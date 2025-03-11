@@ -141,8 +141,13 @@ export const getCampainOfferDeliveryFee = (
 export const grandTotal = (
     total: any,
     tax: any,
+<<<<<<< HEAD
     shippingArea: any,
     totalDis: any
+=======
+    shippingArea?: any,
+    totalDis?: any
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 ) => {
     const gTotal =
         shippingArea === '--Select Area--' || shippingArea === null
@@ -183,10 +188,11 @@ export const addToCart = ({
     size?: any;
     color?: any;
     filterV?: any[];
-    productQuantity: number;
+    productQuantity?: number;
 }) => {
     const hasInCartList = isActiveCart(product, cartList, variantId);
     const isAbleToCart = isQtyLeft(product, variantId, qty, cartList);
+    const hasImages = variant?.some((item: any) => item?.image)
 
     const addOnBoard = () => {
         dispatch(
@@ -226,7 +232,7 @@ export const addToCart = ({
                     });
                     return;
                 } else if (size === null) {
-                    toast.warning('Please Select Size', {
+                    toast.warning(`Please Select ${hasImages? "Pattern" : "Size"}`, {
                         toastId: product?.id,
                     });
                     return;

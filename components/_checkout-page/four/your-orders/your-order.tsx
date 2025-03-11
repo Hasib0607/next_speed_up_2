@@ -342,7 +342,7 @@ const YourOrders = ({
                     </p>
                 </div>
 
-                {couponShow  && (
+                {couponShow && (
                     <div className="space-x-4 my-3">
                         <button
                             className="relative inline-flex font-semibold justify-between gap-2 items-center px-2 space-y-2 text-sm shadow rounded-full bg-green-500 text-gray-900"

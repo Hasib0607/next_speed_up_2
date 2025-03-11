@@ -153,6 +153,8 @@ const Discount = ({
             if (initialAreaCost >= 0) {
                 setShippingArea(initialAreaCost);
             }
+        } else {
+            dispatch(setSelectedShippingArea(null));
         }
     }, [headersetting, setShippingArea, dispatch]);
 

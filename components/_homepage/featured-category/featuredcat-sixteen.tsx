@@ -111,7 +111,6 @@ export default FeaturedSixteen;
 const Card = ({ item }: any) => {
     const [open, setOpen] = useState(false);
     return (
-        <>
             <div className="flex flex-col items-center justify-center gap-8 overflow-hidden h-60 rounded-lg border-[1px] category-hover duration-500 bg-gray-100">
                 <div className="" onClick={() => setOpen(!open)}>
                     <img
@@ -129,6 +128,5 @@ const Card = ({ item }: any) => {
                     </Link>
                 </div>
             </div>
-        </>
     );
 };

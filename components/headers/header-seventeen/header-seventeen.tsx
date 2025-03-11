@@ -1,26 +1,26 @@
 'use client';
 
-import './header-seventeen.css';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaUserTie } from 'react-icons/fa';
-import { IoCartSharp, IoMenuOutline } from 'react-icons/io5';
-import { IoMdSearch } from 'react-icons/io';
 import { GrClose } from 'react-icons/gr';
+import { IoMdSearch } from 'react-icons/io';
+import { IoCartSharp, IoMenuOutline } from 'react-icons/io5';
+import './header-seventeen.css';
 
-import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 
-import Search3 from '../components/search3';
-import Link from 'next/link';
 import { imgUrl } from '@/site-settings/siteUrl';
+import Link from 'next/link';
+import Search3 from '../components/search3';
 
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { useRouter } from 'next/navigation';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { REDUX_PERSIST } from '@/consts';
+import { useRouter } from 'next/navigation';
 import SideMenu from './side-menu';
 
 const HeaderSeventeen = ({ headersetting, design, menu, cartList }: any) => {
@@ -106,7 +106,15 @@ const HeaderSeventeen = ({ headersetting, design, menu, cartList }: any) => {
                 </div>
                 {searchTxt && (
                     <div className="w-full flex justify-center">
+<<<<<<< HEAD
                         <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
+=======
+                        <Search3
+                            search={searchTxt}
+                            setSearch={setSearch}
+                            design={design}
+                        />
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                     </div>
                 )}
             </div>
@@ -311,10 +319,17 @@ const HeaderSeventeen = ({ headersetting, design, menu, cartList }: any) => {
 
             {/* CartSideBar open  */}
             <CartSideBar
+<<<<<<< HEAD
                     open={openCart}
                     setOpen={setOpenCart}
                     design={design}
                 />
+=======
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
             {/* tablet and mobile view  */}
 

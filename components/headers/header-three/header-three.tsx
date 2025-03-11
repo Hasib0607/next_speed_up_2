@@ -71,7 +71,6 @@ const HeaderThree = ({ headersetting, design, menu }: any) => {
    h1, h2, h3, h4, h5, h6, li, ul, a, p, span, button, option, select, input, div {
       font-family: 'Open Sans', sans-serif;
     }
-  
      `;
 
     return (

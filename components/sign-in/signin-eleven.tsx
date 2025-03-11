@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import { imgUrl } from '@/site-settings/siteUrl';
@@ -10,13 +10,20 @@ import Link from 'next/link';
 import Loading from '../loaders/loading';
 import { toast } from 'react-toastify';
 import { useLogInMutation } from '@/redux/features/auth/authApi';
+<<<<<<< HEAD
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
+=======
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 export const cls =
     'py-2 px-4 md:px-5 w-full appearance-none transition duration-150 ease-in-out border text-input text-xs lg:text-sm font-body rounded-md placeholder-body min-h-12 bg-white border-gray-300 focus:outline-none focus:border-heading h-11 md:h-12';
 
+<<<<<<< HEAD
 const LoginEleven = ({ headersetting, appStore }: any) => {
     const module_id = 120;
+=======
+const LoginEleven = ({ headersetting, appStore, activeModule }: any) => {
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);
@@ -25,20 +32,6 @@ const LoginEleven = ({ headersetting, appStore }: any) => {
     const router = useRouter();
 
     const [logIn] = useLogInMutation();
-
-    const {
-        data: moduleIdDetailsData,
-        isLoading: moduleIdDetailLoading,
-        isError: moduleIdDetailError,
-        isSuccess: moduleIdDetailSuccess,
-    } = useGetModuleStatusQuery({ store_id, module_id });
-    const activeModule = moduleIdDetailsData?.status || false;
-
-    useEffect(() => {
-        if (moduleIdDetailError) {
-            toast.error('Failed to fetch module data. Please try again.');
-        }
-    }, [moduleIdDetailError]);
 
     const { register, handleSubmit } = useForm();
 
@@ -199,6 +192,7 @@ const LoginEleven = ({ headersetting, appStore }: any) => {
                                     </div>
                                 </form>
 
+<<<<<<< HEAD
                                 {(appStore?.auth_type !== 'EasyOrder' ||
                                     (moduleIdDetailSuccess &&
                                         activeModule)) && (
@@ -212,6 +206,20 @@ const LoginEleven = ({ headersetting, appStore }: any) => {
                                         </Link>
                                     </p>
                                 )}
+=======
+                                {appStore?.auth_type !== 'EasyOrder' ||
+                                    (activeModule && (
+                                        <p className="text-base font-medium text-[#5A5A5A]">
+                                            Don't have any account?
+                                            <Link
+                                                href="/sign-up"
+                                                className="text-primary underline font-sans font-bold text-black pl-1"
+                                            >
+                                                Register
+                                            </Link>
+                                        </p>
+                                    ))}
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                                 <div className="flex justify-center w-full">
                                     {/* <LoginWith /> */}
                                 </div>

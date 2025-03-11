@@ -46,8 +46,8 @@ const CategoryFortyOne = ({ catId, store_id, design }: any) => {
 
     const styleCss = `
         .grid-active {
-        color:  ${design?.header_color};
-        border: 1px solid ${design?.header_color};
+            color:  ${design?.header_color};
+            border: 1px solid ${design?.header_color};
         }
     `;
 
@@ -58,7 +58,7 @@ const CategoryFortyOne = ({ catId, store_id, design }: any) => {
             <div className="sm:container px-5 sm:py-10 py-5">
                 <style>{styleCss}</style>
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-                    <div className=" hidden lg:block col-span-3 ">
+                    <div className="hidden lg:block col-span-3 ">
                         <div className="w-full rounded-xl h-max p-4 shadow-2xl">
                             <h3 className="font-medium text-[#252525] text-xl px-4 mb-4 ">
                                 Categories
@@ -78,17 +78,18 @@ const CategoryFortyOne = ({ catId, store_id, design }: any) => {
                             <FilterByPriceNew />
                         </div>
                     </div>
-                    <div className="col-span-1 lg:col-span-9 flex flex-col min-h-[100vh-200px] h-full ">
+                    <div className="col-span-1 lg:col-span-9 flex flex-col min-h-[100vh-200px] h-full gap-2">
                         <Filter
                             onChange={(e: any) => {
                                 dispatch(setSort(e.target.value));
                                 setPage(1);
                             }}
+                            grid={grid}
                             setGrid={setGrid}
                             setOpen={setOpen}
                             open={open}
                         />
-                        <div className="flex-1">
+                        <div className="my-5">
                             <ProductSection
                                 catId={catId}
                                 grid={grid}
@@ -315,8 +316,9 @@ const ProductSection = ({
 };
 
 const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
+    
     return (
-        <div className="border-t border-b border-[#f1f1f1] py-3 mb-5 flex flex-wrap justify-between items-center px-2">
+        <div className="border-t border-b border-[#f1f1f1] py-3 flex flex-wrap justify-between items-center px-2">
             <div className="text-gray-500 font-medium">
                 Showing {paginate?.from}-{paginate?.to} of {paginate?.total}{' '}
                 results{' '}
@@ -324,7 +326,7 @@ const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
             <div className="flex items-center gap-1 mb-3 md:mb-0">
                 <div
                     onClick={() => setGrid('H')}
-                    className={` rounded-full p-2 ${
+                    className={` rounded-full p-2 lg:cursor-pointer ${
                         grid === 'H' ? 'grid-active' : 'border'
                     }`}
                 >
@@ -332,7 +334,7 @@ const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
                 </div>
                 <div
                     onClick={() => setGrid('V')}
-                    className={`rounded-full p-2 ${
+                    className={`rounded-full p-2 lg:cursor-pointer ${
                         grid === 'V' ? 'grid-active' : 'border'
                     }`}
                 >
@@ -359,37 +361,40 @@ const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
 
 const SingleCat = ({ item, design }: any) => {
     const [show, setShow] = useState(false);
-    const { id }: any = useParams<{ id: string }>();
+
+    const { cat_id }: any = useParams<{ id: string }>();
+    
     useEffect(() => {
         if (item.cat) {
             for (let i = 0; i < item.cat.length; i++) {
-                item.cat[i].id == id && setShow(true);
+                item.cat[i].id == cat_id && setShow(true);
             }
         }
-    }, [item?.cat, id]);
+    }, [item?.cat, cat_id]);
 
     const activeColor = `text-[${design?.header_color}] flex-1 text-lg font-medium`;
     const inactiveColor = 'text-gray-500 flex-1 text-lg font-medium';
     const activesub = `text-[${design?.header_color}] py-2 px-4 text-sm`;
     const inactivesub = `text-gray-600 py-2 px-4 text-sm`;
+
     return (
         <div className="">
             <div className="w-full border mb-2">
                 <div className="flex items-center px-4 py-3">
                     <Link
                         style={
-                            parseInt(id) === parseInt(item?.id)
+                            parseInt(cat_id) === parseInt(item?.id)
                                 ? { color: `${design.header_color}` }
                                 : {}
                         }
                         onClick={() => setShow(!show)}
                         href={'/category/' + item?.id}
-                        className={id == item?.id ? activeColor : inactiveColor}
+                        className={cat_id == item?.id ? activeColor : inactiveColor}
                     >
                         {' '}
                         <p>{item.name}</p>
                     </Link>
-                    {item?.subcategories ? (
+                    {item?.subcategories?.length > 0  ? (
                         <div className="px-4 h-full">
                             {show ? (
                                 <MinusIcon
@@ -415,7 +420,7 @@ const SingleCat = ({ item, design }: any) => {
                                             {' '}
                                             <p
                                                 style={
-                                                    parseInt(id) ===
+                                                    parseInt(cat_id) ===
                                                     parseInt(sub?.id)
                                                         ? {
                                                               color: `${design.header_color}`,
@@ -423,7 +428,7 @@ const SingleCat = ({ item, design }: any) => {
                                                         : {}
                                                 }
                                                 className={
-                                                    id == sub?.id
+                                                    cat_id == sub?.id
                                                         ? activesub
                                                         : inactivesub
                                                 }

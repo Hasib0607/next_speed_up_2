@@ -11,6 +11,7 @@ export default async function Home() {
     const layout = await getLayout();
     const slider = await getSlider();
     const banner = await getBanner();
+// console.log("layout",layout);
 
     return (
         <HomePage

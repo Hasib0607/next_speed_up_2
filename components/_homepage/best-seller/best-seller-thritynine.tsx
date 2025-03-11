@@ -57,11 +57,7 @@ const BestSellerThirtyNine = ({ best_sell_product, headersetting }: any) => {
                     {best_sell_product?.length > 0 &&
                         best_sell_product?.slice(0, 10)?.map((item: any) => (
                             <SwiperSlide key={item?.id}>
-                                <div
-                                    className={`translate-y-[25px] duration-1000`}
-                                >
                                     <Card67 item={item} />
-                                </div>
                             </SwiperSlide>
                         ))}
                 </DefaultSlider>

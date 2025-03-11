@@ -2,6 +2,17 @@
 
 import { imgUrl } from '@/site-settings/siteUrl';
 
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import { REDUX_PERSIST } from '@/consts';
+import { classNames } from '@/helpers/littleSpicy';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
+import useAuth from '@/hooks/useAuth';
+import { useLogOutMutation } from '@/redux/features/auth/authApi';
+import {
+    useGetCategoryQuery,
+    useGetSubCategoryQuery,
+} from '@/redux/features/category/categoryApi';
+import { RootState } from '@/redux/store';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -17,6 +28,7 @@ import { TiArrowSortedUp } from 'react-icons/ti';
 import { useSelector } from 'react-redux';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
+<<<<<<< HEAD
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
@@ -29,12 +41,15 @@ import {
 } from '@/redux/features/category/categoryApi';
 import { RootState } from '@/redux/store';
 
+=======
+
+import { cancelIcon } from '@/assets/svg';
+import { subTotal } from '@/utils/_cart-utils/cart-utils';
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import BDT from '@/utils/bdt';
 import { customizeHeader } from '@/utils/customizeDesign';
 import { useRouter } from 'next/navigation';
-import { subTotal } from '@/utils/_cart-utils/cart-utils';
 import { SingleCat } from '../components/single-cat';
-import { cancelIcon } from '@/assets/svg';
 
 const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
@@ -83,7 +98,7 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
     if (openCat === true) {
         setTimeout(() => {
             setActive(false);
-        }, 800);
+        }, 500);
     } else {
         setTimeout(() => {
             setActive(true);
@@ -96,7 +111,7 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
     } else {
         setTimeout(() => {
             setBorder(true);
-        }, 1000);
+        }, 500);
     }
 
     useEffect(() => {

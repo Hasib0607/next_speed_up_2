@@ -188,6 +188,7 @@ const Related = ({ product, design }: any) => {
     const nextEl = 'feature-product-next';
 
     const styleCss = `
+<<<<<<< HEAD
     .feature-product-prev {
     color:  ${design?.header_color};
     border: 1px solid ${design?.header_color};
@@ -208,6 +209,28 @@ const Related = ({ product, design }: any) => {
     opacity:1;
     background: white;
     }
+=======
+        .feature-product-prev {
+            color:  ${design?.header_color};
+            border: 1px solid ${design?.header_color};
+        }
+        .feature-product-next{
+            color:  ${design?.header_color};
+            border: 1px solid ${design?.header_color};
+        }
+        .feature-product-prev:hover {
+            color:  ${design?.text_color};
+            background: ${design?.header_color};
+        }
+        .feature-product-next:hover {
+            color:  ${design?.text_color};
+            background: ${design?.header_color};
+        }
+        .arrow-hov:hover .arrow {
+            opacity:1;
+            background: white;
+        }
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     `;
 
     return (
@@ -239,7 +262,7 @@ const Related = ({ product, design }: any) => {
                 <DefaultSlider
                     prevEl={prevEl}
                     nextEl={nextEl}
-                    loop={true}
+                    loop={product?.length > 4}
                     breakpoints={{
                         250: {
                             slidesPerView: 1,
@@ -269,7 +292,7 @@ const Related = ({ product, design }: any) => {
                 >
                     {product?.slice(0, 10)?.map((productData: any) => (
                         <SwiperSlide key={productData.id}>
-                            <Card45 item={productData} />
+                            <Card45 item={productData}  type={'single_product_page'}/>
                         </SwiperSlide>
                     ))}
                 </DefaultSlider>

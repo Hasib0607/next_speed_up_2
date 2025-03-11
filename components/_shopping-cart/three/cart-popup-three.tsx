@@ -1,22 +1,18 @@
 'use client';
 
 import BDT from '@/utils/bdt';
-
-import { subTotal } from '@/utils/_cart-utils/cart-utils';
-import { Dialog, Transition } from '@headlessui/react';
-import { ShoppingBagIcon } from '@heroicons/react/24/outline';
-
 import Link from 'next/link';
-import { Fragment, useState } from 'react';
-
-import SingleCartProduct from '@/components/_shopping-cart/_components/single-cart-product';
-import { useSelector } from 'react-redux';
-import { XIcon } from 'react-share';
+import { useState } from 'react';
 import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
+import { ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { CartSideBar } from '../_components/cart-side-bar';
+import { subTotal } from '@/utils/_cart-utils/cart-utils';
 
 const CartPopUpThree = ({ design }: any) => {
     const [open, setOpen] = useState(false);
     const { cartList } = useSelector((state: RootState) => state.cart);
+    const total = subTotal(cartList);
 
     return (
         <>
@@ -58,12 +54,34 @@ const CartPopUpThree = ({ design }: any) => {
                     </div>
                 </div>
             </div>
-            <CartSideBar open={open} setOpen={setOpen} design={design} />
+            <CartSideBar open={open} setOpen={setOpen} design={design}>
+                <div className="w-full flex justify-center  bottom-0 right-0">
+                    <Link
+                        onClick={() => setOpen(false)}
+                        href="/checkout"
+                        className="w-full flex justify-between items-center py-4 divide-x-2 my-3 mx-6 px-6 rounded-md"
+                        style={{
+                            color: design?.text_color,
+                            backgroundColor: design?.header_color,
+                        }}
+                    >
+                        <p className="sm:text-base text-sm font-bold ">
+                            {design?.template_id === '29'
+                                ? 'অর্ডার করুন'
+                                : 'Checkout'}
+                        </p>{' '}
+                        <p className="pl-4 sm:text-base text-sm">
+                            {total} <BDT />
+                        </p>
+                    </Link>
+                </div>
+            </CartSideBar>
         </>
     );
 };
 
 export default CartPopUpThree;
+<<<<<<< HEAD
 
 export const CartSideBar = (props: any) => {
     return (
@@ -175,3 +193,5 @@ const ShoppingCart = ({ setOpen, design }: any) => {
         </div>
     );
 };
+=======
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b

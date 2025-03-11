@@ -1,6 +1,6 @@
 'use client';
 
-import { imgUrl, profileImg } from '@/site-settings/siteUrl';
+import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -13,14 +13,18 @@ import { RiCloseCircleLine, RiMenu2Line } from 'react-icons/ri';
 import Search3 from '../components/search3';
 import SideMenu from './side-menu';
 
+<<<<<<< HEAD
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+=======
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import { REDUX_PERSIST } from '@/consts';
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { classNames } from '@/helpers/littleSpicy';
-import { useRouter } from 'next/navigation';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { REDUX_PERSIST } from '@/consts';
 import { RootState } from '@/redux/store';
+import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
 const HeaderFourteen = ({ headersetting, design, menu }: any) => {
@@ -135,7 +139,15 @@ const HeaderFourteen = ({ headersetting, design, menu }: any) => {
                     </div>
                     {searchTxt && (
                         <div className="relative">
+<<<<<<< HEAD
                             <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
+=======
+                            <Search3
+                                search={searchTxt}
+                                setSearch={setSearch}
+                                design={design}
+                            />
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                         </div>
                     )}
                 </div>

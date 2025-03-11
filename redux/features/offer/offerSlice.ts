@@ -10,5 +10,5 @@ export const offerSlice = createSlice({
     reducers: {},
 });
 
-export const {} = offerSlice.actions;
+
 export const { reducerPath, reducer } = offerSlice;

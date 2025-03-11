@@ -17,16 +17,20 @@ import Link from 'next/link';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
 
+<<<<<<< HEAD
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+=======
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 
 const HeaderThirty = ({ headersetting, design, menu }: any) => {
@@ -250,7 +254,7 @@ const HeaderThirty = ({ headersetting, design, menu }: any) => {
                     </div>
                     <div className="flex items-center gap-x-5">
                         <div
-                            onClick={() => setOpenCat(!openCat)}
+                            onClick={() => setOpenCart(!openCart)}
                             className="flex flex-col justify-center items-center relative lg:cursor-pointer"
                         >
                             <RiShoppingBagLine className="text-2xl" />

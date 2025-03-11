@@ -1,11 +1,8 @@
 'use client';
 
 import BDT from '@/utils/bdt';
-
 import CallForPrice from '@/utils/call-for-price';
-
 import Rate from '@/utils/rate';
-
 import parse from 'html-react-parser';
 
 import { getProductQuantity } from '@/helpers/getProductQuantity';
@@ -31,9 +28,15 @@ import {
     WhatsappIcon,
     WhatsappShareButton,
 } from 'react-share';
+import AddCartBtnThirtyFour from '../components/add-cart-btn-thirtyfour';
+import { HSliderThirtyFour } from './slider-thirty-four';
+import ZoomHSlider from '../components/zoom-slider';
 
+<<<<<<< HEAD
 import { HSlider } from '../components/slider';
 import AddCartBtn from '../components/add-cart-btn';
+=======
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 const DetailsThirtyFour = ({
     design,
@@ -180,7 +183,16 @@ const DetailsThirtyFour = ({
         () => productCurrentPrice(product, variantId),
         [product, variantId]
     );
+<<<<<<< HEAD
     const save = howMuchSave(product);
+=======
+
+    const save = useMemo(
+        () => howMuchSave(product, variantId),
+        [product, variantId]
+    );
+
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const parsedRating = numberParser(product?.rating, true);
     const parsedNumberRating = numberParser(product?.number_rating);
 
@@ -204,22 +216,22 @@ const DetailsThirtyFour = ({
 
     const styleCss = `
     .btn-hover:hover {
-        color:   ${design?.text_color};
+        color: ${design?.text_color};
         background:${design?.header_color};
     }
     .text-color {
-        color:  ${design?.header_color};
+        color: ${design?.header_color};
     }
     .buy-now {
-        color:   ${design?.text_color};
+        color: ${design?.text_color};
         background:${design?.header_color};
     }
     .buy-now:hover {
-        color:   white;
+        color: white;
         background:#83C341;
     }
     .cart-color {
-        color:  ${design?.header_color};
+        color: ${design?.header_color};
         border-bottom: 2px solid ${design?.header_color};
     }
     .border-hover:hover {
@@ -229,8 +241,8 @@ const DetailsThirtyFour = ({
   `;
 
     const buttonThirtyFour = buttonStyle
-        ? buttonStyle
-        : 'bg-black btn-hover text-white text-xs font-bold sm:py-[16px] py-3 sm:px-16 px-2';
+        ? buttonStyle :
+        "bg-orange-600 btn-hover text-white text-sm sm:text-base sm:py-[12px] py-3 w-36 lg:w-40 xl:w-48"
 
     return (
         <div className="bg-white h-full p-5 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.2)]">
@@ -238,12 +250,20 @@ const DetailsThirtyFour = ({
 
             <div className="grid grid-cols-1 lg2:grid-cols-9 gap-5">
                 <div className="lg2:col-span-4 justify-self-center">
-                    <HSlider
+                    <HSliderThirtyFour
+                        design={design}
                         product={product}
                         variant={variant}
                         activeImg={activeImg}
                         setActiveImg={setActiveImg}
                     />
+                     {/* <ZoomHSlider
+                        design={design}
+                        product={product}
+                        variant={variant}
+                        activeImg={activeImg}
+                        setActiveImg={setActiveImg}
+                    /> */}
                 </div>
 
                 <div className="lg2:col-span-5 space-y-5 sticky top-28 h-max">
@@ -275,7 +295,9 @@ const DetailsThirtyFour = ({
                             {save > 0 && (
                                 <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                     <BDT />
-                                    {numberParser(product?.regular_price)}
+                                    {variantId !== null
+                                        ? price + save
+                                        : numberParser(product?.regular_price)}
                                 </span>
                             )}{' '}
                         </div>
@@ -341,7 +363,7 @@ const DetailsThirtyFour = ({
                     )}
 
                     {productQuantity !== 0 && price !== 0 && (
-                        <AddCartBtn
+                        <AddCartBtnThirtyFour
                             qty={qty}
                             setQty={setQty}
                             variant={variant}

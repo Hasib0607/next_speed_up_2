@@ -1,12 +1,21 @@
 'use client';
 
+import { cancelIcon, gridIcon, searchIcon } from '@/assets/svg';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import Search3 from '@/components/headers/components/search3';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { RootState } from '@/redux/store';
+import { iconImg } from '@/site-settings/siteUrl';
+import { MobileNavProps } from '@/types';
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import {
     HomeIcon,
     ShoppingCartIcon,
     UserIcon,
 } from '@heroicons/react/24/solid';
-import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
+<<<<<<< HEAD
 import { motion, AnimatePresence } from 'framer-motion';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { useSelector } from 'react-redux';
@@ -17,6 +26,10 @@ import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 import { cancelIcon, gridIcon, searchIcon } from '@/assets/svg';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import Search3 from '@/components/headers/components/search3';
+=======
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 const MobileNavFour = ({ design }: MobileNavProps) => {
     const [open, setOpen] = useState(false);
@@ -30,9 +43,12 @@ const MobileNavFour = ({ design }: MobileNavProps) => {
     const category = categoryData?.data || [];
 
     const styleCss = `
-      .cart-color {
+        .cart-color {
           background: ${design?.header_color};
           color: ${design?.text_color};
+      }
+        ::-webkit-scrollbar {
+        width: 4px;
       }
     `;
 
@@ -101,7 +117,15 @@ const MobileNavFour = ({ design }: MobileNavProps) => {
                             </div>
                         )}
                     </div>
+<<<<<<< HEAD
                     <CartSideBar open={openCart} setOpen={setOpenCart} design={design}/>
+=======
+                    <CartSideBar
+                        open={openCart}
+                        setOpen={setOpenCart}
+                        design={design}
+                    />
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                 </div>
                 <Link href="/profile" passHref>
                     <div
@@ -115,34 +139,11 @@ const MobileNavFour = ({ design }: MobileNavProps) => {
                     </div>
                 </Link>
             </div>
-
-            <div className={`px-4 z-[7]`}>
-                <ul
-                    className={`pt-5 fixed md:w-96 w-64 sm:w-80 overflow-y-auto top-0 min-h-[100vh] pb-5 z-[7] bg-white duration-500 ${
-                        open ? 'left-0 ' : 'left-[-140%] '
-                    }`}
-                >
-                    <div className="pb-7 pt-3 px-6">
-                        <div className="text-xl border-b-[2px] pb-5 text-center text-color flex justify-between items-center">
-                            <p>Category</p>
-                            <div onClick={() => setOpen(!open)} className="h-8">
-                                {cancelIcon}
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-3 w-[90%]">
-                            {category?.map((item: any) => (
-                                <SingleCat
-                                    key={item?.id}
-                                    item={item}
-                                    open={open}
-                                    setOpen={setOpen}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </ul>
-            </div>
-
+            <CategorySideBar
+                open={open}
+                setOpen={setOpen}
+                category={category}
+            />
             <AnimatePresence>
                 {searchshow && (
                     <SearchDiv setSearchshow={setSearchshow} design={design} />
@@ -153,6 +154,48 @@ const MobileNavFour = ({ design }: MobileNavProps) => {
 };
 
 export default MobileNavFour;
+
+const CategorySideBar = ({ open, setOpen, category }: any) => {
+    return (
+        <>
+            {/* Background Overlay */}
+
+            <div
+                className={`group fixed inset-0 z-[7] bg-black ${open ? 'opacity-50' : 'opacity-0 hidden'} transition-opacity duration-300`}
+                onClick={() => setOpen(!open)}
+            ></div>
+
+            {/* Sidebar Container */}
+            <div
+                className={`fixed md:w-96 w-64 sm:w-80 top-0 overflow-y-auto max-h-[calc(100vh-65px)] h-full pb-5 z-[11] bg-white duration-500 ease-in-out ${
+                    open ? 'left-0 ' : 'left-[-140%] '
+                }`}
+            >
+                {/* Header */}
+                <div className="p-5">
+                    <div className="text-xl border-b-[2px] pb-2 text-center text-color flex justify-between items-center">
+                        <p>Category</p>
+                        <div onClick={() => setOpen(!open)} className="h-8">
+                            {cancelIcon}
+                        </div>
+                    </div>
+
+                    {/* Scrollable Category List */}
+                    <div className="flex flex-col gap-3 w-[95%]">
+                        {category?.map((item: any) => (
+                            <SingleCat
+                                key={item?.id}
+                                item={item}
+                                open={open}
+                                setOpen={setOpen}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
 
 interface SearchDivProps {
     setSearchshow: (show: boolean) => void;
@@ -174,27 +217,33 @@ const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow, design }) => {
                 transition={{ ease: 'easeOut', duration: 0.8 }}
                 className="w-full h-8 fixed px-2 -top-9 left-0 right-0 z-[11]"
             >
-                <input
-                    type="text"
-                    value={searchTxt}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-full py-3 rounded-md px-10 border-0 outline-0 focus:outline-0 focus:border focus:border-gray-300 z-10 focus:ring-0"
-                    placeholder="Search"
-                />
-                <div className="h-5 w-5 absolute top-4 left-4 font-bold z-10">
-                    {searchIcon}
-                </div>
-                <div
-                    onClick={() => {
-                        setSearch('');
-                        setSearchshow(false);
-                    }}
-                    className="h-4 w-4 absolute top-4 right-4 font-bold z-[4]"
-                >
-                    {cancelIcon}
+                <div className="shadow-lg rounded-md">
+                    <div className="absolute left-5 top-3 h-4 w-4 font-bold">
+                        {searchIcon}
+                    </div>
+                    <input
+                        type="text"
+                        value={searchTxt}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="w-full rounded-md px-10 py-3 border-0 outline-0 focus:outline-0 focus:border focus:border-gray-300 focus:ring-0"
+                        placeholder="Search"
+                    />
+                    <div
+                        onClick={() => {
+                            setSearch('');
+                            setSearchshow(false);
+                        }}
+                        className="absolute right-5 top-3 h-4 w-4 font-bold"
+                    >
+                        {cancelIcon}
+                    </div>
                 </div>
                 {searchTxt && (
+<<<<<<< HEAD
                     <div className="w-[95%] absolute top-10 left-1/2 -translate-x-1/2">
+=======
+                    <div className="w-[95%] absolute top-4 left-1/2 -translate-x-1/2">
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                         <Search3
                             search={searchTxt}
                             setSearch={setSearch}
@@ -227,7 +276,7 @@ const SingleCat: React.FC<SingleCatProps> = ({ item, open, setOpen }) => {
 
     return (
         <>
-            <div className="w-full flex py-3 lg:cursor-pointer">
+            <div className="w-full flex py-2 lg:cursor-pointer">
                 <Link href={`/category/${item.id}`} passHref>
                     <div
                         onClick={() => setOpen(!open)}
@@ -259,7 +308,7 @@ const SingleCat: React.FC<SingleCatProps> = ({ item, open, setOpen }) => {
             </div>
 
             {show && (
-                <div className="ml-8">
+                <div className="ml-4">
                     {subcategories?.map((sub) => (
                         <div className="py-2" key={sub?.id}>
                             <Link href={`/category/${sub.id}`} passHref>
@@ -277,7 +326,7 @@ const SingleCat: React.FC<SingleCatProps> = ({ item, open, setOpen }) => {
                                     </p>
                                 </div>
                             </Link>
-                            <div className="pr-4">
+                            <div className="pr-2">
                                 <div className="h-[1px] bg-gray-200 w-full"></div>
                             </div>
                         </div>

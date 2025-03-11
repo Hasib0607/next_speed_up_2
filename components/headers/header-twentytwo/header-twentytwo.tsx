@@ -1,10 +1,22 @@
 'use client';
 
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
+import { REDUX_PERSIST } from '@/consts';
+import { classNames } from '@/helpers/littleSpicy';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
+import useAuth from '@/hooks/useAuth';
+import { useLogOutMutation } from '@/redux/features/auth/authApi';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { RootState } from '@/redux/store';
+import { imgUrl } from '@/site-settings/siteUrl';
+import { Menu, Transition } from '@headlessui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { FiUser } from 'react-icons/fi';
 import { GiShoppingBag } from 'react-icons/gi';
+<<<<<<< HEAD
 import { Menu, Transition } from '@headlessui/react';
 import { imgUrl } from '@/site-settings/siteUrl';
 import { RiCloseCircleLine, RiMenu2Line } from 'react-icons/ri';
@@ -17,8 +29,11 @@ import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { REDUX_PERSIST } from '@/consts';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+=======
+import { RiCloseCircleLine, RiMenu2Line } from 'react-icons/ri';
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import Search3 from '../components/search3';
 
 const HeaderTwentyTwo = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
@@ -172,7 +187,11 @@ const HeaderTwentyTwo = ({ headersetting, design, menu }: any) => {
                         {searchTxt && (
                             <div className="left-0 sm:ml-[7%] w-full sm:w-[80%] md:w-[80%] lg:w-[83%] absolute top-32">
                                 <Search3
+<<<<<<< HEAD
                                 design={design}
+=======
+                                    design={design}
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />

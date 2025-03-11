@@ -34,6 +34,10 @@ const DetailsThirtySeven = ({
     setOpen,
     buttonStyle,
     headersetting,
+<<<<<<< HEAD
+=======
+    addCartClassName
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
@@ -341,7 +345,7 @@ const DetailsThirtySeven = ({
                         </div>
                         <div className="text-[#5a5a5a] text-sm">
                             {productQuantity !== 0 ? (
-                                <p>
+                                <p className='space-x-2'>
                                     <span className="font-medium">
                                         {productQuantity}
                                     </span>
@@ -363,6 +367,7 @@ const DetailsThirtySeven = ({
                             setQty={setQty}
                             variant={variant}
                             variantId={variantId}
+                            className={addCartClassName}
                             productQuantity={productQuantity}
                             currentVariation={currentVariation}
                             color={color}

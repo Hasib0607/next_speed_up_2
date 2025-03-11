@@ -20,39 +20,39 @@ import ProductCardTen from '@/components/card/product-card/product-card-ten';
 const Cards = ({ card, item, btnType }: any) => {
     switch (card) {
         case '4':
-            return <Card4 item={item} />;
+            return <Card4 item={item} type={btnType} />;
         case '6':
-            return <Card6 item={item} />;
+            return <Card6 item={item} type={btnType} />;
         case '7':
-            return <Card7 item={item} />;
+            return <Card7 item={item} type={btnType} />;
         case '15':
-            return <Card15 item={item} />;
+            return <Card15 item={item} type={btnType} />;
         case '16':
-            return <Card16 item={item} />;
+            return <Card16 item={item} type={btnType} />;
         case '17':
-            return <Card17 item={item} />;
+            return <Card17 item={item} type={btnType} />;
         case '29':
-            return <Card29 item={item} />;
+            return <Card29 item={item} type={btnType} />;
         case '45':
-            return <Card45 item={item} />;
+            return <Card45 item={item} type={btnType} />;
         case '49':
-            return <Card49 item={item} />;
+            return <Card49 item={item} type={btnType} />;
         case '51':
-            return <Card51 item={item} />;
+            return <Card51 item={item} type={btnType} />;
         case '53':
-            return <Card53 item={item} />;
+            return <Card53 item={item} type={btnType} />;
         case '54':
-            return <Card54 item={item} />;
+            return <Card54 item={item} type={btnType} />;
         case '56':
-            return <Card56 item={item} />;
+            return <Card56 item={item} type={btnType} />;
         case '58':
             return <Card58 item={item} type={btnType} />;
         case '63':
-            return <Card63 item={item} />;
+            return <Card63 item={item} type={btnType} />;
         case '65':
-            return <Card65 item={item} />;
+            return <Card65 item={item} type={btnType} />;
         case '67':
-            return <Card67 item={item} />;
+            return <Card67 item={item} type={btnType} />;
         case 'ProductCardTen':
             return <ProductCardTen item={item} />;
         default:

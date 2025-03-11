@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 
 import { SwiperSlide } from 'swiper/react';
@@ -14,6 +16,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 import SectionHeadingTwentySeven from '@/components/section-heading/section-heading-twenty-seven';
 import { bannerImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const PromoTwentySeven = ({ banner }: any) => {
     const navigationPrevRef = React.useRef(null);
@@ -91,7 +94,7 @@ const PromoTwentySeven = ({ banner }: any) => {
                         }}
                         className="mySwiper"
                     >
-                        {banner?.length > 0 && banner?.slice(0, 4)?.map((b: any, index: number) => (
+                        {banner?.length > 0 && banner?.map((b: any, index: number) => (
                             <SwiperSlide key={b.id}>
                                 <div
                                     className={`grid grid-cols-2 rounded-lg overflow-hidden h-48 md:h-72 ${
@@ -107,7 +110,7 @@ const PromoTwentySeven = ({ banner }: any) => {
                                     }`}
                                 >
                                     <div className="relative">
-                                        <a
+                                        <Link
                                             href={b?.link}
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -115,7 +118,7 @@ const PromoTwentySeven = ({ banner }: any) => {
                                             <h1 className="absolute bottom-5 left-4 rounded-full px-5 lg:py-2 py-2 bg-white duration-300 lg:text-lg text-xs text-center w-max mx-auto lg:cursor-pointer font-medium">
                                                 Show me all
                                             </h1>
-                                        </a>
+                                        </Link>
                                     </div>
                                     <div className="flex justify-center items-center">
                                         <img

@@ -48,18 +48,18 @@ const NewArrivalProductsEight = ({ product, design, headersetting }: any) => {
     `;
 
     const { custom_design } = headersetting || {};
-    let newArrivalProduct = custom_design?.new_arrival?.[0] || null;
+    const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
+    const { title = 'New Arrivals', title_color = '#000' } =
+        newArrivalProduct || {};
 
-    const title = newArrivalProduct?.title || 'Default Title';
-    const title_color = newArrivalProduct?.title_color || '#000';
     return (
         <div className="sm:container px-5 sm:py-10 py-5 bg-white">
             <div className="py-5">
                 <style>{styleCss}</style>
                 <div className="">
                     <SectionHeadingFive
-                        title={title || 'New Arrivals'}
-                        title_color={title_color || '#000'}
+                        title={title}
+                        title_color={title_color}
                         subtitle={''}
                     />
                 </div>

@@ -20,6 +20,14 @@ import { toast } from 'react-toastify';
 import { getValueByKey } from './customLang';
 import { classNames, getCheckedValue } from '@/helpers/littleSpicy';
 
+// import {
+//     FaUser,
+//     FaPhoneAlt,
+//     FaMapMarkerAlt,
+//     FaStickyNote,
+//     FaEnvelope,
+// } from 'react-icons/fa';
+
 type FormValues = {
     name: string;
     phone: number;
@@ -151,6 +159,7 @@ const CheckoutFrom = ({
     const schemaResolver = generateDynamicSchema(fields);
 
     // ex: { name: '', phone: '', address: '',note: '',district: '', };
+    
 
     const defaultValues = edit
         ? { ...editItem, district: editItem?.district_id }
@@ -304,9 +313,7 @@ const CheckoutFrom = ({
         dispatch(setCheckoutFromData(formData));
     }, [watchedFields, getValues, dispatch]);
 
-    const fieldStyle = formFieldStyle
-        ? formFieldStyle
-        : 'mt-1 focus:ring-0 focus:border-gray-400 block w-full shadow-md sm:text-md border-2 border-gray-300 rounded-lg p-3 text-gray-700';
+    const fieldStyle = formFieldStyle ? formFieldStyle : 'mt-1 focus:ring-0 focus:border-gray-400 block w-full shadow-md sm:text-md border-2 border-gray-300 rounded-lg p-3 text-gray-700';
 
     return (
         <>
@@ -337,8 +344,8 @@ const CheckoutFrom = ({
                                         className="block text-sm font-medium text-gray-700 capitalize"
                                     >
                                         {design?.template_id === '29' ||
-                                        design?.checkout_page === ONE ||
-                                        TWENTY_EIGHT ||
+                                        design?.checkout_page ===
+                                            (ONE || TWENTY_EIGHT) ||
                                         store_id === 3601
                                             ? getValueByKey(item?.name)
                                             : item?.name}
@@ -375,8 +382,8 @@ const CheckoutFrom = ({
                                                 )
                                             )}
                                         </select>
-                                    ) : (
-                                        item?.name == 'address' || item?.name == 'note'  ?
+                                    ) : item?.name == 'address' ||
+                                      item?.name == 'note' ? (
                                         <textarea
                                             {...register(item?.name)}
                                             name={item?.name}
@@ -384,30 +391,40 @@ const CheckoutFrom = ({
                                             onInput={() =>
                                                 handleFieldChange(item?.name)
                                             }
-                                            autoComplete={"address-level1"}
+                                            autoComplete={'address-level1'}
                                             className={classNames(
                                                 fieldStyle,
                                                 'remove-arrow'
                                             )}
                                         />
-                                        : <input
-                                            {...register(item?.name)}
-                                            type={
-                                                item?.name == 'phone'
-                                                    ? 'number'
-                                                    : 'text'
-                                            }
-                                            name={item?.name}
-                                            id={item?.name}
-                                            onInput={() =>
-                                                handleFieldChange(item?.name)
-                                            }
-                                            autoComplete="address-level1"
-                                            className={classNames(
-                                                fieldStyle,
-                                                'remove-arrow'
-                                            )}
-                                        />
+                                    ) : (
+                                        <div className='center'>
+                                            {/* <div className={
+                                                "p-3 mt-1 bg-gray-200 rounded-l-md"
+                                            }>
+                                                <FaUser className="text-black size-6" />
+                                            </div> */}
+                                            <input
+                                                {...register(item?.name)}
+                                                type={
+                                                    item?.name == 'phone'
+                                                        ? 'number'
+                                                        : 'text'
+                                                }
+                                                name={item?.name}
+                                                id={item?.name}
+                                                onInput={() =>
+                                                    handleFieldChange(
+                                                        item?.name
+                                                    )
+                                                }
+                                                autoComplete="address-level1"
+                                                className={classNames(
+                                                    fieldStyle,
+                                                    'remove-arrow'
+                                                )}
+                                            />
+                                        </div>
                                     )}
                                     <p className="text-rose-500">
                                         {

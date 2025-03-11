@@ -34,7 +34,6 @@ const Product = ({ design, headersetting }: any) => {
     } = useGetFeatureProductQuery({});
     const feature_product = featureProductData?.data || [];
 
-
     return (
         <>
             {design?.product !== 'null' &&

@@ -21,11 +21,18 @@ import Link from 'next/link';
 import { AiOutlineHome } from 'react-icons/ai';
 import { SwiperSlide } from 'swiper/react';
 
+<<<<<<< HEAD
 import './five.css';
+=======
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import ProdMultiCategory from '@/utils/prod-multi-category';
 import { NotFoundMsg } from '@/utils/little-components';
 import VideoPlayer from '../components/video-player';
 import DetailsThirtyFour from './details-thirty-four';
+<<<<<<< HEAD
+=======
+import { RiArrowRightSLine } from 'react-icons/ri';
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 const ThirtyFour = ({ store_id, productId, design, headersetting }: any) => {
     const {
@@ -89,7 +96,9 @@ const ThirtyFour = ({ store_id, productId, design, headersetting }: any) => {
     const reviewsArr = reviews?.data || [];
 
     const buttonTwentyThree =
-        'cart-btn-details font-bold py-[11px] w-48 border border-gray-300 rounded';
+        'text-sm sm:text-base sm:py-[12px] py-3 w-36 lg:w-40 xl:w-48';
+    // const buttonTwentyThree =
+    //     'font-bold py-3 text-center w-48 border border-gray-300 rounded lg:cursor-pointer';
 
     return (
         <div className="bg-[#F9F8FF]">
@@ -99,8 +108,8 @@ const ThirtyFour = ({ store_id, productId, design, headersetting }: any) => {
                         <Link href="/">
                             <AiOutlineHome className="" />
                         </Link>
+                        <RiArrowRightSLine />
                         <p>
-                            {/* <RiArrowRightSLine /> */}
                             <ProdMultiCategory
                                 category={category}
                                 count={1}
@@ -230,9 +239,9 @@ const Related = ({ product }: any) => {
                         },
                     }}
                 >
-                    {product?.slice(0, 10).map((item: any) => (
+                    {product?.slice(0, 10)?.map((item: any) => (
                         <SwiperSlide key={item?.id}>
-                            <Card60 item={item} />
+                            <Card60 item={item}  type={'single_product_page'} />
                         </SwiperSlide>
                     ))}
                 </DefaultSlider>

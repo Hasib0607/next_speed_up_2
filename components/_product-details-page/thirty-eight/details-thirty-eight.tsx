@@ -238,6 +238,7 @@ const DetailsThirtyEight = ({
             <div className="grid grid-cols-1 lg2:grid-cols-9 gap-5">
                 <div className="lg2:col-span-4 justify-self-center">
                     <HSlider
+                        design={design}
                         product={product}
                         setOpen={setOpen}
                         variant={variant}

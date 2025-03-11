@@ -105,7 +105,7 @@ const PaymentGateway = ({
                 </label>
             )}
 
-            <div className="flex gap-2 flex-wrap md:flex-nowrap">
+            <div className="flex gap-2 flex-wrap">
                 {headersetting?.uddoktapay === 'active' && (
                     <div
                         className={classNames(

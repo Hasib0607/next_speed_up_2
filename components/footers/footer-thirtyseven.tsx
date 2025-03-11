@@ -39,6 +39,7 @@ const FooterThirtySeven = ({ headersetting, menu, design, page }: any) => {
         left: 0;
     }
     `;
+
     return (
         <div className={`bg-[#191919] text-white`}>
             <footer className="">
@@ -66,7 +67,7 @@ const FooterThirtySeven = ({ headersetting, menu, design, page }: any) => {
                                     Products
                                 </h1>
                                 <div className="mt-5">
-                                    {category?.slice(0, 6).map((data: any) => (
+                                    {category?.slice(0, 6)?.map((data: any) => (
                                         <Link
                                             href={'/category/' + data?.id}
                                             key={data?.id}
@@ -83,6 +84,7 @@ const FooterThirtySeven = ({ headersetting, menu, design, page }: any) => {
                                     Pages
                                 </h1>
                                 <div className="mt-5 list-none">
+<<<<<<< HEAD
                                     {menu?.map((m: any) =>
                                         m?.name !== 'Category' ? (
                                             <li key={m?.id}>
@@ -103,6 +105,19 @@ const FooterThirtySeven = ({ headersetting, menu, design, page }: any) => {
                                     Legal
                                 </h1>
                                 <div className="mt-5 list-none">
+=======
+                                    {menu?.map((m: any) => (
+                                        <li key={m?.id}>
+                                            <Link
+                                                href={m?.url}
+                                                className="text-base footerColor font-normal leading-relaxed "
+                                            >
+                                                {' '}
+                                                {m?.name}
+                                            </Link>
+                                        </li>
+                                    ))}
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                                     {result?.map((m: any) => (
                                         <li key={m?.id}>
                                             <Link

@@ -1,28 +1,28 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
+import { AiFillShopping, AiOutlineMenu } from 'react-icons/ai';
 import { HiUser } from 'react-icons/hi';
 import { IoIosClose, IoIosSearch } from 'react-icons/io';
-import { VscClose } from 'react-icons/vsc';
-import { AiFillShopping, AiOutlineMenu } from 'react-icons/ai';
-import { TbSearch } from 'react-icons/tb';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
+import { TbSearch } from 'react-icons/tb';
+import { VscClose } from 'react-icons/vsc';
 
-import Link from 'next/link';
-import Category from './category';
-import useAuth from '@/hooks/useAuth';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { REDUX_PERSIST } from '@/consts';
+import { classNames } from '@/helpers/littleSpicy';
+import { removeFromLocalStorage } from '@/helpers/localStorage';
+import useAuth from '@/hooks/useAuth';
+import { useLogOutMutation } from '@/redux/features/auth/authApi';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import { imgUrl } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Search3 from '../components/search3';
-import { imgUrl } from '@/site-settings/siteUrl';
-import { classNames } from '@/helpers/littleSpicy';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import Category from './category';
 
 const HeaderEighteen = ({ headersetting, design, menu }: any) => {
     const router = useRouter();

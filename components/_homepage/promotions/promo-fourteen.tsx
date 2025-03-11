@@ -1,4 +1,5 @@
 import { bannerImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const PromoFourteen = ({ banner }: any) => {
     return (
@@ -11,7 +12,7 @@ const PromoFourteen = ({ banner }: any) => {
                                 ?.slice(0, 4)
                                 ?.map((item: any, index: number) => (
                                     <div className="col-span-1" key={index}>
-                                        <a
+                                        <Link
                                             href={item?.link}
                                             target="_blank"
                                             rel="noopener noreferrer"
@@ -21,7 +22,7 @@ const PromoFourteen = ({ banner }: any) => {
                                                 src={bannerImg + item?.image}
                                                 alt=""
                                             />
-                                        </a>
+                                        </Link>
                                     </div>
                                 ))}
                         </div>

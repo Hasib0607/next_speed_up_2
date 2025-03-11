@@ -61,6 +61,7 @@ const FooterTwentyThree = ({
                 </a>
               )}
 
+<<<<<<< HEAD
               {headersetting?.whatsapp_phone && (
                 <a
                   href={
@@ -110,6 +111,47 @@ const FooterTwentyThree = ({
                   </div>
                 </a>
               )}
+=======
+            {/* bottom section  */}
+            <div className="sm:container px-5 pt-5 flex flex-col md:flex-row gap-5 items-center md:justify-between text-white">
+                <div>
+                    {headersetting?.logo === null ? (
+                        <Link href="/">
+                            <p className="text-xl uppercase">
+                                {headersetting?.website_name}
+                            </p>
+                        </Link>
+                    ) : (
+                        <Link href="/">
+                            <img
+                                className="h-[45px] w-auto overflow-hidden"
+                                src={imgUrl + headersetting?.logo}
+                                alt="logo"
+                            />
+                        </Link>
+                    )}
+                </div>
+                <div className="text-center">
+                    <p className="">
+                        <span>© {date} All Rights Received </span>
+                        <Link
+                            href="/"
+                            className="font-semibold text-red-700 menu-hover"
+                        >
+                            {headersetting?.website_name}
+                        </Link>{' '}
+                        <span>| Developed by </span>
+                        <Link
+                            href="https://ebitans.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-semibold text-red-700 menu-hover"
+                        >
+                            eBitans
+                        </Link>
+                    </p>
+                </div>
+>>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
             </div>
           </div>
 

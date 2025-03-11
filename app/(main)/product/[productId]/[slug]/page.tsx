@@ -43,6 +43,7 @@ export async function generateMetadata({
     const productImageUrl = `${productImg + imageURL}`;
 
     const fallbackImage = imgUrl + 'default-product-image.jpg';
+    
     return {
         title: `${websiteName} | ${name}`,
         description:
