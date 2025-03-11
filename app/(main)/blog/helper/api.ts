@@ -137,34 +137,5 @@ export const fetchIp = async () => {
     }
 };
 
-export const visitorData = async (item: any, ip: any) => {
-    if (item) {
-        const data = {
-            store_id: item?.store_id,
-            pse_id: item?.id,
-            product_id: item?.product_id,
-            ip: ip,
-            domain: item?.store_url,
-        };
-        const requestOptions = {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        };
-        try {
-            const response = await fetch(
-                `https://admin.ebitans.com/api/v1/pse/products/visitor`,
-                requestOptions
-            );
-            return response;
-        } catch (error) {
-            console.error(error);
-            throw error; // rethrow the error to the caller
-        }
-    }
-    return null;
-};
 
 // Product khujo api end

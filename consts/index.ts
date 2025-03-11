@@ -62,7 +62,7 @@ export const REDUX_PERSIST = 'persist:root';
 export const BLOG_PAGE_NUMBER = 1;
 
 // host
-function url() {
+export function url() {
     if (typeof window !== 'undefined') {
         return window.location.host.startsWith('www.')
             ? window.location.host.slice(4)
@@ -73,7 +73,7 @@ function url() {
 
 let urlName;
 
-// urlName = 'nexmanbd.com';
+// urlName = 'zlandretail.co.nz';
 // urlName = "kc.design";
 // urlName = "swifttrading.store";
 // urlName = 'mytimebd.store';
