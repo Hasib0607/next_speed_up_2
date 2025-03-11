@@ -266,13 +266,9 @@ const DetailsSix = ({
                             {save > 0 && (
                                 <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                     <BDT />
-<<<<<<< HEAD
-                                    {variantId !== null ? save : numberParser(product?.regular_price)}
-=======
                                     {variantId !== null
                                         ? price + save
                                         : numberParser(product?.regular_price)}
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                                 </span>
                             )}{' '}
                         </div>
@@ -284,21 +280,12 @@ const DetailsSix = ({
                             )}
                     </div>
 
-<<<<<<< HEAD
-                   
-=======
                     {store_id !== 10218 && (
                         <>
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                             <Rate rating={parsedRating} />
 
                             <div className="h-[1px] bg-gray-300 w-full"></div>
 
-<<<<<<< HEAD
-                            <div className="text-sm text-[#5a5a5a] leading-6" >
-                                <DangerouslySafeHTML content={product?.description} className='line-clamp-3'/>
-                            </div>
-=======
                             <div className="text-sm text-[#5A5A5A] leading-6">
                                 <DangerouslySafeHTML
                                     content={product?.description}
@@ -307,7 +294,6 @@ const DetailsSix = ({
                             </div>
                         </>
                     )}
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
                     {/* color and size  */}
                     {currentVariation?.colorsAndSizes && (
