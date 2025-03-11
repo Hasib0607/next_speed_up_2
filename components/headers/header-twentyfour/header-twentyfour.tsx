@@ -12,12 +12,6 @@ import { IoMdMenu } from 'react-icons/io';
 import { IoSearchOutline } from 'react-icons/io5';
 import { RiShoppingBagLine } from 'react-icons/ri';
 import Search3 from '../components/search3';
-<<<<<<< HEAD
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { useRouter } from 'next/navigation';
-import useAuth from '@/hooks/useAuth';
-=======
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';

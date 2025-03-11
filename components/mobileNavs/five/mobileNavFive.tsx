@@ -93,15 +93,11 @@ const MobileNavFive = ({ design }: MobileNavProps) => {
                             <p className="text-sm">{cartList.length}</p>
                         </div>
                     )}
-<<<<<<< HEAD
-                    <CartSideBar open={openCart} setOpen={setOpenCart} design={design}/>
-=======
                     <CartSideBar
                         open={openCart}
                         setOpen={setOpenCart}
                         design={design}
                     />
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                 </div>
                 <Link
                     onClick={() => setOpen(false)}
@@ -141,13 +137,9 @@ const MobileNavFive = ({ design }: MobileNavProps) => {
                 </ul>
             </div>
             <AnimatePresence>
-<<<<<<< HEAD
-                {searchshow && <SearchDiv setSearchshow={setSearchshow} design={design}/>}
-=======
                 {searchshow && (
                     <SearchDiv setSearchshow={setSearchshow} design={design} />
                 )}
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
             </AnimatePresence>
         </>
     );
@@ -157,12 +149,6 @@ export default MobileNavFive;
 
 interface SearchDivProps {
     setSearchshow: (show: boolean) => void; // Type the function appropriately
-<<<<<<< HEAD
-    design:any
-}
-
-export const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow,design }) => {
-=======
     design: any;
 }
 
@@ -170,7 +156,6 @@ export const SearchDiv: React.FC<SearchDivProps> = ({
     setSearchshow,
     design,
 }) => {
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const [searchTxt, setSearch] = useState('');
 
     return (
@@ -209,15 +194,11 @@ export const SearchDiv: React.FC<SearchDivProps> = ({
                 </div>
                 {searchTxt && (
                     <div className="mx-5">
-<<<<<<< HEAD
-                        <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
-=======
                         <Search3
                             search={searchTxt}
                             setSearch={setSearch}
                             design={design}
                         />
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                     </div>
                 )}
             </motion.nav>

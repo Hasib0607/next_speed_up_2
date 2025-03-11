@@ -1,7 +1,5 @@
 'use client';
 
-<<<<<<< HEAD
-=======
 import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
@@ -9,7 +7,6 @@ import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { RootState } from '@/redux/store';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { imgUrl } from '@/site-settings/siteUrl';
 import useAnnouncementScroll from '@/utils/use-annoucement-height';
 import { Menu, Transition } from '@headlessui/react';
@@ -20,23 +17,9 @@ import { Fragment, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { CgMenuLeft } from 'react-icons/cg';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
-<<<<<<< HEAD
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { REDUX_PERSIST } from '@/consts';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import useAuth from '@/hooks/useAuth';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { useRouter } from 'next/navigation';
-import Search3 from '../components/search3';
-import SideMenu from '../components/side-menu';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
-import { classNames } from '@/helpers/littleSpicy';
-=======
 import { useSelector } from 'react-redux';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 const HeaderThirtyFive = ({ design, headersetting, menu }: any) => {
     const router = useRouter();
@@ -140,15 +123,11 @@ const HeaderThirtyFive = ({ design, headersetting, menu }: any) => {
                     )}
                     {searchTxt && (
                         <div className="lg:w-[500px] md:w-[350px] w-[400px] xl:w-[800px] absolute left-[50%] top-16 translate-x-[-50%] z-50 ">
-<<<<<<< HEAD
-                            <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
-=======
                             <Search3
                                 search={searchTxt}
                                 setSearch={setSearch}
                                 design={design}
                             />
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                         </div>
                     )}
                     <div className="flex justify-between items-center lg:gap-0 gap-5 lg:border-r-2 border-black w-full h-20">
@@ -393,8 +372,4 @@ const HeaderThirtyFive = ({ design, headersetting, menu }: any) => {
     );
 };
 
-<<<<<<< HEAD
 export default HeaderThirtyFive;
-=======
-export default HeaderThirtyFive;
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b

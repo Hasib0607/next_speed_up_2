@@ -3,11 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react';
-=======
 import React, { useState } from 'react';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 import Link from 'next/link';
 import Loading from '../loaders/loading';
@@ -15,20 +11,11 @@ import { imgUrl } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
 import { toast } from 'react-toastify';
 import { useLogInMutation } from '@/redux/features/auth/authApi';
-<<<<<<< HEAD
-import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
-=======
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 export const cls =
     'w-full rounded-md border border-[#E9EDF4] py-3 px-5 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-primary ';
 
-<<<<<<< HEAD
-const LoginFour = ({ headersetting, appStore }: any) => {
-    const module_id = 120;
-=======
 const LoginFour = ({ headersetting, appStore, activeModule }: any) => {
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);

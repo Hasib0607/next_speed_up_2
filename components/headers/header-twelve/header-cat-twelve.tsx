@@ -46,17 +46,10 @@ const HeaderCatTwelve = ({ design }: any) => {
         <div className="sm:container px-5 flex flex-row gap-6 items-center justify-between ">
             {/* CartSideBar open  */}
             <CartSideBar
-<<<<<<< HEAD
-                    open={openCart}
-                    setOpen={setOpenCart}
-                    design={design}
-                />
-=======
                 open={openCart}
                 setOpen={setOpenCart}
                 design={design}
             />
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
             {searchTxt && (
                 <div
                     onClick={() => {
@@ -189,15 +182,11 @@ const HeaderCatTwelve = ({ design }: any) => {
 
                     {searchTxt && (
                         <div className="relative -top-10">
-<<<<<<< HEAD
-                            <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
-=======
                             <Search3
                                 search={searchTxt}
                                 setSearch={setSearch}
                                 design={design}
                             />
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                         </div>
                     )}
                 </div>

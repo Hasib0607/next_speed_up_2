@@ -24,10 +24,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Details from '../_product-details-page/components/details';
-<<<<<<< HEAD
-=======
 import { HeaderColor, TextColor } from '@/consts';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 const Card58 = ({ item, type = '' }: any) => {
     const { data: designData } = useGetDesignQuery({});
@@ -36,11 +33,6 @@ const Card58 = ({ item, type = '' }: any) => {
     const { data: headerData } = useGetHeaderSettingsQuery({});
     const headersetting = headerData?.data || {};
 
-<<<<<<< HEAD
-    // console.log('card 58', headersetting);
-
-=======
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const store_id = design?.store_id || null;
 
     const { cartList } = useSelector((state: RootState) => state.cart);
@@ -70,8 +62,6 @@ const Card58 = ({ item, type = '' }: any) => {
             productQuantity: item?.quantity,
         });
     };
-
-    const customDesignData = getDataByType(headersetting, type);
 
     const customDesignData = getDataByType(headersetting, type);
 

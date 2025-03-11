@@ -13,15 +13,9 @@ import CategoryList from './components/category-list';
 import MenuList from './components/menu-list';
 import CopyrightAll from './components/copyrightall';
 import WhatsApp from './components/whatsApp';
-<<<<<<< HEAD
-import SSLImg from '@/assets/SSLCommerz-Pay-With-logo-All-Size-03.webp';
 import AllPaymantGateway from './components/all-payment-gateway';
 import PageList from './components/page-list';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-=======
-import PageList from './components/page-list';
-import AllPaymantGateway from './components/all-payment-gateway';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 const FooterThirtySix = ({ headersetting, design, menu, page }: any) => {
     const styleCss = `
@@ -146,7 +140,6 @@ const FooterThirtySix = ({ headersetting, design, menu, page }: any) => {
                 <AllPaymantGateway headersetting={headersetting} />
             </div>
 
-<<<<<<< HEAD
             <div className="border-t border-b border-gray-500 my-5 flex justify-between items-center">
                 <div className="sm:container px-5 text-[15px] py-8 font-light text-[#333333]">
                     <CopyrightAll headersetting={headersetting} />
@@ -158,17 +151,6 @@ const FooterThirtySix = ({ headersetting, design, menu, page }: any) => {
                         </div>
                     </>
                 )}
-=======
-            <div className="border-t border-b border-gray-500 px-5 my-5">
-                <div className="sm:container  text-[15px] py-8 font-light text-[#333333]">
-                    <CopyrightAll headersetting={headersetting} />
-                </div>
-                <div className="mx-4">
-                    {headersetting?.online === 'active' && (
-                        <img src={SSLImg?.src} alt="" />
-                    )}
-                </div>
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
             </div>
             {/* <Messenger /> */}
             <WhatsApp />

@@ -1,7 +1,5 @@
 'use client';
 
-<<<<<<< HEAD
-=======
 import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
@@ -10,7 +8,6 @@ import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 import { RootState } from '@/redux/store';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
@@ -22,20 +19,6 @@ import { BsCart2, BsSearch } from 'react-icons/bs';
 import { GoLocation } from 'react-icons/go';
 import { ImCross } from 'react-icons/im';
 import { RiMenu2Line, RiUser2Fill } from 'react-icons/ri';
-<<<<<<< HEAD
-import Search3 from '../components/search3'
-import { classNames } from '@/helpers/littleSpicy';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { useRouter } from 'next/navigation';
-import useAuth from '@/hooks/useAuth';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { REDUX_PERSIST } from '@/consts';
-import SideMenu from '../components/side-menu';
-import { RootState } from '@/redux/store';
-=======
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { useSelector } from 'react-redux';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';

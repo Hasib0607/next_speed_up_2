@@ -1,10 +1,6 @@
 'use client';
 
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react';
-=======
 import React, { useState } from 'react';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
@@ -13,26 +9,17 @@ import { imgUrl } from '@/site-settings/siteUrl';
 import Loading from '../loaders/loading';
 import { btnhover } from '@/site-settings/style';
 import { toast } from 'react-toastify';
-<<<<<<< HEAD
-import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
-=======
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { useLogInMutation } from '@/redux/features/auth/authApi';
 
 export const cls =
     'w-full rounded-md border border-[#E9EDF4] py-3 px-5 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-primary ';
 
-<<<<<<< HEAD
-const LoginTwentyOne = ({ headersetting, design, appStore }: any) => {
-    const module_id = 120;
-=======
 const LoginTwentyOne = ({
     headersetting,
     design,
     appStore,
     activeModule,
 }: any) => {
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);
@@ -41,21 +28,6 @@ const LoginTwentyOne = ({
     const router = useRouter();
     const [logIn] = useLogInMutation();
 
-<<<<<<< HEAD
-    const {
-        data: moduleIdDetailsData,
-        isLoading: moduleIdDetailLoading,
-        isError: moduleIdDetailError,
-        isSuccess: moduleIdDetailSuccess,
-    } = useGetModuleStatusQuery({ store_id, module_id });
-    const activeModule = moduleIdDetailsData?.status || false;
-
-    useEffect(() => {
-        if (moduleIdDetailError) {
-            toast.error('Failed to fetch module data. Please try again.');
-        }
-    }, [moduleIdDetailError]);
-
     const { register, handleSubmit } = useForm();
 
     const onSubmit = (data: any) => {
@@ -92,44 +64,6 @@ const LoginTwentyOne = ({
             });
     };
 
-=======
-    const { register, handleSubmit } = useForm();
-
-    const onSubmit = (data: any) => {
-        setLoading(true);
-
-        logIn({ ...data, store_id })
-            .unwrap()
-            .then(({ status, token, verify, message }: any) => {
-                if (status) {
-                    if (verify) {
-                        if (token) {
-                            toast.success(message || 'Login Successful');
-                            router.push('/profile');
-                        } else {
-                            toast.warning(
-                                message || 'Please Verify Your Accouct First'
-                            );
-                            router.push('/login');
-                            setLoading(false);
-                        }
-                    }
-                }
-            })
-            .catch((error: any) => {
-                if (error?.status === 404) {
-                    toast.error(
-                        error?.data?.message || `Credential Doesn"t Match`
-                    );
-                }
-                if (error?.status === 422) {
-                    toast.error(error?.data?.message || `Try again!`);
-                }
-                setLoading(false);
-            });
-    };
-
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const styleCss = `
     .cart-btn:hover {
         color:  ${design?.header_color};
@@ -260,39 +194,19 @@ const LoginTwentyOne = ({
                                     activeModule) && (
                                     <p className="text-base text-[#adadad]">
                                         Don&apos;t Have an Account?
-<<<<<<< HEAD
-                                        <a
-=======
                                         <Link
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                                             href="/sign-up"
                                             className="text-primary hover:underline text-color"
                                         >
                                             Sign Up
-<<<<<<< HEAD
-                                        </a>
-=======
                                         </Link>
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                                     </p>
                                 )}
                                 <div></div>
                             </div>
                         </div>
                     </div>
-<<<<<<< HEAD
-                    <div className="flex justify-center w-full">
-                        {/* <LoginWith /> */}
-                    </div>
                 </section>
-                {appStore?.auth_type !== 'EasyOrder' && (
-                    <section className="" id="sign-up">
-                        {/* <RegisterTwentyOne /> */}
-                    </section>
-                )}
-=======
-                </section>
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
             </div>
         </div>
     );

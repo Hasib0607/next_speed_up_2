@@ -1,10 +1,6 @@
 'use client';
 
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react';
-=======
 import React, { useState } from 'react';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { useForm } from 'react-hook-form';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import { useRouter } from 'next/navigation';
@@ -13,28 +9,17 @@ import { imgUrl } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
 import { toast } from 'react-toastify';
 import { useLogInMutation } from '@/redux/features/auth/authApi';
-<<<<<<< HEAD
-import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import Loading from '../loaders/loading';
-import RegisterFive from '../register/register-five';
-=======
-import Loading from '../loaders/loading';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 export const cls =
     'w-full text-black rounded-md border border-[#E9EDF4] py-3 px-5 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-primary ';
 
-<<<<<<< HEAD
-const LoginTwentyNine = ({ design, appStore, headersetting }: any) => {
-    const module_id = 120;
-=======
 const LoginTwentyNine = ({
     design,
     appStore,
     headersetting,
     activeModule,
 }: any) => {
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);
@@ -43,33 +28,11 @@ const LoginTwentyNine = ({
     const router = useRouter();
     const [logIn] = useLogInMutation();
 
-<<<<<<< HEAD
-    const {
-        data: moduleIdDetailsData,
-        isLoading: moduleIdDetailLoading,
-        isError: moduleIdDetailError,
-        isSuccess: moduleIdDetailSuccess,
-    } = useGetModuleStatusQuery({ store_id, module_id });
-    const activeModule = moduleIdDetailsData?.status || false;
-
-    useEffect(() => {
-        if (moduleIdDetailError) {
-            toast.error('Failed to fetch module data. Please try again.');
-        }
-    }, [moduleIdDetailError]);
-
     const { register, handleSubmit } = useForm();
 
     const onSubmit = (data: any) => {
         setLoading(true);
 
-=======
-    const { register, handleSubmit } = useForm();
-
-    const onSubmit = (data: any) => {
-        setLoading(true);
-
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
         logIn({ ...data, store_id })
             .unwrap()
             .then(({ status, token, verify, message }: any) => {

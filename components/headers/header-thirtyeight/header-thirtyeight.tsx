@@ -1,16 +1,6 @@
 'use client';
 
-<<<<<<< HEAD
-import { Menu, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
-import { FaUserCircle } from 'react-icons/fa';
-import { AiOutlineClose } from 'react-icons/ai';
-import { BsSearch } from 'react-icons/bs';
-import { HiMenu, HiOutlineShoppingBag } from 'react-icons/hi';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-=======
 import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';

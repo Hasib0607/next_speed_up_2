@@ -15,21 +15,8 @@ import {
 } from '@heroicons/react/24/solid';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-<<<<<<< HEAD
-import { motion, AnimatePresence } from 'framer-motion';
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
-import { useSelector } from 'react-redux';
-import { iconImg } from '@/site-settings/siteUrl';
-import { MobileNavProps } from '@/types';
-import { RootState } from '@/redux/store';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { cancelIcon, gridIcon, searchIcon } from '@/assets/svg';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import Search3 from '@/components/headers/components/search3';
-=======
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 const MobileNavFour = ({ design }: MobileNavProps) => {
     const [open, setOpen] = useState(false);
@@ -117,15 +104,11 @@ const MobileNavFour = ({ design }: MobileNavProps) => {
                             </div>
                         )}
                     </div>
-<<<<<<< HEAD
-                    <CartSideBar open={openCart} setOpen={setOpenCart} design={design}/>
-=======
                     <CartSideBar
                         open={openCart}
                         setOpen={setOpenCart}
                         design={design}
                     />
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                 </div>
                 <Link href="/profile" passHref>
                     <div
@@ -239,11 +222,7 @@ const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow, design }) => {
                     </div>
                 </div>
                 {searchTxt && (
-<<<<<<< HEAD
-                    <div className="w-[95%] absolute top-10 left-1/2 -translate-x-1/2">
-=======
                     <div className="w-[95%] absolute top-4 left-1/2 -translate-x-1/2">
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                         <Search3
                             search={searchTxt}
                             setSearch={setSearch}

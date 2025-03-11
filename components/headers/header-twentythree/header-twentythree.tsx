@@ -1,26 +1,6 @@
 'use client';
 
-<<<<<<< HEAD
-import React, { Fragment, useEffect, useState } from 'react';
-import { Menu, Transition } from '@headlessui/react';
-import { CgShoppingBag } from 'react-icons/cg';
-import { IoSearchOutline } from 'react-icons/io5';
-import { AiOutlineClose } from 'react-icons/ai';
-import { HiMenu } from 'react-icons/hi';
-import { FiUser } from 'react-icons/fi';
-import Link from 'next/link';
-import { imgUrl } from '@/site-settings/siteUrl';
-import Search3 from '../components/search3';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import SideMenuWithCategory from './side-menu-with-category';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { useRouter } from 'next/navigation';
-import useAuth from '@/hooks/useAuth';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-=======
 import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
@@ -209,11 +189,7 @@ const HeaderTwentyThree = ({ headersetting, design }: any) => {
                         {searchTxt && (
                             <div className="relative top-5 right-0 w-96">
                                 <Search3
-<<<<<<< HEAD
-                                design={design}
-=======
                                     design={design}
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />

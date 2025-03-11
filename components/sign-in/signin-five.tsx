@@ -2,14 +2,8 @@
 
 import Link from 'next/link';
 import { useLogInMutation } from '@/redux/features/auth/authApi';
-<<<<<<< HEAD
-import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-=======
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { useForm } from 'react-hook-form';
 import Loading from '../loaders/loading';
 import { toast } from 'react-toastify';
@@ -17,12 +11,7 @@ import { toast } from 'react-toastify';
 export const cls =
     'w-full rounded-md border border-[#E9EDF4] py-3 px-5 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-primary ';
 
-<<<<<<< HEAD
-const LoginFive = ({ appStore }: any) => {
-    const module_id = 120;
-=======
 const LoginFive = ({ appStore, activeModule }: any) => {
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);
@@ -31,21 +20,6 @@ const LoginFive = ({ appStore, activeModule }: any) => {
 
     const [logIn] = useLogInMutation();
 
-<<<<<<< HEAD
-    const {
-        data: moduleIdDetailsData,
-        isLoading: moduleIdDetailLoading,
-        isError: moduleIdDetailError,
-        isSuccess: moduleIdDetailSuccess,
-    } = useGetModuleStatusQuery({ store_id, module_id });
-    const activeModule = moduleIdDetailsData?.status || false;
-
-    useEffect(() => {
-        if (moduleIdDetailError) {
-            toast.error('Failed to fetch module data. Please try again.');
-        }
-    }, [moduleIdDetailError]);
-
     const { register, handleSubmit } = useForm();
 
     const onSubmit = (data: any) => {
@@ -166,128 +140,6 @@ const LoginFive = ({ appStore, activeModule }: any) => {
                                     </p>
                                 )}
 
-=======
-    const { register, handleSubmit } = useForm();
-
-    const onSubmit = (data: any) => {
-        setLoading(true);
-
-        logIn({ ...data, store_id })
-            .unwrap()
-            .then(({ status, token, verify, message }: any) => {
-                if (status) {
-                    if (verify) {
-                        if (token) {
-                            toast.success(message || 'Login Successful');
-                            router.push('/profile');
-                        } else {
-                            toast.warning(
-                                message || 'Please Verify Your Accouct First'
-                            );
-                            router.push('/login');
-                            setLoading(false);
-                        }
-                    }
-                }
-            })
-            .catch((error: any) => {
-                if (error?.status === 404) {
-                    toast.error(
-                        error?.data?.message || `Credential Doesn"t Match`
-                    );
-                }
-                if (error?.status === 422) {
-                    toast.error(error?.data?.message || `Try again!`);
-                }
-                setLoading(false);
-            });
-    };
-
-    return (
-        <>
-            <section className="py-20 px-4">
-                <div className="container">
-                    <h3 className="text-2xl text-center mb-4 font-bold text-[#423b3b]">
-                        Log in to your account
-                    </h3>
-                    <div className="flex flex-wrap -mx-4">
-                        <div className="w-full px-4">
-                            <div className="max-w-[560px] mx-auto text-center bg-white relative overflow-hidden  py-6 px-6 sm:px-8 md:px-[60px] drop-shadow-xl">
-                                <form onSubmit={handleSubmit(onSubmit)}>
-                                    {appStore?.auth_type === 'phone' ||
-                                    appStore?.auth_type === 'EasyOrder' ? (
-                                        <div className="flex items-center text-left">
-                                            <label
-                                                htmlFor="city"
-                                                className="block text-sm font-semibold text-gray-700 mr-4 gap-3 min-w-[80px] text-right"
-                                            >
-                                                Phone:
-                                            </label>
-                                            <input
-                                                type="number"
-                                                {...register('phone', {
-                                                    required: true,
-                                                })}
-                                                autoComplete="name"
-                                                className="mt-1 focus:ring-gray-500 focus:border-gray-500 block w-full shadow-sm sm:text-sm border-gray-300"
-                                            />
-                                        </div>
-                                    ) : (
-                                        <div className="flex items-center text-left">
-                                            <label
-                                                htmlFor="city"
-                                                className="block text-sm font-semibold text-gray-700 mr-4 gap-3 min-w-[80px] text-right"
-                                            >
-                                                Email:
-                                            </label>
-                                            <input
-                                                type="email"
-                                                {...register('phone', {
-                                                    required: true,
-                                                })}
-                                                autoComplete="name"
-                                                className="mt-1 focus:ring-gray-500 focus:border-gray-500 block w-full shadow-sm sm:text-sm border-gray-300"
-                                            />
-                                        </div>
-                                    )}
-                                    <PasswordField register={register} />
-
-                                    <Link
-                                        href="/forgot-password"
-                                        className="text-base inline-block my-3 text-[#423b3b] hover:underline hover:text-primary"
-                                    >
-                                        Forgot your password?
-                                    </Link>
-                                    <div className="mb-3">
-                                        {loading ? (
-                                            <Loading />
-                                        ) : (
-                                            <input
-                                                type="submit"
-                                                value="Login"
-                                                className=" font-semibold bg-gray-700 uppercase py-2 px-6 text-white hover:bg-orange-500 transition-all duration-500 ease-linear"
-                                            />
-                                        )}
-                                    </div>
-                                </form>
-                                <div className="h-[1px] w-full bg-gray-300 mb-2"></div>
-
-                                {(appStore?.auth_type !== 'EasyOrder' ||
-                                    activeModule) && (
-                                    <p className="text-base text-[#423b3b]">
-                                        <Link
-                                            href="/sign-up"
-                                            className="hover:underline"
-                                        >
-                                            No account?{' '}
-                                            <span className="font-bold">
-                                                Create one here
-                                            </span>
-                                        </Link>
-                                    </p>
-                                )}
-
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                                 <div className="flex justify-center w-full">
                                     {/* <LoginWith /> */}
                                 </div>

@@ -8,11 +8,7 @@ import { BsSearch } from 'react-icons/bs';
 import { IoBagOutline, IoSearchOutline } from 'react-icons/io5';
 import { RiMenu2Line } from 'react-icons/ri';
 
-<<<<<<< HEAD
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-=======
 import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
@@ -112,15 +108,11 @@ const HeaderForty = ({ headersetting, design, menu }: any) => {
                 </div>
                 {searchTxt && (
                     <div className="absolute z-20 top-32 xl:right-0 -right-24 w-full rounded-md">
-<<<<<<< HEAD
-                        <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
-=======
                         <Search3
                             search={searchTxt}
                             setSearch={setSearch}
                             design={design}
                         />
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                     </div>
                 )}
             </div>

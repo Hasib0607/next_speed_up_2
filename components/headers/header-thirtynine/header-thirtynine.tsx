@@ -1,8 +1,5 @@
 'use client';
 
-<<<<<<< HEAD
-import { imgUrl } from '@/site-settings/siteUrl';
-=======
 import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
@@ -12,7 +9,6 @@ import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { RootState } from '@/redux/store';
 import { imgUrl } from '@/site-settings/siteUrl';
 import useAnnouncementScroll from '@/utils/use-annoucement-height';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -22,24 +18,9 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
 import { IoSearchOutline } from 'react-icons/io5';
 import { RiShoppingBagLine } from 'react-icons/ri';
-<<<<<<< HEAD
-import useAuth from '@/hooks/useAuth';
-import useAnnouncementScroll from '@/utils/use-annoucement-height';
-import { useRouter } from 'next/navigation';
-import Search3 from '../components/search3';
-import SideMenu from '../components/side-menu';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { REDUX_PERSIST } from '@/consts';
-import { classNames } from '@/helpers/littleSpicy';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-=======
 import { useSelector } from 'react-redux';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 const HeaderThirtyNine = ({ headersetting, menu, design }: any) => {
     const router = useRouter();

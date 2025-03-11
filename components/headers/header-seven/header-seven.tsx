@@ -1,12 +1,6 @@
 'use client';
 
-<<<<<<< HEAD
-import Link from 'next/link';
-import { Fragment, useEffect, useState } from 'react';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-=======
 import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
@@ -105,11 +99,7 @@ const HeaderSeven = ({ design, headersetting, menu }: any) => {
                 <style>{styleCss}</style>
                 <div className="flex flex-row justify-between items-center nav-menu sm:container px-5 lg:py-0 py-1">
                     <Search
-<<<<<<< HEAD
-                    design={design}
-=======
                         design={design}
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                         searchInput={searchInput}
                         setSearchInput={setSearchInput}
                         screen

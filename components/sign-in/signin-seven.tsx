@@ -1,10 +1,6 @@
 'use client';
 
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react';
-=======
 import React, { useState } from 'react';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
@@ -13,21 +9,12 @@ import { imgUrl } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
 import { toast } from 'react-toastify';
 import { useLogInMutation } from '@/redux/features/auth/authApi';
-<<<<<<< HEAD
-import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
-=======
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import Loading from '../loaders/loading';
 
 export const cls =
     'py-2 px-4 md:px-5 w-full appearance-none transition duration-150 ease-in-out border text-input text-xs lg:text-sm font-body rounded-md placeholder-body min-h-12 bg-white border-gray-300 focus:outline-none focus:border-heading h-11 md:h-12';
 
-<<<<<<< HEAD
-const LoginSeven = ({ headersetting, appStore }: any) => {
-    const module_id = 120;
-=======
 const LoginSeven = ({ headersetting, appStore, activeModule }: any) => {
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);
@@ -37,33 +24,11 @@ const LoginSeven = ({ headersetting, appStore, activeModule }: any) => {
 
     const [logIn] = useLogInMutation();
 
-<<<<<<< HEAD
-    const {
-        data: moduleIdDetailsData,
-        isLoading: moduleIdDetailLoading,
-        isError: moduleIdDetailError,
-        isSuccess: moduleIdDetailSuccess,
-    } = useGetModuleStatusQuery({ store_id, module_id });
-    const activeModule = moduleIdDetailsData?.status || false;
-
-    useEffect(() => {
-        if (moduleIdDetailError) {
-            toast.error('Failed to fetch module data. Please try again.');
-        }
-    }, [moduleIdDetailError]);
-
     const { register, handleSubmit } = useForm();
 
     const onSubmit = (data: any) => {
         setLoading(true);
 
-=======
-    const { register, handleSubmit } = useForm();
-
-    const onSubmit = (data: any) => {
-        setLoading(true);
-
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
         logIn({ ...data, store_id })
             .unwrap()
             .then(({ status, token, verify, message }: any) => {
@@ -230,12 +195,6 @@ const LoginSeven = ({ headersetting, appStore, activeModule }: any) => {
                                         </Link>
                                     </p>
                                 )}
-<<<<<<< HEAD
-                                <div className="flex justify-center w-full">
-                                    {/* <LoginWith /> it was commented out */}
-                                </div>
-=======
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                             </div>
                         </div>
                     </div>

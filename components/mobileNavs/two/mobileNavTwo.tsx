@@ -145,15 +145,11 @@ const MobileNavTwo = ({ design }: MobileNavProps) => {
                                 <p className="text-xs">{cartList.length}</p>
                             </div>
                         )}
-<<<<<<< HEAD
-                        <CartSideBar open={openCart} setOpen={setOpenCart} design={design}/>
-=======
                         <CartSideBar
                             open={openCart}
                             setOpen={setOpenCart}
                             design={design}
                         />
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                     </div>
                 </div>
                 <div className="group">

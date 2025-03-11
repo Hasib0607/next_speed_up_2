@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
+import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';

@@ -71,7 +71,6 @@ const FooterSix = ({
                 </div>
               </div>
             </div>
-<<<<<<< HEAD
           </div>
           <div className="sm:container px-5 pt-5">
             <Newsletter headersetting={headersetting} store_id={store_id} />
@@ -214,29 +213,6 @@ const FooterSix = ({
           </p>
           {/* <Messenger /> */}
           <WhatsApp />
-=======
-            <hr />
-            <p className="sm:container px-5 pt-3 pb-20 lg:pb-3 text-[13px] font-light text-[#333333] space-x-2">
-                    <p>© {date} All Rights Received</p>
-                    <Link
-                        href="/"
-                        className="font-semibold text-red-700 menu-hover"
-                    >
-                        {headersetting?.website_name}
-                    </Link>
-                    <p>| Developed by</p>
-                    <Link
-                        href="https://ebitans.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-semibold text-red-700 menu-hover"
-                    >
-                        eBitans
-                    </Link>
-                </p>
-            {/* <Messenger /> */}
-            <WhatsApp headersetting={headersetting} />
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
         </div>
       );
 };

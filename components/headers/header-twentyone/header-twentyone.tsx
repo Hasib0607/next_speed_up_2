@@ -1,7 +1,5 @@
 'use client';
 
-<<<<<<< HEAD
-=======
 import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
@@ -14,7 +12,6 @@ import {
     useGetSubCategoryQuery,
 } from '@/redux/features/category/categoryApi';
 import { RootState } from '@/redux/store';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
@@ -37,28 +34,9 @@ import {
 } from 'react-icons/io';
 import { RiArrowDownSLine } from 'react-icons/ri';
 import { SiGmail } from 'react-icons/si';
-<<<<<<< HEAD
-import SideMenu from '../components/side-menu';
-import Search3 from '../components/search3';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { useRouter } from 'next/navigation';
-import useAuth from '@/hooks/useAuth';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { REDUX_PERSIST } from '@/consts';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { classNames } from '@/helpers/littleSpicy';
-import {
-    useGetCategoryQuery,
-    useGetSubCategoryQuery,
-} from '@/redux/features/category/categoryApi';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { numberParser } from '@/helpers/numberParser';
-=======
 import { useSelector } from 'react-redux';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
@@ -481,10 +459,6 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                             className="flex flex-col justify-center items-center relative lg:cursor-pointer"
                         >
                             <GiShoppingCart className="text-3xl font-thin" />
-<<<<<<< HEAD
-                            
-=======
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                         </div>
                         <div className="ml-2 lg:block hidden">
                             <p className={`text-sm`}>My Cart</p>

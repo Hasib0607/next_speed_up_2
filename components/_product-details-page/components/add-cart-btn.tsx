@@ -16,10 +16,7 @@ import { toast } from 'react-toastify';
 import { getDataByType } from '@/helpers/getCustomDataByType';
 import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
 import { classNames } from '@/helpers/littleSpicy';
-<<<<<<< HEAD
-=======
 import { IoMdCart } from 'react-icons/io';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
 const AddCartBtn = ({
     setQty,
@@ -51,22 +48,6 @@ const AddCartBtn = ({
         headersetting,
         'single_product_page'
     );
-<<<<<<< HEAD
-
-    const {
-        button,
-        button_color,
-        button_bg_color,
-        button1,
-        button1_color,
-        button1_bg_color,
-        is_buy_now_cart,
-        is_buy_now_cart1,
-    } = customDesignData || {};
-
-    const isEmpty = Object.keys(customDesignData).length === 0;
-=======
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 
     const {
         button,
@@ -297,29 +278,19 @@ const AddCartBtn = ({
         border: 2px solid transparent;
     }
     .c_button1:hover {
-<<<<<<< HEAD
-        color:  ${button1_color};
-        background: transparent;
-        border: 2px solid ${button1_color};
-=======
         color:  ${button1_bg_color};
         background: transparent;
         border: 2px solid black;
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     }
     `;
 
     return (
-<<<<<<< HEAD
-        <div className="flex flex-wrap lg2:flex-row flex-col justify-start lg2:items-center gap-5 py-5">
-=======
         <div
             className={
                 className ??
                 'flex flex-wrap lg2:flex-row flex-col justify-start lg2:items-center gap-5 py-5'
             }
         >
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
             <style>{cssStyle}</style>
             {roundedBtn ? (
                 <div className="w-max flex items-center">
@@ -348,11 +319,7 @@ const AddCartBtn = ({
             ) : (
                 <div className="flex border border-gray-300 divide-x-2 rounded-md w-max">
                     <div
-<<<<<<< HEAD
-                        className="h-12 w-12  flex justify-center items-center hover:bg-black rounded-l-md hover:text-white font-semibold transition-all duration-300 ease-linear cursor-pointer"
-=======
                         className="h-12 w-12 flex justify-center items-center hover:bg-black rounded-l-md hover:text-white font-semibold transition-all duration-300 ease-linear cursor-pointer"
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                         onClick={decNum}
                     >
                         <MinusIcon width={15} />
@@ -364,11 +331,7 @@ const AddCartBtn = ({
                     ) : (
                         <input
                             type="number"
-<<<<<<< HEAD
-                            className="form-control w-24 text-center border-0 outline-none py-2 text-lg font-semibold remove-arrow"
-=======
                             className="bg-transparent form-control w-24 text-center border-0 outline-none py-2 text-lg font-semibold remove-arrow"
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                             value={qty}
                             ref={inputRef}
                             onChange={(e) => handleInputChange(e)}
@@ -382,53 +345,6 @@ const AddCartBtn = ({
                     </div>
                 </div>
             )}
-<<<<<<< HEAD
-            <div className="">
-                {productQuantity === 0 ? (
-                    <button className={buttonOne}>Out of Stock</button>
-                ) : (
-                    <>
-                        {isEmpty && (
-                            <div onClick={onClick} className={buttonOne}>
-                                {children ? children : 'Add to cart'}
-                            </div>
-                        )}
-                        {button && (
-                            <button
-                                className={classNames(buttonOne, 'c_button')}
-                                onClick={
-                                    numberParser(is_buy_now_cart) == 1
-                                        ? buy_now
-                                        : onClick
-                                }
-                            >
-                                {button}
-                            </button>
-                        )}
-                    </>
-                )}
-            </div>
-            {isEmpty && (
-                <div onClick={buy_now} className={buttonOne}>
-                    {'ORDER NOW'}
-                </div>
-            )}
-            {button1 && (
-                <button
-                    onClick={
-                        numberParser(is_buy_now_cart1) == 1 ? buy_now : onClick
-                    }
-                    type="submit"
-                    className={classNames(
-                        buttonOne
-                            ? buttonOne
-                            : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`,
-                        'c_button1'
-                    )}
-                >
-                    {button1}
-                </button>
-=======
 
             {productQuantity === 0 ? (
                 <button className={buttonOne}>Out of Stock</button>
@@ -508,7 +424,6 @@ const AddCartBtn = ({
                         </button>
                     )}
                 </>
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
             )}
         </div>
     );

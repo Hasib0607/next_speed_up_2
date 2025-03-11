@@ -141,13 +141,8 @@ export const getCampainOfferDeliveryFee = (
 export const grandTotal = (
     total: any,
     tax: any,
-<<<<<<< HEAD
-    shippingArea: any,
-    totalDis: any
-=======
     shippingArea?: any,
     totalDis?: any
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 ) => {
     const gTotal =
         shippingArea === '--Select Area--' || shippingArea === null

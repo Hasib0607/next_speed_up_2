@@ -28,24 +28,9 @@ import { TiArrowSortedUp } from 'react-icons/ti';
 import { useSelector } from 'react-redux';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
-<<<<<<< HEAD
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { REDUX_PERSIST } from '@/consts';
-import { classNames } from '@/helpers/littleSpicy';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import useAuth from '@/hooks/useAuth';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import {
-    useGetCategoryQuery,
-    useGetSubCategoryQuery,
-} from '@/redux/features/category/categoryApi';
-import { RootState } from '@/redux/store';
-
-=======
 
 import { cancelIcon } from '@/assets/svg';
 import { subTotal } from '@/utils/_cart-utils/cart-utils';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import BDT from '@/utils/bdt';
 import { customizeHeader } from '@/utils/customizeDesign';
 import { useRouter } from 'next/navigation';

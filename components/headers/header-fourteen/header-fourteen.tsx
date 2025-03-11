@@ -13,12 +13,8 @@ import { RiCloseCircleLine, RiMenu2Line } from 'react-icons/ri';
 import Search3 from '../components/search3';
 import SideMenu from './side-menu';
 
-<<<<<<< HEAD
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-=======
 import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { REDUX_PERSIST } from '@/consts';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
@@ -139,15 +135,11 @@ const HeaderFourteen = ({ headersetting, design, menu }: any) => {
                     </div>
                     {searchTxt && (
                         <div className="relative">
-<<<<<<< HEAD
-                            <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
-=======
                             <Search3
                                 search={searchTxt}
                                 setSearch={setSearch}
                                 design={design}
                             />
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                         </div>
                     )}
                 </div>

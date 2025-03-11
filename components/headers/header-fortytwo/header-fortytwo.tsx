@@ -1,11 +1,5 @@
 'use client';
 
-<<<<<<< HEAD
-import Link from 'next/link';
-import { imgUrl } from '@/site-settings/siteUrl';
-import { Menu, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-=======
 import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
@@ -25,7 +19,6 @@ import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { Fragment, useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs';
@@ -36,26 +29,7 @@ import { ImUser } from 'react-icons/im';
 import { TbPhoneCall } from 'react-icons/tb';
 import { TiArrowSortedUp } from 'react-icons/ti';
 import { useSelector } from 'react-redux';
-<<<<<<< HEAD
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import useAuth from '@/hooks/useAuth';
-import { useRouter } from 'next/navigation';
-import { RootState } from '@/redux/store';
-import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { REDUX_PERSIST } from '@/consts';
-import { classNames } from '@/helpers/littleSpicy';
-import BDT from '@/utils/bdt';
 import SideMenu from '../components/side-menu';
-import {
-    useGetCategoryQuery,
-    useGetSubCategoryQuery,
-} from '@/redux/features/category/categoryApi';
-import { numberParser } from '@/helpers/numberParser';
-import { subTotal } from '@/utils/_cart-utils/cart-utils';
-=======
-import SideMenu from '../components/side-menu';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import Search from './search';
 
 const HeaderFortyTwo = ({ headersetting, design, menu }: any) => {

@@ -1,10 +1,6 @@
 'use client';
 
 import { useLogInMutation } from '@/redux/features/auth/authApi';
-<<<<<<< HEAD
-import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
-=======
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -15,12 +11,7 @@ import { toast } from 'react-toastify';
 const cls =
     'py-3 px-4 border border-gray-300 rounded-md placeholder:text-gray-500 text-sm focus:outline-0 w-full';
 
-<<<<<<< HEAD
-const LoginOne = ({ design, appStore }: any) => {
-    const module_id = 120;
-=======
 const LoginOne = ({ design, appStore, activeModule }: any) => {
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);

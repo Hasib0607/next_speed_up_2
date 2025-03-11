@@ -2,8 +2,6 @@ import { HTML_TAG_PATTERN } from '@/consts';
 import { numberParser } from './numberParser';
 import { getPrice } from './getPrice';
 
-<<<<<<< HEAD
-=======
 // find variant and get details
 export const getVariantDetailsById = (product: any) => {
     return (
@@ -19,7 +17,6 @@ export const getCssVariableHex = (variable: string) => {
     return getComputedStyle(body).getPropertyValue(variable).trim();
 };
 
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 // Utility function to truncate the string
 export const truncateString = (str: any, maxLength: any) => {
     if (str.length > maxLength) {
@@ -67,11 +64,7 @@ export const productCurrentPrice = (product: any, variantId?: any) => {
         product?.calculate_regular_price
     );
 
-<<<<<<< HEAD
-    const calculateDiscountPrice = getPrice(
-=======
     const calculatedDiscount = getPrice(
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
         product?.regular_price,
         product?.discount_price,
         product?.discount_type,
@@ -79,20 +72,12 @@ export const productCurrentPrice = (product: any, variantId?: any) => {
     );
 
     if (variant?.length > 0 && variantId) {
-<<<<<<< HEAD
-        return numberParser(
-            regularPrice + additionalPrice - (calculateDiscountPrice ?? 0)
-        );
-    } else {
-        return calculateRegularPrice;
-=======
         const calculatedVariantPrice =
             regularPrice + additionalPrice - (calculatedDiscount ?? 0);
 
         return numberParser(calculatedVariantPrice, true);
     } else {
         return numberParser(calculateRegularPrice, true);
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     }
 };
 
@@ -121,19 +106,6 @@ export const howMuchSave = (product: any, variantId?: any) => {
         product?.calculate_regular_price
     );
 
-<<<<<<< HEAD
-    // const calculateDiscountPrice = getPrice(
-    //     variantRegularPrice,
-    //     product?.discount_price,
-    //     product?.discount_type,
-    //     true
-    // );
-
-    if (variant?.length > 0 && variantId) {
-        return numberParser(
-            variantRegularPrice
-        );
-=======
     const calculateDiscount = getPrice(
         variantRegularPrice,
         product?.discount_price,
@@ -143,7 +115,6 @@ export const howMuchSave = (product: any, variantId?: any) => {
 
     if (variant?.length > 0 && variantId) {
         return numberParser(calculateDiscount, true) ?? 0;
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     } else {
         return numberParser(regularPrice - calculateRegularPrice, true);
     }
@@ -161,24 +132,6 @@ export const getCampainOfferDiscount = (product: any | undefined) => {
 
     if (product?.product_offer?.status) {
         const productCalculatedDiscount = (calculatedDiscountPrice ?? 0) * qty;
-        return productCalculatedDiscount;
-    } else {
-        return 0;
-    }
-};
-
-export const getCampainOfferDiscount = (product: any | undefined) => {
-    const { price,qty } = product || {};
-
-    const calculatedDiscountPrice = getPrice(
-        price,
-        product?.product_offer?.discount_amount,
-        product?.product_offer?.discount_type,
-        true
-    );
-
-    if (product?.product_offer?.status) {
-        const productCalculatedDiscount = (calculatedDiscountPrice ?? 0) * qty 
         return productCalculatedDiscount;
     } else {
         return 0;

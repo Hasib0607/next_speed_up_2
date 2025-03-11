@@ -1,21 +1,6 @@
 'use client';
 
-<<<<<<< HEAD
-import { imgUrl } from '@/site-settings/siteUrl';
-import { Menu, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { Fragment, useEffect, useState } from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
-import { BsSearch } from 'react-icons/bs';
-import { FaUser } from 'react-icons/fa';
-import { HiMenu } from 'react-icons/hi';
-import Search3 from '../components/search3';
-import SideMenu from '../components/side-menu';
-import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-=======
 import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';

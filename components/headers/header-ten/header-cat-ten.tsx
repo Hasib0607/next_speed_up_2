@@ -1,13 +1,10 @@
 'use client';
 
-<<<<<<< HEAD
-=======
 import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import {
     useGetCategoryQuery,
     useGetSubCategoryQuery,
 } from '@/redux/features/category/categoryApi';
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useState } from 'react';

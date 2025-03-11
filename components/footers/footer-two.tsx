@@ -40,35 +40,19 @@ const FooterTwo = ({ menu, headersetting }: any) => {
                     <AllPaymantGateway headersetting={headersetting} />
                 </div>
                 <p className="text-center pt-5 lg:pb-5 pb-20">
-<<<<<<< HEAD
                     © {date} All Rights Reserved{' '}
-=======
-                    <span>© {date} All Rights Received </span>
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                     <Link
                         href="/"
                         className="font-semibold text-red-700 menu-hover"
                     >
                         {headersetting?.website_name}
                     </Link>{' '}
-<<<<<<< HEAD
                     | Developed by{' '}
                     <a href="https://ebitans.com/" target="_blank">
                         <span className="font-semibold text-red-700">
                             eBitans{' '}
                         </span>
                     </a>
-=======
-                    <span>| Developed by </span>
-                    <Link
-                        href="https://ebitans.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-semibold text-red-700 menu-hover"
-                    >
-                        eBitans
-                    </Link>
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
                 </p>
             </div>
 
