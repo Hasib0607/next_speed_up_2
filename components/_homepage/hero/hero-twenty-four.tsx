@@ -15,7 +15,6 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-// import './heroSixteenCss/herosixteen.css'
 import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
@@ -97,6 +96,7 @@ const HeroTwentyFour = ({ slider, design }: any) => {
     }
 
 `;
+
     return (
         <div className="z-0 relative group">
             <style>{styleCss}</style>
@@ -124,9 +124,7 @@ const HeroTwentyFour = ({ slider, design }: any) => {
                     nextEl: `.${nextEl}`,
                 }}
                 speed={1000}
-                // effect={"fade"}
                 loop={true}
-                // spaceBetween={30}
                 pagination={pagination}
                 autoplay={{
                     delay: 3000,
@@ -156,15 +154,6 @@ const HeroTwentyFour = ({ slider, design }: any) => {
                                 </p>
                                 <div className="bg-color relative group w-max">
                                     <p className="absolute bg-black bg-opacity-20 top-0 left-0 right-0 scale-x-0 group-hover:scale-x-100 transform origin-[0%_100%] group-hover:ease-[cubic-bezier(0.52,1.64,0.87,0.66)] ease-[cubic-bezier(0.52,1.64,0.87,0.66)] slider-btn-twenty-four duration-500 bottom-0"></p>
-                                    <a
-                                        href={s?.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <h1 className="lg:px-14 mt-1 md:mt-5 px-3 lg:py-4 py-2 relative z-[2] duration-300 lg:text-base text-xs w-max lg:cursor-pointer uppercase font-medium">
-                                            DISCOVER MORE
-                                        </h1>
-                                    </a>
                                 </div>
                             </div>
                         </div>

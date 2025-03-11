@@ -1,33 +1,33 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import { IoIosArrowForward } from 'react-icons/io';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { useParams } from 'next/navigation';
+
+import CategoryBreadcrumb from '@/components/_category-page/components/CategoryBreadcrumb';
 import Card31 from '@/components/card/card31';
-import Link from 'next/link';
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
-import './category-seventeen.css';
-import Pagination from '@/components/_category-page/components/pagination';
-import { useDispatch, useSelector } from 'react-redux';
+import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
+import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { numberParser } from '@/helpers/numberParser';
+import { NotFoundMsg } from '@/utils/little-components';
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { IoIosArrowForward } from 'react-icons/io';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
+import InfiniteLoader from '../loaders/infinite-loader';
+import './category-seventeen.css';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
-import Skeleton from '@/components/loaders/skeleton';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import InfiniteLoader from '../loaders/infinite-loader';
 
 const CategorySeventeen = ({ catId, store_id, design }: any) => {
     const module_id = 105;
     const dispatch = useDispatch();
 
-    const [grid, setGrid] = useState('H');
-    const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
 
     const categoryStore = useSelector((state: any) => state?.category);
@@ -41,22 +41,6 @@ const CategorySeventeen = ({ catId, store_id, design }: any) => {
     );
     const isPagination = numberParser(paginationModule?.status) === 1;
 
-    const [activecat, setActivecat] = useState(null);
-    useEffect(() => {
-        for (let i = 0; i < category.length; i++) {
-            if (category[i]?.cat) {
-                for (let j = 0; j < category[i].cat.length; j++) {
-                    if (category[i]?.cat[j]?.id == catId) {
-                        setActivecat(category[i]?.cat[j]?.name);
-                    }
-                }
-            }
-            if (category[i]?.id == catId) {
-                setActivecat(category[i].name);
-            }
-        }
-    }, [category]);
-
     return (
         <>
             <div className="categorySeventeenBackgroundColor">
@@ -69,7 +53,11 @@ const CategorySeventeen = ({ catId, store_id, design }: any) => {
                     <div className="flex gap-1 items-center">
                         <p className="text-white">Home</p>
                         <IoIosArrowForward className="text-xs mt-1 text-white" />
-                        <p className="font-medium text-white">{activecat}</p>
+                        <CategoryBreadcrumb
+                            catId={catId}
+                            className={'font-medium text-white'}
+                            nameOnly
+                        />
                     </div>
                 </div>
             </div>
@@ -96,24 +84,16 @@ const CategorySeventeen = ({ catId, store_id, design }: any) => {
                         </div>
                     </div>
                     <div className="col-span-1 lg:col-span-9 flex flex-col min-h-[100vh-200px] h-full">
-                        {/* <Location category={shops} cat={cat} /> */}
                         <Filter
                             onChange={(e: any) => {
                                 dispatch(setSort(e.target.value));
                                 setPage(1);
                             }}
-                            setGrid={setGrid}
-                            setOpen={setOpen}
-                            open={open}
                         />
                         <div className="flex-1">
                             <ProductSection
                                 catId={catId}
-                                open={open}
-                                grid={grid}
-                                hasMore={hasMore}
                                 paginate={paginate}
-                                setHasMore={setHasMore}
                                 page={page}
                                 setPage={setPage}
                                 isPagination={isPagination}
@@ -140,14 +120,10 @@ const CategorySeventeen = ({ catId, store_id, design }: any) => {
 export default CategorySeventeen;
 
 const ProductSection = ({
-    grid,
-    open,
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -171,23 +147,9 @@ const ProductSection = ({
         setPage((prevPage: number) => prevPage + 1);
     };
 
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
-
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -243,12 +205,24 @@ const ProductSection = ({
                                 style={{ height: 'auto', overflow: 'hidden' }}
                                 dataLength={infiniteProducts?.length}
                                 next={nextPageFetch}
-                                hasMore={hasMore}
-                                loader={<InfiniteLoader />}
+                                hasMore={paginate?.has_more_pages}
+                                loader={
+                                    paginate?.has_more_pages ||
+                                    categoryPageProductsFetching ||
+                                    (categoryPageProductsLoading && (
+                                        <InfiniteLoader />
+                                    ))
+                                }
                                 endMessage={
-                                    <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                        No More Products
-                                    </p>
+                                    paginate?.has_more_pages ||
+                                    categoryPageProductsFetching ||
+                                    categoryPageProductsLoading ? (
+                                        <InfiniteLoader />
+                                    ) : (
+                                        <NotFoundMsg
+                                            message={'No More Products'}
+                                        />
+                                    )
                                 }
                             >
                                 <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-3 md:gap-3 xl:grid-cols-3 grid-cols-2 gap-2">
@@ -277,9 +251,6 @@ const ProductSection = ({
 const Filter = ({ onChange }: any) => {
     return (
         <div className="border-t border-b border-[#f1f1f1] py-3 my-5 flex flex-wrap gap-y-2 justify-between items-center">
-            {/* <div className="text-gray-500 font-thin">
-        There are {paginate?.total} products{" "}
-      </div> */}
             {/* Short by  */}
             <div className="flex items-center gap-2 text-sm max-w-md w-full">
                 <label className="max-w-fit"> Sort by:</label>

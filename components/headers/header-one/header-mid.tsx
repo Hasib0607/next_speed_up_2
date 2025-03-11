@@ -2,11 +2,9 @@
 
 import { Popover, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Bars4Icon, PhoneIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-
 import MultiStep from './multistep';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import useAuth from '@/hooks/useAuth';

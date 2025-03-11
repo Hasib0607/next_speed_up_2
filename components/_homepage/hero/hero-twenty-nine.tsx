@@ -9,17 +9,16 @@ import {
     EffectCreative,
     EffectFade,
 } from 'swiper/modules';
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-// import './heroSixteenCss/herosixteen.css'
 import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
 
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
-import { IoSearchCircleOutline } from 'react-icons/io5';
 import { sliderImg } from '@/site-settings/siteUrl';
 
 const HeroTwentyNine = ({ slider, design }: any) => {
@@ -121,7 +120,6 @@ const HeroTwentyNine = ({ slider, design }: any) => {
                     nextEl: `.${nextEl}`,
                 }}
                 speed={1000}
-                // effect={"fade"}
                 loop={true}
                 pagination={pagination}
                 autoplay={{
@@ -150,18 +148,6 @@ const HeroTwentyNine = ({ slider, design }: any) => {
                                 <h1 className="xl:text-4xl md:text-[28px] text-[22px] font-medium">
                                     {s?.title}
                                 </h1>
-                                {s?.link && (
-                                    <a
-                                        href={s?.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <h1 className="lg:px-10 lg:mt-5 px-5 lg:py-2 py-1 btn-slider duration-300 lg:text-lg text-xs w-max rounded-full lg:cursor-pointer uppercase font-medium">
-                                            Explore Now{' '}
-                                            <IoSearchCircleOutline className="inline h-5 ml-1" />
-                                        </h1>
-                                    </a>
-                                )}
                             </div>
                         </div>
 

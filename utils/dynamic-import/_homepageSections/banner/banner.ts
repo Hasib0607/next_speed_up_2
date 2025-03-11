@@ -105,4 +105,7 @@ export const banners: any = {
     thirtynine: dynamic(
         () => import('@/components/_homepage/promotions/promo-thirtynine')
     ),
+    fortythree: dynamic(
+        () => import('@/components/_homepage/promotions/promo-fortythree')
+    ),
 };

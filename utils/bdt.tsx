@@ -1,15 +1,18 @@
 'use client';
 
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
+import { numberParser } from '@/helpers/numberParser';
+import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
 
 const BDT = ({ price }: any) => {
-    const home = useSelector((state: RootState) => state.home); // Access updated Redux state
-    const { currency } = home?.headersetting || {};
-    
+    const { data: headerSettingData } = useGetHeaderSettingsQuery({});
+    const { currency } = headerSettingData?.data || {};
+
     return (
         <>
-            {currency?.symbol && parseInt(currency?.status) === 1 ? currency?.symbol : currency?.code} {price}
+            {currency?.symbol && numberParser(currency?.status) === 1
+                ? currency?.symbol
+                : currency?.code}
+            {price}
         </>
     );
 };

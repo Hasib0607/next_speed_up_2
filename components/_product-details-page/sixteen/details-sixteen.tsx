@@ -28,9 +28,7 @@ import {
 } from '../components/imageVariations';
 import AddCartBtnSixteen from '../components/add-cart-btn-sixteen';
 
-const Details = ({ design, children, product }: any) => {
-    const { headersetting } = useSelector((state: RootState) => state.home);
-
+const DetailsSixteen = ({ design, children, product, headersetting }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux state
 
@@ -165,7 +163,10 @@ const Details = ({ design, children, product }: any) => {
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
     const save = howMuchSave(product);
     const parsedNumberRating = numberParser(product?.number_rating);
     const parsedRating = numberParser(product?.rating, true);
@@ -422,4 +423,4 @@ const Details = ({ design, children, product }: any) => {
     );
 };
 
-export default Details;
+export default DetailsSixteen;

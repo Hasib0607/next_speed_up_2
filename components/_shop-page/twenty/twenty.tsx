@@ -1,8 +1,8 @@
 'use client';
-import Pagination from '@/components/_category-page/components/pagination';
 import Card44 from '@/components/card/card44';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
 import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
 import { numberParser } from '@/helpers/numberParser';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
@@ -237,6 +237,7 @@ const ShopProductSection = ({
 
 const SingleCat = ({ item }: any) => {
     const [show, setShow] = useState(false);
+
     return (
         <div onMouseLeave={() => setShow(false)} className="relative">
             <div

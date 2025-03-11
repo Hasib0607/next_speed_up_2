@@ -1,9 +1,8 @@
-import React from "react";
+import React from 'react';
+import Order from './dashboard/dashboard-seven/order/order';
 
-import Order from "./dashboard/dashboard-seven/order/order";
-
-const OrderComponent = () => {
-  return <Order />;
+const OrderComponent = ({ design, appStore }: any) => {
+    return <Order design={design} appStore={appStore} />;
 };
 
 export default OrderComponent;

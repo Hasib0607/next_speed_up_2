@@ -106,7 +106,7 @@ const HeaderSeventeen = ({ headersetting, design, menu, cartList }: any) => {
                 </div>
                 {searchTxt && (
                     <div className="w-full flex justify-center">
-                        <Search3 search={searchTxt} setSearch={setSearch} />
+                        <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
                     </div>
                 )}
             </div>
@@ -310,7 +310,11 @@ const HeaderSeventeen = ({ headersetting, design, menu, cartList }: any) => {
             </div>
 
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                    open={openCart}
+                    setOpen={setOpenCart}
+                    design={design}
+                />
 
             {/* tablet and mobile view  */}
 

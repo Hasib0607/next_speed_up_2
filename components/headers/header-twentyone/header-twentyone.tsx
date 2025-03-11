@@ -1,6 +1,6 @@
 'use client';
 
-import { imgUrl, profileImg } from '@/site-settings/siteUrl';
+import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -10,7 +10,7 @@ import { BiBarChart } from 'react-icons/bi';
 import { BsSearch } from 'react-icons/bs';
 import { FaFacebook } from 'react-icons/fa';
 import { FiUser } from 'react-icons/fi';
-
+import { GiShoppingCart } from 'react-icons/gi';
 import { GrInstagram, GrYoutube } from 'react-icons/gr';
 import { HiMenu } from 'react-icons/hi';
 import {
@@ -21,10 +21,8 @@ import {
 } from 'react-icons/io';
 import { RiArrowDownSLine } from 'react-icons/ri';
 import { SiGmail } from 'react-icons/si';
-
 import SideMenu from '../components/side-menu';
 import Search3 from '../components/search3';
-import defaultUserImage from '@/assets/default-user-image.png';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';
@@ -38,10 +36,13 @@ import {
 } from '@/redux/features/category/categoryApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { numberParser } from '@/helpers/numberParser';
 
 const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
+
+    const store_id = numberParser(design?.store_id) || null;
 
     const [openCat, setOpenCat] = useState(false);
     const [searchTxt, setSearch] = useState('');
@@ -111,7 +112,6 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
     }, []);
 
     // CSS START FROM HERE
-
     const styleCss = `
         @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin&display=swap');
         .navbarTwentyOne.openMenu {
@@ -122,7 +122,6 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
             z-index: 10;
             top:0;
             animation: fadeIn 0.2s ease-in both;
-    
           }
         .navbarSixteen.openMenu:hover {
             opacity: 1;
@@ -137,7 +136,6 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
       }
         .menu-hover:hover {
           color:  ${design?.header_color};
-         
       }
       .border-cat {
         border: 2px solid ${design?.header_color};
@@ -145,23 +143,23 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
       .border-hover-menu:hover{
         border: 1px solid ${design?.text_color};
       }
-    
-      
       .font-twenty-one {
         font-family: 'Libre Franklin', sans-serif;
       }
-    
       h1, p, span, button, li, ul, a, div, h2, h3, h4, h5, h6  {
         font-family: 'Libre Franklin', sans-serif;
       }
-`;
+    `;
 
     return (
         <div className="">
             <style>{styleCss}</style>
-
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             {/* sticky nav search  */}
             <div
                 className={`w-full bg-white fixed top-0 left-0 h-[150px] z-[100] duration-500 ${
@@ -194,6 +192,7 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                     {searchTxtUp && (
                         <div className="relative -top-3">
                             <Search3
+                                design={design}
                                 search={searchTxtUp}
                                 setSearch={setSearchUp}
                             />
@@ -272,8 +271,11 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
             </div>
 
             {/* middle menu  */}
-
-            <div className={`pt-3`}>
+            <div
+                className={`${
+                    (store_id === 3601 || store_id === 3904) && 'bg-color'
+                } pt-3`}
+            >
                 <div className="flex justify-between items-center sm:container px-5 pb-3">
                     <div
                         onClick={() => setOpen(!open)}
@@ -326,6 +328,7 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                             {searchTxt && (
                                 <div className="absolute z-[15] top-2 left-0 pl-16 w-full">
                                     <Search3
+                                        design={design}
                                         search={searchTxt}
                                         setSearch={setSearch}
                                     />
@@ -343,23 +346,24 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                                 <div>
                                     <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none ">
                                         <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
-                                            {user?.image || user?.social_img ? (
+                                            {isAuthenticated ? (
                                                 <img
                                                     src={
                                                         user?.image
-                                                            ? profileImg +
-                                                              user?.image
+                                                            ? user?.image
                                                             : user?.social_img
                                                     }
                                                     alt="user"
                                                     className="object-fit"
                                                 />
                                             ) : (
-                                                <img
-                                                    src={defaultUserImage.src}
-                                                    alt="user"
-                                                    className="object-fit"
-                                                />
+                                                <svg
+                                                    className="h-full w-full text-gray-300"
+                                                    fill="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                                </svg>
                                             )}
                                         </span>
                                     </Menu.Button>
@@ -394,7 +398,7 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                                                 <Menu.Item>
                                                     {({ active }) => (
                                                         <Link
-                                                            href="profile/order"
+                                                            href="/profile/order"
                                                             className={classNames(
                                                                 active
                                                                     ? 'bg-gray-100'
@@ -449,6 +453,17 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                                 <FiUser className="text-3xl font-semibold lg:block hidden" />
                             </Link>
                         )}
+
+                        <div
+                            onClick={() => setOpenCart(!openCart)}
+                            className="flex flex-col justify-center items-center relative lg:cursor-pointer"
+                        >
+                            <GiShoppingCart className="text-3xl font-thin" />
+                            
+                        </div>
+                        <div className="ml-2 lg:block hidden">
+                            <p className={`text-sm`}>My Cart</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -642,8 +657,9 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                                                 <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
                                                     <img
                                                         src={
-                                                            profileImg +
                                                             user?.image
+                                                                ? user?.image
+                                                                : user?.social_img
                                                         }
                                                         alt=""
                                                         className="object-fit"
@@ -681,7 +697,7 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                                                         <Menu.Item>
                                                             {({ active }) => (
                                                                 <Link
-                                                                    href="profile/order"
+                                                                    href="/profile/order"
                                                                     className={classNames(
                                                                         active
                                                                             ? 'bg-gray-100'

@@ -1,29 +1,22 @@
-'use client';
-
 import { DEFAULT } from '@/consts';
+import { numberParser } from '@/helpers/numberParser';
 import { categories } from '@/utils/dynamic-import/categories/categories';
-import { useSelector } from 'react-redux';
 
-const Category = ({ catId }: any) => {
-    const home = useSelector((state: any) => state?.home);
-    const { design } = home || {};
-
-    const storeData = useSelector((state: any) => state.appStore.store); // Access updated Redux state
-    const store_id = storeData?.id || null;
+const Category = ({ design, catId }: any) => {
+    const store_id = numberParser(design?.store_id) || null;
 
     const CategoryComponent =
         categories[design?.shop_page] || categories[DEFAULT];
 
     return (
-        <>
-            {design?.shop_page !== "null" && CategoryComponent && (
-                <CategoryComponent
-                    design={design}
-                    store_id={store_id}
-                    catId={catId}
-                />
-            )}
-        </>
+        design?.shop_page !== 'null' &&
+        CategoryComponent && (
+            <CategoryComponent
+                catId={catId}
+                design={design}
+                store_id={store_id}
+            />
+        )
     );
 };
 

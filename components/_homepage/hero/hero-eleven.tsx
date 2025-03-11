@@ -80,8 +80,8 @@ const HeroEleven = ({ slider, design }: any) => {
       border: 1px solid ${bgColor};
       
   }
-
     `;
+
     return (
         <div className="bg-white relative heroElevenBgImage">
             <style>{styleCss}</style>

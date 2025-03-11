@@ -20,6 +20,7 @@ import './hero-three.css';
 import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
 import { sliderImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const HeroThree = ({ slider, design }: any) => {
     let menu = [''];
@@ -122,15 +123,15 @@ const HeroThree = ({ slider, design }: any) => {
                                     {s?.subtitle}
                                 </p>
                                 {s?.link && (
-                                    <a
-                                        href={s?.link}
+                                    <Link
+                                        href={s?.link ?? '#'}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
                                         <h1 className="lg:px-10 px-3 md:py-2 py-1 duration-300 lg:text-lg text-xs w-max shop-link lg:cursor-pointer uppercase font-medium">
                                             Shop Now
                                         </h1>
-                                    </a>
+                                    </Link>
                                 )}
                             </div>
                         </div>

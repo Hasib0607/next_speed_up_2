@@ -3,15 +3,12 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
-
 import SinglePassword from './components/single-password';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import { useSelector } from 'react-redux';
 import { useUpdateUserPasswordMutation } from '@/redux/features/user/userApi';
 
-const ChangePasswordSeven = () => {
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+const ChangePasswordSeven = ({ design, appStore }: any) => {
+    const store_id = appStore?.id || null;
 
     const { register, handleSubmit } = useForm();
 

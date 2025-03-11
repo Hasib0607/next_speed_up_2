@@ -1,4 +1,5 @@
 'use client';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
     Pagination,
@@ -14,11 +15,9 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-// import './heroSixteenCss/herosixteen.css'
 import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
 import { sliderImg } from '@/site-settings/siteUrl';
-// import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
 
 const HeroTwentySix = ({ slider, design }: any) => {
     let menu = [''];
@@ -85,9 +84,8 @@ const HeroTwentySix = ({ slider, design }: any) => {
         border:2px solid  ${bgColor} ;
         color: ${bgColor};
     }
-
-
       `;
+
     return (
         <div className="z-0 relative sm:container px-5 ">
             <style>{styleCss}</style>
@@ -129,17 +127,6 @@ const HeroTwentySix = ({ slider, design }: any) => {
                                 <p className="md:text-xl text-sm mb-5">
                                     {s?.subtitle}
                                 </p>
-                                {s?.link && (
-                                    <a
-                                        href={s?.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <h1 className="lg:px-6 rounded-md px-4 lg:py-3 py-2 bg-white text-black font-bold lg:text-sm text-xs w-max  btn-color duration-500 lg:cursor-pointer ">
-                                            Explore Now
-                                        </h1>
-                                    </a>
-                                )}
                             </div>
                         </div>
                         <div className="group">

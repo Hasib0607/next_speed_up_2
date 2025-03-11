@@ -4,16 +4,12 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { CgShoppingBag } from 'react-icons/cg';
 import { IoSearchOutline } from 'react-icons/io5';
-
 import { AiOutlineClose } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
 import { FiUser } from 'react-icons/fi';
-
 import Link from 'next/link';
 import { imgUrl } from '@/site-settings/siteUrl';
-
 import Search3 from '../components/search3';
-import userImg from '@/assets/img/user.png';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import SideMenuWithCategory from './side-menu-with-category';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
@@ -115,7 +111,11 @@ const HeaderTwentyThree = ({ headersetting, design }: any) => {
     return (
         <div>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <style>{styleCss}</style>
             <div
                 className={`sm:container px-5 flex justify-between items-center sm:pt-5 pt-2 pb-2`}
@@ -189,6 +189,7 @@ const HeaderTwentyThree = ({ headersetting, design }: any) => {
                         {searchTxt && (
                             <div className="relative top-5 right-0 w-96">
                                 <Search3
+                                design={design}
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />
@@ -211,12 +212,12 @@ const HeaderTwentyThree = ({ headersetting, design }: any) => {
                                     <div>
                                         <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none ">
                                             <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
-                                                {user?.image ? (
+                                                {isAuthenticated ? (
                                                     <img
                                                         src={
                                                             user?.image
                                                                 ? user?.image
-                                                                : userImg.src
+                                                                : user?.social_img
                                                         }
                                                         alt="user"
                                                         className="object-fit"

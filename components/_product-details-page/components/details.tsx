@@ -36,11 +36,17 @@ import { AppDispatch, RootState } from '@/redux/store';
 
 import ProdMultiCategory from '@/utils/prod-multi-category';
 import AddCartBtn from './add-cart-btn';
+import {
+    useGetDesignQuery,
+    useGetHeaderSettingsQuery,
+} from '@/redux/features/home/homeApi';
 
 const Details = ({ product, children, cod, zoomable, buttonStyle }: any) => {
-    const { headersetting, design } = useSelector(
-        (state: RootState) => state.home
-    );
+    const { data: designData } = useGetDesignQuery({});
+    const design = designData?.data || {};
+
+    const { data: headerData } = useGetHeaderSettingsQuery({});
+    const headersetting = headerData?.data || {};
 
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux state
@@ -176,8 +182,15 @@ const Details = ({ product, children, cod, zoomable, buttonStyle }: any) => {
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
-    const save = howMuchSave(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
+
+    const save = useMemo(
+        () => howMuchSave(product, variantId),
+        [product, variantId]
+    );
 
     const parsedNumberRating = numberParser(product?.number_rating);
     const parsedRating = numberParser(product?.rating, true);
@@ -202,7 +215,7 @@ const Details = ({ product, children, cod, zoomable, buttonStyle }: any) => {
 
     const buttonOne = buttonStyle
         ? buttonStyle
-        : 'font-bold text-white bg-gray-600 rounded-md w-60 py-3 text-center';
+        : 'font-bold text-white bg-gray-600 rounded-md w-60 py-3 text-center lg:cursor-pointer';
 
     return (
         <div className="grid md:grid-cols-8 grid-cols-1 gap-4 w-full">
@@ -268,7 +281,7 @@ const Details = ({ product, children, cod, zoomable, buttonStyle }: any) => {
                         {save > 0 && (
                             <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                 <BDT />
-                                {numberParser(product?.regular_price)}
+                                {variantId !== null ? save : numberParser(product?.regular_price)}
                             </span>
                         )}{' '}
                     </div>
@@ -277,7 +290,7 @@ const Details = ({ product, children, cod, zoomable, buttonStyle }: any) => {
                         product?.discount_price > 0 && (
                             <p className="text-md text-gray-400">
                                 {' '}
-                                {Math.trunc(product?.discount_price)}% Off
+                                {numberParser(product?.discount_price)}% Off
                             </p>
                         )}
                 </div>

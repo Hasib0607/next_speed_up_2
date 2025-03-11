@@ -6,11 +6,8 @@ const CartPopUp = ({ design }: any) => {
         card_pop_up_pages[design?.product_card] || card_pop_up_pages[DEFAULT];
 
     return (
-        <>
-            {design?.product_card !== 'null' && CartPopUpComponent && (
-                <CartPopUpComponent design={design} />
-            )}
-        </>
+        design?.product_card !== 'null' &&
+        CartPopUpComponent && <CartPopUpComponent design={design} />
     );
 };
 

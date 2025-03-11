@@ -3,20 +3,15 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { RiShoppingBagLine } from 'react-icons/ri';
-
 import { Menu, Transition } from '@headlessui/react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-
 import { imgUrl } from '@/site-settings/siteUrl';
 import Link from 'next/link';
 import LoginTwentyOne from '../../sign-in/signin-twentyone';
-
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-
 import { GiHamburgerMenu } from 'react-icons/gi';
-import defaultUserImage from '@/assets/default-user-image.png';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { classNames } from '@/helpers/littleSpicy';
 import { useRouter } from 'next/navigation';
@@ -104,7 +99,11 @@ const HeaderTwentySix = ({ headersetting, design, menu }: any) => {
         <div>
             <style>{styleCss}</style>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
 
             <div className="">
                 {/* header top  */}
@@ -130,7 +129,7 @@ const HeaderTwentySix = ({ headersetting, design, menu }: any) => {
                                                         src={
                                                             user?.image
                                                                 ? user?.image
-                                                                : `${defaultUserImage.src}`
+                                                                : user?.social_img
                                                         }
                                                         alt=""
                                                         className="object-fit"
@@ -280,6 +279,7 @@ const HeaderTwentySix = ({ headersetting, design, menu }: any) => {
                         {searchTxt && (
                             <div className="absolute z-[15] top-8 xl:right-0 -right-24 w-full">
                                 <Search3
+                                    design={design}
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />
@@ -324,6 +324,7 @@ const HeaderTwentySix = ({ headersetting, design, menu }: any) => {
                         {searchTxt && (
                             <div className="absolute z-10 top-1 w-full">
                                 <Search3
+                                    design={design}
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />

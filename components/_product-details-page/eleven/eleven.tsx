@@ -25,7 +25,7 @@ import Details from './details-eleven';
 import { useEffect, useState } from 'react';
 import VideoPlayer from '../components/video-player';
 
-const Eleven = ({ store_id, productId, design }: any) => {
+const Eleven = ({ store_id, productId, design, headersetting }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -94,7 +94,7 @@ const Eleven = ({ store_id, productId, design }: any) => {
         <div className="container px-5 bg-white pt-10">
             <style>{styleCss}</style>
             {detailsContentSkeleton}
-            <Details product={product} design={design} />
+            <Details product={product} design={design} headersetting={headersetting} />
             {/* ************************ tab component start ***************************** */}
             <div className="mt-14">
                 <TabGroup>

@@ -1,24 +1,26 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { CgMenuGridO } from 'react-icons/cg';
+
 import Card15 from '@/components/card/card15';
 import Card6 from '@/components/card/card6';
 import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
+import { numberParser } from '@/helpers/numberParser';
 import { setSort } from '@/redux/features/filters/filterSlice';
-import { PlusIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { NotFoundMsg } from '@/utils/little-components';
+import { Bars3Icon, PlusIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { CgMenuGridO } from 'react-icons/cg';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Pagination from '@/components/_category-page/components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
-import { RootState } from '@/redux/store';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { numberParser } from '@/helpers/numberParser';
+import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
-import InfiniteLoader from '../loaders/infinite-loader';
 
 const CategoryTen = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -28,7 +30,6 @@ const CategoryTen = ({ catId, store_id, design }: any) => {
     const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
 
     const categoryStore = useSelector((state: any) => state?.category);
@@ -46,17 +47,16 @@ const CategoryTen = ({ catId, store_id, design }: any) => {
     const textColor = design?.text_color;
 
     const styleCss = `
-    .text-hover:hover {
-      color:  ${bgColor};
-    }
-    .filter {
-        color:${textColor};
-        background:${bgColor};
-    }
-    .border-hover:hover {
-        border: 1px solid  ${bgColor};
-    }
- 
+        .text-hover:hover {
+        color:  ${bgColor};
+        }
+        .filter {
+            color:${textColor};
+            background:${bgColor};
+        }
+        .border-hover:hover {
+            border: 1px solid  ${bgColor};
+        }
     `;
 
     return (
@@ -99,15 +99,12 @@ const CategoryTen = ({ catId, store_id, design }: any) => {
                         />
                     </div>
                     {/* All product card  */}
-
                     <div className="mt-4 mb-6 mx-4 md:mx-0 ">
                         <ProductSection
                             catId={catId}
                             open={open}
                             grid={grid}
-                            hasMore={hasMore}
                             paginate={paginate}
-                            setHasMore={setHasMore}
                             page={page}
                             setPage={setPage}
                             isPagination={isPagination}
@@ -138,9 +135,7 @@ const ProductSection = ({
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -169,18 +164,7 @@ const ProductSection = ({
 
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -193,7 +177,6 @@ const ProductSection = ({
             const productsData = categoryPageProductsData?.data?.products || [];
             const paginationData =
                 categoryPageProductsData?.data?.pagination || {};
-
             setPaginate(paginationData);
             setProducts(productsData);
         }
@@ -255,12 +238,20 @@ const ProductSection = ({
                         style={{ height: 'auto', overflow: 'hidden' }}
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
-                        hasMore={hasMore}
-                        loader={<InfiniteLoader />}
+                        hasMore={paginate?.has_more_pages}
+                        loader={
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            (categoryPageProductsLoading && <InfiniteLoader />)
+                        }
                         endMessage={
-                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                No More Products
-                            </p>
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            categoryPageProductsLoading ? (
+                                <InfiniteLoader />
+                            ) : (
+                                <NotFoundMsg message={'No More Products'} />
+                            )
                         }
                     >
                         {grid === 'H' && (

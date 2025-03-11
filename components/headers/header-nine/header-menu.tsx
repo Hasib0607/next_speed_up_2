@@ -1,20 +1,16 @@
 'use client';
-import React, { useState } from 'react';
 
+import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { BsSearch } from 'react-icons/bs';
 import { AiOutlineSetting } from 'react-icons/ai';
-
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { imgUrl } from '@/site-settings/siteUrl';
 import Search3 from '../components/search3';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-import { subTotal } from '@/utils/_cart-utils/cart-utils';
-import { RootState } from '@/redux/store';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { REDUX_PERSIST } from '@/consts';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
@@ -41,10 +37,6 @@ function HeaderMenu({ headersetting, design }: any) {
         setSearch('');
     };
 
-    const { cartList } = useSelector((state: RootState) => state?.cart);
-
-    const total = subTotal(cartList);
-
     const styleCss = `
   .searchHover:hover{
       background: ${design?.header_color};
@@ -56,7 +48,11 @@ function HeaderMenu({ headersetting, design }: any) {
         <div>
             <style>{styleCss}</style>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <div className="justify-between items-center bg-white py-2 sm:container px-5 hidden lg:flex">
                 <div>
                     {headersetting?.logo === null ? (
@@ -105,7 +101,7 @@ function HeaderMenu({ headersetting, design }: any) {
 
                     {searchTxt && (
                         <div className="relative">
-                            <Search3 search={searchTxt} setSearch={setSearch} />
+                            <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
                         </div>
                     )}
                 </div>
@@ -119,12 +115,6 @@ function HeaderMenu({ headersetting, design }: any) {
                             <p className={`pr-1 lg:cursor-pointer`}>
                                 <HiOutlineShoppingBag className="text-3xl font-thin" />
                             </p>
-                            {/* <p
-                style={{ background: bgColor, color: design?.text_color }}
-                className=" text-sm mt-5 -ml-5 rounded-full w-fit px-1.5 h-fit"
-              >
-                {cartList.length}
-              </p> */}
                         </div>
                         <div>
                             {/* My account dropdown menu start */}

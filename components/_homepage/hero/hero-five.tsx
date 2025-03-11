@@ -14,11 +14,11 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-// import './heroSixteenCss/herosixteen.css'
 import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { sliderImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const HeroFive = ({ slider, design }: any) => {
     let menu = [''];
@@ -81,8 +81,8 @@ const HeroFive = ({ slider, design }: any) => {
         border: 1px solid ${bgColor};
         
     }
-
       `;
+
     return (
         <div className="group z-0 relative">
             <style>{styleCss}</style>
@@ -138,16 +138,15 @@ const HeroFive = ({ slider, design }: any) => {
                                 <h1 className="xl:text-4xl md:text-[28px] text-[16px] font-bold md:text-center md:leading-7">
                                     {s?.title}
                                 </h1>
-                                {/* <p className='h-[2px] w-10 bg-black mx-auto md:block hidden'></p> */}
-                                <a
-                                    href={s?.link}
+                                <Link
+                                    href={s?.link ?? '#'}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
                                     <h1 className="lg:px-6 px-3 md:py-2 py-1 arrow-hover-five duration-300 lg:text-base text-xs sm:text-center w-max md:mx-auto lg:cursor-pointer uppercase font-medium rounded-full">
                                         Shop Now{' '}
                                     </h1>
-                                </a>
+                                </Link>
                             </div>
                         </div>
                         <img

@@ -1,5 +1,6 @@
 'use client';
 
+import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
 import { RootState } from '@/redux/store';
 import {
     isActiveCart,
@@ -35,7 +36,8 @@ const AddCartBtnThirteen = ({
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const { headersetting } = useSelector((state: RootState) => state.home); // Access updated Redux state
+    const { data: headerData } = useGetHeaderSettingsQuery({});
+    const headersetting = headerData?.data || {};
 
     const { button } =
         headersetting?.custom_design?.single_product_page?.[0] || {};
@@ -140,7 +142,6 @@ const AddCartBtnThirteen = ({
         setQty((prevCount: any) => (prevCount > 1 ? prevCount - 1 : 1));
     };
 
-
     useEffect(() => {
         if (variantId) {
             setQty(1);
@@ -193,12 +194,16 @@ const AddCartBtnThirteen = ({
                 <button
                     onClick={onClick}
                     type={'submit'}
-                    className={buttonOne ? buttonOne : 'flex group bg-gray-200'}
+                    className={
+                        buttonOne
+                            ? buttonOne
+                            : 'flex group bg-gray-200 lg:cursor-pointer'
+                    }
                 >
                     <div className="h-full w-12 flex items-center justify-center bg-gray-300 group-hover:bg-red-500 group-hover:text-white transition-all duration-200 ease-linear">
                         <ShoppingBagIcon className="h-6 w-6" />
                     </div>
-                    <div className="h-full px-2 grow flex items-center justify-center hover:bg-gray-100  transition-all duration-200 ease-linear">
+                    <div className="h-full px-2 grow flex items-center justify-center hover:bg-gray-100  transition-all duration-200 ease-linear lg:cursor-pointer">
                         <p className="uppercase px-1 text-xs sm:text-sm ">
                             {button || ' Add To Cart'}
                         </p>

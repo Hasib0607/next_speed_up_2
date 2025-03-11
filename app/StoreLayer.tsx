@@ -1,24 +1,7 @@
-import React, { ReactElement } from 'react';
-import NotFound from './not-found';
+import { setSelectPayment } from '@/redux/features/filters/paymentFilterSlice';
+import { useDispatch } from 'react-redux';
 
-interface StoreLayerProps {
-    children: ReactElement | ReactElement[];
-    appStore: any;
-    design: any;
+export default function StoreLayer(design: any) {
+    const dispatch = useDispatch();
+    return dispatch(setSelectPayment(design));
 }
-
-const StoreLayer = ({ children, design, appStore }: StoreLayerProps) => {
-    if (!appStore) return <NotFound />;
-    return children;
-    // return (
-    //     <>
-    //         {React.Children.map(children, (child) =>
-    //             React.isValidElement(child)
-    //                 ? React.cloneElement(child as ReactElement, { design, appStore })
-    //                 : child
-    //         )}
-    //     </>
-    // );
-};
-
-export default StoreLayer;

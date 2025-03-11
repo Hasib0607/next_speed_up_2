@@ -8,8 +8,6 @@ import parse from 'html-react-parser';
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
-
 import { getProductQuantity } from '@/helpers/getProductQuantity';
 import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
 import { saveToLocalStorage } from '@/helpers/localStorage';
@@ -17,16 +15,27 @@ import { numberParser } from '@/helpers/numberParser';
 import { AppDispatch, RootState } from '@/redux/store';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import CallForPrice from '@/utils/call-for-price';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    FacebookIcon,
+    FacebookShareButton,
+    WhatsappIcon,
+    WhatsappShareButton,
+} from 'react-share';
 import { toast } from 'react-toastify';
 import AddCartBtn from './add-cart-btn';
 import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
 import { HSlider } from './slider';
 
-const DetailsEight = ({ product, design, children, buttonStyle }: any) => {
-    const { headersetting } = useSelector(
-        (state: RootState) => state.home
-    );
-
+const DetailsEight = ({
+    product,
+    design,
+    children,
+    buttonStyle,
+    roundedBtn,
+    social,
+    headersetting,
+}: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
 
@@ -172,8 +181,15 @@ const DetailsEight = ({ product, design, children, buttonStyle }: any) => {
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
-    const save = howMuchSave(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
+
+    const save = useMemo(
+        () => howMuchSave(product, variantId),
+        [product, variantId]
+    );
     const parsedRating = numberParser(product?.rating, true);
 
     const handleAddToCart = () => {
@@ -230,13 +246,11 @@ const DetailsEight = ({ product, design, children, buttonStyle }: any) => {
         background:transparent;
         border: 1px solid ${design?.header_color};
     }
-  
-  }
-`;
+    `;
 
     const buttonEight = buttonStyle
         ? buttonStyle
-        : 'cart-btn-twenty-one font-bold py-[11px] px-10 w-max rounded-full';
+        : 'cart-btn-twenty-one font-bold py-[11px] px-10 w-max rounded-full cursor-pointer';
 
     return (
         <div className=" bg-white h-full ">
@@ -268,12 +282,13 @@ const DetailsEight = ({ product, design, children, buttonStyle }: any) => {
                                     {price + largest}
                                 </p>
                             )}
-                            {largest === smallest && (
-                                <p className="text-gray-500 font-thin line-through text-xl font-seven ml-2">
-                                    <BDT />
-                                    {price}
-                                </p>
-                            )}
+                            {largest === smallest &&
+                                price + smallest !== price && (
+                                    <p className="text-gray-500 font-thin line-through text-xl font-seven ml-2">
+                                        <BDT />
+                                        {price}
+                                    </p>
+                                )}
                         </div>
                     )}
                     {(variant?.length === 0 || color || size || unit) && (
@@ -284,7 +299,7 @@ const DetailsEight = ({ product, design, children, buttonStyle }: any) => {
                                 {save > 0 && (
                                     <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                         <BDT />
-                                        {numberParser(product?.regular_price)}
+                                        {variantId !== null ? save : numberParser(product?.regular_price)}
                                     </span>
                                 )}{' '}
                             </div>
@@ -298,7 +313,7 @@ const DetailsEight = ({ product, design, children, buttonStyle }: any) => {
                                 )}
                         </div>
                     )}
-                    <div className="flex gap-x-1 pt-2">
+                    <div className="flex items-center gap-x-1 pt-2">
                         <div>
                             <Rate rating={parsedRating} />
                         </div>
@@ -388,6 +403,7 @@ const DetailsEight = ({ product, design, children, buttonStyle }: any) => {
                             product={product}
                             onClick={handleAddToCart}
                             buttonOne={buttonEight}
+                            roundedBtn={roundedBtn}
                         />
                     )}
 
@@ -395,10 +411,10 @@ const DetailsEight = ({ product, design, children, buttonStyle }: any) => {
                         <div className="">Availability:</div>
                         <div className="text-[#212121] ">
                             {productQuantity !== 0 ? (
-                                <p>
+                                <p className="space-x-2">
                                     <span className="font-medium">
                                         {productQuantity}
-                                    </span>{' '}
+                                    </span>
                                     <span className="text-green-500">
                                         In Stock!
                                     </span>
@@ -410,6 +426,20 @@ const DetailsEight = ({ product, design, children, buttonStyle }: any) => {
                             )}
                         </div>
                     </div>
+
+                    {social && (
+                        <div className="flex items-center gap-x-3">
+                            <p className="font-medium">Share :</p>
+                            <span className="flex space-x-2">
+                                <FacebookShareButton url={window.location.href}>
+                                    <FacebookIcon size={32} round={true} />
+                                </FacebookShareButton>
+                                <WhatsappShareButton url={window.location.href}>
+                                    <WhatsappIcon size={32} round={true} />
+                                </WhatsappShareButton>
+                            </span>
+                        </div>
+                    )}
 
                     {children}
 

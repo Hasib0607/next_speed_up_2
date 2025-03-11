@@ -37,6 +37,7 @@ import { useRouter } from 'next/navigation';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { REDUX_PERSIST } from '@/consts';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
+import { RootState } from '@/redux/store';
 
 const HeaderFive = ({ headersetting, design, menu }: any) => {
     const isAuthenticated = useAuth();
@@ -75,7 +76,7 @@ const HeaderFive = ({ headersetting, design, menu }: any) => {
 
     const bgColor = design?.header_color;
 
-    const cartList = useSelector((state: any) => state.cart.cartList);
+    const cartList = useSelector((state: RootState) => state.cart.cartList);
 
     useEffect(() => {
         const changeNavbar = () => {
@@ -445,7 +446,7 @@ const HeaderFive = ({ headersetting, design, menu }: any) => {
                         <SearchIcon />
                     )}
                     {search && (
-                        <Search3 search={search} setSearch={setSearch} />
+                        <Search3 search={search} setSearch={setSearch} design={design}/>
                     )}
                 </div>
             </div>

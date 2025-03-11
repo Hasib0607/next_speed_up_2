@@ -1,20 +1,21 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import './category-four.css';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { catImg } from '@/site-settings/siteUrl';
-import BreadcrumbHeadingWrapper from './components/breadcrumb-heading-wrapper';
 import ProductCardTwo from '@/components/card/product-card/product-card-two';
-import { usePathname } from 'next/navigation';
 import { getPathName, getSecondPathName } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import Pagination from './components/pagination';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { catImg } from '@/site-settings/siteUrl';
+import { NotFoundMsg } from '@/utils/little-components';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useSelector } from 'react-redux';
 import InfiniteLoader from '../loaders/infinite-loader';
+import Pagination from '../paginations/pagination';
+import './category-four.css';
+import BreadcrumbHeadingWrapper from './components/breadcrumb-heading-wrapper';
 
 const CategoryFour = ({ catId, store_id }: any) => {
     const module_id = 105;
@@ -29,7 +30,6 @@ const CategoryFour = ({ catId, store_id }: any) => {
     // get the activecolor, pricevalue, selectedSort
     const { color: activeColor, price: priceValue } = filtersData || {};
 
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
@@ -61,11 +61,7 @@ const CategoryFour = ({ catId, store_id }: any) => {
 
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [page, activeColor, categoryPageProductsRefetch, priceValue, paginate]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -165,12 +161,24 @@ const CategoryFour = ({ catId, store_id }: any) => {
                                     }}
                                     dataLength={infiniteProducts?.length}
                                     next={nextPageFetch}
-                                    hasMore={hasMore}
-                                    loader={<InfiniteLoader />}
+                                    hasMore={paginate?.has_more_pages}
+                                    loader={
+                                        paginate?.has_more_pages ||
+                                        categoryPageProductsFetching ||
+                                        (categoryPageProductsLoading && (
+                                            <InfiniteLoader />
+                                        ))
+                                    }
                                     endMessage={
-                                        <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                            No More Products
-                                        </p>
+                                        paginate?.has_more_pages ||
+                                        categoryPageProductsFetching ||
+                                        categoryPageProductsLoading ? (
+                                            <InfiniteLoader />
+                                        ) : (
+                                            <NotFoundMsg
+                                                message={'No More Products'}
+                                            />
+                                        )
                                     }
                                 >
                                     <div className="flex flex-wrap gap-4 justify-center my-10">
@@ -198,6 +206,7 @@ const CategoryFour = ({ catId, store_id }: any) => {
                             </div>
                         )}
                     </BreadcrumbHeadingWrapper>
+
                     {isPagination && paginate?.total > 7 ? (
                         <div className="my-5">
                             <Pagination

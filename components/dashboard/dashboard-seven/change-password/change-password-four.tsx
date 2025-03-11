@@ -3,16 +3,11 @@
 import { useUpdateUserPasswordMutation } from '@/redux/features/user/userApi';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import SinglePassword from './components/single-password';
 
-const ChangePasswordFour = () => {
-    const home = useSelector((state: any) => state?.home);
-    const { design } = home || {};
-
-    const {store} = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+const ChangePasswordFour = ({ design, appStore }: any) => {
+    const store_id = appStore?.id || null;
 
     const { register, handleSubmit } = useForm();
 
@@ -158,5 +153,3 @@ const ChangePasswordFour = () => {
 };
 
 export default ChangePasswordFour;
-
-

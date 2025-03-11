@@ -1,43 +1,18 @@
-'use client';
+import VerifyOtp from '@/components/VerifyOtp';
+import getDesign from '@/utils/fetcher/getDesign';
+import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
+import getStore from '@/utils/fetcher/getStore';
 
-import { getFromLocalStorage } from '@/helpers/localStorage';
-import { RootState } from '@/redux/store';
-import { verify_otp_pages } from '@/utils/dynamic-import/verifyPages/verifyPages';
-
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-
-import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-
-const VerifyOtp = () => {
-    const localStorageAuthTypeName = process.env
-        .NEXT_PUBLIC_LOCAL_STORAGE_AUTH_TYPE_NAME as any;
-    const authType = getFromLocalStorage(localStorageAuthTypeName);
-
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
-    const VerifyOtpComponent = !authType
-        ? null
-        : verify_otp_pages[design?.login_page];
-
-    const router = useRouter();
-
-    useEffect(() => {
-        if (!authType) {
-            router.push('/');
-            toast.warning('Please Give Your Registration Credential First');
-        }
-    }, [localStorageAuthTypeName, router, authType]);
+export default async function VerifyOtpPage() {
+    const appStore = await getStore();
+    const design = await getDesign();
+    const headersetting = await getHeaderSetting();
 
     return (
-        <>
-            {design?.login_page && VerifyOtpComponent ? (
-                <VerifyOtpComponent />
-            ) : null}
-        </>
+        <VerifyOtp
+            design={design}
+            appStore={appStore}
+            headersetting={headersetting}
+        />
     );
-};
-
-export default VerifyOtp;
+}

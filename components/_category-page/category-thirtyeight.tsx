@@ -1,33 +1,32 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { TiHome } from 'react-icons/ti';
-import { motion } from 'framer-motion';
-import { useParams } from 'next/navigation';
-import Pagination from '@/components/_category-page/components/pagination';
-import Skeleton from '@/components/loaders/skeleton';
+
+import CategoryBreadcrumb from '@/components/_category-page/components/CategoryBreadcrumb';
 import Card66 from '@/components/card/card66';
-import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
+import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
+import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { numberParser } from '@/helpers/numberParser';
+import { NotFoundMsg } from '@/utils/little-components';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
+import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import InfiniteLoader from '../loaders/infinite-loader';
 
 const CategoryThirtyEight = ({ catId, store_id, design }: any) => {
     const { id: data }: any = useParams<{ id: string }>();
     const module_id = 105;
     const dispatch = useDispatch();
 
-    const [grid, setGrid] = useState('H');
-    const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
 
     const categoryStore = useSelector((state: any) => state?.category);
@@ -64,12 +63,12 @@ const CategoryThirtyEight = ({ catId, store_id, design }: any) => {
             <style>{styleCss}</style>
 
             <div className="bg-white">
-                <Location />
+                <CategoryBreadcrumb catId={catId} />
             </div>
             <div className="py-3 lg:block hidden bg-white">
                 <div className="flex flex-wrap items-center gap-3 sm:container px-5 ">
-                    {subCat?.map((item: any, key: number) => (
-                        <SubCat key={item?.id} item={item} />
+                    {subCat?.map((item: any) => (
+                        <SubCat key={item?.id} item={item} design={design} />
                     ))}
                 </div>
             </div>
@@ -107,18 +106,11 @@ const CategoryThirtyEight = ({ catId, store_id, design }: any) => {
                                 dispatch(setSort(e.target.value));
                                 setPage(1);
                             }}
-                            setGrid={setGrid}
-                            setOpen={setOpen}
-                            open={open}
                         />
                         <div className="flex-1">
                             <ProductSection
                                 catId={catId}
-                                open={open}
-                                grid={grid}
-                                hasMore={hasMore}
                                 paginate={paginate}
-                                setHasMore={setHasMore}
                                 page={page}
                                 setPage={setPage}
                                 isPagination={isPagination}
@@ -144,14 +136,10 @@ const CategoryThirtyEight = ({ catId, store_id, design }: any) => {
 export default CategoryThirtyEight;
 
 const ProductSection = ({
-    grid,
-    open,
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -175,23 +163,9 @@ const ProductSection = ({
         setPage((prevPage: number) => prevPage + 1);
     };
 
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
-
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -251,12 +225,20 @@ const ProductSection = ({
                         style={{ height: 'auto', overflow: 'hidden' }}
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
-                        hasMore={hasMore}
-                        loader={<InfiniteLoader />}
+                        hasMore={paginate?.has_more_pages}
+                        loader={
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            (categoryPageProductsLoading && <InfiniteLoader />)
+                        }
                         endMessage={
-                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                No More Products
-                            </p>
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            categoryPageProductsLoading ? (
+                                <InfiniteLoader />
+                            ) : (
+                                <NotFoundMsg message={'No More Products'} />
+                            )
                         }
                     >
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 sm:gap-3">
@@ -296,36 +278,6 @@ const ProductSection = ({
     );
 };
 
-const Location = () => {
-    const [activecat, setActivecat] = useState(null);
-    const { id }: any = useParams<{ id: string }>();
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
-
-    useEffect(() => {
-        for (let i = 0; i < category.length; i++) {
-            if (category[i]?.subcategories) {
-                for (let j = 0; j < category[i].subcategories.length; j++) {
-                    if (category[i]?.subcategories[j]?.id == id) {
-                        setActivecat(category[i]?.subcategories[j]?.name);
-                    }
-                }
-            }
-            if (category[i]?.id == id) {
-                setActivecat(category[i].name);
-            }
-        }
-    }, [category]);
-    return (
-        <div className="w-full text-[#414141] sm:container flex gap-1 items-center justify-start py-3 text-sm px-5">
-            <Link href="/">
-                <TiHome className="text-lg" />
-            </Link>
-            <p> / Shop / {activecat}</p>
-        </div>
-    );
-};
-
 const Filter = ({ onChange }: any) => {
     return (
         <div className="flex flex-wrap gap-3 justify-between items-center mb-8 ml-auto">
@@ -346,12 +298,11 @@ const Filter = ({ onChange }: any) => {
     );
 };
 
-const SubCat = ({ item }: any) => {
+const SubCat = ({ item, design }: any) => {
     const { id }: any = useParams<{ id: string }>();
-    const home = useSelector((state: any) => state?.home);
-    const { design } = home || {};
     const activeColor = `text-[${design?.header_color}] text-sm`;
     const inactiveColor = `text-sm text-gray-600`;
+
     return (
         <>
             <Link href={'/category/' + item?.id}>
@@ -381,6 +332,7 @@ const SingleCat = ({ item, design }: any) => {
         font-weight: 700;
        }
     `;
+
     return (
         <>
             <div className="w-full flex py-2 category-page">

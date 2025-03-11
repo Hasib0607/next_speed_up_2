@@ -36,12 +36,9 @@ const DetailsThirtyEight = ({
     open,
     setOpen,
     buttonStyle,
+    headersetting,
 }: any) => {
-    const { headersetting } = useSelector((state: RootState) => state.home);
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
-
+    const store_id = headersetting?.store_id || null;
     const productData = customizeHeader.find((item) => item.id == store_id);
 
     const { cartList } = useSelector((state: RootState) => state.cart);
@@ -178,7 +175,10 @@ const DetailsThirtyEight = ({
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
     const save = howMuchSave(product);
 
     const parsedRating = numberParser(product?.rating, true);

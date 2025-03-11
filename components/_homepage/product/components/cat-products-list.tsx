@@ -6,7 +6,14 @@ import { CategoryProducts, Product } from '@/types';
 import { useEffect, useState } from 'react';
 import Cards from './cards';
 
-const CatProductsList = ({ id, className, children, card ,count}: any) => {
+const CatProductsList = ({
+    id,
+    className,
+    children,
+    card,
+    count,
+    btnType,
+}: any) => {
     const [categoryProducts, setCategoryProducts] = useState<CategoryProducts>(
         []
     );
@@ -37,11 +44,17 @@ const CatProductsList = ({ id, className, children, card ,count}: any) => {
             }
         >
             {categoryProducts?.length > 0
-                ? categoryProducts?.slice(0, count)?.map((productData: Product) => (
-                      <div key={productData.id}>
-                          <Cards item={productData} card={card} />
-                      </div>
-                  ))
+                ? categoryProducts
+                      ?.slice(0, count)
+                      ?.map((productData: Product) => (
+                          <div key={productData.id}>
+                              <Cards
+                                  item={productData}
+                                  card={card}
+                                  btnType={btnType}
+                              />
+                          </div>
+                      ))
                 : children}
         </div>
     );

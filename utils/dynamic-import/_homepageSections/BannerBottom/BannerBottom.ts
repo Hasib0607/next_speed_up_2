@@ -190,4 +190,10 @@ export const banner_bottoms: any = {
                 '@/components/_homepage/promotions-bottom/promo-bottom-thirtyseven'
             )
     ),
+    fortythree: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/promotions-bottom/promo-bottom-fortythree'
+            )
+    ),
 };

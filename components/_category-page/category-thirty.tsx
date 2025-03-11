@@ -1,37 +1,36 @@
 'use client';
+
+import CategoryBreadcrumb from '@/components/_category-page/components/CategoryBreadcrumb';
 import Card55 from '@/components/card/card55';
 import Card6 from '@/components/card/card6';
 import Skeleton from '@/components/loaders/skeleton';
-import { MinusIcon, PlusIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import Pagination from '@/components/paginations/pagination';
+import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { NotFoundMsg } from '@/utils/little-components';
+import { Bars3Icon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { IoGridSharp } from 'react-icons/io5';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Pagination from '@/components/_category-page/components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
-import { RootState } from '@/redux/store';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { numberParser } from '@/helpers/numberParser';
+import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import InfiniteLoader from '../loaders/infinite-loader';
 
 const CategoryThirty = ({ catId, store_id, design }: any) => {
     const module_id = 105;
     const dispatch = useDispatch();
-    const { id: data }: any = useParams<{ id: string }>();
 
     const [grid, setGrid] = useState('H');
     const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
-    const [select, setSelect] = useState(parseInt(data?.id));
 
     const categoryStore = useSelector((state: any) => state?.category);
     const category = categoryStore?.categories || [];
@@ -48,15 +47,15 @@ const CategoryThirty = ({ catId, store_id, design }: any) => {
     .grid-active {
       color:  ${design?.header_color};
       border: 1px solid ${design?.header_color};
-  }
-  .sec-twenty-nine{
+    }
+    .sec-twenty-nine{
     border-bottom: 2px solid ${design?.header_color};
-}
- `;
+    }
+    `;
 
     return (
         <div>
-            <Location />
+            <CategoryBreadcrumb catId={catId} />
 
             <div className="sm:container px-5 sm:py-10 py-5">
                 <style>{styleCss}</style>
@@ -72,7 +71,7 @@ const CategoryThirty = ({ catId, store_id, design }: any) => {
                                     key={item?.id}
                                     item={item}
                                     design={design}
-                                    select={select}
+                                    select={catId}
                                 />
                             ))}
                         </div>
@@ -99,9 +98,7 @@ const CategoryThirty = ({ catId, store_id, design }: any) => {
                                 catId={catId}
                                 open={open}
                                 grid={grid}
-                                hasMore={hasMore}
                                 paginate={paginate}
-                                setHasMore={setHasMore}
                                 page={page}
                                 setPage={setPage}
                                 isPagination={isPagination}
@@ -128,13 +125,10 @@ export default CategoryThirty;
 
 const ProductSection = ({
     grid,
-    open,
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -158,23 +152,9 @@ const ProductSection = ({
         setPage((prevPage: number) => prevPage + 1);
     };
 
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
-
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -234,12 +214,20 @@ const ProductSection = ({
                         style={{ height: 'auto', overflow: 'hidden' }}
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
-                        hasMore={hasMore}
-                        loader={<InfiniteLoader />}
+                        hasMore={paginate?.has_more_pages}
+                        loader={
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            (categoryPageProductsLoading && <InfiniteLoader />)
+                        }
                         endMessage={
-                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                No More Products
-                            </p>
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            categoryPageProductsLoading ? (
+                                <InfiniteLoader />
+                            ) : (
+                                <NotFoundMsg message={'No More Products'} />
+                            )
                         }
                     >
                         {grid === 'H' && (
@@ -328,37 +316,6 @@ const ProductSection = ({
     );
 };
 
-const Location = () => {
-    const [activecat, setActivecat] = useState(null);
-    const { id }: any = useParams<{ id: string }>();
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
-
-    useEffect(() => {
-        for (let i = 0; i < category.length; i++) {
-            if (category[i]?.subcategories) {
-                for (let j = 0; j < category[i].subcategories.length; j++) {
-                    if (category[i]?.subcategories[j]?.id == id) {
-                        setActivecat(category[i]?.subcategories[j]?.name);
-                    }
-                }
-            }
-            if (category[i]?.id == id) {
-                setActivecat(category[i].name);
-            }
-        }
-    }, [category]);
-    return (
-        <div className="w-full bg-gray-300 text-[#252525] flex flex-col justify-center items-center py-5 mb-5">
-            <h1 className="text-3xl font-medium ">Product</h1>
-            <div className="flex items-center gap-1">
-                <p>Home</p>
-                <p>/ {activecat}</p>
-            </div>
-        </div>
-    );
-};
-
 const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
     const home = useSelector((state: any) => state?.home);
     const { design } = home || {};
@@ -411,101 +368,101 @@ const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
 
 const SingleCat = ({ item, design, select }: any) => {
     const [show, setShow] = useState(false);
-    const { id }: any = useParams<{ id: string }>();
+
     useEffect(() => {
         if (item.cat) {
             for (let i = 0; i < item.cat.length; i++) {
-                item.cat[i].id == id && setShow(true);
+                item.cat[i].id == select && setShow(true);
             }
         }
-    }, [item?.cat, id]);
+    }, [item?.cat, select]);
+
     const activeColor = `text-[${design?.header_color}] flex-1 text-lg font-medium`;
     const inactiveColor = `flex-1 text-lg font-medium`;
     const activesub = `text-[${design?.header_color}] flex-1 text-lg font-medium`;
     const inactivesub = `flex-1 text-lg font-medium`;
+
     return (
-        <div className="">
-            <div className="w-full mb-2">
-                <div className="flex items-center px-4 py-3">
-                    <Link
-                        style={
-                            id == item?.id
-                                ? { color: `${design.header_color}` }
-                                : {}
-                        }
-                        onClick={() => setShow(!show)}
-                        href={'/category/' + item.id}
-                        className={id == item?.id ? activeColor : inactiveColor}
-                    >
-                        {' '}
-                        <li>
-                            <span
-                                className={`${
-                                    select === item.id
-                                        ? design?.header_color
-                                        : 'text-gray-800'
-                                }`}
-                            >
-                                {item.name}
-                            </span>
-                        </li>
-                    </Link>
-                    {item?.subcategories ? (
-                        <div className="px-4 h-full">
-                            {show ? (
-                                <MinusIcon
-                                    onClick={() => setShow(!show)}
-                                    className="h-4 w-4 lg:cursor-pointer text-gray-800"
-                                />
-                            ) : (
-                                <PlusIcon
-                                    onClick={() => setShow(!show)}
-                                    className="h-4 w-4 lg:cursor-pointer text-gray-800"
-                                />
-                            )}
-                        </div>
-                    ) : null}
-                </div>
-                <div>
-                    <div
-                        className={`${
-                            show
-                                ? 'max-h-[1000px] duration-[3000ms]'
-                                : 'max-h-0 duration-1000'
-                        } overflow-hidden`}
-                    >
-                        {item?.subcategories?.map((sub: any, key: number) => (
-                            <div className="" key={key}>
-                                <Link href={'/category/' + sub?.id}>
-                                    {' '}
-                                    <li
-                                        className={`py-2 px-8  text-sm ${
-                                            select === sub.id
-                                                ? design?.header_color
-                                                : 'text-gray-500'
-                                        }`}
-                                    >
-                                        <span
-                                            style={
-                                                id == sub?.id
-                                                    ? {
-                                                          color: `${design.header_color}`,
-                                                      }
-                                                    : {}
-                                            }
-                                            className={
-                                                id == sub?.id
-                                                    ? activesub
-                                                    : inactivesub
-                                            }
-                                        >
-                                            {sub?.name}
-                                        </span>
-                                    </li>
-                                </Link>
-                            </div>
-                        ))}
+        <div className="w-full mb-2">
+            <div className="flex items-center px-4 py-3">
+                <Link
+                    style={
+                        select == item?.id
+                            ? { color: `${design.header_color}` }
+                            : {}
+                    }
+                    onClick={() => setShow(!show)}
+                    href={'/category/' + item.id}
+                    className={select == item?.id ? activeColor : inactiveColor}
+                >
+                    {' '}
+                    <li>
+                        <span
+                            className={`${
+                                select === item.id
+                                    ? design?.header_color
+                                    : 'text-gray-800'
+                            }`}
+                        >
+                            {item.name}
+                        </span>
+                    </li>
+                </Link>
+                {item?.subcategories ? (
+                    <div className="px-4 h-full">
+                        {show ? (
+                            <MinusIcon
+                                onClick={() => setShow(!show)}
+                                className="h-4 w-4 lg:cursor-pointer text-gray-800"
+                            />
+                        ) : (
+                            <PlusIcon
+                                onClick={() => setShow(!show)}
+                                className="h-4 w-4 lg:cursor-pointer text-gray-800"
+                            />
+                        )}
                     </div>
+                ) : null}
+            </div>
+            <div>
+                <div
+                    className={`${
+                        show
+                            ? 'max-h-[1000px] duration-[3000ms]'
+                            : 'max-h-0 duration-1000'
+                    } overflow-hidden`}
+                >
+                    {item?.subcategories?.map((sub: any, key: number) => (
+                        <div className="" key={key}>
+                            <Link href={'/category/' + sub?.id}>
+                                {' '}
+                                <li
+                                    className={`py-2 px-8  text-sm ${
+                                        select === sub.id
+                                            ? design?.header_color
+                                            : 'text-gray-500'
+                                    }`}
+                                >
+                                    <span
+                                        style={
+                                            select == sub?.id
+                                                ? {
+                                                      color: `${design.header_color}`,
+                                                  }
+                                                : {}
+                                        }
+                                        className={
+                                            select == sub?.id
+                                                ? activesub
+                                                : inactivesub
+                                        }
+                                    >
+                                        {sub?.name}
+                                    </span>
+                                </li>
+                            </Link>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

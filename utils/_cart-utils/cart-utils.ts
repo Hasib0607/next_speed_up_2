@@ -1,5 +1,8 @@
 'use client';
 
+import { isDeliveryChargeDiscount } from '@/helpers/getTypeWiseDiscount';
+import { getCampainOfferDiscount } from '@/helpers/littleSpicy';
+import { numberParser } from '@/helpers/numberParser';
 import {
     addToCartList,
     decreaseQuantity,
@@ -109,17 +112,45 @@ export const subTotal = (cartList: any) => {
     return total;
 };
 
+export const totalCampainOfferDiscount = (cartList: any) => {
+    const campainOfferDiscountList = cartList?.map((item: any) => {
+        let offerPrice = getCampainOfferDiscount(item);
+        return offerPrice;
+    });
+
+    const campainOfferDiscountListTotal = campainOfferDiscountList?.reduce(
+        (previousValue: any, currentValue: any) => previousValue + currentValue,
+        0
+    );
+
+    return campainOfferDiscountListTotal;
+};
+
+export const getCampainOfferDeliveryFee = (
+    cartList: any,
+    selectedShippingArea: any
+) => {
+    const campainOfferDiscountList = cartList?.map((item: any) => {
+        let offer = isDeliveryChargeDiscount(item, selectedShippingArea);
+        return offer ?? false;
+    });
+
+    console.log('campainOfferDiscountList', campainOfferDiscountList);
+};
+
 export const grandTotal = (
     total: any,
     tax: any,
     shippingArea: any,
-    couponDis: any
+    totalDis: any
 ) => {
     const gTotal =
-        parseInt(total) +
-        parseInt(tax) +
-        parseInt(shippingArea) -
-        parseInt(couponDis);
+        shippingArea === '--Select Area--' || shippingArea === null
+            ? numberParser(total) + numberParser(tax) - numberParser(totalDis)
+            : numberParser(total) +
+              numberParser(tax) +
+              numberParser(shippingArea) -
+              numberParser(totalDis);
 
     return gTotal;
 };
@@ -154,7 +185,7 @@ export const addToCart = ({
     filterV?: any[];
     productQuantity: number;
 }) => {
-    const hasInCartList = isActiveCart( product, cartList,variantId);
+    const hasInCartList = isActiveCart(product, cartList, variantId);
     const isAbleToCart = isQtyLeft(product, variantId, qty, cartList);
 
     const addOnBoard = () => {

@@ -1,13 +1,13 @@
-li > ul {
+#header-one li > ul {
   transform: translatex(100%) scale(0);
 }
-li:hover > ul {
+#header-one li:hover > ul {
   transform: translatex(101%) scale(1);
 }
-li > a svg {
+#header-one li > a svg {
   transform: rotate(-90deg);
 }
-li:hover > a svg {
+#header-one li:hover > a svg {
   transform: rotate(-270deg);
 }
 

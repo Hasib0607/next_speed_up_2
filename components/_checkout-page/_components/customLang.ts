@@ -8,7 +8,16 @@ const langArr: LangObj[] = [
         phone: 'ফোন',
     },
     {
+        email: 'ইমেল',
+    },
+    {
         address: 'ঠিকানা',
+    },
+    {
+        note: 'নোট',
+    },
+    {
+        district: 'জেলা',
     }
 ];
 

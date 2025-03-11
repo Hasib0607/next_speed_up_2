@@ -93,7 +93,7 @@ const MobileNavFive = ({ design }: MobileNavProps) => {
                             <p className="text-sm">{cartList.length}</p>
                         </div>
                     )}
-                    <CartSideBar open={openCart} setOpen={setOpenCart} />
+                    <CartSideBar open={openCart} setOpen={setOpenCart} design={design}/>
                 </div>
                 <Link
                     onClick={() => setOpen(false)}
@@ -133,7 +133,7 @@ const MobileNavFive = ({ design }: MobileNavProps) => {
                 </ul>
             </div>
             <AnimatePresence>
-                {searchshow && <SearchDiv setSearchshow={setSearchshow} />}
+                {searchshow && <SearchDiv setSearchshow={setSearchshow} design={design}/>}
             </AnimatePresence>
         </>
     );
@@ -143,9 +143,10 @@ export default MobileNavFive;
 
 interface SearchDivProps {
     setSearchshow: (show: boolean) => void; // Type the function appropriately
+    design:any
 }
 
-export const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow }) => {
+export const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow,design }) => {
     const [searchTxt, setSearch] = useState('');
 
     return (
@@ -184,7 +185,7 @@ export const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow }) => {
                 </div>
                 {searchTxt && (
                     <div className="mx-5">
-                        <Search3 search={searchTxt} setSearch={setSearch} />
+                        <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
                     </div>
                 )}
             </motion.nav>

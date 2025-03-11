@@ -1,19 +1,14 @@
-'use client';
-
+import { FORTY_TWO } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const product_details_pages: any = {
     default: dynamic(
-        () => import('@/components/_product-details-page/three/three'),
-        { ssr: false }
+        () => import('@/components/_product-details-page/three/three')
     ),
     one: dynamic(() => import('@/components/_product-details-page/one/one')),
-    two: dynamic(() => import('@/components/_product-details-page/two/two'), {
-        ssr: false,
-    }),
+    two: dynamic(() => import('@/components/_product-details-page/two/two')),
     three: dynamic(
-        () => import('@/components/_product-details-page/three/three'),
-        { ssr: false }
+        () => import('@/components/_product-details-page/three/three')
     ),
     four: dynamic(() => import('@/components/_product-details-page/four/four')),
     five: dynamic(() => import('@/components/_product-details-page/five/five')),
@@ -142,5 +137,11 @@ export const product_details_pages: any = {
     ),
     fortyone: dynamic(
         () => import('@/components/_product-details-page/forty-one/forty-one')
+    ),
+    [FORTY_TWO]: dynamic(
+        () => import('@/components/_product-details-page/forty-two/forty-two')
+    ),
+    fortythree: dynamic(
+        () => import('@/components/_product-details-page/forty-three/forty-three')
     ),
 };

@@ -33,9 +33,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { toast } from 'react-toastify';
 
-const DetailsForty = ({ product, design, children, buttonStyle }: any) => {
-    const { headersetting } = useSelector((state: RootState) => state.home);
-
+const DetailsForty = ({ product, design, children, buttonStyle,headersetting }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
 
@@ -170,7 +168,10 @@ const DetailsForty = ({ product, design, children, buttonStyle }: any) => {
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
     const save = howMuchSave(product);
 
     const parsedRating = numberParser(product?.rating, true);

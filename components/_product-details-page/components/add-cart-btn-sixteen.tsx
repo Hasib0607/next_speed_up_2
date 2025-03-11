@@ -11,6 +11,7 @@ import { HiMinus, HiPlus } from 'react-icons/hi';
 import { useEffect, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
 
 const AddCartBtnSixteen = ({
     setQty,
@@ -31,7 +32,8 @@ const AddCartBtnSixteen = ({
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const { headersetting } = useSelector((state: RootState) => state.home); // Access updated Redux state
+    const { data: headerData } = useGetHeaderSettingsQuery({});
+    const headersetting = headerData?.data || {};
 
     const { button } =
         headersetting?.custom_design?.single_product_page?.[0] || {};
@@ -181,7 +183,11 @@ const AddCartBtnSixteen = ({
                 <button
                     onClick={onClick}
                     type="submit"
-                    className={buttonOne ? buttonOne : 'flex group bg-gray-200'}
+                    className={
+                        buttonOne
+                            ? buttonOne
+                            : 'flex group bg-gray-200 lg:cursor-pointer'
+                    }
                 >
                     {button || '+ ADD TO CART'}
                 </button>

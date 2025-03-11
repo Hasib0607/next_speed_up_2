@@ -47,3 +47,8 @@ export interface Banner {
 export interface BannerProps {
     banner: Banner[];
 }
+
+
+export type ProductDetailsParamProps = {
+    params: Promise<{ productId: any }>;
+};

@@ -20,7 +20,11 @@ const HeaderDown = ({ design, menu, headersetting }: any) => {
     return (
         <div className="mb-2">
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <div className="flex justify-between items-center lg:grid lg:grid-cols-12 shadow-lg bg-white sm:px-10 px-5 pt-2 pb-2 ">
                 <div className="flex space-x-5 items-center col-span-3 ">
                     <div
@@ -69,7 +73,7 @@ const HeaderDown = ({ design, menu, headersetting }: any) => {
                     </div>
                     {searchTxt && (
                         <div className="lg:w-full left-0 absolute top-1 z-50">
-                            <Search3 search={searchTxt} setSearch={setSearch} />
+                            <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
                         </div>
                     )}
                 </div>

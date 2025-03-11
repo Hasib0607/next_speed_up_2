@@ -1,6 +1,6 @@
 'use client';
 
-import { EMAIL_REGEX, PHONE_NUMBER_REGEX } from '@/consts';
+import { EMAIL_REGEX, ONE, PHONE_NUMBER_REGEX, TWENTY_EIGHT } from '@/consts';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 import useAuth from '@/hooks/useAuth';
 import {
@@ -10,16 +10,15 @@ import {
     useUserAddressUpdateMutation,
 } from '@/redux/features/checkOut/checkOutApi';
 import { setCheckoutFromData } from '@/redux/features/checkOut/checkOutSlice';
-import { RootState } from '@/redux/store';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getValueByKey } from './customLang';
-import { classNames } from '@/helpers/littleSpicy';
+import { classNames, getCheckedValue } from '@/helpers/littleSpicy';
 
 type FormValues = {
     name: string;
@@ -33,6 +32,8 @@ type FormValues = {
 };
 
 const CheckoutFrom = ({
+    design,
+    appStore,
     setOpen,
     addressRefetch,
     modal,
@@ -47,11 +48,8 @@ const CheckoutFrom = ({
     // fields to show
     const [fields, setFields] = useState([]);
     const [districtArr, setDistrictArr] = useState([]);
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
 
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
+    const store_id = appStore?.id || null;
 
     const {
         data: districtData,
@@ -197,11 +195,12 @@ const CheckoutFrom = ({
         }
 
         if (name === 'phone') {
-            let isValidValue = PHONE_NUMBER_REGEX.test(value.toString());
-            if (!isValidValue) {
+            let isValidPhone = getCheckedValue(value, PHONE_NUMBER_REGEX);
+            if (!isValidPhone) {
                 setError('phone', {
                     type: 'manual',
-                    message: 'Invalid phone number',
+                    message: 'Need 11 digits',
+                    // message: 'Invalid phone number',
                 });
             } else {
                 clearErrors(name);
@@ -209,8 +208,8 @@ const CheckoutFrom = ({
             }
         }
         if (name === 'email') {
-            let isValidValue = EMAIL_REGEX.test(value.toString());
-            if (!isValidValue) {
+            let isValidEmail = getCheckedValue(value, EMAIL_REGEX);
+            if (!isValidEmail) {
                 setError('email', {
                     type: 'manual',
                     message: 'Invalid email address',
@@ -252,6 +251,7 @@ const CheckoutFrom = ({
         }
         modal ? setOpen(false) : null;
     };
+
     // update address
     const updateAddress = (data: any) => {
         // exporting data with product id
@@ -287,7 +287,7 @@ const CheckoutFrom = ({
         }
     }, [districtData, districtSuccess]);
 
-    // Extracting data from db
+    // Extracting language from db
     useEffect(() => {
         const userFormFields = userFormFieldsData?.data || [];
         const filteredFields = userFormFields?.filter(
@@ -328,7 +328,7 @@ const CheckoutFrom = ({
                             : handleSubmit(addAddress)
                     }
                 >
-                    <div className="px-4 py-5 space-y-6 sm:p-6">
+                    <div className="px-4 py-5 space-y-6 sm:p-6 w-auto md:min-w-[500px]">
                         {fields?.length > 0 &&
                             fields?.map((item: any, index: number) => (
                                 <div key={index}>
@@ -337,6 +337,8 @@ const CheckoutFrom = ({
                                         className="block text-sm font-medium text-gray-700 capitalize"
                                     >
                                         {design?.template_id === '29' ||
+                                        design?.checkout_page === ONE ||
+                                        TWENTY_EIGHT ||
                                         store_id === 3601
                                             ? getValueByKey(item?.name)
                                             : item?.name}
@@ -374,7 +376,21 @@ const CheckoutFrom = ({
                                             )}
                                         </select>
                                     ) : (
-                                        <input
+                                        item?.name == 'address' || item?.name == 'note'  ?
+                                        <textarea
+                                            {...register(item?.name)}
+                                            name={item?.name}
+                                            id={item?.name}
+                                            onInput={() =>
+                                                handleFieldChange(item?.name)
+                                            }
+                                            autoComplete={"address-level1"}
+                                            className={classNames(
+                                                fieldStyle,
+                                                'remove-arrow'
+                                            )}
+                                        />
+                                        : <input
                                             {...register(item?.name)}
                                             type={
                                                 item?.name == 'phone'

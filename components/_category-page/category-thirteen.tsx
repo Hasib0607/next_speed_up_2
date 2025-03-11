@@ -1,23 +1,26 @@
 'use client';
-import { useEffect, useState } from 'react';
+
+import CategoryBreadcrumb from '@/components/_category-page/components/CategoryBreadcrumb';
 import Card18 from '@/components/card/card18';
 import Card6 from '@/components/card/card6';
-import { MinusIcon, PlusIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
+import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { NotFoundMsg } from '@/utils/little-components';
+import { Bars3Icon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Pagination from '@/components/_category-page/components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
-import { RootState } from '@/redux/store';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { numberParser } from '@/helpers/numberParser';
+import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import InfiniteLoader from '../loaders/infinite-loader';
-import Skeleton from '@/components/loaders/skeleton';
 
 const Thirteen = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -25,9 +28,9 @@ const Thirteen = ({ catId, store_id, design }: any) => {
 
     const [grid, setGrid] = useState('H');
     const [open, setOpen] = useState(false);
+
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
 
     const categoryStore = useSelector((state: any) => state?.category);
@@ -54,8 +57,6 @@ const Thirteen = ({ catId, store_id, design }: any) => {
                                 key={item?.id}
                                 item={item}
                                 design={design}
-                                setPage={setPage}
-                                setHasMore={setHasMore}
                             />
                         ))}
                     </div>
@@ -67,7 +68,7 @@ const Thirteen = ({ catId, store_id, design }: any) => {
                     </div>
                 </div>
                 <div className="col-span-1 lg:col-span-9 flex flex-col min-h-[100vh-200px] h-full">
-                    <Location />
+                    <CategoryBreadcrumb catId={catId} />
                     <Filter
                         onChange={(e: any) => {
                             dispatch(setSort(e.target.value));
@@ -80,11 +81,8 @@ const Thirteen = ({ catId, store_id, design }: any) => {
                     <div className="flex-1">
                         <Product
                             catId={catId}
-                            open={open}
                             grid={grid}
-                            hasMore={hasMore}
                             paginate={paginate}
-                            setHasMore={setHasMore}
                             page={page}
                             setPage={setPage}
                             isPagination={isPagination}
@@ -110,13 +108,10 @@ export default Thirteen;
 
 const Product = ({
     grid,
-    open,
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -140,23 +135,9 @@ const Product = ({
         setPage((prevPage: number) => prevPage + 1);
     };
 
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
-
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -210,18 +191,27 @@ const Product = ({
                       ))
                     : null}
             </div>
+
             {!isPagination ? (
                 <div>
                     <InfiniteScroll
                         style={{ height: 'auto', overflow: 'hidden' }}
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
-                        hasMore={hasMore}
-                        loader={<InfiniteLoader />}
+                        hasMore={paginate?.has_more_pages}
+                        loader={
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            (categoryPageProductsLoading && <InfiniteLoader />)
+                        }
                         endMessage={
-                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                No More Products
-                            </p>
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            categoryPageProductsLoading ? (
+                                <InfiniteLoader />
+                            ) : (
+                                <NotFoundMsg message={'No More Products'} />
+                            )
                         }
                     >
                         {grid === 'H' && (
@@ -314,36 +304,6 @@ const Product = ({
     );
 };
 
-const Location = () => {
-    const [activecat, setActivecat] = useState(null);
-    const categoryStore = useSelector((state: any) => state?.category);
-
-    const { id }: any = useParams<{ id: string }>();
-
-    useEffect(() => {
-        const category = categoryStore?.categories || [];
-        for (let i = 0; i < category.length; i++) {
-            if (category[i]?.subcategories) {
-                for (let j = 0; j < category[i].subcategories.length; j++) {
-                    if (category[i]?.subcategories[j]?.id == id) {
-                        setActivecat(category[i]?.subcategories[j]?.name);
-                    }
-                }
-            }
-            if (category[i]?.id == id) {
-                setActivecat(category[i].name);
-            }
-        }
-    }, [categoryStore, id]);
-
-    return (
-        <div className="w-full text-[#414141] bg-[#f1f1f1] flex items-center justify-start py-2 text-[24px] font-thin px-2">
-            <p>Home</p>
-            <p>/ {activecat}</p>
-        </div>
-    );
-};
-
 const Filter = ({ onChange, setGrid }: any) => {
     return (
         <div className="border-t border-b border-[#f1f1f1] py-3 my-5 flex flex-wrap justify-between items-center px-2">
@@ -397,6 +357,7 @@ const SingleCat = ({ item, design }: any) => {
     const inactiveColor = `text-gray-900 flex-1 text-sm font-thin`;
     const activesub = `text-[${design?.header_color}] pb-2 text-sm font-thin`;
     const inactivesub = `pb-2 text-sm font-thin`;
+
     return (
         <>
             <div className="w-full flex px-4 py-3">

@@ -1,6 +1,6 @@
 'use client';
 
-import { imgUrl, profileImg } from '@/site-settings/siteUrl';
+import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -10,9 +10,7 @@ import { BsCart2, BsSearch } from 'react-icons/bs';
 import { GoLocation } from 'react-icons/go';
 import { ImCross } from 'react-icons/im';
 import { RiMenu2Line, RiUser2Fill } from 'react-icons/ri';
-
-import Search3 from '../components/search3';
-import defaultUserImage from '@/assets/default-user-image.png';
+import Search3 from '../components/search3'
 import { classNames } from '@/helpers/littleSpicy';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { useRouter } from 'next/navigation';
@@ -104,7 +102,11 @@ const HeaderNineteen = ({ headersetting, design, menu }: any) => {
         >
             <style>{styleCss}</style>
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
 
             <div className="sm:container px-5 grid grid-cols-3 py-4">
                 <div className="col-span-1 justify-self-start lg:hidden block">
@@ -167,9 +169,8 @@ const HeaderNineteen = ({ headersetting, design, menu }: any) => {
                                                 <img
                                                     src={
                                                         user?.image
-                                                            ? profileImg +
-                                                              user?.image
-                                                            : `${defaultUserImage.src}`
+                                                            ? user?.image
+                                                            : user?.social_img
                                                     }
                                                     alt=""
                                                     className="object-fit"
@@ -387,6 +388,7 @@ const HeaderNineteen = ({ headersetting, design, menu }: any) => {
                                 <Search3
                                     search={searchTxt}
                                     setSearch={setSearch}
+                                    design={design}
                                 />
                             </div>
                         )}

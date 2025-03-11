@@ -1,7 +1,14 @@
-import Shop from "@/components/Shop";
+import Shop from '@/components/Shop';
+import getDesign from '@/utils/fetcher/getDesign';
+import ResetFilter from '@/utils/ResetFilter';
 
-const ShopPage = () => {
-  return <Shop/>;
-};
+export default async function CategoryPage() {
+    const design = await getDesign();
 
-export default ShopPage;
+    return (
+        <>
+            <ResetFilter />
+            <Shop design={design} />
+        </>
+    );
+}

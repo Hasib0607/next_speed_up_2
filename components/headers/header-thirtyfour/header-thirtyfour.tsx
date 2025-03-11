@@ -17,13 +17,7 @@ import { TiArrowSortedUp } from 'react-icons/ti';
 import { useSelector } from 'react-redux';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
-
-// customize design
-
-import defaultUserImage from '@/assets/default-user-image.png';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
-
-
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
@@ -42,7 +36,7 @@ import { subTotal } from '@/utils/_cart-utils/cart-utils';
 import { SingleCat } from '../components/single-cat';
 import { cancelIcon } from '@/assets/svg';
 
-const HeaderThirtyFour = ({ headersetting, design, menu}: any) => {
+const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -165,7 +159,11 @@ const HeaderThirtyFour = ({ headersetting, design, menu}: any) => {
     return (
         <div className="">
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <style>{styleCss}</style>
 
             {/* top menu  */}
@@ -230,6 +228,7 @@ const HeaderThirtyFour = ({ headersetting, design, menu}: any) => {
                                         <Search3
                                             search={searchTxt}
                                             setSearch={setSearch}
+                                            design={design}
                                         />
                                     </div>
                                 )}
@@ -249,7 +248,7 @@ const HeaderThirtyFour = ({ headersetting, design, menu}: any) => {
                                 <div>
                                     <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none ">
                                         <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
-                                            {user?.image || user?.social_img ? (
+                                            {isAuthenticated ? (
                                                 <img
                                                     src={
                                                         user?.image
@@ -260,11 +259,13 @@ const HeaderThirtyFour = ({ headersetting, design, menu}: any) => {
                                                     className="object-fit"
                                                 />
                                             ) : (
-                                                <img
-                                                    src={defaultUserImage.src}
-                                                    alt="user"
-                                                    className="object-fit"
-                                                />
+                                                <svg
+                                                    className="h-full w-full text-gray-300"
+                                                    fill="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                                </svg>
                                             )}
                                         </span>
                                     </Menu.Button>
@@ -599,6 +600,7 @@ const HeaderThirtyFour = ({ headersetting, design, menu}: any) => {
                                         item={item}
                                         open={open}
                                         setOpen={setOpen}
+                                        design={design}
                                     />
                                 ))}
                             </div>

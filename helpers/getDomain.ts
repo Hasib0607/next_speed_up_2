@@ -13,6 +13,14 @@ export default async function getDomain() {
         url = url.replace('www.', '');
     }
 
+    if (process.env.NODE_ENV === 'production') {
+        return url;
+    }
+
+    // url = "livicabd.com";
+    // url = "2ndpagebooks.com";
+    url = 'moon.localhost:3000';
+    // url = "qutobd.com";
+
     return url;
-    // return "savantstylefashion.com";
 }

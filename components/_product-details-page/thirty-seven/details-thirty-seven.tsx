@@ -33,9 +33,8 @@ const DetailsThirtySeven = ({
     open,
     setOpen,
     buttonStyle,
+    headersetting,
 }: any) => {
-    const { headersetting } = useSelector((state: RootState) => state.home);
-
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
 
@@ -170,7 +169,10 @@ const DetailsThirtySeven = ({
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
     const save = howMuchSave(product);
 
     const handleAddToCart = () => {

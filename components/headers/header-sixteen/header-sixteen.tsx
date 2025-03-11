@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { profileImg } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { HiUser, HiUserAdd } from 'react-icons/hi';
@@ -23,8 +22,7 @@ const HeaderSixteen = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = design?.store_id || null;
 
     const authStore = useSelector((state: RootState) => state?.auth);
     const user = authStore?.user || {};
@@ -105,7 +103,11 @@ const HeaderSixteen = ({ headersetting, design, menu }: any) => {
                                 <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none ">
                                     <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
                                         <img
-                                            src={profileImg + user?.image}
+                                            src={
+                                                user?.image
+                                                    ? user?.image
+                                                    : user?.social_img
+                                            }
                                             alt=""
                                             className="object-fit"
                                         />

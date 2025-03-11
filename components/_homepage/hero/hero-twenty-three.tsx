@@ -1,4 +1,5 @@
 'use client';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
     Pagination,
@@ -8,17 +9,18 @@ import {
     EffectCreative,
     EffectFade,
 } from 'swiper/modules';
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-// import './heroSixteenCss/herosixteen.css'
 import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { BiRightArrowAlt } from 'react-icons/bi';
 import { sliderImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const HeroTwentyThree = ({ slider, design }: any) => {
     let menu = [''];
@@ -58,7 +60,7 @@ const HeroTwentyThree = ({ slider, design }: any) => {
         width: 12px;
         height: 12px;
         opacity: 1;
-        background:  ${textColor};
+        background: ${textColor};
     
     }
     
@@ -72,12 +74,12 @@ const HeroTwentyThree = ({ slider, design }: any) => {
     }
 
     .btn-slider {
-        color:  ${design?.text_color};
+        color: ${design?.text_color};
         background: ${design?.header_color};
         border: 2px solid transparent;
     }
     .btn-slider:hover {
-        color:  ${design?.header_color};
+        color: ${design?.header_color};
         background: white;
         border: 2px solid ${design?.header_color};
     }
@@ -117,7 +119,6 @@ const HeroTwentyThree = ({ slider, design }: any) => {
                     nextEl: `.${nextEl}`,
                 }}
                 speed={1000}
-                // effect={"fade"}
                 loop={true}
                 pagination={pagination}
                 autoplay={{
@@ -147,8 +148,8 @@ const HeroTwentyThree = ({ slider, design }: any) => {
                                 <p className="md:text-lg text-xs md:text-center md:leading-5">
                                     {s?.subtitle}
                                 </p>
-                                <a
-                                    href={s?.link}
+                                <Link
+                                    href={s?.link ?? '#'}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
@@ -156,7 +157,7 @@ const HeroTwentyThree = ({ slider, design }: any) => {
                                         Shop Now{' '}
                                         <BiRightArrowAlt className="inline" />
                                     </h1>
-                                </a>
+                                </Link>
                             </div>
                         </div>
 

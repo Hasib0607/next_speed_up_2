@@ -1,5 +1,5 @@
-import { GMAP_IFRAME_SRC_LINK } from '@/consts';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
+import { GMAP_IFRAME_SRC_LINK } from '@/consts';
 import Link from 'next/link';
 import {
     FaFacebookF,
@@ -21,7 +21,7 @@ const ContactPage = async () => {
         youtube_link,
         lined_in_link,
         map_address,
-    }: any = headersetting;
+    }: any = headersetting || {};
 
     const srcMatch = map_address?.match(GMAP_IFRAME_SRC_LINK);
     const iframeSrc = srcMatch ? srcMatch[1] : null;

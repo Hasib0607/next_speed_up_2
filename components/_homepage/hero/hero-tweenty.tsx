@@ -15,11 +15,9 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-// import './heroSixteenCss/herosixteen.css'
 import 'swiper/css/effect-creative';
 import 'swiper/css/effect-fade';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { BiRightArrowAlt } from 'react-icons/bi';
 import { sliderImg } from '@/site-settings/siteUrl';
 
 const HeroTwentyOne = ({ slider, design }: any) => {
@@ -87,9 +85,8 @@ const HeroTwentyOne = ({ slider, design }: any) => {
         border:2px solid  ${bgColor} ;
         color: ${bgColor};
     }
-
-
       `;
+
     return (
         <div className="z-0 relative sm:container px-5 mt-3 group">
             <style>{styleCss}</style>
@@ -117,7 +114,6 @@ const HeroTwentyOne = ({ slider, design }: any) => {
                     nextEl: `.${nextEl}`,
                 }}
                 speed={1000}
-                // effect={"fade"}
                 loop={true}
                 pagination={pagination}
                 autoplay={{
@@ -143,26 +139,9 @@ const HeroTwentyOne = ({ slider, design }: any) => {
                                 <h1 className="xl:text-4xl md:text-[28px] text-[16px] font-bold md:text-center md:leading-7">
                                     {s?.title}
                                 </h1>
-                                {/* <p className='h-[2px] w-10 bg-black mx-auto md:block hidden'></p> */}
                                 <p className="md:text-lg text-xs md:text-center md:leading-5">
                                     {s?.subtitle}
                                 </p>
-                                {s?.link && (
-                                    <a
-                                        href={s?.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <h1
-                                            className={`lg:px-10 px-6 md:py-2 py-1 btn-slider duration-300 lg:text-lg text-xs sm:text-center w-max md:mx-auto lg:cursor-pointer bg-black text-white rounded-full font-medium ${
-                                                !s?.title && 'sm:mt-20 mt-10'
-                                            }`}
-                                        >
-                                            Shop Now{' '}
-                                            <BiRightArrowAlt className="inline" />
-                                        </h1>
-                                    </a>
-                                )}
                             </div>
                         </div>
                         <div className="">

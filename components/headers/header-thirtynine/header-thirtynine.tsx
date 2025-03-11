@@ -1,6 +1,6 @@
 'use client';
 
-import { imgUrl, profileImg } from '@/site-settings/siteUrl';
+import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -9,14 +9,11 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { HiMenu } from 'react-icons/hi';
 import { IoSearchOutline } from 'react-icons/io5';
 import { RiShoppingBagLine } from 'react-icons/ri';
-
-import defaultUserImage from '@/assets/default-user-image.png';
 import useAuth from '@/hooks/useAuth';
 import useAnnouncementScroll from '@/utils/use-annoucement-height';
 import { useRouter } from 'next/navigation';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
-
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
@@ -105,7 +102,11 @@ const HeaderThirtyNine = ({ headersetting, menu, design }: any) => {
             } fixed z-[5] duration-500 top-0 left-0 flex items-center bg-color text-white w-full`}
         >
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
 
             <style>{styleCss}</style>
             <div className="flex items-center justify-between sm:container px-5 w-full">
@@ -176,6 +177,7 @@ const HeaderThirtyNine = ({ headersetting, menu, design }: any) => {
                                     <Search3
                                         search={searchTxt}
                                         setSearch={setSearch}
+                                        design={design}
                                     />
                                 </div>
                             )}
@@ -197,23 +199,24 @@ const HeaderThirtyNine = ({ headersetting, menu, design }: any) => {
                                 <div>
                                     <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none">
                                         <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
-                                            {user?.image || user?.social_img ? (
+                                            {isAuthenticated ? (
                                                 <img
                                                     src={
                                                         user?.image
-                                                            ? profileImg +
-                                                              user?.image
+                                                            ? user?.image
                                                             : user?.social_img
                                                     }
                                                     alt="user"
                                                     className="object-fit"
                                                 />
                                             ) : (
-                                                <img
-                                                    src={defaultUserImage.src}
-                                                    alt="user"
-                                                    className="object-fit"
-                                                />
+                                                <svg
+                                                    className="h-full w-full text-gray-300"
+                                                    fill="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                                </svg>
                                             )}
                                         </span>
                                     </Menu.Button>

@@ -1,9 +1,9 @@
 'use client';
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 // import required modules
 import { sliderImg } from '@/site-settings/siteUrl';
-import { BsPlusLg } from 'react-icons/bs';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
@@ -39,18 +39,6 @@ const HeroOne = ({ slider }: any) => {
                                 <p className="xl:text-4xl md:text-[28px] text-[22px] leading-none font-medium ">
                                     {item?.title}
                                 </p>
-                                {item?.link && (
-                                    <a
-                                        href={item?.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <div className="flex lg:px-5 px-2 lg:py-2 py-1 mt-3 md:mt-5 text-black lg:text-lg text-xs shop-link w-max lg:cursor-pointer bg-transparent border-black border duration-500 items-center space-x-1">
-                                            <BsPlusLg className="lg:text-sm " />
-                                            <h1 className="">SHOP NOW</h1>
-                                        </div>
-                                    </a>
-                                )}
                             </div>
                         </div>
                         <img

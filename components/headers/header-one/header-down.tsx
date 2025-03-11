@@ -2,20 +2,18 @@
 
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
-
-import defaultUserImage from '@/assets/default-user-image.png';
 import { REDUX_PERSIST } from '@/consts';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import { imgUrl, profileImg } from '@/site-settings/siteUrl';
+import { imgUrl } from '@/site-settings/siteUrl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Search from '../components/search';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 
-const HeaderDown = ({ headersetting }: any) => {
+const HeaderDown = ({ headersetting, design }: any) => {
     const isAuthenticated = useAuth();
     const router = useRouter();
 
@@ -57,7 +55,14 @@ const HeaderDown = ({ headersetting }: any) => {
                         </div>
                     </div>
                     <div className="col-span-1 hidden md:flex order-1 md:order-last justify-end items-center mr-2">
-                    <Search searchInput={searchInput} setSearchInput={setSearchInput} screen backdrop btnOn/>
+                        <Search
+                            design={design}
+                            searchInput={searchInput}
+                            setSearchInput={setSearchInput}
+                            screen
+                            backdrop
+                            btnOn
+                        />
                         {/* Profile dropdown */}
                         {isAuthenticated && (
                             <Menu as="div" className="ml-3 relative">
@@ -69,11 +74,8 @@ const HeaderDown = ({ headersetting }: any) => {
                                         <img
                                             src={
                                                 user?.image
-                                                    ? profileImg + user?.image
+                                                    ? user?.image
                                                     : user?.social_img
-                                                      ? profileImg +
-                                                        user?.social_img
-                                                      : `${defaultUserImage.src}`
                                             }
                                             alt=""
                                             className="object-fit"

@@ -3,7 +3,6 @@
 import { EMAIL_REGEX } from '@/consts/index';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import { imgUrl } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
@@ -30,13 +29,9 @@ type FormValues = {
     error: string;
 };
 
-const RegisterEleven = () => {
+const RegisterEleven = ({ headersetting, appStore }: any) => {
     const module_id = 120;
-    const home = useSelector((state: any) => state?.home);
-    const { headersetting } = home || {};
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = appStore?.id || null;
 
     const router = useRouter();
 
@@ -76,7 +71,10 @@ const RegisterEleven = () => {
         );
         setLoading(true);
 
-        if (store?.auth_type === 'phone' || store?.auth_type === 'EasyOrder') {
+        if (
+            appStore?.auth_type === 'phone' ||
+            appStore?.auth_type === 'EasyOrder'
+        ) {
             registerByPhone({ ...data, store_id })
                 .unwrap()
                 .then((res: any) => {
@@ -87,7 +85,7 @@ const RegisterEleven = () => {
                     }
                 })
                 .catch((error: any) => {
-                    toast.error(error?.status || 'Something went wrong');
+                    toast.error(error?.data?.message || 'Something went wrong');
                     setLoading(false);
                 });
         } else {
@@ -101,7 +99,7 @@ const RegisterEleven = () => {
                     }
                 })
                 .catch((error: any) => {
-                    toast.error(error?.status || 'Something went wrong');
+                    toast.error(error?.data?.message || 'Something went wrong');
                     setLoading(false);
                 });
         }
@@ -141,8 +139,9 @@ const RegisterEleven = () => {
                                     </Link>
                                 </div>
                                 <form onSubmit={handleSubmit(onSubmit)}>
-                                    {(store?.auth_type === 'phone' ||
-                                        store?.auth_type === 'EasyOrder') && (
+                                    {(appStore?.auth_type === 'phone' ||
+                                        appStore?.auth_type ===
+                                            'EasyOrder') && (
                                         <div className="mb-6 text-left">
                                             <label
                                                 htmlFor="email"
@@ -160,7 +159,7 @@ const RegisterEleven = () => {
                                             />
                                         </div>
                                     )}
-                                    {store?.auth_type === 'email' && (
+                                    {appStore?.auth_type === 'email' && (
                                         <div className="mb-6 text-left">
                                             <label
                                                 htmlFor="email"
@@ -191,7 +190,7 @@ const RegisterEleven = () => {
                                             )}
                                         </div>
                                     )}
-                                    {store?.auth_type === 'email' && (
+                                    {appStore?.auth_type === 'email' && (
                                         <div className="mb-6 text-left">
                                             <label
                                                 htmlFor="email"

@@ -33,11 +33,7 @@ import {
 } from '../components/imageVariations';
 import { HSlider } from '../components/slider';
 
-const DetailsFive = ({ product, children }: any) => {
-    const { headersetting, design } = useSelector(
-        (state: RootState) => state.home
-    );
-
+const DetailsFive = ({ product, children, headersetting, design }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
 
@@ -172,7 +168,10 @@ const DetailsFive = ({ product, children }: any) => {
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
     const save = howMuchSave(product);
 
     const parsedRating = numberParser(product?.rating, true);

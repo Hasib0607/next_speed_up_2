@@ -81,4 +81,7 @@ export const all_products: any = {
     fortyone: dynamic(
         () => import('@/components/_homepage/product/product-fortyone')
     ),
+    fortythree: dynamic(
+        () => import('@/components/_homepage/product/product-fortythree')
+    ),
 };

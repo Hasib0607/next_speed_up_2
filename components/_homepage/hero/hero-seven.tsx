@@ -1,6 +1,5 @@
 'use client';
 
-import { BsArrowRight } from 'react-icons/bs';
 import { Autoplay, Controller, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
@@ -10,7 +9,6 @@ import 'swiper/css/pagination';
 
 import { sliderImg } from '@/site-settings/siteUrl';
 import './hero-seven.css';
-import Image from 'next/image';
 
 const HeroSeven = ({ slider, design }: any) => {
     let menu = [''];
@@ -35,7 +33,6 @@ const HeroSeven = ({ slider, design }: any) => {
     }
     .swiper-pagination-seven .swiper-pagination-bullet-active {
         background: ${bgColor};
-
     }
       `;
 
@@ -66,23 +63,20 @@ const HeroSeven = ({ slider, design }: any) => {
                                     {s?.subtitle}
                                 </p>
                             </div>
-                            {s?.link && (
-                                <a
-                                    href={s?.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <h1 className="md:mt-10 mt-3 lg:px-5 px-2 lg:py-2 py-1 bg-black text-white font-seven lg:text-lg text-xs rounded-md w-max">
-                                        Go To Collection
-                                        <BsArrowRight className="inline lg:ml-3 ml-1 lg:text-2xl text-sm " />
-                                    </h1>
-                                </a>
-                            )}
                         </div>
-
-                        <Image
+                        {/* <Image
+                            className="rounded-lg h-auto min-w-full object-cover"
+                            src={`${sliderImg}/${s.image}`}
+                            alt="Hero Banner"
+                            width={100}
+                            height={100}
+                            unoptimized
+                            placeholder="blur"
+                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk4G4vAgABqwEGEzLyIQAAAABJRU5ErkJggg=="
+                        /> */}
+                        <img
                             className="rounded-lg h-auto min-w-full"
-                            src={sliderImg + s.image}
+                            src={`${sliderImg}/${s.image}`}
                             width={100}
                             height={100}
                             alt=""

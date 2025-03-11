@@ -39,6 +39,8 @@ export const THIRTY_SEVEN = 'thirtyseven';
 export const THIRTY_EIGHT = 'thirtyeight';
 export const THIRTY_NINE = 'thirtynine';
 export const FORTY = 'forty';
+export const FORTY_ONE = 'fortyone';
+export const FORTY_TWO = 'fortytwo';
 
 // regex
 export const HTML_TAG_PATTERN = /<[^>]*>/g;
@@ -53,7 +55,6 @@ export const REDUX_PERSIST = 'persist:root';
 export const BLOG_PAGE_NUMBER = 1;
 
 // host
-// export const name = typeof window !== 'undefined' ? window.location.host : '';
 function url() {
     if (typeof window !== 'undefined') {
         return window.location.host.startsWith('www.')
@@ -63,6 +64,16 @@ function url() {
     return ''; // Optional: return an empty string if window is undefined (e.g., in server-side rendering)
 }
 
-// export const name = "savantstylefashion.com";
-export const name = url();
-// console.log(name);
+
+let urlName;
+
+// urlName = "livicabd.com";
+// urlName = "2ndpagebooks.com";
+urlName = "moon.localhost:3000";
+// urlName = "qutobd.com";
+
+if (process.env.NODE_ENV === 'production') {
+    urlName = url();
+}
+
+export const name = urlName;

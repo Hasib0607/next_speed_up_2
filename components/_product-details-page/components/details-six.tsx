@@ -32,6 +32,7 @@ import { Colors, ColorsOnly, Sizes, Units } from './imageVariations';
 import { ProductSlider } from './product-slider';
 import { HSlider } from './slider';
 import ZoomHSlider from './zoom-slider';
+import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 
 const DetailsSix = ({
     product,
@@ -41,10 +42,10 @@ const DetailsSix = ({
     setOpen,
     multiCat,
     buttonStyle,
-    zoomable
+    zoomable,
 }: any) => {
     const { headersetting } = useSelector((state: RootState) => state.home);
-
+    const store_id = numberParser(design?.store_id) || null;
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
 
@@ -179,8 +180,15 @@ const DetailsSix = ({
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
-    const save = howMuchSave(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
+
+    const save = useMemo(
+        () => howMuchSave(product, variantId),
+        [product, variantId]
+    );
     const parsedRating = numberParser(product?.rating, true);
 
     const handleAddToCart = () => {
@@ -229,7 +237,7 @@ const DetailsSix = ({
 
             <div className="grid grid-cols-1 md:grid-cols-10 gap-5">
                 <div className="md:col-span-5">
-                {zoomable ? (
+                    {zoomable ? (
                         <ZoomHSlider
                             design={design}
                             product={product}
@@ -258,7 +266,7 @@ const DetailsSix = ({
                             {save > 0 && (
                                 <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                     <BDT />
-                                    {numberParser(product?.regular_price)}
+                                    {variantId !== null ? save : numberParser(product?.regular_price)}
                                 </span>
                             )}{' '}
                         </div>
@@ -270,14 +278,14 @@ const DetailsSix = ({
                             )}
                     </div>
 
-                    <Rate rating={parsedRating} />
+                   
+                            <Rate rating={parsedRating} />
 
-                    <div className="h-[1px] bg-gray-300 w-full"></div>
+                            <div className="h-[1px] bg-gray-300 w-full"></div>
 
-                    <div className="text-sm text-[#5a5a5a] leading-6 apiHtml">
-                        {parse(`${product?.description?.slice(0, 250)}`)}{' '}
-                        {product?.description?.length > 250 && '...'}
-                    </div>
+                            <div className="text-sm text-[#5a5a5a] leading-6" >
+                                <DangerouslySafeHTML content={product?.description} className='line-clamp-3'/>
+                            </div>
 
                     {/* color and size  */}
                     {currentVariation?.colorsAndSizes && (

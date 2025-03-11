@@ -1,74 +1,57 @@
 'use client';
 
-import { useGetCampaignQuery } from '@/redux/features/checkOut/checkOutApi';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import Address from '../_components/address/address';
 import YourOrders from './your-orders/your-order';
-import Discount from './discount/discount';
-import PaymentGateway from './payment-gateway/payment-gateway';
+import Discount from '../_components/discount/discount';
+import PaymentGateway from '../_components/payment-gateway/payment-gateway';
 import PaymentConditions from '../_components/payment-conditions';
+import { totalCampainOfferDiscount } from '@/utils/_cart-utils/cart-utils';
+import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
+import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
+import { AppDispatch, RootState } from '@/redux/store';
+import {
+    setGrandTotal,
+    setPurchaseList,
+} from '@/redux/features/purchase/purchaseSlice';
 
-const CheckOutTwentyOne = () => {
-    const home = useSelector((state: any) => state?.home);
-    const { design, headersetting } = home || {};
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
-
-    const { cartList } = useSelector((state: any) => state.cart);
-
-    const {
-        data: campaignsData,
-        isLoading: campaignsLoading,
-        isSuccess: campaignsSuccess,
-        refetch: campaignsRefetch,
-    } = useGetCampaignQuery({ store_id });
+const CheckOutFour = ({ design, appStore, headersetting }: any) => {
+    const store_id = appStore?.id || null;
+    const dispatch: AppDispatch = useAppDispatch();
+    const { cartList } = useSelector((state: RootState) => state.cart);
 
     const [couponDis, setCouponDis] = useState(0);
-    const [coupon, setCoupon] = useState(null);
     const [shippingArea, setShippingArea] = useState<any>(null);
-    const [selectPayment, setSelectPayment] = useState(
-        headersetting?.cod === 'active' ? 'cod' : ''
-    );
     const [selectAddress, setSelectAddress] = useState(null);
-    const [couponResult, setCouponResult] = useState(null);
-
     const [token, setToken] = useState(null);
     const [userName, setUserName] = useState(null);
     const [userPhone, setUserPhone] = useState(null);
     const [userAddress, setUserAddress] = useState(null);
-    const [campaign, setCampaign] = useState([]);
     const [checked, setChecked] = useState<boolean>(false);
 
-    useEffect(() => {
-        const isCampaigns = campaignsData?.data || {};
-        const fetchCampaignData = () => {
-            if (campaignsSuccess && isCampaigns) {
-                setCampaign(isCampaigns);
-            }
-        };
-        fetchCampaignData();
-    }, [campaignsSuccess, campaignsData]);
-
-    // free delivery
-    const free: any = campaign?.find(
-        (item: any) =>
-            item?.discount_amount === '0' && item?.status === 'active'
-    );
-    const freeId = free?.campaignProducts?.map((item: any) => item?.id);
-    const campProdId = cartList?.map((item: any) => item?.id);
-
-    const freeDelivery = campProdId?.every((item: any) =>
-        freeId?.includes(item)
+    const cartTotalCampainOfferDiscountAmount = useMemo(
+        () => totalCampainOfferDiscount(cartList),
+        [cartList]
     );
 
     useEffect(() => {
-        if (freeDelivery && shippingArea) {
-            setShippingArea(0);
+        if (cartTotalCampainOfferDiscountAmount > 0) {
+            dispatch(
+                setTotalCampainOfferDis(cartTotalCampainOfferDiscountAmount)
+            );
+        } else {
+            dispatch(setTotalCampainOfferDis(0));
         }
-    }, [freeDelivery, shippingArea]);
+    }, [cartTotalCampainOfferDiscountAmount, dispatch]);
+
+
+    useEffect(() => {
+        dispatch(setPurchaseList([]));
+        dispatch(setGrandTotal(0));
+    }, [dispatch]);
+
 
     useEffect(() => {
         if (store_id !== 8729) {
@@ -78,18 +61,16 @@ const CheckOutTwentyOne = () => {
 
     if (cartList?.length === 0) {
         return (
-            <>
-                <div className="flex justify-center items-center min-h-[70vh]">
-                    <div className="text-center">
-                        <h3 className="text-gray-400 text-2xl font-bold">
-                            You have no product in your cart!{' '}
-                        </h3>
-                        <h6 className="text-gray-400 text-xl font-semibold">
-                            Please Add Some Product
-                        </h6>
-                    </div>
+            <div className="flex justify-center items-center min-h-[70vh]">
+                <div className="text-center">
+                    <h3 className="text-gray-400 text-2xl font-bold">
+                        You have no product in your cart!{' '}
+                    </h3>
+                    <h6 className="text-gray-400 text-xl font-semibold">
+                        Please Add Some Product
+                    </h6>
                 </div>
-            </>
+            </div>
         );
     }
 
@@ -110,9 +91,10 @@ const CheckOutTwentyOne = () => {
                         >
                             <div className="px-4 py-5 space-y-6 sm:p-6">
                                 <Address
+                                    design={design}
+                                    appStore={appStore}
                                     selectAddress={selectAddress}
                                     setSelectAddress={setSelectAddress}
-                                    design={design}
                                     setToken={setToken}
                                     token={token}
                                     setUserAddress={setUserAddress}
@@ -123,28 +105,41 @@ const CheckOutTwentyOne = () => {
                             </div>
                         </div>
                         <Discount
-                            setCouponDis={setCouponDis}
-                            setShippingArea={setShippingArea}
-                            setCoupon={setCoupon}
-                            setCouponResult={setCouponResult}
-                            couponResult={couponResult}
                             design={design}
+                            appStore={appStore}
+                            headersetting={headersetting}
+                            setCouponDis={setCouponDis}
+                            shippingArea={shippingArea}
+                            setShippingArea={setShippingArea}
+                            shippingColOne
+                            shippingOff
+                            select
                         />
-                        <PaymentGateway
-                            selectPayment={selectPayment}
-                            setSelectPayment={setSelectPayment}
+                        <div className="shadow sm:rounded-md sm:overflow-hidden my-5">
+                            <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
+                                <PaymentGateway
+                                    design={design}
+                                    appStore={appStore}
+                                    headersetting={headersetting}
+                                />
+                            </div>
+                        </div>
+                        <PaymentConditions
+                            design={design}
+                            appStore={appStore}
+                            headersetting={headersetting}
+                            setChecked={setChecked}
                         />
-                        <PaymentConditions setChecked={setChecked} />
                     </div>
                     <div className="mt-5 lg:mt-0 lg:col-span-1">
                         <YourOrders
+                            design={design}
+                            appStore={appStore}
+                            headersetting={headersetting}
                             couponDis={couponDis}
                             setCouponDis={setCouponDis}
-                            couponResult={couponResult}
                             selectAddress={selectAddress}
-                            selectPayment={selectPayment}
                             shippingArea={shippingArea}
-                            coupon={coupon}
                             userAddress={userAddress}
                             userPhone={userPhone}
                             userName={userName}
@@ -157,4 +152,4 @@ const CheckOutTwentyOne = () => {
     );
 };
 
-export default CheckOutTwentyOne;
+export default CheckOutFour;

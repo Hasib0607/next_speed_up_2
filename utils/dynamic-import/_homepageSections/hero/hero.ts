@@ -37,7 +37,7 @@ export const hero: any = {
         () => import('@/components/_homepage/hero/hero-tweenty-one')
     ),
     twentytwo: dynamic(
-        () => import('@/components/_homepage/hero/hero-tweent-two')
+        () => import('@/components/_homepage/hero/hero-tweenty-two')
     ),
     twentythree: dynamic(
         () => import('@/components/_homepage/hero/hero-twenty-three')
@@ -84,5 +84,8 @@ export const hero: any = {
     ),
     thirtynine: dynamic(
         () => import('@/components/_homepage/hero/hero-thirty-nine')
+    ),
+    fortythree: dynamic(
+        () => import('@/components/_homepage/hero/hero-fortythree')
     ),
 };

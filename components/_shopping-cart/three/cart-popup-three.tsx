@@ -144,6 +144,7 @@ const ShoppingCart = ({ setOpen, design }: any) => {
                                     key={index}
                                     product={product}
                                     setOpen={setOpen}
+                                    design={design}
                                 />
                             ))}
                         </ul>

@@ -1,6 +1,5 @@
 'use client';
 
-import defaultUserImage from '@/assets/default-user-image.png';
 import { classNames } from '@/helpers/littleSpicy';
 import useAuth from '@/hooks/useAuth';
 import { imgUrl } from '@/site-settings/siteUrl';
@@ -18,12 +17,10 @@ import { RiArrowDownSLine } from 'react-icons/ri';
 import { TbLayoutGrid } from 'react-icons/tb';
 import Search3 from '../components/search3';
 import SideMenu from '../components/side-menu';
-
 import {
     useGetCategoryQuery,
     useGetSubCategoryQuery,
 } from '@/redux/features/category/categoryApi';
-
 import { REDUX_PERSIST } from '@/consts';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
@@ -199,6 +196,7 @@ const HeaderThirtyThree = ({ headersetting, design, menu }: any) => {
                                 }`}
                             >
                                 <Search3
+                                    design={design}
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />
@@ -216,7 +214,7 @@ const HeaderThirtyThree = ({ headersetting, design, menu }: any) => {
                             <div>
                                 <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none ">
                                     <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
-                                        {user?.image || user?.social_img ? (
+                                        {isAuthenticated ? (
                                             <img
                                                 src={
                                                     user?.image
@@ -227,11 +225,13 @@ const HeaderThirtyThree = ({ headersetting, design, menu }: any) => {
                                                 className="object-fit"
                                             />
                                         ) : (
-                                            <img
-                                                src={defaultUserImage.src}
-                                                alt="user"
-                                                className="object-fit"
-                                            />
+                                            <svg
+                                                className="h-full w-full text-gray-300"
+                                                fill="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                            </svg>
                                         )}
                                     </span>
                                 </Menu.Button>
@@ -516,6 +516,7 @@ const HeaderThirtyThree = ({ headersetting, design, menu }: any) => {
                                 className={`absolute z-20 top-3 left-0 w-full`}
                             >
                                 <Search3
+                                    design={design}
                                     search={searchTxt}
                                     setSearch={setSearch}
                                 />

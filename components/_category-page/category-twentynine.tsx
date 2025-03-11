@@ -1,7 +1,16 @@
 'use client';
+
+import CategoryBreadcrumb from '@/components/_category-page/components/CategoryBreadcrumb';
 import Card53 from '@/components/card/card53';
 import Card6 from '@/components/card/card6';
 import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
+import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { NotFoundMsg } from '@/utils/little-components';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
@@ -10,16 +19,10 @@ import { useEffect, useState } from 'react';
 import { IoGridSharp } from 'react-icons/io5';
 import { TiTick } from 'react-icons/ti';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Pagination from '@/components/_category-page/components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
-import { RootState } from '@/redux/store';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { numberParser } from '@/helpers/numberParser';
+import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import InfiniteLoader from '../loaders/infinite-loader';
 
 const CategoryTwentyNine = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -30,7 +33,6 @@ const CategoryTwentyNine = ({ catId, store_id, design }: any) => {
     const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
     const [select, setSelect] = useState(parseInt(data?.id));
 
@@ -53,11 +55,11 @@ const CategoryTwentyNine = ({ catId, store_id, design }: any) => {
     .sec-twenty-nine{
         border-bottom: 2px solid ${design?.header_color};
     }
- `;
+    `;
+
     return (
         <div>
-            <Location />
-
+            <CategoryBreadcrumb catId={catId} />
             <div className="sm:container px-5">
                 <style>{styleCss}</style>
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
@@ -97,11 +99,8 @@ const CategoryTwentyNine = ({ catId, store_id, design }: any) => {
                         <div className="flex-1">
                             <ProductSection
                                 catId={catId}
-                                open={open}
                                 grid={grid}
-                                hasMore={hasMore}
                                 paginate={paginate}
-                                setHasMore={setHasMore}
                                 page={page}
                                 setPage={setPage}
                                 isPagination={isPagination}
@@ -128,13 +127,10 @@ export default CategoryTwentyNine;
 
 const ProductSection = ({
     grid,
-    open,
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -158,23 +154,9 @@ const ProductSection = ({
         setPage((prevPage: number) => prevPage + 1);
     };
 
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
-
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -235,12 +217,20 @@ const ProductSection = ({
                         style={{ height: 'auto', overflow: 'hidden' }}
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
-                        hasMore={hasMore}
-                        loader={<InfiniteLoader />}
+                        hasMore={paginate?.has_more_pages}
+                        loader={
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            (categoryPageProductsLoading && <InfiniteLoader />)
+                        }
                         endMessage={
-                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                No More Products
-                            </p>
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            categoryPageProductsLoading ? (
+                                <InfiniteLoader />
+                            ) : (
+                                <NotFoundMsg message={'No More Products'} />
+                            )
                         }
                     >
                         {grid === 'H' && (
@@ -331,36 +321,6 @@ const ProductSection = ({
     );
 };
 
-const Location = () => {
-    const [activecat, setActivecat] = useState(false);
-    const { id: data }: any = useParams<{ id: string }>();
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
-    useEffect(() => {
-        for (let i = 0; i < category.length; i++) {
-            if (category[i]?.subcategories) {
-                for (let j = 0; j < category[i].subcategories.length; j++) {
-                    if (category[i]?.subcategories[j]?.id == data) {
-                        setActivecat(category[i]?.subcategories[j]?.name);
-                    }
-                }
-            }
-            if (category[i]?.id == data) {
-                setActivecat(category[i].name);
-            }
-        }
-    }, [category]);
-    return (
-        <div className="w-full bg-[#f1f1f1] flex flex-col justify-center items-center py-5 mb-5">
-            <h1 className="text-3xl font-medium ">Product</h1>
-            <div className="flex items-center gap-1">
-                <p>Home</p>
-                <p>/ {activecat}</p>
-            </div>
-        </div>
-    );
-};
-
 const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
     return (
         <div className="border-t border-b border-[#f1f1f1] py-3 mb-5 flex flex-wrap justify-between items-center px-2">
@@ -407,6 +367,7 @@ const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
 const SingleCat = ({ item, design, select }: any) => {
     const [show, setShow] = useState(false);
     const { id }: any = useParams<{ id: string }>();
+
     useEffect(() => {
         if (item.cat) {
             for (let i = 0; i < item.cat.length; i++) {
@@ -414,6 +375,7 @@ const SingleCat = ({ item, design, select }: any) => {
             }
         }
     }, [item?.cat, id]);
+
     const activeColor = `text-[${design?.header_color}] flex items-center gap-x-2 font-medium`;
     const inactiveColor = 'text-gray-500 flex items-center gap-x-2 font-medium';
     const activesub = `text-[${design?.header_color}] text-sm w-max`;

@@ -1,7 +1,7 @@
-import OrderDetailsSeven from "@/components/_order-details-page/seven/order-details-seven";
+import OrderDetailsSeven from '@/components/_order-details-page/seven/order-details-seven';
 
-const OrderDetailsComponent = () => {
-  return <OrderDetailsSeven />;
+const OrderDetails = ({ appStore, order_id }: any) => {
+    return <OrderDetailsSeven appStore={appStore} order_id={order_id} />;
 };
 
-export default OrderDetailsComponent;
+export default OrderDetails;

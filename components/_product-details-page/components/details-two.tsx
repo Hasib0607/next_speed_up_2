@@ -177,8 +177,16 @@ const Details = ({
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
-    const save = howMuchSave(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
+    
+    const save = useMemo(
+        () => howMuchSave(product, variantId),
+        [product, variantId]
+    );
+
     const parsedRating = numberParser(product?.rating, true);
     const parsedNumberRating = numberParser(product?.number_rating);
 
@@ -232,7 +240,7 @@ const Details = ({
 
     const buttonOne = buttonStyle
         ? buttonStyle
-        : 'font-bold text-white bg-gray-600 rounded-md w-max px-10 py-3 text-center';
+        : 'font-bold text-white bg-gray-600 rounded-md w-max px-10 py-3 text-center lg:cursor-pointer';
 
     return (
         <div className="bg-white h-full ">
@@ -259,7 +267,7 @@ const Details = ({
                             {save > 0 && (
                                 <span className="text-gray-500 font-thin line-through text-xl font-seven">
                                     <BDT />
-                                    {numberParser(product?.regular_price)}
+                                    {variantId !== null ? save : numberParser(product?.regular_price)}
                                 </span>
                             )}{' '}
                         </div>

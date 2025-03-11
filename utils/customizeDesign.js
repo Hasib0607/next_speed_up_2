@@ -1,3 +1,5 @@
+import { MdOutlineVerified } from "react-icons/md";
+
 export const customizeFooter = [
   {
     // Fihamart
@@ -59,6 +61,17 @@ export const customizeCheckout = [
     cash_hide: "hidden",
     checked: true,
   },
+  {
+    // for watch-time-bd custom text show checkout 21, store id:10064
+    id: 10064,
+    customize_text_show_for_watchtime: (
+      <p className="font-semibold">
+        বি: দ্র: - অর্ডার করার পূর্বে পছন্দের পণ্যটি দেখে-জেনে-বুঝে মূল্য ও
+        ডেলিভারি চার্জ নিশ্চিত হয়ে অর্ডারটি কনফার্ম করুন। অযথা হয়রানি করলে
+        বিশেষ ব্যবস্থা নেওয়া হবে।
+      </p>
+    ),
+  },
 ];
 
 export const customizeSingleProductPage = [
@@ -83,6 +96,41 @@ export const customizeSingleProductPage = [
     id: 8428,
     btn_design: true,
   },
+
+  // for watch-time-bd review not show in details page 42, store id:10064
+  {
+    id: 10064,
+    review_not_show: true,
+    customize_text_show_for_watchtime_1: (
+      <div>
+        <p className="font-bold text-2xl my-2">কেন এখানে অর্ডার করবেন ?</p>
+        <ul
+          className="list-inside text-gray-500 font-bold pl-6"
+          style={{ listStyleType: "disc" }}
+        >
+          <li className="py-1">বেস্ট প্রাইস</li>
+          <li>বিক্রয় পরবর্তী সেবা</li>
+          <li className="py-1">
+            দ্রুত প্রোডাক্ট ডেলিভারি ও হাতে পেয়ে চেক করে টাকা প্রদান এর সুবিধা
+          </li>
+          <li>১০০% অরিজিনাল প্রোডাক্টের নিশ্চয়তা</li>
+          <li className="py-1">ওয়াটার রেসিস্টান্স</li>
+          <li>১ বছরের অফিসিয়াল মেশিন ওয়ারেন্টি</li>
+          <li className="py-1">⁠সার্বক্ষণিক কাস্টমার সাপোর্ট</li>
+        </ul>
+      </div>
+    ),
+  },
+  // for nexmanbd description not show in details page 34, store id:6433
+  {
+    id: 6433,
+    description_not_show: true,
+  },
+  // for authenticdisposable.shop custom text show in details page 34, store id:10307
+  {
+    id: 10307,
+    custom_text_for_authenticdisposable: "flavor:",
+  },
 ];
 export const customizeModalPopup = [
   // for mrchickenbd.com, modal will not open
@@ -101,5 +149,13 @@ export const customizeMobileNavThree = [
   {
     id: 9501,
     category_icon_not_show: true,
+  },
+];
+
+export const customizeCards = [
+  // for watch-time-bd rating not show in card 58, store id: 10064
+  {
+    id: 10064,
+    rating_not_show: true,
   },
 ];

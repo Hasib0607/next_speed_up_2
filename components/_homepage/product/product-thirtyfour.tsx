@@ -51,7 +51,11 @@ const ProductThirtyFour = ({ product, design, headersetting }: any) => {
                             product
                                 ?.slice(0, 10)
                                 ?.map((item: any) => (
-                                    <Card60 item={item} key={item.id} />
+                                    <Card60
+                                        item={item}
+                                        key={item.id}
+                                        type={'product'}
+                                    />
                                 ))}
                     </div>
                 </div>

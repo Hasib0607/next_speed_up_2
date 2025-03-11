@@ -3,22 +3,17 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useState } from "react";
-
 import { productImg } from "@/site-settings/siteUrl";
-
 import Link from "next/link";
 import BDT from "@/utils/bdt";
 import { useGetSearchProductQuery } from "@/redux/features/home/homeApi";
-import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
 import { productCurrentPrice } from "@/helpers/littleSpicy";
 
-const Search3 = ({ search, setSearch }: any) => {
+const Search3 = ({ search, setSearch, design }: any) => {
 
   const [result, setResult] = useState([]);
 
-  const {store} = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = design?.store_id || null;
 
   const {
           data: userSearchProductData,

@@ -27,7 +27,7 @@ import DetailsEight from '../components/details-eight';
 import VideoPlayer from '../components/video-player';
 import { NotFoundMsg } from '@/utils/little-components';
 
-const TwentyOne = ({ store_id, productId, design }: any) => {
+const TwentyOne = ({ store_id, productId, design,headersetting }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -91,7 +91,7 @@ const TwentyOne = ({ store_id, productId, design }: any) => {
             <div className="">
                 <div className="sm:container px-5 sm:py-10 py-5">
                     {detailsContentSkeleton}
-                    <DetailsEight product={product} design={design} />
+                    <DetailsEight product={product} design={design} headersetting={headersetting} roundedBtn social/>
                 </div>
                 {/* ************************ tab component start ***************************** */}
                 <div className="my-10 bg-gray-100 sm:py-10 py-5">

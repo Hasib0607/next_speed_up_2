@@ -1,5 +1,7 @@
+import { toast } from 'react-toastify';
 import { apiSlice } from '../api/apiSlice';
 import { userLoggedIn } from '../auth/authSlice';
+import { setCouponResult } from '../filters/couponSlice';
 import { setDistrictArr } from './checkOutSlice';
 
 // Inject the getHome mutation endpoint into apiSlice
@@ -12,10 +14,61 @@ export const checkOutApi = apiSlice.injectEndpoints({
             }),
         }),
         checkCouponValidation: builder.query<any, any>({
-            query: ({ store_id, coupon_code }) => ({
-                url: `verifycoupon/${store_id}/${coupon_code}`,
+            query: ({
+                store_id,
+                coupon_code,
+                total,
+                selectedShippingArea,
+                selectedPayment,
+            }) => ({
+                url: `verifycoupon/${store_id}/${coupon_code}?amount=${total}&shipping=${selectedShippingArea}&payment=${selectedPayment}`,
                 method: 'GET',
             }),
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                try {
+                    const response = await queryFulfilled;
+                    const { status, data } = response?.data || {};
+                    const couponData = { ...data, code_status: status };
+                    if (status) {
+                        dispatch(setCouponResult(couponData));
+                    }
+                } catch (error: any) {
+                    const { status } = error?.error || {};
+                    const { message } = error?.error?.data || {};
+                    if (status == 404) {
+                        dispatch(
+                            setCouponResult({ code: null, code_status: false })
+                        );
+                        toast.error(message, { toastId: message });
+                    }
+                }
+            },
+            keepUnusedDataFor: 0,
+        }),
+        couponAutoApply: builder.query<any, any>({
+            query: ({
+                store_id,
+                total,
+                selectedShippingArea,
+                selectedPayment,
+            }) => ({
+                url: `verifycoupon-auto-apply/${store_id}/${total}?shipping=${selectedShippingArea}&payment=${selectedPayment}`,
+                method: 'GET',
+            }),
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                try {
+                    const response = await queryFulfilled;
+                    const { status, data } = response?.data || {};
+                    const couponData = { ...data, code_status: status };
+                    if (status) {
+                        dispatch(setCouponResult(couponData));
+                    }
+                } catch (error: any) {
+                    dispatch(
+                        setCouponResult({ code: null, code_status: false })
+                    );
+                }
+            },
             keepUnusedDataFor: 0,
         }),
         getCampaign: builder.query<any, any>({

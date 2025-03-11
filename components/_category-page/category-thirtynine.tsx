@@ -1,32 +1,29 @@
 'use client';
+
 import Card68 from '@/components/card/card68';
+import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
+import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
+import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { RootState } from '@/redux/store';
+import { NotFoundMsg } from '@/utils/little-components';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Pagination from '@/components/_category-page/components/pagination';
-import Skeleton from '@/components/loaders/skeleton';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
-import { RootState } from '@/redux/store';
-import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { numberParser } from '@/helpers/numberParser';
-import { setSort } from '@/redux/features/filters/filterSlice';
 import InfiniteLoader from '../loaders/infinite-loader';
 
 const CategoryThirtyNine = ({ catId, store_id, design }: any) => {
     const module_id = 105;
     const dispatch = useDispatch();
 
-    const [grid, setGrid] = useState('H');
-    const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
-    const [shops, setShops] = useState<any>({});
-    const [cat, setCat] = useState<any>({});
 
     const categoryStore = useSelector((state: any) => state?.category);
     const category = categoryStore?.categories || [];
@@ -44,7 +41,7 @@ const CategoryThirtyNine = ({ catId, store_id, design }: any) => {
             <div className="sm:container px-5">
                 <div className="pt-10">
                     <div className="mb-5 text-xl lg:text-3xl">
-                        <h1>{shops?.name || cat?.name}</h1>
+                        {/* <h1>{shops?.name || cat?.name}</h1> */}
                     </div>
                     <div className="flex justify-between gap-3">
                         <div className="hidden lg:flex gap-x-10 flex-wrap gap-y-2">
@@ -62,9 +59,6 @@ const CategoryThirtyNine = ({ catId, store_id, design }: any) => {
                                     dispatch(setSort(e.target.value));
                                     setPage(1);
                                 }}
-                                setGrid={setGrid}
-                                setOpen={setOpen}
-                                open={open}
                             />
                         </div>
                     </div>
@@ -72,11 +66,7 @@ const CategoryThirtyNine = ({ catId, store_id, design }: any) => {
                         <div className="flex-1">
                             <ProductSection
                                 catId={catId}
-                                open={open}
-                                grid={grid}
-                                hasMore={hasMore}
                                 paginate={paginate}
-                                setHasMore={setHasMore}
                                 page={page}
                                 setPage={setPage}
                                 isPagination={isPagination}
@@ -102,14 +92,10 @@ const CategoryThirtyNine = ({ catId, store_id, design }: any) => {
 export default CategoryThirtyNine;
 
 const ProductSection = ({
-    grid,
-    open,
     catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
@@ -133,23 +119,9 @@ const ProductSection = ({
         setPage((prevPage: number) => prevPage + 1);
     };
 
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
-
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -206,12 +178,24 @@ const ProductSection = ({
                                 style={{ height: 'auto', overflow: 'hidden' }}
                                 dataLength={infiniteProducts?.length}
                                 next={nextPageFetch}
-                                hasMore={hasMore}
-                                loader={<InfiniteLoader />}
+                                hasMore={paginate?.has_more_pages}
+                                loader={
+                                    paginate?.has_more_pages ||
+                                    categoryPageProductsFetching ||
+                                    (categoryPageProductsLoading && (
+                                        <InfiniteLoader />
+                                    ))
+                                }
                                 endMessage={
-                                    <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                        No More Products
-                                    </p>
+                                    paginate?.has_more_pages ||
+                                    categoryPageProductsFetching ||
+                                    categoryPageProductsLoading ? (
+                                        <InfiniteLoader />
+                                    ) : (
+                                        <NotFoundMsg
+                                            message={'No More Products'}
+                                        />
+                                    )
                                 }
                             >
                                 <div className="grid grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 gap-2 lg:gap-8">
@@ -237,7 +221,7 @@ const ProductSection = ({
     );
 };
 
-const Filter = ({ paginate, onChange }: any) => {
+const Filter = ({ onChange }: any) => {
     return (
         <div className="flex justify-between items-center">
             {/* Short by  */}
@@ -280,6 +264,7 @@ const SingleCat = ({ item, design }: any) => {
         border-bottom: 2px solid black;
        }
     `;
+
     return (
         <div onMouseLeave={() => setShow(false)} className="relative">
             <style>{styleCss}</style>

@@ -17,13 +17,13 @@ const Category = ({ openMenu, design, menu }: any) => {
     const styleCss = `
     .menu-hover:hover {
       color:  ${bgColor};
-  }
-    .active-menu {
-      color:  ${bgColor};
-  }
-    .text-menu {
-      color:  ${design?.text_color};
-  }
+    }
+        .active-menu {
+        color:  ${bgColor};
+    }
+        .text-menu {
+        color:  ${design?.text_color};
+    }
     `;
 
     return (

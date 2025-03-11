@@ -26,7 +26,7 @@ const SideMenu = React.memo(({ setOpen, design, menu, menuLoading }: any) => {
     const styleCss = `
     .menu-hover:hover {
       color:  ${bgColor};
-  }
+     }
     `;
 
     return (
@@ -38,11 +38,11 @@ const SideMenu = React.memo(({ setOpen, design, menu, menuLoading }: any) => {
                 ) : (
                     <>
                         {menu?.length > 0 &&
-                            menu?.map((item: any) => (
+                            menu?.slice(0, 6)?.map((item: any) => (
                                 <div key={item.id}>
                                     <Link
                                         onClick={() => setOpen(false)}
-                                        href={item?.url ? `/${item.url}` : '/'}
+                                        href={item?.custom_link ? `${item?.custom_link}` :`/${item.url}`}
                                     >
                                         <p className="menu-hover uppercase sm:text-base text-sm text-gray-500 font-medium">
                                             {item.name}

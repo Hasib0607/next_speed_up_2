@@ -4,29 +4,20 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
-
 import { imgUrl } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
 import Link from 'next/link';
 import Loading from '../loaders/loading';
-
 import { toast } from 'react-toastify';
-
 import { useLogInMutation } from '@/redux/features/auth/authApi';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
-import { RootState } from '@/redux/store';
 
 export const cls =
     'py-2 px-4 md:px-5 w-full appearance-none transition duration-150 ease-in-out border text-input text-xs lg:text-sm font-body rounded-md placeholder-body min-h-12 bg-white border-gray-300 focus:outline-none focus:border-heading h-11 md:h-12';
 
-const LoginEleven = () => {
+const LoginEleven = ({ headersetting, appStore }: any) => {
     const module_id = 120;
-    const home = useSelector((state: RootState) => state?.home);
-    const { headersetting } = home || {};
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);
     const [show, setShow] = useState(false);
@@ -116,8 +107,8 @@ const LoginEleven = () => {
                                     </h2>
                                 </div>
                                 <form onSubmit={handleSubmit(onSubmit)}>
-                                    {store?.auth_type === 'phone' ||
-                                    store?.auth_type === 'EasyOrder' ? (
+                                    {appStore?.auth_type === 'phone' ||
+                                    appStore?.auth_type === 'EasyOrder' ? (
                                         <div className="mb-6">
                                             <label
                                                 htmlFor="email"
@@ -208,7 +199,7 @@ const LoginEleven = () => {
                                     </div>
                                 </form>
 
-                                {(store?.auth_type !== 'EasyOrder' ||
+                                {(appStore?.auth_type !== 'EasyOrder' ||
                                     (moduleIdDetailSuccess &&
                                         activeModule)) && (
                                     <p className="text-base font-medium text-[#5A5A5A]">

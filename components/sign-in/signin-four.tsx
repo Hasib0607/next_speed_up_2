@@ -1,28 +1,24 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+
 import Link from 'next/link';
+import Loading from '../loaders/loading';
 import { imgUrl } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
 import { toast } from 'react-toastify';
-import { RootState } from '@/redux/store';
 import { useLogInMutation } from '@/redux/features/auth/authApi';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
-import Loading from '../loaders/loading';
 
 export const cls =
     'w-full rounded-md border border-[#E9EDF4] py-3 px-5 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-primary ';
 
-const LoginFour = () => {
+const LoginFour = ({ headersetting, appStore }: any) => {
     const module_id = 120;
-    const home = useSelector((state: RootState) => state?.home);
-    const { headersetting } = home || {};
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);
     const [show, setShow] = useState(false);
@@ -111,8 +107,8 @@ const LoginFour = () => {
                                     </h2>
                                 </div>
                                 <form onSubmit={handleSubmit(onSubmit)}>
-                                    {store?.auth_type === 'phone' ||
-                                    store?.auth_type === 'EasyOrder' ? (
+                                    {appStore?.auth_type === 'phone' ||
+                                    appStore?.auth_type === 'EasyOrder' ? (
                                         <div className="mb-6">
                                             <input
                                                 autoComplete="tel"
@@ -181,7 +177,7 @@ const LoginFour = () => {
                                 >
                                     Forgot Password?
                                 </Link>
-                                {(store?.auth_type !== 'EasyOrder' ||
+                                {(appStore?.auth_type !== 'EasyOrder' ||
                                     activeModule) && (
                                     <p className="text-base text-[#adadad]">
                                         Not a member yet?

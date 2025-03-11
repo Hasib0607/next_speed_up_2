@@ -2,25 +2,26 @@
 
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
-import PaginationComponent from '@/components/_category-page/components/pagination-new';
 import Card12 from '@/components/card/card12';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Skeleton from '@/components/loaders/skeleton';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { HiOutlineAdjustments } from 'react-icons/hi';
-import { setSort } from '@/redux/features/filters/filterSlice';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
-import { useDispatch, useSelector } from 'react-redux';
+import PaginationComponent from '@/components/paginations/pagination-new';
 import { getPathName, getSecondPathName } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
+import { setSort } from '@/redux/features/filters/filterSlice';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
+import { NotFoundMsg } from '@/utils/little-components';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { HiOutlineAdjustments } from 'react-icons/hi';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
+import InfiniteLoader from '../loaders/infinite-loader';
 import Filters from './components/filters';
 import SingleCategory from './components/single-category';
-import InfiniteLoader from '../loaders/infinite-loader';
 
 const Seven = ({ catId, store_id }: any) => {
     const module_id = 105;
@@ -35,8 +36,8 @@ const Seven = ({ catId, store_id }: any) => {
     const filtersData = useSelector((state: RootState) => state.filters);
     // get the activecolor, pricevalue, selectedSort
     const { color: activeColor, price: priceValue } = filtersData || {};
+
     const [open, setOpen] = useState(false);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
 
     // setting the initial page number
@@ -69,18 +70,7 @@ const Seven = ({ catId, store_id }: any) => {
 
     useEffect(() => {
         categoryPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        categoryPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -209,12 +199,22 @@ const Seven = ({ catId, store_id }: any) => {
                             style={{ height: 'auto', overflow: 'hidden' }}
                             dataLength={infiniteProducts?.length}
                             next={nextPageFetch}
-                            hasMore={hasMore}
-                            loader={<InfiniteLoader />}
+                            hasMore={paginate?.has_more_pages}
+                            loader={
+                                paginate?.has_more_pages ||
+                                categoryPageProductsFetching ||
+                                (categoryPageProductsLoading && (
+                                    <InfiniteLoader />
+                                ))
+                            }
                             endMessage={
-                                <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                    No More Products
-                                </p>
+                                paginate?.has_more_pages ||
+                                categoryPageProductsFetching ||
+                                categoryPageProductsLoading ? (
+                                    <InfiniteLoader />
+                                ) : (
+                                    <NotFoundMsg message={'No More Products'} />
+                                )
                             }
                         >
                             <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-3 md:gap-3 xl:grid-cols-4 grid-cols-2 gap-2">

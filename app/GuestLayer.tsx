@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { ReactNode, FC, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import useAuth from "@/hooks/useAuth";
+import { ReactNode, FC, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import useAuth from '@/hooks/useAuth';
 
 interface UnProtectedProps {
     children: ReactNode;
@@ -14,7 +14,7 @@ const GuestLayer: FC<UnProtectedProps> = ({ children }) => {
 
     useEffect(() => {
         if (isAuthenticated) {
-            router.push("/profile");
+            router.push('/profile');
         }
     }, [isAuthenticated, router]);
 
@@ -22,7 +22,7 @@ const GuestLayer: FC<UnProtectedProps> = ({ children }) => {
         return null; // Prevent rendering until redirection
     }
 
-    return <>{children}</>;
-};  
+    return children;
+};
 
 export default GuestLayer;

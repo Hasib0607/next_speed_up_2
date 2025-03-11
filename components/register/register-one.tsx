@@ -1,9 +1,9 @@
 'use client';
+
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { saveToLocalStorage } from '@/helpers/localStorage';
@@ -12,7 +12,6 @@ import {
     useRegisterByEmailMutation,
     useRegisterByPhoneMutation,
 } from '@/redux/features/auth/authApi';
-import { RootState } from '@/redux/store';
 
 const cls =
     'py-3 px-4 border border-gray-300 rounded-md placeholder:text-gray-500 text-sm focus:outline-0 w-full';
@@ -25,13 +24,9 @@ type FormValues = {
     error: string;
 };
 
-const RegisterOne = () => {
+const RegisterOne = ({ design, appStore }: any) => {
     const module_id = 120;
-    const home = useSelector((state: RootState) => state?.home);
-    const { design } = home || {};
-
-    const { store } = useSelector((state: any) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = appStore?.id || null;
 
     const router = useRouter();
 
@@ -71,7 +66,10 @@ const RegisterOne = () => {
         );
         setLoading(true);
 
-        if (store?.auth_type === 'phone' || store?.auth_type === 'EasyOrder') {
+        if (
+            appStore?.auth_type === 'phone' ||
+            appStore?.auth_type === 'EasyOrder'
+        ) {
             registerByPhone({ ...data, store_id })
                 .unwrap()
                 .then((res: any) => {
@@ -82,7 +80,7 @@ const RegisterOne = () => {
                     }
                 })
                 .catch((error: any) => {
-                    toast.error(error?.status || 'Something went wrong');
+                    toast.error(error?.data?.message || 'Something went wrong');
                     setLoading(false);
                 });
         } else {
@@ -96,7 +94,7 @@ const RegisterOne = () => {
                     }
                 })
                 .catch((error: any) => {
-                    toast.error(error?.status || 'Something went wrong');
+                    toast.error(error?.data?.message || 'Something went wrong');
                     setLoading(false);
                 });
         }
@@ -107,6 +105,7 @@ const RegisterOne = () => {
             toast.error('Failed to fetch module data. Please try again.');
         }
     }, [moduleIdDetailError]);
+
     return (
         <div className=" max-w-xl w-full mx-auto">
             <form
@@ -121,8 +120,8 @@ const RegisterOne = () => {
                     throughout this website, to manage access to your account,
                     and for other purposes described in our privacy policy
                 </p>
-                {(store?.auth_type === 'phone' ||
-                    store?.auth_type === 'EasyOrder') && (
+                {(appStore?.auth_type === 'phone' ||
+                    appStore?.auth_type === 'EasyOrder') && (
                     <div className="mb-6">
                         <input
                             autoComplete="tel"
@@ -133,7 +132,8 @@ const RegisterOne = () => {
                         />
                     </div>
                 )}
-                {store?.auth_type === 'email' && (
+
+                {appStore?.auth_type === 'email' && (
                     <div className="mb-6">
                         <input
                             autoComplete="email"
@@ -144,7 +144,8 @@ const RegisterOne = () => {
                         />
                     </div>
                 )}
-                {store?.auth_type === 'email' && (
+
+                {appStore?.auth_type === 'email' && (
                     <div className="mb-6 relative">
                         <input
                             autoComplete="new-password"

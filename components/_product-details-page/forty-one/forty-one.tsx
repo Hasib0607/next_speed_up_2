@@ -1,4 +1,5 @@
 'use client';
+
 import Skeleton from '@/components/loaders/skeleton';
 import { numberParser } from '@/helpers/numberParser';
 import {
@@ -22,7 +23,7 @@ import DetailsFortyOne from './details-forty-one';
 import { NotFoundMsg } from '@/utils/little-components';
 import VideoPlayer from '../components/video-player';
 
-const FortyOne = ({ store_id, productId, design }: any) => {
+const FortyOne = ({ store_id, productId, design, headersetting }: any) => {
     const {
         data: productDetailsData,
         isLoading: productDetailsLoading,
@@ -86,7 +87,11 @@ const FortyOne = ({ store_id, productId, design }: any) => {
             <div className="">
                 <div className="sm:container px-5 sm:py-10 py-5">
                     {detailsContentSkeleton}
-                    <DetailsFortyOne design={design} product={product} />
+                    <DetailsFortyOne
+                        design={design}
+                        product={product}
+                        headersetting={headersetting}
+                    />
                 </div>
                 {/* ************************ tab component start ***************************** */}
                 <div className="my-10 bg-gray-100 sm:py-10 py-5">
@@ -183,27 +188,27 @@ const Related = ({ product, design }: any) => {
     const nextEl = 'feature-product-next';
 
     const styleCss = `
-.feature-product-prev {
-  color:  ${design?.header_color};
-  border: 1px solid ${design?.header_color};
-}
-.feature-product-next{
+    .feature-product-prev {
     color:  ${design?.header_color};
     border: 1px solid ${design?.header_color};
-}
-.feature-product-prev:hover {
-  color:  ${design?.text_color};
-  background: ${design?.header_color};
-}
-.feature-product-next:hover {
-  color:  ${design?.text_color};
-  background: ${design?.header_color};
-}
-.arrow-hov:hover .arrow {
-opacity:1;
-background: white;
-}
-`;
+    }
+    .feature-product-next{
+        color:  ${design?.header_color};
+        border: 1px solid ${design?.header_color};
+    }
+    .feature-product-prev:hover {
+    color:  ${design?.text_color};
+    background: ${design?.header_color};
+    }
+    .feature-product-next:hover {
+    color:  ${design?.text_color};
+    background: ${design?.header_color};
+    }
+    .arrow-hov:hover .arrow {
+    opacity:1;
+    background: white;
+    }
+    `;
 
     return (
         <div className="pb-10 w-full">

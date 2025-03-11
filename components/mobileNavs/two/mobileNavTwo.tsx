@@ -145,7 +145,7 @@ const MobileNavTwo = ({ design }: MobileNavProps) => {
                                 <p className="text-xs">{cartList.length}</p>
                             </div>
                         )}
-                        <CartSideBar open={openCart} setOpen={setOpenCart} />
+                        <CartSideBar open={openCart} setOpen={setOpenCart} design={design}/>
                     </div>
                 </div>
                 <div className="group">
@@ -199,7 +199,9 @@ const MobileNavTwo = ({ design }: MobileNavProps) => {
             </div>
 
             <AnimatePresence>
-                {searchshow && <SearchDiv setSearchshow={setSearchshow} />}
+                {searchshow && (
+                    <SearchDiv setSearchshow={setSearchshow} design={design} />
+                )}
             </AnimatePresence>
         </>
     );
@@ -209,9 +211,10 @@ export default MobileNavTwo;
 
 interface SearchDivProps {
     setSearchshow: React.Dispatch<React.SetStateAction<boolean>>;
+    design: any;
 }
 
-const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow }) => {
+const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow, design }) => {
     const [searchTxt, setSearch] = useState('');
 
     return (
@@ -248,7 +251,11 @@ const SearchDiv: React.FC<SearchDivProps> = ({ setSearchshow }) => {
                 </div>
                 {searchTxt && (
                     <div className="absolute z-20 top-4 xl:right-0 -right-24 w-full rounded-md">
-                        <Search3 search={searchTxt} setSearch={setSearch} />
+                        <Search3
+                            search={searchTxt}
+                            setSearch={setSearch}
+                            design={design}
+                        />
                     </div>
                 )}
             </motion.div>

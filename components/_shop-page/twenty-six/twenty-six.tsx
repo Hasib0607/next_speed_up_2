@@ -1,10 +1,10 @@
 'use client';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
-import Pagination from '@/components/_category-page/components/pagination';
 import Card56 from '@/components/card/card56';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
 import Skeleton from '@/components/loaders/skeleton';
+import Pagination from '@/components/paginations/pagination';
 import { numberParser } from '@/helpers/numberParser';
 import { setSort } from '@/redux/features/filters/filterSlice';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';

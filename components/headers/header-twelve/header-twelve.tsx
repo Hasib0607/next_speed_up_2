@@ -1,7 +1,7 @@
 'use client';
+
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useEffect, useState } from 'react';
-
 import { headerBg } from '@/site-settings/color';
 import { imgUrl } from '@/site-settings/siteUrl';
 import {
@@ -25,7 +25,6 @@ import {
     IoLogoWhatsapp,
     IoSearchCircleOutline,
 } from 'react-icons/io5';
-
 import HeaderCatTwelve from './header-cat-twelve';
 import './header-twelve.css';
 import Search3 from '../components/search3';
@@ -38,8 +37,10 @@ import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-const HeaderTwelve = ({ design, menu, headersetting, cartList }: any) => {
+const HeaderTwelve = ({ design, menu, headersetting }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
@@ -73,24 +74,26 @@ const HeaderTwelve = ({ design, menu, headersetting, cartList }: any) => {
     // CSS START FROM HERE
     const bgColor = design?.header_color;
 
+    const cartList = useSelector((state: RootState) => state.cart.cartList);
+
     const styleCss = `
     @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin&display=swap');
 
     .all-hover:hover {
       color:  ${design?.text_color};
       background: ${design?.header_color};
-  }
-    .menu-hover:hover {
-      color:  ${design?.header_color};
-  }
-  
-  .font-twelve {
-    font-family: 'Libre Franklin', sans-serif;
-  }
+    }
+        .menu-hover:hover {
+        color:  ${design?.header_color};
+    }
+    
+    .font-twelve {
+        font-family: 'Libre Franklin', sans-serif;
+    }
 
-  h1, p, span, button, li, ul {
-    font-family: 'Libre Franklin', sans-serif;
-  }
+    h1, p, span, button, li, ul {
+        font-family: 'Libre Franklin', sans-serif;
+    }
     `;
 
     return (
@@ -479,7 +482,7 @@ const HeaderTwelve = ({ design, menu, headersetting, cartList }: any) => {
                 </div>
                 {searchTxt && (
                     <div className="left-[15px] right-[15px] absolute top-28  z-50">
-                        <Search3 search={searchTxt} setSearch={setSearch} />
+                        <Search3 search={searchTxt} setSearch={setSearch} design={design}/>
                     </div>
                 )}
             </div>

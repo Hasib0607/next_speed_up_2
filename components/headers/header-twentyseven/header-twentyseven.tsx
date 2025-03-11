@@ -4,9 +4,7 @@ import React, { Fragment } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { RiShoppingBagLine } from 'react-icons/ri';
 import { useState } from 'react';
-
 import { HiMenu } from 'react-icons/hi';
-
 import Link from 'next/link';
 import { imgUrl } from '@/site-settings/siteUrl';
 import Search3 from '../components/search3';
@@ -14,7 +12,6 @@ import { IoSearchOutline } from 'react-icons/io5';
 import { Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import SideMenu from '../components/side-menu';
-import defaultUserImage from '@/assets/default-user-image.png';
 import { classNames } from '@/helpers/littleSpicy';
 import { CartSideBar } from '@/components/_shopping-cart/three/cart-popup-three';
 import { useRouter } from 'next/navigation';
@@ -96,7 +93,11 @@ const HeaderTwentySeven = ({ headersetting, design, menu }: any) => {
     return (
         <div className="sticky z-[5] top-0 left-0 h-20 flex items-center bg-white w-full">
             {/* CartSideBar open  */}
-            <CartSideBar open={openCart} setOpen={setOpenCart} />
+            <CartSideBar
+                open={openCart}
+                setOpen={setOpenCart}
+                design={design}
+            />
             <style>{styleCss}</style>
             <div className="flex items-center justify-between sm:container px-5 w-full">
                 <div className={`h-16`}>
@@ -159,6 +160,7 @@ const HeaderTwentySeven = ({ headersetting, design, menu }: any) => {
                             {searchTxt && (
                                 <div className="absolute z-20 top-4 -right-48 w-[800px]">
                                     <Search3
+                                    design={design}
                                         search={searchTxt}
                                         setSearch={setSearch}
                                     />
@@ -184,7 +186,7 @@ const HeaderTwentySeven = ({ headersetting, design, menu }: any) => {
                                 <div>
                                     <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none">
                                         <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
-                                            {user?.image || user?.social_img ? (
+                                            {isAuthenticated ? (
                                                 <img
                                                     src={
                                                         user?.image
@@ -195,11 +197,13 @@ const HeaderTwentySeven = ({ headersetting, design, menu }: any) => {
                                                     className="object-fit"
                                                 />
                                             ) : (
-                                                <img
-                                                    src={defaultUserImage.src}
-                                                    alt="user"
-                                                    className="object-fit"
-                                                />
+                                                <svg
+                                                    className="h-full w-full text-gray-300"
+                                                    fill="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                                </svg>
                                             )}
                                         </span>
                                     </Menu.Button>

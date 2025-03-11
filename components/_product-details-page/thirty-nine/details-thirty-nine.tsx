@@ -24,9 +24,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { HSlider } from '../components/slider';
 import AddCartBtn from '../components/add-cart-btn';
 
-const DetailsThirtyNine = ({ design, product, children, buttonStyle }: any) => {
-    const { headersetting } = useSelector((state: RootState) => state.home);
-
+const DetailsThirtyNine = ({
+    design,
+    product,
+    children,
+    buttonStyle,
+    headersetting,
+}: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
 
@@ -161,10 +165,11 @@ const DetailsThirtyNine = ({ design, product, children, buttonStyle }: any) => {
         });
     }, [variant, size, color, unit, currentVariation]);
 
-    const price = productCurrentPrice(product);
+    const price = useMemo(
+        () => productCurrentPrice(product, variantId),
+        [product, variantId]
+    );
     const save = howMuchSave(product);
-    const parsedRating = numberParser(product?.rating, true);
-    const parsedNumberRating = numberParser(product?.number_rating);
 
     const handleAddToCart = () => {
         addToCart({
@@ -245,7 +250,7 @@ const DetailsThirtyNine = ({ design, product, children, buttonStyle }: any) => {
                         setActiveImg={setActiveImg}
                     />
                 </div>
-                <div className="md:col-span-4 space-y-3 sticky top-20 h-max mt-3 md:mt-40">
+                <div className="md:col-span-4 space-y-3 sticky top-20 h-max mt-3">
                     <h2 className="lg:text-3xl text-2xl text-[#212121] font-semibold">
                         {product?.name}
                     </h2>
@@ -330,7 +335,7 @@ const DetailsThirtyNine = ({ design, product, children, buttonStyle }: any) => {
                         </div>
                         <div className="text-[#5a5a5a] text-sm">
                             {productQuantity !== 0 ? (
-                                <p>
+                                <p className="space-x-2">
                                     <span className="font-medium">
                                         {productQuantity}
                                     </span>

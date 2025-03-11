@@ -151,4 +151,7 @@ export const feature_categories: any = {
     forty: dynamic(
         () => import('@/components/_homepage/featured-category/featured-forty')
     ),
+    fortythree: dynamic(
+        () => import('@/components/_homepage/featured-category/featuredcat-fortythree')
+    ),
 };
