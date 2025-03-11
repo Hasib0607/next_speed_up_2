@@ -8,8 +8,7 @@ import { RotatingLines } from 'react-loader-spinner';
 import SingleAddress from '@/components/_checkout-page/_components/single-address/single-address';
 import useAuth from '@/hooks/useAuth';
 import QuickView from '@/utils/quick-view';
-import CheckoutFromFortyfour from '../../_components/checkout-from-fortyfour';
-// import CheckoutFromFortyfour from '@/components/_checkout-page/_components/checkout-from-forty-four';
+import CheckoutFromFortyfour from '@/components/_checkout-page/_components/checkout-from-forty-four';
 
 const AddressFortyFour = ({
     design,

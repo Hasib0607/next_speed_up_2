@@ -17,7 +17,7 @@ export default async function getDomain() {
         return url;
     }
 
-    // url = 'nexmanbd.com';
+    // url = 'zlandretail.co.nz';
     // url = 'kc.design';
     // url = "swifttrading.store";
     // url = "mytimebd.store";
