@@ -1,3 +1,4 @@
+import { FORTY_THREE } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const all_products: any = {
@@ -80,5 +81,8 @@ export const all_products: any = {
     ),
     fortyone: dynamic(
         () => import('@/components/_homepage/product/product-fortyone')
+    ),
+    [FORTY_THREE]: dynamic(
+        () => import('@/components/_homepage/product/product-fortythree')
     ),
 };

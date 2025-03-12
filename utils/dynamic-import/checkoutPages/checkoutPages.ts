@@ -162,6 +162,9 @@ export const checkout_pages: any = {
     [FORTY]: dynamic(
         () => import('@/components/_checkout-page/forty/checkout-forty')
     ),
+    [FORTY_THREE]: dynamic(
+        () => import('@/components/_checkout-page/forty-three/checkout-fortythree')
+    ),
     [FORTY_FOUR]: dynamic(
         () => import('@/components/_checkout-page/forty-four/checkout-forty-four')
     ),

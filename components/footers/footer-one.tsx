@@ -1,27 +1,30 @@
-import Link from 'next/link';
+'use client';
+
+import { FaFacebookF } from 'react-icons/fa';
 import {
     AiFillLinkedin,
     AiFillYoutube,
     AiOutlineWhatsApp,
 } from 'react-icons/ai';
-import { FaFacebookF } from 'react-icons/fa';
 import { RiInstagramLine } from 'react-icons/ri';
-import MenuList from './components/menu-list';
 import Newsletter from './components/newsletter';
+import Link from 'next/link';
+import MenuList from './components/menu-list';
 import WhatsApp from './components/whatsApp';
+import AllPaymantGateway from './components/all-payment-gateway';
+import PageList from './components/page-list';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 import MotionLink from '@/utils/motion-link';
 
-const FooterOne = ({
-    category,
-    headersetting,
-    design,
-    store_id,
-    menu,
-    page,
-}: any) => {
+const FooterOne = ({ headersetting, design, menu, page }: any) => {
+    const store_id = design?.store_id || null;
+
     const date = new Date().getFullYear();
 
     const cls = 'hover:ml-2 duration-500';
+
+    const { data: categoryData } = useGetCategoryQuery({});
+    const category = categoryData?.data || [];
 
     return (
         <footer className="text-gray-600 body-font ">
@@ -53,7 +56,15 @@ const FooterOne = ({
                             Menu
                         </h2>
                         <nav className="list-none mb-10 space-y-2">
-                            <MenuList cls={cls} menu={menu} page={page} />
+                            <MenuList cls={cls} menu={menu} />
+                        </nav>
+                    </div>
+                    <div className="lg:w-1/6 md:w-1/2 w-full px-4">
+                        <h2 className=" font-semibold text-gray-900 tracking-widest text-xl mb-3">
+                            Legal
+                        </h2>
+                        <nav className="list-none mb-10 space-y-2">
+                            <PageList cls={cls} page={page} />
                         </nav>
                     </div>
                     <div className="lg:w-1/6 md:w-1/2 w-full px-4">
@@ -73,7 +84,7 @@ const FooterOne = ({
                         </nav>
                     </div>
 
-                    <div className="lg:w-2/6 md:w-1/2 w-full px-4 flex justify-center md:justify-end">
+                    <div className="lg:w-1/6 md:w-1/2 w-full px-4 flex justify-center md:justify-end">
                         <div className="flex flex-col items-center">
                             <h2 className=" font-semibold text-gray-900 tracking-widest text-xl mb-3">
                                 Follow Us
@@ -83,7 +94,7 @@ const FooterOne = ({
                                 <div className="flex gap-2 my-3 justify-center ">
                                     {headersetting?.facebook_link && (
                                         <div
-                                            className=" p-2"
+                                            className="p-2"
                                             style={{
                                                 background:
                                                     design?.header_color,
@@ -102,7 +113,7 @@ const FooterOne = ({
                                     )}
                                     {headersetting?.youtube_link && (
                                         <div
-                                            className="  p-2"
+                                            className="p-2"
                                             style={{
                                                 background:
                                                     design?.header_color,
@@ -121,7 +132,7 @@ const FooterOne = ({
                                     )}
                                     {headersetting?.instagram_link && (
                                         <div
-                                            className="  p-2"
+                                            className="p-2"
                                             style={{
                                                 background:
                                                     design?.header_color,
@@ -140,7 +151,7 @@ const FooterOne = ({
                                     )}
                                     {headersetting?.lined_in_link && (
                                         <div
-                                            className="  p-2"
+                                            className="p-2"
                                             style={{
                                                 background:
                                                     design?.header_color,
@@ -159,7 +170,7 @@ const FooterOne = ({
                                     )}
                                     {headersetting?.whatsapp_phone && (
                                         <div
-                                            className="  p-2"
+                                            className="p-2"
                                             style={{
                                                 background:
                                                     design?.header_color,
@@ -185,43 +196,30 @@ const FooterOne = ({
                     </div>
                 </div>
             </div>
-            <div className="sm:container px-5">
-                <img
-                    src={
-                        'https://bishworang.netlify.app/static/media/SSLCOMMERZ%20Pay%20With%20logo%20All%20Size_Aug%2021-05-Nov-18-2021-05-46-29-86-AM%20(1).407b60596845fa47cd55.png'
-                    }
-                    className="container"
-                    alt=""
-                />
+            <div className="sm:container px-5 mt-8">
+                <AllPaymantGateway headersetting={headersetting} />
             </div>
             <div className="bg-gray-100 mb-14 lg:mb-0">
                 <div className="sm:container px-5 py-4 flex flex-wrap justify-center">
-                    <p className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm">
-                        <span>
-                        © {date} All Rights Received
-                        </span>
+                    <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm">
+                        © {date} All Rights Reserved{' '}
                         <Link
                             href="/"
                             className="font-semibold text-red-700 menu-hover"
                         >
                             {headersetting?.website_name}
-                        </Link>
-                        <span>
-                        | Developed by
-                        </span>
-                        <Link
-                            href="https://ebitans.com/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-semibold text-red-700 menu-hover"
-                        >
-                            eBitans
-                        </Link>
-                    </p>
+                        </Link>{' '}
+                        | Developed by{' '}
+                        <a href="https://ebitans.com/" target="_blank">
+                            <span className="font-semibold text-red-700">
+                                eBitans{' '}
+                            </span>
+                        </a>
+                    </span>
                 </div>
             </div>
             {/* <Messenger /> */}
-            <WhatsApp headersetting={headersetting} />
+            <WhatsApp />
         </footer>
     );
 };

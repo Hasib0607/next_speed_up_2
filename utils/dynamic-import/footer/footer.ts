@@ -1,3 +1,4 @@
+import { FORTY_THREE } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const footers: any = {
@@ -57,4 +58,5 @@ export const footers: any = {
         () => import('@/components/footers/footer-thirtyeight')
     ),
     forty: dynamic(() => import('@/components/footers/footer-forty')),
+    [FORTY_THREE]: dynamic(() => import('@/components/footers/footer-fortythree')),
 };

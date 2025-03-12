@@ -1,3 +1,4 @@
+import { FORTY_THREE } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const hero: any = {
@@ -84,5 +85,8 @@ export const hero: any = {
     ),
     thirtynine: dynamic(
         () => import('@/components/_homepage/hero/hero-thirty-nine')
+    ),
+    [FORTY_THREE]: dynamic(
+        () => import('@/components/_homepage/hero/hero-fortythree')
     ),
 };

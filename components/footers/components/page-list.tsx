@@ -2,13 +2,14 @@ import Link from 'next/link';
 import React from 'react';
 
 const PageList = ({ cls, page }: any) => {
-    return page?.map((m: any) => (
-        <p key={m?.id}>
-            <Link href={'/' + m?.link} className={cls}>
-                {m?.name}
+    return (
+        page?.length > 0 &&
+        page?.map((m: any) => (
+            <Link href={'/' + m?.link} key={m?.id}>
+                <p className={cls}>{m?.name}</p>
             </Link>
-        </p>
-    ));
+        ))
+    );
 };
 
 export default PageList;

@@ -1,6 +1,6 @@
 'use client';
 
-import { footers } from '@/utils/dynamic-import/_homepageSections/footer/footer';
+import { footers } from '@/utils/dynamic-import/footer/footer';
 import { useGetPageQuery } from '@/redux/features/page/pageApi';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 

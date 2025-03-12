@@ -9,22 +9,27 @@ import { toast } from 'react-toastify';
 const Newsletter = ({ headersetting, store_id }: any) => {
     const emailRef = useRef<any>(null);
 
-    const [subscribeNewsletter] = useSubscribeNewsletterMutation()
+    const [subscribeNewsletter] = useSubscribeNewsletterMutation();
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        
+
         const email = emailRef.current.value;
 
         async function fetchData() {
-            subscribeNewsletter({store_id,email})
-            .unwrap()
+            subscribeNewsletter({ store_id, email })
+                .unwrap()
                 .then((res: any) => {
                     if (res?.error) {
-                        toast.success(res?.error || 'Your email has already been taken');
+                        toast.success(
+                            res?.error || 'Your email has already been taken'
+                        );
                         emailRef.current.value = '';
-                    }else{
-                        toast.success(res?.message || 'Successfully Subscribe to Our Newsletter');
+                    } else {
+                        toast.success(
+                            res?.message ||
+                                'Successfully Subscribe to Our Newsletter'
+                        );
                         emailRef.current.value = '';
                     }
                 })

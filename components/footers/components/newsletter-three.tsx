@@ -8,22 +8,27 @@ import { toast } from 'react-toastify';
 const NewsletterThree = ({ store_id }: any) => {
     const emailRef = useRef<any>(null);
 
-    const [subscribeNewsletter] = useSubscribeNewsletterMutation()
+    const [subscribeNewsletter] = useSubscribeNewsletterMutation();
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        
+
         const email = emailRef.current.value;
 
         async function fetchData() {
-            subscribeNewsletter({store_id,email})
-            .unwrap()
+            subscribeNewsletter({ store_id, email })
+                .unwrap()
                 .then((res: any) => {
                     if (res?.error) {
-                        toast.success(res?.error || 'Your email has already been taken');
+                        toast.success(
+                            res?.error || 'Your email has already been taken'
+                        );
                         emailRef.current.value = '';
-                    }else{
-                        toast.success(res?.message || 'Successfully Subscribe to Our Newsletter');
+                    } else {
+                        toast.success(
+                            res?.message ||
+                                'Successfully Subscribe to Our Newsletter'
+                        );
                         emailRef.current.value = '';
                     }
                 })
@@ -35,7 +40,7 @@ const NewsletterThree = ({ store_id }: any) => {
             fetchData();
         }
     };
-    
+
     return (
         <div>
             <div className="flex flex-col gap-y-3 lg:flex-row justify-between lg:gap-x-3 bg-black rounded-lg py-10 overflow-hidden items-center mb-10 ">
