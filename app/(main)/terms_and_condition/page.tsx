@@ -18,6 +18,7 @@ export async function generateMetadata() {
     };
 }
 
+
 export default async function TermsAndConditionPage() {
     const design = await getDesign();
     const menu = await getMenu();

@@ -1,6 +1,5 @@
 'use client';
 
-import { removeFromCartList } from '@/redux/features/cart/cartSlice';
 import FileUploadModal from '@/utils/FileUploadModal';
 import { CrossCircledIcon } from '@radix-ui/react-icons';
 import { productImg } from '@/site-settings/siteUrl';
@@ -284,13 +283,8 @@ const YourOrders = ({
 
     return (
         <div
-            className={`${
-                design?.template_id === '34'
-                    ? 'bg-thirty-one border border-white'
-                    : 'bg-gray-200 '
-            } sm:rounded-md`}
         >
-            <h3 className="text-base text-black bg-[#FAEBD7] p-5">Products</h3>
+            <h3 className="text-base text-black bg-[#FAEBD7] p-5 block md:hidden">Order Summary</h3>
             {cartList ? (
                 <div className="my-5">
                     <div className="flex flex-col justify-between pt-5">
@@ -327,10 +321,7 @@ const YourOrders = ({
             >
                 <div className="flex justify-between items-center">
                     <p>
-                        {design?.checkout_page === TWENTY_EIGHT ||
-                        design?.template_id === '29'
-                            ? 'সাব টোটাল'
-                            : 'Sub Total'}
+                        {'Sub Total'}
                     </p>
                     <p>
                         <BDT price={numberParser(total)} />
@@ -338,10 +329,7 @@ const YourOrders = ({
                 </div>
                 <div className="flex justify-between items-center">
                     <p>
-                        {design?.checkout_page === TWENTY_EIGHT ||
-                        design?.template_id === '29'
-                            ? 'ডিসকাউন্ট'
-                            : 'Discount'}
+                        {'Discount'}
                     </p>
                     <p>
                         <BDT price={totalDis} />
@@ -367,10 +355,7 @@ const YourOrders = ({
 
                 <div className="flex justify-between items-center">
                     <p>
-                        {design?.checkout_page === TWENTY_EIGHT ||
-                        design?.template_id === '29'
-                            ? 'ট্যাক্স'
-                            : 'Tax'}
+                        {'Tax'}
                     </p>
                     <p>
                         <BDT price={numberParser(tax)} />
@@ -378,10 +363,7 @@ const YourOrders = ({
                 </div>
                 <div className="flex justify-between items-center">
                     <p>
-                        {design?.checkout_page === TWENTY_EIGHT ||
-                        design?.template_id === '29'
-                            ? 'এস্টিমেটেড শিপিং'
-                            : 'Estimated Shipping'}
+                        {'Estimated Shipping'}
                     </p>
                     {shippingArea === '--Select Area--' ||
                     shippingArea === null ? (
@@ -394,13 +376,9 @@ const YourOrders = ({
                         </p>
                     )}
                 </div>
-                <div className="h-[2px] w-full bg-gray-300 mt-4 mb-2"></div>
-                <div className="flex justify-between items-center  font-semibold">
+                <div className="flex justify-between items-center font-semibold mt-4">
                     <p>
-                        {design?.checkout_page === TWENTY_EIGHT ||
-                        design?.template_id === '29'
-                            ? 'মোট'
-                            : 'Total'}
+                        {'Total'}
                     </p>
 
                     <p>
@@ -409,34 +387,18 @@ const YourOrders = ({
                 </div>
             </div>
 
-            {store_id === 3020 && (
-                <div className="my-2 px-5">
-                    <p className="px-2">
-                        <span className="my-1 font-bold">
-                            Bkash/Nagad/Upay/Rocket (
-                            <span className="text-sm">Advanced Personal</span>)
-                            -{' '}
-                        </span>{' '}
-                        01660003040
-                    </p>
-                </div>
-            )}
             <div className="p-5">
                 {isLoading ? (
-                    <div className="flex justify-center items-center font-semibold tracking-wider my-1 rounded-full border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] border-gray-300 w-full py-3">
+                    <div className="flex justify-center items-center font-semibold tracking-wider my-1 rounded-lg border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] border-gray-300 w-full py-3">
                         Loading
                     </div>
                 ) : (
                     <button
                         disabled={!isAbleToOrder}
-                        className={`flex justify-center items-center font-semibold tracking-wider my-1 rounded-full border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] hover:bg-transparent border-gray-300 w-full py-3 disabled:border disabled:bg-gray-400 disabled:cursor-not-allowed disabled:border-gray-300  ${!isAbleToOrder ? btnhover : null}`}
+                        className={`flex justify-center items-center font-semibold tracking-wider my-1 rounded-lg border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] hover:bg-transparent border-gray-300 w-full py-3 disabled:border disabled:bg-gray-400 disabled:cursor-not-allowed disabled:border-gray-300  ${!isAbleToOrder ? btnhover : null}`}
                         onClick={handleCheckout}
                     >
-                        {design?.template_id === '29' ||
-                        store_id === 3601 ||
-                        design?.checkout_page === TWENTY_EIGHT
-                            ? 'অর্ডার কনফার্ম করুন'
-                            : 'Place Order'}
+                        {'Place Order'}
                     </button>
                 )}
             </div>
@@ -474,9 +436,9 @@ const Single = ({ item, setIsOpen, files, cartId, store_id }: any) => {
     const file = files.some((i: any) => i.cartId === cartId);
 
     return (
-        <div className="flex flex-col sm:flex-row justify-start sm:justify-between space-y-2 space-x-1 sm:items-center border-b-2 border-gray-300 py-2 ">
+        <div className="flex sm:flex-row justify-between sm:justify-between space-y-2 space-x-1 sm:items-center py-2 ">
             <div className="flex items-center gap-2">
-                <div className="w-14 relative">
+                <div className="w-14 relative border rounded-md">
                     <img
                         className="w-14 h-14"
                         src={productImg + item.image[0]}
@@ -523,18 +485,18 @@ const Single = ({ item, setIsOpen, files, cartId, store_id }: any) => {
                 </div>
             </div>
 
-            <div className="flex items-center gap-x-5 justify-end">
-                <div className="text-md font-semibold">
+            <div className="flex items-center gap-x-5 justify-end pr-4">
+                <div className="text-md ">
                     <BDT price={item?.price * item?.qty} />
                 </div>
-                <div className="">
+                {/* <div className="">
                     <MdDelete
                         onClick={() =>
                             dispatch(removeFromCartList(item?.cartId))
                         }
                         className="text-2xl lg:cursor-pointer"
                     />
-                </div>
+                </div> */}
                 {activeModule && (
                     <button
                         onClick={() => openModal()}

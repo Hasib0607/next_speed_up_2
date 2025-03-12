@@ -27,7 +27,6 @@ const DiscountFortyThree = ({
     shippingColOne,
     shippingOff,
     select,
-    bn,
 }: any) => {
     const {
         register,
@@ -214,9 +213,9 @@ const DiscountFortyThree = ({
                 design?.template_id === '34'
                     ? 'bg-thirty-one border border-white'
                     : 'bg-white'
-            } sm:rounded-md sm:overflow-hidden my-5 ml-7`}
+            } sm:rounded-md sm:overflow-hidden my-5 ml-5`}
         >
-            <div className="px-4 space-y-6 sm:p-6">
+            <div className=" space-y-6 sm:p-6">
                 <div
                     className={
                         select
@@ -249,7 +248,7 @@ const DiscountFortyThree = ({
                                                 } as ChangeEvent<HTMLInputElement>;
                                                 handleShippingChange(event);
                                             }}
-                                            className={`w-full flex items-center justify-between px-4 py-2 text-lg font-semibold border rounded-lg transition-colors
+                                            className={`w-full flex items-center justify-between px-4 py-2 font-semibold border rounded-lg transition-colors
                 ${
                     selectedShippingArea === '1'
                         ? 'bg-[var(--header-color)] border-[var(--header-color)]'
@@ -280,7 +279,7 @@ const DiscountFortyThree = ({
                                                 } as ChangeEvent<HTMLInputElement>;
                                                 handleShippingChange(event);
                                             }}
-                                            className={`w-full flex items-center justify-between px-4 py-2 text-lg font-semibold border rounded-lg transition-colors
+                                            className={`w-full flex items-center justify-between px-4 py-2 font-semibold border rounded-lg transition-colors
                 ${
                     selectedShippingArea === '2'
                         ? 'bg-[var(--header-color)] border-[var(--header-color)]'
@@ -311,7 +310,7 @@ const DiscountFortyThree = ({
                                                 } as ChangeEvent<HTMLInputElement>;
                                                 handleShippingChange(event);
                                             }}
-                                            className={`w-full flex items-center justify-between px-4 py-2 text-lg font-semibold border rounded-lg transition-colors
+                                            className={`w-full flex items-center justify-between px-4 py-2 font-semibold border rounded-lg transition-colors
                 ${
                     selectedShippingArea === '3'
                         ? 'bg-[var(--header-color)] border-[var(--header-color)]'

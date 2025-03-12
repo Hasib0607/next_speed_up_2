@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers';
 import Offer from '@/components/Offer';
 import { imgUrl } from '@/site-settings/siteUrl';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
