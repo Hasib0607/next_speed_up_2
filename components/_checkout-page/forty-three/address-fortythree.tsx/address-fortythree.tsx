@@ -5,6 +5,7 @@ import { useGetAddressQuery } from '@/redux/features/checkOut/checkOutApi';
 import { useEffect, useState } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
 import SingleAddress from '@/components/_checkout-page/_components/single-address/single-address';
+import { ONE, TWENTY_EIGHT } from '@/consts';
 import useAuth from '@/hooks/useAuth';
 import QuickView from '@/utils/quick-view';
 import CheckoutFormFortyThree from '../checkout-form-fortythree/checkout-form-fortythree';
@@ -55,7 +56,7 @@ const AddressFortyThree = ({
 
     if (addressSuccess && !addressLoading) {
         addressCards = (
-            <div className="grid xl:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 grid-cols-1 gap-4 md:ml-5">
+            <div className="grid xl:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 grid-cols-1 gap-4">
                 {addressArr
                     ?.slice(0, 4)
                     ?.map((item: any, index: number) => (
@@ -98,11 +99,13 @@ const AddressFortyThree = ({
     return (
         <>
             <div className={className ? className : 'col-span-6 sm:col-span-4'}>
-                <div className="flex justify-between items-center">
-                    {
+                <div className="flex justify-between items-center pb-3">
+                    {design?.template_id === '29' ||
+                    design?.checkout_page === TWENTY_EIGHT ||
+                    design?.checkout_page === ONE ||
                         <label
                             htmlFor="name"
-                            className="block text-md md:text-xl font-semibold text-gray-700 md:ml-7"
+                            className="block text-md md:text-xl font-semibold text-gray-700 ml-3 md:ml-7"
                         >
                             Delivery
                         </label>

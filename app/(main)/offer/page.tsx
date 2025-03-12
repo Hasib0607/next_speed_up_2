@@ -7,6 +7,7 @@ import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 
 import React from 'react';
 import EbitansAnalytics from '@/components/EbitansAnalytics';
+import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
 
 export async function generateMetadata() {
     const headersetting = await getHeaderSetting();
@@ -21,15 +22,15 @@ export async function generateMetadata() {
 export default async function OfferPage() {
     const design = await getDesign();
     const headersetting = await getHeaderSetting();
-    const referrer =
-        (await cookies()).get('referrer')?.value || 'No referrer found';
+    const userData = await getUserDataFromCookies();
+
     return (
         <>
             <Offer design={design} />;
             <EbitansAnalytics
                 design={design}
                 headersetting={headersetting}
-                referrer={referrer}
+                userData={userData}
             />
         </>
     );

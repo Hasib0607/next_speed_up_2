@@ -1,5 +1,7 @@
 import CustomPage from '@/components/CustomPage';
+import EbitansAnalytics from '@/components/EbitansAnalytics';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
+import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
 import { imgUrl } from '@/site-settings/siteUrl';
 import getDesign from '@/utils/fetcher/getDesign';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
@@ -20,6 +22,17 @@ export default async function ReturnPolicyPage() {
     const design = await getDesign();
     const menu = await getMenu();
     const page = await getPage();
+    const headersetting = await getHeaderSetting();
+    const userData = await getUserDataFromCookies();
 
-    return <CustomPage design={design} menu={menu} page={page} />;
+    return (
+        <>
+            <CustomPage design={design} menu={menu} page={page} />
+            <EbitansAnalytics
+                design={design}
+                headersetting={headersetting}
+                userData={userData}
+            />
+        </>
+    );
 }

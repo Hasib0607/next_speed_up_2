@@ -7,8 +7,13 @@ import { usePostEbitansAnalyticsMutation } from '@/redux/features/analytics/anal
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 
-const EbitansAnalytics = ({ design, headersetting, referrer }: any) => {
-
+const EbitansAnalytics = ({
+    design,
+    headersetting,
+    userData,
+    productId = '',
+    categoryId = '',
+}: any) => {
     const store_id = design?.store_id || null;
     const { address, fetchAddress } = useGeoLocation();
     const { browser } = useBrowserInfo();
@@ -38,11 +43,6 @@ const EbitansAnalytics = ({ design, headersetting, referrer }: any) => {
     const [countryCode, setCountryCode] = useState('');
     const [city, setCity] = useState('');
     const [zipCode, setZipCode] = useState('');
-
-    // for product and category
-
-    const [categoryId, setCategoryId] = useState('');
-    const [productId, setProductId] = useState('');
 
     useEffect(() => {
         if (name) {
@@ -80,13 +80,13 @@ const EbitansAnalytics = ({ design, headersetting, referrer }: any) => {
                 // }
 
                 const data = await response.json();
+                const [lat, lon] = data.loc.split(',', 2);
                 // console.log('IP Data:', data.ipString);
-                setIP(data.ip);
                 setState(data.region);
                 setLocation(data.loc);
                 setZipCode(data.postal);
-                // setLatitude(data.latitude);
-                // setLongitude(data.longitude);
+                setLatitude(lat);
+                setLongitude(lon);
                 // setCountryName(data.country_name);
                 setCountryCode(data.country);
                 setCity(data.city);
@@ -94,16 +94,16 @@ const EbitansAnalytics = ({ design, headersetting, referrer }: any) => {
                 console.error('Error fetching data:', error);
             }
         };
-
-        setReferPageUrl(referrer);
+        setIP(userData?.ip);
+        setReferPageUrl(userData?.referrer);
         getData();
-    }, [setReferPageUrl, referrer]);
+    }, [setReferPageUrl, userData]);
 
     const [postEbitansAnalytics] = usePostEbitansAnalyticsMutation();
 
     // user info
     useEffect(() => {
-        let analyticsData = {
+        const analyticsData = {
             store_id,
             store_url: storeUrl,
             user_id: userId,
@@ -128,13 +128,14 @@ const EbitansAnalytics = ({ design, headersetting, referrer }: any) => {
             visit_time: visitTime,
             time_zone: timeZone,
         };
-        console.log('analyticsData', analyticsData);
 
-        // if (ip) {
-        //     postEbitansAnalytics({
-        //         analyticsData,
-        //     });
-        // }
+        // console.log('analyticsData', analyticsData);
+
+        if (ip) {
+            postEbitansAnalytics({
+                analyticsData,
+            });
+        }
     }, [
         store_id,
         storeUrl,
@@ -159,6 +160,7 @@ const EbitansAnalytics = ({ design, headersetting, referrer }: any) => {
         productId,
         visitTime,
         timeZone,
+        postEbitansAnalytics,
     ]);
     return null;
 };

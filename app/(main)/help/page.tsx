@@ -7,6 +7,7 @@ import getDesign from '@/utils/fetcher/getDesign';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import getMenu from '@/utils/fetcher/getMenu';
 import getPage from '@/utils/fetcher/getPage';
+import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
 
 export async function generateMetadata() {
     const headersetting = await getHeaderSetting();
@@ -23,8 +24,8 @@ export default async function HelpPage() {
     const headersetting = await getHeaderSetting();
     const menu = await getMenu();
     const page = await getPage();
-    const referrer =
-        (await cookies()).get('referrer')?.value || 'No referrer found';
+    const userData = await getUserDataFromCookies();
+    
 
     return (
         <>
@@ -32,7 +33,7 @@ export default async function HelpPage() {
             <EbitansAnalytics
                 design={design}
                 headersetting={headersetting}
-                referrer={referrer}
+                userData={userData}
             />
         </>
     );

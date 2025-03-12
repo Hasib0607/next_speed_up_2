@@ -5,6 +5,8 @@ import getDomain from '@/helpers/getDomain';
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   const referrer = req.headers.get("referer") || "";
+  const ip = req.headers.get("x-forwarded-for") || "Unknown IP";
+  // console.log("User IP Address:", ip);
 
   // Handle robots.txt dynamically
   if (pathname === "/robots.txt") {
@@ -47,7 +49,12 @@ export async function middleware(req: NextRequest) {
     response.cookies.set("referrer", referrer, { path: "/" });
   }
 
+  if (ip) {
+    response.cookies.set("ip", ip, { path: "/" });
+  }
+
   // Set response headers (for debugging purposes)
+  response.headers.set("X-User-IP", ip);
   response.headers.set("X-Referrer", referrer);
   response.headers.set("X-Current-Path", pathname);
 
