@@ -13,6 +13,7 @@ const Offer = ({ design }: any) => {
 
     const [offer, setOffer] = useState<any>([]);
     const [campaign, setCampaign] = useState([]);
+    const [campaignProductsArr, setCampaignProductsArr] = useState([]);
 
     const {
         data: campaignsData,
@@ -28,6 +29,7 @@ const Offer = ({ design }: any) => {
 
         if (campaignsSuccess && isCampaigns && allCampaigns?.length > 0) {
             setCampaign(allCampaigns);
+            setCampaignProductsArr(allCampaigns?.campaignProducts);
         }
     }, [campaignsSuccess, campaignsData]);
 
@@ -100,16 +102,12 @@ const Offer = ({ design }: any) => {
     if (campaignsLoading && !campaignError) {
         return <Skeleton />;
     }
+    // console.log("sDate",sDate)
+    // console.log("eDate",eDate)
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5 mt-20">
-            {(start_date >= Date.now() ||
-                end_date <= Date.now() ||
-                offer?.length === 0 ||
-                offer?.products?.length === 0) &&
-            (sDate >= Date.now() ||
-                eDate <= Date.now() ||
-                campaign?.length === 0) ? (
+            {campaign?.length === 0 || campaignProductsArr?.length === 0 ? (
                 <div className="flex justify-center items-center h-auto md:h-[calc(100vh-500px)]">
                     <div className="text-xl text-red-500 font-semibold">
                         Offer Not Available!
@@ -170,6 +168,8 @@ const CampainPage = ({ campaign, design }: any) => {
 };
 
 const GetComponent = ({ component, item, design }: any) => {
+    // console.log("item",item);
+
     switch (component) {
         case 'date_range':
             return <DateRange design={design} item={item} />;

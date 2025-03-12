@@ -14,6 +14,8 @@ import getProductDetails from '@/utils/fetcher/getProductDetails';
 import getDesign from '@/utils/fetcher/getDesign';
 import { ProductDetailsParamProps } from '@/types';
 import { htmlTagsRemover } from '@/helpers/littleSpicy';
+import EbitansAnalytics from '@/components/EbitansAnalytics';
+import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
 
 export async function generateMetadata({
     params,
@@ -43,7 +45,7 @@ export async function generateMetadata({
     const productImageUrl = `${productImg + imageURL}`;
 
     const fallbackImage = imgUrl + 'default-product-image.jpg';
-    
+
     return {
         title: `${websiteName} | ${name}`,
         description:
@@ -72,6 +74,7 @@ export default async function SingleProductDetails({
     const productId = (await params).productId;
     const design = await getDesign();
     const headersetting = await getHeaderSetting();
+    const userData = await getUserDataFromCookies();
 
     const store_id = headersetting?.store_id;
 
@@ -86,11 +89,20 @@ export default async function SingleProductDetails({
 
     return (
         <div>
-            <ViewContentGtm product={productData} headersetting={headersetting} />
+            <ViewContentGtm
+                product={productData}
+                headersetting={headersetting}
+            />
             <ProductDetails
                 design={design}
                 headersetting={headersetting}
                 product={productData}
+                productId={productId}
+            />
+            <EbitansAnalytics
+                design={design}
+                headersetting={headersetting}
+                userData={userData}
                 productId={productId}
             />
         </div>

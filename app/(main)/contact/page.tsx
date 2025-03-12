@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import EbitansAnalytics from '@/components/EbitansAnalytics';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 import { imgUrl } from '@/site-settings/siteUrl';
+import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
 
 export async function generateMetadata() {
     const headersetting = await getHeaderSetting();
@@ -19,8 +20,7 @@ export async function generateMetadata() {
 const ContactPage = async () => {
     const design = await getDesign();
     const headersetting = await getHeaderSetting();
-    const referrer =
-        (await cookies()).get('referrer')?.value || 'No referrer found';
+    const userData = await getUserDataFromCookies();
 
     return (
         <>
@@ -28,7 +28,7 @@ const ContactPage = async () => {
             <EbitansAnalytics
                 design={design}
                 headersetting={headersetting}
-                referrer={referrer}
+                userData={userData}
             />
         </>
     );

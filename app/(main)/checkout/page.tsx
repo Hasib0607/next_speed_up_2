@@ -1,7 +1,9 @@
 import CheckoutGtm from '@/app/(main)/checkout/CheckoutGtm';
 import ProtectedLayer from '@/app/ProtectedLayer';
 import Checkout from '@/components/Checkout';
+import EbitansAnalytics from '@/components/EbitansAnalytics';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
+import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
 import { imgUrl } from '@/site-settings/siteUrl';
 import getDesign from '@/utils/fetcher/getDesign';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
@@ -21,6 +23,7 @@ export default async function CheckoutPage() {
     const appStore = await getStore();
     const design = await getDesign();
     const headersetting = await getHeaderSetting();
+    const userData = await getUserDataFromCookies();
 
     return (
         <>
@@ -32,6 +35,11 @@ export default async function CheckoutPage() {
                         appStore={appStore}
                         headersetting={headersetting}
                     />
+                    <EbitansAnalytics
+                        design={design}
+                        headersetting={headersetting}
+                        userData={userData}
+                    />
                 </ProtectedLayer>
             ) : (
                 <>
@@ -40,6 +48,11 @@ export default async function CheckoutPage() {
                         design={design}
                         appStore={appStore}
                         headersetting={headersetting}
+                    />
+                    <EbitansAnalytics
+                        design={design}
+                        headersetting={headersetting}
+                        userData={userData}
                     />
                 </>
             )}
