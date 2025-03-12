@@ -241,7 +241,6 @@ const YourOrders = ({
         referral_code: data.referral_code,
     }).forEach(([key, value]) => appendFormData(key, value));
 
-
     const handleCheckout = async () => {
         dispatch(setPurchaseList(cartList));
         dispatch(setGrandTotal(gTotal));

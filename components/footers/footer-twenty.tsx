@@ -8,13 +8,11 @@ import CopyrightAll from './components/copyrightall';
 import WhatsApp from './components/whatsApp';
 import PageList from './components/page-list';
 import AllPaymantGateway from './components/all-payment-gateway';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
 const FooterTwenty = ({ headersetting, page, menu, design }: any) => {
+    const store_id = design?.store_id || null;
+
     const cls = 'text-xl';
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
 
     return (
         <div className=" bg-[#f5f5f5] ">

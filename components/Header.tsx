@@ -1,5 +1,5 @@
 
-import { headers } from '@/utils/dynamic-import/_homepageSections/header/header';
+import { headers } from '@/utils/dynamic-import/header/header';
 import getDesign from '@/utils/fetcher/getDesign';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import getMenu from '@/utils/fetcher/getMenu';

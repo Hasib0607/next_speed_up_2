@@ -7,14 +7,11 @@ import MyAccount from './components/myaccount';
 import MenuList from './components/menu-list';
 import CopyrightAll from './components/copyrightall';
 import WhatsApp from './components/whatsApp';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import PageList from './components/page-list';
 import AllPaymantGateway from './components/all-payment-gateway';
 
 const FooterTwentyFive = ({ headersetting, design, menu, page }: any) => {
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = design?.store_id || null;
 
     return (
         <footer

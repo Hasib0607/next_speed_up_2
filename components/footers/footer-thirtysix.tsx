@@ -13,19 +13,21 @@ import CategoryList from './components/category-list';
 import MenuList from './components/menu-list';
 import CopyrightAll from './components/copyrightall';
 import WhatsApp from './components/whatsApp';
-import AllPaymantGateway from './components/all-payment-gateway';
 import PageList from './components/page-list';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import AllPaymantGateway from './components/all-payment-gateway';
 
-const FooterThirtySix = ({ headersetting, design, menu, page }: any) => {
+const FooterThirtySix = ({
+    headersetting,
+    design,
+    category,
+    menu,
+    page,
+}: any) => {
     const styleCss = `
     .menu-hover:hover {
         color:  ${design?.header_color};
     }
     `;
-
-    const { data: categoryData } = useGetCategoryQuery({});
-    const category = categoryData?.data || [];
 
     return (
         <div className="pt-10 pb-24 lg:pb-5">
@@ -57,13 +59,7 @@ const FooterThirtySix = ({ headersetting, design, menu, page }: any) => {
                 <div className="lg:justify-self-center border-b-2 lg:border-0 pb-5 lg:pb-0">
                     <h1 className="text-xl font-medium ">Buy with Us</h1>
                     <div className="flex flex-col gap-3 pt-3 text-gray-500">
-                        <MenuList menu={menu} />
-                    </div>
-                </div>
-                <div className="lg:justify-self-center border-b-2 lg:border-0 pb-5 lg:pb-0">
-                    <h1 className="text-xl font-medium ">Legal</h1>
-                    <div className="flex flex-col gap-3 pt-3 text-gray-500">
-                        <PageList page={page} />
+                        <MenuList menu={menu} page={page} />
                     </div>
                 </div>
                 <div className="lg:justify-self-center border-b-2 lg:border-0 pb-5 lg:pb-0">
@@ -140,20 +136,18 @@ const FooterThirtySix = ({ headersetting, design, menu, page }: any) => {
                 <AllPaymantGateway headersetting={headersetting} />
             </div>
 
-            <div className="border-t border-b border-gray-500 my-5 flex justify-between items-center">
-                <div className="sm:container px-5 text-[15px] py-8 font-light text-[#333333]">
+            <div className="border-t border-b border-gray-500 px-5 my-5">
+                <div className="sm:container  text-[15px] py-8 font-light text-[#333333]">
                     <CopyrightAll headersetting={headersetting} />
                 </div>
-                {headersetting?.online === 'active' && (
-                    <>
-                        <div>
-                            <img src={SSLImg?.src} alt="" />
-                        </div>
-                    </>
-                )}
+                <div className="mx-4">
+                    {headersetting?.online === 'active' && (
+                        <img src={SSLImg?.src} alt="" />
+                    )}
+                </div>
             </div>
             {/* <Messenger /> */}
-            <WhatsApp />
+            <WhatsApp headersetting={headersetting} />
         </div>
     );
 };

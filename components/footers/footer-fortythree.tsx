@@ -1,15 +1,12 @@
 'use client';
+
 import React, { useState } from 'react';
 import { FaFacebookF } from 'react-icons/fa';
-import {
-    AiFillLinkedin,
-    AiFillYoutube,
-    AiOutlineWhatsApp,
-} from 'react-icons/ai';
+import { AiFillLinkedin, AiFillYoutube } from 'react-icons/ai';
 import { RiInstagramLine } from 'react-icons/ri';
 import { motion } from 'framer-motion';
 import { imgUrl } from '@/site-settings/siteUrl';
-import { MinusIcon, PhoneIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import MenuList from './components/menu-list';
 import CopyrightAll from './components/copyrightall';
 import Link from 'next/link';
@@ -18,11 +15,11 @@ import WhatsApp from './components/whatsApp';
 import PageList from './components/page-list';
 import AllPaymantGateway from './components/all-payment-gateway';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import NewsletterFortyThree from './components/newsletter-fortythree';
 
 const FooterFortyThree = ({ design, headersetting, menu, page }: any) => {
+    const store_id = design?.store_id || null;
+
     const customDesign = `
       .liList:hover{
         color: ${design?.header_color}
@@ -40,9 +37,6 @@ const FooterFortyThree = ({ design, headersetting, menu, page }: any) => {
 
     const { data: categoryData } = useGetCategoryQuery({});
     const category = categoryData?.data || [];
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
 
     return (
         <div className="mt-[60px] bg-gray-50 xl:mt-0 md:mt-[25px] lg:mt-0">
@@ -183,9 +177,9 @@ const FooterFortyThree = ({ design, headersetting, menu, page }: any) => {
                 <AllPaymantGateway headersetting={headersetting} />
             </div>
             <div className="sm:container">
-                    <div className="mb-20 md:mb-10 px-5 lg:pl-32">
-                        <CopyrightAll headersetting={headersetting} />
-                    </div>
+                <div className="mb-20 md:mb-10 px-5 lg:pl-32">
+                    <CopyrightAll headersetting={headersetting} />
+                </div>
             </div>
             <WhatsApp />
         </div>

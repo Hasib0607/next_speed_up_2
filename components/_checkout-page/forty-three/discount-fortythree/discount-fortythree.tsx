@@ -27,7 +27,6 @@ const DiscountFortyThree = ({
     shippingColOne,
     shippingOff,
     select,
-    bn,
 }: any) => {
     const {
         register,
@@ -214,9 +213,9 @@ const DiscountFortyThree = ({
                 design?.template_id === '34'
                     ? 'bg-thirty-one border border-white'
                     : 'bg-white'
-            } sm:rounded-md sm:overflow-hidden my-5 ml-7`}
+            } sm:rounded-md sm:overflow-hidden my-5 ml-5`}
         >
-            <div className="px-4 space-y-6 sm:p-6">
+            <div className=" space-y-6 sm:p-6">
                 <div
                     className={
                         select
@@ -226,6 +225,7 @@ const DiscountFortyThree = ({
                               : 'grid grid-cols-6 gap-6 items-center'
                     }
                 >
+                    <div className="col-span-6">
                     {!shippingOff && (
                         <div className="col-span-6 xl:col-span-3">
                             <div className="flex flex-col gap-4 items-start">
@@ -248,14 +248,16 @@ const DiscountFortyThree = ({
                                                 } as ChangeEvent<HTMLInputElement>;
                                                 handleShippingChange(event);
                                             }}
-                                            className={`w-full flex items-center justify-between px-4 py-2 text-lg font-semibold border rounded-lg transition-colors
+                                            className={`w-full flex items-center justify-between px-4 py-2 font-semibold border rounded-lg transition-colors
                 ${
                     selectedShippingArea === '1'
                         ? 'bg-[var(--header-color)] border-[var(--header-color)]'
                         : 'border-gray-300 hover:bg-gray-50'
                 }`}
                                         >
-                                           <span>{headersetting.shipping_area_1}</span> 
+                                            <span>
+                                                {headersetting.shipping_area_1}
+                                            </span>
                                             <span className="block font-semibold mt-1">
                                                 <BDT />
                                                 {
@@ -277,14 +279,16 @@ const DiscountFortyThree = ({
                                                 } as ChangeEvent<HTMLInputElement>;
                                                 handleShippingChange(event);
                                             }}
-                                            className={`w-full flex items-center justify-between px-4 py-2 text-lg font-semibold border rounded-lg transition-colors
+                                            className={`w-full flex items-center justify-between px-4 py-2 font-semibold border rounded-lg transition-colors
                 ${
                     selectedShippingArea === '2'
                         ? 'bg-[var(--header-color)] border-[var(--header-color)]'
                         : 'border-gray-300 hover:bg-gray-50'
                 }`}
                                         >
-                                            <span>{headersetting.shipping_area_2}</span> 
+                                            <span>
+                                                {headersetting.shipping_area_2}
+                                            </span>
                                             <span className="block font-semibold mt-1">
                                                 <BDT />
                                                 {
@@ -306,7 +310,7 @@ const DiscountFortyThree = ({
                                                 } as ChangeEvent<HTMLInputElement>;
                                                 handleShippingChange(event);
                                             }}
-                                            className={`w-full flex items-center justify-between px-4 py-2 text-lg font-semibold border rounded-lg transition-colors
+                                            className={`w-full flex items-center justify-between px-4 py-2 font-semibold border rounded-lg transition-colors
                 ${
                     selectedShippingArea === '3'
                         ? 'bg-[var(--header-color)] border-[var(--header-color)]'
@@ -327,117 +331,65 @@ const DiscountFortyThree = ({
                         </div>
                     )}
 
-                    {select && (
-                        <div className="col-span-6 sm:col-span-3">
-                            <div className="flex justify-between gap-4 items-center pb-3">
-                                <label
-                                    htmlFor="shippingArea"
-                                    className="block text-xl font-semibold text-gray-700"
-                                >
-                                    Shipping Area
-                                </label>
-                                <div>
-                                    <select
-                                        id="shippingArea"
-                                        name="shippingArea"
-                                        onChange={(e: any) =>
-                                            handleShippingSelectChange(e)
-                                        }
-                                        value={selectedShippingArea || ''}
-                                        className="mt-1 block sm:w-full w-36 py-2 font-semibold border capitalize border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                    
+                        {couponAvailable && (
+                            <div className="mt-6">
+                                <div className="flex flex-wrap justify-between items-center gap-4">
+                                    <label
+                                        htmlFor="name"
+                                        className="block text-xl font-semibold text-gray-700"
                                     >
-                                        <option value={'0'}>
-                                            --Select Area--
-                                        </option>
-                                        {headersetting?.shipping_area_1 && (
-                                            <option value={'1'}>
-                                                {headersetting?.shipping_area_1}
-                                            </option>
-                                        )}
-                                        {headersetting?.shipping_area_2 && (
-                                            <option value={'2'}>
-                                                {headersetting?.shipping_area_2}
-                                            </option>
-                                        )}
-                                        {headersetting?.shipping_area_3 && (
-                                            <option value={'3'}>
-                                                {headersetting?.shipping_area_3}
-                                            </option>
-                                        )}
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    <div className="col-span-6 xl:col-span-3">
-                        {store_id !== 3601 &&
-                            store_id !== 3904 &&
-                            store_id !== 4633 &&
-                            store_id !== 5519 &&
-                            store_id !== 6357 &&
-                            store_id !== 6433 &&
-                            couponAvailable && (
-                                <div className="">
-                                    <div className="flex flex-wrap justify-between items-center gap-4">
-                                        <label
-                                            htmlFor="name"
-                                            className="block text-xl font-semibold text-gray-700"
-                                        >
-                                            {'Discount'}
-                                        </label>
-                                        <form
-                                            onSubmit={handleSubmit(onSubmit)}
-                                            className="flex gap-2 flex-wrap justify-start "
-                                        >
-                                            <div className="flex flex-col justify-center">
-                                                <input
-                                                    {...register(
-                                                        'coupon_code',
-                                                        {
-                                                            required: true,
-                                                        }
-                                                    )}
-                                                    type={'text'}
-                                                    className="border border-gray-400 py-2 px-2 rounded-sm"
+                                        {'Discount'}
+                                    </label>
+                                    <form
+                                        onSubmit={handleSubmit(onSubmit)}
+                                        className="flex gap-2 flex-wrap justify-start "
+                                    >
+                                        <div className="flex flex-col justify-center">
+                                            <input
+                                                {...register('coupon_code', {
+                                                    required: true,
+                                                })}
+                                                type={'text'}
+                                                className="border border-gray-400 py-2 px-2 rounded-sm"
+                                            />
+                                        </div>
+                                        {loading ? (
+                                            <div
+                                                style={{
+                                                    backgroundColor:
+                                                        design?.header_color,
+                                                    color: design?.text_color,
+                                                }}
+                                                className={`px-4 py-2 font-semibold rounded-sm lg:cursor-pointer ${btnhover}`}
+                                            >
+                                                <RotatingLines
+                                                    width="20"
+                                                    strokeColor="#6495ED"
+                                                    strokeWidth="6"
                                                 />
                                             </div>
-                                            {loading ? (
-                                                <div
-                                                    style={{
-                                                        backgroundColor:
-                                                            design?.header_color,
-                                                        color: design?.text_color,
-                                                    }}
-                                                    className={`px-4 py-2 font-semibold rounded-sm lg:cursor-pointer ${btnhover}`}
-                                                >
-                                                    <RotatingLines
-                                                        width="20"
-                                                        strokeColor="#6495ED"
-                                                        strokeWidth="6"
-                                                    />
-                                                </div>
-                                            ) : (
-                                                <input
-                                                    type={'submit'}
-                                                    value={'Apply'}
-                                                    style={{
-                                                        backgroundColor:
-                                                            design?.header_color,
-                                                        color: design?.text_color,
-                                                    }}
-                                                    className={`px-4 py-2 font-semibold rounded-sm lg:cursor-pointer h-auto ${btnhover}`}
-                                                />
-                                            )}
-                                        </form>
-                                    </div>
-                                    {errors.code && (
-                                        <span className="pt-3 text-red-500">
-                                            Field is empty
-                                        </span>
-                                    )}
+                                        ) : (
+                                            <input
+                                                type={'submit'}
+                                                value={'Apply'}
+                                                style={{
+                                                    backgroundColor:
+                                                        design?.header_color,
+                                                    color: design?.text_color,
+                                                }}
+                                                className={`px-4 py-2 font-semibold rounded-sm lg:cursor-pointer h-auto ${btnhover}`}
+                                            />
+                                        )}
+                                    </form>
                                 </div>
-                            )}
+                                {errors.code && (
+                                    <span className="pt-3 text-red-500">
+                                        Field is empty
+                                    </span>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -1,5 +1,4 @@
 import { GrInstagram, GrYoutube } from 'react-icons/gr';
-
 import { AiFillLinkedin } from 'react-icons/ai';
 import Newsletter from './components/newsletter';
 import { imgUrl } from '@/site-settings/siteUrl';
@@ -9,14 +8,12 @@ import MyAccount from './components/myaccount';
 import MenuList from './components/menu-list';
 import CopyrightAll from './components/copyrightall';
 import WhatsApp from './components/whatsApp';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import PageList from './components/page-list';
 import AllPaymantGateway from './components/all-payment-gateway';
 
 const FooterTwentyTwo = ({ headersetting, page, menu }: any) => {
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = headersetting?.store_id || null;
+
     return (
         <div className="bg-black pt-10 pb-24 lg:pb-5">
             <div className="sm:container px-5">

@@ -188,28 +188,6 @@ const Related = ({ product, design }: any) => {
     const nextEl = 'feature-product-next';
 
     const styleCss = `
-<<<<<<< HEAD
-    .feature-product-prev {
-    color:  ${design?.header_color};
-    border: 1px solid ${design?.header_color};
-    }
-    .feature-product-next{
-        color:  ${design?.header_color};
-        border: 1px solid ${design?.header_color};
-    }
-    .feature-product-prev:hover {
-    color:  ${design?.text_color};
-    background: ${design?.header_color};
-    }
-    .feature-product-next:hover {
-    color:  ${design?.text_color};
-    background: ${design?.header_color};
-    }
-    .arrow-hov:hover .arrow {
-    opacity:1;
-    background: white;
-    }
-=======
         .feature-product-prev {
             color:  ${design?.header_color};
             border: 1px solid ${design?.header_color};
@@ -230,7 +208,6 @@ const Related = ({ product, design }: any) => {
             opacity:1;
             background: white;
         }
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     `;
 
     return (

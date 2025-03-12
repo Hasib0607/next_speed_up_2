@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 import {
     AiFillLinkedin,
@@ -17,10 +18,10 @@ import WhatsApp from './components/whatsApp';
 import PageList from './components/page-list';
 import AllPaymantGateway from './components/all-payment-gateway';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
 const FooterThirtyFive = ({ headersetting, design, page, menu }: any) => {
+    const store_id = design?.store_id || null;
+
     const styleCss = `
     .menu-hover:hover {
         color:  ${design?.header_color};
@@ -29,9 +30,6 @@ const FooterThirtyFive = ({ headersetting, design, page, menu }: any) => {
 
     const { data: categoryData } = useGetCategoryQuery({});
     const category = categoryData?.data || [];
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
 
     return (
         <div className="pt-10 pb-24 lg:pb-5">

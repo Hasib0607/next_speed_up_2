@@ -5,6 +5,8 @@ const BlogSection = ({ design }: any) => {
 
     const BlogSectionComponent = blog_sections[design?.blog];
 
+    console.log("design?.blog", design?.blog);
+
     return (
         design?.blog !== 'null' &&
         BlogSectionComponent && <BlogSectionComponent design={design} />

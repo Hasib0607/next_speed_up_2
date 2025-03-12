@@ -293,91 +293,64 @@ const CheckoutFormFortyThree = ({
                     <p>Loading...</p>
                 </div>
             ) : (
-                <form
-                    onSubmit={
-                        edit
-                            ? handleSubmit(updateAddress)
-                            : handleSubmit(addAddress)
-                    }
+                <form onSubmit={edit ? handleSubmit(updateAddress) : handleSubmit(addAddress)}>
+    <div className="py-2 space-y-5 sm:p-6 w-auto md:min-w-[500px]">
+        {fields?.length > 0 &&
+            fields?.map((item: any, index: number) => (
+                <div key={index} className="relative">
+                    <input
+                        {...register(item?.name)}
+                        type={item?.name === 'phone' ? 'number' : 'text'}
+                        placeholder=" "
+                        name={item?.name}
+                        id={item?.name}
+                        onInput={() => handleFieldChange(item?.name)}
+                        autoComplete="address-level1"
+                        className={classNames(
+                            fieldStyle,
+                            'peer pt-5 pb-1 w-full'
+                        )}
+                    />
+                    <label
+                        htmlFor={item?.name}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none 
+                        text-gray-500 transition-all duration-200 peer-focus:top-0
+                        peer-focus:scale-90 peer-focus:translate-y-0
+                        peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-90
+                        peer-[:not(:placeholder-shown)]:translate-y-0 px-1"
+                    >
+                        {item?.name.charAt(0).toUpperCase() + item?.name.slice(1)}
+                    </label>
+                    <p className="text-rose-500 text-sm mt-1">
+                        {errors[item?.name as keyof FormValues]?.message}
+                    </p>
+                </div>
+            ))}
+    </div>
+    
+    {isAuthenticated && (
+        <div className="space-x-2 px-4 py-3 text-right sm:px-6">
+            <button
+                type="submit"
+                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm 
+                font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none 
+                focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
+            >
+                {edit ? 'Update' : 'Save'}
+            </button>
+            {cancelBtn && (
+                <div
+                    onClick={() => handleCancel()}
+                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm 
+                    text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 cursor-pointer"
                 >
-                    <div className="px-4 py-5 space-y-6 sm:p-6 w-auto md:min-w-[500px]">
-                        {fields?.length > 0 &&
-                            fields?.map((item: any, index: number) => (
-                                <div key={index}>
-                                    <label
-                                        htmlFor={item?.name}
-                                        className="block text-sm font-medium text-gray-700 capitalize"
-                                    >
-                                        {item?.name}
-                                    </label>
-                                    { item?.name == 'address' ||
-                                      item?.name == 'note' ? (
-                                        <textarea
-                                            {...register(item?.name)}
-                                            name={item?.name}
-                                            id={item?.name}
-                                            onInput={() =>
-                                                handleFieldChange(item?.name)
-                                            }
-                                            autoComplete={'address-level1'}
-                                            className={classNames(
-                                                fieldStyle,
-                                                'remove-arrow'
-                                            )}
-                                        />
-                                    ) : (
-                                        <div className='center'>
-                                            <input
-                                                {...register(item?.name)}
-                                                type={
-                                                    item?.name == 'phone'
-                                                        ? 'number'
-                                                        : 'text'
-                                                }
-                                                name={item?.name}
-                                                id={item?.name}
-                                                onInput={() =>
-                                                    handleFieldChange(
-                                                        item?.name
-                                                    )
-                                                }
-                                                autoComplete="address-level1"
-                                                className={classNames(
-                                                    fieldStyle,
-                                                    'remove-arrow'
-                                                )}
-                                            />
-                                        </div>
-                                    )}
-                                    <p className="text-rose-500">
-                                        {
-                                            errors[
-                                                item?.name as keyof FormValues
-                                            ]?.message
-                                        }
-                                    </p>
-                                </div>
-                            ))}
-                    </div>
-                    {isAuthenticated && (
-                        <div className="space-x-2 px-4 py-3 text-right sm:px-6">
-                            <button
-                                type="submit"
-                                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
-                            >
-                                {edit ? 'Update' : 'Save'}
-                            </button>
-                            {cancelBtn && (
-                                <div
-                                    onClick={() => handleCancel()}
-                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 cursor-pointer"
-                                >
-                                    Cancel
-                                </div>
-                            )}
-                        </div>
-                    )}
-                </form>
+                    Cancel
+                </div>
+            )}
+        </div>
+    )}
+</form>
             )}
         </>
     );

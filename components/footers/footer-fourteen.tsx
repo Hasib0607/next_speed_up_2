@@ -6,10 +6,10 @@ import FollowUs from './components/follow-us';
 import WhatsApp from './components/whatsApp';
 import AllPaymantGateway from './components/all-payment-gateway';
 import PageList from './components/page-list';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
 const FooterFourteen = ({ design, headersetting, menu, page }: any) => {
+    const store_id = design?.store_id || null;
+
     const customDesign = `
     .footer-color:hover{
     color:${design?.header_color};
@@ -20,9 +20,6 @@ const FooterFourteen = ({ design, headersetting, menu, page }: any) => {
     }
     `;
     const cls = 'footer-color';
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
 
     return (
         <div className="sm:container px-5 sm:pt-10 pt-5 pb-20 lg:pb-3">

@@ -262,15 +262,9 @@ const AddCartBtn = ({
         border: 2px solid transparent;
     }
     .c_button:hover {
-<<<<<<< HEAD
-        color:  ${button_color};
-        background: transparent;
-        border: 2px solid ${button_color};
-=======
         color:  ${button_bg_color};
         background: transparent;
         border: 2px solid black;
->>>>>>> 667c500c5d5597c12a9f45aec3ed22520d56dd2b
     }
     .c_button1 {
         color:  ${button1_color};

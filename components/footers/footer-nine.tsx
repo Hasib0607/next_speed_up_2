@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { FiPhoneCall } from 'react-icons/fi';
 import Newsletter from './components/newsletter';
@@ -10,15 +12,13 @@ import WhatsApp from './components/whatsApp';
 import AllPaymantGateway from './components/all-payment-gateway';
 import PageList from './components/page-list';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
 const FooterNine = ({ headersetting, design, menu, page }: any) => {
+    const store_id = design?.store_id || null;
+
     const { data: categoryData } = useGetCategoryQuery({});
     const category = categoryData?.data || [];
 
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
     const customDesign = `
     .footerColor:hover{
     color:${design?.header_color};
@@ -46,6 +46,7 @@ const FooterNine = ({ headersetting, design, menu, page }: any) => {
     `;
     const clsMenu = 'text-base font-normal leading-relaxed';
     const clsFollow = 'text-3xl footerColor';
+
     return (
         <div style={{ background: '#f6f6f6' }}>
             <div className="sm:container px-5 pb-20 lg:pb-0">

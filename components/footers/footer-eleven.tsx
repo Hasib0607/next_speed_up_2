@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState } from 'react';
 import { FaFacebookF } from 'react-icons/fa';
 import {
@@ -26,10 +27,10 @@ import WhatsApp from './components/whatsApp';
 import PageList from './components/page-list';
 import AllPaymantGateway from './components/all-payment-gateway';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
 const FooterEleven = ({ design, headersetting, menu, page }: any) => {
+    const store_id = design?.store_id || null;
+    
     const customDesign = `
       .liList:hover{
         color: ${design?.header_color}
@@ -47,9 +48,6 @@ const FooterEleven = ({ design, headersetting, menu, page }: any) => {
 
     const { data: categoryData } = useGetCategoryQuery({});
     const category = categoryData?.data || [];
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
 
     return (
         <div className="mt-[60px] bg-gray-50 xl:mt-0 md:mt-[25px] lg:mt-0">

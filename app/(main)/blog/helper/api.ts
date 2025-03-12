@@ -120,21 +120,5 @@ export const fetchAllBlogData = async (store_id: any, page?: any) => {
         console.error('There was an error fetching the data', error);
     }
 };
+
 // Blog api end
-
-// Product khujo api start
-
-export const fetchIp = async () => {
-    try {
-        const response = await fetch(
-            `https://api.bigdatacloud.net/data/client-ip`
-        );
-        const data = await response.json();
-        return data.ipString;
-    } catch (error) {
-        console.error('There was an error fetching the data', error);
-    }
-};
-
-
-// Product khujo api end

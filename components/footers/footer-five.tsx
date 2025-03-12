@@ -5,29 +5,26 @@ import CopyrightAll from './components/copyrightall';
 import Link from 'next/link';
 import NewsletterTwo from './components/newsletter-two';
 import WhatsApp from './components/whatsApp';
-import AllPaymantGateway from './components/all-payment-gateway';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
-const FooterFive = ({ headersetting, menu, design, page }: any) => {
+const FooterFive = ({
+    headersetting,
+    category,
+    menu,
+    design,
+    page,
+    store_id,
+}: any) => {
     const result = page.filter(
         (item: any) => !menu.find((menuItem: any) => menuItem.url === item.link)
     );
 
-    const { data: categoryData } = useGetCategoryQuery({});
-    const category = categoryData?.data || [];
-
-    const { store } = useSelector((state: RootState) => state.appStore);
-    const store_id = store?.id || null;
-
     const customDesign = `
-    .footerColor:hover {
-        color: ${design?.header_color};
+    .footerColor:hover{
+    color:${design?.header_color};
     }
-    .searchBtn:hover {
-        background-color: ${design?.header_color};
-        color: ${design?.text_color};
+    .searchBtn:hover{
+        background-color:${design?.header_color};
+        color:${design?.text_color}
     }
     .footerFiveBorderCustom {
         margin: 0;
@@ -35,6 +32,7 @@ const FooterFive = ({ headersetting, menu, design, page }: any) => {
         position: relative;
         width: 50%;
     }
+    
     .footerFiveBorderCustom:before {
         position: absolute;
         background: linear-gradient(to right, ${design?.header_color} 60px, rgb(235, 235, 235) 10px) !important;
@@ -45,7 +43,6 @@ const FooterFive = ({ headersetting, menu, design, page }: any) => {
         left: 0;
     }
     `;
-
     return (
         <div
             className={`${
@@ -54,12 +51,12 @@ const FooterFive = ({ headersetting, menu, design, page }: any) => {
                     : 'bg-[#EFEFEF] text-black'
             }`}
         >
-            <footer>
+            <footer className="">
                 <style>{customDesign}</style>
                 <div className="grid lg2:grid-cols-3 sm:grid-cols-1 gap-1 container px-5">
                     <div className="py-8 xl:bg-transparent">
                         <div className="px-5">
-                            <div>
+                            <div className="">
                                 <img
                                     className={`w-auto h-14`}
                                     src={imgUrl + headersetting?.logo}
@@ -77,7 +74,7 @@ const FooterFive = ({ headersetting, menu, design, page }: any) => {
                                             className="text-3xl"
                                         />
                                     </div>
-                                    <div className="lg:px-4 md:px-4">
+                                    <div className="lg:px-4 md:px-4 ">
                                         <h5>NEED HELP ?</h5>
                                         <h1 className={`font-semibold`}>
                                             {headersetting?.phone}
@@ -99,8 +96,8 @@ const FooterFive = ({ headersetting, menu, design, page }: any) => {
                         </div>
                     </div>
 
-                    <div className="xl:col-span-2 lg:col-span-2 md:pb-20">
-                        <div className="grid xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-1 gap-4 py-8 px-5">
+                    <div className="xl:col-span-2 lg:col-span-2 pb-20 ">
+                        <div className="grid xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4 py-8 px-5">
                             <div>
                                 <h1 className="footerFiveBorder footerFiveBorderCustom text-lg font-semibold">
                                     Products
@@ -110,8 +107,9 @@ const FooterFive = ({ headersetting, menu, design, page }: any) => {
                                         <Link
                                             href={'/category/' + data?.id}
                                             key={data?.id}
-                                            className="text-base footerColor font-normal leading-relaxed"
+                                            className="text-base footerColor font-normal leading-relaxed "
                                         >
+                                            {' '}
                                             {data.name} <br />
                                         </Link>
                                     ))}
@@ -126,27 +124,22 @@ const FooterFive = ({ headersetting, menu, design, page }: any) => {
                                         m?.name !== 'Category' ? (
                                             <li key={m?.id}>
                                                 <Link
-                                                    href={m?.custom_link || (m?.url ? `/${m?.url}` : "/")}
-                                                    className="text-base footerColor font-normal leading-relaxed"
+                                                    href={m?.url}
+                                                    className="text-base footerColor font-normal leading-relaxed "
                                                 >
+                                                    {' '}
                                                     {m?.name}
                                                 </Link>
                                             </li>
                                         ) : null
                                     )}
-                                </div>
-                            </div>
-                            <div>
-                                <h1 className="footerFiveBorder footerFiveBorderCustom text-lg font-semibold">
-                                    Legal
-                                </h1>
-                                <div className="mt-5 list-none">
                                     {result?.map((m: any) => (
                                         <li key={m?.id}>
                                             <Link
                                                 href={'/' + m?.link}
-                                                className="text-base footerColor font-normal leading-relaxed"
+                                                className="text-base footerColor font-normal leading-relaxed "
                                             >
+                                                {' '}
                                                 {m?.name}
                                             </Link>
                                         </li>
@@ -161,19 +154,14 @@ const FooterFive = ({ headersetting, menu, design, page }: any) => {
                                     <NewsletterTwo store_id={store_id} />
                                 </div>
                             </div>
-                            {/* Changed <p> to <div> for valid nesting */}
                             <div className="mt-5 block lg2:hidden md:col-span-3">
-                                <div>
-                                    <CopyrightAll />
-                                </div>
+                                <CopyrightAll />
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="sm:container px-5 mt-8 mb-20 md:mb-0">
-                    <AllPaymantGateway headersetting={headersetting} />
-                </div>
-                <WhatsApp />
+                {/* <Messenger /> */}
+                <WhatsApp headersetting={headersetting} />
             </footer>
         </div>
     );

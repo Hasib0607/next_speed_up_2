@@ -284,6 +284,7 @@ const HeaderSixMenu = ({ menu, design, headersetting }: any) => {
                                     <GrYoutube className="text-lg " />
                                 </a>
                             )}
+
                             {headersetting?.lined_in_link && (
                                 <a
                                     href={headersetting?.lined_in_link}
