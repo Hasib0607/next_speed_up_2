@@ -11,7 +11,6 @@ import { GrInstagram, GrYoutube } from 'react-icons/gr';
 import { IoLogoWhatsapp } from 'react-icons/io5';
 import { RiSecurePaymentLine } from 'react-icons/ri';
 import { TbFileCertificate } from 'react-icons/tb';
-
 import CategoryList from './components/category-list';
 import CopyrightAll from './components/copyrightall';
 import MenuList from './components/menu-list';
@@ -19,30 +18,30 @@ import MyAccount from './components/myaccount';
 import NewsletterThree from './components/newsletter-three';
 import WhatsApp from './components/whatsApp';
 import { customizeFooter } from '@/utils/customizeDesign';
+import AnimateMarquee from '../slider/animate-marquee';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import PageList from './components/page-list';
+import AllPaymantGateway from './components/all-payment-gateway';
 
-const FooterTwentyOne = ({
-    headersetting,
-    brand,
-    store_id,
-    menu,
-    page,
-    category,
-}: any) => {
+const FooterTwentyOne = ({ headersetting, brand, menu, page }: any) => {
+    const store_id = headersetting?.store_id || null;
     const [heading, setHeading] = useState(null);
 
     const cls = 'text-gray-400 hover:text-white';
 
-    const storeID = headersetting?.store_id || null;
+    const { data: categoryData } = useGetCategoryQuery({});
+    const category = categoryData?.data || [];
 
-    const footerData = customizeFooter.find((item) => item.id == storeID);
+    const footerData = customizeFooter.find((item) => item.id == store_id);
 
     return (
         <>
+            {location.pathname === '/' && <AnimateMarquee brand={brand} />}
             <div className="bg-black mt-10 pb-24 lg:pb-10">
                 <div className="sm:container px-5 sm:py-10 py-5">
                     <NewsletterThree store_id={store_id} />
                     {/* footer top section  */}
-                    <div className="grid lg2:grid-cols-5 md:grid-cols-3 grid-cols-1 sm:gap-y-10 gap-y-2  text-white ">
+                    <div className="grid lg2:grid-cols-6 md:grid-cols-4 grid-cols-1 sm:gap-y-10 gap-y-2  text-white ">
                         <div className="flex flex-col gap-5 lg2:col-span-2 md:col-span-2 col-span-1 mb-5 sm:mb-0">
                             <div>
                                 <h1 className="text-xl uppercase font-bold">
@@ -132,11 +131,17 @@ const FooterTwentyOne = ({
                                     RESOURCES
                                 </h1>
                                 <div className="flex flex-col gap-2 ">
-                                    <MenuList
-                                        cls={cls}
-                                        menu={menu}
-                                        page={page}
-                                    />
+                                    <MenuList cls={cls} menu={menu} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="lg2:justify-self-center md:col-span-2 lg2:col-span-1 md:block hidden">
+                            <div>
+                                <h1 className="sm:text-xl uppercase font-bold pb-5">
+                                    LEGAL
+                                </h1>
+                                <div className="flex flex-col gap-2 ">
+                                    <PageList cls={cls} page={page} />
                                 </div>
                             </div>
                         </div>
@@ -153,6 +158,9 @@ const FooterTwentyOne = ({
                         {/* responsive for small device  */}
                         <div className="lg2:justify-self-center md:hidden block">
                             <div
+                                // onClick={() =>
+                                //   setHeading(heading !== "account" ? "account" : "")
+                                // }
                                 className="flex justify-between items-center"
                             >
                                 <h1 className="sm:text-xl uppercase font-bold">
@@ -173,6 +181,9 @@ const FooterTwentyOne = ({
                         <div className="lg2:justify-self-center md:hidden block">
                             <div>
                                 <div
+                                    // onClick={() =>
+                                    //   setHeading(heading !== "resource" ? "resource" : "")
+                                    // }
                                     className="flex justify-between items-center"
                                 >
                                     <h1 className="sm:text-xl uppercase font-bold ">
@@ -192,7 +203,32 @@ const FooterTwentyOne = ({
                             </div>
                         </div>
                         <div className="lg2:justify-self-center md:hidden block">
+                            <div>
+                                <div
+                                    // onClick={() =>
+                                    //   setHeading(heading !== "resource" ? "resource" : "")
+                                    // }
+                                    className="flex justify-between items-center"
+                                >
+                                    <h1 className="sm:text-xl uppercase font-bold ">
+                                        LEGAL
+                                    </h1>
+                                    {heading === 'resource' ? (
+                                        <MinusIcon className="h-4 w-4 text-white" />
+                                    ) : (
+                                        <PlusIcon className="h-4 w-4 text-white" />
+                                    )}
+                                </div>
+                                {heading === 'resource' && (
+                                    <div className="flex flex-col gap-2">
+                                        <PageList cls={cls} />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        <div className="lg2:justify-self-center md:hidden block">
                             <div
+                                // onClick={() => setHeading(heading !== "find" ? "find" : "")}
                                 className="flex justify-between items-center"
                             >
                                 <h1 className="sm:text-xl uppercase font-bold">
@@ -303,6 +339,10 @@ const FooterTwentyOne = ({
                 </div>
                 <div className="bg-gray-600 h-[1px] w-full"></div>
 
+                <div className="sm:container px-5 mt-8 text-white">
+                    <AllPaymantGateway headersetting={headersetting} />
+                </div>
+
                 {/* bottom section  */}
                 <div className="sm:container px-5 pt-5 flex flex-col md:flex-row gap-5 items-center md:justify-between text-white">
                     <div>
@@ -317,7 +357,7 @@ const FooterTwentyOne = ({
                     </div>
                 </div>
                 {/* <Messenger /> */}
-                <WhatsApp headersetting={headersetting} />
+                <WhatsApp />
             </div>
         </>
     );

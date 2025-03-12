@@ -8,6 +8,7 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 
 const EbitansAnalytics = ({ design, headersetting, referrer }: any) => {
+
     const store_id = design?.store_id || null;
     const { address, fetchAddress } = useGeoLocation();
     const { browser } = useBrowserInfo();
@@ -25,12 +26,12 @@ const EbitansAnalytics = ({ design, headersetting, referrer }: any) => {
     const [device, setDevice] = useState(null);
     const [os, setOs] = useState(null);
     const [mobileOs, setMobileOs] = useState(null);
+    const [location, setLocation] = useState(null);
 
     //   for ip
     const [ip, setIP] = useState('');
     const [mac, setMac] = useState('');
     const [state, setState] = useState('');
-    const [postal, setPostal] = useState('');
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
     const [countryName, setCountryName] = useState('');
@@ -64,10 +65,10 @@ const EbitansAnalytics = ({ design, headersetting, referrer }: any) => {
     }, [setPageUrl]);
 
     useEffect(() => {
-            if (latitude && longitude) {
-                fetchAddress(latitude, longitude);
-            }
-        }, [latitude, longitude, fetchAddress]);
+        if (latitude && longitude) {
+            fetchAddress(latitude, longitude);
+        }
+    }, [latitude, longitude, fetchAddress]);
 
     useEffect(() => {
         const getData = async () => {
@@ -80,14 +81,15 @@ const EbitansAnalytics = ({ design, headersetting, referrer }: any) => {
 
                 const data = await response.json();
                 // console.log('IP Data:', data.ipString);
-                setIP(data.ipString);
-                // setState(data.region);
-                // setPostal(data.postal);
+                setIP(data.ip);
+                setState(data.region);
+                setLocation(data.loc);
+                setZipCode(data.postal);
                 // setLatitude(data.latitude);
                 // setLongitude(data.longitude);
                 // setCountryName(data.country_name);
-                // setCountryCode(data.country_code);
-                // setCity(data.city);
+                setCountryCode(data.country);
+                setCity(data.city);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -118,7 +120,7 @@ const EbitansAnalytics = ({ design, headersetting, referrer }: any) => {
             state,
             city,
             zip_code: zipCode,
-            location:address,
+            location: address,
             latitude,
             longitude,
             category_id: categoryId,
@@ -126,14 +128,38 @@ const EbitansAnalytics = ({ design, headersetting, referrer }: any) => {
             visit_time: visitTime,
             time_zone: timeZone,
         };
-// console.log("analyticsData",analyticsData);
+        console.log('analyticsData', analyticsData);
 
         // if (ip) {
         //     postEbitansAnalytics({
         //         analyticsData,
         //     });
         // }
-    });
+    }, [
+        store_id,
+        storeUrl,
+        userId,
+        pageUrl,
+        pageTitle,
+        referPageUrl,
+        ip,
+        device,
+        mac,
+        os,
+        browser,
+        countryCode,
+        countryName,
+        state,
+        city,
+        zipCode,
+        address,
+        latitude,
+        longitude,
+        categoryId,
+        productId,
+        visitTime,
+        timeZone,
+    ]);
     return null;
 };
 

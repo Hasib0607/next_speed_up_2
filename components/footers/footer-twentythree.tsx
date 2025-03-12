@@ -1,4 +1,5 @@
 'use client';
+
 import { imgUrl } from '@/site-settings/siteUrl';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -12,25 +13,27 @@ import MenuList from './components/menu-list';
 import MyAccount from './components/myaccount';
 import Newsletter from './components/newsletter';
 import WhatsApp from './components/whatsApp';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import PageList from './components/page-list';
+import AllPaymantGateway from './components/all-payment-gateway';
 
-const FooterTwentyThree = ({
-    headersetting,
-    store_id,
-    page,
-    menu,
-    category,
-}: any) => {
+const FooterTwentyThree = ({ headersetting, page, menu }: any) => {
+    const store_id = headersetting?.store_id || null;
+
     const [heading, setHeading] = useState('');
     const date = new Date().getFullYear();
 
     const cls = 'text-gray-400 capitalize hover:text-white';
+
+    const { data: categoryData } = useGetCategoryQuery({});
+    const category = categoryData?.data || [];
 
     return (
         <div className="bg-gray-800 pt-10 pb-24 lg:pb-3">
             <div className="sm:container px-5 pb-10">
                 <Newsletter headersetting={headersetting} store_id={store_id} />
                 {/* footer top section  */}
-                <div className="grid lg2:grid-cols-5 md:grid-cols-3 grid-cols-1 sm:gap-y-10 gap-y-2  text-white ">
+                <div className="grid lg2:grid-cols-6 md:grid-cols-4 grid-cols-1 sm:gap-y-10 gap-y-2  text-white ">
                     <div className="flex flex-col gap-5 lg2:col-span-2 md:col-span-2 col-span-1 mb-5 sm:mb-0">
                         <div>
                             <h1 className="text-xl uppercase font-bold">
@@ -117,7 +120,16 @@ const FooterTwentyThree = ({
                             <h1 className="sm:text-xl uppercase font-bold pb-5">
                                 MENU
                             </h1>
-                            <MenuList cls={cls} page={page} menu={menu} />
+                            <MenuList cls={cls} menu={menu} />
+                        </div>
+                    </div>
+
+                    <div className="lg2:justify-self-center md:col-span-2 lg2:col-span-1 md:block hidden">
+                        <div>
+                            <h1 className="sm:text-xl uppercase font-bold pb-5">
+                                LEGAL
+                            </h1>
+                            <PageList cls={cls} page={page} />
                         </div>
                     </div>
 
@@ -180,6 +192,32 @@ const FooterTwentyThree = ({
                         </div>
                     </div>
                     <div className="lg2:justify-self-center md:hidden block">
+                        <div>
+                            <div
+                                onClick={() =>
+                                    setHeading(
+                                        heading !== 'resource' ? 'resource' : ''
+                                    )
+                                }
+                                className="flex justify-between items-center"
+                            >
+                                <h1 className="sm:text-xl uppercase font-bold ">
+                                    LEGAL
+                                </h1>
+                                {heading === 'resource' ? (
+                                    <MinusIcon className="h-4 w-4 text-white" />
+                                ) : (
+                                    <PlusIcon className="h-4 w-4 text-white" />
+                                )}
+                            </div>
+                            {heading === 'resource' && (
+                                <div className="flex flex-col gap-2 mt-1">
+                                    <PageList cls={cls} />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <div className="lg2:justify-self-center md:hidden block">
                         <div
                             onClick={() =>
                                 setHeading(heading !== 'find' ? 'find' : '')
@@ -204,7 +242,9 @@ const FooterTwentyThree = ({
                 </div>
             </div>
             <div className="bg-gray-600 h-[1px] w-full"></div>
-
+            <div className="sm:container px-5 mt-8 text-white">
+                <AllPaymantGateway headerSetting={headersetting} />
+            </div>
             {/* bottom section  */}
             <div className="sm:container px-5 pt-5 flex flex-col md:flex-row gap-5 items-center md:justify-between text-white">
                 <div>
@@ -226,27 +266,24 @@ const FooterTwentyThree = ({
                 </div>
                 <div className="text-center">
                     <p className="">
-                        <span>© {date} All Rights Received </span>
+                        © {date} All Rights Reserved{' '}
                         <Link
                             href="/"
                             className="font-semibold text-red-700 menu-hover"
                         >
                             {headersetting?.website_name}
                         </Link>{' '}
-                        <span>| Developed by </span>
-                        <Link
-                            href="https://ebitans.com/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-semibold text-red-700 menu-hover"
-                        >
-                            eBitans
-                        </Link>
+                        | Developed by{' '}
+                        <a href="https://ebitans.com/" target="_blank">
+                            <span className="font-semibold text-red-700">
+                                eBitans{' '}
+                            </span>
+                        </a>
                     </p>
                 </div>
             </div>
             {/* <Messenger /> */}
-            <WhatsApp headersetting={headersetting} />
+            <WhatsApp />
         </div>
     );
 };

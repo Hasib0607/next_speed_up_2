@@ -6,106 +6,13 @@ import DateRange from './offer/date-range';
 import GetProductByProductId from './offer/get-prod-by-prodid';
 import SpecificDate from './offer/specific-date';
 import Skeleton from './loaders/skeleton';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { useGetEbiAnalyticsMutation } from '@/redux/features/offer/offerApi';
 import { useGetCampaignQuery } from '@/redux/features/checkOut/checkOutApi';
-import useGeoLocation from '@/hooks/useGeoLocation';
 
 const Offer = ({ design }: any) => {
     const store_id = design?.store_id || null;
 
-    const { address, fetchAddress } = useGeoLocation();
-    const { user } = useSelector((state: RootState) => state?.auth); // Access updated Redux state
-
-    const [device, setDevice] = useState(null);
     const [offer, setOffer] = useState<any>([]);
-    const [browser, setBrowser] = useState('Unknown');
-    const [os, setOs] = useState(null);
-    const [mobileOs, setMobileOs] = useState(null);
-
-    //   for ip
-    const [ip, setIP] = useState('');
-    const [state, setState] = useState('');
-    const [postal, setPostal] = useState('');
-    const [latitude, setLatitude] = useState(0);
-    const [longitude, setLongitude] = useState(0);
-    const [countryName, setCountryName] = useState('');
-    const [countryCode, setCountryCode] = useState('');
-    const [city, setCity] = useState('');
-
-    const getData = async () => {
-
-        try {
-            const response = await fetch('/api/ip');
-            
-            // if (!response.ok) {
-            //     notFound()
-            // }
-            console.log('response', response);
-
-            const data = await response.json();
-            console.log('IP Data:', data);
-            setIP(data.ip);
-            setState(data.region);
-            setPostal(data.postal);
-            setLatitude(data.latitude);
-            setLongitude(data.longitude);
-            setCountryName(data.country_name);
-            setCountryCode(data.country_code);
-            setCity(data.city);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-
-    useEffect(() => {
-        getData();
-    });
-
     const [campaign, setCampaign] = useState([]);
-
-    const [getEbiAnalytics] = useGetEbiAnalyticsMutation();
-
-    // user info
-    useEffect(() => {
-        if (ip) {
-            getEbiAnalytics({
-                store_id,
-                user,
-                device,
-                ip,
-                city,
-                countryCode,
-                countryName,
-                latitude,
-                longitude,
-                postal,
-                state,
-                address,
-                browser,
-                mobileOs,
-                os,
-            });
-        }
-    }, [
-        ip,
-        store_id,
-        user,
-        device,
-        city,
-        countryCode,
-        countryName,
-        latitude,
-        longitude,
-        postal,
-        state,
-        address,
-        browser,
-        mobileOs,
-        os,
-        getEbiAnalytics,
-    ]);
 
     const {
         data: campaignsData,
@@ -123,12 +30,6 @@ const Offer = ({ design }: any) => {
             setCampaign(allCampaigns);
         }
     }, [campaignsSuccess, campaignsData]);
-
-    useEffect(() => {
-        if (latitude && longitude) {
-            fetchAddress(latitude, longitude);
-        }
-    }, [latitude, longitude, fetchAddress]);
 
     const start_date = new Date(offer?.start_date).getTime();
     const end_date = new Date(offer?.end_date).setHours(23, 59, 59);
