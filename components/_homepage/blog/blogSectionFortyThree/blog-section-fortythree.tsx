@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import BlogCard from '@/app/(main)/blog/_components/blog-card';
 import { fetchAllBlogData } from '@/app/(main)/blog/helper/api';
+import BlogCardFortyThree from './blog-card-fortythree';
 
 const BlogSectionFortyThree = ({ design }: any) => {
     const store_id = design?.store_id || null;
@@ -38,11 +38,11 @@ const BlogSectionFortyThree = ({ design }: any) => {
 
                 <div className="grid xl:grid-cols-3 md:grid-cols-2 gap-8">
                     {allBlogs?.slice(0, 3)?.map((item: any) => {
-                        return <BlogCard key={item?.id} item={item} />;
+                        return <BlogCardFortyThree key={item?.id} item={item} />;
                     })}
                 </div>
 
-                <div className="py-6 center">
+                <div className="py-10 center">
                     <Link href={'/blog'}>
                         <p className="bg-[#f1593a] px-4 py-2 font-semibold rounded-sm">
                             View All Blogs

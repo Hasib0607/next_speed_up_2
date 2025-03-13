@@ -6,7 +6,7 @@ export const blog_sections: any = {
         () => import('@/components/_homepage/blog/blog-section-default')
     ),
     [FORTY_THREE]: dynamic(
-        () => import('@/components/_homepage/blog/blog-section-fortythree')
+        () => import('@/components/_homepage/blog/blogSectionFortyThree/blog-section-fortythree')
     ),
     
 };
