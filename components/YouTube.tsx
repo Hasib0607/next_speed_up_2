@@ -6,6 +6,8 @@ const YouTube = ({ design, headersetting }: any) => {
 
     const YouTubeComponent = you_tube[design?.youtube] || you_tube[DEFAULT] ;
 
+    console.log("design?.youtube", design?.youtube);
+
     return (
         design?.youtube !== 'null' &&
         YouTubeComponent && (

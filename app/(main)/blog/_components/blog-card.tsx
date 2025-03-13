@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { FiArrowUpRight } from 'react-icons/fi';
 
 const BlogCard = ({ item }: any) => {
+
     return (
         <Link
             href={`/blog/${item?.permalink ?? item?.slug}`}
