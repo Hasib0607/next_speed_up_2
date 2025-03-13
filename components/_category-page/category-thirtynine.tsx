@@ -1,6 +1,6 @@
 'use client';
 
-import Card68 from '@/components/card/card68';
+import Card67 from '@/components/card/card67';
 import Skeleton from '@/components/loaders/skeleton';
 import Pagination from '@/components/paginations/pagination';
 import { numberParser } from '@/helpers/numberParser';
@@ -200,7 +200,7 @@ const ProductSection = ({
                             >
                                 <div className="grid grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 gap-2 lg:gap-8">
                                     {infiniteProducts?.map((product: any) => (
-                                        <Card68
+                                        <Card67
                                             key={product.id}
                                             item={product}
                                         />
@@ -211,7 +211,7 @@ const ProductSection = ({
                     ) : (
                         <div className="grid grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 gap-2 lg:gap-8">
                             {products?.map((product: any) => (
-                                <Card68 key={product.id} item={product} />
+                                <Card67 key={product.id} item={product} />
                             ))}
                         </div>
                     )}

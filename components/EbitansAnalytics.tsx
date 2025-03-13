@@ -73,14 +73,14 @@ const EbitansAnalytics = ({
     useEffect(() => {
         const getData = async () => {
             try {
-                const response = await fetch('/api/ip');
+                const response = await fetch('/api/user');
 
                 // if (!response.ok) {
                 //     console.log('response of /api/ip is not found!');
                 // }
 
                 const data = await response.json();
-                const [lat, lon] = data.loc.split(',', 2);
+                const [lat='', lon=''] = data.loc && data.loc.split(',', 2);
                 // console.log('IP Data:', data.ipString);
                 setState(data.region);
                 setLocation(data.loc);
@@ -96,7 +96,7 @@ const EbitansAnalytics = ({
         };
         setIP(userData?.ip);
         setReferPageUrl(userData?.referrer);
-        getData();
+        // getData();
     }, [setReferPageUrl, userData]);
 
     const [postEbitansAnalytics] = usePostEbitansAnalyticsMutation();
@@ -129,13 +129,11 @@ const EbitansAnalytics = ({
             time_zone: timeZone,
         };
 
-        // console.log('analyticsData', analyticsData);
+        // console.log('analyticsData',analyticsData);
 
-        if (ip) {
-            postEbitansAnalytics({
-                analyticsData,
-            });
-        }
+        // if (ip) {
+        //     postEbitansAnalytics(analyticsData);
+        // }
     }, [
         store_id,
         storeUrl,

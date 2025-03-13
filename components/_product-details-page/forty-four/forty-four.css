@@ -1,0 +1,15 @@
+.shadow-forty-four {
+    @apply filter shadow-[2px_2px_3px_1px_rgba(140,140,140,0.75)];
+}
+
+.shadow-forty-four-hover {
+    @apply filter hover:shadow-[2px_2px_3px_1px_rgba(140,140,140,0.75)];
+}
+
+.shadow-sm-forty-four {
+    @apply filter shadow-[2px_2px_2px_1px_rgba(140,140,140,0.75)];
+}
+
+.shadow-sm-forty-four-hover {
+    @apply filter hover:shadow-[1px_2px_3px_0px_rgba(140,140,140,0.75)];
+}
