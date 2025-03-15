@@ -1,3 +1,4 @@
+import { FORTY_THREE } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const categories: any = {
@@ -101,5 +102,8 @@ export const categories: any = {
     forty: dynamic(() => import('@/components/_category-page/category-forty')),
     fortyone: dynamic(
         () => import('@/components/_category-page/category-fortyone')
+    ),
+    [FORTY_THREE]: dynamic(
+        () => import('@/components/_category-page/category-fortythree')
     ),
 };

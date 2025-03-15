@@ -26,7 +26,7 @@ import QuickView from '@/utils/quick-view';
 import Details from '@/components/_product-details-page/components/details';
 import { useRouter } from 'next/navigation';
 
-const ProductCardTen = ({ item, store_id }: any) => {
+const ProductCardTen = ({ item, type = '' }: any) => {
     const secondImg = item?.image[1] ? item?.image[1] : item?.image[0];
 
     const { cartList } = useSelector((state: RootState) => state.cart);
