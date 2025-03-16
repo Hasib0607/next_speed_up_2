@@ -4,6 +4,9 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { fetchAllBlogData } from '@/app/(main)/blog/helper/api';
 import BlogCardFortyThree from './blog-card-fortythree';
+import React from 'react';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const BlogSectionFortyThree = ({ design }: any) => {
     const store_id = design?.store_id || null;

@@ -30,17 +30,28 @@ const PromoBottomFortyThree = ({ banner, design }: any) => {
     return (
         banner?.length > 0 && (
             <div className="bg-white relative">
+                {/* Background Image */}
+                <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                        backgroundImage: `url(${bannerImg + banner[0]?.image})`,
+                        backgroundAttachment: 'fixed',
+                    }}
+                >
+                    {/* Dark Overlay */}
+                    <div className="absolute inset-0 bg-black/50 bg-gradient-to-t from-black/60 to-transparent" />
+                </div>
                 <style>{styleCss}</style>
-                <div className="sm:container px-5 sm:py-10 py-5">
+                <div className="sm:container px-5 md:px-52 sm:py-10 py-5">
                     {/* Custom Navigation Arrows */}
                     <div className="lg:cursor-pointer">
                         <div
-                            className={`${prevEl} flex h-10 w-10 bg-gray-300 arrow-hover-five duration-500 text-gray-600 absolute left-4 top-1/2 transform -translate-y-1/2 z-10 items-center justify-center cursor-pointer`}
+                            className={`${prevEl} flex h-10 w-10 bg-gray-300 arrow-hover-five duration-500 text-gray-600 absolute left-4 md:left-52 top-1/2 transform -translate-y-1/2 z-10 items-center justify-center cursor-pointer`}
                         >
                             <ChevronLeftIcon className="h-6 w-6 font-serif font-bold" />
                         </div>
                         <div
-                            className={`${nextEl} flex h-10 w-10 bg-gray-300 arrow-hover-five duration-500 text-gray-600 absolute right-4 top-1/2 transform -translate-y-1/2 z-10 items-center justify-center cursor-pointer`}
+                            className={`${nextEl} flex h-10 w-10 bg-gray-300 arrow-hover-five duration-500 text-gray-600 absolute right-4 md:right-52 top-1/2 transform -translate-y-1/2 z-10 items-center justify-center cursor-pointer`}
                         >
                             <ChevronRightIcon className="h-6 w-6 font-serif font-bold" />
                         </div>
