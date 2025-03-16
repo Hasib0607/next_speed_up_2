@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-bar';
 import { imgUrl } from '@/site-settings/siteUrl';
 import { Menu, Transition } from '@headlessui/react';
@@ -10,7 +10,6 @@ import { BsSearch } from 'react-icons/bs';
 import { CgMenuLeft } from 'react-icons/cg';
 import { BsFillCartFill } from "react-icons/bs";
 import Search from '../components/search';
-import SideMenu from '../components/side-menu';
 import { REDUX_PERSIST } from '@/consts';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
@@ -30,6 +29,8 @@ const HeaderFortyThree = ({ design, headersetting, menu }: any) => {
     const [searchInput, setSearchInput] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
     const [openCart, setOpenCart] = useState(false);
+    const [isScrollingDown, setIsScrollingDown] = useState(false);
+    const lastScrollY = useRef(0);
 
     const bgColor = design?.header_color;
 
@@ -47,15 +48,22 @@ const HeaderFortyThree = ({ design, headersetting, menu }: any) => {
     };
 
     useEffect(() => {
-        // scroll navbar
-        const changeNavbar = () => {
-            if (window.scrollY >= 10) {
-                setOpenMenu(true);
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+                // Scrolling down
+                setIsScrollingDown(true);
             } else {
-                setOpenMenu(false);
+                // Scrolling up
+                setIsScrollingDown(false);
             }
+            
+            lastScrollY.current = currentScrollY;
         };
-        window.addEventListener('scroll', changeNavbar);
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     // CSS START FROM HERE
@@ -94,7 +102,9 @@ const HeaderFortyThree = ({ design, headersetting, menu }: any) => {
     return (
         <div>
             <div
-                className={`${openMenu && 'navbarSeven openMenu'} bg-seven-header`}
+                className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out ${
+                    isScrollingDown ? '-translate-y-full' : 'translate-y-0'
+                } ${openMenu && 'navbarSeven openMenu'} bg-seven-header`}
             >
                 <style>{styleCss}</style>
                 <div className="flex flex-col lg:flex-row justify-between items-center nav-menu sm:container px-5 py-5 gap-3 lg:gap-0">

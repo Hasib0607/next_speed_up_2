@@ -42,14 +42,17 @@ const HeroFortyThree = ({ slider, design }: any) => {
     }
     .hero-btn {
         border: 1px solid ${bgColor};
-        color: ${bgColor};
-        
+        color: ${bgColor};  
+    }
+    .hero-btn:hover {
+        border: 1px solid ${bgColor};
+        color: ${textColor};
+        background: ${bgColor};
     }
     .arrow-hover-five:hover {
         background: ${bgColor};
         color: ${textColor};
-        border: 1px solid ${bgColor};
-        
+        border: 1px solid ${bgColor}; 
     }
       `;
 
@@ -104,7 +107,7 @@ const HeroFortyThree = ({ slider, design }: any) => {
                     nextEl: `.${nextEl}`,
                 }}
                 speed={1000}
-                effect={'fade'}
+                effect={'slides'}
                 loop={true}
                 pagination={pagination}
                 autoplay={{
@@ -115,10 +118,10 @@ const HeroFortyThree = ({ slider, design }: any) => {
             >
                 {slider?.map((s: any) => (
                     <SwiperSlide key={s.id}>
-                        <div className="">
+                        <div className="mt-32 md:mt-16">
                             <div
                                 style={{ color: s?.color }}
-                                className="absolute z-[1] text-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[90%] md:max-w-[450px] px-4 sm:px-0 flex flex-col gap-y-2 md:gap-y-4 items-center"
+                                className="absolute z-[1] text-center top-2/3 md:top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[90%] md:max-w-[450px] px-4 sm:px-0 flex flex-col gap-y-2 md:gap-y-4 items-center"
                             >
                                 <p className="md:text-lg text-xs md:text-center md:leading-5">
                                     {s?.subtitle}
