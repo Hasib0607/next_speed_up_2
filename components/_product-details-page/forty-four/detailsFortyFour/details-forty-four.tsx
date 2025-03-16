@@ -3,14 +3,9 @@
 import BDT from '@/utils/bdt';
 import CallForPrice from '@/utils/call-for-price';
 
-import {
-    FacebookIcon,
-    FacebookMessengerIcon,
-    FacebookMessengerShareButton,
-    FacebookShareButton,
-    WhatsappIcon,
-    WhatsappShareButton,
-} from 'react-share';
+import { FacebookShareButton, WhatsappShareButton } from 'react-share';
+
+import { FaFacebookF, FaSquareWhatsapp } from 'react-icons/fa6';
 
 import { getProductQuantity } from '@/helpers/getProductQuantity';
 import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
@@ -31,14 +26,15 @@ import {
 } from '../imageVariationFortyFour/image-variations';
 
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
-import HorizontalSlider from '../horizontalSliderFortyFour/horizontal-slider';
+import HorizontalSlider from '../horizontalSliderFortyFour/horizontal-slider-forty-four';
 import Card1 from '@/components/card/card1';
+import SectionHeadingFortyFour from '@/components/section-heading/section-heading-forty-four';
 
 const DetailsFortyFour = ({
     product,
     design,
     children,
-    buttonStyle,
+    frequentProduct = {},
 }: any) => {
     const { headersetting } = useSelector((state: RootState) => state.home);
     const store_id = numberParser(design?.store_id) || null;
@@ -185,9 +181,14 @@ const DetailsFortyFour = ({
         () => howMuchSave(product, variantId),
         [product, variantId]
     );
-    const parsedRating = numberParser(product?.rating, true);
+
+    const hassFrequentProduct = useMemo(
+        () => Object.keys(frequentProduct).length !== 0,
+        [frequentProduct]
+    );
 
     const handleAddToCart = () => {
+        setQty(1);
         addToCart({
             dispatch,
             product,
@@ -223,13 +224,12 @@ const DetailsFortyFour = ({
   }
 `;
 
-
     return (
-        <div className="bg-transparent h-full max-w-7xl mx-auto">
+        <div className="bg-transparent h-full w-auto">
             <style>{styleCss}</style>
 
             <div className="grid grid-cols-1 md:grid-cols-10 gap-6">
-                <div className="md:col-span-5">
+                <div className="md:col-span-4 lg:col-span-5 space-y-2 px-3 md:px-0">
                     <HorizontalSlider
                         design={design}
                         product={product}
@@ -237,9 +237,16 @@ const DetailsFortyFour = ({
                         activeImg={activeImg}
                         setActiveImg={setActiveImg}
                     />
-                    <Card1 item={product}/>
+                    {hassFrequentProduct && (
+                        <>
+                            <SectionHeadingFortyFour
+                                title={'Frequently Bought Together'}
+                            />
+                            <Card1 item={frequentProduct} />
+                        </>
+                    )}
                 </div>
-                <div className="md:col-span-5 space-y-4 lg:sticky top-28 h-max">
+                <div className="md:col-span-6 lg:col-span-5 px-3 md:px-0 space-y-4 lg:sticky top-28 h-max">
                     <h2 className="text-2xl text-[#212121] font-light capitalize">
                         {product?.name}
                     </h2>
@@ -329,23 +336,20 @@ const DetailsFortyFour = ({
                         />
                     )}
 
-
-                    {productQuantity !== 0 && price !== 0 && (
-                        <AddToCartBtnFortyFour
-                            qty={qty}
-                            setQty={setQty}
-                            variant={variant}
-                            variantId={variantId}
-                            productQuantity={productQuantity}
-                            currentVariation={currentVariation}
-                            color={color}
-                            size={size}
-                            unit={unit}
-                            filterV={filterV}
-                            product={product}
-                            onClick={handleAddToCart}
-                        />
-                    )}
+                    <AddToCartBtnFortyFour
+                        qty={qty}
+                        setQty={setQty}
+                        variant={variant}
+                        variantId={variantId}
+                        productQuantity={productQuantity}
+                        currentVariation={currentVariation}
+                        color={color}
+                        size={size}
+                        unit={unit}
+                        filterV={filterV}
+                        product={product}
+                        onClick={handleAddToCart}
+                    />
 
                     <div className="">
                         <CallForPrice
@@ -361,19 +365,19 @@ const DetailsFortyFour = ({
                     </div>
                     <div className="flex flex-col items-center gap-x-3">
                         <p className="font-medium">Share</p>
-                        <span className="flex space-x-2">
+                        <span className="flex gap-x-6">
                             <FacebookShareButton url={window.location.href}>
-                                <FacebookIcon size={32} round={true} />
+                                <FaFacebookF
+                                    size={20}
+                                    className="hover:text-blue-500"
+                                />
                             </FacebookShareButton>
                             <WhatsappShareButton url={window.location.href}>
-                                <WhatsappIcon size={32} round={true} />
+                                <FaSquareWhatsapp
+                                    size={24}
+                                    className="hover:text-green-500"
+                                />
                             </WhatsappShareButton>
-                            <FacebookMessengerShareButton
-                                appId="2"
-                                url={window.location.href}
-                            >
-                                <FacebookMessengerIcon size={32} round={true} />
-                            </FacebookMessengerShareButton>
                         </span>
                     </div>
                     {/* Display the referral link */}
@@ -460,7 +464,7 @@ const DetailsFortyFour = ({
                                 'Out Of Stock'
                             )}
                         </p>
-                    </div> */}
+                        </div> */}
                 </div>
             </div>
         </div>

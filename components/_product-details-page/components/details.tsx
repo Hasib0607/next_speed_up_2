@@ -196,6 +196,7 @@ const Details = ({ product, children, cod, zoomable, buttonStyle }: any) => {
     const parsedRating = numberParser(product?.rating, true);
 
     const handleAddToCart = () => {
+        setQty(1)
         addToCart({
             dispatch,
             product,

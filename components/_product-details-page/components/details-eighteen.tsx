@@ -192,6 +192,7 @@ const DetailsEighteen = ({
     const parsedRating = numberParser(product?.rating, true);
 
     const handleAddToCart = () => {
+        setQty(1)
         addToCart({
             dispatch,
             product,

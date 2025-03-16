@@ -295,13 +295,19 @@ const AddCartBtn = ({
                     >
                         <HiMinus />
                     </button>
-                    <input
-                        type="number"
-                        className="form-control w-14 text-center border border-gray-100 outline-none py-[8px] text-lg font-semibold remove-arrow"
-                        value={qty}
-                        ref={inputRef}
-                        onChange={(e) => handleInputChange(e)}
-                    />
+                    {isDisabled ? (
+                        <div className="center w-24 py-2 text-lg font-semibold">
+                            {qty}
+                        </div>
+                    ) : (
+                        <input
+                            type="number"
+                            className="form-control w-14 text-center border border-gray-100 outline-none py-[8px] text-lg font-semibold remove-arrow"
+                            value={qty}
+                            ref={inputRef}
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                    )}
                     <button
                         className="px-4 py-3 border border-gray-100 rounded-tr-full rounded-br-full text-xl bg-gray-50 text-black"
                         type="button"

@@ -9,12 +9,13 @@ import {
 } from '@/utils/_cart-utils/cart-utils';
 import { HiMinus, HiPlus } from 'react-icons/hi';
 import { useRouter } from 'next/navigation';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getDataByType } from '@/helpers/getCustomDataByType';
 import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
 import { classNames } from '@/helpers/littleSpicy';
+import { ImPlus } from 'react-icons/im';
 
 const AddToCartBtnFortyFour = ({
     setQty,
@@ -33,6 +34,7 @@ const AddToCartBtnFortyFour = ({
     className,
     children,
 }: any) => {
+    const [disabled, setDisabled] = useState<boolean>(false);
     const { cartList } = useSelector((state: RootState) => state.cart);
     const router = useRouter();
 
@@ -252,6 +254,14 @@ const AddToCartBtnFortyFour = ({
         }
     }, [variantId, setQty]);
 
+    useEffect(() => {
+        if (productQuantity === 0 || isDisabled) {
+            setDisabled(true);
+        }else{
+            setDisabled(false)
+        }
+    }, [productQuantity,isDisabled]);
+
     const cssStyle = `
         .c_button {
             color:  ${button_color};
@@ -275,25 +285,24 @@ const AddToCartBtnFortyFour = ({
         }
     `;
 
-    const fallbackBtnStyle = "text-sm font-normal py-2 px-4 max-w-44"
+    const fallbackBtnStyle =
+        'text-sm font-normal py-2 px-3 max-w-44 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-700';    
 
     return (
-        <div
-            className={
-                className ??
-                'flex flex-wrap lg2:flex-row flex-col justify-start lg2:items-center gap-5'
-            }
-        >
+        <div className={className ?? 'flex flex-wrap justify-start gap-5'}>
             <style>{cssStyle}</style>
-            
-                <div className="text-sm font-normal max-w-44 center border border-gray-500 py-[2px]">
-                    <button
-                        className={fallbackBtnStyle}
-                        type="button"
-                        onClick={decNum}
-                    >
-                        <HiMinus />
-                    </button>
+
+            <div className="text-sm font-normal max-w-44 center border border-gray-500 py-[2px]">
+                <button
+                    className={fallbackBtnStyle}
+                    type="button"
+                    onClick={decNum}
+                >
+                    <HiMinus />
+                </button>
+                {isDisabled ? (
+                    <div className="text-center h-auto w-14">{qty}</div>
+                ) : (
                     <input
                         type="number"
                         className="text-center h-auto w-14 remove-arrow"
@@ -301,94 +310,87 @@ const AddToCartBtnFortyFour = ({
                         ref={inputRef}
                         onChange={(e) => handleInputChange(e)}
                     />
+                )}
+                <button
+                    className={fallbackBtnStyle}
+                    type="button"
+                    onClick={incNum}
+                >
+                    <HiPlus />
+                </button>
+            </div>
+            <>
+                {isEmpty && (
                     <button
-                        className={fallbackBtnStyle}
-                        type="button"
-                        onClick={incNum}
+                        onClick={onClick}
+                        className={classNames(
+                            buttonOne ? buttonOne : fallbackBtnStyle,
+                            !disabled && 'c_button1'
+                        )}
+                        disabled={disabled}
                     >
-                        <HiPlus />
+                        <p className="center gap-2">
+                            <ImPlus />
+                            {disabled
+                                ? 'Out of Stock'
+                                : (children ?? 'Add to cart')}
+                        </p>
                     </button>
-                </div>
-
-            {productQuantity === 0 ? (
-                <button className={buttonOne}>Out of Stock</button>
-            ) : (
-                <>
-                    {isEmpty && (
-                        <button
-                            onClick={onClick}
-                            className={classNames(
-                                buttonOne
-                                    ? buttonOne
-                                    : fallbackBtnStyle,
-                                'c_button1'
-                            )}
-                        >
-                            <p className="center gap-2">
-                            <HiPlus className=' font-extrabold'/>
-                                {children ?? 'Add to cart'}
-                            </p>
-                        </button>
-                    )}
-                    {button && (
-                        <button
-                            className={classNames(
-                                buttonOne
-                                    ? buttonOne
-                                    : fallbackBtnStyle,
-                                'c_button'
-                            )}
-                            onClick={
-                                numberParser(is_buy_now_cart) == 1
-                                    ? buy_now
-                                    : onClick
-                            }
-                        >
-                            <p className="center gap-x-2">
-                                <HiPlus className=' font-extrabold'/>
-                                {button}
-                            </p>
-                        </button>
-                    )}
-                    {isEmpty && (
-                        <div
-                            onClick={buy_now}
-                            className={classNames(
-                                buttonOne
-                                    ? buttonOne
-                                    : fallbackBtnStyle,
-                                'c_button1'
-                            )}
-                        >
-                            <p className="center gap-2">
-                            <HiPlus className=' font-extrabold'/>
-                                {'ORDER NOW'}
-                            </p>
-                        </div>
-                    )}
-                    {button1 && (
-                        <button
-                            onClick={
-                                numberParser(is_buy_now_cart1) == 1
-                                    ? buy_now
-                                    : onClick
-                            }
-                            type="submit"
-                            className={classNames(
-                                buttonOne
-                                    ? buttonOne
-                                    : fallbackBtnStyle,
-                                'c_button1'
-                            )}
-                        >
-                            <p className="center gap-2">
-                            <HiPlus className=' font-extrabold'/>
-                                {button1}
-                            </p>
-                        </button>
-                    )}
-                </>
-            )}
+                )}
+                {isEmpty && (
+                    <button
+                        onClick={buy_now}
+                        className={classNames(
+                            buttonOne ? buttonOne : fallbackBtnStyle,
+                            !disabled && 'c_button1'
+                        )}
+                        disabled={disabled}
+                    >
+                        <p className="center gap-2">
+                            <ImPlus />
+                            {'ORDER NOW'}
+                        </p>
+                    </button>
+                )}
+                {button && (
+                    <button
+                        className={classNames(
+                            buttonOne ? buttonOne : fallbackBtnStyle,
+                            !disabled && 'c_button'
+                        )}
+                        onClick={
+                            numberParser(is_buy_now_cart) == 1
+                                ? buy_now
+                                : onClick
+                        }
+                        disabled={disabled}
+                    >
+                        <p className="center gap-x-2">
+                            <ImPlus />
+                            {button}
+                        </p>
+                    </button>
+                )}
+                {button1 && (
+                    <button
+                        onClick={
+                            numberParser(is_buy_now_cart1) == 1
+                                ? buy_now
+                                : onClick
+                        }
+                        disabled={disabled}
+                        className={classNames(
+                            buttonOne ? buttonOne : fallbackBtnStyle,
+                            !disabled && 'c_button1'
+                        )}
+                    >
+                        <p className="center gap-2">
+                            <ImPlus />
+                            {button1}
+                        </p>
+                    </button>
+                )}
+            </>
         </div>
     );
 };
