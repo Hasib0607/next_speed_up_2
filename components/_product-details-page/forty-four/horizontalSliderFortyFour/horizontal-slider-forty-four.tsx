@@ -90,19 +90,20 @@ const HorizontalSlider = ({
     return (
         <div>
             <style>{styleCss}</style>
-            <div className="flex flex-col max-h-128 w-full gap-5 ">
+            <div className="flex flex-col max-h-128 w-full gap-5">
                 {/* selected image show  */}
                 <div className="relative h-full w-full shadow-forty-four">
                     <Image
                         src={
                             !activeImg
-                                ? productImg + images[id]
+                                ? productImg + images?.[id]
                                 : productImg + activeImg
                         }
                         height={500}
                         width={500}
                         className="h-full w-full object-cover object-center"
-                        alt=""
+                        alt={!activeImg ? `slider-image-${images?.[id]}` : `slider-image-${activeImg}`}
+                        priority
                     />
                 </div>
 
@@ -131,7 +132,8 @@ const HorizontalSlider = ({
                                                     : 'inactive-img'
                                             } h-24 w-24 object-cover object-center bg-gray-100 border border-gray-400`}
                                             src={productImg + item}
-                                            alt=""
+                                            alt={`next-${item}`}
+                                            priority
                                         />
                                     </div>
                                 ))}

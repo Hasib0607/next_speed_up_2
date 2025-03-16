@@ -187,28 +187,30 @@ export const addToCart = ({
 }) => {
     const hasInCartList = isActiveCart(product, cartList, variantId);
     const isAbleToCart = isQtyLeft(product, variantId, qty, cartList);
-    const hasImages = variant?.some((item: any) => item?.image)
+    const hasImages = variant?.some((item: any) => item?.image);
 
     const addOnBoard = () => {
-        dispatch(
-            addToCartList({
-                price,
-                qty,
-                availability: productQuantity,
-                variant_id: variantId,
-                ...product,
-            })
-        );
-        sendGTMEvent({
-            event: 'add_to_cart',
-            value: {
-                price,
-                qty,
-                availability: productQuantity,
-                variant_id: variantId,
-                ...product,
-            },
-        });
+        if (productQuantity !== 0 && price !== 0) {
+            dispatch(
+                addToCartList({
+                    price,
+                    qty,
+                    availability: productQuantity,
+                    variant_id: variantId,
+                    ...product,
+                })
+            );
+            sendGTMEvent({
+                event: 'add_to_cart',
+                value: {
+                    price,
+                    qty,
+                    availability: productQuantity,
+                    variant_id: variantId,
+                    ...product,
+                },
+            });
+        }
     };
 
     if (hasInCartList && !isAbleToCart) {
@@ -227,9 +229,12 @@ export const addToCart = ({
                     });
                     return;
                 } else if (size === null) {
-                    toast.warning(`Please Select ${hasImages? "Pattern" : "Size"}`, {
-                        toastId: product?.id,
-                    });
+                    toast.warning(
+                        `Please Select ${hasImages ? 'Pattern' : 'Size'}`,
+                        {
+                            toastId: product?.id,
+                        }
+                    );
                     return;
                 }
                 addOnBoard();
