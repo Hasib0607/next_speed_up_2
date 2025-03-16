@@ -3,8 +3,6 @@
 import BDT from '@/utils/bdt';
 import CallForPrice from '@/utils/call-for-price';
 
-import Rate from '@/utils/rate';
-
 import {
     FacebookIcon,
     FacebookMessengerIcon,
@@ -20,7 +18,6 @@ import { saveToLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { AppDispatch, RootState } from '@/redux/store';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
-import ProdMultiCategory from '@/utils/prod-multi-category';
 
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,16 +32,13 @@ import {
 
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 import HorizontalSlider from '../horizontalSliderFortyFour/horizontal-slider';
+import Card1 from '@/components/card/card1';
 
 const DetailsFortyFour = ({
     product,
     design,
     children,
-    open,
-    setOpen,
-    multiCat,
     buttonStyle,
-    zoomable,
 }: any) => {
     const { headersetting } = useSelector((state: RootState) => state.home);
     const store_id = numberParser(design?.store_id) || null;
@@ -243,6 +237,7 @@ const DetailsFortyFour = ({
                         activeImg={activeImg}
                         setActiveImg={setActiveImg}
                     />
+                    <Card1 item={product}/>
                 </div>
                 <div className="md:col-span-5 space-y-4 lg:sticky top-28 h-max">
                     <h2 className="text-2xl text-[#212121] font-light capitalize">
@@ -426,10 +421,10 @@ const DetailsFortyFour = ({
 
                     {children}
 
-                    <div className="text-sm flex flex-col gap-y-1 text-[#5a5a5a]">
+                    {/* <div className="text-sm flex flex-col gap-y-1 text-[#5a5a5a]">
                         {multiCat && (
                             <div className="flex flex-col gap-3 sm:mt-6 mt-1">
-                                {/* copy from here */}
+                      
                                 {Array.isArray(category) &&
                                     category?.length > 0 && (
                                         <div className="flex items-center gap-2">
@@ -451,7 +446,7 @@ const DetailsFortyFour = ({
                                             </div>
                                         </div>
                                     )}
-                                {/* copy from here */}
+            
                             </div>
                         )}
                         <p>
@@ -465,7 +460,7 @@ const DetailsFortyFour = ({
                                 'Out Of Stock'
                             )}
                         </p>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

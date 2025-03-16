@@ -131,9 +131,9 @@ const EbitansAnalytics = ({
 
         // console.log('analyticsData',analyticsData);
 
-        // if (ip) {
-        //     postEbitansAnalytics(analyticsData);
-        // }
+        if (ip) {
+            postEbitansAnalytics(analyticsData);
+        }
     }, [
         store_id,
         storeUrl,
