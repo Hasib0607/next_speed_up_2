@@ -3,7 +3,12 @@
 import BDT from '@/utils/bdt';
 import CallForPrice from '@/utils/call-for-price';
 
-import { FacebookShareButton, WhatsappShareButton } from 'react-share';
+import {
+    FacebookIcon,
+    FacebookShareButton,
+    WhatsappIcon,
+    WhatsappShareButton,
+} from 'react-share';
 
 import { FaFacebookF, FaSquareWhatsapp } from 'react-icons/fa6';
 
@@ -363,10 +368,10 @@ const DetailsFortyFour = ({
                     <div className="text-sm text-[#5A5A5A] leading-6">
                         <DangerouslySafeHTML content={product?.description} />
                     </div>
-                    <div className="flex flex-col items-center gap-x-3">
-                        <p className="font-medium">Share</p>
-                        <span className="flex gap-x-6">
-                            <FacebookShareButton url={window.location.href}>
+                    <div className="flex flex-col items-start gap-x-3">
+                        <p className="font-medium">Share:</p>
+                        <span className="flex gap-x-2">
+                            {/* <FacebookShareButton url={window.location.href}>
                                 <FaFacebookF
                                     size={20}
                                     className="hover:text-blue-500"
@@ -377,6 +382,12 @@ const DetailsFortyFour = ({
                                     size={24}
                                     className="hover:text-green-500"
                                 />
+                            </WhatsappShareButton> */}
+                            <FacebookShareButton url={window.location.href}>
+                                <FacebookIcon size={32} round={true} />
+                            </FacebookShareButton>
+                            <WhatsappShareButton url={window.location.href}>
+                                <WhatsappIcon size={32} round={true} />
                             </WhatsappShareButton>
                         </span>
                     </div>
