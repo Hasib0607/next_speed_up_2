@@ -95,32 +95,6 @@ const FortyFour = ({ store_id, productId, design }: any) => {
                 buttonStyle={buttonThirtyFive}
                 multiCat
             >
-                <div className="flex flex-col space-y-3">
-                    <p className="text-sm text-[#5a5a5a]">
-                        <span className="font-semibold text-[#212121]">
-                            SKU:
-                        </span>{' '}
-                        {product?.SKU}
-                    </p>
-                    <p className="text-sm text-[#5a5a5a]">
-                        <span className="font-semibold text-[#212121]">
-                            Category:
-                        </span>{' '}
-                        <ProdMultiCategory
-                            category={category}
-                            count={1}
-                            linkOff
-                        />
-                    </p>
-                    {product?.tags && (
-                        <p className="text-sm text-[#5a5a5a]">
-                            <span className="font-semibold text-[#212121]">
-                                Tags:
-                            </span>{' '}
-                            {product?.tags}
-                        </p>
-                    )}
-                </div>
             </DetailsFortyFour>
 
             {product && product?.video_link && (

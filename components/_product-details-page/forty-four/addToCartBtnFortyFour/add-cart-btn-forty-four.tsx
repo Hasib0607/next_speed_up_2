@@ -8,7 +8,6 @@ import {
     isQtyLeft,
 } from '@/utils/_cart-utils/cart-utils';
 import { HiMinus, HiPlus } from 'react-icons/hi';
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
@@ -16,7 +15,6 @@ import { toast } from 'react-toastify';
 import { getDataByType } from '@/helpers/getCustomDataByType';
 import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
 import { classNames } from '@/helpers/littleSpicy';
-import { IoMdCart } from 'react-icons/io';
 
 const AddToCartBtnFortyFour = ({
     setQty,
@@ -31,7 +29,6 @@ const AddToCartBtnFortyFour = ({
     filterV,
     onClick,
     buttonOne,
-    roundedBtn,
     product,
     className,
     children,
@@ -328,7 +325,7 @@ const AddToCartBtnFortyFour = ({
                             )}
                         >
                             <p className="center gap-2">
-                                <IoMdCart />
+                            <HiPlus className=' font-extrabold'/>
                                 {children ?? 'Add to cart'}
                             </p>
                         </button>
@@ -348,7 +345,7 @@ const AddToCartBtnFortyFour = ({
                             }
                         >
                             <p className="center gap-x-2">
-                                <IoMdCart />
+                                <HiPlus className=' font-extrabold'/>
                                 {button}
                             </p>
                         </button>
@@ -364,7 +361,7 @@ const AddToCartBtnFortyFour = ({
                             )}
                         >
                             <p className="center gap-2">
-                                <IoMdCart />
+                            <HiPlus className=' font-extrabold'/>
                                 {'ORDER NOW'}
                             </p>
                         </div>
@@ -385,7 +382,7 @@ const AddToCartBtnFortyFour = ({
                             )}
                         >
                             <p className="center gap-2">
-                                <IoMdCart />
+                            <HiPlus className=' font-extrabold'/>
                                 {button1}
                             </p>
                         </button>
