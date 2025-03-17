@@ -2,8 +2,8 @@ import { checkout_pages } from '@/utils/dynamic-import/checkoutPages/checkoutPag
 import { DEFAULT } from '@/consts';
 
 const Checkout = ({ design, appStore, headersetting }: any) => {
-    const CheckoutComponent = 
-    checkout_pages[design?.checkout_page] || checkout_pages[DEFAULT];
+    const CheckoutComponent =
+        checkout_pages[design?.checkout_page] || checkout_pages[DEFAULT];
 
     return (
         design?.checkout_page !== 'null' &&
