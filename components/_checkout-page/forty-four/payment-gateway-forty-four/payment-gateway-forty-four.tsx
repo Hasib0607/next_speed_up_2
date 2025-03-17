@@ -54,13 +54,37 @@ const PaymentGatewayFortyFour = ({
             </div>
 
             <div className="flex gap-2 flex-wrap">
+                {headersetting?.merchant_bkash === 'active' && (
+                    <div
+                        className={classNames(
+                            btnStyle,
+                            selectedPayment === 'merchant_bkash'
+                                ? `bg-[var(--header-color)] text-[var(--text-color)] hover:ring-0`
+                                : `inset-1 text-[#000]`
+                        )}
+                        onClick={() => handleSelect('merchant_bkash')}
+                    >
+                        {headersetting?.merchant_bkash_text ===
+                        'bKash Payment Img' ? (
+                            <Image
+                                src={bkashLogo.src}
+                                className="h-6 md:h-8 object-cover"
+                                alt="bkashLogo"
+                                width={100}
+                                height={100}
+                            />
+                        ) : (
+                            <p>{headersetting?.merchant_bkash_text}</p>
+                        )}
+                    </div>
+                )}
                 {headersetting?.merchant_nagad === 'active' && (
                     <div
                         className={classNames(
                             btnStyle,
                             selectedPayment === 'merchant_nagad'
                                 ? `bg-[var(--header-color)] text-[var(--text-color)] hover:ring-0`
-                                : `border-none inset-1 text-[#000]`
+                                : `inset-1 text-[#000]`
                         )}
                         onClick={() => handleSelect('merchant_nagad')}
                     >
@@ -84,7 +108,7 @@ const PaymentGatewayFortyFour = ({
                             btnStyle,
                             selectedPayment === 'uddoktapay'
                                 ? `bg-[var(--header-color)] text-[var(--text-color)] hover:ring-0`
-                                : `border-none inset-1 text-[#000]`
+                                : `inset-1 text-[#000]`
                         )}
                         onClick={() => handleSelect('uddoktapay')}
                     >
@@ -107,7 +131,7 @@ const PaymentGatewayFortyFour = ({
                             btnStyle,
                             selectedPayment === 'amarpay'
                                 ? `bg-[var(--header-color)] text-[var(--text-color)] hover:ring-0`
-                                : `border-none inset-1 text-[#000]`
+                                : `inset-1 text-[#000]`
                         )}
                         onClick={() => handleSelect('amarpay')}
                     >
@@ -129,7 +153,7 @@ const PaymentGatewayFortyFour = ({
                             btnStyle,
                             selectedPayment === 'online'
                                 ? `bg-[var(--header-color)] text-[var(--text-color)] hover:ring-0`
-                                : `border-none inset-1 text-[#000]`
+                                : `inset-1 text-[#000]`
                         )}
                         onClick={() => handleSelect('online')}
                     >
@@ -152,7 +176,7 @@ const PaymentGatewayFortyFour = ({
                             'w-36',
                             selectedPayment === 'bkash'
                                 ? `bg-[var(--header-color)] text-[var(--text-color)] hover:ring-0`
-                                : `border-none inset-1 text-[#000]`
+                                : `inset-1 text-[#000]`
                         )}
                         onClick={() => handleSelect('bkash')}
                     >
@@ -175,7 +199,7 @@ const PaymentGatewayFortyFour = ({
                             'w-36',
                             selectedPayment === 'cod'
                                 ? `bg-[var(--header-color)] text-[var(--text-color)] hover:ring-0`
-                                : `border-none inset-1 text-[#000]`
+                                : `inset-1 text-[#000]`
                         )}
                         onClick={() => handleSelect('cod')}
                     >
@@ -197,7 +221,7 @@ const PaymentGatewayFortyFour = ({
                             btnStyle,
                             selectedPayment === 'ap'
                                 ? `bg-[var(--header-color)] text-[var(--text-color)] hover:ring-0`
-                                : `border-none inset-1 text-[#000]`
+                                : `inset-1 text-[#000]`
                         )}
                         onClick={() => handleSelect('ap')}
                     >

@@ -108,6 +108,30 @@ const PaymentGateway = ({
             )}
 
             <div className="flex gap-2 flex-wrap">
+                {headersetting?.merchant_bkash === 'active' && (
+                    <div
+                        className={classNames(
+                            btnStyle,
+                            selectedPayment === 'merchant_bkash'
+                                ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                : `bg-[#fff] text-[#000]`
+                        )}
+                        onClick={() => handleSelect('merchant_bkash')}
+                    >
+                        {headersetting?.merchant_bkash_text ===
+                        'bKash Payment Img' ? (
+                            <Image
+                                src={bkashLogo.src}
+                                className="h-6 md:h-8 object-cover"
+                                alt="bkashLogo"
+                                width={100}
+                                height={100}
+                            />
+                        ) : (
+                            <p className="font-semibold tracking-wider">{headersetting?.merchant_bkash_text}</p>
+                        )}
+                    </div>
+                )}
                 {headersetting?.merchant_nagad === 'active' && (
                     <div
                         className={classNames(
