@@ -73,7 +73,7 @@ const Card1 = ({ item }: any) => {
             </div>
             <div className="flex flex-col gap-3 w-50% md:w-[74%]">
                 <Link href={'/product/' + item?.id + '/' + item?.slug}>
-                    <h1 className="text-md font-normal text-gray-700 capitalize whitespace-nowrap overflow-hidden text-ellipsis">
+                    <h1 className="text-md font-normal text-gray-700 capitalize line-clamp-2">
                         {item?.name}
                     </h1>
                 </Link>

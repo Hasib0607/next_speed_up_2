@@ -5,7 +5,7 @@ import useBrowserInfo from '@/hooks/useBrowserInfo';
 import useGeoLocation from '@/hooks/useGeoLocation';
 import { usePostEbitansAnalyticsMutation } from '@/redux/features/analytics/analyticsApi';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const EbitansAnalytics = ({
     design,
@@ -31,7 +31,6 @@ const EbitansAnalytics = ({
     const [device, setDevice] = useState(null);
     const [os, setOs] = useState(null);
     const [mobileOs, setMobileOs] = useState(null);
-    const [location, setLocation] = useState(null);
 
     //   for ip
     const [ip, setIP] = useState('');
@@ -70,34 +69,29 @@ const EbitansAnalytics = ({
         }
     }, [latitude, longitude, fetchAddress]);
 
+    const getIpData = useCallback(async () => {
+        try {
+            const response = await fetch('/api/ip');
+
+            const data = await response.json();
+            const [lat = '', lon = ''] = data.loc && data.loc.split(',', 2);
+            setState(data.region);
+            setZipCode(data.postal);
+            setLatitude(lat);
+            setLongitude(lon);
+            // setCountryName(data.country_name);
+            setCountryCode(data.country);
+            setCity(data.city);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }, []);
+
     useEffect(() => {
-        const getData = async () => {
-            try {
-                const response = await fetch('/api/user');
-
-                // if (!response.ok) {
-                //     console.log('response of /api/ip is not found!');
-                // }
-
-                const data = await response.json();
-                const [lat='', lon=''] = data.loc && data.loc.split(',', 2);
-                // console.log('IP Data:', data.ipString);
-                setState(data.region);
-                setLocation(data.loc);
-                setZipCode(data.postal);
-                setLatitude(lat);
-                setLongitude(lon);
-                // setCountryName(data.country_name);
-                setCountryCode(data.country);
-                setCity(data.city);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
         setIP(userData?.ip);
         setReferPageUrl(userData?.referrer);
-        // getData();
-    }, [setReferPageUrl, userData]);
+        getIpData();
+    }, [setReferPageUrl, userData, getIpData]);
 
     const [postEbitansAnalytics] = usePostEbitansAnalyticsMutation();
 
@@ -160,6 +154,7 @@ const EbitansAnalytics = ({
         timeZone,
         postEbitansAnalytics,
     ]);
+
     return null;
 };
 
