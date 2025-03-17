@@ -24,11 +24,10 @@ const DefaultBrand = ({ headersetting, brands }: any) => {
                 <div className="relative z-10 flex h-full items-center justify-start md:justify-end pr-0 md:pr-80 text-start">
                     <div className="max-w-2xl px-4 md:px-8">
                         <h1 className="mb-6 text-3xl font-bold text-white md:text-4xl">
-                            Welcome to Our Platform
+                            {brandData?.[0]?.title}
                         </h1>
                         <p className="text-lg text-gray-200 md:text-xl mb-6">
-                            Discover amazing experiences and create
-                            unforgettable memories with our premium services
+                            {brandData?.[0]?.subtitle}
                         </p>
                         <div className="grid grid-cols-1 md:grid-cols-2 py-5">
                             {brands?.map((item: any) => (
