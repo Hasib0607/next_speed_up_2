@@ -3,22 +3,19 @@
 import React, { useState } from 'react';
 import { getEmbedYoutubeUrl } from './components/getEmbedYoutubeUrl';
 import { PlayIcon } from '@heroicons/react/24/solid';
-import { brandImg } from '@/site-settings/siteUrl';
+import { brandBgImg, youtubeBgImg } from '@/site-settings/siteUrl';
+import { XMarkIcon as CloseIcon } from '@heroicons/react/24/outline';
 
 const YoutubeFortyThree = ({ headersetting }: any) => {
     const { custom_design } = headersetting || {};
     const youtubeData = custom_design?.youtube || {};
     const youtubeLink = youtubeData?.[0]?.link;
 
-    const backgroundImage =
-        'https://images.unsplash.com/photo-1469474968028-56623f02e42e';
-    const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-
     const embedUrl = youtubeLink ? getEmbedYoutubeUrl(youtubeLink) : null;
 
+    const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
     const brandData = custom_design?.brand || {};
-
-
 
     return (
         <>
@@ -26,7 +23,9 @@ const YoutubeFortyThree = ({ headersetting }: any) => {
                 {/* Full-screen Background Image */}
                 <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-                    style={{ backgroundImage: `url(${backgroundImage || ''})` }}
+                    style={{
+                        backgroundImage: `url(${youtubeBgImg + youtubeData?.[0]?.bg_image || ''})`,
+                    }}
                 >
                     <div className="absolute inset-0 bg-black/60" />
                 </div>
@@ -65,6 +64,13 @@ const YoutubeFortyThree = ({ headersetting }: any) => {
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                         allowFullScreen
                                     />
+                                    <button
+                                        onClick={() => setIsVideoPlaying(false)}
+                                        className="absolute top-0 right-0 z-20 p-2 text-white bg-gray-800/80 hover:bg-gray-700/90 rounded-full transition-colors"
+                                        aria-label="Close video"
+                                    >
+                                        <CloseIcon className="h-5 w-5" />
+                                    </button>
                                 </div>
                             )}
                         </div>
@@ -89,8 +95,7 @@ const YoutubeFortyThree = ({ headersetting }: any) => {
                 <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{
-                        backgroundImage:
-                            `url(${backgroundImage || ''})`,
+                        backgroundImage: `url(${brandBgImg + brandData?.[0]?.bg_image || ''})`,
                         backgroundAttachment: 'fixed',
                     }}
                 >
