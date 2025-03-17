@@ -16,3 +16,5 @@ export const themeImg =
     process.env.NEXT_PUBLIC_BASE + '/assets/images/template/';
 export const blogImg = process.env.NEXT_PUBLIC_BASE + '/BlogImages/';
 export const brandImg = process.env.NEXT_PUBLIC_BASE + '/assets/images/brand/';
+export const brandBgImg = process.env.NEXT_PUBLIC_BASE + '/assets/images/design/';
+export const youtubeBgImg = process.env.NEXT_PUBLIC_BASE + '/assets/images/design/';

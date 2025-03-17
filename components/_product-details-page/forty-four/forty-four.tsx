@@ -62,58 +62,70 @@ const FortyFour = ({ store_id, productId, design }: any) => {
         }
     }, [bestSellProductData, bestSellProductSuccess]);
 
-    let detailsContentSkeleton;
+    let detailsContent;
+    let relatedContent;
+    let bestSellContent;
 
+    // product
     if (productDetailsLoading && !productDetailsError) {
-        detailsContentSkeleton = <Skeleton />;
+        detailsContent = <Skeleton />;
     }
 
-    let relatedContentSkeleton;
+    if (productDetailsSuccess && !productDetailsLoading) {
+        detailsContent = (
+            <DetailsFortyFour
+                design={design}
+                product={product}
+                frequentProduct={relatedProducts[0]}
+            />
+        );
+    }
 
+    // related
     if (relatedProductsLoading && !relatedProductsError) {
-        relatedContentSkeleton = <p>Loading related products...</p>;
+        relatedContent = <p>Loading related products...</p>;
     }
-    let bestSellContentSkeleton;
 
+    if (
+        relatedProductsSuccess &&
+        !relatedProductsLoading &&
+        relatedProducts?.length > 1
+    ) {
+        relatedContent = <RelatedProducts products={relatedProducts} />;
+    }
+
+    // best sell
     if (bestSellProductLoading && !bestSellProductError) {
-        bestSellContentSkeleton = <p>Loading best sell products...</p>;
+        bestSellContent = <p>Loading best sell products...</p>;
+    }
+
+    if (
+        bestSellProductSuccess &&
+        !bestSellProductLoading &&
+        bestSellProducts?.length > 0
+    ) {
+        bestSellContent = <BestSellProducts products={bestSellProducts} />;
     }
 
     return (
         <div className="container my-4 md:my-6 lg:my-8 space-y-5 md:space-y-8 lg:space-y-10 md:max-w-7xl xl:max-w-[1420px] mx-auto md:mx-20 lg:mx-auto">
-            <div className="px-0 md:px-4">
-                {detailsContentSkeleton}
-                <DetailsFortyFour
-                    design={design}
-                    product={product}
-                    frequentProduct={relatedProducts[0]}
-                />
-            </div>
+            <div className="px-0 md:px-4">{detailsContent}</div>
             <div className="px-0 md:px-4">
                 {product?.video_link && (
                     <VideoPlayer videoUrl={product?.video_link} />
                 )}
             </div>
-            <div className="px-0 md:px-4">
-                {relatedContentSkeleton}
-                {relatedProducts?.length > 1 && (
-                    <RelatedProducts products={relatedProducts} />
-                )}
-            </div>
-            <div className="px-0 md:px-4">
-                {bestSellContentSkeleton}
-                {bestSellProducts?.length > 0 && (
-                    <BestSellProducts products={bestSellProducts} />
-                )}
-            </div>
+            <div className="px-0 md:px-4">{relatedContent}</div>
+            <div className="px-0 md:px-4">{bestSellContent}</div>
         </div>
     );
 };
 
 export default FortyFour;
 
-const pageGrid = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4'
-const pageSection = 'px-3 md:px-0 bg-transparent space-y-4 w-auto'
+const pageGrid =
+    'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4';
+const pageSection = 'px-3 md:px-0 bg-transparent space-y-4 w-auto';
 
 const RelatedProducts = ({ products }: any) => {
     return (
