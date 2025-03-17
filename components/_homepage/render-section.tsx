@@ -10,8 +10,9 @@ const NewArrival = dynamic(() => import('@/components/NewArrival'));
 const BestSellProduct = dynamic(() => import('@/components/BestSellProduct'));
 const FeatureProduct = dynamic(() => import('@/components/FeatureProduct'));
 const Product = dynamic(() => import('@/components/Product'));
-const YouTube = dynamic(() => import('@/components/YouTube'));
+const YouTubeSection = dynamic(() => import('@/components/YouTubeSection'));
 const BlogSection = dynamic(() => import('@/components/BlogSection'));
+const BrandSection = dynamic(() => import('@/components/BrandSection'));
 const Testimonial = dynamic(() => import('@/components/Testimonial'));
 
 // type ComponentType =
@@ -25,6 +26,9 @@ const Testimonial = dynamic(() => import('@/components/Testimonial'));
 //     | 'best_sell_product'
 //     | 'feature_product'
 //     | 'testimonial'
+//     | 'youtube'
+//     | 'blog'
+//     | 'brand'
 //     | 'footer';
 
 interface RenderSectionProps {
@@ -86,11 +90,17 @@ const RenderSection = ({
                 <FeatureProduct design={design} headersetting={headersetting} />
             );
         case 'youtube':
-            return <YouTube design={design} headersetting={headersetting} />;
+            return <YouTubeSection design={design} headersetting={headersetting} />;
         case 'blog':
             return (
                 <Suspense fallback={<p>Loading blog...</p>}>
                     <BlogSection design={design} />
+                </Suspense>
+            );
+        case 'brand':
+            return (
+                <Suspense fallback={<p>Loading brand...</p>}>
+                    <BrandSection design={design} headersetting={headersetting} />
                 </Suspense>
             );
         case 'testimonial':

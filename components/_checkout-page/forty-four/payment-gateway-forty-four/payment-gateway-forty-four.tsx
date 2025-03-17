@@ -1,7 +1,7 @@
 'use client';
 
 import bkashLogo from '@/assets/paymentMethodLogo/bkashLogo.png';
-import { TWENTY_EIGHT } from '@/consts';
+import nagadLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
 import { classNames } from '@/helpers/littleSpicy';
 import { setSelectPayment } from '@/redux/features/filters/paymentFilterSlice';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
@@ -10,6 +10,7 @@ import {
     useAppSelector,
 } from '@/redux/features/rtkHooks/rtkHooks';
 import { AppDispatch, RootState } from '@/redux/store';
+import Image from 'next/image';
 
 const PaymentGatewayFortyFour = ({
     design,
@@ -53,6 +54,30 @@ const PaymentGatewayFortyFour = ({
             </div>
 
             <div className="flex gap-2 flex-wrap">
+                {headersetting?.merchant_nagad === 'active' && (
+                    <div
+                        className={classNames(
+                            btnStyle,
+                            selectedPayment === 'merchant_nagad'
+                                ? `bg-[var(--header-color)] text-[var(--text-color)] hover:ring-0`
+                                : `border-none inset-1 text-[#000]`
+                        )}
+                        onClick={() => handleSelect('merchant_nagad')}
+                    >
+                        {headersetting?.merchant_nagad_text ===
+                        'nagad Payment Img' ? (
+                            <Image
+                                src={nagadLogo.src}
+                                className="h-6 md:h-8 object-cover"
+                                alt="nagadLogo"
+                                width={100}
+                                height={100}
+                            />
+                        ) : (
+                            <p>{headersetting?.merchant_nagad_text}</p>
+                        )}
+                    </div>
+                )}
                 {headersetting?.uddoktapay === 'active' && (
                     <div
                         className={classNames(

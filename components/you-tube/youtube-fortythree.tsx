@@ -121,6 +121,13 @@ const YoutubeFortyThree = ({ headersetting }: any) => {
                                         src="https://images.unsplash.com/photo-1469474968028-56623f02e42e"
                                         alt=""
                                     />
+                                    {/* <Image
+                                        className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-100"
+                                        src="https://images.unsplash.com/photo-1469474968028-56623f02e42e"
+                                        alt=""
+                                        width={500}
+                                        height={500}
+                                    /> */}
 
                                     <div className="absolute inset-0 bg-gray-300 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 ease-in-out opacity-50"></div>
                                 </div>
