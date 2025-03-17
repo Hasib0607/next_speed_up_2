@@ -50,6 +50,26 @@ const PaymentGateway = ({ design, appStore, headersetting }: any) => {
                 </div>
 
                 <div className="flex flex-col gap-2">
+                    {headersetting?.merchant_nagad === 'active' && (
+                        <label
+                            className={classNames(
+                                btnStyle,
+                                selectedPayment === 'merchant_nagad'
+                                    ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                    : `bg-[#fff] text-[#000]`
+                            )}
+                        >
+                            <input
+                                type="radio"
+                                name="payment_method"
+                                value="merchant_nagad"
+                                checked={selectedPayment === 'merchant_nagad'}
+                                onChange={handleSelect}
+                                className="mr-2"
+                            />
+                            {headersetting?.merchant_nagad_text}
+                        </label>
+                    )}
                     {headersetting?.uddoktapay === 'active' && (
                         <label
                             className={classNames(
