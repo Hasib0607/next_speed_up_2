@@ -45,6 +45,20 @@ const CheckoutGtm = ({ headersetting }: any) => {
         Checkout(totalPrice, sku, currency);
     }, [cartList, headersetting]);
 
+    // const sendConversionEvent = async () => {
+    //     await fetch("/api/fb-conversion", {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/json" },
+    //         body: JSON.stringify({
+    //             event_name: "Purchase",
+    //             event_id: "123456",
+    //             user_data: { client_ip_address: "1.2.3.4", client_user_agent: navigator.userAgent },
+    //             custom_data: { value: 100, currency: "USD" },
+    //         }),
+    //     });
+    // };
+    
+
     useEffect(() => {
         checkoutEvent();
     }, [checkoutEvent]);

@@ -1,5 +1,4 @@
 import getDomain from '@/helpers/getDomain';
-import { notFound } from 'next/navigation';
 
 export default async function getHeaderSetting() {
     const name = await getDomain();
@@ -15,7 +14,6 @@ export default async function getHeaderSetting() {
         );
 
         if (!response.ok) {
-            // notFound();
             if (response.status === 404) {
                 console.warn("⚠️ Header setting data not found (404).");
                 return null; // Return null instead of crashing

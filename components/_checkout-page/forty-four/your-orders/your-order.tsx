@@ -313,7 +313,6 @@ const YourOrders = ({
 
     useEffect(() => {
         if (
-            checked &&
             data?.total &&
             data?.payment_type &&
             data?.product &&
@@ -321,17 +320,23 @@ const YourOrders = ({
             (data?.phone || data?.email) &&
             data?.shipping !== null
         ) {
-            if (bookingStatus && !data?.address) {
-                setIsAbleToOrder(true);
-            } else if (!bookingStatus && data?.address) {
-                setIsAbleToOrder(true);
-            } else {
-                setIsAbleToOrder(false);
+            if (
+                (bookingStatus && !data?.address) ||
+                (!bookingStatus && data?.address)
+            ) {
+                if (
+                    (headersetting?.online === 'active' && checked) ||
+                    headersetting?.online === 'deactive'
+                ) {
+                    setIsAbleToOrder(true);
+                } else {
+                    setIsAbleToOrder(false);
+                }
             }
         } else {
             setIsAbleToOrder(false);
         }
-    }, [data, bookingStatus, checked]);
+    }, [data, bookingStatus, checked, headersetting]);
 
     return (
         <div className="py-10 px-8 bg-[#F4F4F4] rounded-md">

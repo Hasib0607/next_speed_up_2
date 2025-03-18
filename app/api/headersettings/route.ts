@@ -1,17 +1,14 @@
 import getDomain from '@/helpers/getDomain';
 import { NextResponse } from 'next/server';
 
+export const revalidate = 10
+
 export async function GET() {
     const name = await getDomain();
 
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}header-settings/${name}/info`,
-            {
-                next: {
-                    revalidate: 10,
-                },
-            }
+            `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}header-settings/${name}/info`
         );
         if (!response.ok) {
             console.warn('No header settings found!');
