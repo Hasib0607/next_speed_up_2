@@ -8,17 +8,17 @@ export async function GET() {
 
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}get-domain/${name}/brand`
+            `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}get-domain/${name}/page`
         );
         if (!response.ok) {
-            console.warn('No brand found!');
+            console.warn('No page found!');
         }
 
         const data = await response.json();
         return NextResponse.json(data);
     } catch (error) {
         return NextResponse.json(
-            { error: 'Failed to fetch Brand data' },
+            { error: 'Failed to fetch page data' },
             { status: 500 }
         );
     }
