@@ -1,5 +1,7 @@
 'use client';
 
+import { AddToCart } from '@/helpers/fbTracking';
+import { generateEventId } from '@/helpers/getBakedId';
 import { isDeliveryChargeDiscount } from '@/helpers/getTypeWiseDiscount';
 import { getCampainOfferDiscount } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
@@ -189,7 +191,36 @@ export const addToCart = ({
     const isAbleToCart = isQtyLeft(product, variantId, qty, cartList);
     const hasImages = variant?.some((item: any) => item?.image);
 
-    const addOnBoard = () => {
+    const sendAddToCartConversionEvent = async (event_id: any) => {
+        // Send data to Facebook Conversion API
+        try {
+            await fetch('/api/meta-conversion', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    event_name: 'AddToCart',
+                    event_time: Math.floor(Date.now() / 1000),
+                    event_id, // Use the same event_id
+                    custom_data: {
+                        value: {
+                            price,
+                            qty,
+                            availability: productQuantity,
+                            variant_id: variantId,
+                            ...product,
+                        },
+                    },
+                }),
+            });
+        } catch (error) {
+            console.error('Error sending server event to Facebook:', error);
+        }
+    };
+
+    const addOnBoard = async () => {
+        const event_id = generateEventId();
         if (productQuantity !== 0 && price !== 0) {
             dispatch(
                 addToCartList({
@@ -209,7 +240,11 @@ export const addToCart = ({
                     variant_id: variantId,
                     ...product,
                 },
+                event_id,
             });
+            await sendAddToCartConversionEvent(event_id);
+
+            AddToCart(product)
         }
     };
 

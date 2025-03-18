@@ -1,13 +1,15 @@
 "use client";
 
 import { ViewContent } from "@/helpers/fbTracking";
+import { generateEventId } from "@/helpers/getBakedId";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { useCallback, useEffect } from "react";
 
 const ViewContentGtm = ({ product,headersetting }: any) => {
   
 
-  const sendEvent = useCallback(() => {
+  const sendEvent = useCallback(async () => {
+    const event_id = generateEventId();
     const items = {
       id: product.SKU || "",
       item_id: product.SKU || "",
@@ -34,6 +36,7 @@ const ViewContentGtm = ({ product,headersetting }: any) => {
       },
       value: parseFloat(product.regular_price) || 0,
       currency: headersetting?.code || "BDT",
+      event_id
     });
 
     const currency = headersetting?.code;
@@ -53,6 +56,28 @@ const ViewContentGtm = ({ product,headersetting }: any) => {
       currency,
       sku
     );
+
+    // Send data to Facebook Conversion API
+    try {
+      await fetch('/api/meta-conversion', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              event_name: 'ViewContent',
+              event_time: Math.floor(Date.now() / 1000),
+              event_id, // Use the same event_id
+              custom_data: {
+                value: parseFloat(product.regular_price) || 0,
+                currency: headersetting?.code || "BDT",
+                  contents: items,
+              }
+          }),
+      });
+  } catch (error) {
+      console.error('Error sending event to Facebook:', error);
+  }
 
   }, [product,headersetting]);
 

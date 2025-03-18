@@ -1,6 +1,7 @@
 'use client';
 
 import { Checkout } from '@/helpers/fbTracking';
+import { generateEventId } from '@/helpers/getBakedId';
 import { RootState } from '@/redux/store';
 import { sendGTMEvent } from '@next/third-parties/google';
 import { useCallback, useEffect } from 'react';
@@ -8,8 +9,9 @@ import { useSelector } from 'react-redux';
 
 const CheckoutGtm = ({ headersetting }: any) => {
     const cartList = useSelector((state: RootState) => state.cart.cartList);
-
-    const checkoutEvent = useCallback(() => {
+    
+    const checkoutEvent = useCallback(async () => {
+        const event_id = generateEventId();
         const currency = headersetting?.code;
 
         const items = cartList.map((item: any) => ({
@@ -36,11 +38,34 @@ const CheckoutGtm = ({ headersetting }: any) => {
             event: 'begin_checkout',
             pageType: 'Checkout',
             ecommerce: {
-                currency: headersetting?.code || 'BDT',
+                currency: currency || 'BDT',
                 value: parseFloat(totalPrice) || 0,
                 items: items,
             },
+            event_id, // Pass event_id for deduplication
         });
+
+         // Send data to Facebook Conversion API
+         try {
+            await fetch('/api/meta-conversion', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    event_name: 'Checkout',
+                    event_time: Math.floor(Date.now() / 1000),
+                    event_id, // Use the same event_id
+                    custom_data: {
+                        value: parseFloat(totalPrice) || 0,
+                        currency: currency || 'BDT',
+                        contents: items,
+                    }
+                }),
+            });
+        } catch (error) {
+            console.error('Error sending event to Facebook:', error);
+        }
 
         Checkout(totalPrice, sku, currency);
     }, [cartList, headersetting]);
@@ -50,14 +75,13 @@ const CheckoutGtm = ({ headersetting }: any) => {
     //         method: "POST",
     //         headers: { "Content-Type": "application/json" },
     //         body: JSON.stringify({
-    //             event_name: "Purchase",
+    //             event_name: "begin_checkout",
     //             event_id: "123456",
     //             user_data: { client_ip_address: "1.2.3.4", client_user_agent: navigator.userAgent },
     //             custom_data: { value: 100, currency: "USD" },
     //         }),
     //     });
     // };
-    
 
     useEffect(() => {
         checkoutEvent();

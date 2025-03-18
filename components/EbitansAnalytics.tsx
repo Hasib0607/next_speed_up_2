@@ -63,11 +63,15 @@ const EbitansAnalytics = ({
         }
     }, [setPageUrl]);
 
+    const sendAddress = useCallback(() => {
+          if (latitude && longitude) {
+              fetchAddress(latitude, longitude);
+          }
+      }, [latitude,longitude,fetchAddress])
+
     useEffect(() => {
-        if (latitude && longitude) {
-            fetchAddress(latitude, longitude);
-        }
-    }, [latitude, longitude, fetchAddress]);
+        sendAddress()
+    }, [sendAddress]);
 
     const getIpData = useCallback(async () => {
         try {

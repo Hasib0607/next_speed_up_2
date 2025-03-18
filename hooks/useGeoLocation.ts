@@ -15,7 +15,7 @@ const useGeoLocation = () => {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch the address data.");
+        console.log("Failed to fetch the address data.");
       }
 
       const data = await response.json();
