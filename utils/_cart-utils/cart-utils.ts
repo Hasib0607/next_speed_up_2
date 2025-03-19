@@ -1,5 +1,6 @@
 'use client';
 
+import { sendConversionApiEvent } from '@/helpers/convertionApi';
 import { AddToCart } from '@/helpers/fbTracking';
 import { generateEventId } from '@/helpers/getBakedId';
 import { isDeliveryChargeDiscount } from '@/helpers/getTypeWiseDiscount';
@@ -191,35 +192,15 @@ export const addToCart = ({
     const isAbleToCart = isQtyLeft(product, variantId, qty, cartList);
     const hasImages = variant?.some((item: any) => item?.image);
 
-    const sendAddToCartConversionEvent = async (event_id: any) => {
-        // Send data to Facebook Conversion API
-        try {
-            await fetch('/api/meta-conversion', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    event_name: 'AddToCart',
-                    event_time: Math.floor(Date.now() / 1000),
-                    event_id, // Use the same event_id
-                    custom_data: {
-                        value: {
-                            price,
-                            qty,
-                            availability: productQuantity,
-                            variant_id: variantId,
-                            ...product,
-                        },
-                    },
-                }),
-            });
-        } catch (error) {
-            console.error('Error sending server event to Facebook:', error);
-        }
-    };
+    const contents = [
+        {
+            id: product?.id,
+            item_price: numberParser(price) || 0,
+            quantity: qty,
+        },
+    ];
 
-    const addOnBoard = async () => {
+    const addOnBoard = () => {
         const event_id = generateEventId();
         if (productQuantity !== 0 && price !== 0) {
             dispatch(
@@ -242,9 +223,17 @@ export const addToCart = ({
                 },
                 event_id,
             });
-            await sendAddToCartConversionEvent(event_id);
 
-            AddToCart(product)
+            AddToCart(product);
+
+            sendConversionApiEvent('AddToCart', {
+                event_id, // Use the same event_id
+                custom_data: {
+                    currency: 'BDT',
+                    value: price,
+                    contents,
+                },
+            });
         }
     };
 

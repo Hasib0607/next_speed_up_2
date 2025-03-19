@@ -36,8 +36,8 @@ const EbitansAnalytics = ({
     const [ip, setIP] = useState('');
     const [mac, setMac] = useState('');
     const [state, setState] = useState('');
-    const [latitude, setLatitude] = useState(0);
-    const [longitude, setLongitude] = useState(0);
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
     const [countryName, setCountryName] = useState('');
     const [countryCode, setCountryCode] = useState('');
     const [city, setCity] = useState('');
@@ -63,15 +63,15 @@ const EbitansAnalytics = ({
         }
     }, [setPageUrl]);
 
-    const sendAddress = useCallback(() => {
-          if (latitude && longitude) {
-              fetchAddress(latitude, longitude);
-          }
-      }, [latitude,longitude,fetchAddress])
+    // const sendAddress = useCallback(() => {
+    //       if (latitude && longitude) {
+    //           fetchAddress(latitude, longitude);
+    //       }
+    //   }, [latitude,longitude,fetchAddress])
 
-    useEffect(() => {
-        sendAddress()
-    }, [sendAddress]);
+    // useEffect(() => {
+    //     sendAddress()
+    // }, [sendAddress]);
 
     const getIpData = useCallback(async () => {
         try {

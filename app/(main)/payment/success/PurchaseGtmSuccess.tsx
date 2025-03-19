@@ -1,6 +1,8 @@
 'use client';
 
+import { sendConversionApiEvent } from '@/helpers/convertionApi';
 import { Purchase } from '@/helpers/fbTracking';
+import { generateEventId } from '@/helpers/getBakedId';
 import { prodMultiCat } from '@/helpers/prodMultiCat';
 import { RootState } from '@/redux/store';
 import { sendGTMEvent } from '@next/third-parties/google';
@@ -8,11 +10,13 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 const PurchaseGtmSuccess = ({ headersetting }: any) => {
+    const event_id = generateEventId();
+
     const { purchaseList, grandTotal, customer } = useSelector(
         (state: RootState) => state.purchase
     );
 
-    const currency = headersetting?.code;
+    const currency = headersetting?.code || 'BDT';
 
     useEffect(() => {
         const items = purchaseList.map((item: any) => ({
@@ -27,6 +31,12 @@ const PurchaseGtmSuccess = ({ headersetting }: any) => {
             quantity: item?.qty,
             tax_rate: parseFloat(item.tax_rate) || 0,
             shipping_fee: item.shipping_fee || 0,
+        }));
+
+        const contents = purchaseList.map((item: any) => ({
+            id: item?.id,
+            item_price: parseFloat(item.price) || 0,
+            quantity: item?.qty,
         }));
 
         if (grandTotal !== null && currency) {
@@ -44,12 +54,23 @@ const PurchaseGtmSuccess = ({ headersetting }: any) => {
                     items: items,
                     // customer: { ...customer },
                 },
+                event_id,
             });
 
             // Call Facebook's Purchase function
             Purchase(grandTotal, currency);
         }
-    }, [grandTotal, currency, purchaseList]);
+
+        // Send data to Facebook Conversion API
+        sendConversionApiEvent('Purchase', {
+            event_id, // Use the same event_id
+            custom_data: {
+                value: grandTotal,
+                currency: currency || 'BDT',
+                contents,
+            },
+        });
+    }, [grandTotal, currency, purchaseList, event_id]);
 
     return null;
 };

@@ -1,5 +1,6 @@
 'use client';
 
+import { sendConversionApiEvent } from '@/helpers/convertionApi';
 import { Checkout } from '@/helpers/fbTracking';
 import { generateEventId } from '@/helpers/getBakedId';
 import { RootState } from '@/redux/store';
@@ -9,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 const CheckoutGtm = ({ headersetting }: any) => {
     const cartList = useSelector((state: RootState) => state.cart.cartList);
-    
+
     const checkoutEvent = useCallback(async () => {
         const event_id = generateEventId();
         const currency = headersetting?.code;
@@ -26,6 +27,12 @@ const CheckoutGtm = ({ headersetting }: any) => {
             quantity: item?.qty,
             tax_rate: parseFloat(item.tax_rate) || 0,
             shipping_fee: item.shipping_fee || 0,
+        }));
+
+        const contents = cartList.map((item: any) => ({
+            id: item?.id,
+            item_price: parseFloat(item.price) || 0,
+            quantity: item?.qty,
         }));
 
         const totalPrice = cartList.reduce((accumulator: any, item: any) => {
@@ -45,29 +52,17 @@ const CheckoutGtm = ({ headersetting }: any) => {
             event_id, // Pass event_id for deduplication
         });
 
-         // Send data to Facebook Conversion API
-         try {
-            await fetch('/api/meta-conversion', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    event_name: 'Checkout',
-                    event_time: Math.floor(Date.now() / 1000),
-                    event_id, // Use the same event_id
-                    custom_data: {
-                        value: parseFloat(totalPrice) || 0,
-                        currency: currency || 'BDT',
-                        contents: items,
-                    }
-                }),
-            });
-        } catch (error) {
-            console.error('Error sending event to Facebook:', error);
-        }
-
         Checkout(totalPrice, sku, currency);
+
+        // Send data to Facebook Conversion API
+        sendConversionApiEvent('Checkout', {
+            event_id, // Use the same event_id
+            custom_data: {
+                currency: currency || 'BDT',
+                value: parseFloat(totalPrice) || 0,
+                contents,
+            },
+        });
     }, [cartList, headersetting]);
 
     // const sendConversionEvent = async () => {
