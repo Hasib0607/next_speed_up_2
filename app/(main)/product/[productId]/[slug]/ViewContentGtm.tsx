@@ -8,7 +8,8 @@ import { sendGTMEvent } from '@next/third-parties/google';
 import { useCallback, useEffect } from 'react';
 
 const ViewContentGtm = ({ product, headersetting }: any) => {
-    const sendEvent = useCallback(async () => {
+
+    const sendViewContentEvent = useCallback(async () => {
         const event_id = generateEventId();
         const currency = headersetting?.code || 'BDT';
 
@@ -67,7 +68,7 @@ const ViewContentGtm = ({ product, headersetting }: any) => {
         );
 
         // Send data to Facebook Conversion API
-        sendConversionApiEvent('ViewContent', {
+        await sendConversionApiEvent('ViewContent', {
             event_id, // Use the same event_id
             custom_data: {
                 value: numberParser(product.regular_price) || 0,
@@ -78,8 +79,8 @@ const ViewContentGtm = ({ product, headersetting }: any) => {
     }, [product, headersetting]);
 
     useEffect(() => {
-        sendEvent();
-    }, [sendEvent]);
+        sendViewContentEvent();
+    }, [sendViewContentEvent]);
 
     return null;
 };

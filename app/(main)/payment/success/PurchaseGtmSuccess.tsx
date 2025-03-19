@@ -6,19 +6,18 @@ import { generateEventId } from '@/helpers/getBakedId';
 import { prodMultiCat } from '@/helpers/prodMultiCat';
 import { RootState } from '@/redux/store';
 import { sendGTMEvent } from '@next/third-parties/google';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 const PurchaseGtmSuccess = ({ headersetting }: any) => {
-    const event_id = generateEventId();
-
     const { purchaseList, grandTotal, customer } = useSelector(
         (state: RootState) => state.purchase
     );
 
-    const currency = headersetting?.code || 'BDT';
+    const allPurchaseEvent = useCallback(async () => {
+        const event_id = generateEventId();
+        const currency = headersetting?.code || 'BDT';
 
-    useEffect(() => {
         const items = purchaseList.map((item: any) => ({
             item_name: item?.name,
             item_category_id: item?.category_id,
@@ -62,7 +61,7 @@ const PurchaseGtmSuccess = ({ headersetting }: any) => {
         }
 
         // Send data to Facebook Conversion API
-        sendConversionApiEvent('Purchase', {
+        await sendConversionApiEvent('Purchase', {
             event_id, // Use the same event_id
             custom_data: {
                 value: grandTotal,
@@ -70,7 +69,11 @@ const PurchaseGtmSuccess = ({ headersetting }: any) => {
                 contents,
             },
         });
-    }, [grandTotal, currency, purchaseList, event_id]);
+    }, [grandTotal, purchaseList, headersetting]);
+
+    useEffect(() => {
+        allPurchaseEvent();
+    }, [allPurchaseEvent]);
 
     return null;
 };
