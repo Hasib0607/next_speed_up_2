@@ -14,11 +14,6 @@ export async function POST(req: NextRequest) {
     const clientIp = headersList.get('x-forwarded-for') || '';
     const referer = headersList.get('referer') || '';
 
-    // console.log("FACEBOOK_TEST_EVENT_CODE",FACEBOOK_PIXEL_ID);
-    // console.log("clientIp",clientIp);
-    // console.log("referer",referer);
-    
-
     try {
         const { event_name, event_id, custom_data } = await req.json();
 
@@ -39,8 +34,6 @@ export async function POST(req: NextRequest) {
             ],
             test_event_code: FACEBOOK_TEST_EVENT_CODE,
         };
-
-        // console.log("da",payload);
 
         const response = await fetch(
             `https://graph.facebook.com/v18.0/${FACEBOOK_PIXEL_ID}/events?access_token=${FACEBOOK_ACCESS_TOKEN}`,

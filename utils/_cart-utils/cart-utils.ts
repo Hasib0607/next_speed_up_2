@@ -191,6 +191,7 @@ export const addToCart = ({
     const hasInCartList = isActiveCart(product, cartList, variantId);
     const isAbleToCart = isQtyLeft(product, variantId, qty, cartList);
     const hasImages = variant?.some((item: any) => item?.image);
+    const event_id = generateEventId();
 
     const contents = [
         {
@@ -200,8 +201,7 @@ export const addToCart = ({
         },
     ];
 
-    const addOnBoard = () => {
-        const event_id = generateEventId();
+    const addOnBoard = async () => {
         if (productQuantity !== 0 && price !== 0) {
             dispatch(
                 addToCartList({
@@ -226,7 +226,7 @@ export const addToCart = ({
 
             AddToCart(product);
 
-            sendConversionApiEvent('AddToCart', {
+            await sendConversionApiEvent('AddToCart', {
                 event_id, // Use the same event_id
                 custom_data: {
                     currency: 'BDT',

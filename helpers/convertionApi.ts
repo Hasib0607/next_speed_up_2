@@ -1,6 +1,6 @@
 export const sendConversionApiEvent = async (
     eventName: string,
-    customData: any
+    customData?: any
 ) => {
     const eventBody = {
         event_name: eventName,
