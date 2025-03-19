@@ -1,5 +1,8 @@
 'use client';
 
+import { sendConversionApiEvent } from '@/helpers/convertionApi';
+import { AddToCart } from '@/helpers/fbTracking';
+import { generateEventId } from '@/helpers/getBakedId';
 import { isDeliveryChargeDiscount } from '@/helpers/getTypeWiseDiscount';
 import { getCampainOfferDiscount } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
@@ -189,7 +192,16 @@ export const addToCart = ({
     const isAbleToCart = isQtyLeft(product, variantId, qty, cartList);
     const hasImages = variant?.some((item: any) => item?.image);
 
+    const contents = [
+        {
+            id: product?.id,
+            item_price: numberParser(price) || 0,
+            quantity: qty,
+        },
+    ];
+
     const addOnBoard = () => {
+        const event_id = generateEventId();
         if (productQuantity !== 0 && price !== 0) {
             dispatch(
                 addToCartList({
@@ -208,6 +220,18 @@ export const addToCart = ({
                     availability: productQuantity,
                     variant_id: variantId,
                     ...product,
+                },
+                event_id,
+            });
+
+            AddToCart(product);
+
+            sendConversionApiEvent('AddToCart', {
+                event_id, // Use the same event_id
+                custom_data: {
+                    currency: 'BDT',
+                    value: price,
+                    contents,
                 },
             });
         }

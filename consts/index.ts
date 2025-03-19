@@ -76,8 +76,9 @@ let urlName;
 // urlName = 'zlandretail.co.nz';
 // urlName = "kc.design";
 // urlName = "swifttrading.store";
+urlName = "ezara.shop";
 // urlName = 'mytimebd.store';
-urlName = "shr.localhost:3000";
+// urlName = "shr.localhost:3000";
 
 if (process.env.NODE_ENV === 'production') {
     urlName = url();
