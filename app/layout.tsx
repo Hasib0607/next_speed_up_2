@@ -13,10 +13,9 @@ import SetFavicon from '@/utils/useSetFavicon';
 import NextTopLoader from 'nextjs-toploader';
 
 import { GoogleTagManager } from '@next/third-parties/google';
-import { trackServerConversion } from './actions/meta-conversions';
 import FacebookPixel from '@/utils/FacebookPixel';
-import PageView from '@/utils/PageView';
-import { generateEventId } from '@/helpers/getBakedId';
+import CustomPageView from '@/utils/CustomPageView';
+import Head from 'next/head';
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -51,21 +50,12 @@ export default async function RootLayout({
     const appStore = await getStore();
     const design = await getDesign();
     const headersetting = await getHeaderSetting();
-    const event_id = generateEventId();
     const favicon = imgUrl + headersetting?.favicon;
 
     const FACEBOOK_PIXEL_ID = headersetting?.facebook_pixel;
     const gtmId = headersetting?.gtm;
     const googleAnalytics = headersetting?.google_analytics;
     const googleSearchConsole = headersetting?.google_search_console;
-
-    // Send data to Facebook Conversion API
-    await trackServerConversion('PageView', {
-        event_id, // Use the same event_id
-        custom_data: {
-            currency: 'BDT',
-        },
-    });
 
     // console.log("headersetting",headersetting);
 
@@ -79,7 +69,8 @@ export default async function RootLayout({
 
     return (
         <html lang="en">
-            <head>
+            <Head>
+            <SetFavicon faviconUrl={favicon} />
                 {googleAnalytics && (
                     <>
                         <Script
@@ -105,7 +96,11 @@ export default async function RootLayout({
                         content={googleSearchConsole}
                     />
                 )}
-            </head>
+
+                {FACEBOOK_PIXEL_ID && (
+                    <FacebookPixel pixelId={FACEBOOK_PIXEL_ID} />
+                )}
+            </Head>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
                 style={
@@ -132,7 +127,17 @@ export default async function RootLayout({
                     </>
                 )}
 
-                <SetFavicon faviconUrl={favicon} />
+                {/* NoScript Fallback for Users with Disabled JavaScript */}
+                <noscript>
+                    <img
+                        height="1"
+                        width="1"
+                        style={{ display: 'none' }}
+                        src={`https://www.facebook.com/tr?id=${FACEBOOK_PIXEL_ID}&ev=PageView&noscript=1`}
+                        alt="Facebook Pixel"
+                    />
+                </noscript>
+
 
                 <NextTopLoader
                     color={'#29D'}
@@ -145,16 +150,11 @@ export default async function RootLayout({
                     speed={200}
                 />
 
+                <CustomPageView />
+
                 <AppWrapper design={design} appStore={appStore}>
                     {children}
                 </AppWrapper>
-
-                {FACEBOOK_PIXEL_ID && (
-                    <>
-                        <FacebookPixel pixelId={FACEBOOK_PIXEL_ID} />
-                        <PageView eventId={event_id} />
-                    </>
-                )}
             </body>
         </html>
     );

@@ -1,13 +1,14 @@
 'use client';
 
-import { sendConversionApiEvent } from '@/helpers/convertionApi';
+import { trackServerConversion } from '@/app/actions/meta-conversions';
 import { ViewContent } from '@/helpers/fbTracking';
 import { generateEventId } from '@/helpers/getBakedId';
 import { numberParser } from '@/helpers/numberParser';
 import { sendGTMEvent } from '@next/third-parties/google';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 const ViewContentGtm = ({ product, headersetting }: any) => {
+    const hasTracked = useRef(false);
 
     const sendViewContentEvent = useCallback(async () => {
         const event_id = generateEventId();
@@ -64,11 +65,12 @@ const ViewContentGtm = ({ product, headersetting }: any) => {
             content_category,
             value,
             currency,
-            sku
+            sku,
+            event_id
         );
 
         // Send data to Facebook Conversion API
-        await sendConversionApiEvent('ViewContent', {
+        await trackServerConversion('ViewContent', {
             event_id, // Use the same event_id
             custom_data: {
                 value: numberParser(product.regular_price) || 0,
@@ -79,8 +81,11 @@ const ViewContentGtm = ({ product, headersetting }: any) => {
     }, [product, headersetting]);
 
     useEffect(() => {
-        sendViewContentEvent();
-    }, [sendViewContentEvent]);
+        if (!hasTracked.current) {
+            hasTracked.current = true;
+            sendViewContentEvent();
+        }
+    });
 
     return null;
 };

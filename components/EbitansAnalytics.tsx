@@ -94,7 +94,7 @@ const EbitansAnalytics = ({
     useEffect(() => {
         setIP(userData?.ip);
         setReferPageUrl(userData?.referrer);
-        getIpData();
+        // getIpData();
     }, [setReferPageUrl, userData, getIpData]);
 
     const [postEbitansAnalytics] = usePostEbitansAnalyticsMutation();

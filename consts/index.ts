@@ -77,6 +77,7 @@ let urlName;
 // urlName = "kc.design";
 // urlName = "swifttrading.store";
 urlName = "ezara.shop";
+// urlName = "uniquemartbd.shop";
 // urlName = 'mytimebd.store';
 // urlName = "shr.localhost:3000";
 

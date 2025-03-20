@@ -1,6 +1,5 @@
 'use client';
 
-import Head from 'next/head';
 import { useEffect } from 'react';
 
 interface SetFaviconProps {
@@ -29,14 +28,13 @@ const SetFavicon: React.FC<SetFaviconProps> = ({ faviconUrl }) => {
     }, [faviconUrl]);
 
     return (
-        <Head>
+ 
             <link
                 rel="icon"
                 href={faviconUrl}
                 key={faviconUrl}
                 type="image/x-icon"
             />
-        </Head>
     );
 };
 
