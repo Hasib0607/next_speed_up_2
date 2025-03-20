@@ -15,7 +15,6 @@ import NextTopLoader from 'nextjs-toploader';
 import { GoogleTagManager } from '@next/third-parties/google';
 import FacebookPixel from '@/utils/FacebookPixel';
 import CustomPageView from '@/utils/CustomPageView';
-import Head from 'next/head';
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -69,8 +68,7 @@ export default async function RootLayout({
 
     return (
         <html lang="en">
-            <Head>
-            <SetFavicon faviconUrl={favicon} />
+            <head>
                 {googleAnalytics && (
                     <>
                         <Script
@@ -100,7 +98,7 @@ export default async function RootLayout({
                 {FACEBOOK_PIXEL_ID && (
                     <FacebookPixel pixelId={FACEBOOK_PIXEL_ID} />
                 )}
-            </Head>
+            </head>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
                 style={
@@ -110,6 +108,8 @@ export default async function RootLayout({
                     } as React.CSSProperties
                 }
             >
+                <SetFavicon faviconUrl={favicon} />
+
                 {gtmId && (
                     <>
                         <GoogleTagManager gtmId={gtmId} />
@@ -137,7 +137,6 @@ export default async function RootLayout({
                         alt="Facebook Pixel"
                     />
                 </noscript>
-
 
                 <NextTopLoader
                     color={'#29D'}
