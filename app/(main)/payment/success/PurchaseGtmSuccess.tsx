@@ -1,15 +1,17 @@
 'use client';
 
-import { sendConversionApiEvent } from '@/helpers/convertionApi';
+import { trackServerConversion } from '@/app/actions/meta-conversions';
 import { Purchase } from '@/helpers/fbTracking';
 import { generateEventId } from '@/helpers/getBakedId';
 import { prodMultiCat } from '@/helpers/prodMultiCat';
 import { RootState } from '@/redux/store';
 import { sendGTMEvent } from '@next/third-parties/google';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 const PurchaseGtmSuccess = ({ headersetting }: any) => {
+    const hasTracked = useRef(false);
+
     const { purchaseList, grandTotal, customer } = useSelector(
         (state: RootState) => state.purchase
     );
@@ -57,11 +59,11 @@ const PurchaseGtmSuccess = ({ headersetting }: any) => {
             });
 
             // Call Facebook's Purchase function
-            Purchase(grandTotal, currency);
+            Purchase(grandTotal, currency, event_id);
         }
 
         // Send data to Facebook Conversion API
-        await sendConversionApiEvent('Purchase', {
+        await trackServerConversion('Purchase', {
             event_id, // Use the same event_id
             custom_data: {
                 value: grandTotal,
@@ -72,8 +74,11 @@ const PurchaseGtmSuccess = ({ headersetting }: any) => {
     }, [grandTotal, purchaseList, headersetting]);
 
     useEffect(() => {
-        allPurchaseEvent();
-    }, [allPurchaseEvent]);
+        if (!hasTracked.current) {
+            hasTracked.current = true;
+            allPurchaseEvent();
+        }
+    });
 
     return null;
 };

@@ -7,7 +7,6 @@ import store, { persistor } from '@/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ToastContainer } from 'react-toastify';
 import NotFound from './not-found';
-import EbitansAnalytics from '@/components/EbitansAnalytics';
 
 // import Loading from '@/app/loadingx';
 

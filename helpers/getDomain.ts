@@ -21,6 +21,7 @@ export default async function getDomain() {
     // url = 'kc.design';
     // url = "swifttrading.store";
     url = "ezara.shop";
+    // url = "uniquemartbd.shop";
     // url = "mytimebd.store";
     // url = 'shr.localhost:3000';
 

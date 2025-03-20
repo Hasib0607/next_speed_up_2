@@ -1,6 +1,6 @@
 'use client';
 
-import { sendConversionApiEvent } from '@/helpers/convertionApi';
+import { trackServerConversion } from '@/app/actions/meta-conversions';
 import { AddToCart } from '@/helpers/fbTracking';
 import { generateEventId } from '@/helpers/getBakedId';
 import { isDeliveryChargeDiscount } from '@/helpers/getTypeWiseDiscount';
@@ -224,9 +224,9 @@ export const addToCart = ({
                 event_id,
             });
 
-            AddToCart(product);
+            AddToCart(product,event_id);
 
-            await sendConversionApiEvent('AddToCart', {
+            await trackServerConversion('AddToCart', {
                 event_id, // Use the same event_id
                 custom_data: {
                     currency: 'BDT',
