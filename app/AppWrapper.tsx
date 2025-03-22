@@ -7,6 +7,7 @@ import store, { persistor } from '@/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ToastContainer } from 'react-toastify';
 import NotFound from './not-found';
+import VisitorLayer from './VisitorLayer';
 
 // import Loading from '@/app/loadingx';
 
@@ -22,6 +23,7 @@ const AppWrapper = ({
                 // loading={<Loading design={design} />}
                 persistor={persistor}
             >
+                <VisitorLayer/>
                 {!appStore ? <NotFound /> : children}
                 <ToastContainer position="top-right" newestOnTop />
             </PersistGate>

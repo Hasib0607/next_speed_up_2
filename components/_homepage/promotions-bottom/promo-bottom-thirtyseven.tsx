@@ -13,7 +13,7 @@ const PromoBottomThirtySeven = ({ banner }: any) => {
                                     className="relative overflow-hidden"
                                 >
                                     <a
-                                        href={ban?.link}
+                                        href={ban?.link  ?? '#'}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >

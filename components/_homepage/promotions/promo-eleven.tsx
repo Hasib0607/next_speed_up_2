@@ -15,7 +15,7 @@ const PromoEleven = ({ banner }: any) => {
                             className="relative overflow-hidden rounded-xl "
                         >
                             <Link
-                                href={ban?.link}
+                                href={ban?.link ?? '#'}
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >

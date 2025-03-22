@@ -2,6 +2,8 @@
 
 import bkashLogo from '@/assets/paymentMethodLogo/bkashLogo.png';
 import nagadLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
+import paypalLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
+import stripeLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
 import { TWENTY_EIGHT } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { setSelectPayment } from '@/redux/features/filters/paymentFilterSlice';
@@ -108,6 +110,55 @@ const PaymentGateway = ({
             )}
 
             <div className="flex gap-2 flex-wrap">
+                {headersetting?.paypal === 'active' && (
+                    <div
+                        className={classNames(
+                            btnStyle,
+                            selectedPayment === 'paypal'
+                                ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                : `bg-[#fff] text-[#000]`
+                        )}
+                        onClick={() => handleSelect('paypal')}
+                    >
+                        {headersetting?.paypal_text ===
+                        'paypal Payment Img' ? (
+                            <Image
+                                src={paypalLogo.src}
+                                className="h-6 md:h-8 object-cover"
+                                alt="paypalLogo"
+                                width={100}
+                                height={100}
+                            />
+                        ) : (
+                            <p className="font-semibold tracking-wider">{headersetting?.paypal_text}</p>
+                        )}
+                    </div>
+                )}
+
+                {headersetting?.stripe === 'active' && (
+                    <div
+                        className={classNames(
+                            btnStyle,
+                            selectedPayment === 'stripe'
+                                ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                : `bg-[#fff] text-[#000]`
+                        )}
+                        onClick={() => handleSelect('stripe')}
+                    >
+                        {headersetting?.stripe_text ===
+                        'stripe Payment Img' ? (
+                            <Image
+                                src={stripeLogo.src}
+                                className="h-6 md:h-8 object-cover"
+                                alt="stripeLogo"
+                                width={100}
+                                height={100}
+                            />
+                        ) : (
+                            <p className="font-semibold tracking-wider">{headersetting?.stripe_text}</p>
+                        )}
+                    </div>
+                )}
                 {headersetting?.merchant_bkash === 'active' && (
                     <div
                         className={classNames(

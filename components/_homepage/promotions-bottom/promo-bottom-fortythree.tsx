@@ -75,7 +75,7 @@ const PromoBottomFortyThree = ({ banner, design }: any) => {
                             <SwiperSlide key={ban?.id}>
                                 <div className="relative overflow-hidden">
                                     <a
-                                        href={ban?.link}
+                                        href={ban?.link ?? '#'}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
