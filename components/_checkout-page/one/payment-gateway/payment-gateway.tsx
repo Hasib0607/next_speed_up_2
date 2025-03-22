@@ -1,6 +1,8 @@
 'use client';
 
 import bkashLogo from '@/assets/paymentMethodLogo/bkashLogo.png';
+import paypalLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
+import stripeLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
 import { classNames } from '@/helpers/littleSpicy';
 import { setSelectPayment } from '@/redux/features/filters/paymentFilterSlice';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
@@ -50,6 +52,46 @@ const PaymentGateway = ({ design, appStore, headersetting }: any) => {
                 </div>
 
                 <div className="flex flex-col gap-2">
+                    {headersetting?.paypal === 'active' && (
+                        <label
+                            className={classNames(
+                                btnStyle,
+                                selectedPayment === 'paypal'
+                                    ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                    : `bg-[#fff] text-[#000]`
+                            )}
+                        >
+                            <input
+                                type="radio"
+                                name="payment_method"
+                                value="paypal"
+                                checked={selectedPayment === 'paypal'}
+                                onChange={handleSelect}
+                                className="mr-2"
+                            />
+                            {headersetting?.paypal_text}
+                        </label>
+                    )}
+                    {headersetting?.stripe === 'active' && (
+                        <label
+                            className={classNames(
+                                btnStyle,
+                                selectedPayment === 'stripe'
+                                    ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                    : `bg-[#fff] text-[#000]`
+                            )}
+                        >
+                            <input
+                                type="radio"
+                                name="payment_method"
+                                value="stripe"
+                                checked={selectedPayment === 'stripe'}
+                                onChange={handleSelect}
+                                className="mr-2"
+                            />
+                            {headersetting?.stripe_text}
+                        </label>
+                    )}
                     {headersetting?.merchant_bkash === 'active' && (
                         <label
                             className={classNames(

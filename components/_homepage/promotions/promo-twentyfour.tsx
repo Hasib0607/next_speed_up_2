@@ -2,7 +2,6 @@ import { bannerImg } from '@/site-settings/siteUrl';
 import Link from 'next/link';
 
 const PromoTwentyFour = ({ banner, design }: any) => {
-
     const styleCss = `
     .bg-color {
         color:  ${design?.text_color};
@@ -31,7 +30,7 @@ const PromoTwentyFour = ({ banner, design }: any) => {
                                 <div className="bg-color relative group w-max">
                                     <p className="absolute bg-black bg-opacity-20 top-0 left-0 right-0 scale-x-0 group-hover:scale-x-100 transform origin-[0%_100%] group-hover:ease-[cubic-bezier(0.52,1.64,0.87,.70)] ease-[cubic-bezier(0.52,1.64,0.87,0.66)]  duration-500 bottom-0"></p>
                                     <Link
-                                        href={ban?.link}
+                                        href={ban?.link ?? '#'}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >

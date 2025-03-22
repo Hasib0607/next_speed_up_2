@@ -11,7 +11,7 @@ const PromoThree = ({ banner }: any) => {
                 {banner?.length > 0 &&
                     banner?.map((ban: any, index: any) => (
                         <Link
-                            href={ban?.link}
+                            href={ban?.link ?? '#'}
                             target="_blank"
                             key={index}
                             rel="noopener noreferrer"

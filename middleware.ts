@@ -69,8 +69,3 @@ export const config = {
   matcher: "/:path*",
 };
 
-
-// export const config = {
-//     matcher: ['/', '/about', '/shop', '/robots.txt'], // Added '/robots.txt' to the existing matchers
-// };
-

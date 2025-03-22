@@ -20,10 +20,10 @@ export default async function getDomain() {
     // url = 'zlandretail.co.nz';
     // url = 'kc.design';
     // url = "swifttrading.store";
-    url = "ezara.shop";
+    // url = "ezara.shop";
     // url = "uniquemartbd.shop";
     // url = "mytimebd.store";
-    // url = 'shr.localhost:3000';
+    url = 'shr.localhost:3000';
 
     return url;
 }

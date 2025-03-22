@@ -7,6 +7,7 @@ import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import getMenu from '@/utils/fetcher/getMenu';
 import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
 import EbitansAnalytics from '@/components/EbitansAnalytics';
+import getDomain from '@/helpers/getDomain';
 
 const Header = dynamic(() => import('@/components/Header'));
 const Footer = dynamic(() => import('@/components/Footer'));
@@ -16,10 +17,12 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const domain = await getDomain();
     const design = await getDesign();
     const headersetting = await getHeaderSetting();
     const menu = await getMenu();
-    const userData = await getUserDataFromCookies();
+    const userCookieData = await getUserDataFromCookies();
+    const userData = { ...userCookieData, domain };
 
     return (
         <>

@@ -15,6 +15,7 @@ import NextTopLoader from 'nextjs-toploader';
 import { GoogleTagManager } from '@next/third-parties/google';
 import FacebookPixel from '@/utils/FacebookPixel';
 import CustomPageView from '@/utils/CustomPageView';
+import { cookies, headers } from 'next/headers';
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -57,6 +58,15 @@ export default async function RootLayout({
     const googleSearchConsole = headersetting?.google_search_console;
 
     // console.log("headersetting",headersetting);
+
+    // Get current URL and referrer
+//   const headersList = await headers()
+//   const referer = headersList.get('referer') || ''
+//   const currentUrl = headersList.get('x-url') || headersList.get('x-forwarded-host') || ''
+  
+//   // Store the current URL as the previous URL for the next page
+//   const cookieStore = await cookies()
+//   cookieStore.set('previousUrl', currentUrl, { path: '/' })
 
     // console.log("googleAnalytics",googleAnalytics);
     // console.log("googleSearchConsole",googleSearchConsole);

@@ -14,7 +14,7 @@ const PromoNine = ({ banner }: any) => {
                             >
                                 {ban?.link && (
                                     <Link
-                                        href={ban?.link}
+                                        href={ban?.link ?? '#'}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >

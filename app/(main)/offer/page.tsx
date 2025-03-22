@@ -8,6 +8,7 @@ import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import React from 'react';
 import EbitansAnalytics from '@/components/EbitansAnalytics';
 import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
+import getDomain from '@/helpers/getDomain';
 
 export async function generateMetadata() {
     const headersetting = await getHeaderSetting();
@@ -20,6 +21,7 @@ export async function generateMetadata() {
 }
 
 export default async function OfferPage() {
+
     const design = await getDesign();
     const headersetting = await getHeaderSetting();
     const userData = await getUserDataFromCookies();

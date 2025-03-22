@@ -1,11 +1,13 @@
 'use client';
 
-import { name } from '@/consts/index';
+import { ANALYTICS_PERSIST, name } from '@/consts/index';
+import { saveToLocalStorage } from '@/helpers/localStorage';
 import useBrowserInfo from '@/hooks/useBrowserInfo';
 import useGeoLocation from '@/hooks/useGeoLocation';
-import { usePostEbitansAnalyticsMutation } from '@/redux/features/analytics/analyticsApi';
+import { RootState } from '@/redux/store';
 import moment from 'moment';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const EbitansAnalytics = ({
     design,
@@ -43,19 +45,7 @@ const EbitansAnalytics = ({
     const [city, setCity] = useState('');
     const [zipCode, setZipCode] = useState('');
 
-    useEffect(() => {
-        if (name) {
-            setStoreUrl(name);
-        }
-        if (headersetting) {
-            if (headersetting?.uid) {
-                setUserId(headersetting?.uid);
-            }
-        }
-        if (document.title) {
-            setPageTitle(document.title);
-        }
-    }, [headersetting]);
+    const { user } = useSelector((state: RootState) => state.auth);
 
     useEffect(() => {
         if (typeof window !== 'undefined' && name) {
@@ -73,35 +63,42 @@ const EbitansAnalytics = ({
     //     sendAddress()
     // }, [sendAddress]);
 
-    const getIpData = useCallback(async () => {
-        try {
-            const response = await fetch('/api/ip');
+    // const getIpData = useCallback(async () => {
+    //     try {
+    //         const response = await fetch('/api/ip');
 
-            const data = await response.json();
-            const [lat = '', lon = ''] = data.loc && data.loc.split(',', 2);
-            setState(data.region);
-            setZipCode(data.postal);
-            setLatitude(lat);
-            setLongitude(lon);
-            // setCountryName(data.country_name);
-            setCountryCode(data.country);
-            setCity(data.city);
-        } catch (error) {
-            console.error('Error fetching data:', error);
+    //         const data = await response.json();
+    //         const [lat = '', lon = ''] = data.loc && data.loc.split(',', 2);
+    //         setState(data.region);
+    //         setZipCode(data.postal);
+    //         setLatitude(lat);
+    //         setLongitude(lon);
+    //         // setCountryName(data.country_name);
+    //         setCountryCode(data.country);
+    //         setCity(data.city);
+    //     } catch (error) {
+    //         console.error('Error fetching data:', error);
+    //     }
+    // }, []);
+
+    const baseData = useCallback(() => {
+        if (document.title) {
+            setPageTitle(document.title);
         }
-    }, []);
-
-    useEffect(() => {
+        setUserId(user?.id);
+        setStoreUrl(name);
         setIP(userData?.ip);
         setReferPageUrl(userData?.referrer);
-        // getIpData();
-    }, [setReferPageUrl, userData, getIpData]);
+        // console.log("userData",userData);
+    }, [userData, user]);
 
-    const [postEbitansAnalytics] = usePostEbitansAnalyticsMutation();
-
-    // user info
     useEffect(() => {
-        const analyticsData = {
+        baseData();
+    }, [baseData]);
+
+    // analytics info
+    const analyticsData = useMemo(() => {
+        return {
             store_id,
             store_url: storeUrl,
             user_id: userId,
@@ -126,12 +123,6 @@ const EbitansAnalytics = ({
             visit_time: visitTime,
             time_zone: timeZone,
         };
-
-        // console.log('analyticsData',analyticsData);
-
-        if (ip) {
-            postEbitansAnalytics(analyticsData);
-        }
     }, [
         store_id,
         storeUrl,
@@ -156,8 +147,15 @@ const EbitansAnalytics = ({
         productId,
         visitTime,
         timeZone,
-        postEbitansAnalytics,
     ]);
+
+    const saveVisitDataInLocalStorage = useCallback(() => {
+        saveToLocalStorage(ANALYTICS_PERSIST, analyticsData);
+    }, [analyticsData]);
+
+    useEffect(() => {
+        saveVisitDataInLocalStorage();
+    }, [saveVisitDataInLocalStorage]);
 
     return null;
 };
