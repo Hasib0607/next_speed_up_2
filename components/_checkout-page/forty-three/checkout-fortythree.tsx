@@ -72,7 +72,7 @@ const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
         'p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300 cursor-pointer';
 
     return (
-        <div className={`bg-white pb-8`}>
+        <div className={`bg-white pb-8 mt-32`}>
             <div className="sm:container px-5 xl:px-24">
                 <div className="grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-1 gap-14">
                     <div className="">
