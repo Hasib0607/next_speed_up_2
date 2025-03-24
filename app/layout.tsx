@@ -2,8 +2,6 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import getDesign from '@/utils/fetcher/getDesign';
-// import { headers } from 'next/headers';
-// import { GetServerSideProps } from 'next';
 import AppWrapper from './AppWrapper';
 import getStore from '@/utils/fetcher/getStore';
 import Script from 'next/script';
@@ -11,11 +9,9 @@ import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import { imgUrl } from '@/site-settings/siteUrl';
 import SetFavicon from '@/utils/useSetFavicon';
 import NextTopLoader from 'nextjs-toploader';
-
 import { GoogleTagManager } from '@next/third-parties/google';
 import FacebookPixel from '@/utils/FacebookPixel';
 import CustomPageView from '@/utils/CustomPageView';
-import { cookies, headers } from 'next/headers';
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -46,10 +42,10 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    // const headersList = await headers();
     const appStore = await getStore();
     const design = await getDesign();
     const headersetting = await getHeaderSetting();
+
     const favicon = imgUrl + headersetting?.favicon;
 
     const FACEBOOK_PIXEL_ID = headersetting?.facebook_pixel;
@@ -57,24 +53,8 @@ export default async function RootLayout({
     const googleAnalytics = headersetting?.google_analytics;
     const googleSearchConsole = headersetting?.google_search_console;
 
-    // console.log("headersetting",headersetting);
-
-    // Get current URL and referrer
-//   const headersList = await headers()
-//   const referer = headersList.get('referer') || ''
-//   const currentUrl = headersList.get('x-url') || headersList.get('x-forwarded-host') || ''
-  
-//   // Store the current URL as the previous URL for the next page
-//   const cookieStore = await cookies()
-//   cookieStore.set('previousUrl', currentUrl, { path: '/' })
-
     // console.log("googleAnalytics",googleAnalytics);
     // console.log("googleSearchConsole",googleSearchConsole);
-    // console.log("headersetting",headersetting);
-
-    // Check if the current route is the homepage
-    // const pathname = headersList.get('x-nextjs-route');
-    // const isHomepage = pathname;
 
     return (
         <html lang="en">
@@ -168,13 +148,3 @@ export default async function RootLayout({
         </html>
     );
 }
-
-// export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-//     const currentUrl = req.url; // Get the full URL
-
-//     return {
-//         props: {
-//             currentUrl,
-//         },
-//     };
-// };

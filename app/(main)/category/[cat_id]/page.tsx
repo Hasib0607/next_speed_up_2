@@ -6,8 +6,6 @@ import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 // components imports
 import Category from '@/components/Category';
 import getDesign from '@/utils/fetcher/getDesign';
-import EbitansAnalytics from '@/components/EbitansAnalytics';
-import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
 
 export async function generateMetadata() {
     const headersetting = await getHeaderSetting();
@@ -25,19 +23,7 @@ export default async function SubcategoryPage({
     params: Promise<{ cat_id: any }>;
 }) {
     const design = await getDesign();
-    const headersetting = await getHeaderSetting();
     const catId = (await params).cat_id;
-    const userData = await getUserDataFromCookies();
 
-    return (
-        <>
-            <Category design={design} catId={catId} />
-            <EbitansAnalytics
-                design={design}
-                headersetting={headersetting}
-                userData={userData}
-                categoryId={catId}
-            />
-        </>
-    );
+    return <Category design={design} catId={catId} />;
 }

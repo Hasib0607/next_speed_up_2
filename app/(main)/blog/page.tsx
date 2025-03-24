@@ -14,9 +14,6 @@ import getStore from '@/utils/fetcher/getStore';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 import { imgUrl } from '@/site-settings/siteUrl';
-import EbitansAnalytics from '@/components/EbitansAnalytics';
-import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
-import getDesign from '@/utils/fetcher/getDesign';
 
 export async function generateMetadata() {
     const headersetting = await getHeaderSetting();
@@ -36,9 +33,6 @@ const BlogPage = async () => {
     const blogPopularData = (await fetchBlogPopularData(store_id)) ?? [];
     const recentBlogData = (await fetchBlogRecentData(store_id)) ?? [];
     const blogTypeData = (await fetchBlogTypeData(store_id)) ?? [];
-    const design = await getDesign();
-    const headersetting = await getHeaderSetting();
-    const userData = await getUserDataFromCookies();
 
     const { data, coverImage } = allBlogData || {};
 
@@ -132,11 +126,6 @@ const BlogPage = async () => {
                     </Suspense>
                 </div>
             </div>
-            <EbitansAnalytics
-                design={design}
-                headersetting={headersetting}
-                userData={userData}
-            />
         </>
     );
 };
