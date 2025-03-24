@@ -3,7 +3,7 @@ export const Units = ({ unit, setUnit, variant, setActiveImg }: any) => {
         <>
             {variant?.length > 0 && (
                 <div className="">
-                    <h3 className="font-medium font-sans text-xl mb-2">
+                    <h3 className="font-sans text-xl mb-2">
                         Units
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -28,7 +28,7 @@ export const ColorsOnly = ({ color, setColor, variant, setActiveImg }: any) => {
         <>
             {variant?.length > 0 && (
                 <div className="">
-                    <h3 className="font-medium font-sans text-xl mb-2">
+                    <h3 className="font-sans text-xl mb-2">
                         Colors
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -54,8 +54,8 @@ export const Sizes = ({ size, setSize, variant, setActiveImg }: any) => {
     return (
         <>
             {variant?.length > 0 && (
-                <div className="flex justify-start items-center gap-x-10">
-                    <h3 className="font-bold font-sans text-xl mb-2">Size:</h3>
+                <div className="flex justify-start items-center gap-x-5">
+                    <h3 className="font-sans mb-2">Size:</h3>
                     <div className="flex flex-wrap gap-2">
                         {variant?.map((item: any, id: any) => (
                             <Size
@@ -83,8 +83,8 @@ export const Colors = ({
     return (
         <>
             {variant_color?.length > 0 && (
-                <div className="flex justify-start items-center gap-x-10">
-                    <h3 className="font-bold font-sans mb-2">
+                <div className="flex justify-start items-center gap-x-5">
+                    <h3 className="font-sans mb-2">
                         Colors:
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -131,7 +131,7 @@ export const Size = ({ item, select, setSelect, setActiveImg }: any) => {
                 setSelect(item);
                 setActiveImg(item?.image);
             }}
-            className={`border px-4 py-3 w-auto h-10 flex justify-center items-center font-sans font-medium rounded cursor-pointer ${
+            className={`border px-2 w-auto flex justify-center items-center font-sans font-medium rounded cursor-pointer ${
                 item?.size === select?.size
                     ? 'border-gray-900'
                     : 'border-gray-300'
@@ -157,7 +157,7 @@ export const Color = ({
                 setActiveImg(itemColorImage);
                 setSize(null);
             }}
-            className={`border w-10 h-10 flex justify-center items-center font-sans font-medium rounded bg-white cursor-pointer ${
+            className={`border w-5 h-5 flex justify-center items-center font-sans font-medium rounded bg-white cursor-pointer ${
                 item?.color === select?.color
                     ? 'border-gray-900'
                     : 'border-gray-300'
@@ -165,7 +165,7 @@ export const Color = ({
         >
             <div
                 style={{ backgroundColor: item?.color }}
-                className="w-7 h-7"
+                className="w-3 h-3"
             ></div>
         </div>
     );
@@ -186,13 +186,13 @@ export const ColorSet = ({
                     setActiveImg(itemImage);
                 }
             }}
-            className={`border w-10 h-10 flex justify-center items-center font-sans font-medium rounded bg-white cursor-pointer ${
+            className={`border w-5 h-5 flex justify-center items-center font-sans font-medium rounded bg-white cursor-pointer ${
                 text === select ? 'border-gray-900' : 'border-gray-300'
             }`}
         >
             <div
                 style={{ backgroundColor: text?.color }}
-                className="w-7 h-7"
+                className="w-3 h-3"
             ></div>
         </div>
     );

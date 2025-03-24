@@ -2,32 +2,28 @@
 'use client';
 
 import BDT from '@/utils/bdt';
-import CallForPrice from '@/utils/call-for-price';
 import { getProductQuantity } from '@/helpers/getProductQuantity';
 import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
-import { saveToLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
-import { AppDispatch, RootState } from '@/redux/store';
-import { addToCart } from '@/utils/_cart-utils/cart-utils';
+import { AppDispatch } from '@/redux/store';
 import { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import {
-    Colors,
-    ColorsOnly,
-    Sizes,
-    Units,
-} from './imageVariations-landing-page';
+import { useDispatch } from 'react-redux';
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 import { productImg } from '@/site-settings/siteUrl';
-import CheckoutBtn from './checkout-btn';
+import CheckoutBtn from './components/checkout-btn';
 import CheckOutForm from './checkout-form/checkout-form';
+import { addToCart } from './components/add-to-cart';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
-const DetailsLandingPage = ({ product, design, headersetting, children }: any) => {
-  
+const DetailsLandingPage = ({
+    product,
+    design,
+    headersetting,
+    children,
+}: any) => {
     const store_id = numberParser(design?.store_id) || null;
-    const { cartList } = useSelector((state: RootState) => state.cart);
-    const { referralCode } = useSelector((state: RootState) => state.auth);
+    const router = useRouter();
 
     const dispatch: AppDispatch = useDispatch();
 
@@ -47,8 +43,7 @@ const DetailsLandingPage = ({ product, design, headersetting, children }: any) =
     const [qty, setQty] = useState<any>(1);
 
     const [activeImg, setActiveImg] = useState('');
-    const [referralLink, setReferralLink] = useState('');
-    const [copied, setCopied] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const sizeV = useMemo(
         () => variant?.find((item: any) => item?.size !== null),
@@ -74,21 +69,6 @@ const DetailsLandingPage = ({ product, design, headersetting, children }: any) =
             unitsOnly,
         };
     }, [vrcolor, sizeV, variant]);
-
-    useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const referral = params.get('referral');
-        if (referral) {
-            saveToLocalStorage('referralCode', referral);
-        }
-    }, []);
-
-    useEffect(() => {
-        if (referralCode) {
-            const link = `${document.location.href}?referral=${referralCode}`;
-            setReferralLink(link);
-        }
-    }, [referralCode]);
 
     useEffect(() => {
         setFilterV(
@@ -131,22 +111,33 @@ const DetailsLandingPage = ({ product, design, headersetting, children }: any) =
         [product, variantId]
     );
 
-    const handleAddToCart = () => {
-        addToCart({
-            dispatch,
-            product,
-            cartList,
-            price,
-            qty,
-            variant,
-            currentVariation,
-            variantId,
-            unit,
-            size,
-            color,
-            filterV,
-            productQuantity,
-        });
+    const handleCheckout = async () => {
+        setIsLoading(true);
+        try {
+            const success = addToCart({
+                dispatch,
+                product,
+                price,
+                qty,
+                variant,
+                currentVariation,
+                variantId,
+                unit,
+                size,
+                color,
+                filterV,
+                productQuantity,
+            });
+
+            if (success) {
+                router.push('/checkout');
+            }
+        } catch (error) {
+            console.error('Checkout failed:', error);
+            toast.error('Failed to proceed to checkout');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const styleCss = `
@@ -156,7 +147,7 @@ const DetailsLandingPage = ({ product, design, headersetting, children }: any) =
     }
 `;
 
-    const buttonSix =
+    const buttonStyle =
         'btn-hover text-white font-bold sm:py-[16px] py-3 w-60 text-center';
 
     const sortedLayout = useMemo(() => {
@@ -178,7 +169,6 @@ const DetailsLandingPage = ({ product, design, headersetting, children }: any) =
                                         backgroundColor:
                                             item.design?.bg_color || '#ffffff',
                                         color: item.design?.color || '#f1593a',
-                                        
                                     }}
                                 >
                                     <DangerouslySafeHTML
@@ -195,7 +185,6 @@ const DetailsLandingPage = ({ product, design, headersetting, children }: any) =
                                         backgroundColor:
                                             item.design?.bg_color || '#ffffff',
                                         color: item.design?.color || '#f1593a',
-                                        
                                     }}
                                 >
                                     <DangerouslySafeHTML
@@ -228,20 +217,13 @@ const DetailsLandingPage = ({ product, design, headersetting, children }: any) =
                                     className="flex justify-center my-3"
                                 >
                                     <CheckoutBtn
-                                        qty={qty}
                                         setQty={setQty}
-                                        variant={variant}
                                         variantId={variantId}
                                         productQuantity={productQuantity}
-                                        currentVariation={currentVariation}
-                                        color={color}
-                                        size={size}
-                                        unit={unit}
-                                        filterV={filterV}
-                                        product={product}
-                                        onClick={handleAddToCart}
-                                        buttonOne={buttonSix}
+                                        onClick={handleCheckout}
+                                        buttonStyle={buttonStyle}
                                         productButton={item}
+                                        product={product}
                                     />
                                 </div>
                             );
@@ -373,85 +355,28 @@ const DetailsLandingPage = ({ product, design, headersetting, children }: any) =
                     }
                 })}
 
-<div className="h-max">
-                    {currentVariation.colorsAndSizes && (
-                        <>
-                            <Colors
-                                color={color}
-                                setColor={setColor}
-                                variant_color={variant_color}
-                                setSize={setSize}
-                                setActiveImg={setActiveImg}
-                            />
-                            <Sizes
-                                size={size}
-                                setSize={setSize}
-                                variant={filterV}
-                                setActiveImg={setActiveImg}
-                            />
-                        </>
-                    )}
-
-                    {currentVariation.unitsOnly && (
-                        <Units
-                            unit={unit}
-                            setUnit={setUnit}
-                            variant={variant}
-                            setActiveImg={setActiveImg}
-                        />
-                    )}
-
-                    {currentVariation.colorsOnly && (
-                        <ColorsOnly
-                            color={color}
-                            setColor={setColor}
-                            variant={variant}
-                            setActiveImg={setActiveImg}
-                        />
-                    )}
-
-                    {currentVariation.sizesOnly && (
-                        <Sizes
-                            size={size}
-                            setSize={setSize}
-                            variant={variant}
-                            setActiveImg={setActiveImg}
-                        />
-                    )}
-
-                    <div className="">
-                        <CallForPrice
-                            headersetting={headersetting}
-                            cls={buttonSix}
-                            price={price}
-                        />
-                    </div>
-
-                    {/* {productQuantity !== 0 && price !== 0 && (
-                        <CheckoutBtn
-                            qty={qty}
-                            setQty={setQty}
-                            variant={variant}
-                            variantId={variantId}
-                            productQuantity={productQuantity}
-                            currentVariation={currentVariation}
-                            color={color}
-                            size={size}
-                            unit={unit}
-                            filterV={filterV}
-                            product={product}
-                            onClick={handleAddToCart}
-                            buttonOne={buttonSix}
-                            productButton={layout?.find(
-                                (item: any) => item.type === 'button'
-                            )}
-                        />
-                    )} */}
-
-                    {children}
-                </div>
-
-                <CheckOutForm />
+                <CheckOutForm
+                    product={product}
+                    qty={qty}
+                    setQty={setQty}
+                    variant={variant}
+                    variantId={variantId}
+                    productQuantity={productQuantity}
+                    currentVariation={currentVariation}
+                    color={color}
+                    size={size}
+                    unit={unit}
+                    filterV={filterV}
+                    onClick={handleCheckout}
+                    buttonStyle={buttonStyle}
+                    setColor={setColor}
+                    variant_color={variant_color}
+                    setSize={setSize}
+                    setActiveImg={setActiveImg}
+                    setUnit={setUnit}
+                    price={price}
+                    handleCheckout={handleCheckout}
+                />
             </div>
         </div>
     );

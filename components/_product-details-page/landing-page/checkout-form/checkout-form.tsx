@@ -1,151 +1,373 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-
-// import Address from '../_components/address/address';
-import YourOrders from './your-orders/your-order';
-// import Discount from '../_components/discount/discount';
-// import PaymentConditions from '../_components/payment-conditions';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 import { AppDispatch, RootState } from '@/redux/store';
-import { totalCampainOfferDiscount } from '@/utils/_cart-utils/cart-utils';
-import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
+import { isQtyLeft } from '@/utils/_cart-utils/cart-utils';
 import {
     setGrandTotal,
     setPurchaseList,
 } from '@/redux/features/purchase/purchaseSlice';
-import Address from '@/components/_checkout-page/_components/address/address';
-import Discount from '@/components/_checkout-page/_components/discount/discount';
-import PaymentConditions from '@/components/_checkout-page/_components/payment-conditions';
+import BDT from '@/utils/bdt';
+import { numberParser } from '@/helpers/numberParser';
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { productImg } from '@/site-settings/siteUrl';
+import { toast } from 'react-toastify';
+import {
+    Colors,
+    ColorsOnly,
+    Sizes,
+    Units,
+} from '../imageVariations-landing-page';
+import CallForPrice from '@/utils/call-for-price';
 
-const CheckOutForm = ({ design, appStore, headersetting }: any) => {
+const CheckOutForm = ({
+    design,
+    appStore,
+    headersetting,
+    product,
+    qty,
+    variantId,
+    variant,
+    setQty,
+    productQuantity,
+    currentVariation,
+    color,
+    size,
+    unit,
+    filterV,
+    onClick,
+    setColor,
+    variant_color,
+    setSize,
+    setActiveImg,
+    setUnit,
+    children,
+    buttonStyle,
+    price,
+    handleCheckout,
+}: any) => {
     const store_id = appStore?.id || null;
     const dispatch: AppDispatch = useAppDispatch();
     const { cartList } = useSelector((state: RootState) => state.cart);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const [couponDis, setCouponDis] = useState(0);
-    const [shippingArea, setShippingArea] = useState<any>(null);
-    const [selectAddress, setSelectAddress] = useState(null);
-    const [token, setToken] = useState(null);
-    const [userName, setUserName] = useState(null);
-    const [userPhone, setUserPhone] = useState(null);
-    const [userAddress, setUserAddress] = useState(null);
-
-    const cartTotalCampainOfferDiscountAmount = useMemo(
-        () => totalCampainOfferDiscount(cartList),
-        [cartList]
-    );
-
-    useEffect(() => {
-        if (cartTotalCampainOfferDiscountAmount > 0) {
-            dispatch(
-                setTotalCampainOfferDis(cartTotalCampainOfferDiscountAmount)
-            );
-        } else {
-            dispatch(setTotalCampainOfferDis(0));
-        }
-    }, [cartTotalCampainOfferDiscountAmount, dispatch]);
+    // console.log('product', product);
 
     useEffect(() => {
         dispatch(setPurchaseList([]));
         dispatch(setGrandTotal(0));
     }, [dispatch]);
 
-    if (cartList?.length === 0) {
-        return (
-            <div className="flex justify-center items-center min-h-[70vh]">
-                <div className="text-center">
-                    <h3 className="text-gray-400 text-2xl font-bold">
-                        You have no product in your cart!{' '}
-                    </h3>
-                    <h6 className="text-gray-400 text-xl font-semibold">
-                        Please Add Some Product
-                    </h6>
-                </div>
-            </div>
-        );
-    }
+    const updateQuantity = (
+        isAbleToAddOrChange: boolean,
+        inputValue: number | null = null
+    ) => {
+        const newQty = inputValue ?? qty + 1;
 
-    const formFieldStyle =
-        'w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:border-gray-400';
+        if (newQty <= productQuantity) {
+            setQty(newQty);
+        } else {
+            toast.warning('Cannot add more than available stock', {
+                toastId: product?.id,
+            });
+        }
+    };
+
+    const incNum = () => {
+        const isAbleToAdd = isQtyLeft(product, variantId, qty + 1, cartList);
+
+        if (variant?.length > 0) {
+            // Color and size
+            if (currentVariation?.colorsAndSizes) {
+                // Early exit if variant and size/filter conditions are not satisfied
+                if (filterV?.length === 0) {
+                    toast.warning('Please Select Variant', {
+                        toastId: filterV?.length,
+                    });
+                    return;
+                } else if (size === null) {
+                    toast.warning('Please Select Size', {
+                        toastId: product?.id,
+                    });
+                    return;
+                }
+                // Proceed with quantity addition checks
+                updateQuantity(isAbleToAdd);
+            }
+
+            // size only
+            else if (currentVariation?.sizesOnly) {
+                if (size === null) {
+                    toast.warning('Please Select Size', {
+                        toastId: product?.id,
+                    });
+                    return;
+                }
+                // Proceed with quantity addition checks
+                updateQuantity(isAbleToAdd);
+            }
+
+            // color only
+            else if (currentVariation?.colorsOnly) {
+                if (color === null) {
+                    toast.warning('Please Select color', {
+                        toastId: product?.id,
+                    });
+                    return;
+                }
+                // Proceed with quantity addition checks
+                updateQuantity(isAbleToAdd);
+            }
+
+            // unit only
+            else if (currentVariation?.unitsOnly) {
+                if (unit === null) {
+                    toast.warning('Please Select Unit', {
+                        toastId: product?.id,
+                    });
+                    return;
+                }
+                // Proceed with quantity addition checks
+                updateQuantity(isAbleToAdd);
+            }
+        } else {
+            // Proceed with quantity addition checks
+            updateQuantity(isAbleToAdd);
+        }
+    };
+
+    const decNum = () => {
+        setQty((prevCount: any) => (prevCount > 1 ? prevCount - 1 : 1));
+    };
 
     return (
-        <div className="bg-[#F3F4F6] pb-10">
+        <div className="bg-[#F3F4F6] py-10">
             <div className="sm:container px-5 xl:px-24">
-                <div className="pt-10 font-semibold text-center">
-                    {/* <div className="p-4 mb-4 text-center">
-                        <p className="text-orange-300 font-semibold text-lg sm:text-xl">
-                            অর্ডার টি সম্পন্ন করতে আপনার নাম, মোবাইল নাম্বার ও
-                            ঠিকানা নিচে লিখুন
-                        </p>
-                        <h2 className="font-semibold mt-2 text-xl sm:text-2xl">
-                            বিলিং ডিটেইল
-                        </h2>
-                        <hr
-                            className="border-dashed border-gray-300 my-2 w-3/4 sm:w-1/2 mx-auto"
-                            style={{
-                                borderWidth: '2px',
-                                borderStyle: 'dashed',
-                            }}
-                        />
-                    </div> */}
-                </div>
                 <div className="container">
                     <div className=" mt-1 py-4">
-                        <div className="mt-5 lg:mt-0 lg:col-span-1 lg:h-max lg:sticky lg:top-28">
-                            <div
-                                className={`${
-                                    design?.template_id === '34'
-                                        ? 'bg-thirty-one border border-white'
-                                        : 'bg-white'
-                                }  shadow sm:rounded-md sm:overflow-hidden mb-5`}
-                            >
-                                {/* <div className="px-4 py-5 space-y-6 sm:p-6">
-                                    <Address
-                                        design={design}
-                                        appStore={appStore}
-                                        selectAddress={selectAddress}
-                                        setSelectAddress={setSelectAddress}
-                                        setToken={setToken}
-                                        token={token}
-                                        setUserAddress={setUserAddress}
-                                        userPhone={userPhone}
-                                        setUserPhone={setUserPhone}
-                                        formFieldStyle={formFieldStyle}
-                                    />
-                                </div> */}
-                            </div>
-                            {/* <Discount
-                                design={design}
-                                appStore={appStore}
-                                headersetting={headersetting}
-                                setCouponDis={setCouponDis}
-                                shippingArea={shippingArea}
-                                setShippingArea={setShippingArea}
-                                shippingColOne
-                                shippingOff
-                                bn
-                            /> */}
-                            <PaymentConditions
-                                design={design}
-                                appStore={appStore}
-                                headersetting={headersetting}
-                            />
-                        </div>
                         <div className="mt-5 lg:mt-0 lg:col-span-1">
-                            <YourOrders
-                                design={design}
-                                appStore={appStore}
-                                headersetting={headersetting}
-                                couponDis={couponDis}
-                                setCouponDis={setCouponDis}
-                                selectAddress={selectAddress}
-                                shippingArea={shippingArea}
-                                userAddress={userAddress}
-                                userPhone={userPhone}
-                                userName={userName}
-                            />
+                            <div className="border p-5 sm:rounded-md shadow">
+                                <div className="mb-12">
+                                    <h3 className="text-center font-semibold text-xl">
+                                        Product Details
+                                    </h3>
+                                    <hr className="border-dashed border border-gray-300 my-2 w-36 mx-auto" />
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <p className="font-semibold">
+                                        Product Name
+                                    </p>
+                                    <p className="font-semibold">Price</p>
+                                </div>
+                                <hr className="border-dashed border border-gray-300 my-2 w-full mx-auto" />
+
+                                <div className="">
+                                    <div className="flex flex-col justify-between">
+                                        {/* Replace with your content */}
+                                        <div className="px-2 h-2/3 overflow-y-auto">
+                                            <div className="flex justify-between space-x-1 last:border-0 border-b border-gray-400 py-2">
+                                                <div className="w-32">
+                                                    <img
+                                                        className="w-full h-auto "
+                                                        src={
+                                                            productImg +
+                                                            product?.image
+                                                        }
+                                                        alt=""
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col gap-x-2 gap-y-1 pl-2 w-full">
+                                                    <h3 className="text-black text-md whitespace-nowrap overflow-hidden text-ellipsis sm:max-w-[170px] max-w-[150px] font-normal">
+                                                        {product?.name}
+                                                    </h3>
+
+                                                    <div className="flex flex-col gap-x-2 gap-y-1 justify-start">
+                                                        <div className="">
+                                                            {currentVariation.colorsAndSizes && (
+                                                                <>
+                                                                    <Colors
+                                                                        color={
+                                                                            color
+                                                                        }
+                                                                        setColor={
+                                                                            setColor
+                                                                        }
+                                                                        variant_color={
+                                                                            variant_color
+                                                                        }
+                                                                        setSize={
+                                                                            setSize
+                                                                        }
+                                                                        setActiveImg={
+                                                                            setActiveImg
+                                                                        }
+                                                                    />
+                                                                    <Sizes
+                                                                        size={
+                                                                            size
+                                                                        }
+                                                                        setSize={
+                                                                            setSize
+                                                                        }
+                                                                        variant={
+                                                                            filterV
+                                                                        }
+                                                                        setActiveImg={
+                                                                            setActiveImg
+                                                                        }
+                                                                    />
+                                                                </>
+                                                            )}
+
+                                                            {currentVariation.unitsOnly && (
+                                                                <Units
+                                                                    unit={unit}
+                                                                    setUnit={
+                                                                        setUnit
+                                                                    }
+                                                                    variant={
+                                                                        variant
+                                                                    }
+                                                                    setActiveImg={
+                                                                        setActiveImg
+                                                                    }
+                                                                />
+                                                            )}
+
+                                                            {currentVariation.colorsOnly && (
+                                                                <ColorsOnly
+                                                                    color={
+                                                                        color
+                                                                    }
+                                                                    setColor={
+                                                                        setColor
+                                                                    }
+                                                                    variant={
+                                                                        variant
+                                                                    }
+                                                                    setActiveImg={
+                                                                        setActiveImg
+                                                                    }
+                                                                />
+                                                            )}
+
+                                                            {currentVariation.sizesOnly && (
+                                                                <Sizes
+                                                                    size={size}
+                                                                    setSize={
+                                                                        setSize
+                                                                    }
+                                                                    variant={
+                                                                        variant
+                                                                    }
+                                                                    setActiveImg={
+                                                                        setActiveImg
+                                                                    }
+                                                                />
+                                                            )}
+
+                                                            <div className="">
+                                                                <CallForPrice
+                                                                    headersetting={
+                                                                        headersetting
+                                                                    }
+                                                                    cls={
+                                                                        buttonStyle
+                                                                    }
+                                                                    price={
+                                                                        price
+                                                                    }
+                                                                />
+                                                            </div>
+                                                            {children}
+                                                        </div>
+
+                                                        <div className="flex h-7 w-24 justify-between items-center rounded-md font-semibold bg-[var(--header-color)] text-[var(--text-color)]">
+                                                            <div
+                                                                onClick={decNum}
+                                                                className="hover:bg-gray-800 hover:rounded-md lg:cursor-pointer py-2 h-full w-8 flex justify-center items-center"
+                                                            >
+                                                                <MinusIcon
+                                                                    className="text-[var(--text-color)]"
+                                                                    width={15}
+                                                                />
+                                                            </div>
+                                                            <div className="text-[var(--text-color)]">
+                                                                {qty}
+                                                            </div>
+                                                            <div
+                                                                onClick={incNum}
+                                                                className="hover:bg-gray-800 hover:rounded-md lg:cursor-pointer py-2 h-full w-8 flex justify-center items-center"
+                                                            >
+                                                                <PlusIcon
+                                                                    className="text-[var(--text-color)]"
+                                                                    width={15}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <p className="text-sm justify-self-end flex items-center gap-x-2">
+                                                        <BDT />
+                                                        <span className="font-bold text-xl text-gray-500">
+                                                            {
+                                                                product?.regular_price
+                                                            }
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr className="border-dashed border border-gray-300 my-2 w-full mx-auto" />
+
+                                <div
+                                    className="my-5 text-gray-500 px-2"
+                                    style={{ fontWeight: 500 }}
+                                >
+                                    <div className="flex justify-between items-center">
+                                        <p>Sub Total</p>
+                                        <p>
+                                            <BDT
+                                                price={numberParser(
+                                                    product?.regular_price * qty
+                                                )}
+                                            />
+                                        </p>
+                                    </div>
+
+                                    <hr className="border-dashed border border-gray-300 my-2 w-full mx-auto" />
+                                    <div className="flex justify-between items-center  font-semibold">
+                                        <p>Total</p>
+                                        <p>
+                                            <BDT
+                                                price={numberParser(
+                                                    product?.regular_price * qty
+                                                )}
+                                            />
+                                        </p>
+                                    </div>
+                                </div>
+                                {isLoading ? (
+                                    <div className="flex justify-center items-center font-semibold tracking-wider my-1 rounded-full border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] border-gray-300 w-full py-3">
+                                        Loading
+                                    </div>
+                                ) : (
+                                    <button
+                                        onClick={handleCheckout}
+                                        className={`flex justify-center items-center font-semibold tracking-wider my-1 rounded-full border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] hover:bg-transparent border-gray-300 w-full py-3 disabled:border disabled:bg-gray-400 disabled:cursor-not-allowed disabled:border-gray-300`}
+                                    >
+                                        {'Checkout'}
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
