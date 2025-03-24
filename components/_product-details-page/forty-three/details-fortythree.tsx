@@ -221,7 +221,7 @@ const DetailsFortyThree = ({
     return (
         <div className="bg-white h-full ">
             <style>{styleCss}</style>
-            <div className='bg-gray-100 py-14 mb-10'>
+            <div className='bg-gray-100 py-16 mt-20 mb-10'>
                 <p className='text-3xl text-center font-bold'>Product</p>
                 <p className='text-center'>All / {product?.name}</p>
             </div>
