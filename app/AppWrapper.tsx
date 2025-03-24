@@ -8,14 +8,11 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { ToastContainer } from 'react-toastify';
 import NotFound from './not-found';
 import VisitorLayer from './VisitorLayer';
+import EbitansAnalytics from '@/components/EbitansAnalytics';
 
 // import Loading from '@/app/loadingx';
 
-const AppWrapper = ({
-    children,
-    appStore,
-    design,
-}: any) => {
+const AppWrapper = ({ children, appStore, design }: any) => {
     return (
         <Provider store={store}>
             <PersistGate
@@ -23,9 +20,10 @@ const AppWrapper = ({
                 // loading={<Loading design={design} />}
                 persistor={persistor}
             >
-                <VisitorLayer/>
+                <VisitorLayer />
                 {!appStore ? <NotFound /> : children}
                 <ToastContainer position="top-right" newestOnTop />
+                <EbitansAnalytics design={design} />;
             </PersistGate>
         </Provider>
     );

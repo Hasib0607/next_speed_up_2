@@ -1,11 +1,8 @@
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import Contact from '@/components/Contact';
 import getDesign from '@/utils/fetcher/getDesign';
-import { cookies } from 'next/headers';
-import EbitansAnalytics from '@/components/EbitansAnalytics';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 import { imgUrl } from '@/site-settings/siteUrl';
-import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
 
 export async function generateMetadata() {
     const headersetting = await getHeaderSetting();
@@ -20,18 +17,8 @@ export async function generateMetadata() {
 const ContactPage = async () => {
     const design = await getDesign();
     const headersetting = await getHeaderSetting();
-    const userData = await getUserDataFromCookies();
 
-    return (
-        <>
-            <Contact design={design} headersetting={headersetting} />
-            <EbitansAnalytics
-                design={design}
-                headersetting={headersetting}
-                userData={userData}
-            />
-        </>
-    );
+    return <Contact design={design} headersetting={headersetting} />;
 };
 
 export default ContactPage;

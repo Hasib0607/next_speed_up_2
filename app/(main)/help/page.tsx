@@ -1,13 +1,10 @@
-import { cookies } from 'next/headers';
 import { imgUrl } from '@/site-settings/siteUrl';
 import CustomPage from '@/components/CustomPage';
-import EbitansAnalytics from '@/components/EbitansAnalytics';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 import getDesign from '@/utils/fetcher/getDesign';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import getMenu from '@/utils/fetcher/getMenu';
 import getPage from '@/utils/fetcher/getPage';
-import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
 
 export async function generateMetadata() {
     const headersetting = await getHeaderSetting();
@@ -21,20 +18,8 @@ export async function generateMetadata() {
 
 export default async function HelpPage() {
     const design = await getDesign();
-    const headersetting = await getHeaderSetting();
     const menu = await getMenu();
     const page = await getPage();
-    const userData = await getUserDataFromCookies();
-    
 
-    return (
-        <>
-            <CustomPage design={design} menu={menu} page={page} />;
-            <EbitansAnalytics
-                design={design}
-                headersetting={headersetting}
-                userData={userData}
-            />
-        </>
-    );
+    return <CustomPage design={design} menu={menu} page={page} />;
 }

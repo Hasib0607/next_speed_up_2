@@ -9,9 +9,6 @@ import { notFound } from 'next/navigation';
 import { truncateString } from '@/helpers/littleSpicy';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
-import EbitansAnalytics from '@/components/EbitansAnalytics';
-import getDesign from '@/utils/fetcher/getDesign';
-import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
 
 export async function generateMetadata({ params }: any) {
     const url = await getDomain();
@@ -48,9 +45,6 @@ const BlogDetails = async ({ params }: any) => {
     const details = (await fetchBlogDetailsData(slug, url)) ?? {};
     const allBlogData = (await fetchAllBlogData(store_id)) ?? {};
     const blogData = allBlogData?.data?.data ?? [];
-    const design = await getDesign();
-    const headersetting = await getHeaderSetting();
-    const userData = await getUserDataFromCookies();
 
     const filterBlog = blogData?.filter(
         (blog: any) => blog?.type === details?.type && blog?.id !== details?.id
@@ -141,11 +135,6 @@ const BlogDetails = async ({ params }: any) => {
                     </div>
                 </div>
             </div>
-            <EbitansAnalytics
-                design={design}
-                headersetting={headersetting}
-                userData={userData}
-            />
         </>
     );
 };

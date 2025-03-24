@@ -17,7 +17,7 @@ export default async function getDomain() {
         return url;
     }
 
-    // url = 'zlandretail.co.nz';
+    // url = '10starbd.com';
     // url = 'kc.design';
     // url = "swifttrading.store";
     // url = "ezara.shop";

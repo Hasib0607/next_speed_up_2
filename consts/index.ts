@@ -58,9 +58,11 @@ export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 // Redux persist localStorage key
 export const REDUX_PERSIST = 'persist:root';
 export const ANALYTICS_PERSIST = 'analytics:data';
+export const TRIGGER_E_TRACK = 'trigger:trackVisitor';
+export const ANALYTICS_PREV_PERSIST = 'analytics-prev:data';
 
 // tracking deviation
-export const TRACK_DEVIATION = 9000
+export const TRACK_DEVIATION = 3000
 // export const TRACK_DEVIATION = 10 * 60 * 1000
 
 // blog page
@@ -79,7 +81,7 @@ export function url() {
 
 let urlName;
 
-// urlName = 'zlandretail.co.nz';
+// urlName = '10starbd.com';
 // urlName = "kc.design";
 // urlName = "swifttrading.store";
 // urlName = "ezara.shop";
