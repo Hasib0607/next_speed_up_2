@@ -88,7 +88,7 @@ const FortyThree = ({ store_id, productId, design, headersetting }: any) => {
     let relatedContentSkeleton;
 
     if (relatedProductsLoading && !relatedProductsError) {
-        relatedContentSkeleton = <p className='text-center'>Loading...</p>;
+        relatedContentSkeleton = <p className="text-center">Loading...</p>;
     }
     const reviewsArr = reviews?.data || [];
 
@@ -96,7 +96,7 @@ const FortyThree = ({ store_id, productId, design, headersetting }: any) => {
         'cart-btn1 font-bold py-[10px] px-10 w-full w-max border border-gray-300 rounded';
 
     return (
-        <div className=''>
+        <div className="">
             <div className="">
                 {detailsContentSkeleton}
 
@@ -260,13 +260,17 @@ const LandingRelatedProducts = ({ product }: any) => {
     return (
         <div className="py-5 sm:my-10 rounded-md w-full">
             <div className="my-5 sm:px-10 px-5">
-                <p className="text-2xl">Related Product</p>
+                {product.length > 0 && (
+                    <p className="text-2xl">Related Product</p>
+                )}
             </div>
             <div className="sm:px-10 px-5">
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-5">
-                    {product?.slice(0, 5)?.map((item: any) => (
-                        <ProductCardTen item={item} key={item?.id} />
-                    ))}
+                    {product
+                        ?.slice(0, 5)
+                        ?.map((item: any) => (
+                            <ProductCardTen item={item} key={item?.id} />
+                        ))}
                 </div>
             </div>
         </div>
