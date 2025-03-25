@@ -1,5 +1,4 @@
-// import { TRACK_DEVIATION } from '@/consts';
-export const TRACK_DEVIATION = 160;
+import { TRACK_DEVIATION } from '@/consts';
 import { TRIGGER_E_TRACK } from '@/consts';
 import {
     getFromLocalStorage,
