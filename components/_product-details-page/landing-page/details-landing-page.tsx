@@ -6,7 +6,7 @@ import { getProductQuantity } from '@/helpers/getProductQuantity';
 import { howMuchSave, productCurrentPrice } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
 import { AppDispatch } from '@/redux/store';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
 import { productImg } from '@/site-settings/siteUrl';
@@ -15,6 +15,7 @@ import CheckOutForm from './checkout-form/checkout-form';
 import { addToCart } from './components/add-to-cart';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { getEmbedYoutubeUrl } from '@/components/you-tube/components/getEmbedYoutubeUrl';
 
 const DetailsLandingPage = ({
     product,
@@ -27,7 +28,15 @@ const DetailsLandingPage = ({
 
     const dispatch: AppDispatch = useDispatch();
 
-    const { variant, variant_color, category, layout } = product || {};
+    const youtubeVideoLink = product?.video_link;
+    const embedUrl = youtubeVideoLink
+        ? getEmbedYoutubeUrl(youtubeVideoLink)
+        : null;
+
+    const { variant, variant_color, layout } = product || {};
+
+    // Add ref for checkout form
+    const checkoutFormRef = useRef<HTMLDivElement>(null);
 
     const vrcolor = useMemo(
         () => variant_color?.map((item: any) => item?.color) || [],
@@ -35,7 +44,6 @@ const DetailsLandingPage = ({
     );
 
     const [filterV, setFilterV] = useState<any>([]);
-
     const [variantId, setVariantId] = useState<any>(null);
     const [color, setColor] = useState<any>(null);
     const [size, setSize] = useState<any>(null);
@@ -69,6 +77,20 @@ const DetailsLandingPage = ({
             unitsOnly,
         };
     }, [vrcolor, sizeV, variant]);
+
+    // Determine if product has variants
+    const hasVariants = useMemo(
+        () => Object.values(currentVariation).some((val) => val),
+        [currentVariation]
+    );
+
+    // Scroll to form handler
+    const scrollToForm = () => {
+        checkoutFormRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+        });
+    };
 
     useEffect(() => {
         setFilterV(
@@ -133,7 +155,6 @@ const DetailsLandingPage = ({
                 router.push('/checkout');
             }
         } catch (error) {
-            console.error('Checkout failed:', error);
             toast.error('Failed to proceed to checkout');
         } finally {
             setIsLoading(false);
@@ -224,6 +245,8 @@ const DetailsLandingPage = ({
                                         buttonStyle={buttonStyle}
                                         productButton={item}
                                         product={product}
+                                        hasVariants={hasVariants}
+                                        scrollToForm={scrollToForm}
                                     />
                                 </div>
                             );
@@ -301,16 +324,18 @@ const DetailsLandingPage = ({
                                         <div className="flex justify-start items-center gap-4">
                                             <BDT />
                                             {price}{' '}
-                                            {save > 0 && (
-                                                <span className="text-gray-500 font-thin line-through">
-                                                    <BDT />
-                                                    {variantId !== null
-                                                        ? save
-                                                        : numberParser(
-                                                              product?.regular_price
-                                                          )}
-                                                </span>
-                                            )}{' '}
+                                            {save > 0 &&
+                                                price !==
+                                                    product?.calculate_regular_price && (
+                                                    <span className="text-gray-500 font-thin line-through">
+                                                        <BDT />
+                                                        {variantId !== null
+                                                            ? save
+                                                            : numberParser(
+                                                                  product?.calculate_regular_price
+                                                              )}
+                                                    </span>
+                                                )}{' '}
                                         </div>
                                     </div>
                                 </div>
@@ -350,12 +375,37 @@ const DetailsLandingPage = ({
                                     />
                                 </div>
                             );
+                        case 'product_video_link':
+                            return (
+                                <div
+                                    key={item.id}
+                                    className="my-5"
+                                    style={{
+                                        backgroundColor:
+                                            item.design?.bg_color || '#ffffff',
+                                        color: item.design?.color || '#f1593a',
+                                    }}
+                                >
+                                    {embedUrl && (
+                                        <iframe
+                                            className="youtube-embed"
+                                            width="100%"
+                                            height="500"
+                                            src={`${embedUrl}?autoplay=1`}
+                                            title="YouTube video player"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                        />
+                                    )}
+                                </div>
+                            );
                         default:
                             return null;
                     }
                 })}
 
                 <CheckOutForm
+                    ref={checkoutFormRef}
                     product={product}
                     qty={qty}
                     setQty={setQty}
