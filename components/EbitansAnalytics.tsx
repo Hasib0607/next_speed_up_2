@@ -13,6 +13,7 @@ import {
 } from '@/helpers/localStorage';
 import { ANALYTICS_PREV_PERSIST, TRIGGER_E_TRACK } from '@/consts';
 import { formattedDateTime } from '@/helpers/getTime';
+import { removeFbclid } from '@/helpers/urlCleaner';
 
 const EbitansAnalytics = ({ design, headersetting }: any) => {
     const store_id = design?.store_id || null;
@@ -40,25 +41,24 @@ const EbitansAnalytics = ({ design, headersetting }: any) => {
             return null; // Return null or handle the error gracefully
         }
     };
-    
+
     if (previousPath.current !== pathname) {
         const exitTime = formattedDateTime();
-        
-        const previousAnalyticsData = getFromLocalStorage(
-            ANALYTICS_PREV_PERSIST
-        ) ?? {}
+
+        const previousAnalyticsData =
+            getFromLocalStorage(ANALYTICS_PREV_PERSIST) ?? {};
 
         const updatedAnalyticsData = {
             id: previousAnalyticsData?.id,
             exit_time: exitTime,
         };
 
+        previousPath.current = pathname;
+
         // if (Object.keys(previousAnalyticsData).length !== 0) {
-        //     // 
+        //     return;
         // }
         updateVisitorData(updatedAnalyticsData);
-
-        previousPath.current = pathname;
     }
 
     // for store
@@ -137,13 +137,16 @@ const EbitansAnalytics = ({ design, headersetting }: any) => {
             }
         };
 
+        const cleanedCurrentUrl = removeFbclid(userData?.currentUrl);
+        const cleanedPreviousUrl = removeFbclid(userData?.previousUrl);
+
         const analyticsData = {
             store_id,
             store_url: userData?.domain,
             user_id: userId,
-            page_url: userData?.currentUrl,
+            page_url: cleanedCurrentUrl,
             page_title: document.title,
-            refer_page_url: userData?.previousUrl,
+            refer_page_url: cleanedPreviousUrl,
             ip: userData?.userIp,
             device,
             mac,
@@ -163,8 +166,7 @@ const EbitansAnalytics = ({ design, headersetting }: any) => {
             time_zone: timeZone,
         };
 
-        // const sendCommand = getFromLocalStorage(TRIGGER_E_TRACK);
-        const sendCommand = true
+        const sendCommand = getFromLocalStorage(TRIGGER_E_TRACK);
 
         if (sendCommand) {
             sendVisitorData(analyticsData).then((response: any) => {
