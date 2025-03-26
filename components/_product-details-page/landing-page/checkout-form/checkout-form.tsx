@@ -129,7 +129,7 @@ const CheckOutForm = forwardRef<HTMLDivElement, any>((props, ref) => {
     };
 
     return (
-        <div className="bg-[#F3F4F6] py-10" ref={ref}>
+        <div className="bg-[#F3F4F6] py-10 my-5" ref={ref}>
             <div className="sm:container px-5 xl:px-24">
                 <div className="container">
                     <div className=" mt-1 py-4">

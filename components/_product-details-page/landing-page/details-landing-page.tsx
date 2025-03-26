@@ -189,8 +189,10 @@ const DetailsLandingPage = ({
                                     style={{
                                         backgroundColor:
                                             item.design?.bg_color || '#ffffff',
-                                        color: item.design?.color || '#f1593a',
+                                        ['--color' as any]:
+                                            item.design?.color || '#f1593a',
                                     }}
+                                    className="layout-custom-styles"
                                 >
                                     <DangerouslySafeHTML
                                         content={item.text || ''}
@@ -205,8 +207,10 @@ const DetailsLandingPage = ({
                                     style={{
                                         backgroundColor:
                                             item.design?.bg_color || '#ffffff',
-                                        color: item.design?.color || '#f1593a',
+                                        ['--color' as any]:
+                                            item.design?.color || '#f1593a',
                                     }}
+                                    className="layout-custom-styles"
                                 >
                                     <DangerouslySafeHTML
                                         content={item.text || ''}
@@ -218,12 +222,13 @@ const DetailsLandingPage = ({
                             return (
                                 <div
                                     key={item.id}
-                                    className="rounded-md"
                                     style={{
                                         backgroundColor:
-                                            item.design?.bg_color || '#ffffff',
-                                        color: item.design?.color || '#f1593a',
+                                        item.design?.bg_color || '#ffffff',
+                                        ['--color' as any]:
+                                        item.design?.color || '#f1593a',
                                     }}
+                                    className="layout-custom-styles flex justify-center"
                                 >
                                     <DangerouslySafeHTML
                                         content={item.text || ''}
@@ -277,7 +282,13 @@ const DetailsLandingPage = ({
                                     {imageGroup.map((imgItem) => (
                                         <div
                                             key={imgItem.id}
-                                            className="flex-1 min-w-[300px] max-w-[500px]"
+                                            className="flex-1 min-w-[300px] max-w-[500px] layout-custom-styles"
+                                            style={{
+                                                backgroundColor:
+                                                item.design?.bg_color || '#ffffff',
+                                                ['--color' as any]:
+                                                item.design?.color || '#f1593a',
+                                            }}
                                         >
                                             <img
                                                 src={productImg + imgItem.link}
@@ -308,7 +319,7 @@ const DetailsLandingPage = ({
                             return (
                                 <div
                                     key={item.id}
-                                    className="flex justify-start items-center gap-x-2 my-3"
+                                    className="flex justify-center items-center gap-x-2 my-3"
                                     style={{
                                         backgroundColor:
                                             item.design?.bg_color || '#ffffff',
@@ -321,7 +332,7 @@ const DetailsLandingPage = ({
                                 >
                                     <p className="font-bold">Price: </p>
                                     <div className="">
-                                        <div className="flex justify-start items-center gap-4">
+                                        <div className="flex items-center gap-4">
                                             <BDT />
                                             {price}{' '}
                                             {save > 0 &&
@@ -362,12 +373,13 @@ const DetailsLandingPage = ({
                             return (
                                 <div
                                     key={item.id}
-                                    className=" "
                                     style={{
                                         backgroundColor:
-                                            item.design?.bg_color || '#ffffff',
-                                        color: item.design?.color || '#f1593a',
+                                        item.design?.bg_color || '#ffffff',
+                                        ['--color' as any]:
+                                        item.design?.color || '#f1593a',
                                     }}
+                                    className="layout-custom-styles flex justify-center items-center" 
                                 >
                                     <DangerouslySafeHTML
                                         content={product?.description || ''}
