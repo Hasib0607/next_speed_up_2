@@ -260,3 +260,39 @@ html {
 .sh1 {
     box-shadow: 0 0 5px 0.1px black;
 }
+
+
+
+/* layout-custom-styles for html tags (p, h1-h6) */
+.layout-custom-styles h1,
+.layout-custom-styles h2,
+.layout-custom-styles h3,
+.layout-custom-styles h4,
+.layout-custom-styles h5,
+.layout-custom-styles h6,
+.layout-custom-styles p {
+    color: var(--color);
+    margin: 0.5rem 0;
+    line-height: 1.2;
+    font-family: inherit;
+}
+
+/* Maintain semantic heading sizes but allow color inheritance */
+.layout-custom-styles h1 { font-size: 2rem; }
+.layout-custom-styles h2 { font-size: 1.8rem; }
+.layout-custom-styles h3 { font-size: 1.6rem; }
+.layout-custom-styles h4 { font-size: 1.4rem; }
+.layout-custom-styles h5 { font-size: 1.2rem; }
+.layout-custom-styles h6 { font-size: 1rem; }
+.layout-custom-styles p { font-size: 1rem; }
+
+/* Handle nested elements */
+.layout-custom-styles div > h1,
+.layout-custom-styles div > h2,
+.layout-custom-styles div > h3,
+.layout-custom-styles div > h4,
+.layout-custom-styles div > h5,
+.layout-custom-styles div > h6,
+.layout-custom-styles div > p {
+    color: inherit;
+}

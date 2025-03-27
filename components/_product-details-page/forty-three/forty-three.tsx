@@ -108,8 +108,14 @@ const FortyThree = ({ store_id, productId, design, headersetting }: any) => {
                                 headersetting={headersetting}
                                 product={product}
                             />
-                            {relatedContentSkeleton}
-                            <LandingRelatedProducts product={relatedProducts} />
+                            {product?.tags?.length > 0 && (
+                                <>
+                                    {relatedContentSkeleton}
+                                    <LandingRelatedProducts
+                                        product={relatedProducts}
+                                    />
+                                </>
+                            )}
                         </div>
                     </div>
                 ) : (
