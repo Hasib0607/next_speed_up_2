@@ -1,6 +1,16 @@
 import { HTML_TAG_PATTERN } from '@/consts';
 import { numberParser } from './numberParser';
 import { getPrice } from './getPrice';
+import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
+
+// check phone number
+export const checkValidPhoneNumberByCode = (
+    phone: string,
+    countryCode: CountryCode = 'BD'
+) => {
+    const phoneNumber = parsePhoneNumberFromString(phone, countryCode);
+    return phoneNumber?.isValid() || false;
+};
 
 // find variant and get details
 export const getVariantDetailsById = (product: any) => {
@@ -146,6 +156,16 @@ export const getSecondPathName = (pathname: any): string =>
 export const classNames = (
     ...classes: (string | boolean | null | undefined)[]
 ): string => classes.filter(Boolean).join(' ');
+
+export const cleanTwClassWithPrefix = (
+    classString: string,
+    prefixes: string[]
+): string => {
+    return classString
+        .split(' ')
+        .filter((cls) => !prefixes.some((prefix) => cls.startsWith(prefix)))
+        .join(' ');
+};
 
 export const htmlTagsRemover = (htmlString: any) => {
     return htmlString.replace(HTML_TAG_PATTERN, '') || '';

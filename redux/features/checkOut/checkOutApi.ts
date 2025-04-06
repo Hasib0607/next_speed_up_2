@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import { apiSlice } from '../api/apiSlice';
 import { userLoggedIn } from '../auth/authSlice';
 import { setCouponResult } from '../filters/couponSlice';
-import { setDistrictArr } from './checkOutSlice';
+import { setCountryArr, setDistrictArr } from './checkOutSlice';
 
 // Inject the getHome mutation endpoint into apiSlice
 export const checkOutApi = apiSlice.injectEndpoints({
@@ -100,6 +100,23 @@ export const checkOutApi = apiSlice.injectEndpoints({
                 }
             },
         }),
+        getCountry: builder.query<any, any>({
+            query: () => ({
+                url: `get/country`,
+                method: 'GET',
+            }),
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                try {
+                    const response = await queryFulfilled;
+                    const countryInfoArr = response?.data?.data || [];
+                    if (response?.data?.status && countryInfoArr) {
+                        dispatch(setCountryArr(countryInfoArr));
+                    }
+                } catch (error) {
+                    // console.error("Error in getCountry mutation:", error);
+                }
+            },
+        }),
         getBookingFormFields: builder.query<any, any>({
             query: ({ store_id, module_id }) => ({
                 url: `booking-from/${store_id}/${module_id}`,
@@ -176,6 +193,7 @@ export const {
     useGetCampaignQuery,
     useGetAddressQuery,
     useGetDistrictQuery,
+    useGetCountryQuery,
     useGetFormFieldsQuery,
     useGetBookingFormFieldsQuery,
     useUserAddressUpdateMutation,

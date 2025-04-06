@@ -9,11 +9,11 @@ import Discount from '../_components/discount/discount';
 import { AppDispatch, RootState } from '@/redux/store';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 import {
-    getCampainOfferDeliveryFee,
     totalCampainOfferDiscount,
 } from '@/utils/_cart-utils/cart-utils';
 import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
 import { setGrandTotal, setPurchaseList } from '@/redux/features/purchase/purchaseSlice';
+import { useGetCountryQuery, useGetDistrictQuery } from '@/redux/features/checkOut/checkOutApi';
 
 const CheckOutTwentyOne = ({ design, appStore, headersetting }: any) => {
     const store_id = appStore?.id || null;
@@ -40,6 +40,9 @@ const CheckOutTwentyOne = ({ design, appStore, headersetting }: any) => {
     //     () => getCampainOfferDeliveryFee(cartList, selectedShippingArea),
     //     [cartList, selectedShippingArea]
     // );
+
+    // useGetCountryQuery({});
+    // useGetDistrictQuery({});
     
     useEffect(() => {
         if (cartTotalCampainOfferDiscountAmount > 0) {

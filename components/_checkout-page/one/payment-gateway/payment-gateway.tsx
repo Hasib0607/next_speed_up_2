@@ -11,6 +11,7 @@ import {
     useAppSelector,
 } from '@/redux/features/rtkHooks/rtkHooks';
 import { AppDispatch, RootState } from '@/redux/store';
+import { useEffect } from 'react';
 import { FaTruck } from 'react-icons/fa';
 
 const PaymentGateway = ({ design, appStore, headersetting }: any) => {
@@ -35,6 +36,12 @@ const PaymentGateway = ({ design, appStore, headersetting }: any) => {
         const selectedValue = e.target.value as string;
         dispatch(setSelectPayment(selectedValue));
     };
+
+    useEffect(() => {
+        if (headersetting?.cod === 'active') {
+            dispatch(setSelectPayment('cod'));
+        }
+    }, [headersetting, dispatch]);
 
     const btnStyle =
         'py-2 px-5 rounded-lg w-full transition-colors duration-300 flex items-center cursor-pointer hover:bg-gray-100';

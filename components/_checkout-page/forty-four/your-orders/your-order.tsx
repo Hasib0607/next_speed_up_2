@@ -73,9 +73,10 @@ const YourOrders = ({
         email: userEmail,
         address: userAddress,
         district: userDistrict,
+        phoneCode: userPhoneCode
     } = checkoutFromData || {};
 
-    const { districtArr } = useSelector((state: RootState) => state?.checkout);
+    const { districtArr,countryArr } = useSelector((state: RootState) => state?.checkout);
 
     const districts = useMemo(
         () =>
@@ -84,6 +85,17 @@ const YourOrders = ({
             ),
         [districtArr, userDistrict]
     );
+
+    const selectedCountry = useMemo(
+        () =>
+            countryArr?.find(
+                (item: any) => item?.telephonePrefix === userPhoneCode
+            ),
+        [countryArr, userPhoneCode]
+    );
+
+    console.log("selectedCountry",selectedCountry);
+    
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 

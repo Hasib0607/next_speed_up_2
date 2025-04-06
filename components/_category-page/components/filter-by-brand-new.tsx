@@ -1,20 +1,28 @@
 'use client';
 
-const FilterByBrand = () => {
-    const staticBrands = ['brand1', 'brand2', 'brand3', 'brand4', 'brand5'];
+import { setActiveBrands } from '@/redux/features/filters/filterSlice';
+import {
+    useAppDispatch,
+    useAppSelector,
+} from '@/redux/features/rtkHooks/rtkHooks';
+import { AppDispatch, RootState } from '@/redux/store';
 
-    // const handleCheckboxChange = (brand: string) => {
-    //     let updatedBrands;
-    //     if (activeBrands.includes(brand)) {
-    //         updatedBrands = activeBrands.filter((b) => b !== brand);
-    //     } else {
-    //         updatedBrands = [...activeBrands, brand];
-    //     }
+const FilterByBrandNew = ({ brands }: any) => {
+    const dispatch: AppDispatch = useAppDispatch();
+    
+    const { activeBrands } = useAppSelector(
+        (state: RootState) => state.filters
+    );
 
-    //     setActiveBrands(updatedBrands);
-    //     setPage(1); // Reset to first page whenever the filter changes
-    //     setHasMore(true); // Reset pagination status
-    // };
+    const handleCheckboxChange = (brand: string) => {
+        let updatedBrands: any = [];
+        if (activeBrands.includes(brand)) {
+            updatedBrands = activeBrands.filter((item: any) => item !== brand);
+        } else {
+            updatedBrands = [...activeBrands, brand];
+        }
+        dispatch(setActiveBrands(updatedBrands));
+    };
 
     return (
         <>
@@ -22,19 +30,19 @@ const FilterByBrand = () => {
                 Filter by Brand
             </h1>
             <div className="flex flex-wrap gap-4 mt-3">
-                {staticBrands.map((brand, index) => (
+                {brands?.map((brand: any) => (
                     <label
-                        key={index}
+                        key={brand.id}
                         className="flex items-center gap-2 cursor-pointer"
                     >
                         <input
                             type="checkbox"
-                            value={brand}
-                            // checked={activeBrands.includes(brand)}
-                            // onChange={() => handleCheckboxChange(brand)}
+                            value={brand.name}
+                            checked={activeBrands.includes(brand.name) ?? false}
+                            onChange={() => handleCheckboxChange(brand.name)}
                             className="accent-blue-500"
                         />
-                        <span className="text-[#252525]">{brand}</span>
+                        <span className="text-[#252525]">{brand.name}</span>
                     </label>
                 ))}
             </div>
@@ -42,4 +50,4 @@ const FilterByBrand = () => {
     );
 };
 
-export default FilterByBrand;
+export default FilterByBrandNew;

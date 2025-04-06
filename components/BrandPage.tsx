@@ -1,14 +1,18 @@
 import { DEFAULT } from '@/consts';
+import getDomain from '@/helpers/getDomain';
+import getBrands from '@/utils/fetcher/getBrands';
 import { brand_pages } from '@/utils/dynamic-import/brandPages/brandPages';
 
-const Brand = ({ design, brandId }: any) => {
+export default async function Brand({ design }: any) {
+    const name = await getDomain();
+    const brands = await getBrands(name);
+
     const BrandComponent =
-        brand_pages[design?.shop_page] || brand_pages[DEFAULT];
+    brand_pages[design?.shop_page] || brand_pages[DEFAULT];
 
     return (
-        design?.shop_page !== 'null' &&
-        BrandComponent && <BrandComponent brandId={brandId} design={design} />
+        BrandComponent && (
+            <BrandComponent design={design} brands={brands} />
+        )
     );
-};
-
-export default Brand;
+}

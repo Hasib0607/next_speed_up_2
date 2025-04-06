@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: any = {
+    activeBrands: [],
     color: '',
     price: null,
     sort: null,
@@ -11,6 +12,9 @@ export const filterSlice = createSlice({
     name: 'filters',
     initialState,
     reducers: {
+        setActiveBrands: (state, action: PayloadAction<any>) => {
+            state.activeBrands = action.payload;
+        },
         setColor: (state, action: PayloadAction<any>) => {
             state.color = action.payload;
         },
@@ -32,7 +36,13 @@ export const filterSlice = createSlice({
     },
 });
 
-export const { setColor, setPrice, setSort, setStatusBtn, resetFilters } =
-    filterSlice.actions;
+export const {
+    setActiveBrands,
+    setColor,
+    setPrice,
+    setSort,
+    setStatusBtn,
+    resetFilters,
+} = filterSlice.actions;
 // Export the reducer
 export const { reducerPath, reducer } = filterSlice;

@@ -1,4 +1,4 @@
-import Shop from '@/components/Shop';
+import Brand from '@/components/BrandPage';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 import { imgUrl } from '@/site-settings/siteUrl';
 import getDesign from '@/utils/fetcher/getDesign';
@@ -21,7 +21,7 @@ export default async function BrandPage() {
     return (
         <>
             {/* <ResetFilter /> */}
-            <Shop design={design} />
+            <Brand design={design} />
         </>
     );
 }
