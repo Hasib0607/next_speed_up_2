@@ -13,6 +13,7 @@ import {
 } from '@/redux/features/rtkHooks/rtkHooks';
 import { AppDispatch, RootState } from '@/redux/store';
 import Image from 'next/image';
+import { useEffect } from 'react';
 
 const PaymentGatewayFortyFour = ({
     design,
@@ -42,6 +43,12 @@ const PaymentGatewayFortyFour = ({
     const handleSelect = (e: string) => {
         dispatch(setSelectPayment(e));
     };
+
+    useEffect(() => {
+        if (headersetting?.cod === 'active') {
+            dispatch(setSelectPayment('cod'));
+        }
+    }, [headersetting, dispatch]);
 
     const btnStyle =
         btnStyleClass ??

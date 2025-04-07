@@ -14,6 +14,7 @@ import {
 } from '@/redux/features/rtkHooks/rtkHooks';
 import { AppDispatch, RootState } from '@/redux/store';
 import Image from 'next/image';
+import { useEffect } from 'react';
 
 const PaymentGateway = ({
     design,
@@ -43,6 +44,12 @@ const PaymentGateway = ({
     const handleSelect = (e: string) => {
         dispatch(setSelectPayment(e));
     };
+
+    useEffect(() => {
+        if (headersetting?.cod === 'active') {
+            dispatch(setSelectPayment('cod'));
+        }
+    }, [headersetting, dispatch]);
 
     const btnStyle =
         btnStyleClass ??
@@ -120,8 +127,7 @@ const PaymentGateway = ({
                         )}
                         onClick={() => handleSelect('paypal')}
                     >
-                        {headersetting?.paypal_text ===
-                        'paypal Payment Img' ? (
+                        {headersetting?.paypal_text === 'paypal Payment Img' ? (
                             <Image
                                 src={paypalLogo.src}
                                 className="h-6 md:h-8 object-cover"
@@ -130,7 +136,9 @@ const PaymentGateway = ({
                                 height={100}
                             />
                         ) : (
-                            <p className="font-semibold tracking-wider">{headersetting?.paypal_text}</p>
+                            <p className="font-semibold tracking-wider">
+                                {headersetting?.paypal_text}
+                            </p>
                         )}
                     </div>
                 )}
@@ -145,8 +153,7 @@ const PaymentGateway = ({
                         )}
                         onClick={() => handleSelect('stripe')}
                     >
-                        {headersetting?.stripe_text ===
-                        'stripe Payment Img' ? (
+                        {headersetting?.stripe_text === 'stripe Payment Img' ? (
                             <Image
                                 src={stripeLogo.src}
                                 className="h-6 md:h-8 object-cover"
@@ -155,7 +162,9 @@ const PaymentGateway = ({
                                 height={100}
                             />
                         ) : (
-                            <p className="font-semibold tracking-wider">{headersetting?.stripe_text}</p>
+                            <p className="font-semibold tracking-wider">
+                                {headersetting?.stripe_text}
+                            </p>
                         )}
                     </div>
                 )}
@@ -179,7 +188,9 @@ const PaymentGateway = ({
                                 height={100}
                             />
                         ) : (
-                            <p className="font-semibold tracking-wider">{headersetting?.merchant_bkash_text}</p>
+                            <p className="font-semibold tracking-wider">
+                                {headersetting?.merchant_bkash_text}
+                            </p>
                         )}
                     </div>
                 )}

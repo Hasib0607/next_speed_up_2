@@ -6,7 +6,7 @@ import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 
 // components imports
 import getDesign from '@/utils/fetcher/getDesign';
-import Brand from '@/components/BrandPage';
+import SubBrand from '@/components/SubBrandPage';
 
 export async function generateMetadata() {
     const headersetting = await getHeaderSetting();
@@ -26,5 +26,5 @@ export default async function SubBrandPage({
     const design = await getDesign();
     const brandId = (await params).brandId;
 
-    return <Brand design={design} brandId={brandId} />;
+    return <SubBrand design={design} brandId={brandId} />;
 }

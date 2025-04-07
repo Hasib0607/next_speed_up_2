@@ -1,9 +1,10 @@
 'use client';
 
-import { EMAIL_REGEX, ONE, PHONE_NUMBER_REGEX, TWENTY_EIGHT } from '@/consts';
+import { EMAIL_REGEX, ONE, TWENTY_EIGHT } from '@/consts';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 import useAuth from '@/hooks/useAuth';
 import {
+    useGetCountryQuery,
     useGetDistrictQuery,
     useGetFormFieldsQuery,
     useUserAddressSaveMutation,
@@ -12,13 +13,18 @@ import {
 import { setCheckoutFromData } from '@/redux/features/checkOut/checkOutSlice';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getValueByKey } from './customLang';
-import { classNames, getCheckedValue } from '@/helpers/littleSpicy';
+import {
+    checkValidPhoneNumberByCode,
+    classNames,
+    cleanTwClassWithPrefix,
+    getCheckedValue,
+} from '@/helpers/littleSpicy';
 
 // import {
 //     FaUser,
@@ -30,6 +36,8 @@ import { classNames, getCheckedValue } from '@/helpers/littleSpicy';
 
 type FormValues = {
     name: string;
+    phone_code: string;
+    code: string;
     phone: number;
     email: string;
     address: string;
@@ -54,10 +62,20 @@ const CheckoutFrom = ({
     const dispatch = useDispatch();
 
     // fields to show
-    const [fields, setFields] = useState([]);
-    const [districtArr, setDistrictArr] = useState([]);
+    const [fields, setFields] = useState<any>([]);
+    // const [selectedCountryId, setSelectedCountryId] = useState(null);
+    const [phoneCode, setPhoneCode] = useState('');
+    const [countryInfoArr, setCountryInfoArr] = useState<any>([]);
+    const [districtArr, setDistrictArr] = useState<any>([]);
 
     const store_id = appStore?.id || null;
+
+    const {
+        data: countryData,
+        isLoading: countryLoading,
+        isSuccess: countrySuccess,
+        refetch: countryRefetch,
+    } = useGetCountryQuery({});
 
     const {
         data: districtData,
@@ -71,6 +89,16 @@ const CheckoutFrom = ({
         isLoading: userFormFieldsLoading,
         isSuccess: userFormFieldsSuccess,
     } = useGetFormFieldsQuery({ store_id });
+
+    const getCountryCode = useMemo(
+        () =>
+            countryInfoArr?.find(
+                (item: any) => item.telephonePrefix === phoneCode
+            ),
+        [countryInfoArr, phoneCode]
+    );
+
+    const selectedCountryCode = getCountryCode?.countryCode ?? 'BD';
 
     const generateDynamicSchema = (fields: any[]) => {
         const schemaObject: Record<string, z.ZodTypeAny> = {};
@@ -159,7 +187,6 @@ const CheckoutFrom = ({
     const schemaResolver = generateDynamicSchema(fields);
 
     // ex: { name: '', phone: '', address: '',note: '',district: '', };
-    
 
     const defaultValues = edit
         ? { ...editItem, district: editItem?.district_id }
@@ -195,6 +222,11 @@ const CheckoutFrom = ({
             clearErrors(name);
         }
 
+        if (name === 'phone_code' && selectValue) {
+            setPhoneCode(selectValue);
+            clearErrors(name);
+        }
+
         if (name === 'name' && value) {
             clearErrors(name);
         }
@@ -204,12 +236,19 @@ const CheckoutFrom = ({
         }
 
         if (name === 'phone') {
-            let isValidPhone = getCheckedValue(value, PHONE_NUMBER_REGEX);
+            let phoneWithCode = phoneCode + value.toString();
+            console.log('phoneWithCode', phoneWithCode);
+            console.log('selectedCountryCode', selectedCountryCode);
+            // let isValidPhone = getCheckedValue(phoneWithCode, PHONE_NUMBER_REGEX);
+            let isValidPhone = checkValidPhoneNumberByCode(
+                phoneWithCode,
+                selectedCountryCode
+            );
             if (!isValidPhone) {
                 setError('phone', {
                     type: 'manual',
-                    message: 'Need 11 digits',
-                    // message: 'Invalid phone number',
+                    // message: 'Need 11 digits',
+                    message: 'Invalid phone number',
                 });
             } else {
                 clearErrors(name);
@@ -236,6 +275,7 @@ const CheckoutFrom = ({
 
     const [userAddressSave] = useUserAddressSaveMutation();
     const [userAddressUpdate] = useUserAddressUpdateMutation();
+    // console.log("fields",fields);
 
     // Add address
     const addAddress = async (data: any) => {
@@ -288,6 +328,18 @@ const CheckoutFrom = ({
         setOpen(false);
     };
 
+    const fieldKey = (fieldName: string) => {
+        return fields?.some((item: any) => item?.name == fieldName);
+    };
+
+    // Extracting country db
+    useEffect(() => {
+        const allCountryInfo = countryData?.data || [];
+        if (countrySuccess) {
+            setCountryInfoArr(allCountryInfo);
+        }
+    }, [countryData, countrySuccess]);
+
     // Extracting district db
     useEffect(() => {
         const districtFormSelectFields = districtData?.data || [];
@@ -304,7 +356,21 @@ const CheckoutFrom = ({
         );
 
         if (userFormFieldsSuccess) {
-            setFields(filteredFields);
+            const isPhoneField = filteredFields.some(
+                (item: any) => item.name === 'phone'
+            );
+            if (isPhoneField) {
+                setFields([
+                    ...filteredFields,
+                    {
+                        id: filteredFields.at(-1).id + 1,
+                        name: 'phone_code',
+                        status: 1,
+                    },
+                ]);
+            } else {
+                setFields(filteredFields);
+            }
         }
     }, [userFormFieldsData, userFormFieldsSuccess]);
 
@@ -313,7 +379,11 @@ const CheckoutFrom = ({
         dispatch(setCheckoutFromData(formData));
     }, [watchedFields, getValues, dispatch]);
 
-    const fieldStyle = formFieldStyle ? formFieldStyle : 'mt-1 focus:ring-0 focus:border-gray-400 block w-full shadow-md sm:text-md border-2 border-gray-300 rounded-lg p-3 text-gray-700';
+    const fieldStyle = formFieldStyle
+        ? formFieldStyle
+        : 'mt-1 focus:ring-0 focus:border-gray-400 block w-full shadow-md sm:text-md border-2 border-gray-300 rounded-lg p-3 text-gray-700';
+    const labelStyle = 'block text-sm font-medium text-gray-700 capitalize';
+    // console.log("selectedCountryId",setPhoneCode);
 
     return (
         <>
@@ -335,106 +405,292 @@ const CheckoutFrom = ({
                             : handleSubmit(addAddress)
                     }
                 >
-                    <div className="px-4 py-5 space-y-6 sm:p-6 w-auto md:min-w-[500px]">
-                        {fields?.length > 0 &&
-                            fields?.map((item: any, index: number) => (
-                                <div key={index}>
+                    <div className="flex flex-col w-auto md:min-w-[500px] gap-y-6">
+                        {/* name */}
+                        <div>
+                            {fieldKey('name') && (
+                                <>
                                     <label
-                                        htmlFor={item?.name}
-                                        className="block text-sm font-medium text-gray-700 capitalize"
+                                        htmlFor={'name'}
+                                        className={labelStyle}
                                     >
                                         {design?.template_id === '29' ||
                                         design?.checkout_page ===
                                             (ONE || TWENTY_EIGHT) ||
                                         store_id === 3601
-                                            ? getValueByKey(item?.name)
-                                            : item?.name}
+                                            ? getValueByKey('name')
+                                            : 'name'}
                                     </label>
-                                    {item?.name == 'district' ? (
+                                    <input
+                                        {...register('name')}
+                                        type={'text'}
+                                        name={'name'}
+                                        id={'name'}
+                                        onInput={() =>
+                                            handleFieldChange('name')
+                                        }
+                                        placeholder={'full name'}
+                                        autoComplete="address-level1"
+                                        className={classNames(
+                                            fieldStyle,
+                                            'remove-arrow'
+                                        )}
+                                    />
+
+                                    <p className="text-rose-500">
+                                        {
+                                            errors['name' as keyof FormValues]
+                                                ?.message
+                                        }
+                                    </p>
+                                </>
+                            )}
+                        </div>
+                        {/* phone and email */}
+                        <div>
+                            {fieldKey('email') && (
+                                <>
+                                    <label
+                                        htmlFor={'email'}
+                                        className={labelStyle}
+                                    >
+                                        {design?.template_id === '29' ||
+                                        design?.checkout_page ===
+                                            (ONE || TWENTY_EIGHT) ||
+                                        store_id === 3601
+                                            ? getValueByKey('email')
+                                            : 'email'}
+                                    </label>
+                                    <input
+                                        {...register('email')}
+                                        type={'text'}
+                                        name={'email'}
+                                        id={'email'}
+                                        onInput={() =>
+                                            handleFieldChange('email')
+                                        }
+                                        placeholder={'email'}
+                                        autoComplete="address-level1"
+                                        className={classNames(
+                                            fieldStyle,
+                                            'remove-arrow'
+                                        )}
+                                    />
+
+                                    <p className="text-rose-500">
+                                        {
+                                            errors['email' as keyof FormValues]
+                                                ?.message
+                                        }
+                                    </p>
+                                </>
+                            )}
+                        </div>
+                        <div>
+                            {fieldKey('phone') && (
+                                <>
+                                    <label
+                                        htmlFor={'phone'}
+                                        className={labelStyle}
+                                    >
+                                        {design?.template_id === '29' ||
+                                        design?.checkout_page ===
+                                            (ONE || TWENTY_EIGHT) ||
+                                        store_id === 3601
+                                            ? getValueByKey('phone')
+                                            : 'phone'}
+                                    </label>
+                                    <div className="flex items-center justify-between gap-2 h-10">
                                         <select
-                                            {...register('district')}
-                                            name="district"
-                                            className={fieldStyle}
+                                            {...register('phone_code')}
+                                            name={'phone_code'}
+                                            id={'phone_code'}
+                                            className={classNames(
+                                                cleanTwClassWithPrefix(
+                                                    fieldStyle,
+                                                    ['w-', 'px-', 'py-']
+                                                ),
+                                                'w-20 bg-transparent h-full p-1'
+                                            )}
                                             onInput={(e: any) =>
                                                 handleFieldChange(
-                                                    item?.name,
+                                                    'phone_code',
                                                     e.target.value
                                                 )
                                             }
                                         >
-                                            {(!edit ||
+                                            {/* {(!edit ||
                                                 (edit &&
                                                     editItem?.district ===
                                                         null)) && (
                                                 <option defaultChecked value="">
                                                     Choose a District
                                                 </option>
-                                            )}
-
-                                            {districtArr?.map(
-                                                (item: any, index: number) => (
+                                            )} */}
+                                            {countryInfoArr?.map(
+                                                (item: any) => (
                                                     <option
-                                                        value={item?.id}
-                                                        key={index}
+                                                        value={
+                                                            item?.telephonePrefix
+                                                        }
+                                                        key={item?.id}
                                                     >
-                                                        {item?.bn_name}
+                                                        {item?.telephonePrefix}
                                                     </option>
                                                 )
                                             )}
                                         </select>
-                                    ) : item?.name == 'address' ||
-                                      item?.name == 'note' ? (
-                                        <textarea
-                                            {...register(item?.name)}
-                                            name={item?.name}
-                                            id={item?.name}
+                                        <input
+                                            {...register('phone')}
+                                            type={'number'}
+                                            name={'phone'}
+                                            id={'phone'}
                                             onInput={() =>
-                                                handleFieldChange(item?.name)
+                                                handleFieldChange('phone')
                                             }
-                                            autoComplete={'address-level1'}
+                                            placeholder={'phone number'}
+                                            autoComplete="address-level1"
                                             className={classNames(
                                                 fieldStyle,
                                                 'remove-arrow'
                                             )}
                                         />
-                                    ) : (
-                                        <div className='center'>
-                                            {/* <div className={
-                                                "p-3 mt-1 bg-gray-200 rounded-l-md"
-                                            }>
-                                                <FaUser className="text-black size-6" />
-                                            </div> */}
-                                            <input
-                                                {...register(item?.name)}
-                                                type={
-                                                    item?.name == 'phone'
-                                                        ? 'number'
-                                                        : 'text'
-                                                }
-                                                name={item?.name}
-                                                id={item?.name}
-                                                onInput={() =>
-                                                    handleFieldChange(
-                                                        item?.name
-                                                    )
-                                                }
-                                                autoComplete="address-level1"
-                                                className={classNames(
-                                                    fieldStyle,
-                                                    'remove-arrow'
-                                                )}
-                                            />
-                                        </div>
-                                    )}
+                                    </div>
+                                    <p className="text-rose-500">
+                                        {
+                                            errors['phone' as keyof FormValues]
+                                                ?.message
+                                        }
+                                    </p>
+                                </>
+                            )}
+                        </div>
+                        {/* address */}
+                        <div>
+                            {fieldKey('address') && (
+                                <>
+                                    <label
+                                        htmlFor={'address'}
+                                        className={labelStyle}
+                                    >
+                                        {design?.template_id === '29' ||
+                                        design?.checkout_page ===
+                                            (ONE || TWENTY_EIGHT) ||
+                                        store_id === 3601
+                                            ? getValueByKey('address')
+                                            : 'address'}
+                                    </label>
+                                    <textarea
+                                        {...register('address')}
+                                        name={'address'}
+                                        id={'address'}
+                                        onInput={() =>
+                                            handleFieldChange('address')
+                                        }
+                                        placeholder={'detailed address'}
+                                        autoComplete={'address-level1'}
+                                        className={classNames(fieldStyle)}
+                                    />
+
                                     <p className="text-rose-500">
                                         {
                                             errors[
-                                                item?.name as keyof FormValues
+                                                'address' as keyof FormValues
                                             ]?.message
                                         }
                                     </p>
-                                </div>
-                            ))}
+                                </>
+                            )}
+                        </div>
+                        {/* district */}
+                        <div>
+                            {fieldKey('district') && (
+                                <>
+                                    <label
+                                        htmlFor={'district'}
+                                        className={labelStyle}
+                                    >
+                                        {design?.template_id === '29' ||
+                                        design?.checkout_page ===
+                                            (ONE || TWENTY_EIGHT) ||
+                                        store_id === 3601
+                                            ? getValueByKey('district')
+                                            : 'district'}
+                                    </label>
+                                    <select
+                                        {...register('district')}
+                                        name="district"
+                                        className={fieldStyle}
+                                        onInput={(e: any) =>
+                                            handleFieldChange(
+                                                'district',
+                                                e.target.value
+                                            )
+                                        }
+                                    >
+                                        {(!edit ||
+                                            (edit &&
+                                                editItem?.district ===
+                                                    null)) && (
+                                            <option defaultChecked value="">
+                                                Choose a District
+                                            </option>
+                                        )}
+
+                                        {districtArr?.map(
+                                            (item: any, index: number) => (
+                                                <option
+                                                    value={item?.id}
+                                                    key={index}
+                                                >
+                                                    {item?.bn_name}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
+
+                                    <p className="text-rose-500">
+                                        {
+                                            errors[
+                                                'district' as keyof FormValues
+                                            ]?.message
+                                        }
+                                    </p>
+                                </>
+                            )}
+                        </div>
+                        {/* note */}
+                        <div>
+                            {fieldKey('note') && (
+                                <>
+                                    <label
+                                        htmlFor={'note'}
+                                        className={labelStyle}
+                                    >
+                                        {design?.template_id === '29' ||
+                                        design?.checkout_page ===
+                                            (ONE || TWENTY_EIGHT) ||
+                                        store_id === 3601
+                                            ? getValueByKey('note')
+                                            : 'note'}
+                                    </label>
+                                    <textarea
+                                        {...register('note')}
+                                        name={'note'}
+                                        id={'note'}
+                                        onInput={() =>
+                                            handleFieldChange('note')
+                                        }
+                                        placeholder={'note (optional)'}
+                                        autoComplete={'note-level1'}
+                                        className={classNames(
+                                            fieldStyle,
+                                            'remove-arrow'
+                                        )}
+                                    />
+                                </>
+                            )}
+                        </div>
                     </div>
                     {isAuthenticated && (
                         <div className="space-x-2 px-4 py-3 text-right sm:px-6">

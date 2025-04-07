@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: any = {
-    paymentMethod: 'cod',
+    paymentMethod: null,
 };
 
 export const paymentFilterSlice = createSlice({

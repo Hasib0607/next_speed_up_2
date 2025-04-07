@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: any = {
-    checkoutFromData:null,
-    checkoutBookingFromData:null,
-    districtArr:null
-    // couponDetails:null
+    checkoutFromData: null,
+    checkoutBookingFromData: null,
+    districtArr: null,
+    countryArr: null,
 };
 
 export const checkOutSlice = createSlice({
@@ -20,13 +20,18 @@ export const checkOutSlice = createSlice({
         setDistrictArr: (state, action: PayloadAction<any>) => {
             state.districtArr = action.payload;
         },
-        // setCouponDetails: (state, action: PayloadAction<any>) => {
-        //     state.couponDetails = action.payload;
-        // },
+        setCountryArr: (state, action: PayloadAction<any>) => {
+            state.countryArr = action.payload;
+        },
     },
 });
 
-export const {setCheckoutFromData,setCheckoutBookingFromData,setDistrictArr} = checkOutSlice.actions;
+export const {
+    setCheckoutFromData,
+    setCheckoutBookingFromData,
+    setDistrictArr,
+    setCountryArr,
+} = checkOutSlice.actions;
 
 // Export the reducer
 export const { reducerPath, reducer } = checkOutSlice;

@@ -3,12 +3,24 @@ import type { NextRequest } from 'next/server';
 import getDomain from '@/helpers/getDomain';
 import { cookies } from 'next/headers';
 
+
+type VercelGeo = {
+    city?: string;
+    country?: string;
+    region?: string;
+    latitude?: string;
+    longitude?: string;
+  };
+
 export async function middleware(req: NextRequest) {
     const response = NextResponse.next();
     const headersList = req.headers;
+    const geo = (req as unknown as { geo?: VercelGeo }).geo;
 
     const ip = headersList.get('x-forwarded-for') || 'Unknown IP';
     const previousUrl = headersList.get('referer') || '';
+    const country = await geo?.country || 'BD';
+console.log("country",country);
 
     // Construct the full URL
     const protocol = req.nextUrl.protocol; // 'http:' or 'https:'
@@ -43,6 +55,12 @@ export async function middleware(req: NextRequest) {
         sameSite: 'strict',
     });
     cookieStore.set('currentIp', ip, {
+        path: '/',
+        httpOnly: true,
+        maxAge: 60 * 10, // Short-lived cookie (10 minutes)
+        sameSite: 'strict',
+    });
+    cookieStore.set('countryCode', country, {
         path: '/',
         httpOnly: true,
         maxAge: 60 * 10, // Short-lived cookie (10 minutes)

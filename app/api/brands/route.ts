@@ -10,6 +10,7 @@ export async function GET() {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}get-domain/${name}/brand`
         );
+        
         if (!response.ok) {
             console.warn('No brand found!');
         }

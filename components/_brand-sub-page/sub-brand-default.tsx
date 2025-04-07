@@ -22,7 +22,8 @@ import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from '../_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '../_category-page/components/filter-by-price-new';
 
-const CategoryTwo = ({ catId, store_id, design }: any) => {
+const SubBrandDefault = ({ brandId, brands, design }: any) => {
+      const store_id = numberParser(design?.store_id) || null;
     const module_id = 105;
     const dispatch = useDispatch();
     const [grid, setGrid] = useState('H');
@@ -103,7 +104,7 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
 
                     <div className="mt-4 mb-6 ">
                         <ProductSection
-                            catId={catId}
+                            catId={brandId}
                             open={open}
                             grid={grid}
                             paginate={paginate}
@@ -128,7 +129,7 @@ const CategoryTwo = ({ catId, store_id, design }: any) => {
     );
 };
 
-export default CategoryTwo;
+export default SubBrandDefault;
 
 const ProductSection = ({
     grid,

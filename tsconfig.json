@@ -23,6 +23,6 @@
             "@/*": ["./*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/_product-details-page/forty-four"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/_product-details-page/forty-four", "components/_brand-page/_components/brand-card.tss"],
     "exclude": ["node_modules"]
 }
