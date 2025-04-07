@@ -32,7 +32,7 @@ export const placeOrder = (
                         `Your #${order?.reference_no} order complete successfully!`
                     );
                     setIsLoading(false);
-                    window.location.replace('/thank-you');
+                    // window.location.replace('/thank-you');
                 }
             } else {
                 toast.error('Can not place order, please try again!');

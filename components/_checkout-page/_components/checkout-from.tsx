@@ -237,7 +237,8 @@ const CheckoutFrom = ({
 
         if (name === 'phone') {
             let phoneWithCode = phoneCode + value.toString();
-            // console.log('phoneWithCode', phoneWithCode);
+            console.log('phoneWithCode', phoneWithCode);
+            console.log('selectedCountryCode', selectedCountryCode);
             // let isValidPhone = getCheckedValue(phoneWithCode, PHONE_NUMBER_REGEX);
             let isValidPhone = checkValidPhoneNumberByCode(
                 phoneWithCode,
