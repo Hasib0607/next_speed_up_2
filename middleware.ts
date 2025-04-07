@@ -19,8 +19,11 @@ export async function middleware(req: NextRequest) {
 
     const ip = headersList.get('x-forwarded-for') || 'Unknown IP';
     const previousUrl = headersList.get('referer') || '';
+    const city = await geo?.city || '';
     const country = await geo?.country || 'BD';
-console.log("country",country);
+    const region = await geo?.region || '';
+    const latitude = await geo?.latitude || '';
+    const longitude = await geo?.longitude || '';
 
     // Construct the full URL
     const protocol = req.nextUrl.protocol; // 'http:' or 'https:'
@@ -60,7 +63,31 @@ console.log("country",country);
         maxAge: 60 * 10, // Short-lived cookie (10 minutes)
         sameSite: 'strict',
     });
+    cookieStore.set('city', city, {
+        path: '/',
+        httpOnly: true,
+        maxAge: 60 * 10, // Short-lived cookie (10 minutes)
+        sameSite: 'strict',
+    });
     cookieStore.set('countryCode', country, {
+        path: '/',
+        httpOnly: true,
+        maxAge: 60 * 10, // Short-lived cookie (10 minutes)
+        sameSite: 'strict',
+    });
+    cookieStore.set('region', region, {
+        path: '/',
+        httpOnly: true,
+        maxAge: 60 * 10, // Short-lived cookie (10 minutes)
+        sameSite: 'strict',
+    });
+    cookieStore.set('latitude', latitude, {
+        path: '/',
+        httpOnly: true,
+        maxAge: 60 * 10, // Short-lived cookie (10 minutes)
+        sameSite: 'strict',
+    });
+    cookieStore.set('longitude', longitude, {
         path: '/',
         httpOnly: true,
         maxAge: 60 * 10, // Short-lived cookie (10 minutes)

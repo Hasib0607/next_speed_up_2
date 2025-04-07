@@ -17,7 +17,6 @@ import AddressFortyThree from './address-fortythree.tsx/address-fortythree';
 import DiscountFortyThree from './discount-fortythree/discount-fortythree';
 
 const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
-
     const dispatch: AppDispatch = useAppDispatch();
 
     const { cartList } = useSelector((state: RootState) => state.cart);
@@ -66,7 +65,7 @@ const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
     }
 
     const formFieldStyle =
-    'w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:border-gray-400';
+        'peer pt-5 pb-1 w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:border-gray-400';
 
     const btnStyleClass =
         'p-5 rounded space-y-2 w-full transition-colors duration-300 relative flex justify-between border border-gray-300 cursor-pointer';
@@ -75,7 +74,7 @@ const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
         <div className={`bg-white pb-8 mt-32`}>
             <div className="sm:container px-5 xl:px-24">
                 <div className="grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-1 gap-14">
-                    <div className="">
+                    <div className="px-4 space-y-8 sm:p-6">
                         <div
                             className={`${
                                 design?.template_id === '34'
@@ -83,20 +82,18 @@ const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
                                     : 'bg-white'
                             } sm:overflow-hidden mb-5`}
                         >
-                            <div className="px-4 space-y-6 sm:p-6">
-                                <AddressFortyThree
-                                    design={design}
-                                    appStore={appStore}
-                                    selectAddress={selectAddress}
-                                    setSelectAddress={setSelectAddress}
-                                    setToken={setToken}
-                                    token={token}
-                                    setUserAddress={setUserAddress}
-                                    userPhone={userPhone}
-                                    setUserPhone={setUserPhone}
-                                    formFieldStyle={formFieldStyle}
-                                />
-                            </div>
+                            <AddressFortyThree
+                                design={design}
+                                appStore={appStore}
+                                selectAddress={selectAddress}
+                                setSelectAddress={setSelectAddress}
+                                setToken={setToken}
+                                token={token}
+                                setUserAddress={setUserAddress}
+                                userPhone={userPhone}
+                                setUserPhone={setUserPhone}
+                                formFieldStyle={formFieldStyle}
+                            />
                         </div>
                         <DiscountFortyThree
                             design={design}
@@ -106,18 +103,14 @@ const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
                             shippingArea={shippingArea}
                             setShippingArea={setShippingArea}
                         />
-                        <div className="sm:rounded-md sm:overflow-hidden my-5">
-                            <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
-                                <PaymentGateway
-                                    design={design}
-                                    appStore={appStore}
-                                    headersetting={headersetting}
-                                    btnStyleClass={btnStyleClass}
-                                />
-                            </div>
-                        </div>
+                        <PaymentGateway
+                            design={design}
+                            appStore={appStore}
+                            headersetting={headersetting}
+                            btnStyleClass={btnStyleClass}
+                        />
                     </div>
-                    <div className="border-l-2 pl-8">
+                    <div className="border-l-0 md:border-l-2 pl-8">
                         <YourOrders
                             design={design}
                             appStore={appStore}

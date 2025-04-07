@@ -76,7 +76,7 @@ const CheckOutTwentyOne = ({ design, appStore, headersetting }: any) => {
     }
 
     const formFieldStyle =
-        'w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:border-gray-400';
+        'w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:border-gray-400 placeholder-gray-500 placeholder:capitalize';
 
     return (
         <div
@@ -103,7 +103,7 @@ const CheckOutTwentyOne = ({ design, appStore, headersetting }: any) => {
                                     design?.template_id === '34'
                                         ? 'bg-thirty-one border border-white'
                                         : 'bg-white'
-                                }  shadow sm:rounded-md sm:overflow-hidden mb-5`}
+                                } shadow sm:rounded-md sm:overflow-hidden mb-5`}
                             >
                                 <div className="px-4 py-5 space-y-6 sm:p-6">
                                     <Address

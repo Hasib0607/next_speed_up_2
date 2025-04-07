@@ -389,8 +389,8 @@ const YourOrders = ({
 
             <div className="p-5">
                 {isLoading ? (
-                    <div className="flex justify-center items-center font-semibold tracking-wider my-1 rounded-lg border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] border-gray-300 w-full py-3">
-                        Loading
+                    <div className="flex justify-center items-center font-semibold tracking-wider my-1 rounded-lg border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] border-gray-300 w-full py-3 cursor-not-allowed">
+                        Loading...
                     </div>
                 ) : (
                     <button

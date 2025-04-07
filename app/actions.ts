@@ -13,11 +13,14 @@ export async function getUserDataFromCookies() {
     const currentUrl =
         cookieStore.get('currentUrl')?.value || 'No currentUrl found';
     const userIp = cookieStore.get('currentIp')?.value || 'No IP found';
+    const countryCode = cookieStore.get('countryCode')?.value || 'BD';
+    const city = cookieStore.get('city')?.value || 'No countryCode found';
 
     // for params
     const routeParamsCookie = cookieStore.get('routeParams');
 
     let routeParams: Record<string, string> = {};
+
     if (routeParamsCookie) {
         try {
             routeParams = JSON.parse(routeParamsCookie.value);
@@ -35,6 +38,8 @@ export async function getUserDataFromCookies() {
         userIp,
         productId,
         cat_id,
+        countryCode,
+        city,
     };
 
     return userData;

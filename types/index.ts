@@ -1,4 +1,16 @@
 // define types
+export type FormValues = {
+    name: string;
+    phone_code: string;
+    code: string;
+    phone: number;
+    email: string;
+    address: string;
+    note: string;
+    district: string;
+    language: string;
+    error: string;
+};
 
 export type ParamsAnyProps = {
     params: Promise<any>;

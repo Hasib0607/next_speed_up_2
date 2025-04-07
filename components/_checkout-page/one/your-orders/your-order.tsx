@@ -70,9 +70,12 @@ const YourOrders = ({
         email: userEmail,
         address: userAddress,
         district: userDistrict,
+        phone_code: userPhoneCode,
     } = checkoutFromData || {};
 
-    const { districtArr } = useSelector((state: RootState) => state?.checkout);
+    const { districtArr, countryArr } = useSelector(
+        (state: RootState) => state?.checkout
+    );
 
     const districts = useMemo(
         () =>
@@ -80,6 +83,14 @@ const YourOrders = ({
                 (item: any) => item?.id === numberParser(userDistrict)
             ),
         [districtArr, userDistrict]
+    );
+
+    const selectedCountry = useMemo(
+        () =>
+            countryArr?.find(
+                (item: any) => item?.telephonePrefix === userPhoneCode
+            ),
+        [countryArr, userPhoneCode]
     );
 
     const { cartList } = useSelector((state: RootState) => state.cart);
@@ -200,6 +211,8 @@ const YourOrders = ({
                 selectAddress?.district?.bn_name,
                 isAuthenticated
             ),
+            country_code: selectedCountry?.countryCode,
+            phone_code: selectedCountry?.telephonePrefix,
             district_id: selectAddress?.district_id || districts?.id,
             address_id: selectAddress?.id,
             payment_type: selectedPayment,
@@ -230,6 +243,7 @@ const YourOrders = ({
             couponResult,
             referral_code,
             districts,
+            selectedCountry
         ]
     );
 
@@ -244,7 +258,9 @@ const YourOrders = ({
     Object.entries({
         store_id,
         name: data.name,
-        phone: data.phone,
+        phone: data.phone_code + data.phone,
+        country_code: data.country_code,
+        phone_code: data.phone_code,
         email: data.email,
         address: data.address,
         note: data.note,
