@@ -1,7 +1,6 @@
 'use client';
 
 import { EMAIL_REGEX, ONE, TWENTY_EIGHT } from '@/consts';
-import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 import useAuth from '@/hooks/useAuth';
 import {
     useGetCountryQuery,
@@ -11,41 +10,23 @@ import {
     useUserAddressUpdateMutation,
 } from '@/redux/features/checkOut/checkOutApi';
 import { setCheckoutFromData } from '@/redux/features/checkOut/checkOutSlice';
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { getValueByKey } from './customLang';
+import { getValueByKey } from '@/components/_checkout-page/_components/customLang';
 import {
     checkValidPhoneNumberByCode,
     classNames,
     cleanTwClassWithPrefix,
     getCheckedValue,
 } from '@/helpers/littleSpicy';
-
-// import {
-//     FaUser,
-//     FaPhoneAlt,
-//     FaMapMarkerAlt,
-//     FaStickyNote,
-//     FaEnvelope,
-// } from 'react-icons/fa';
-
-type FormValues = {
-    name: string;
-    phone_code: string;
-    code: string;
-    phone: number;
-    email: string;
-    address: string;
-    note: string;
-    district: string;
-    language: string;
-    error: string;
-};
+import { getUserDataFromCookies } from '@/app/actions';
+import { usePathname } from 'next/navigation';
+import { generateDynamicSchema, showfieldByKey } from '@/lib/schema';
+import { FormValues } from '@/types';
 
 const CheckoutFrom = ({
     design,
@@ -60,10 +41,11 @@ const CheckoutFrom = ({
 }: any) => {
     const isAuthenticated = useAuth();
     const dispatch = useDispatch();
+    const pathname = usePathname();
 
     // fields to show
+    const [userData, setUserData] = useState<any>({});
     const [fields, setFields] = useState<any>([]);
-    // const [selectedCountryId, setSelectedCountryId] = useState(null);
     const [phoneCode, setPhoneCode] = useState('');
     const [countryInfoArr, setCountryInfoArr] = useState<any>([]);
     const [districtArr, setDistrictArr] = useState<any>([]);
@@ -90,6 +72,14 @@ const CheckoutFrom = ({
         isSuccess: userFormFieldsSuccess,
     } = useGetFormFieldsQuery({ store_id });
 
+    const setCountryCode = useMemo(
+        () =>
+            countryInfoArr?.find(
+                (item: any) => item.countryCode === userData?.countryCode
+            ),
+        [countryInfoArr, userData]
+    );
+
     const getCountryCode = useMemo(
         () =>
             countryInfoArr?.find(
@@ -100,97 +90,20 @@ const CheckoutFrom = ({
 
     const selectedCountryCode = getCountryCode?.countryCode ?? 'BD';
 
-    const generateDynamicSchema = (fields: any[]) => {
-        const schemaObject: Record<string, z.ZodTypeAny> = {};
-
-        fields?.forEach((field) => {
-            const { name } = field;
-
-            const capitalName = capitalizeFirstLetter(name);
-
-            const type = typeof name;
-            // Base validation rules
-            let validation: z.ZodTypeAny = z.string();
-
-            // Customize validation based on field type
-            if (type === 'number') {
-                validation = z
-                    .number({
-                        invalid_type_error: `${capitalName} must be a number`,
-                    })
-                    .int(); // Ensure integer numbers if required;
-            } else if (type === 'string') {
-                validation = z.string();
-            } else {
-                validation = z.any(); // Fallback for unsupported types
-            }
-
-            // Add required validation
-            if (name === 'name' || name === 'address') {
-                if (type === 'string') {
-                    validation = (validation as z.ZodString).min(1, {
-                        message: `${capitalName} is required`,
-                    });
-                }
-            }
-
-            if (name === 'district') {
-                validation = z.any();
-                // .refine(
-                //     (val) => val !== "",
-                //     {
-                //         message: `${capitalName} is required`,
-                //     }
-                // );
-            }
-
-            // Add field-specific validations (e.g., phone regex)
-            if (name === 'phone') {
-                validation = z.string().optional();
-            }
-            // Add field-specific validations (e.g., email regex)
-            if (name === 'email') {
-                validation = z.string().optional();
-            }
-            // if (store?.auth_type === 'EasyOrder' && !isAuthenticated && !userPhone){
-            // }
-
-            // Assign to the schema object
-            schemaObject[name] = validation;
-        });
-
-        // Return the Zod schema object
-        const schema = z.object(schemaObject);
-
-        // Add conditional validation for phone and email
-        return schema.superRefine((data, ctx) => {
-            const isPhoneEmpty = !data.phone?.trim();
-            const isEmailEmpty = !data.email?.trim();
-
-            if (isPhoneEmpty && isEmailEmpty) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: 'Either Phone or Email must be provided',
-                    path: ['phone'], // Error for the phone field
-                });
-
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: 'Either Phone or Email must be provided',
-                    path: ['email'], // Error for the email field
-                });
-            }
-        });
-    };
-
     // Generate schema dynamically
     const schemaResolver = generateDynamicSchema(fields);
 
-    // ex: { name: '', phone: '', address: '',note: '',district: '', };
-
     const defaultValues = edit
         ? { ...editItem, district: editItem?.district_id }
-        : null;
+        : {
+              name: '',
+              email: '',
+              phone: '',
+              phone_code: '',
+              address: '',
+              note: '',
+              district: '',
+          };
 
     const {
         register,
@@ -198,6 +111,7 @@ const CheckoutFrom = ({
         formState: { errors },
         reset,
         getValues,
+        setValue,
         watch,
         trigger,
         setError,
@@ -237,8 +151,6 @@ const CheckoutFrom = ({
 
         if (name === 'phone') {
             let phoneWithCode = phoneCode + value.toString();
-            console.log('phoneWithCode', phoneWithCode);
-            console.log('selectedCountryCode', selectedCountryCode);
             // let isValidPhone = getCheckedValue(phoneWithCode, PHONE_NUMBER_REGEX);
             let isValidPhone = checkValidPhoneNumberByCode(
                 phoneWithCode,
@@ -275,7 +187,6 @@ const CheckoutFrom = ({
 
     const [userAddressSave] = useUserAddressSaveMutation();
     const [userAddressUpdate] = useUserAddressUpdateMutation();
-    // console.log("fields",fields);
 
     // Add address
     const addAddress = async (data: any) => {
@@ -288,7 +199,6 @@ const CheckoutFrom = ({
                             addressRefetch();
                             reset(); // Toggle call state to trigger useEffect
                             toast.success(res?.message);
-                            // setSelectAddress(getFastArr(addressArr))
                         }
                     })
                     .catch(() => {
@@ -328,9 +238,19 @@ const CheckoutFrom = ({
         setOpen(false);
     };
 
-    const fieldKey = (fieldName: string) => {
-        return fields?.some((item: any) => item?.name == fieldName);
-    };
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const data = await getUserDataFromCookies();
+            setUserData(data);
+        };
+        fetchUserData();
+    }, [pathname]);
+
+    useEffect(() => {
+        if (!edit || (edit && editItem?.phone_code === null)) {
+            setValue('phone_code', setCountryCode?.telephonePrefix);
+        }
+    }, [setCountryCode, setValue, edit, editItem]);
 
     // Extracting country db
     useEffect(() => {
@@ -382,8 +302,8 @@ const CheckoutFrom = ({
     const fieldStyle = formFieldStyle
         ? formFieldStyle
         : 'mt-1 focus:ring-0 focus:border-gray-400 block w-full shadow-md sm:text-md border-2 border-gray-300 rounded-lg p-3 text-gray-700';
+        
     const labelStyle = 'block text-sm font-medium text-gray-700 capitalize';
-    // console.log("selectedCountryId",setPhoneCode);
 
     return (
         <>
@@ -408,7 +328,7 @@ const CheckoutFrom = ({
                     <div className="flex flex-col w-auto md:min-w-[500px] gap-y-6">
                         {/* name */}
                         <div>
-                            {fieldKey('name') && (
+                            {showfieldByKey('name', fields) && (
                                 <>
                                     <label
                                         htmlFor={'name'}
@@ -448,7 +368,7 @@ const CheckoutFrom = ({
                         </div>
                         {/* phone and email */}
                         <div>
-                            {fieldKey('email') && (
+                            {showfieldByKey('email', fields) && (
                                 <>
                                     <label
                                         htmlFor={'email'}
@@ -487,7 +407,7 @@ const CheckoutFrom = ({
                             )}
                         </div>
                         <div>
-                            {fieldKey('phone') && (
+                            {showfieldByKey('phone', fields) && (
                                 <>
                                     <label
                                         htmlFor={'phone'}
@@ -510,7 +430,7 @@ const CheckoutFrom = ({
                                                     fieldStyle,
                                                     ['w-', 'px-', 'py-']
                                                 ),
-                                                'w-20 bg-transparent h-full p-1'
+                                                'bg-transparent h-full p-1'
                                             )}
                                             onInput={(e: any) =>
                                                 handleFieldChange(
@@ -519,14 +439,6 @@ const CheckoutFrom = ({
                                                 )
                                             }
                                         >
-                                            {/* {(!edit ||
-                                                (edit &&
-                                                    editItem?.district ===
-                                                        null)) && (
-                                                <option defaultChecked value="">
-                                                    Choose a District
-                                                </option>
-                                            )} */}
                                             {countryInfoArr?.map(
                                                 (item: any) => (
                                                     <option
@@ -567,7 +479,7 @@ const CheckoutFrom = ({
                         </div>
                         {/* address */}
                         <div>
-                            {fieldKey('address') && (
+                            {showfieldByKey('address', fields) && (
                                 <>
                                     <label
                                         htmlFor={'address'}
@@ -604,7 +516,7 @@ const CheckoutFrom = ({
                         </div>
                         {/* district */}
                         <div>
-                            {fieldKey('district') && (
+                            {showfieldByKey('district', fields) && (
                                 <>
                                     <label
                                         htmlFor={'district'}
@@ -661,7 +573,7 @@ const CheckoutFrom = ({
                         </div>
                         {/* note */}
                         <div>
-                            {fieldKey('note') && (
+                            {showfieldByKey('note', fields) && (
                                 <>
                                     <label
                                         htmlFor={'note'}

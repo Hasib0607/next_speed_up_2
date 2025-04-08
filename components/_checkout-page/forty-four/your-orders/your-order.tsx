@@ -458,9 +458,9 @@ const YourOrders = ({
 
             {isLoading ? (
                 <div
-                    className={`font-semibold tracking-wider rounded-sm border border-gray-300 w-full py-1 ${btnhover}`}
+                    className={`text-center font-semibold tracking-wider rounded-sm border border-gray-300 w-full py-1 border-[var(--header-color)] text-[var(--text-color)] bg-transparent cursor-not-allowed ${btnhover}`}
                 >
-                    Loading
+                    Loading...
                 </div>
             ) : (
                 <button
