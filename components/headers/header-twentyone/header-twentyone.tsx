@@ -615,7 +615,7 @@ const HeaderTwentyOne = ({ headersetting, design, menu }: any) => {
                     </div>
 
                     {/* menu section  */}
-                    <div className="flex gap-5 uppercase text-[14px] ">
+                    <div className="flex gap-5 uppercase text-[14px]">
                         {menu?.slice(0, 6)?.map(
                             (menu: any) =>
                                 menu.status == 1 && (
