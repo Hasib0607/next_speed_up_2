@@ -38,7 +38,7 @@ const SideMenu = React.memo(({ setOpen, design, menu, menuLoading }: any) => {
                 ) : (
                     <>
                         {menu?.length > 0 &&
-                            menu?.slice(0, 6)?.map((item: any) => (
+                            menu?.slice(0, 6)?.map((item: any) => item.status == 1 && (
                                 <div key={item.id}>
                                     <Link
                                         onClick={() => setOpen(false)}

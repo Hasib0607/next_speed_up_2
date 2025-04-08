@@ -23,7 +23,7 @@ export default async function getDomain() {
     // url = "ezara.shop";
     // url = "uniquemartbd.shop";
     // url = "mytimebd.store";
-    url = 'shr.localhost:3000';
+    url = 'moon.localhost:3000';
 
     return url;
 }
