@@ -10,13 +10,20 @@ const CheckoutBtn = ({
     onClick,
     buttonStyle,
     productButton,
+    scrollToForm,
+    hasVariants,
 }: any) => {
     const router = useRouter();
 
     const handleCheckout = async () => {
-        const success = await onClick(); 
-        if (success) {
-            router.push('/checkout');
+        if (hasVariants) {
+            // Scroll to form if variants exist
+            scrollToForm();
+        } else {
+            const success = await onClick();
+            if (success) {
+                router.push('/checkout');
+            }
         }
     };
 
@@ -32,7 +39,9 @@ const CheckoutBtn = ({
                 <div className="flex flex-wrap gap-6">
                     <div className="">
                         {productQuantity === 0 ? (
-                            <button className={buttonStyle}>Out of Stock</button>
+                            <button className={buttonStyle}>
+                                Out of Stock
+                            </button>
                         ) : (
                             <>
                                 <button
