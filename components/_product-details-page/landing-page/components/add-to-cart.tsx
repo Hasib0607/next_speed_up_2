@@ -135,7 +135,7 @@ export const addToCart = ({
             }
         }
 
-        // Non-variant product case
+        // Non-variant product cases
         const added = addOnBoard();
         if (added) {
             toast.success('Successfully added to cart', {
