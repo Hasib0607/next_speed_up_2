@@ -15,7 +15,7 @@ export default function Pagination({ setPage, initialPage, paginate }: any) {
     };
 
     return (
-        <div className=" px-4 py-3 flex items-center justify-between sm:px-6">
+        <div className="px-4 py-3 flex items-center justify-between sm:px-6">
             <div className="flex-1 flex items-center justify-center">
                 <div>
                     <nav

@@ -273,6 +273,13 @@ const DetailsFortyThree = ({
                                     </span>
                                 )}{' '}
                             </div>
+                            {product?.discount_type === 'percent' &&
+                                product?.discount_price > 0 && (
+                                    <p className="text-md text-gray-400">
+                                        {numberParser(product?.discount_price)}%
+                                        Off
+                                    </p>
+                                )}
                         </div>
                     </div>
 

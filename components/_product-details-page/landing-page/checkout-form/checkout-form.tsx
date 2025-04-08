@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 'use client';
 
-import { forwardRef } from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
@@ -24,38 +23,38 @@ import {
 } from '../imageVariations-landing-page';
 import CallForPrice from '@/utils/call-for-price';
 
-const CheckOutForm = forwardRef<HTMLDivElement, any>((props, ref) => {
-    const {
-        design,
-        appStore,
-        headersetting,
-        product,
-        qty,
-        variantId,
-        variant,
-        setQty,
-        productQuantity,
-        currentVariation,
-        color,
-        size,
-        unit,
-        filterV,
-        onClick,
-        setColor,
-        variant_color,
-        setSize,
-        setActiveImg,
-        setUnit,
-        children,
-        buttonStyle,
-        price,
-        handleCheckout,
-    } = props;
-
+const CheckOutForm = ({
+    design,
+    appStore,
+    headersetting,
+    product,
+    qty,
+    variantId,
+    variant,
+    setQty,
+    productQuantity,
+    currentVariation,
+    color,
+    size,
+    unit,
+    filterV,
+    onClick,
+    setColor,
+    variant_color,
+    setSize,
+    setActiveImg,
+    setUnit,
+    children,
+    buttonStyle,
+    price,
+    handleCheckout,
+}: any) => {
     const store_id = appStore?.id || null;
     const dispatch: AppDispatch = useAppDispatch();
     const { cartList } = useSelector((state: RootState) => state.cart);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    // console.log('product', product);
 
     useEffect(() => {
         dispatch(setPurchaseList([]));
@@ -81,7 +80,9 @@ const CheckOutForm = forwardRef<HTMLDivElement, any>((props, ref) => {
         const isAbleToAdd = isQtyLeft(product, variantId, qty + 1, cartList);
 
         if (variant?.length > 0) {
+            // Color and size
             if (currentVariation?.colorsAndSizes) {
+                // Early exit if variant and size/filter conditions are not satisfied
                 if (filterV?.length === 0) {
                     toast.warning('Please Select Variant', {
                         toastId: filterV?.length,
@@ -93,33 +94,47 @@ const CheckOutForm = forwardRef<HTMLDivElement, any>((props, ref) => {
                     });
                     return;
                 }
+                // Proceed with quantity addition checks
                 updateQuantity(isAbleToAdd);
-            } else if (currentVariation?.sizesOnly) {
+            }
+
+            // size only
+            else if (currentVariation?.sizesOnly) {
                 if (size === null) {
                     toast.warning('Please Select Size', {
                         toastId: product?.id,
                     });
                     return;
                 }
+                // Proceed with quantity addition checks
                 updateQuantity(isAbleToAdd);
-            } else if (currentVariation?.colorsOnly) {
+            }
+
+            // color only
+            else if (currentVariation?.colorsOnly) {
                 if (color === null) {
                     toast.warning('Please Select color', {
                         toastId: product?.id,
                     });
                     return;
                 }
+                // Proceed with quantity addition checks
                 updateQuantity(isAbleToAdd);
-            } else if (currentVariation?.unitsOnly) {
+            }
+
+            // unit only
+            else if (currentVariation?.unitsOnly) {
                 if (unit === null) {
                     toast.warning('Please Select Unit', {
                         toastId: product?.id,
                     });
                     return;
                 }
+                // Proceed with quantity addition checks
                 updateQuantity(isAbleToAdd);
             }
         } else {
+            // Proceed with quantity addition checks
             updateQuantity(isAbleToAdd);
         }
     };
@@ -129,7 +144,7 @@ const CheckOutForm = forwardRef<HTMLDivElement, any>((props, ref) => {
     };
 
     return (
-        <div className="bg-[#F3F4F6] py-10 my-5" ref={ref}>
+        <div className="bg-[#F3F4F6] py-10">
             <div className="sm:container px-5 xl:px-24">
                 <div className="container">
                     <div className=" mt-1 py-4">
@@ -151,6 +166,7 @@ const CheckOutForm = forwardRef<HTMLDivElement, any>((props, ref) => {
 
                                 <div className="">
                                     <div className="flex flex-col justify-between">
+                                        {/* Replace with your content */}
                                         <div className="px-2 h-2/3 overflow-y-auto">
                                             <div className="flex justify-between space-x-1 last:border-0 border-b border-gray-400 py-2">
                                                 <div className="w-32">
@@ -299,7 +315,9 @@ const CheckOutForm = forwardRef<HTMLDivElement, any>((props, ref) => {
                                                     <p className="text-sm justify-self-end flex items-center gap-x-2">
                                                         <BDT />
                                                         <span className="font-bold text-xl text-gray-500">
-                                                            {price}
+                                                            {
+                                                                product?.regular_price
+                                                            }
                                                         </span>
                                                     </p>
                                                 </div>
@@ -319,7 +337,7 @@ const CheckOutForm = forwardRef<HTMLDivElement, any>((props, ref) => {
                                         <p>
                                             <BDT
                                                 price={numberParser(
-                                                    price * qty
+                                                    product?.regular_price * qty
                                                 )}
                                             />
                                         </p>
@@ -331,7 +349,7 @@ const CheckOutForm = forwardRef<HTMLDivElement, any>((props, ref) => {
                                         <p>
                                             <BDT
                                                 price={numberParser(
-                                                    price * qty
+                                                    product?.regular_price * qty
                                                 )}
                                             />
                                         </p>
@@ -356,8 +374,6 @@ const CheckOutForm = forwardRef<HTMLDivElement, any>((props, ref) => {
             </div>
         </div>
     );
-});
-
-CheckOutForm.displayName = 'CheckOutForm';
+};
 
 export default CheckOutForm;
