@@ -52,14 +52,23 @@ export const TextColor = 'var(--text-color)';
 // regex
 export const HTML_TAG_PATTERN = /<[^>]*>/g;
 export const GMAP_IFRAME_SRC_LINK = /src="([^"]+)"/;
-export const PHONE_NUMBER_REGEX = /^(01\d{9}|8801\d{9}|\+8801\d{9})$/;
+// export const PHONE_NUMBER_REGEX = /^(01\d{9}|8801\d{9}|\+8801\d{9})$/;
+export const PHONE_NUMBER_REGEX = /^\+?[1-9]\d{1,14}$/;
+
 export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-// Redux persist localStorage key
+// all persist localStorage key
 export const REDUX_PERSIST = 'persist:root';
+export const ANALYTICS_PERSIST = 'analytics:data';
+export const TRIGGER_E_TRACK = 'trigger:trackVisitor';
+export const ANALYTICS_PREV_PERSIST = 'analytics-prev:data';
+
+// tracking deviation
+export const TRACK_DEVIATION = 120 //  10 * 60 * 1000
 
 // blog page
 export const BLOG_PAGE_NUMBER = 1;
+
 
 // host
 export function url() {
@@ -73,11 +82,13 @@ export function url() {
 
 let urlName;
 
-// urlName = 'zlandretail.co.nz';
+// urlName = '10starbd.com';
 // urlName = "kc.design";
 // urlName = "swifttrading.store";
+// urlName = "ezara.shop";
+// urlName = "uniquemartbd.shop";
 // urlName = 'mytimebd.store';
-urlName = "moon.localhost:3000";
+urlName = "shr.localhost:3000";
 
 if (process.env.NODE_ENV === 'production') {
     urlName = url();

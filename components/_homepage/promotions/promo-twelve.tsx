@@ -9,7 +9,7 @@ const PromoTwelve = ({ banner }: any) => {
                     banner?.map((ban: any) => (
                         <div key={ban?.id} className="relative group">
                             <Link
-                                href={ban?.link}
+                                href={ban?.link ?? "#"}
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
@@ -27,4 +27,4 @@ const PromoTwelve = ({ banner }: any) => {
     );
 };
 
-export default PromoTwelve;
+export default PromoTwelve; 

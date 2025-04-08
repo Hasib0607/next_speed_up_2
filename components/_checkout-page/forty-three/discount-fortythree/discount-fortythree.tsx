@@ -46,8 +46,6 @@ const DiscountFortyThree = ({
     const { selectedShippingArea } = useSelector(
         (state: RootState) => state.shippingAreaFilter
     );
-    // console.log('selectedShippingArea', selectedShippingArea);
-    // console.log('shippingArea', shippingArea);
 
     const sTotal = subTotal(cartList);
     const total = numberParser(sTotal);
@@ -208,24 +206,16 @@ const DiscountFortyThree = ({
     }, [couponData, couponSuccess]);
 
     return (
-        <div
-            className={`${
-                design?.template_id === '34'
-                    ? 'bg-thirty-one border border-white'
-                    : 'bg-white'
-            } sm:rounded-md sm:overflow-hidden my-5 ml-5`}
-        >
-            <div className=" space-y-6 sm:p-6">
-                <div
-                    className={
-                        select
-                            ? 'grid sm:flex flex-wrap justify-between items-center grid-cols-6 gap-6'
-                            : shippingColOne
-                              ? 'grid grid-cols-1 gap-6'
-                              : 'grid grid-cols-6 gap-6 items-center'
-                    }
-                >
-                    <div className="col-span-6">
+            <div
+                className={
+                    select
+                        ? 'grid sm:flex flex-wrap justify-between items-center grid-cols-6 gap-6'
+                        : shippingColOne
+                          ? 'grid grid-cols-1 gap-6'
+                          : 'grid grid-cols-6 gap-6 items-center'
+                }
+            >
+                <div className="col-span-6">
                     {!shippingOff && (
                         <div className="col-span-6 xl:col-span-3">
                             <div className="flex flex-col gap-4 items-start">
@@ -331,69 +321,66 @@ const DiscountFortyThree = ({
                         </div>
                     )}
 
-                    
-                        {couponAvailable && (
-                            <div className="mt-6">
-                                <div className="flex flex-wrap justify-between items-center gap-4">
-                                    <label
-                                        htmlFor="name"
-                                        className="block text-xl font-semibold text-gray-700"
-                                    >
-                                        {'Discount'}
-                                    </label>
-                                    <form
-                                        onSubmit={handleSubmit(onSubmit)}
-                                        className="flex gap-2 flex-wrap justify-start "
-                                    >
-                                        <div className="flex flex-col justify-center">
-                                            <input
-                                                {...register('coupon_code', {
-                                                    required: true,
-                                                })}
-                                                type={'text'}
-                                                className="border border-gray-400 py-2 px-2 rounded-sm"
+                    {couponAvailable && (
+                        <div className="mt-6">
+                            <div className="flex flex-wrap justify-between items-center gap-4">
+                                <label
+                                    htmlFor="name"
+                                    className="block text-xl font-semibold text-gray-700"
+                                >
+                                    {'Discount'}
+                                </label>
+                                <form
+                                    onSubmit={handleSubmit(onSubmit)}
+                                    className="flex gap-2 flex-wrap justify-start "
+                                >
+                                    <div className="flex flex-col justify-center">
+                                        <input
+                                            {...register('coupon_code', {
+                                                required: true,
+                                            })}
+                                            type={'text'}
+                                            className="border border-gray-400 py-2 px-2 rounded-sm"
+                                        />
+                                    </div>
+                                    {loading ? (
+                                        <div
+                                            style={{
+                                                backgroundColor:
+                                                    design?.header_color,
+                                                color: design?.text_color,
+                                            }}
+                                            className={`px-4 py-2 font-semibold rounded-sm lg:cursor-pointer ${btnhover}`}
+                                        >
+                                            <RotatingLines
+                                                width="20"
+                                                strokeColor="#6495ED"
+                                                strokeWidth="6"
                                             />
                                         </div>
-                                        {loading ? (
-                                            <div
-                                                style={{
-                                                    backgroundColor:
-                                                        design?.header_color,
-                                                    color: design?.text_color,
-                                                }}
-                                                className={`px-4 py-2 font-semibold rounded-sm lg:cursor-pointer ${btnhover}`}
-                                            >
-                                                <RotatingLines
-                                                    width="20"
-                                                    strokeColor="#6495ED"
-                                                    strokeWidth="6"
-                                                />
-                                            </div>
-                                        ) : (
-                                            <input
-                                                type={'submit'}
-                                                value={'Apply'}
-                                                style={{
-                                                    backgroundColor:
-                                                        design?.header_color,
-                                                    color: design?.text_color,
-                                                }}
-                                                className={`px-4 py-2 font-semibold rounded-sm lg:cursor-pointer h-auto ${btnhover}`}
-                                            />
-                                        )}
-                                    </form>
-                                </div>
-                                {errors.code && (
-                                    <span className="pt-3 text-red-500">
-                                        Field is empty
-                                    </span>
-                                )}
+                                    ) : (
+                                        <input
+                                            type={'submit'}
+                                            value={'Apply'}
+                                            style={{
+                                                backgroundColor:
+                                                    design?.header_color,
+                                                color: design?.text_color,
+                                            }}
+                                            className={`px-4 py-2 font-semibold rounded-sm lg:cursor-pointer h-auto ${btnhover}`}
+                                        />
+                                    )}
+                                </form>
                             </div>
-                        )}
-                    </div>
+                            {errors.code && (
+                                <span className="pt-3 text-red-500">
+                                    Field is empty
+                                </span>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
-        </div>
     );
 };
 

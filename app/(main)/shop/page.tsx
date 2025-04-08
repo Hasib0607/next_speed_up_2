@@ -7,8 +7,6 @@ import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import Shop from '@/components/Shop';
 import getDesign from '@/utils/fetcher/getDesign';
 import ResetFilter from '@/utils/ResetFilter';
-import EbitansAnalytics from '@/components/EbitansAnalytics';
-import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
 
 export async function generateMetadata() {
     const headersetting = await getHeaderSetting();
@@ -22,18 +20,11 @@ export async function generateMetadata() {
 
 export default async function ShopPage() {
     const design = await getDesign();
-    const headersetting = await getHeaderSetting();
-    const userData = await getUserDataFromCookies();
 
     return (
         <>
             <ResetFilter />
             <Shop design={design} />
-            <EbitansAnalytics
-                design={design}
-                headersetting={headersetting}
-                userData={userData}
-            />
         </>
     );
 }

@@ -243,12 +243,12 @@ const DetailsFortyFour = ({
                         setActiveImg={setActiveImg}
                     />
                     {hassFrequentProduct && (
-                        <>
+                        <div className="hidden md:block">
                             <SectionHeadingFortyFour
                                 title={'Frequently Bought Together'}
                             />
                             <Card1 item={frequentProduct} />
-                        </>
+                        </div>
                     )}
                 </div>
                 <div className="md:col-span-6 lg:col-span-5 px-3 md:px-0 space-y-4 lg:sticky top-28 h-max">
@@ -436,46 +436,14 @@ const DetailsFortyFour = ({
 
                     {children}
 
-                    {/* <div className="text-sm flex flex-col gap-y-1 text-[#5a5a5a]">
-                        {multiCat && (
-                            <div className="flex flex-col gap-3 sm:mt-6 mt-1">
-                      
-                                {Array.isArray(category) &&
-                                    category?.length > 0 && (
-                                        <div className="flex items-center gap-2">
-                                            <p className="capitalize">
-                                                {' '}
-                                                <span className="text-black">
-                                                    Category:{' '}
-                                                </span>{' '}
-                                            </p>
-                                            <div className="flex flex-wrap gap-2">
-                                                <ProdMultiCategory
-                                                    category={category}
-                                                    design={design}
-                                                    className={
-                                                        'text-[var(--header-color)]'
-                                                    }
-                                                    commaColor={'text-black'}
-                                                />
-                                            </div>
-                                        </div>
-                                    )}
-            
-                            </div>
-                        )}
-                        <p>
-                            Availability:{' '}
-                            {productQuantity !== 0 ? (
-                                <span>
-                                    {productQuantity}
-                                    In Stock!
-                                </span>
-                            ) : (
-                                'Out Of Stock'
-                            )}
-                        </p>
-                        </div> */}
+                    {hassFrequentProduct && (
+                        <div className="block md:hidden">
+                            <SectionHeadingFortyFour
+                                title={'Frequently Bought Together'}
+                            />
+                            <Card1 item={frequentProduct} />
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

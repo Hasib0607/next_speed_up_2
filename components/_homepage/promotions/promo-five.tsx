@@ -18,7 +18,7 @@ const PromoFive = ({ banner }: any) => {
                                     src={bannerImg + ban?.image}
                                 />
                                 <Link
-                                    href={ban?.link}
+                                    href={ban?.link ?? '#'}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >

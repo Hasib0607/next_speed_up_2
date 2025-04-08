@@ -13,7 +13,7 @@ const PromoSixteen = ({ banner }: any) => {
                                 className="relative overflow-hidden "
                             >
                                 <Link
-                                    href={ban?.link}
+                                    href={ban?.link ?? '#'}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
@@ -34,7 +34,7 @@ const PromoSixteen = ({ banner }: any) => {
                                 className="relative overflow-hidden flex flex-col mb-[30px]"
                             >
                                 <Link
-                                    href={ban?.link}
+                                    href={ban?.link ?? '#'}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >

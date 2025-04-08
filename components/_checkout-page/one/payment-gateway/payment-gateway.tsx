@@ -1,6 +1,8 @@
 'use client';
 
 import bkashLogo from '@/assets/paymentMethodLogo/bkashLogo.png';
+import paypalLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
+import stripeLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
 import { classNames } from '@/helpers/littleSpicy';
 import { setSelectPayment } from '@/redux/features/filters/paymentFilterSlice';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
@@ -9,6 +11,7 @@ import {
     useAppSelector,
 } from '@/redux/features/rtkHooks/rtkHooks';
 import { AppDispatch, RootState } from '@/redux/store';
+import { useEffect } from 'react';
 import { FaTruck } from 'react-icons/fa';
 
 const PaymentGateway = ({ design, appStore, headersetting }: any) => {
@@ -34,6 +37,12 @@ const PaymentGateway = ({ design, appStore, headersetting }: any) => {
         dispatch(setSelectPayment(selectedValue));
     };
 
+    useEffect(() => {
+        if (headersetting?.cod === 'active') {
+            dispatch(setSelectPayment('cod'));
+        }
+    }, [headersetting, dispatch]);
+
     const btnStyle =
         'py-2 px-5 rounded-lg w-full transition-colors duration-300 flex items-center cursor-pointer hover:bg-gray-100';
 
@@ -50,6 +59,66 @@ const PaymentGateway = ({ design, appStore, headersetting }: any) => {
                 </div>
 
                 <div className="flex flex-col gap-2">
+                    {headersetting?.paypal === 'active' && (
+                        <label
+                            className={classNames(
+                                btnStyle,
+                                selectedPayment === 'paypal'
+                                    ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                    : `bg-[#fff] text-[#000]`
+                            )}
+                        >
+                            <input
+                                type="radio"
+                                name="payment_method"
+                                value="paypal"
+                                checked={selectedPayment === 'paypal'}
+                                onChange={handleSelect}
+                                className="mr-2"
+                            />
+                            {headersetting?.paypal_text}
+                        </label>
+                    )}
+                    {headersetting?.stripe === 'active' && (
+                        <label
+                            className={classNames(
+                                btnStyle,
+                                selectedPayment === 'stripe'
+                                    ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                    : `bg-[#fff] text-[#000]`
+                            )}
+                        >
+                            <input
+                                type="radio"
+                                name="payment_method"
+                                value="stripe"
+                                checked={selectedPayment === 'stripe'}
+                                onChange={handleSelect}
+                                className="mr-2"
+                            />
+                            {headersetting?.stripe_text}
+                        </label>
+                    )}
+                    {headersetting?.merchant_bkash === 'active' && (
+                        <label
+                            className={classNames(
+                                btnStyle,
+                                selectedPayment === 'merchant_bkash'
+                                    ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                    : `bg-[#fff] text-[#000]`
+                            )}
+                        >
+                            <input
+                                type="radio"
+                                name="payment_method"
+                                value="merchant_bkash"
+                                checked={selectedPayment === 'merchant_bkash'}
+                                onChange={handleSelect}
+                                className="mr-2"
+                            />
+                            {headersetting?.merchant_bkash_text}
+                        </label>
+                    )}
                     {headersetting?.merchant_nagad === 'active' && (
                         <label
                             className={classNames(

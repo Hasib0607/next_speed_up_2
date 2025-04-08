@@ -1,42 +1,31 @@
 'use client';
 
-import { EMAIL_REGEX, PHONE_NUMBER_REGEX } from '@/consts';
-import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
+import { EMAIL_REGEX } from '@/consts';
 import useAuth from '@/hooks/useAuth';
 import {
+    useGetCountryQuery,
     useGetDistrictQuery,
     useGetFormFieldsQuery,
     useUserAddressSaveMutation,
     useUserAddressUpdateMutation,
 } from '@/redux/features/checkOut/checkOutApi';
 import { setCheckoutFromData } from '@/redux/features/checkOut/checkOutSlice';
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { classNames, getCheckedValue } from '@/helpers/littleSpicy';
-
-// import {
-//     FaUser,
-//     FaPhoneAlt,
-//     FaMapMarkerAlt,
-//     FaStickyNote,
-//     FaEnvelope,
-// } from 'react-icons/fa';
-
-type FormValues = {
-    name: string;
-    phone: number;
-    email: string;
-    address: string;
-    note: string;
-    district: string;
-    language: string;
-    error: string;
-};
+import {
+    checkValidPhoneNumberByCode,
+    classNames,
+    cleanTwClassWithPrefix,
+    getCheckedValue,
+} from '@/helpers/littleSpicy';
+import { FormValues } from '@/types';
+import { generateDynamicSchema, showfieldByKey } from '@/lib/schema';
+import { usePathname } from 'next/navigation';
+import { getUserDataFromCookies } from '@/app/actions';
 
 const CheckoutFromFortyfour = ({
     appStore,
@@ -50,12 +39,23 @@ const CheckoutFromFortyfour = ({
 }: any) => {
     const isAuthenticated = useAuth();
     const dispatch = useDispatch();
+    const pathname = usePathname();
 
     // fields to show
-    const [fields, setFields] = useState([]);
-    const [districtArr, setDistrictArr] = useState([]);
+    const [userData, setUserData] = useState<any>({});
+    const [fields, setFields] = useState<any>([]);
+    const [phoneCode, setPhoneCode] = useState('');
+    const [countryInfoArr, setCountryInfoArr] = useState<any>([]);
+    const [districtArr, setDistrictArr] = useState<any>([]);
 
     const store_id = appStore?.id || null;
+
+    const {
+        data: countryData,
+        isLoading: countryLoading,
+        isSuccess: countrySuccess,
+        refetch: countryRefetch,
+    } = useGetCountryQuery({});
 
     const {
         data: districtData,
@@ -70,97 +70,38 @@ const CheckoutFromFortyfour = ({
         isSuccess: userFormFieldsSuccess,
     } = useGetFormFieldsQuery({ store_id });
 
-    const generateDynamicSchema = (fields: any[]) => {
-        const schemaObject: Record<string, z.ZodTypeAny> = {};
+    const setCountryCode = useMemo(
+        () =>
+            countryInfoArr?.find(
+                (item: any) => item.countryCode === userData?.countryCode
+            ),
+        [countryInfoArr, userData]
+    );
 
-        fields?.forEach((field) => {
-            const { name } = field;
+    const getCountryCode = useMemo(
+        () =>
+            countryInfoArr?.find(
+                (item: any) => item.telephonePrefix === phoneCode
+            ),
+        [countryInfoArr, phoneCode]
+    );
 
-            const capitalName = capitalizeFirstLetter(name);
-
-            const type = typeof name;
-            // Base validation rules
-            let validation: z.ZodTypeAny = z.string();
-
-            // Customize validation based on field type
-            if (type === 'number') {
-                validation = z
-                    .number({
-                        invalid_type_error: `${capitalName} must be a number`,
-                    })
-                    .int(); // Ensure integer numbers if required;
-            } else if (type === 'string') {
-                validation = z.string();
-            } else {
-                validation = z.any(); // Fallback for unsupported types
-            }
-
-            // Add required validation
-            if (name === 'name' || name === 'address') {
-                if (type === 'string') {
-                    validation = (validation as z.ZodString).min(1, {
-                        message: `${capitalName} is required`,
-                    });
-                }
-            }
-
-            if (name === 'district') {
-                validation = z.any();
-                // .refine(
-                //     (val) => val !== "",
-                //     {
-                //         message: `${capitalName} is required`,
-                //     }
-                // );
-            }
-
-            // Add field-specific validations (e.g., phone regex)
-            if (name === 'phone') {
-                validation = z.string().optional();
-            }
-            // Add field-specific validations (e.g., email regex)
-            if (name === 'email') {
-                validation = z.string().optional();
-            }
-            // if (store?.auth_type === 'EasyOrder' && !isAuthenticated && !userPhone){
-            // }
-
-            // Assign to the schema object
-            schemaObject[name] = validation;
-        });
-
-        // Return the Zod schema object
-        const schema = z.object(schemaObject);
-
-        // Add conditional validation for phone and email
-        return schema.superRefine((data, ctx) => {
-            const isPhoneEmpty = !data.phone?.trim();
-            const isEmailEmpty = !data.email?.trim();
-
-            if (isPhoneEmpty && isEmailEmpty) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: 'Either Phone or Email must be provided',
-                    path: ['phone'], // Error for the phone field
-                });
-
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: 'Either Phone or Email must be provided',
-                    path: ['email'], // Error for the email field
-                });
-            }
-        });
-    };
+    const selectedCountryCode = getCountryCode?.countryCode ?? 'BD';
 
     // Generate schema dynamically
     const schemaResolver = generateDynamicSchema(fields);
 
-    // ex: { name: '', phone: '', address: '',note: '',district: '', };
-
     const defaultValues = edit
         ? { ...editItem, district: editItem?.district_id }
-        : null;
+        : {
+              name: '',
+              email: '',
+              phone: '',
+              phone_code: '',
+              address: '',
+              note: '',
+              district: '',
+          };
 
     const {
         register,
@@ -168,6 +109,7 @@ const CheckoutFromFortyfour = ({
         formState: { errors },
         reset,
         getValues,
+        setValue,
         watch,
         trigger,
         setError,
@@ -192,6 +134,11 @@ const CheckoutFromFortyfour = ({
             clearErrors(name);
         }
 
+        if (name === 'phone_code' && selectValue) {
+            setPhoneCode(selectValue);
+            clearErrors(name);
+        }
+
         if (name === 'name' && value) {
             clearErrors(name);
         }
@@ -201,12 +148,17 @@ const CheckoutFromFortyfour = ({
         }
 
         if (name === 'phone') {
-            let isValidPhone = getCheckedValue(value, PHONE_NUMBER_REGEX);
+            let phoneWithCode = phoneCode + value.toString();
+            // let isValidPhone = getCheckedValue(phoneWithCode, PHONE_NUMBER_REGEX);
+            let isValidPhone = checkValidPhoneNumberByCode(
+                phoneWithCode,
+                selectedCountryCode
+            );
             if (!isValidPhone) {
                 setError('phone', {
                     type: 'manual',
-                    message: 'Need 11 digits',
-                    // message: 'Invalid phone number',
+                    // message: 'Need 11 digits',
+                    message: 'Invalid phone number',
                 });
             } else {
                 clearErrors(name);
@@ -245,7 +197,6 @@ const CheckoutFromFortyfour = ({
                             addressRefetch();
                             reset(); // Toggle call state to trigger useEffect
                             toast.success(res?.message);
-                            // setSelectAddress(getFastArr(addressArr))
                         }
                     })
                     .catch(() => {
@@ -285,9 +236,27 @@ const CheckoutFromFortyfour = ({
         setOpen(false);
     };
 
-    const fieldKey = (fieldName: string) => {
-        return fields?.some((item: any) => item?.name == fieldName);
-    };
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const data = await getUserDataFromCookies();
+            setUserData(data);
+        };
+        fetchUserData();
+    }, [pathname]);
+
+    useEffect(() => {
+        if (!edit || (edit && editItem?.phone_code === null)) {
+            setValue('phone_code', setCountryCode?.telephonePrefix);
+        }
+    }, [setCountryCode, setValue, edit, editItem]);
+
+    // Extracting country db
+    useEffect(() => {
+        const allCountryInfo = countryData?.data || [];
+        if (countrySuccess) {
+            setCountryInfoArr(allCountryInfo);
+        }
+    }, [countryData, countrySuccess]);
 
     // Extracting district db
     useEffect(() => {
@@ -342,7 +311,7 @@ const CheckoutFromFortyfour = ({
                         <div className="flex flex-col w-auto md:min-w-[500px] gap-y-6">
                             {/* name */}
                             <div>
-                                {fieldKey('name') && (
+                                {showfieldByKey('name', fields) && (
                                     <>
                                         <input
                                             {...register('name')}
@@ -371,9 +340,9 @@ const CheckoutFromFortyfour = ({
                                 )}
                             </div>
                             {/* phone and email */}
-                            <div className="flex gap-x-2">
+                            <div className="flex gap-x-2 h-11">
                                 <div className="w-[50%]">
-                                    {fieldKey('email') && (
+                                    {showfieldByKey('email', fields) && (
                                         <>
                                             <input
                                                 {...register('email')}
@@ -402,23 +371,63 @@ const CheckoutFromFortyfour = ({
                                     )}
                                 </div>
                                 <div className="w-[50%]">
-                                    {fieldKey('phone') && (
+                                    {showfieldByKey('phone', fields) && (
                                         <>
-                                            <input
-                                                {...register('phone')}
-                                                type={'number'}
-                                                name={'phone'}
-                                                id={'phone'}
-                                                onInput={() =>
-                                                    handleFieldChange('phone')
-                                                }
-                                                placeholder={'phone number'}
-                                                autoComplete="address-level1"
-                                                className={classNames(
-                                                    fieldStyle,
-                                                    'remove-arrow'
-                                                )}
-                                            />
+                                            <div className="flex justify-between items-center gap-2 h-full">
+                                                <select
+                                                    {...register('phone_code')}
+                                                    name={'phone_code'}
+                                                    id={'phone_code'}
+                                                    className={classNames(
+                                                        cleanTwClassWithPrefix(
+                                                            fieldStyle,
+                                                            ['w-', 'px-', 'py-']
+                                                        ),
+                                                        'bg-transparent h-full p-1'
+                                                    )}
+                                                    onInput={(e: any) =>
+                                                        handleFieldChange(
+                                                            'phone_code',
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                >
+                                                    {countryInfoArr?.map(
+                                                        (item: any) => (
+                                                            <option
+                                                                value={
+                                                                    item?.telephonePrefix
+                                                                }
+                                                                key={item?.id}
+                                                            >
+                                                                {
+                                                                    item?.telephonePrefix
+                                                                }
+                                                            </option>
+                                                        )
+                                                    )}
+                                                </select>
+                                                <input
+                                                    {...register('phone')}
+                                                    type={'number'}
+                                                    name={'phone'}
+                                                    id={'phone'}
+                                                    onInput={() =>
+                                                        handleFieldChange(
+                                                            'phone'
+                                                        )
+                                                    }
+                                                    placeholder={'phone number'}
+                                                    autoComplete="address-level1"
+                                                    className={classNames(
+                                                        cleanTwClassWithPrefix(
+                                                            fieldStyle,
+                                                            ['w-']
+                                                        ),
+                                                        'remove-arrow w-full h-full'
+                                                    )}
+                                                />
+                                            </div>
 
                                             <p className="text-rose-500">
                                                 {
@@ -438,7 +447,7 @@ const CheckoutFromFortyfour = ({
                                         Shipping Info
                                     </p>
                                 )}
-                                {fieldKey('address') && (
+                                {showfieldByKey('address', fields) && (
                                     <>
                                         <textarea
                                             {...register('address')}
@@ -464,7 +473,7 @@ const CheckoutFromFortyfour = ({
                             </div>
                             {/* district */}
                             <div>
-                                {fieldKey('district') && (
+                                {showfieldByKey('district', fields) && (
                                     <>
                                         <select
                                             {...register('district')}
@@ -510,7 +519,7 @@ const CheckoutFromFortyfour = ({
                             </div>
                             {/* note */}
                             <div>
-                                {fieldKey('note') && (
+                                {showfieldByKey('note', fields) && (
                                     <textarea
                                         {...register('note')}
                                         name={'note'}

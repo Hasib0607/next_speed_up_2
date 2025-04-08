@@ -73,9 +73,10 @@ const YourOrders = ({
         email: userEmail,
         address: userAddress,
         district: userDistrict,
+        phoneCode: userPhoneCode
     } = checkoutFromData || {};
 
-    const { districtArr } = useSelector((state: RootState) => state?.checkout);
+    const { districtArr,countryArr } = useSelector((state: RootState) => state?.checkout);
 
     const districts = useMemo(
         () =>
@@ -84,6 +85,17 @@ const YourOrders = ({
             ),
         [districtArr, userDistrict]
     );
+
+    const selectedCountry = useMemo(
+        () =>
+            countryArr?.find(
+                (item: any) => item?.telephonePrefix === userPhoneCode
+            ),
+        [countryArr, userPhoneCode]
+    );
+
+    console.log("selectedCountry",selectedCountry);
+    
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 
@@ -313,7 +325,6 @@ const YourOrders = ({
 
     useEffect(() => {
         if (
-            checked &&
             data?.total &&
             data?.payment_type &&
             data?.product &&
@@ -321,17 +332,23 @@ const YourOrders = ({
             (data?.phone || data?.email) &&
             data?.shipping !== null
         ) {
-            if (bookingStatus && !data?.address) {
-                setIsAbleToOrder(true);
-            } else if (!bookingStatus && data?.address) {
-                setIsAbleToOrder(true);
-            } else {
-                setIsAbleToOrder(false);
+            if (
+                (bookingStatus && !data?.address) ||
+                (!bookingStatus && data?.address)
+            ) {
+                if (
+                    (headersetting?.online === 'active' && checked) ||
+                    headersetting?.online === 'deactive'
+                ) {
+                    setIsAbleToOrder(true);
+                } else {
+                    setIsAbleToOrder(false);
+                }
             }
         } else {
             setIsAbleToOrder(false);
         }
-    }, [data, bookingStatus, checked]);
+    }, [data, bookingStatus, checked, headersetting]);
 
     return (
         <div className="py-10 px-8 bg-[#F4F4F4] rounded-md">
@@ -441,9 +458,9 @@ const YourOrders = ({
 
             {isLoading ? (
                 <div
-                    className={`font-semibold tracking-wider rounded-sm border border-gray-300 w-full py-1 ${btnhover}`}
+                    className={`text-center font-semibold tracking-wider rounded-sm border border-gray-300 w-full py-1 border-[var(--header-color)] text-[var(--text-color)] bg-transparent cursor-not-allowed ${btnhover}`}
                 >
-                    Loading
+                    Loading...
                 </div>
             ) : (
                 <button

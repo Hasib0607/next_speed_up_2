@@ -13,7 +13,7 @@ const PromoThirtyEight = ({ banner }: any) => {
                                 className="relative overflow-hidden"
                             >
                                 <Link
-                                    href={ban?.link}
+                                    href={ban?.link ?? '#'}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >

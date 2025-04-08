@@ -17,11 +17,13 @@ export default async function getDomain() {
         return url;
     }
 
-    // url = 'zlandretail.co.nz';
+    // url = '10starbd.com';
     // url = 'kc.design';
     // url = "swifttrading.store";
+    // url = "ezara.shop";
+    // url = "uniquemartbd.shop";
     // url = "mytimebd.store";
-    url = 'moon.localhost:3000';
+    url = 'shr.localhost:3000';
 
     return url;
 }

@@ -119,9 +119,16 @@ const Address = ({
                             className="block text-md md:text-xl font-semibold text-gray-700"
                         >
                             Addresses{' '}
-                            <span className="text-xs md:text-sm">
-                                (Please Select Your Address.)
-                            </span>
+                            {isAuthenticated && addressArr?.length > 0 && (
+                                <span className="text-xs md:text-sm text-red-500">
+                                    (Please Select Your Address.)
+                                </span>
+                            )}
+                            {!isAuthenticated && addressArr?.length === 0 && (
+                                <span className="text-xs md:text-sm text-red-500">
+                                    (Please add a address.)
+                                </span>
+                            )}
                         </label>
                     )}
                     {isAuthenticated && addressArr?.length > 0 && (

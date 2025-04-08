@@ -105,7 +105,7 @@ const AddressFortyThree = ({
                     design?.checkout_page === ONE ||
                         <label
                             htmlFor="name"
-                            className="block text-md md:text-xl font-semibold text-gray-700 ml-3 md:ml-7"
+                            className="block text-md md:text-xl font-semibold text-gray-700"
                         >
                             Delivery
                         </label>

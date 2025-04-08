@@ -1,8 +1,6 @@
 'use client';
 
-import {
-    useGetBookingFormFieldsQuery,
-} from '@/redux/features/checkOut/checkOutApi';
+import { useGetBookingFormFieldsQuery } from '@/redux/features/checkOut/checkOutApi';
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 

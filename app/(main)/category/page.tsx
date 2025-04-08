@@ -1,7 +1,5 @@
-import EbitansAnalytics from '@/components/EbitansAnalytics';
 import Shop from '@/components/Shop';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
-import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
 import { imgUrl } from '@/site-settings/siteUrl';
 import getDesign from '@/utils/fetcher/getDesign';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
@@ -19,18 +17,11 @@ export async function generateMetadata() {
 
 export default async function CategoryPage() {
     const design = await getDesign();
-    const headersetting = await getHeaderSetting();
-    const userData = await getUserDataFromCookies();
 
     return (
         <>
             <ResetFilter />
             <Shop design={design} />
-            <EbitansAnalytics
-                design={design}
-                headersetting={headersetting}
-                userData={userData}
-            />
         </>
     );
 }

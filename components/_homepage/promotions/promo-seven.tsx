@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -15,30 +15,31 @@ import Link from 'next/link';
 const PromoSeven = ({ banner }: any) => {
     const prevEl = 'promo_seven_Prev';
     const nextEl = 'promo_seven_Next';
-console.log("banner",banner);
+    console.log('banner', banner);
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5 bg-white">
             <div className=" sm:grid-cols-2 gap-6 md:grid hidden">
-                {banner?.length > 0 && banner?.map((ban: any) => (
-                    <div
-                        key={ban.id}
-                        className="relative shine overflow-hidden"
-                    >
-                        <Link
-                            href={ban?.link ?? '#'}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                {banner?.length > 0 &&
+                    banner?.map((ban: any) => (
+                        <div
+                            key={ban.id}
+                            className="relative shine overflow-hidden"
                         >
-                            <img
-                                alt="gallery shine"
-                                className="min-w-full object-cover object-center block h-auto rounded-md lg:cursor-pointer"
-                                src={bannerImg + ban?.image}
-                            />
-                        </Link>
-                        <div className="absolute top-0 bottom-0 left-4 flex justify-start items-center "></div>
-                    </div>
-                ))}
+                            <Link
+                                href={ban?.link ?? '#'}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <img
+                                    alt="gallery shine"
+                                    className="min-w-full object-cover object-center block h-auto rounded-md lg:cursor-pointer"
+                                    src={bannerImg + ban?.image}
+                                />
+                            </Link>
+                            <div className="absolute top-0 bottom-0 left-4 flex justify-start items-center "></div>
+                        </div>
+                    ))}
             </div>
 
             <div className="group z-0 md:hidden relative">
@@ -68,15 +69,16 @@ console.log("banner",banner);
                     modules={[Pagination, Autoplay, Navigation, Controller]}
                     className="mySwiper relative"
                 >
-                    {banner?.length > 0 && banner?.map((s: any) => (
-                        <SwiperSlide key={s.id}>
-                            <img
-                                className="h-auto min-w-full object-cover object-center"
-                                src={bannerImg + s.image}
-                                alt=""
-                            />
-                        </SwiperSlide>
-                    ))}
+                    {banner?.length > 0 &&
+                        banner?.map((s: any) => (
+                            <SwiperSlide key={s.id}>
+                                <img
+                                    className="h-auto min-w-full object-cover object-center"
+                                    src={bannerImg + s.image}
+                                    alt=""
+                                />
+                            </SwiperSlide>
+                        ))}
                 </Swiper>
             </div>
         </div>

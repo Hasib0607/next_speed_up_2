@@ -1,116 +1,153 @@
 'use client';
 
-import { name } from '@/consts/index';
+import { getUserDataFromCookies } from '@/app/actions';
 import useBrowserInfo from '@/hooks/useBrowserInfo';
 import useGeoLocation from '@/hooks/useGeoLocation';
-import { usePostEbitansAnalyticsMutation } from '@/redux/features/analytics/analyticsApi';
-import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { RootState } from '@/redux/store';
+import { usePathname } from 'next/navigation';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import {
+    getFromLocalStorage,
+    saveToLocalStorage,
+} from '@/helpers/localStorage';
+import { ANALYTICS_PREV_PERSIST, TRIGGER_E_TRACK } from '@/consts';
+import { formattedDateTime } from '@/helpers/getTime';
+import { removeFbclid } from '@/helpers/urlCleaner';
 
-const EbitansAnalytics = ({
-    design,
-    headersetting,
-    userData,
-    productId = '',
-    categoryId = '',
-}: any) => {
+const EbitansAnalytics = ({ design, headersetting }: any) => {
     const store_id = design?.store_id || null;
     const { address, fetchAddress } = useGeoLocation();
     const { browser } = useBrowserInfo();
+    const pathname = usePathname();
+    const previousPath = useRef<string | null>(null);
 
-    const visitTime = moment().format('LTS');
+    const visitTime = formattedDateTime();
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    const updateVisitorData = async (visitorData: any) => {
+        try {
+            const response = await fetch('/api/track-visitor', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(visitorData),
+            });
+            const data = await response.json(); // Parse JSON response
+            return data; // Return data for further processing if needed
+        } catch (error) {
+            console.error('Error sending visitor data:', error);
+            return null; // Return null or handle the error gracefully
+        }
+    };
+
+    if (previousPath.current !== pathname) {
+        const exitTime = formattedDateTime();
+
+        const previousAnalyticsData =
+            getFromLocalStorage(ANALYTICS_PREV_PERSIST) ?? {};
+
+        const updatedAnalyticsData = {
+            id: previousAnalyticsData?.id,
+            exit_time: exitTime,
+        };
+
+        previousPath.current = pathname;
+
+        // if (Object.keys(previousAnalyticsData).length !== 0) {
+        //     return;
+        // }
+        updateVisitorData(updatedAnalyticsData);
+    }
+
     // for store
-    const [storeUrl, setStoreUrl] = useState('');
-    const [userId, setUserId] = useState('');
-    const [pageUrl, setPageUrl] = useState('');
-    const [pageTitle, setPageTitle] = useState('');
-    const [referPageUrl, setReferPageUrl] = useState('');
+    const [userData, setUserData] = useState<any>({});
 
     // for device
     const [device, setDevice] = useState(null);
     const [os, setOs] = useState(null);
-    const [mobileOs, setMobileOs] = useState(null);
-    const [location, setLocation] = useState(null);
 
     //   for ip
-    const [ip, setIP] = useState('');
-    const [mac, setMac] = useState('');
-    const [state, setState] = useState('');
-    const [latitude, setLatitude] = useState(0);
-    const [longitude, setLongitude] = useState(0);
-    const [countryName, setCountryName] = useState('');
-    const [countryCode, setCountryCode] = useState('');
-    const [city, setCity] = useState('');
-    const [zipCode, setZipCode] = useState('');
+    const [mac, setMac] = useState(null);
+    const [state, setState] = useState(null);
+    const [latitude, setLatitude] = useState(null);
+    const [longitude, setLongitude] = useState(null);
+    const [countryName, setCountryName] = useState(null);
+    const [countryCode, setCountryCode] = useState(null);
+    const [city, setCity] = useState(null);
+    const [zipCode, setZipCode] = useState(null);
+
+    const { user } = useSelector((state: RootState) => state.auth);
+    const userId = useMemo(() => user?.id ?? null, [user]);
 
     useEffect(() => {
-        if (name) {
-            setStoreUrl(name);
-        }
-        if (headersetting) {
-            if (headersetting?.uid) {
-                setUserId(headersetting?.uid);
-            }
-        }
-        if (document.title) {
-            setPageTitle(document.title);
-        }
-    }, [headersetting]);
+        const fetchUserData = async () => {
+            const data = await getUserDataFromCookies();
+            setUserData(data);
+        };
+        fetchUserData();
+    }, [pathname]);
 
-    useEffect(() => {
-        if (typeof window !== 'undefined' && name) {
-            setPageUrl(`https://${name}${window.location.pathname}`);
-        }
-    }, [setPageUrl]);
+    // const sendAddress = useCallback(() => {
+    //       if (latitude && longitude) {
+    //           fetchAddress(latitude, longitude);
+    //       }
+    //   }, [latitude,longitude,fetchAddress])
 
-    useEffect(() => {
-        if (latitude && longitude) {
-            fetchAddress(latitude, longitude);
-        }
-    }, [latitude, longitude, fetchAddress]);
+    // useEffect(() => {
+    //     sendAddress()
+    // }, [sendAddress]);
 
+    // const getIpData = useCallback(async () => {
+    //     try {
+    //         const response = await fetch('/api/ip');
+
+    //         const data = await response.json();
+    //         const [lat = '', lon = ''] = data.loc && data.loc.split(',', 2);
+    //         setState(data.region);
+    //         setZipCode(data.postal);
+    //         setLatitude(lat);
+    //         setLongitude(lon);
+    //         // setCountryName(data.country_name);
+    //         setCountryCode(data.country);
+    //         setCity(data.city);
+    //     } catch (error) {
+    //         console.error('Error fetching data:', error);
+    //     }
+    // }, []);
+
+    // analytics info
     useEffect(() => {
-        const getData = async () => {
+        const sendVisitorData = async (visitorData: any) => {
             try {
-                const response = await fetch('/api/user');
-
-                // if (!response.ok) {
-                //     console.log('response of /api/ip is not found!');
-                // }
-
-                const data = await response.json();
-                const [lat='', lon=''] = data.loc && data.loc.split(',', 2);
-                // console.log('IP Data:', data.ipString);
-                setState(data.region);
-                setLocation(data.loc);
-                setZipCode(data.postal);
-                setLatitude(lat);
-                setLongitude(lon);
-                // setCountryName(data.country_name);
-                setCountryCode(data.country);
-                setCity(data.city);
+                const response = await fetch('/api/track-visitor', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(visitorData),
+                });
+                const data = await response.json(); // Parse JSON response
+                // console.log('Server Response:', data);
+                return data; // Return data for further processing if needed
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('Error sending visitor data:', error);
+                return null; // Return null or handle the error gracefully
             }
         };
-        setIP(userData?.ip);
-        setReferPageUrl(userData?.referrer);
-        // getData();
-    }, [setReferPageUrl, userData]);
 
-    const [postEbitansAnalytics] = usePostEbitansAnalyticsMutation();
+        const cleanedCurrentUrl = removeFbclid(userData?.currentUrl);
+        const cleanedPreviousUrl = removeFbclid(userData?.previousUrl);
 
-    // user info
-    useEffect(() => {
         const analyticsData = {
             store_id,
-            store_url: storeUrl,
+            store_url: userData?.domain,
             user_id: userId,
-            page_url: pageUrl,
-            page_title: pageTitle,
-            refer_page_url: referPageUrl,
-            ip,
+            page_url: cleanedCurrentUrl,
+            page_title: document.title,
+            refer_page_url: cleanedPreviousUrl,
+            ip: userData?.userIp,
             device,
             mac,
             os,
@@ -123,25 +160,24 @@ const EbitansAnalytics = ({
             location: address,
             latitude,
             longitude,
-            category_id: categoryId,
-            product_id: productId,
+            category_id: userData?.cat_id,
+            product_id: userData?.productId,
             visit_time: visitTime,
             time_zone: timeZone,
         };
 
-        // console.log('analyticsData',analyticsData);
+        const sendCommand = getFromLocalStorage(TRIGGER_E_TRACK);
 
-        if (ip) {
-            postEbitansAnalytics(analyticsData);
+        if (sendCommand) {
+            sendVisitorData(analyticsData).then((response: any) => {
+                const resData = response?.data?.data || {};
+                saveToLocalStorage(ANALYTICS_PREV_PERSIST, resData);
+            });
         }
     }, [
         store_id,
-        storeUrl,
+        userData,
         userId,
-        pageUrl,
-        pageTitle,
-        referPageUrl,
-        ip,
         device,
         mac,
         os,
@@ -154,12 +190,10 @@ const EbitansAnalytics = ({
         address,
         latitude,
         longitude,
-        categoryId,
-        productId,
         visitTime,
         timeZone,
-        postEbitansAnalytics,
     ]);
+
     return null;
 };
 

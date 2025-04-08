@@ -1,5 +1,8 @@
 'use client';
 
+import { trackServerConversion } from '@/app/actions/meta-conversions';
+import { AddToCart } from '@/helpers/fbTracking';
+import { generateEventId } from '@/helpers/getBakedId';
 import { isDeliveryChargeDiscount } from '@/helpers/getTypeWiseDiscount';
 import { getCampainOfferDiscount } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
@@ -188,8 +191,17 @@ export const addToCart = ({
     const hasInCartList = isActiveCart(product, cartList, variantId);
     const isAbleToCart = isQtyLeft(product, variantId, qty, cartList);
     const hasImages = variant?.some((item: any) => item?.image);
+    const event_id = generateEventId();
 
-    const addOnBoard = () => {
+    const contents = [
+        {
+            id: product?.id,
+            item_price: numberParser(price) || 0,
+            quantity: qty,
+        },
+    ];
+
+    const addOnBoard = async () => {
         if (productQuantity !== 0 && price !== 0) {
             dispatch(
                 addToCartList({
@@ -208,6 +220,18 @@ export const addToCart = ({
                     availability: productQuantity,
                     variant_id: variantId,
                     ...product,
+                },
+                event_id,
+            });
+
+            AddToCart(product,event_id);
+
+            await trackServerConversion('AddToCart', {
+                event_id, // Use the same event_id
+                custom_data: {
+                    currency: 'BDT',
+                    value: price,
+                    contents,
                 },
             });
         }

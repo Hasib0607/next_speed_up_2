@@ -31,7 +31,7 @@ const PromoFortyThree = ({ banner }: any) => {
                                 />
                             </div>
                             <a
-                                href={ban?.link}
+                                href={ban?.link ?? '#'}
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >

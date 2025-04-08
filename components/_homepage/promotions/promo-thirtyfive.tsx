@@ -34,7 +34,7 @@ const PromoThirtyFive = ({ banner, design }: any) => {
                                         Shop The Best Collections
                                     </p>
                                     <Link
-                                        href={ban?.link}
+                                        href={ban?.link ?? '#'}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >

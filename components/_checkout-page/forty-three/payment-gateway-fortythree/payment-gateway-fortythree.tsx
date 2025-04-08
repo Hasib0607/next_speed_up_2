@@ -2,6 +2,8 @@
 
 import bkashLogo from '@/assets/paymentMethodLogo/bkashLogo.png';
 import nagadLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
+import paypalLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
+import stripeLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
 import { classNames } from '@/helpers/littleSpicy';
 import { setSelectPayment } from '@/redux/features/filters/paymentFilterSlice';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
@@ -11,6 +13,7 @@ import {
 } from '@/redux/features/rtkHooks/rtkHooks';
 import { AppDispatch, RootState } from '@/redux/store';
 import Image from 'next/image';
+import { useEffect } from 'react';
 
 const PaymentGatewayFortyThree = ({
     design,
@@ -41,6 +44,12 @@ const PaymentGatewayFortyThree = ({
         dispatch(setSelectPayment(e));
     };
 
+    useEffect(() => {
+        if (headersetting?.cod === 'active') {
+            dispatch(setSelectPayment('cod'));
+        }
+    }, [headersetting, dispatch]);
+
     const btnStyle =
         btnStyleClass ??
         'p-5 rounded w-max transition-colors duration-300 lg:cursor-pointer flex justify-between border border-gray-300';
@@ -68,6 +77,96 @@ const PaymentGatewayFortyThree = ({
             </div>
 
             <div className="flex gap-2 flex-wrap">
+                {headersetting?.paypal === 'active' && (
+                    <div
+                        className={classNames(
+                            btnStyle,
+                            selectedPayment === 'paypal'
+                                ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                : `bg-[#fff] text-[#000]`
+                        )}
+                        onClick={() => handleSelect('paypal')}
+                    >
+                        <div className="flex justify-center items-center w-auto min-w-20">
+                            <div className="flex gap-2 w-auto">
+                                {headersetting?.paypal_text ===
+                                'paypal Payment Img' ? (
+                                    <Image
+                                        src={paypalLogo.src}
+                                        className="h-6 md:h-8 object-cover"
+                                        alt="paypalLogo"
+                                        width={100}
+                                        height={100}
+                                    />
+                                ) : (
+                                    <p className="font-semibold tracking-wider">
+                                        {headersetting?.paypal_text}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {headersetting?.stripe === 'active' && (
+                    <div
+                        className={classNames(
+                            btnStyle,
+                            selectedPayment === 'stripe'
+                                ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                : `bg-[#fff] text-[#000]`
+                        )}
+                        onClick={() => handleSelect('stripe')}
+                    >
+                        <div className="flex justify-center items-center w-auto min-w-20">
+                            <div className="flex gap-2 w-auto">
+                                {headersetting?.stripe_text ===
+                                'stripe Payment Img' ? (
+                                    <Image
+                                        src={stripeLogo.src}
+                                        className="h-6 md:h-8 object-cover"
+                                        alt="stripeLogo"
+                                        width={100}
+                                        height={100}
+                                    />
+                                ) : (
+                                    <p className="font-semibold tracking-wider">
+                                        {headersetting?.stripe_text}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {headersetting?.merchant_bkash === 'active' && (
+                    <div
+                        className={classNames(
+                            btnStyle,
+                            selectedPayment === 'merchant_bkash'
+                                ? `bg-[var(--header-color)] text-[var(--text-color)]`
+                                : `bg-[#fff] text-[#000]`
+                        )}
+                        onClick={() => handleSelect('merchant_bkash')}
+                    >
+                        <div className="flex justify-center items-center w-auto min-w-20">
+                            <div className="flex gap-2 w-auto">
+                                {headersetting?.merchant_bkash_text ===
+                                'bKash Payment Img' ? (
+                                    <Image
+                                        src={bkashLogo.src}
+                                        className="h-6 md:h-8 object-cover"
+                                        alt="bkashLogo"
+                                        width={100}
+                                        height={100}
+                                    />
+                                ) : (
+                                    <p className="font-semibold tracking-wider">
+                                        {headersetting?.merchant_bkash_text}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
                 {headersetting?.merchant_nagad === 'active' && (
                     <div
                         className={classNames(

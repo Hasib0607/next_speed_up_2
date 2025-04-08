@@ -12,7 +12,7 @@ const PromoOne = ({ banner }: any) => {
                         key={ban?.id}
                     >
                         <Link
-                            href={ban?.link}
+                            href={ban?.link ?? '#'}
                             target="_blank"
                             rel="noopener noreferrer"
                         >

@@ -14,8 +14,6 @@ import getProductDetails from '@/utils/fetcher/getProductDetails';
 import getDesign from '@/utils/fetcher/getDesign';
 import { ProductDetailsParamProps } from '@/types';
 import { htmlTagsRemover } from '@/helpers/littleSpicy';
-import EbitansAnalytics from '@/components/EbitansAnalytics';
-import { getUserDataFromCookies } from '@/helpers/getUserDataFromCookies';
 
 export async function generateMetadata({
     params,
@@ -74,7 +72,6 @@ export default async function SingleProductDetails({
     const productId = (await params).productId;
     const design = await getDesign();
     const headersetting = await getHeaderSetting();
-    const userData = await getUserDataFromCookies();
 
     const store_id = headersetting?.store_id;
 
@@ -97,12 +94,6 @@ export default async function SingleProductDetails({
                 design={design}
                 headersetting={headersetting}
                 product={productData}
-                productId={productId}
-            />
-            <EbitansAnalytics
-                design={design}
-                headersetting={headersetting}
-                userData={userData}
                 productId={productId}
             />
         </div>
