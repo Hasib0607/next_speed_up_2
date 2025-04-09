@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
+import FilterByBrandNew from './components/filter-by-brand-new';
 
 const CategoryEighteen = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -79,6 +80,9 @@ const CategoryEighteen = ({ catId, store_id, design }: any) => {
                                         design={design}
                                     />
                                 ))}
+                            </div>
+                            <div className="p-4">
+                                <FilterByBrandNew />
                             </div>
                             <div className="my-6 p-4">
                                 <FilterByColorNew />

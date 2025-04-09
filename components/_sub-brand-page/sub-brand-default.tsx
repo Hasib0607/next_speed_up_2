@@ -80,9 +80,6 @@ const SubBrandDefault = ({ brandId, brands, design }: any) => {
                         ))}
                     </div>
                     <div className="bg-gray-100 border-2 border-gray-200 p-4">
-                        <FilterByBrandNew brands={brands} />
-                    </div>
-                    <div className="bg-gray-100 border-2 border-gray-200 p-4">
                         <FilterByColorNew />
                     </div>
                     <div className="bg-gray-100 border-2 border-gray-200 p-4">

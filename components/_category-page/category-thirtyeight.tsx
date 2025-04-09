@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
+import FilterByBrandNew from './components/filter-by-brand-new';
 
 const CategoryThirtyEight = ({ catId, store_id, design }: any) => {
     const { id: data }: any = useParams<{ id: string }>();
@@ -91,6 +92,9 @@ const CategoryThirtyEight = ({ catId, store_id, design }: any) => {
                                         />
                                     ))}
                                 </div>
+                            </div>
+                            <div className="p-4">
+                                <FilterByBrandNew />
                             </div>
                             <div className="my-6 pb-5 px-4">
                                 <FilterByColorNew />

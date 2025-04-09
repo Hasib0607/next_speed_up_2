@@ -36,7 +36,7 @@ export const setQueryString = (
     const encodedColor = encodeURIComponent(activeColor);
 
     if (activeBrandIdList && activeBrandIdList != '') {
-        queryString += `&brand=${activeBrandIdList}`;
+        queryString += `&brandFilter=${activeBrandIdList}`;
     }
     if (activeColor && activeColor != '') {
         queryString += `&colorFilter=${encodedColor}`;

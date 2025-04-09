@@ -3,27 +3,32 @@ import type { NextRequest } from 'next/server';
 import getDomain from '@/helpers/getDomain';
 import { cookies } from 'next/headers';
 
-
 type VercelGeo = {
     city?: string;
     country?: string;
     region?: string;
     latitude?: string;
     longitude?: string;
-  };
+};
 
 export async function middleware(req: NextRequest) {
     const response = NextResponse.next();
     const headersList = req.headers;
-    const geo = (req as unknown as { geo?: VercelGeo }).geo;
+    const geo = (req as unknown as { geo?: VercelGeo }).geo ?? {
+        city: '',
+        country: 'BD',
+        region: '',
+        latitude: '',
+        longitude: '',
+    };
 
     const ip = headersList.get('x-forwarded-for') || 'Unknown IP';
     const previousUrl = headersList.get('referer') || '';
-    const city = await geo?.city || '';
-    const country = await geo?.country || 'BD';
-    const region = await geo?.region || '';
-    const latitude = await geo?.latitude || '';
-    const longitude = await geo?.longitude || '';
+    const city = (await geo?.city) || '';
+    const country = (await geo?.country) || '';
+    const region = (await geo?.region) || '';
+    const latitude = (await geo?.latitude) || '';
+    const longitude = (await geo?.longitude) || '';
 
     // Construct the full URL
     const protocol = req.nextUrl.protocol; // 'http:' or 'https:'
@@ -65,33 +70,23 @@ export async function middleware(req: NextRequest) {
     });
     cookieStore.set('city', city, {
         path: '/',
-        httpOnly: true,
-        maxAge: 60 * 10, // Short-lived cookie (10 minutes)
-        sameSite: 'strict',
+        httpOnly: false, // optional
     });
     cookieStore.set('countryCode', country, {
         path: '/',
-        httpOnly: true,
-        maxAge: 60 * 10, // Short-lived cookie (10 minutes)
-        sameSite: 'strict',
+        httpOnly: false, // optional
     });
     cookieStore.set('region', region, {
         path: '/',
-        httpOnly: true,
-        maxAge: 60 * 10, // Short-lived cookie (10 minutes)
-        sameSite: 'strict',
+        httpOnly: false, // optional
     });
     cookieStore.set('latitude', latitude, {
         path: '/',
-        httpOnly: true,
-        maxAge: 60 * 10, // Short-lived cookie (10 minutes)
-        sameSite: 'strict',
+        httpOnly: false, // optional
     });
     cookieStore.set('longitude', longitude, {
         path: '/',
-        httpOnly: true,
-        maxAge: 60 * 10, // Short-lived cookie (10 minutes)
-        sameSite: 'strict',
+        httpOnly: false, // optional
     });
 
     catchRouteParams(pathname, cookieStore);
@@ -137,11 +132,9 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
     matcher: [
-        // Apply this middleware only to /robots.txt routes
-        // '/:path*',
-
         // Exclude specific paths
         '/((?!api|_next/static|_next/image|favicon.ico|images|assets).*)',
+        // '/:path*',
     ],
 };
 

@@ -1,5 +1,6 @@
 'use client';
 
+import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import Card16 from '@/components/card/card16';
@@ -48,17 +49,16 @@ const Two = ({ design, store_id }: any) => {
     const textColor = design?.text_color;
 
     const styleCss = `
-    .text-hover:hover {
-      color:  ${bgColor};
-    }
-    .filter {
-        color:${textColor};
-        background:${bgColor};
-    }
-    .border-hover:hover {
-        border: 1px solid  ${bgColor};
-    }
- 
+        .text-hover:hover {
+        color:  ${bgColor};
+        }
+        .filter {
+            color:${textColor};
+            background:${bgColor};
+        }
+        .border-hover:hover {
+            border: 1px solid  ${bgColor};
+        }
     `;
 
     return (
@@ -74,6 +74,9 @@ const Two = ({ design, store_id }: any) => {
                         ))}
                     </div>
                     <div className="bg-gray-100 border-2 border-gray-200 text-black p-4 rounded shadow">
+                        <FilterByBrandNew />
+                    </div>
+                    <div className="bg-gray-100 border-2 border-gray-200 text-black p-4 rounded shadow">
                         <FilterByColorNew />
                     </div>
                     <div className="bg-gray-100 border-2 border-gray-200 text-black p-4 rounded shadow">
@@ -82,10 +85,8 @@ const Two = ({ design, store_id }: any) => {
                 </div>
 
                 {/* filter side design finishes  */}
-
                 <div className="relative lg:col-span-7 col-span-9 ">
                     {/* Sort by bar start  */}
-
                     <div>
                         <Filter
                             onChange={(e: any) => {

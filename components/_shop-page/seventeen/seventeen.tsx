@@ -18,6 +18,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import './seventeen.css';
+import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
 
 const Seventeen = ({ store_id }: any) => {
     const module_id = 105;
@@ -70,6 +71,9 @@ const Seventeen = ({ store_id }: any) => {
                             {category?.map((item: any) => (
                                 <SingleCat item={item} key={item?.id} />
                             ))}
+                        </div>
+                        <div className="p-4">
+                            <FilterByBrandNew />
                         </div>
                         <div className="my-6 p-4">
                             <FilterByColorNew />

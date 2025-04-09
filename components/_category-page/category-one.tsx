@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux';
 import './category-four.css';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
+import FilterByBrandNew from './components/filter-by-brand-new';
 
 const CategoryOne = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -151,6 +152,9 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
                                     ))}
                                 </nav>
                             </div>
+                        </div>
+                        <div className="border border-gray-100 bg-white rounded shadow p-4">
+                            <FilterByBrandNew />
                         </div>
                         <div className="border border-gray-100 bg-white rounded shadow my-6 p-4">
                             <FilterByColorNew />

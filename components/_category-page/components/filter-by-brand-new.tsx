@@ -6,9 +6,11 @@ import {
     useAppSelector,
 } from '@/redux/features/rtkHooks/rtkHooks';
 import { AppDispatch, RootState } from '@/redux/store';
+import { useCallback, useEffect, useState } from 'react';
 
-const FilterByBrandNew = ({ brands }: any) => {
+const FilterByBrandNew = () => {
     const dispatch: AppDispatch = useAppDispatch();
+    const [brands, setBrands] = useState<any>([]);
 
     const { activeBrands } = useAppSelector(
         (state: RootState) => state.filters
@@ -26,6 +28,21 @@ const FilterByBrandNew = ({ brands }: any) => {
         }
         dispatch(setActiveBrands(updatedBrands));
     };
+
+    const fetchBrandsData = useCallback(async () => {
+        try {
+            const response = await fetch('/api/brands');
+
+            const allBrands = await response.json();
+            setBrands(allBrands?.data);
+        } catch (error) {
+            console.log('Error fetchting brands');
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchBrandsData();
+    }, [fetchBrandsData]);
 
     return (
         <>

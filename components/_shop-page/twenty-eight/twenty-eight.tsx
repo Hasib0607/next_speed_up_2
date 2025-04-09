@@ -21,6 +21,7 @@ import { IoGridSharp } from 'react-icons/io5';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import ShopBreadcrumb from '../_components/shop-breadcrumb';
+import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
 
 const TwentyEight = ({ design, store_id }: any) => {
     const module_id = 105;
@@ -68,6 +69,9 @@ const TwentyEight = ({ design, store_id }: any) => {
                             {category?.map((item: any) => (
                                 <SingleCat key={item?.id} item={item} />
                             ))}
+                        </div>
+                        <div className="bg-white border border-gray-200 p-4">
+                            <FilterByBrandNew />
                         </div>
                         <div className="bg-white border border-gray-200 my-6 p-4">
                             <FilterByColorNew />

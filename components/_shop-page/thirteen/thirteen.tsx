@@ -1,5 +1,6 @@
 'use client';
 
+import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import Card18 from '@/components/card/card18';
@@ -62,6 +63,9 @@ const Thirteen = ({ store_id }: any) => {
                                 select={select}
                             />
                         ))}
+                    </div>
+                    <div className="bg-gray-100 border-2 border-gray-200 p-4">
+                        <FilterByBrandNew />
                     </div>
                     <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
                         <FilterByColorNew />

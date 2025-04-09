@@ -275,39 +275,6 @@ const ProductSection = ({
     );
 };
 
-const Location = () => {
-    const [activecat, setActivecat] = useState(false);
-    const { id: data }: any = useParams<{ id: string }>();
-    const categoryStore = useSelector((state: any) => state?.category);
-    const category = categoryStore?.categories || [];
-    useEffect(() => {
-        for (let i = 0; i < category.length; i++) {
-            if (category[i]?.subcategories) {
-                for (let j = 0; j < category[i].subcategories.length; j++) {
-                    if (category[i]?.subcategories[j]?.id == data) {
-                        setActivecat(category[i]?.subcategories[j]?.name);
-                    }
-                }
-            }
-            if (category[i]?.id == data) {
-                setActivecat(category[i].name);
-            }
-        }
-    }, [category]);
-    return (
-        <div className="lg:w-1/2 flex flex-col gap-y-5 py-5 mb-5">
-            <h1 className="text-3xl font-bold ">{activecat} collection</h1>
-            <div className="">
-                <p className="text-sm text-gray-500">
-                    We not only help you design exceptional products, but also
-                    make it easy for you to share your designs with more
-                    like-minded people.
-                </p>
-            </div>
-        </div>
-    );
-};
-
 const Filter = ({ onChange }: any) => {
     return (
         <div className="py-3 flex flex-wrap justify-between items-center px-2">

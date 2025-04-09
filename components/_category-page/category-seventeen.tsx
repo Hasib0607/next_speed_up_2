@@ -21,6 +21,7 @@ import InfiniteLoader from '../loaders/infinite-loader';
 import './category-seventeen.css';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
+import FilterByBrandNew from './components/filter-by-brand-new';
 
 const CategorySeventeen = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -75,6 +76,9 @@ const CategorySeventeen = ({ catId, store_id, design }: any) => {
                                     design={design}
                                 />
                             ))}
+                        </div>
+                        <div className="p-4">
+                            <FilterByBrandNew />
                         </div>
                         <div className="my-6 p-4">
                             <FilterByColorNew />
