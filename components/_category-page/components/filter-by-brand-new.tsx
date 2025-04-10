@@ -19,7 +19,7 @@ const FilterByBrandNew = () => {
     const handleCheckboxChange = (brand: any) => {
         let updatedBrands: any = [];
 
-        if (activeBrands.some((item: any) => item.id === brand.id)) {
+        if (activeBrands?.some((item: any) => item.id === brand.id)) {
             updatedBrands = activeBrands.filter(
                 (item: any) => item.id !== brand.id
             );
@@ -58,7 +58,7 @@ const FilterByBrandNew = () => {
                         <input
                             type="checkbox"
                             value={brand.id}
-                            checked={activeBrands.some(
+                            checked={activeBrands?.some(
                                 (item: any) => item.id == brand.id
                             )}
                             onChange={() => handleCheckboxChange(brand)}
