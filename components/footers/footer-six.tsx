@@ -194,7 +194,7 @@ const FooterSix = ({
                             </h1>
                         </div>
                         <div className="flex flex-col gap-3 text-[13px] text-gray-500">
-                            {category?.slice(0, 6).map((item: any) => (
+                            {category?.slice(0, 6)?.map((item: any) => (
                                 <div key={item.id} className="">
                                     <li className="list-none  menu-hover">
                                         <Link href={'/category/' + item?.id}>
@@ -208,24 +208,24 @@ const FooterSix = ({
                 </div>
             </div>
             <hr />
-            <p className="sm:container px-5 pt-3 pb-20 lg:pb-3 text-[13px] font-light text-[#333333] space-x-2">
-                    <p>© {date} All Rights Received</p>
-                    <Link
-                        href="/"
-                        className="font-semibold text-red-700 menu-hover"
-                    >
-                        {headersetting?.website_name}
-                    </Link>
-                    <p>| Developed by</p>
-                    <Link
-                        href="https://ebitans.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-semibold text-red-700 menu-hover"
-                    >
-                        eBitans
-                    </Link>
-                </p>
+            <div className="sm:container px-5 pt-3 pb-20 lg:pb-3 text-[13px] font-light text-[#333333] space-x-2">
+                <p>© {date} All Rights Received</p>
+                <Link
+                    href="/"
+                    className="font-semibold text-red-700 menu-hover"
+                >
+                    {headersetting?.website_name}
+                </Link>
+                <p>| Developed by</p>
+                <Link
+                    href="https://ebitans.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-red-700 menu-hover"
+                >
+                    eBitans
+                </Link>
+            </div>
             {/* <Messenger /> */}
             <WhatsApp headersetting={headersetting} />
         </div>

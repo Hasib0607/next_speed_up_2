@@ -1,10 +1,22 @@
-export const removeFbclid = (url: string): string => {
+export const removeFbclid = (url: string, domain: string): string => {
+    if (!url || typeof url !== 'string') {
+        return '';
+    }
+
     try {
-        const urlObj = new URL(url);
-        urlObj.searchParams.delete('fbclid'); // Remove fbclid from query params
-        return urlObj.toString();
+        // Use dummy base if input is a relative URL
+        const base = `https://${domain}`;
+        const urlObj = new URL(url, base);
+
+        urlObj.searchParams.delete('fbclid');
+
+        // Return only pathname + search if original URL was relative
+        const cleanUrl = url.startsWith('http')
+            ? urlObj.toString()
+            : urlObj.pathname + urlObj.search;
+        return cleanUrl;
     } catch (error) {
         console.warn('Invalid URL:', error);
-        return url; // Return the original URL if an error occurs
+        return url;
     }
 };

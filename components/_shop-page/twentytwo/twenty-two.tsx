@@ -1,4 +1,5 @@
 'use client';
+import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import Card46 from '@/components/card/card46';
@@ -72,10 +73,13 @@ const Twentytwo = ({ design, store_id }: any) => {
                                 />
                             ))}
                         </div>
+                        <div className="bg-white border-2 border-gray-200 rounded-xl h-max p-4 shadow-2xl">
+                            <FilterByBrandNew />
+                        </div>
                         <div className="bg-white border-2 border-gray-200 my-6 rounded-xl h-max p-4 shadow-2xl">
                             <FilterByColorNew />
                         </div>
-                        <div className="bg-white border-2 border-gray-200 rounded-xl h-max p-4 shadow-2xl ">
+                        <div className="bg-white border-2 border-gray-200 rounded-xl h-max p-4 shadow-2xl">
                             <FilterByPriceNew />
                         </div>
                     </div>

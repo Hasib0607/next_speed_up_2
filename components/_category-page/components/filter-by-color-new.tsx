@@ -9,7 +9,6 @@ import {
 } from '@/redux/features/shop/shopApi';
 
 const FilterByColorNew = () => {
-
     const store = useSelector((state: RootState) => state.appStore.store);
     const store_id = store?.id || null;
 

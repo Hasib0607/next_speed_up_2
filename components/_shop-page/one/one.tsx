@@ -1,5 +1,6 @@
 'use client';
 
+import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import ProductCardOne from '@/components/card/product-card/product-card-one';
@@ -142,6 +143,9 @@ const One = ({ store_id }: any) => {
                                         />
                                     ))}
                                 </nav>
+                            </div>
+                            <div className="border border-gray-100 p-4 bg-white rounded shadow">
+                                <FilterByBrandNew />
                             </div>
                             <div className="border border-gray-100 p-4 bg-white rounded shadow">
                                 <FilterByColorNew />

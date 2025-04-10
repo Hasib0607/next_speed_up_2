@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
+import FilterByBrandNew from './components/filter-by-brand-new';
 
 const CategoryFortyOne = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -70,6 +71,9 @@ const CategoryFortyOne = ({ catId, store_id, design }: any) => {
                                     design={design}
                                 />
                             ))}
+                        </div>
+                        <div className="bg-white rounded-xl h-max p-4 shadow-2xl">
+                            <FilterByBrandNew />
                         </div>
                         <div className="bg-white my-6 rounded-xl h-max p-4 shadow-2xl">
                             <FilterByColorNew />
@@ -316,7 +320,6 @@ const ProductSection = ({
 };
 
 const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
-    
     return (
         <div className="border-t border-b border-[#f1f1f1] py-3 flex flex-wrap justify-between items-center px-2">
             <div className="text-gray-500 font-medium">
@@ -363,7 +366,7 @@ const SingleCat = ({ item, design }: any) => {
     const [show, setShow] = useState(false);
 
     const { cat_id }: any = useParams<{ id: string }>();
-    
+
     useEffect(() => {
         if (item.cat) {
             for (let i = 0; i < item.cat.length; i++) {
@@ -389,12 +392,14 @@ const SingleCat = ({ item, design }: any) => {
                         }
                         onClick={() => setShow(!show)}
                         href={'/category/' + item?.id}
-                        className={cat_id == item?.id ? activeColor : inactiveColor}
+                        className={
+                            cat_id == item?.id ? activeColor : inactiveColor
+                        }
                     >
                         {' '}
                         <p>{item.name}</p>
                     </Link>
-                    {item?.subcategories?.length > 0  ? (
+                    {item?.subcategories?.length > 0 ? (
                         <div className="px-4 h-full">
                             {show ? (
                                 <MinusIcon

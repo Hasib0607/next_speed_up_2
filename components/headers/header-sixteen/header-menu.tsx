@@ -69,7 +69,7 @@ const HeaderMenu = ({ headersetting, menu, design }: any) => {
             />
             <style>{styleCss}</style>
             <div
-                className={`bg-slate-50 z-[5]  border-b-[1px] relative  ${
+                className={`bg-slate-50 z-[5] border-b-[1px] relative  ${
                     openMenu ? 'navbarSixteen openMenu py-2' : 'py-3'
                 }`}
             >
@@ -195,10 +195,8 @@ const HeaderMenu = ({ headersetting, menu, design }: any) => {
                     )}
                 </div>
             </div>
-
-            <div className={`px-4 z-[4]`}>
                 <div
-                    className={`top-0 pt-10 bg-white duration-500 fixed sm:w-96 w-52 overflow-y-auto bottom-0 pb-5 z-[4] lg:cursor-pointer mt-32 ${
+                    className={`top-0 fixed bg-white sm:w-96 w-52 h-auto overflow-y-auto bottom-0 pb-5 z-[4] lg:cursor-pointer ${openMenu ? 'mt-16 pt-6 animate-out' : 'mt-32 pt-10'} ${
                         open ? 'left-0 ' : 'left-[-160%]'
                     }`}
                 >
@@ -206,7 +204,6 @@ const HeaderMenu = ({ headersetting, menu, design }: any) => {
                         <SideCategory design={design} />
                     </div>
                 </div>
-            </div>
 
             {/* tablet and mobile view  */}
             {/* screen touch menu close  */}

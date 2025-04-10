@@ -6,7 +6,7 @@ const BrandCard = ({ item }: any) => {
     return (
         <Link href={'/brand/' + item?.id}>
             <div className="flex justify-between flex-col gap-y-2">
-                <div className="h-full w-full max-h-64 max-w-64">
+                <div className="h-full w-full md:max-h-64 md:max-w-64">
                     <Image
                         src={`${brandImg}${item.image}`}
                         alt={item.name}

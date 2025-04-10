@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
+import FilterByBrandNew from './components/filter-by-brand-new';
 
 const CategorySix = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -76,7 +77,9 @@ const CategorySix = ({ catId, store_id, design }: any) => {
                             />
                         ))}
                     </div>
-
+                    <div className="bg-gray-100 border-2 border-gray-200 p-4">
+                        <FilterByBrandNew />
+                    </div>
                     <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
                         <FilterByColorNew />
                     </div>

@@ -1,7 +1,5 @@
 import type { Config } from 'tailwindcss';
 
-
-
 const config: Config = {
     darkMode: ['class'],
     content: [
@@ -74,12 +72,17 @@ const config: Config = {
                 '132': '43rem',
             },
             animation: {
+                fadeIn: 'fadeIn 0.2s ease-in both',
                 marquee: 'marquee 50s linear infinite',
                 marquee2: 'marquee2 50s linear infinite',
                 'accordion-down': 'accordion-down 0.2s ease-out',
                 'accordion-up': 'accordion-up 0.2s ease-out',
             },
             keyframes: {
+                fadeIn: {
+                    '0%': { opacity: '0' },
+                    '100%': { opacity: '1' },
+                },
                 marquee: {
                     '0%': {
                         transform: 'translateX(0%)',
@@ -127,7 +130,7 @@ const config: Config = {
             center: true,
         },
     },
-    plugins: [require("tailwindcss-animate")],
+    plugins: [require('tailwindcss-animate')],
 };
 
 export default config;

@@ -1,5 +1,6 @@
 'use client';
 
+import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import Filters from '@/components/_category-page/components/filters';
@@ -140,6 +141,9 @@ const Seven = ({ store_id }: any) => {
                             <SingleCategory key={item?.id} item={item} />
                         </div>
                     ))}
+                </div>
+                <div className="bg-gray-100 border-2 border-gray-200 p-4">
+                    <FilterByBrandNew />
                 </div>
                 {/* Filter By Color New */}
                 <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">

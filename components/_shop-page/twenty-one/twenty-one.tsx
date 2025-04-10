@@ -1,4 +1,5 @@
 'use client';
+import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import Card45 from '@/components/card/card45';
@@ -71,6 +72,9 @@ const TwentyOne = ({ design, store_id }: any) => {
                                     select={select}
                                 />
                             ))}
+                        </div>
+                        <div className="rounded-xl h-max p-4 shadow-2xl bg-white">
+                            <FilterByBrandNew />
                         </div>
                         <div className="rounded-xl h-max p-4 shadow-2xl bg-white my-6">
                             <FilterByColorNew />

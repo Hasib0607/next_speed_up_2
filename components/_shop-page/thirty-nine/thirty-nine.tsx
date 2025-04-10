@@ -1,5 +1,6 @@
 'use client';
 
+import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import Card67 from '@/components/card/card67';
@@ -144,6 +145,9 @@ const ThirtyNine = ({ store_id }: any) => {
                                 </nav>
                             </div>
                             <div className="border border-gray-100 p-4 bg-white rounded shadow">
+                                <FilterByBrandNew />
+                            </div>
+                            <div className="border border-gray-100 p-4 bg-white rounded shadow">
                                 <FilterByColorNew />
                             </div>
                             <div className="border border-gray-100 p-4 bg-white rounded shadow">
@@ -220,10 +224,7 @@ const ThirtyNine = ({ store_id }: any) => {
                                 {products?.length ? (
                                     <div className="grid md:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
                                         {products?.map((i: any) => (
-                                            <Card67
-                                                key={i?.id}
-                                                item={i}
-                                            />
+                                            <Card67 key={i?.id} item={i} />
                                         ))}
                                     </div>
                                 ) : (
