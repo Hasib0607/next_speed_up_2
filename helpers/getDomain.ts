@@ -22,7 +22,7 @@ export default async function getDomain() {
     // url = "swifttrading.store";
     // url = "ezara.shop";
     // url = "uniquemartbd.shop";
-    // url = "mytimebd.store";
+    // url = "bikroyhutbd.com";
     url = 'moon.localhost:3000';
 
     return url;

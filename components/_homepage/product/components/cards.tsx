@@ -16,6 +16,7 @@ import Card63 from '@/components/card/card63';
 import Card65 from '@/components/card/card65';
 import Card67 from '@/components/card/card67';
 import ProductCardTen from '@/components/card/product-card/product-card-ten';
+import Card74 from '@/components/card/card74';
 
 const Cards = ({ card, item, btnType }: any) => {
     switch (card) {
@@ -53,6 +54,8 @@ const Cards = ({ card, item, btnType }: any) => {
             return <Card65 item={item} type={btnType} />;
         case '67':
             return <Card67 item={item} type={btnType} />;
+        case '74':
+            return <Card74 item={item} type={btnType} />;
         case 'ProductCardTen':
             return <ProductCardTen item={item} />;
         default:

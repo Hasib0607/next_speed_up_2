@@ -87,7 +87,7 @@ let urlName;
 // urlName = "swifttrading.store";
 // urlName = "ezara.shop";
 // urlName = "uniquemartbd.shop";
-// urlName = 'mytimebd.store';
+// urlName = "bikroyhutbd.com";
 urlName = "moon.localhost:3000";
 
 if (process.env.NODE_ENV === 'production') {

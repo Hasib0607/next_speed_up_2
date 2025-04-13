@@ -86,6 +86,6 @@ export const all_products: any = {
         () => import('@/components/_homepage/product/product-fortythree')
     ),
     [FORTY_FOUR]: dynamic(
-        () => import('@/components/_homepage/product/product-fortyfour')
+        () => import('@/components/_homepage/product/product-fortyfour/product-fortyfour')
     ),
 };

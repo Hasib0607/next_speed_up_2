@@ -228,7 +228,7 @@ const DetailsLandingPage = ({
                                         ['--color' as any]:
                                         item.design?.color || '#f1593a',
                                     }}
-                                    className="layout-custom-styles flex justify-center"
+                                    className="layout-custom-styles flex justify-center items-center"
                                 >
                                     <DangerouslySafeHTML
                                         content={item.text || ''}

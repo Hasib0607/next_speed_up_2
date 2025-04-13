@@ -9,8 +9,9 @@ import {
     useGetBestSellProductQuery,
     useGetFeatureProductQuery,
 } from '@/redux/features/products/productApi';
+import { numberParser } from '@/helpers/numberParser';
 
-const Product = ({ design, headersetting }: any) => {
+const Product = ({ design, headersetting, banner }: any) => {
     const ProductComponent =
         all_products[design?.product] || all_products[DEFAULT];
 
@@ -19,6 +20,9 @@ const Product = ({ design, headersetting }: any) => {
 
     const products = useSelector((state: RootState) => state?.products);
     const product = products?.product || [];
+
+    const bannerType =
+            banner?.filter((item: any) => numberParser(item?.type) === 0) || [];
 
     const {
         data: bestSellProductData,
@@ -47,6 +51,7 @@ const Product = ({ design, headersetting }: any) => {
                         categoryId={category[0]?.id}
                         best_sell_product={best_sell_product}
                         feature_product={feature_product}
+                        banner={bannerType}
                     />
                 )}
         </>

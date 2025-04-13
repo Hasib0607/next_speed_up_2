@@ -296,3 +296,11 @@ html {
 .layout-custom-styles div > p {
     color: inherit;
 }
+
+/* Handle img position center */
+.layout-custom-styles img {
+    display: block;
+    margin: 1rem auto;
+    max-width: 100%;
+    height: auto;
+}
