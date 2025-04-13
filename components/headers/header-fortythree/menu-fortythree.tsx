@@ -12,11 +12,11 @@ const MenuFortyThree = ({ openMenu, menu, menuLoading }: any) => {
     const page = pageData?.data || [];
 
     const {
-            data: featureProductData,
-            isLoading: featureProductLoading,
-            isSuccess: featureProductSuccess,
-        } = useGetFeatureProductQuery({});
-        const feature_product = featureProductData?.data || [];
+        data: featureProductData,
+        isLoading: featureProductLoading,
+        isSuccess: featureProductSuccess,
+    } = useGetFeatureProductQuery({});
+    const feature_product = featureProductData?.data || [];
 
     return (
         <nav>
