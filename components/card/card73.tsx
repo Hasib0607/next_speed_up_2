@@ -9,39 +9,9 @@ import Details from '../_product-details-page/components/details';
 const Card73 = ({ item }: any) => {
     const [open, setOpen] = useState(false);
 
-    const bgColor = 'var(--header-color)';
-    const textColor = 'var(--text-color)';
-
-    const styleCss = `
-    .searchHover:hover {
-        color:  ${textColor};
-        background: ${bgColor};
-    }
-    .text-color {
-        color:  ${bgColor};
-    }
-    .text-hover:hover {
-        color: ${bgColor};
-      }
-    .bg-color {
-        color:  ${textColor};
-        background: ${bgColor};
-    }
-    .cart-btn {
-        color:  ${textColor};
-        background: ${bgColor};
-    }
-    .cart-btn:hover {
-        color:  ${bgColor};
-        background: transparent;
-        border: 1px solid ${bgColor};
-    }
-  `;
-
     return (
         <div className="bg-white relative rounded-md overflow-hidden">
             <div className="">
-                <style>{styleCss}</style>
                 {/* out of stock  */}
                 {item?.quantity === '0' && (
                     <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-[2]">

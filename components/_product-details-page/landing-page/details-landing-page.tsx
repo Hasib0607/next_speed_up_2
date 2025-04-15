@@ -197,12 +197,12 @@ const DetailsLandingPage = ({
                             return (
                                 <div
                                     key={item.id}
-                                    className="rounded-md"
                                     style={{
                                         backgroundColor:
                                             item.design?.bg_color || '#ffffff',
                                         color: item.design?.color || '#f1593a',
                                     }}
+                                    className="layout-custom-styles flex justify-center items-center"
                                 >
                                     <DangerouslySafeHTML
                                         content={item.text || ''}

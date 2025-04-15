@@ -75,7 +75,7 @@ const RenderSection = ({
         case 'banner_bottom':
             return <PromoBottom design={design} banner={banner} />;
         case 'product':
-            return <Product design={design} headersetting={headersetting} />;
+            return <Product design={design} headersetting={headersetting} banner={banner} />;
         case 'new_arrival':
             return <NewArrival design={design} headersetting={headersetting} />;
         case 'best_sell_product':
