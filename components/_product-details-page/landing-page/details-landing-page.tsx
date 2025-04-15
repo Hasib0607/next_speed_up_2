@@ -311,7 +311,7 @@ const DetailsLandingPage = ({
                                     <img
                                         src={productImg + product?.image}
                                         alt=""
-                                        className="rounded-md w-full h-auto"
+                                        className="md:rounded-md w-full h-auto"
                                     />
                                 </div>
                             );

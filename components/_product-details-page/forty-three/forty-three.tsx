@@ -101,8 +101,8 @@ const FortyThree = ({ store_id, productId, design, headersetting }: any) => {
                 {detailsContentSkeleton}
 
                 {isLandingPage && product?.layout?.length > 0 ? (
-                    <div className="bg-[var(--header-color)] h-full my-20 py-20">
-                        <div className="shadow-md rounded-md bg-white mx-4 md:mx-40 ">
+                    <div className="bg-[var(--header-color)] h-full pt-5 md:py-20">
+                        <div className="shadow-md rounded-md bg-white md:mx-40">
                             <DetailsLandingPage
                                 design={design}
                                 headersetting={headersetting}
