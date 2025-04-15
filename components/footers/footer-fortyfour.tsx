@@ -16,6 +16,7 @@ import PageList from './components/page-list';
 import AllPaymantGateway from './components/all-payment-gateway';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 import NewsletterFortyThree from './components/newsletter-fortythree';
+import NewsletterFortyFour from './components/newsletter-fortyfour';
 
 const FooterFortyFour = ({ design, headersetting, menu, page }: any) => {
     const store_id = design?.store_id || null;
@@ -24,7 +25,6 @@ const FooterFortyFour = ({ design, headersetting, menu, page }: any) => {
       .liList:hover{
         color: ${design?.header_color}
       }
-      
     `;
     const menuList = [
         { name: 'Profile' },
@@ -40,7 +40,7 @@ const FooterFortyFour = ({ design, headersetting, menu, page }: any) => {
 
     return (
         <div className="mt-[60px] bg-gray-50 xl:mt-0 md:mt-[25px] lg:mt-0">
-            <NewsletterFortyThree
+            <NewsletterFortyFour
                 headersetting={headersetting}
                 store_id={store_id}
             />

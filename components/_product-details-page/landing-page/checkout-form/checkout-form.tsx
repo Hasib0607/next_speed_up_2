@@ -364,7 +364,7 @@ const CheckOutForm = ({
                                         onClick={handleCheckout}
                                         className={`flex justify-center items-center font-semibold tracking-wider my-1 rounded-full border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] hover:bg-transparent border-gray-300 w-full py-3 disabled:border disabled:bg-gray-400 disabled:cursor-not-allowed disabled:border-gray-300`}
                                     >
-                                        {'Checkout'}
+                                        অর্ডার করুন
                                     </button>
                                 )}
                             </div>
