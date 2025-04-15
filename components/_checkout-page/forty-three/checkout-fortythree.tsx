@@ -1,55 +1,18 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
-
+import { useState } from 'react';
 import YourOrders from './your-orders/your-order';
 import PaymentGateway from '../_components/payment-gateway/payment-gateway';
-import { totalCampainOfferDiscount } from '@/utils/_cart-utils/cart-utils';
-import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
-import { AppDispatch, RootState } from '@/redux/store';
-import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
-import {
-    setGrandTotal,
-    setPurchaseList,
-} from '@/redux/features/purchase/purchaseSlice';
 import AddressFortyThree from './address-fortythree.tsx/address-fortythree';
 import DiscountFortyThree from './discount-fortythree/discount-fortythree';
+import useCheckoutPageEntry from '@/hooks/useCheckoutPageEntry';
 
 const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
-    const dispatch: AppDispatch = useAppDispatch();
-
-    const { cartList } = useSelector((state: RootState) => state.cart);
-
-    const [couponDis, setCouponDis] = useState(0);
-    const [shippingArea, setShippingArea] = useState<any>(null);
     const [selectAddress, setSelectAddress] = useState(null);
-    const [token, setToken] = useState(null);
-    const [userName, setUserName] = useState(null);
-    const [userPhone, setUserPhone] = useState(null);
-    const [userAddress, setUserAddress] = useState(null);
+    const { tax, gTotal, totalDis, isCartEmpty } =
+        useCheckoutPageEntry(headersetting);
 
-    const cartTotalCampainOfferDiscountAmount = useMemo(
-        () => totalCampainOfferDiscount(cartList),
-        [cartList]
-    );
-
-    useEffect(() => {
-        if (cartTotalCampainOfferDiscountAmount > 0) {
-            dispatch(
-                setTotalCampainOfferDis(cartTotalCampainOfferDiscountAmount)
-            );
-        } else {
-            dispatch(setTotalCampainOfferDis(0));
-        }
-    }, [cartTotalCampainOfferDiscountAmount, dispatch]);
-
-    useEffect(() => {
-        dispatch(setPurchaseList([]));
-        dispatch(setGrandTotal(0));
-    }, [dispatch]);
-
-    if (cartList?.length === 0) {
+    if (isCartEmpty) {
         return (
             <div className="flex justify-center items-center min-h-[70vh]">
                 <div className="text-center">
@@ -87,11 +50,6 @@ const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
                                 appStore={appStore}
                                 selectAddress={selectAddress}
                                 setSelectAddress={setSelectAddress}
-                                setToken={setToken}
-                                token={token}
-                                setUserAddress={setUserAddress}
-                                userPhone={userPhone}
-                                setUserPhone={setUserPhone}
                                 formFieldStyle={formFieldStyle}
                             />
                         </div>
@@ -99,9 +57,6 @@ const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
                             design={design}
                             appStore={appStore}
                             headersetting={headersetting}
-                            setCouponDis={setCouponDis}
-                            shippingArea={shippingArea}
-                            setShippingArea={setShippingArea}
                         />
                         <PaymentGateway
                             design={design}
@@ -115,13 +70,10 @@ const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
                             design={design}
                             appStore={appStore}
                             headersetting={headersetting}
-                            couponDis={couponDis}
-                            setCouponDis={setCouponDis}
                             selectAddress={selectAddress}
-                            shippingArea={shippingArea}
-                            userAddress={userAddress}
-                            userPhone={userPhone}
-                            userName={userName}
+                            gTotal={gTotal}
+                            totalDis={totalDis}
+                            tax={tax}
                         />
                     </div>
                 </div>

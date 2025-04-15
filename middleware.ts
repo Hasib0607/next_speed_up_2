@@ -2,18 +2,13 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import getDomain from '@/helpers/getDomain';
 import { cookies } from 'next/headers';
-
-type VercelGeo = {
-    city?: string;
-    country?: string;
-    region?: string;
-    latitude?: string;
-    longitude?: string;
-};
+import { VercelGeo } from './types';
 
 export async function middleware(req: NextRequest) {
     const response = NextResponse.next();
     const headersList = req.headers;
+    const domain = await getDomain();
+
     const geo = (req as unknown as { geo?: VercelGeo }).geo ?? {
         city: '',
         country: 'BD',
@@ -24,11 +19,6 @@ export async function middleware(req: NextRequest) {
 
     const ip = headersList.get('x-forwarded-for') || 'Unknown IP';
     const previousUrl = headersList.get('referer') || '';
-    const city = (await geo?.city) || '';
-    const country = (await geo?.country) || '';
-    const region = (await geo?.region) || '';
-    const latitude = (await geo?.latitude) || '';
-    const longitude = (await geo?.longitude) || '';
 
     // Construct the full URL
     const protocol = req.nextUrl.protocol; // 'http:' or 'https:'
@@ -68,41 +58,21 @@ export async function middleware(req: NextRequest) {
         maxAge: 60 * 10, // Short-lived cookie (10 minutes)
         sameSite: 'strict',
     });
-    cookieStore.set('city', city, {
-        path: '/',
-        httpOnly: false, // optional
-    });
-    cookieStore.set('countryCode', country, {
-        path: '/',
-        httpOnly: false, // optional
-    });
-    cookieStore.set('region', region, {
-        path: '/',
-        httpOnly: false, // optional
-    });
-    cookieStore.set('latitude', latitude, {
-        path: '/',
-        httpOnly: false, // optional
-    });
-    cookieStore.set('longitude', longitude, {
-        path: '/',
-        httpOnly: false, // optional
-    });
 
+    storeGeoData(geo, cookieStore);
     catchRouteParams(pathname, cookieStore);
 
     // Handle robots.txt dynamically
+
     if (pathname === '/robots.txt') {
-        const domain = await getDomain();
+        const urlResponse = await fetch(req.url);
+        let originalRobotsTxt = await urlResponse.text();
 
         try {
-            const response = await fetch(req.url);
-            let originalRobotsTxt = await response.text();
-
             // Ensure robots.txt doesn't duplicate comments
             if (!originalRobotsTxt.includes('#')) {
                 const comments = [
-                    `Robots.txt file for https://${domain}`,
+                    `Robots.txt file for ${protocol}//${domain}`,
                     `Generated on: ${new Date().toUTCString()}`,
                     'All robots are welcome to crawl our site',
                     'Disallowed paths are restricted for privacy and security reasons',
@@ -167,4 +137,33 @@ const catchRouteParams = (pathname: any, cookieStore: any) => {
             maxAge: 60 * 10, // Short-lived cookie (10 minutes)
         });
     }
+};
+
+const storeGeoData = (geo: any, cookieStore: any) => {
+    const city = geo?.city || '';
+    const country = geo?.country || '';
+    const region = geo?.region || '';
+    const latitude = geo?.latitude || '';
+    const longitude = geo?.longitude || '';
+
+    cookieStore.set('city', city, {
+        path: '/',
+        httpOnly: false, // optional
+    });
+    cookieStore.set('countryCode', country, {
+        path: '/',
+        httpOnly: false, // optional
+    });
+    cookieStore.set('region', region, {
+        path: '/',
+        httpOnly: false, // optional
+    });
+    cookieStore.set('latitude', latitude, {
+        path: '/',
+        httpOnly: false, // optional
+    });
+    cookieStore.set('longitude', longitude, {
+        path: '/',
+        httpOnly: false, // optional
+    });
 };

@@ -1,4 +1,12 @@
 // define types
+export type VercelGeo = {
+    city?: string;
+    country?: string;
+    region?: string;
+    latitude?: string;
+    longitude?: string;
+};
+
 export type FormValues = {
     name: string;
     phone_code: string;

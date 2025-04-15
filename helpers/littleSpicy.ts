@@ -3,6 +3,27 @@ import { numberParser } from './numberParser';
 import { getPrice } from './getPrice';
 import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 
+export const getShippingAreaIdByCost = (
+    cost: number,
+    headersetting: any
+): string | null => {
+    for (let i = 1; i <= 3; i++) {
+        if (cost === headersetting?.[`shipping_area_${i}_cost`]) {
+            return i.toString();
+        }
+    }
+
+    return null;
+};
+
+export const getShippingCostByAreaId = (
+    id: string,
+    headersetting: any
+): number | null => {
+    if (id) return headersetting?.[`shipping_area_${id}_cost`];
+    return null;
+};
+
 // check phone number
 export const checkValidPhoneNumberByCode = (
     phone: string,

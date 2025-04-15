@@ -13,7 +13,7 @@ const PromoThirteen = ({ banner }: any) => {
                                 className="max-h-[100px] min-w-full w-full h-full sm:max-h-[170px] overflow-hidden"
                             >
                                 <Link
-                                    href={item?.link}
+                                    href={item?.link ?? '#'}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
