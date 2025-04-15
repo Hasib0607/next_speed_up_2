@@ -137,8 +137,14 @@ const EbitansAnalytics = ({ design, headersetting }: any) => {
             }
         };
 
-        const cleanedCurrentUrl = removeFbclid(userData?.currentUrl);
-        const cleanedPreviousUrl = removeFbclid(userData?.previousUrl);
+        const cleanedCurrentUrl = removeFbclid(
+            userData?.currentUrl,
+            userData?.domain
+        );
+        const cleanedPreviousUrl = removeFbclid(
+            userData?.previousUrl,
+            userData?.domain
+        );
 
         const analyticsData = {
             store_id,

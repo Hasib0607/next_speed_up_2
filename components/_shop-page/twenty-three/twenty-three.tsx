@@ -1,4 +1,5 @@
 'use client';
+import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import Card47 from '@/components/card/card47';
@@ -99,11 +100,12 @@ const TwentyThree = ({ design, store_id }: any) => {
                                 ))}
                             </div>
                         </div>
-
+                        <div className="lg:my-5 lg:shadow-2xl p-4 lg:rounded-xl lg:bg-white">
+                            <FilterByBrandNew />
+                        </div>
                         <div className="lg:my-5 lg:shadow-2xl p-4 lg:rounded-xl lg:bg-white">
                             <FilterByColorNew />
                         </div>
-
                         <div className="lg:my-5 lg:shadow-2xl p-4 lg:rounded-xl lg:bg-white">
                             <FilterByPriceNew />
                         </div>

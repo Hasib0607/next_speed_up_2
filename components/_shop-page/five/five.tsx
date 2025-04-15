@@ -23,6 +23,7 @@ import { useEffect, useState } from 'react';
 import { CgMenuGridO } from 'react-icons/cg';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
+import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
 
 const Five = ({ design, store_id }: any) => {
     const module_id = 105;
@@ -75,6 +76,9 @@ const Five = ({ design, store_id }: any) => {
                         {category?.map((item: any) => (
                             <SingleCat key={item?.id} item={item} />
                         ))}
+                    </div>
+                    <div className="bg-gray-100 border-2 border-gray-200 text-black p-4">
+                        <FilterByBrandNew />
                     </div>
                     <div className="bg-gray-100 border-2 border-gray-200 my-6 text-black p-4">
                         <FilterByColorNew />

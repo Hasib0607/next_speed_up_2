@@ -20,6 +20,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
+import FilterByBrandNew from './components/filter-by-brand-new';
 
 const CategoryEight = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -63,7 +64,7 @@ const CategoryEight = ({ catId, store_id, design }: any) => {
             <style>{styleCss}</style>
             <div className="grid grid-cols-9">
                 {/* filter side design  */}
-                <div className="lg:col-span-2 px-4 w-full items-end lg:block hidden">
+                <div className="lg:col-span-2 px-4 w-full items-end lg:block hidden space-y-6">
                     <div className="w-full bg-gray-100 border-2 border-gray-200 text-black  my-6 pl-6 pt-7 pb-6 ">
                         <h1 className="font-semibold ">FILTER BY</h1>
                         {category?.map((item: any) => (
@@ -74,8 +75,10 @@ const CategoryEight = ({ catId, store_id, design }: any) => {
                             />
                         ))}
                     </div>
-
-                    <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
+                    <div className="bg-gray-100 border-2 border-gray-200 p-4">
+                        <FilterByBrandNew />
+                    </div>
+                    <div className="bg-gray-100 border-2 border-gray-200 p-4">
                         <FilterByColorNew />
                     </div>
                     <div className="bg-gray-100 border-2 border-gray-200 p-4">
@@ -349,7 +352,7 @@ const ProductSection = ({
 const Filter = ({ onChange, setGrid, setOpen, open }: any) => {
     return (
         <div>
-            <div className="md:flex md:flex-row justify-between md:mt-6 items-center ">
+            <div className="md:flex md:flex-row justify-between items-center ">
                 <div className="md:block hidden">
                     <p>Sort By:</p>
                 </div>

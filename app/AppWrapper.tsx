@@ -23,7 +23,7 @@ const AppWrapper = ({ children, appStore, design }: any) => {
                 <VisitorLayer />
                 {!appStore ? <NotFound /> : children}
                 <ToastContainer position="top-right" newestOnTop />
-                <EbitansAnalytics design={design} />;
+                <EbitansAnalytics design={design} />
             </PersistGate>
         </Provider>
     );

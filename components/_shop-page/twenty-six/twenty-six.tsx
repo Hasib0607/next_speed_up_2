@@ -1,4 +1,5 @@
 'use client';
+import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import Card56 from '@/components/card/card56';
@@ -81,10 +82,13 @@ const TwentySix = ({ design, store_id }: any) => {
                                 ))}
                             </div>
                         </div>
+                        <div className="bg-white p-4 shop-cat rounded-md">
+                            <FilterByBrandNew />
+                        </div>
                         <div className="bg-white my-6 p-4 shop-cat rounded-md">
                             <FilterByColorNew />
                         </div>
-                        <div className="bg-white p-4 shop-cat rounded-md mb-5">
+                        <div className="bg-white p-4 shop-cat rounded-md">
                             <FilterByPriceNew />
                         </div>
                     </div>

@@ -7,7 +7,7 @@ import Pagination from '@/components/paginations/pagination';
 import { numberParser } from '@/helpers/numberParser';
 import { setSort } from '@/redux/features/filters/filterSlice';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { useGetBrandPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
 import { NotFoundMsg } from '@/utils/little-components';
 import { Bars3Icon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
@@ -21,13 +21,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from '../_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '../_category-page/components/filter-by-price-new';
+import FilterByBrandNew from '../_category-page/components/filter-by-brand-new';
 
 const SubBrandDefault = ({ brandId, brands, design }: any) => {
-      const store_id = numberParser(design?.store_id) || null;
+    const store_id = numberParser(design?.store_id) || null;
     const module_id = 105;
     const dispatch = useDispatch();
+
     const [grid, setGrid] = useState('H');
     const [open, setOpen] = useState(false);
+
     // setting the initial page number
     const [page, setPage] = useState(1);
     const [paginate, setPaginate] = useState<any>({});
@@ -41,22 +44,23 @@ const SubBrandDefault = ({ brandId, brands, design }: any) => {
     const paginationModule = modules?.find(
         (item: any) => item?.modulus_id === module_id
     );
+
     const isPagination = numberParser(paginationModule?.status) === 1;
 
     const bgColor = design?.header_color;
     const textColor = design?.text_color;
 
     const styleCss = `
-    .text-hover:hover {
-      color:  ${bgColor};
-    }
-    .filter {
-        color:${textColor};
-        background:${bgColor};
-    }
-    .border-hover:hover {
-        border: 1px solid  ${bgColor};
-    }
+        .text-hover:hover {
+        color:  ${bgColor};
+        }
+        .filter {
+            color:${textColor};
+            background:${bgColor};
+        }
+        .border-hover:hover {
+            border: 1px solid  ${bgColor};
+        }
     `;
 
     return (
@@ -64,9 +68,9 @@ const SubBrandDefault = ({ brandId, brands, design }: any) => {
             <style>{styleCss}</style>
             <div className="grid grid-cols-9 gap-5">
                 {/* filter side design  */}
-                <div className="lg:col-span-2 w-full items-end lg:block hidden">
-                    <div className="w-full bg-gray-100 border-2 border-gray-200 text-black my-6 py-6 px-4">
-                        <h1 className="font-semibold ">FILTER BY</h1>
+                <div className="lg:col-span-2 w-full items-end lg:block hidden space-y-5">
+                    <div className="w-full bg-gray-100 border-2 border-gray-200 text-black py-6 px-4">
+                        <h1 className="font-semibold">Category</h1>
                         {category?.map((item: any) => (
                             <SingleCat
                                 key={item?.id}
@@ -75,8 +79,7 @@ const SubBrandDefault = ({ brandId, brands, design }: any) => {
                             />
                         ))}
                     </div>
-
-                    <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
+                    <div className="bg-gray-100 border-2 border-gray-200 p-4">
                         <FilterByColorNew />
                     </div>
                     <div className="bg-gray-100 border-2 border-gray-200 p-4">
@@ -85,26 +88,21 @@ const SubBrandDefault = ({ brandId, brands, design }: any) => {
                 </div>
 
                 {/* filter side design finishes  */}
-
-                <div className="relative lg:col-span-7 col-span-9 ">
+                <div className="relative lg:col-span-7 col-span-9 space-y-2">
                     {/* Sort by bar start  */}
-
-                    <div>
-                        <Filter
-                            onChange={(e: any) => {
-                                dispatch(setSort(e.target.value));
-                                setPage(1);
-                            }}
-                            setGrid={setGrid}
-                            setOpen={setOpen}
-                            open={open}
-                        />
-                    </div>
+                    <Filter
+                        onChange={(e: any) => {
+                            dispatch(setSort(e.target.value));
+                            setPage(1);
+                        }}
+                        setGrid={setGrid}
+                        setOpen={setOpen}
+                        open={open}
+                    />
                     {/* All product card  */}
-
-                    <div className="mt-4 mb-6 ">
+                    <div className="">
                         <ProductSection
-                            catId={brandId}
+                            brandId={brandId}
                             open={open}
                             grid={grid}
                             paginate={paginate}
@@ -113,16 +111,14 @@ const SubBrandDefault = ({ brandId, brands, design }: any) => {
                             isPagination={isPagination}
                             setPaginate={setPaginate}
                         />
-                        {isPagination && paginate?.total > 7 ? (
-                            <div className="my-5">
-                                <Pagination
-                                    paginate={paginate}
-                                    initialPage={page}
-                                    setPage={setPage}
-                                />
-                            </div>
-                        ) : null}
                     </div>
+                    {isPagination && paginate?.total > 7 ? (
+                        <Pagination
+                            paginate={paginate}
+                            initialPage={page}
+                            setPage={setPage}
+                        />
+                    ) : null}
                 </div>
             </div>
         </div>
@@ -134,7 +130,7 @@ export default SubBrandDefault;
 const ProductSection = ({
     grid,
     open,
-    catId,
+    brandId,
     page,
     setPage,
     paginate,
@@ -149,13 +145,13 @@ const ProductSection = ({
     const [infiniteProducts, setInfiniteProducts] = useState<any[]>([]);
 
     const {
-        data: categoryPageProductsData,
-        isLoading: categoryPageProductsLoading,
-        isFetching: categoryPageProductsFetching,
-        isError: categoryPageProductsError,
-        isSuccess: categoryPageProductsSuccess,
-        refetch: categoryPageProductsRefetch,
-    } = useGetCategoryPageProductsQuery({ catId, page, filtersData });
+        data: brandPageProductsData,
+        isLoading: brandPageProductsLoading,
+        isFetching: brandPageProductsFetching,
+        isError: brandPageProductsError,
+        isSuccess: brandPageProductsSuccess,
+        refetch: brandPageProductsRefetch,
+    } = useGetBrandPageProductsQuery({ brandId, page, filtersData });
 
     const nextPageFetch = () => {
         setPage((prevPage: number) => prevPage + 1);
@@ -165,8 +161,8 @@ const ProductSection = ({
     const category = categoryStore?.categories || [];
 
     useEffect(() => {
-        categoryPageProductsRefetch();
-    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
+        brandPageProductsRefetch();
+    }, [page, activeColor, priceValue, brandId, brandPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -175,18 +171,18 @@ const ProductSection = ({
     }, [activeColor, priceValue, setPage]);
 
     useEffect(() => {
-        if (categoryPageProductsSuccess) {
-            const productsData = categoryPageProductsData?.data?.products || [];
+        if (brandPageProductsSuccess) {
+            const productsData = brandPageProductsData?.data?.products || [];
             const paginationData =
-                categoryPageProductsData?.data?.pagination || {};
+                brandPageProductsData?.data?.pagination || {};
 
             setPaginate(paginationData);
             setProducts(productsData);
         }
     }, [
-        categoryPageProductsData,
-        categoryPageProductsSuccess,
-        categoryPageProductsFetching,
+        brandPageProductsData,
+        brandPageProductsSuccess,
+        brandPageProductsFetching,
         page,
         setPaginate,
     ]);
@@ -211,7 +207,7 @@ const ProductSection = ({
     return (
         <>
             {open && (
-                <div className="py-4 px-10 border-[1px] ">
+                <div className="py-4 px-10 border-[1px]">
                     <div className="text-lg font-medium py-3 flex flex-col gap-2">
                         <h1>Categories</h1>
                         <p className="h-[1px] w-14 bg-black"></p>
@@ -227,8 +223,8 @@ const ProductSection = ({
             {/* show loading */}
             <div className="col-span-12 lg:col-span-9">
                 {isPagination &&
-                ((categoryPageProductsLoading && !categoryPageProductsError) ||
-                    categoryPageProductsFetching)
+                ((brandPageProductsLoading && !brandPageProductsError) ||
+                    brandPageProductsFetching)
                     ? Array.from({ length: 8 })?.map((_, index) => (
                           <Skeleton key={index} />
                       ))
@@ -244,13 +240,13 @@ const ProductSection = ({
                         hasMore={paginate?.has_more_pages}
                         loader={
                             paginate?.has_more_pages ||
-                            categoryPageProductsFetching ||
-                            (categoryPageProductsLoading && <InfiniteLoader />)
+                            brandPageProductsFetching ||
+                            (brandPageProductsLoading && <InfiniteLoader />)
                         }
                         endMessage={
                             paginate?.has_more_pages ||
-                            categoryPageProductsFetching ||
-                            categoryPageProductsLoading ? (
+                            brandPageProductsFetching ||
+                            brandPageProductsLoading ? (
                                 <InfiniteLoader />
                             ) : (
                                 <NotFoundMsg message={'No More Products'} />
@@ -258,7 +254,7 @@ const ProductSection = ({
                         }
                     >
                         {grid === 'H' && (
-                            <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 xl:grid-cols-4 md:gap-5 grid-cols-2 gap-2 mt-10">
+                            <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 xl:grid-cols-4 md:gap-5 grid-cols-2 gap-2 mb-6">
                                 {infiniteProducts?.map(
                                     (item: any, key: number) => (
                                         <motion.div
@@ -276,9 +272,10 @@ const ProductSection = ({
                                 )}
                             </div>
                         )}
+
                         <AnimatePresence>
                             {grid === 'V' && (
-                                <div className="grid grid-cols-1 lg:gap-5 md:gap-5 gap-2 mt-10">
+                                <div className="grid grid-cols-1 lg:gap-5 md:gap-5 gap-2 mb-6">
                                     {infiniteProducts?.map(
                                         (item: any, key: number) => (
                                             <motion.div
@@ -304,7 +301,7 @@ const ProductSection = ({
             ) : (
                 <div>
                     {grid === 'H' && (
-                        <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 xl:grid-cols-4 md:gap-5 grid-cols-2 gap-2 mt-10">
+                        <div className="grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 xl:grid-cols-4 md:gap-5 grid-cols-2 gap-2 mb-6">
                             {products?.map((item: any, key: number) => (
                                 <motion.div
                                     key={key}
@@ -322,7 +319,7 @@ const ProductSection = ({
                     )}
                     <AnimatePresence>
                         {grid === 'V' && (
-                            <div className="grid grid-cols-1 lg:gap-5 md:gap-5 gap-2 mt-10">
+                            <div className="grid grid-cols-1 lg:gap-5 md:gap-5 gap-2 mb-6">
                                 {products?.map((item: any, key: number) => (
                                     <motion.div
                                         key={key}
@@ -350,7 +347,7 @@ const ProductSection = ({
 const Filter = ({ onChange, setGrid, setOpen, open }: any) => {
     return (
         <div>
-            <div className="md:flex md:flex-row justify-between md:mt-6 items-center ">
+            <div className="md:flex md:flex-row justify-between items-center">
                 <div className="md:block hidden">
                     <p>Sort By:</p>
                 </div>

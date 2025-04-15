@@ -22,10 +22,14 @@ import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import { useRouter } from 'next/navigation';
 import SideMenu from './side-menu';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-const HeaderSeventeen = ({ headersetting, design, menu, cartList }: any) => {
+const HeaderSeventeen = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
+
+    const { cartList } = useSelector((state: RootState) => state?.cart);
 
     const [open, setOpen] = useState(false);
     const [searchTxt, setSearch] = useState('');

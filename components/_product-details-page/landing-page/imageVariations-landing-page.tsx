@@ -28,7 +28,7 @@ export const ColorsOnly = ({ color, setColor, variant, setActiveImg }: any) => {
         <>
             {variant?.length > 0 && (
                 <div className="">
-                    <h3 className="font-sans mb-2">
+                    <h3 className="font-sans text-xl mb-2">
                         Colors
                     </h3>
                     <div className="flex flex-wrap gap-2">

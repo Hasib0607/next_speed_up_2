@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
+import FilterByBrandNew from './components/filter-by-brand-new';
 
 const CategoryTwentyThree = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -45,10 +46,10 @@ const CategoryTwentyThree = ({ catId, store_id, design }: any) => {
     const isPagination = numberParser(paginationModule?.status) === 1;
 
     const styleCss = `
-    .grid-active {
-      color:  ${design?.header_color};
-      border: 1px solid ${design?.header_color};
-    }
+        .grid-active {
+        color:  ${design?.header_color};
+        border: 1px solid ${design?.header_color};
+        }
     `;
 
     return (
@@ -70,7 +71,9 @@ const CategoryTwentyThree = ({ catId, store_id, design }: any) => {
                                 />
                             ))}
                         </div>
-
+                        <div className="lg:my-5 lg:shadow-2xl p-4 lg:rounded-xl lg:bg-white">
+                            <FilterByBrandNew />
+                        </div>
                         <div className="lg:my-5 lg:shadow-2xl p-4 lg:rounded-xl lg:bg-white">
                             <FilterByColorNew />
                         </div>

@@ -1,18 +1,23 @@
-export const getQueryString = (
-    filtersData: any,
-) => {
+export const getQueryString = (filtersData: any) => {
     let queryString = '';
-    
+
     if (filtersData) {
         const {
             color: activeColor,
             price: priceValue,
+            activeBrands,
             sort,
         } = filtersData || {};
-        if (activeColor || priceValue || sort) {
+
+        const activeBrandIdList = activeBrands
+            ?.map((item: any) => item.id)
+            .join(',');
+
+        if (activeColor || priceValue || sort || activeBrandIdList) {
             queryString = setQueryString(
                 activeColor,
                 priceValue,
+                activeBrandIdList,
                 sort
             );
         }
@@ -23,12 +28,17 @@ export const getQueryString = (
 export const setQueryString = (
     activeColor: any,
     priceValue: any,
+    activeBrandIdList: any,
     sort: any
 ) => {
     let queryString = '';
 
     const encodedColor = encodeURIComponent(activeColor);
-    if (activeColor) {
+
+    if (activeBrandIdList && activeBrandIdList != '') {
+        queryString += `&brandFilter=${activeBrandIdList}`;
+    }
+    if (activeColor && activeColor != '') {
         queryString += `&colorFilter=${encodedColor}`;
     }
     if (priceValue && priceValue != '0') {

@@ -1,4 +1,5 @@
 'use client';
+import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import Card32 from '@/components/card/card32';
@@ -157,6 +158,9 @@ const Fourteen = ({ design, store_id }: any) => {
                             {category?.map((item: any) => (
                                 <SingleCat key={item?.id} item={item} />
                             ))}
+                        </div>
+                        <div className="bg-gray-100 border-2 border-gray-200 p-4">
+                            <FilterByBrandNew />
                         </div>
                         <div className="bg-gray-100 border-2 border-gray-200 my-6 p-4">
                             <FilterByColorNew />

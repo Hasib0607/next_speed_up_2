@@ -14,7 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getValueByKey } from '@/components/_checkout-page/_components/customLang';
 import {
@@ -27,6 +27,7 @@ import { getUserDataFromCookies } from '@/app/actions';
 import { usePathname } from 'next/navigation';
 import { generateDynamicSchema, showfieldByKey } from '@/lib/schema';
 import { FormValues } from '@/types';
+import { RootState } from '@/redux/store';
 
 const CheckoutFrom = ({
     design,
