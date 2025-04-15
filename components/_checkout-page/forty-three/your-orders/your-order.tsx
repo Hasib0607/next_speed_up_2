@@ -11,20 +11,16 @@ import Link from 'next/link';
 
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { AppDispatch, RootState } from '@/redux/store';
-import { grandTotal, subTotal } from '@/utils/_cart-utils/cart-utils';
+import { subTotal } from '@/utils/_cart-utils/cart-utils';
 import { useEffect, useMemo, useState } from 'react';
-import { MdDelete } from 'react-icons/md';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 
 // Helper function to conditionally select a value
 import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
 import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
-import { TWENTY_EIGHT } from '@/consts';
 import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
-import { setCouponResult } from '@/redux/features/filters/couponSlice';
 import { handlePlaceOrder } from '@/components/_checkout-page/_components/handlePlaceOrder';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 import {
@@ -32,15 +28,16 @@ import {
     setGrandTotal,
     setPurchaseList,
 } from '@/redux/features/purchase/purchaseSlice';
+import { handleCouponRemove } from '@/helpers/handleCouponRemove';
 
 const YourOrders = ({
     design,
     appStore,
     headersetting,
-    couponDis,
-    setCouponDis,
     selectAddress,
-    shippingArea,
+    gTotal,
+    totalDis,
+    tax,
 }: any) => {
     const store_id = appStore?.id || null;
     const isAuthenticated = useAuth();
@@ -49,7 +46,6 @@ const YourOrders = ({
 
     const [isAbleToOrder, setIsAbleToOrder] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [tax, setTax] = useState<any>(0);
     const [isOpen, setIsOpen] = useState(false);
     const [files, setFiles] = useState([]);
     const [cartId, setCartId] = useState(null);
@@ -63,12 +59,34 @@ const YourOrders = ({
         phone: userPhone,
         email: userEmail,
         address: userAddress,
+        district: userDistrict,
+        phone_code: userPhoneCode,
     } = checkoutFromData || {};
+
+    const { districtArr, countryArr } = useSelector(
+        (state: RootState) => state?.checkout
+    );
+
+    const districts = useMemo(
+        () =>
+            districtArr?.find(
+                (item: any) => item?.id === numberParser(userDistrict)
+            ),
+        [districtArr, userDistrict]
+    );
+
+    const selectedCountry = useMemo(
+        () =>
+            countryArr?.find(
+                (item: any) => item?.telephonePrefix === userPhoneCode
+            ),
+        [countryArr, userPhoneCode]
+    );
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 
-    const { totalcampainOfferAmount } = useSelector(
-        (state: RootState) => state.campainOfferFilters
+    const { shippingAreaCost } = useSelector(
+        (state: RootState) => state.shippingAreaFilter
     );
 
     const { couponResult } = useSelector(
@@ -83,19 +101,7 @@ const YourOrders = ({
     const dispatch: AppDispatch = useAppDispatch();
     const total = subTotal(cartList);
     const smsCount = numberParser(headersetting?.total_sms);
-    const couponShow = setCouponShow(couponResult, total, shippingArea);
-    const totalDis = useMemo(
-        () => couponDis + totalcampainOfferAmount,
-        [couponDis, totalcampainOfferAmount]
-    );
-
-    const gTotal = grandTotal(total, tax, shippingArea, totalDis);
-
-    const handleCouponRemove = () => {
-        setCouponDis(0);
-        dispatch(setCouponResult({ code: null, code_status: false }));
-        toast.error('Coupon removed!');
-    };
+    const couponShow = setCouponShow(couponResult, total, shippingAreaCost);
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -176,12 +182,14 @@ const YourOrders = ({
                 selectAddress?.address,
                 isAuthenticated
             ),
+            country_code: selectedCountry?.countryCode,
+            phone_code: selectedCountry?.telephonePrefix,
             note: selectAddress?.note,
             district: selectAddress?.district?.bn_name,
             address_id: selectAddress?.id,
             payment_type: selectedPayment,
             subtotal: numberParser(total),
-            shipping: shippingArea,
+            shipping: shippingAreaCost,
             total: gTotal,
             discount: totalDis,
             tax,
@@ -200,12 +208,13 @@ const YourOrders = ({
             isAuthenticated,
             selectedPayment,
             total,
-            shippingArea,
+            shippingAreaCost,
             gTotal,
             totalDis,
             tax,
             couponResult,
             referral_code,
+            selectedCountry,
         ]
     );
 
@@ -220,7 +229,9 @@ const YourOrders = ({
     Object.entries({
         store_id,
         name: data.name,
-        phone: data.phone,
+        phone: data.phone_code + data.phone,
+        country_code: data.country_code,
+        phone_code: data.phone_code,
         email: data.email,
         address: data.address,
         note: data.note,
@@ -258,13 +269,6 @@ const YourOrders = ({
     };
 
     useEffect(() => {
-        if (headersetting?.tax) {
-            const tax = (numberParser(headersetting?.tax) / 100) * total;
-            setTax(tax);
-        }
-    }, [headersetting?.tax, total]);
-
-    useEffect(() => {
         if (
             data?.total &&
             data?.payment_type &&
@@ -278,13 +282,13 @@ const YourOrders = ({
         } else {
             setIsAbleToOrder(false);
         }
-        
     }, [data]);
 
     return (
-        <div
-        >
-            <h3 className="text-base text-black bg-[#FAEBD7] p-5 block md:hidden">Order Summary</h3>
+        <div>
+            <h3 className="text-base text-black bg-[#FAEBD7] p-5 block md:hidden">
+                Order Summary
+            </h3>
             {cartList ? (
                 <div className="my-5">
                     <div className="flex flex-col justify-between pt-5">
@@ -320,17 +324,13 @@ const YourOrders = ({
                 style={{ fontWeight: 500 }}
             >
                 <div className="flex justify-between items-center">
-                    <p>
-                        {'Sub Total'}
-                    </p>
+                    <p>{'Sub Total'}</p>
                     <p>
                         <BDT price={numberParser(total)} />
                     </p>
                 </div>
                 <div className="flex justify-between items-center">
-                    <p>
-                        {'Discount'}
-                    </p>
+                    <p>{'Discount'}</p>
                     <p>
                         <BDT price={totalDis} />
                     </p>
@@ -346,7 +346,7 @@ const YourOrders = ({
                             {couponResult?.code}
                             <CrossCircledIcon
                                 className="absolute -top-3 -right-3 text-red-400 size-5"
-                                onClick={handleCouponRemove}
+                                onClick={() => handleCouponRemove(dispatch)}
                             />
                             <span className="sr-only">Remove badge</span>
                         </button>
@@ -354,32 +354,20 @@ const YourOrders = ({
                 )}
 
                 <div className="flex justify-between items-center">
-                    <p>
-                        {'Tax'}
-                    </p>
+                    <p>{'Tax'}</p>
                     <p>
                         <BDT price={numberParser(tax)} />
                     </p>
                 </div>
                 <div className="flex justify-between items-center">
+                    <p>{'Estimated Shipping'}</p>
+
                     <p>
-                        {'Estimated Shipping'}
+                        <BDT price={shippingAreaCost ?? 0} />
                     </p>
-                    {shippingArea === '--Select Area--' ||
-                    shippingArea === null ? (
-                        <p>
-                            <BDT /> 0
-                        </p>
-                    ) : (
-                        <p>
-                            <BDT price={shippingArea ? shippingArea : 0} />
-                        </p>
-                    )}
                 </div>
                 <div className="flex justify-between items-center font-semibold mt-4">
-                    <p>
-                        {'Total'}
-                    </p>
+                    <p>{'Total'}</p>
 
                     <p>
                         <BDT price={gTotal} />

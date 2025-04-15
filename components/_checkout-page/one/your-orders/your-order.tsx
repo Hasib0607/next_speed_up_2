@@ -12,16 +12,16 @@ import useAuth from '@/hooks/useAuth';
 import Link from 'next/link';
 
 import {
+    getCampainOfferDeliveryFee,
     handleDecrement,
     handleIncrement,
 } from '@/utils/_cart-utils/cart-utils';
 
 import { AppDispatch, RootState } from '@/redux/store';
-import { grandTotal, subTotal } from '@/utils/_cart-utils/cart-utils';
+import { subTotal } from '@/utils/_cart-utils/cart-utils';
 import { useEffect, useMemo, useState } from 'react';
 import { handlePlaceOrder } from '@/components/_checkout-page/_components/handlePlaceOrder';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import PaymentGateway from '../payment-gateway/payment-gateway';
 
 // Helper function to conditionally select a value
@@ -29,23 +29,28 @@ import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
 import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { TWENTY_EIGHT } from '@/consts';
-import { howMuchSave } from '@/helpers/littleSpicy';
+import { getShippingCostByAreaId, howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
-import { setCouponResult } from '@/redux/features/filters/couponSlice';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 import {
     setCustomer,
     setGrandTotal,
     setPurchaseList,
 } from '@/redux/features/purchase/purchaseSlice';
+import { handleCouponRemove } from '@/helpers/handleCouponRemove';
+import {
+    setSelectedShippingArea,
+    setShippingAreaCost,
+} from '@/redux/features/filters/shippingAreaFilterSlice';
 
 const YourOrders = ({
     design,
     appStore,
     headersetting,
-    couponDis,
-    setCouponDis,
     selectAddress,
+    gTotal,
+    totalDis,
+    tax,
 }: any) => {
     const store_id = appStore?.id || null;
     const isAuthenticated = useAuth();
@@ -54,11 +59,9 @@ const YourOrders = ({
 
     const [isAbleToOrder, setIsAbleToOrder] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [tax, setTax] = useState<any>(0);
     const [isOpen, setIsOpen] = useState(false);
     const [files, setFiles] = useState([]);
     const [cartId, setCartId] = useState(null);
-    const [shippingAreaCost, setShippingArea] = useState(null);
 
     const { checkoutFromData } = useSelector(
         (state: RootState) => state.checkout
@@ -95,8 +98,8 @@ const YourOrders = ({
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 
-    const { totalcampainOfferAmount } = useSelector(
-        (state: RootState) => state.campainOfferFilters
+    const { shippingAreaCost, selectedShippingArea } = useSelector(
+        (state: RootState) => state.shippingAreaFilter
     );
 
     const { couponResult } = useSelector(
@@ -107,23 +110,16 @@ const YourOrders = ({
         (state: RootState) => state.paymentFilter.paymentMethod
     );
 
+    const isDeliveryOfferExitsInCart = useMemo(
+        () => getCampainOfferDeliveryFee(cartList, selectedShippingArea),
+        [cartList, selectedShippingArea]
+    );
+
     const formData = new FormData();
     const dispatch: AppDispatch = useAppDispatch();
     const total = subTotal(cartList);
     const smsCount = numberParser(headersetting?.total_sms);
     const couponShow = setCouponShow(couponResult, total, shippingAreaCost);
-    const totalDis = useMemo(
-        () => couponDis + totalcampainOfferAmount,
-        [couponDis, totalcampainOfferAmount]
-    );
-
-    const gTotal = grandTotal(total, tax, shippingAreaCost, totalDis);
-
-    const handleCouponRemove = () => {
-        setCouponDis(0);
-        dispatch(setCouponResult({ code: null, code_status: false }));
-        toast.error('Coupon removed!');
-    };
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -243,7 +239,7 @@ const YourOrders = ({
             couponResult,
             referral_code,
             districts,
-            selectedCountry
+            selectedCountry,
         ]
     );
 
@@ -297,23 +293,31 @@ const YourOrders = ({
         );
     };
 
-    useEffect(() => {
-        if (headersetting?.tax) {
-            const tax = (numberParser(headersetting?.tax) / 100) * total;
-            setTax(tax);
-        }
-    }, [headersetting?.tax, total]);
-
     // shippingCost by district
     useEffect(() => {
-        if (data?.district_id && data?.district_id === 1) {
-            setShippingArea(headersetting?.shipping_area_1_cost);
-        } else if (data?.district_id) {
-            setShippingArea(headersetting?.shipping_area_2_cost);
-        } else {
-            setShippingArea(null);
+        const selectedCost = getShippingCostByAreaId(
+            selectedShippingArea,
+            headersetting
+        );
+
+        if (!isDeliveryOfferExitsInCart) {
+            dispatch(setShippingAreaCost(selectedCost));
         }
-    }, [data, headersetting]);
+
+        if (data?.district_id && data?.district_id === 1) {
+            dispatch(setSelectedShippingArea('1'));
+        } else if (data?.district_id) {
+            dispatch(setSelectedShippingArea('2'));
+        } else {
+            dispatch(setSelectedShippingArea(null));
+        }
+    }, [
+        data,
+        selectedShippingArea,
+        isDeliveryOfferExitsInCart,
+        dispatch,
+        headersetting,
+    ]);
 
     useEffect(() => {
         if (
@@ -414,7 +418,9 @@ const YourOrders = ({
                                     {couponResult?.code}
                                     <CrossCircledIcon
                                         className="absolute -top-3 -right-3 text-red-400 size-5"
-                                        onClick={handleCouponRemove}
+                                        onClick={() =>
+                                            handleCouponRemove(dispatch)
+                                        }
                                     />
                                     <span className="sr-only">
                                         Remove badge
@@ -445,15 +451,10 @@ const YourOrders = ({
                             ? 'এস্টিমেটেড শিপিং'
                             : 'Estimated Shipping'}
                     </p>
-                    {shippingAreaCost === null ? (
-                        <p>
-                            <BDT /> 0
-                        </p>
-                    ) : (
-                        <p>
-                            <BDT price={shippingAreaCost} />
-                        </p>
-                    )}
+
+                    <p>
+                        <BDT price={shippingAreaCost ?? 0} />
+                    </p>
                 </div>
                 <hr className="border-dashed border border-gray-300 my-2 w-full mx-auto" />
                 <div className="flex justify-between items-center  font-semibold">

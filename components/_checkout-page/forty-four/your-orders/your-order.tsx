@@ -14,23 +14,26 @@ import Link from 'next/link';
 
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { AppDispatch, RootState } from '@/redux/store';
-import { subTotal } from '@/utils/_cart-utils/cart-utils';
+import {
+    getCampainOfferDeliveryFee,
+    subTotal,
+} from '@/utils/_cart-utils/cart-utils';
 
 import { useEffect, useMemo, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { handlePlaceOrder } from '@/components/_checkout-page/_components/handlePlaceOrder';
+
 // Helper function to conditionally select a value
 import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
 import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
-import { getVariantDetailsById, howMuchSave } from '@/helpers/littleSpicy';
-import { setCouponShow } from '@/helpers/setDiscount';
 import {
-    setCouponDiscount,
-    setCouponResult,
-} from '@/redux/features/filters/couponSlice';
+    getShippingCostByAreaId,
+    getVariantDetailsById,
+    howMuchSave,
+} from '@/helpers/littleSpicy';
+import { setCouponShow } from '@/helpers/setDiscount';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 import {
     setCustomer,
@@ -38,7 +41,11 @@ import {
     setPurchaseList,
 } from '@/redux/features/purchase/purchaseSlice';
 import Image from 'next/image';
-import { setShippingAreaCost } from '@/redux/features/filters/shippingAreaFilterSlice';
+import {
+    setSelectedShippingArea,
+    setShippingAreaCost,
+} from '@/redux/features/filters/shippingAreaFilterSlice';
+import { handleCouponRemove } from '@/helpers/handleCouponRemove';
 
 const YourOrders = ({
     design,
@@ -73,10 +80,12 @@ const YourOrders = ({
         email: userEmail,
         address: userAddress,
         district: userDistrict,
-        phoneCode: userPhoneCode
+        phoneCode: userPhoneCode,
     } = checkoutFromData || {};
 
-    const { districtArr,countryArr } = useSelector((state: RootState) => state?.checkout);
+    const { districtArr, countryArr } = useSelector(
+        (state: RootState) => state?.checkout
+    );
 
     const districts = useMemo(
         () =>
@@ -94,12 +103,11 @@ const YourOrders = ({
         [countryArr, userPhoneCode]
     );
 
-    console.log("selectedCountry",selectedCountry);
-    
+    // console.log("selectedCountry",selectedCountry);
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 
-    const { shippingAreaCost } = useSelector(
+    const { shippingAreaCost, selectedShippingArea } = useSelector(
         (state: RootState) => state.shippingAreaFilter
     );
 
@@ -111,17 +119,16 @@ const YourOrders = ({
         (state: RootState) => state.paymentFilter.paymentMethod
     );
 
+    const isDeliveryOfferExitsInCart = useMemo(
+        () => getCampainOfferDeliveryFee(cartList, selectedShippingArea),
+        [cartList, selectedShippingArea]
+    );
+
     const formData = new FormData();
     const dispatch: AppDispatch = useAppDispatch();
     const total = subTotal(cartList);
     const smsCount = numberParser(headersetting?.total_sms);
     const couponShow = setCouponShow(couponResult, total, shippingAreaCost);
-
-    const handleCouponRemove = () => {
-        dispatch(setCouponDiscount(0));
-        dispatch(setCouponResult({ code: null, code_status: false }));
-        toast.error('Coupon removed!');
-    };
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -217,6 +224,8 @@ const YourOrders = ({
                 selectAddress?.district?.bn_name,
                 isAuthenticated
             ),
+            country_code: selectedCountry?.countryCode,
+            phone_code: selectedCountry?.telephonePrefix,
             district_id: selectAddress?.district_id || districts?.id,
             address_id: selectAddress?.id,
             start_date: checkoutBookingFromData?.start_date,
@@ -255,6 +264,7 @@ const YourOrders = ({
             checkoutBookingFromData,
             bookingStatus,
             districts,
+            selectedCountry,
         ]
     );
 
@@ -269,7 +279,9 @@ const YourOrders = ({
     Object.entries({
         store_id,
         name: data.name,
-        phone: data.phone,
+        phone: data.phone_code + data.phone,
+        country_code: data.country_code,
+        phone_code: data.phone_code,
         email: data.email,
         address: data.address,
         note: data.note,
@@ -314,14 +326,29 @@ const YourOrders = ({
 
     // shippingCost by district
     useEffect(() => {
-        if (data?.district_id && data?.district_id === 1) {
-            dispatch(setShippingAreaCost(headersetting?.shipping_area_1_cost));
-        } else if (data?.district_id) {
-            dispatch(setShippingAreaCost(headersetting?.shipping_area_2_cost));
-        } else {
-            dispatch(setShippingAreaCost(null));
+        const selectedCost = getShippingCostByAreaId(
+            selectedShippingArea,
+            headersetting
+        );
+
+        if (!isDeliveryOfferExitsInCart) {
+            dispatch(setShippingAreaCost(selectedCost));
         }
-    }, [data, dispatch, headersetting]);
+
+        if (data?.district_id && data?.district_id === 1) {
+            dispatch(setSelectedShippingArea('1'));
+        } else if (data?.district_id) {
+            dispatch(setSelectedShippingArea('2'));
+        } else {
+            dispatch(setSelectedShippingArea(null));
+        }
+    }, [
+        data,
+        selectedShippingArea,
+        isDeliveryOfferExitsInCart,
+        dispatch,
+        headersetting,
+    ]);
 
     useEffect(() => {
         if (
@@ -419,7 +446,7 @@ const YourOrders = ({
                             {couponResult?.code}
                             <CrossCircledIcon
                                 className="absolute -top-3 -right-3 text-red-400 size-5"
-                                onClick={handleCouponRemove}
+                                onClick={() => handleCouponRemove(dispatch)}
                             />
                             <span className="sr-only">Remove badge</span>
                         </button>

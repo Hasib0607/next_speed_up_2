@@ -7,22 +7,27 @@ import {
 import { AppDispatch, RootState } from '@/redux/store';
 import { numberParser } from '@/helpers/numberParser';
 import { btnhover } from '@/site-settings/style';
-import { subTotal } from '@/utils/_cart-utils/cart-utils';
-import { useEffect, useState } from 'react';
+import {
+    getCampainOfferDeliveryFee,
+    subTotal,
+} from '@/utils/_cart-utils/cart-utils';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { setDiscount } from '@/helpers/setDiscount';
-import { setSelectedShippingArea } from '@/redux/features/filters/shippingAreaFilterSlice';
+import {
+    setSelectedShippingArea,
+    setShippingAreaCost,
+} from '@/redux/features/filters/shippingAreaFilterSlice';
+import { setCouponDiscount } from '@/redux/features/filters/couponSlice';
+import { getShippingCostByAreaId } from '@/helpers/littleSpicy';
 
 const DiscountSeven = ({
     design,
     appStore,
     headersetting,
-    setCouponDis,
-    shippingArea,
-    setShippingArea,
     bookingStatus,
     className,
 }: any) => {
@@ -40,11 +45,13 @@ const DiscountSeven = ({
     const selectedPayment = useSelector(
         (state: RootState) => state.paymentFilter.paymentMethod
     );
-    const { selectedShippingArea } = useSelector(
+
+    const { selectedShippingArea, shippingAreaCost } = useSelector(
         (state: RootState) => state.shippingAreaFilter
     );
-    const sTotal = subTotal(cartList);
-    const total = numberParser(sTotal);
+
+    const sTotal = useMemo(() => subTotal(cartList), [cartList]);
+    const total = useMemo(() => numberParser(sTotal), [sTotal]);
 
     const [loading, setLoading] = useState(false);
     const [couponAvailable, setCouponAvailable] = useState(false);
@@ -55,6 +62,11 @@ const DiscountSeven = ({
         isSuccess: couponSuccess,
         refetch: couponRefetch,
     } = useCheckCouponAvailabilityQuery({ store_id });
+
+    const isDeliveryOfferExitsInCart = useMemo(
+        () => getCampainOfferDeliveryFee(cartList, selectedShippingArea),
+        [cartList, selectedShippingArea]
+    );
 
     const onSubmit = ({ coupon_code }: any) => {
         setLoading(true);
@@ -78,9 +90,9 @@ const DiscountSeven = ({
                         const result = setDiscount(
                             couponValidation,
                             total,
-                            shippingArea
+                            selectedShippingArea
                         );
-                        setCouponDis(result);
+                        dispatch(setCouponDiscount(result));
                         toast.success(
                             'Successfully Applied Coupon',
                             couponValidation?.id
@@ -92,26 +104,21 @@ const DiscountSeven = ({
                 .catch((couponValidationError: any) => {
                     const { status } = couponValidationError || {};
                     if (status == 404) {
-                        setCouponDis(0);
+                        dispatch(setCouponDiscount(0));
                         setLoading(false);
                     }
                 });
         }
     };
 
-    const getCostByAreaId = (id: string): number | null => {
-        if (id === '1') return headersetting?.shipping_area_1_cost;
-        if (id === '2') return headersetting?.shipping_area_2_cost;
-        if (id === '3') return headersetting?.shipping_area_3_cost;
-        return null;
-    };
-
-    const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleShippingSelectChange = (
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
         const areaId = e.target.value;
-        const selectedCost = getCostByAreaId(areaId);
+        const selectedCost = getShippingCostByAreaId(areaId, headersetting);
         if (areaId) {
             dispatch(setSelectedShippingArea(areaId));
-            setShippingArea(selectedCost);
+            dispatch(setShippingAreaCost(selectedCost));
         }
     };
 
@@ -122,15 +129,34 @@ const DiscountSeven = ({
             );
             const initialAreaCost =
                 headersetting?.[
-                    `shipping_area_${headersetting.selected_shipping_area}_cost`
+                    `shipping_area_${headersetting?.selected_shipping_area}_cost`
                 ];
-            if (initialAreaCost) {
-                setShippingArea(initialAreaCost);
+
+            if (initialAreaCost >= 0) {
+                dispatch(setShippingAreaCost(initialAreaCost));
             }
         } else {
             dispatch(setSelectedShippingArea(null));
         }
-    }, [headersetting, setShippingArea, dispatch]);
+    }, [headersetting, dispatch]);
+
+    useEffect(() => {
+        const selectedCost = getShippingCostByAreaId(
+            selectedShippingArea,
+            headersetting
+        );
+
+        if (isDeliveryOfferExitsInCart) {
+            dispatch(setShippingAreaCost(0));
+        } else {
+            dispatch(setShippingAreaCost(selectedCost));
+        }
+    }, [
+        headersetting,
+        isDeliveryOfferExitsInCart,
+        selectedShippingArea,
+        dispatch,
+    ]);
 
     // set auto coupon
     useEffect(() => {
@@ -153,24 +179,23 @@ const DiscountSeven = ({
                         const result = setDiscount(
                             autoCouponValidation,
                             total,
-                            shippingArea
+                            shippingAreaCost
                         );
-                        setCouponDis(result);
+                        dispatch(setCouponDiscount(result));
                     }
                 })
                 .catch((couponAutoValidationError: any) => {
                     const { status } = couponAutoValidationError || {};
                     if (status == 404) {
-                        setCouponDis(0);
+                        dispatch(setCouponDiscount(0));
                     }
                 });
         }
     }, [
-        setCouponDis,
         dispatch,
         store_id,
         total,
-        shippingArea,
+        shippingAreaCost,
         selectedShippingArea,
         selectedPayment,
     ]);
@@ -204,7 +229,9 @@ const DiscountSeven = ({
                             <select
                                 id="shippingArea"
                                 name="shippingArea"
-                                onChange={(e: any) => handleShippingChange(e)}
+                                onChange={(e: any) =>
+                                    handleShippingSelectChange(e)
+                                }
                                 value={selectedShippingArea || ''}
                                 className="mt-1 block sm:w-full w-36 py-2 font-semibold border capitalize border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                             >

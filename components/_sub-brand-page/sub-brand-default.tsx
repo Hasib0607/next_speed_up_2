@@ -21,7 +21,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from '../_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '../_category-page/components/filter-by-price-new';
-import FilterByBrandNew from '../_category-page/components/filter-by-brand-new';
 
 const SubBrandDefault = ({ brandId, brands, design }: any) => {
     const store_id = numberParser(design?.store_id) || null;
