@@ -125,11 +125,11 @@ const HeroSeventeen = ({ slider, design }: any) => {
                         className="mySwiper relative"
                     >
                         {slider?.map((s: any) => (
-                            <SwiperSlide key={s.id} className="rounded-lg">
+                            <SwiperSlide key={s?.id} className="rounded-lg">
                                 <a href={s?.link}>
                                     <img
                                         className="min-w-full h-auto"
-                                        src={sliderImg + s.image}
+                                        src={sliderImg + s?.image}
                                         alt=""
                                     />
                                 </a>

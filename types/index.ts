@@ -1,4 +1,6 @@
 // define types
+export type AuthType = 'phone' | 'EasyOrder' | 'email' | 'EmailEasyOrder';
+
 export type VercelGeo = {
     city?: string;
     country?: string;
