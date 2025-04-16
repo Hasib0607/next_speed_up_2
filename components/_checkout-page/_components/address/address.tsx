@@ -120,7 +120,7 @@ const Address = ({
                         >
                             Addresses{' '}
                             {isAuthenticated && addressArr?.length > 0 && (
-                                <span className="text-xs md:text-sm text-red-500">
+                                selectAddress === null && <span className="text-xs md:text-sm text-red-500">
                                     (Please Select Your Address.)
                                 </span>
                             )}

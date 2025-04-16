@@ -7,19 +7,19 @@ import {
 import { AppDispatch, RootState } from '@/redux/store';
 import { numberParser } from '@/helpers/numberParser';
 import { btnhover } from '@/site-settings/style';
-import { subTotal } from '@/utils/_cart-utils/cart-utils';
-import { useEffect, useState } from 'react';
+import { getCampainOfferDeliveryFee, subTotal } from '@/utils/_cart-utils/cart-utils';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { setDiscount } from '@/helpers/setDiscount';
-import { classNames } from '@/helpers/littleSpicy';
+import { classNames, getShippingCostByAreaId } from '@/helpers/littleSpicy';
 import { setCouponDiscount } from '@/redux/features/filters/couponSlice';
+import { setShippingAreaCost } from '@/redux/features/filters/shippingAreaFilterSlice';
 
 const DiscountFortyFour = ({
-    appStore,
-    shippingArea,
+    headersetting,
     className,
 }: any) => {
     const {
@@ -30,13 +30,14 @@ const DiscountFortyFour = ({
     } = useForm();
 
     const dispatch: AppDispatch = useDispatch();
-    const store_id = appStore?.id || null;
+    const store_id = headersetting?.store_id || null;
 
     const cartList = useSelector((state: RootState) => state.cart.cartList);
     const selectedPayment = useSelector(
         (state: RootState) => state.paymentFilter.paymentMethod
     );
-    const { selectedShippingArea } = useSelector(
+
+    const { selectedShippingArea,shippingAreaCost } = useSelector(
         (state: RootState) => state.shippingAreaFilter
     );
     const sTotal = subTotal(cartList);
@@ -51,6 +52,11 @@ const DiscountFortyFour = ({
         isSuccess: couponSuccess,
         refetch: couponRefetch,
     } = useCheckCouponAvailabilityQuery({ store_id });
+
+     const isDeliveryOfferExitsInCart = useMemo(
+            () => getCampainOfferDeliveryFee(cartList, selectedShippingArea),
+            [cartList, selectedShippingArea]
+        );
 
     const onSubmit = ({ coupon_code }: any) => {
         setLoading(true);
@@ -74,7 +80,7 @@ const DiscountFortyFour = ({
                         const result = setDiscount(
                             couponValidation,
                             total,
-                            shippingArea
+                            shippingAreaCost
                         );
                         dispatch(setCouponDiscount(result));
                         toast.success(
@@ -94,6 +100,24 @@ const DiscountFortyFour = ({
                 });
         }
     };
+
+     useEffect(() => {
+            const selectedCost = getShippingCostByAreaId(
+                selectedShippingArea,
+                headersetting
+            );
+    
+            if (isDeliveryOfferExitsInCart) {
+                dispatch(setShippingAreaCost(0));
+            } else {
+                dispatch(setShippingAreaCost(selectedCost));
+            }
+        }, [
+            headersetting,
+            isDeliveryOfferExitsInCart,
+            selectedShippingArea,
+            dispatch,
+        ]);
 
     // set auto coupon
     useEffect(() => {
@@ -116,9 +140,8 @@ const DiscountFortyFour = ({
                         const result = setDiscount(
                             autoCouponValidation,
                             total,
-                            shippingArea
+                            shippingAreaCost
                         );
-                        console.log("result",result);
                         
                         dispatch(setCouponDiscount(result));
                     }
@@ -134,7 +157,7 @@ const DiscountFortyFour = ({
         dispatch,
         store_id,
         total,
-        shippingArea,
+        shippingAreaCost,
         selectedShippingArea,
         selectedPayment,
     ]);

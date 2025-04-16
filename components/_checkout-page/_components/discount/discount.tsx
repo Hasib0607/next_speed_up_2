@@ -9,22 +9,30 @@ import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 import { AppDispatch, RootState } from '@/redux/store';
 import { numberParser } from '@/helpers/numberParser';
 import { btnhover } from '@/site-settings/style';
-import { subTotal } from '@/utils/_cart-utils/cart-utils';
-import { useEffect, useState } from 'react';
+import {
+    getCampainOfferDeliveryFee,
+    subTotal,
+} from '@/utils/_cart-utils/cart-utils';
+import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { setDiscount } from '@/helpers/setDiscount';
-import { setSelectedShippingArea } from '@/redux/features/filters/shippingAreaFilterSlice';
+import {
+    setSelectedShippingArea,
+    setShippingAreaCost,
+} from '@/redux/features/filters/shippingAreaFilterSlice';
+import {
+    getShippingAreaIdByCost,
+    getShippingCostByAreaId,
+} from '@/helpers/littleSpicy';
+import { setCouponDiscount } from '@/redux/features/filters/couponSlice';
 
 const Discount = ({
     design,
     appStore,
     headersetting,
-    setCouponDis,
-    shippingArea,
-    setShippingArea,
     shippingColOne,
     shippingOff,
     select,
@@ -44,15 +52,13 @@ const Discount = ({
     const selectedPayment = useSelector(
         (state: RootState) => state.paymentFilter.paymentMethod
     );
-    //
-    const { selectedShippingArea } = useSelector(
+
+    const { selectedShippingArea, shippingAreaCost } = useSelector(
         (state: RootState) => state.shippingAreaFilter
     );
-    // console.log('selectedShippingArea', selectedShippingArea);
-    // console.log('shippingArea', shippingArea);
 
-    const sTotal = subTotal(cartList);
-    const total = numberParser(sTotal);
+    const sTotal = useMemo(() => subTotal(cartList), [cartList]);
+    const total = useMemo(() => numberParser(sTotal), [sTotal]);
 
     const [loading, setLoading] = useState(false);
     const [couponAvailable, setCouponAvailable] = useState(false);
@@ -63,6 +69,11 @@ const Discount = ({
         isSuccess: couponSuccess,
         refetch: couponRefetch,
     } = useCheckCouponAvailabilityQuery({ store_id });
+
+    const isDeliveryOfferExitsInCart = useMemo(
+        () => getCampainOfferDeliveryFee(cartList, selectedShippingArea),
+        [cartList, selectedShippingArea]
+    );
 
     const onSubmit = ({ coupon_code }: any) => {
         setLoading(true);
@@ -86,9 +97,9 @@ const Discount = ({
                         const result = setDiscount(
                             couponValidation,
                             total,
-                            shippingArea
+                            selectedShippingArea
                         );
-                        setCouponDis(result);
+                        dispatch(setCouponDiscount(result));
                         toast.success(
                             'Successfully Applied Coupon',
                             couponValidation?.id
@@ -100,44 +111,30 @@ const Discount = ({
                 .catch((couponValidationError: any) => {
                     const { status } = couponValidationError || {};
                     if (status == 404) {
-                        setCouponDis(0);
+                        dispatch(setCouponDiscount(0));
                         setLoading(false);
                     }
                 });
         }
     };
 
-    const getAreaIdByCost = (cost: number): string | null => {
-        if (cost === headersetting?.shipping_area_1_cost) return '1';
-        if (cost === headersetting?.shipping_area_2_cost) return '2';
-        if (cost === headersetting?.shipping_area_3_cost) return '3';
-        return null;
-    };
-
-    const getCostByAreaId = (id: string): number | null => {
-        if (id === '1') return headersetting?.shipping_area_1_cost;
-        if (id === '2') return headersetting?.shipping_area_2_cost;
-        if (id === '3') return headersetting?.shipping_area_3_cost;
-        return null;
-    };
-
     const handleShippingSelectChange = (
         e: React.ChangeEvent<HTMLInputElement>
     ) => {
         const areaId = e.target.value;
-        const selectedCost = getCostByAreaId(areaId);
+        const selectedCost = getShippingCostByAreaId(areaId, headersetting);
         if (areaId) {
             dispatch(setSelectedShippingArea(areaId));
-            setShippingArea(selectedCost);
+            dispatch(setShippingAreaCost(selectedCost));
         }
     };
 
     const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedCost = numberParser(e.target.value);
-        const areaId = getAreaIdByCost(selectedCost);
+        const areaId = getShippingAreaIdByCost(selectedCost, headersetting);
         if (areaId) {
             dispatch(setSelectedShippingArea(areaId));
-            setShippingArea(selectedCost);
+            dispatch(setShippingAreaCost(selectedCost));
         }
     };
 
@@ -152,12 +149,30 @@ const Discount = ({
                 ];
 
             if (initialAreaCost >= 0) {
-                setShippingArea(initialAreaCost);
+                dispatch(setShippingAreaCost(initialAreaCost));
             }
         } else {
             dispatch(setSelectedShippingArea(null));
         }
-    }, [headersetting, setShippingArea, dispatch]);
+    }, [headersetting, dispatch]);
+
+    useEffect(() => {
+        const selectedCost = getShippingCostByAreaId(
+            selectedShippingArea,
+            headersetting
+        );
+
+        if (isDeliveryOfferExitsInCart) {
+            dispatch(setShippingAreaCost(0));
+        } else {
+            dispatch(setShippingAreaCost(selectedCost));
+        }
+    }, [
+        headersetting,
+        isDeliveryOfferExitsInCart,
+        selectedShippingArea,
+        dispatch,
+    ]);
 
     // set auto coupon
     useEffect(() => {
@@ -180,24 +195,23 @@ const Discount = ({
                         const result = setDiscount(
                             autoCouponValidation,
                             total,
-                            shippingArea
+                            shippingAreaCost
                         );
-                        setCouponDis(result);
+                        dispatch(setCouponDiscount(result));
                     }
                 })
                 .catch((couponAutoValidationError: any) => {
                     const { status } = couponAutoValidationError || {};
                     if (status == 404) {
-                        setCouponDis(0);
+                        dispatch(setCouponDiscount(0));
                     }
                 });
         }
     }, [
-        setCouponDis,
         dispatch,
         store_id,
         total,
-        shippingArea,
+        shippingAreaCost,
         selectedShippingArea,
         selectedPayment,
     ]);

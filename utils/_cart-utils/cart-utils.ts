@@ -138,7 +138,7 @@ export const getCampainOfferDeliveryFee = (
         return offer ?? false;
     });
 
-    console.log('campainOfferDiscountList', campainOfferDiscountList);
+    return campainOfferDiscountList.some(Boolean)
 };
 
 export const grandTotal = (

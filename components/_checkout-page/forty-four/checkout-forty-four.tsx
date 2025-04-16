@@ -1,110 +1,30 @@
 'use client';
 
-import { useGetBookingFormFieldsQuery } from '@/redux/features/checkOut/checkOutApi';
-
-import { useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import YourOrders from './your-orders/your-order';
-
-import { AppDispatch, RootState } from '@/redux/store';
 import BookingFrom from '@/components/BookingFrom';
-import {
-    grandTotal,
-    subTotal,
-    totalCampainOfferDiscount,
-} from '@/utils/_cart-utils/cart-utils';
-import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
-import {
-    useAppDispatch,
-    useAppSelector,
-} from '@/redux/features/rtkHooks/rtkHooks';
-import {
-    setGrandTotal,
-    setPurchaseList,
-} from '@/redux/features/purchase/purchaseSlice';
 import PriceBreakdown from './price-breakdown/price-breakdown';
-import { numberParser } from '@/helpers/numberParser';
 import AddressFortyFour from './address-forty-four/address-forty-four';
 import DiscountFortyFour from './discount-forty-four/discount-forty-four';
 import PaymentGatewayFortyFour from './payment-gateway-forty-four/payment-gateway-forty-four';
 import PaymentConditionsFortyFour from './payment-conditions-forty-four';
+import useCheckoutPageEntry from '@/hooks/useCheckoutPageEntry';
 
 const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
-    const store_id = appStore?.id || null;
-    const module_id = 108;
-    const dispatch: AppDispatch = useAppDispatch();
-    const { cartList } = useAppSelector((state: RootState) => state.cart);
-    const { shippingAreaCost } = useAppSelector(
-        (state: RootState) => state.shippingAreaFilter
-    );
-
-    const total = subTotal(cartList);
-    const {
-        data: userBookingFormFieldsData,
-        isLoading: userBookingFormFieldsLoading,
-        isSuccess: userBookingFormFieldsSuccess,
-    } = useGetBookingFormFieldsQuery({ store_id, module_id });
-
-    const [selectAddress, setSelectAddress] = useState(null);
-    const [bookingData, setBookingData] = useState<any>(null);
     const [checked, setChecked] = useState<boolean>(false);
-    const [tax, setTax] = useState<any>(0);
-    const [bookingStatus, setBookingStatus] = useState<boolean>(false);
+    const [selectAddress, setSelectAddress] = useState(null);
+    const {
+        tax,
+        total,
+        gTotal,
+        totalDis,
+        isCartEmpty,
+        bookingStatus,
+        bookingData,
+        userBookingFormFieldsLoading,
+    } = useCheckoutPageEntry(headersetting);
 
-    const cartTotalCampainOfferDiscountAmount = useMemo(
-        () => totalCampainOfferDiscount(cartList),
-        [cartList]
-    );
-
-    const { totalcampainOfferAmount } = useSelector(
-        (state: RootState) => state.campainOfferFilters
-    );
-
-    const { couponDiscount } = useSelector(
-        (state: RootState) => state.couponSlice
-    );
-
-    const totalDis = useMemo(
-        () => couponDiscount + totalcampainOfferAmount,
-        [couponDiscount, totalcampainOfferAmount]
-    );
-
-    const gTotal = grandTotal(total, tax, shippingAreaCost, totalDis);
-
-    useEffect(() => {
-        if (cartTotalCampainOfferDiscountAmount > 0) {
-            dispatch(
-                setTotalCampainOfferDis(cartTotalCampainOfferDiscountAmount)
-            );
-        } else {
-            dispatch(setTotalCampainOfferDis(0));
-        }
-    }, [cartTotalCampainOfferDiscountAmount, dispatch]);
-
-    useEffect(() => {
-        dispatch(setPurchaseList([]));
-        dispatch(setGrandTotal(0));
-    }, [dispatch]);
-
-    useEffect(() => {
-        if (headersetting?.tax) {
-            const tax = (numberParser(headersetting?.tax) / 100) * total;
-            setTax(tax);
-        }
-    }, [headersetting?.tax, total]);
-    
-
-    // Extracting data from db
-    useEffect(() => {
-        if (userBookingFormFieldsSuccess) {
-            const userBookingFormFields =
-                userBookingFormFieldsData?.data?.data || [];
-            setBookingData(userBookingFormFields);
-            setBookingStatus(userBookingFormFieldsData?.status);
-        }
-    }, [userBookingFormFieldsData, userBookingFormFieldsSuccess]);
-
-    if (cartList?.length === 0) {
+    if (isCartEmpty) {
         return (
             <div className="flex justify-center items-center min-h-[70vh]">
                 <div className="text-center">
@@ -143,15 +63,15 @@ const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
                     ) : (
                         <>
                             {!bookingStatus && (
-                                    <div>
-                                        <AddressFortyFour
-                                            design={design}
-                                            appStore={appStore}
-                                            selectAddress={selectAddress}
-                                            setSelectAddress={setSelectAddress}
-                                            formFieldStyle={formFieldStyle}
-                                        />
-                                    </div>
+                                <div>
+                                    <AddressFortyFour
+                                        design={design}
+                                        appStore={appStore}
+                                        selectAddress={selectAddress}
+                                        setSelectAddress={setSelectAddress}
+                                        formFieldStyle={formFieldStyle}
+                                    />
+                                </div>
                             )}
                         </>
                     )}
@@ -167,7 +87,7 @@ const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
                     </div>
 
                     <div>
-                        <DiscountFortyFour appStore={appStore} />
+                        <DiscountFortyFour headersetting={headersetting} />
                     </div>
 
                     <div>

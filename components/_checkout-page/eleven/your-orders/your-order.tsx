@@ -12,11 +12,10 @@ import Link from 'next/link';
 
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { AppDispatch, RootState } from '@/redux/store';
-import { grandTotal, subTotal } from '@/utils/_cart-utils/cart-utils';
+import { subTotal } from '@/utils/_cart-utils/cart-utils';
 import { useEffect, useMemo, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 
 // Helper function to conditionally select a value
 import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
@@ -25,7 +24,6 @@ import { numberParser } from '@/helpers/numberParser';
 import { TWENTY_EIGHT } from '@/consts';
 import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
-import { setCouponResult } from '@/redux/features/filters/couponSlice';
 import { handlePlaceOrder } from '@/components/_checkout-page/_components/handlePlaceOrder';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 import {
@@ -33,15 +31,16 @@ import {
     setGrandTotal,
     setPurchaseList,
 } from '@/redux/features/purchase/purchaseSlice';
+import { handleCouponRemove } from '@/helpers/handleCouponRemove';
 
 const YourOrders = ({
     design,
     appStore,
     headersetting,
-    couponDis,
-    setCouponDis,
     selectAddress,
-    shippingArea,
+    gTotal,
+    totalDis,
+    tax,
 }: any) => {
     const store_id = appStore?.id || null;
     const isAuthenticated = useAuth();
@@ -50,7 +49,6 @@ const YourOrders = ({
 
     const [isAbleToOrder, setIsAbleToOrder] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [tax, setTax] = useState<any>(0);
     const [isOpen, setIsOpen] = useState(false);
     const [files, setFiles] = useState([]);
     const [cartId, setCartId] = useState(null);
@@ -90,8 +88,8 @@ const YourOrders = ({
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 
-    const { totalcampainOfferAmount } = useSelector(
-        (state: RootState) => state.campainOfferFilters
+    const { shippingAreaCost } = useSelector(
+        (state: RootState) => state.shippingAreaFilter
     );
 
     const { couponResult } = useSelector(
@@ -106,19 +104,7 @@ const YourOrders = ({
     const dispatch: AppDispatch = useAppDispatch();
     const total = subTotal(cartList);
     const smsCount = numberParser(headersetting?.total_sms);
-    const couponShow = setCouponShow(couponResult, total, shippingArea);
-    const totalDis = useMemo(
-        () => couponDis + totalcampainOfferAmount,
-        [couponDis, totalcampainOfferAmount]
-    );
-
-    const gTotal = grandTotal(total, tax, shippingArea, totalDis);
-
-    const handleCouponRemove = () => {
-        setCouponDis(0);
-        dispatch(setCouponResult({ code: null, code_status: false }));
-        toast.error('Coupon removed!');
-    };
+    const couponShow = setCouponShow(couponResult, total, shippingAreaCost);
 
     const updatedCartList = cartList?.map((cart: any, index: any) => {
         if (files[index]) {
@@ -206,7 +192,7 @@ const YourOrders = ({
             address_id: selectAddress?.id,
             payment_type: selectedPayment,
             subtotal: numberParser(total),
-            shipping: shippingArea,
+            shipping: shippingAreaCost,
             total: gTotal,
             discount: totalDis,
             tax,
@@ -225,7 +211,7 @@ const YourOrders = ({
             isAuthenticated,
             selectedPayment,
             total,
-            shippingArea,
+            shippingAreaCost,
             gTotal,
             totalDis,
             tax,
@@ -284,13 +270,6 @@ const YourOrders = ({
             setIsLoading
         );
     };
-
-    useEffect(() => {
-        if (headersetting?.tax) {
-            const tax = (numberParser(headersetting?.tax) / 100) * total;
-            setTax(tax);
-        }
-    }, [headersetting?.tax, total]);
 
     useEffect(() => {
         if (
@@ -384,7 +363,7 @@ const YourOrders = ({
                             {couponResult?.code}
                             <CrossCircledIcon
                                 className="absolute -top-3 -right-3 text-red-400 size-5"
-                                onClick={handleCouponRemove}
+                                onClick={() => handleCouponRemove(dispatch)}
                             />
                             <span className="sr-only">Remove badge</span>
                         </button>
@@ -409,16 +388,10 @@ const YourOrders = ({
                             ? 'এস্টিমেটেড শিপিং'
                             : 'Estimated Shipping'}
                     </p>
-                    {shippingArea === '--Select Area--' ||
-                    shippingArea === null ? (
-                        <p>
-                            <BDT /> 0
-                        </p>
-                    ) : (
-                        <p>
-                            <BDT price={shippingArea ? shippingArea : 0} />
-                        </p>
-                    )}
+                    <p>
+                        <BDT />
+                        <span>{shippingAreaCost ?? 0}</span>
+                    </p>
                 </div>
                 <div className="h-[2px] w-full bg-gray-300 mt-4 mb-2"></div>
                 <div className="flex justify-between items-center  font-semibold">
