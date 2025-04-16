@@ -46,6 +46,7 @@ const NewsletterFortyFour = ({ store_id }: any) => {
         <div>
             <div className="flex flex-col gap-y-3 justify-center lg:gap-x-3 bg-[var(--header-color)] py-10 overflow-hidden items-center mb-10 ">
                 <div className="lg:w-1/2">
+                
                     <div className="max-w-4xl mx-auto">
                         <p className="flex items-center gap-2 text-md font-semibold">
                             <AiOutlineMail /> GET SPECIAL DISCOUNTS IN YOUR
