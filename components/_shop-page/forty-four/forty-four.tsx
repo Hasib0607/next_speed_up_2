@@ -2,7 +2,6 @@
 import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
 import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
-import Card45 from '@/components/card/card45';
 import Card6 from '@/components/card/card6';
 import Card75 from '@/components/card/card75';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
@@ -253,7 +252,7 @@ const ShopProductSection = ({
                                             ease: 'linear',
                                         }}
                                     >
-                                        <Card45
+                                        <Card75
                                             item={item}
                                             type={'single_product_page'}
                                         />
@@ -334,7 +333,7 @@ const ShopProductSection = ({
 
 const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
     return (
-        <div className="border-t border-b border-[#f1f1f1] py-3 mb-5 flex flex-wrap justify-between items-center px-2">
+        <div className="border-t border-b border-[#f1f1f1] py-3 mb-5 mt-6 md:mt-0 flex flex-wrap justify-between items-center px-2">
             <div className="text-gray-500 font-medium">
                 Showing {paginate?.from}-{paginate?.to} of {paginate?.total}{' '}
                 results
@@ -386,7 +385,7 @@ const SingleCat = ({ item, select, setSelect }: any) => {
                     href={'/category/' + item?.id}
                     className="block"
                 >
-                    <div className="flex items-center justify-between px-4 py-3 hover:bg-gray-50">
+                    <div className="flex items-center justify-between px-4 hover:bg-gray-50">
                         <div className="flex items-center">
                             <input 
                                 type="checkbox" 
@@ -415,7 +414,7 @@ const SingleCat = ({ item, select, setSelect }: any) => {
                             href={'/category/' + sub?.id}
                             className="block"
                         >
-                            <div className="flex items-center justify-between pl-8 py-2 hover:bg-gray-50">
+                            <div className="flex items-center justify-between pl-8 py-1 hover:bg-gray-50">
                                 <div className="flex items-center">
                                     <input 
                                         type="checkbox" 
