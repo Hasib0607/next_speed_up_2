@@ -13,6 +13,7 @@ import EbitansAnalytics from '@/components/EbitansAnalytics';
 // import Loading from '@/app/loadingx';
 
 const AppWrapper = ({ children, appStore, design }: any) => {
+    
     return (
         <Provider store={store}>
             <PersistGate
