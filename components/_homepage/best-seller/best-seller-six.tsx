@@ -97,7 +97,6 @@ const BestSellerSix = ({ product, design, headersetting }: any) => {
                         <GridSliderFive
                             prevEl={prev}
                             nextEl={next}
-                            loop={product?.length > 3}
                         >
                             {product?.length > 0 &&
                                 product?.map((item: any) => (
