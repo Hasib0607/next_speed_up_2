@@ -21,41 +21,46 @@ import {
     EffectFade,
     Controller,
 } from 'swiper/modules';
-const GridSliderFive = ({ nextEl, prevEl, children, ...rest }: any) => {
+
+const GridSliderFive = ({ nextEl, prevEl, children, loop, ...rest }: any) => {
     return (
         <Swiper
-            loop={true}
+            loop={loop}
             slidesPerView={4}
+            spaceBetween={10}
             autoplay={{
                 delay: 3000,
             }}
             grid={{
                 rows: 2,
+                fill: 'row' // Crucial for horizontal layout
             }}
-            spaceBetween={8}
             modules={[Grid, Navigation, Autoplay, A11y, EffectFade, Controller]}
             navigation={{
                 prevEl: `.${prevEl}`,
                 nextEl: `.${nextEl}`,
             }}
-            // style={{ MaxHeight: '880px' }}
-            className="h-[880px]"
+            className="w-full h-fit"
             breakpoints={{
                 375: {
-                    slidesPerView: 2,
-                    spaceBetween: 10,
+                    slidesPerView: 1,
+                    spaceBetween: 5,
+                    grid: { rows: 1 }
                 },
                 640: {
                     slidesPerView: 2,
-                    spaceBetween: 10,
+                    spaceBetween: 8,
+                    grid: { rows: 2 }
                 },
                 768: {
                     slidesPerView: 2,
-                    spaceBetween: 10,
+                    spaceBetween: 8,
+                    grid: { rows: 2 }
                 },
                 1024: {
                     slidesPerView: 4,
-                    spaceBetween: 20,
+                    spaceBetween: 8,
+                    grid: { rows: 2 }
                 },
             }}
         >

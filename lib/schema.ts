@@ -87,3 +87,7 @@ export const generateDynamicSchema = (fields: any[]) => {
 export const showfieldByKey = (fieldName: string, fields: any[]) => {
     return fields?.some((item: any) => item?.name == fieldName);
 };
+
+export const showfieldStatus = (fieldName: string, fields: any[]) => {
+    return fields?.some((item: any) => item?.name == fieldName ? item.status == 1 : false);
+};
