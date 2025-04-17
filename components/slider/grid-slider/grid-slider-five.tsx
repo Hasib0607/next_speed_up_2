@@ -33,7 +33,7 @@ const GridSliderFive = ({ nextEl, prevEl, children, ...rest }: any) => {
             }}
             grid={{
                 rows: 2,
-                fill: 'row' // Crucial for horizontal layout
+                fill: 'row'  // Crucial for horizontal layout
             }}
             modules={[Grid, Navigation, Autoplay, A11y, EffectFade, Controller]}
             navigation={{
