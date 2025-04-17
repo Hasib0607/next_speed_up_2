@@ -2,7 +2,7 @@ import { brandBgImg, brandImg } from '@/site-settings/siteUrl';
 import Image from 'next/image';
 import React from 'react';
 
-const DefaultBrand = ({ headersetting, brands }: any) => {
+const BrandFortyThree = ({ headersetting, brands }: any) => {
     const { custom_design } = headersetting || {};
     const brandData = custom_design?.brand || {};
     return (
@@ -56,4 +56,4 @@ const DefaultBrand = ({ headersetting, brands }: any) => {
     );
 };
 
-export default DefaultBrand;
+export default BrandFortyThree;

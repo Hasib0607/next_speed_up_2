@@ -4,6 +4,7 @@ import FilterByColorNew from '@/components/_category-page/components/filter-by-c
 import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import Card45 from '@/components/card/card45';
 import Card6 from '@/components/card/card6';
+import Card75 from '@/components/card/card75';
 import InfiniteLoader from '@/components/loaders/infinite-loader';
 import Skeleton from '@/components/loaders/skeleton';
 import Pagination from '@/components/paginations/pagination';
@@ -12,7 +13,7 @@ import { setSort } from '@/redux/features/filters/filterSlice';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
-import { Bars3Icon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -21,7 +22,7 @@ import { IoGridSharp } from 'react-icons/io5';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 
-const TwentyOne = ({ design, store_id }: any) => {
+const FortyFour = ({ design, store_id }: any) => {
     const module_id = 105;
     const dispatch = useDispatch();
     const { id: data }: any = useParams<{ id: string }>();
@@ -55,15 +56,11 @@ const TwentyOne = ({ design, store_id }: any) => {
 
     return (
         <div>
-            <Location />
             <div className="sm:container px-5 sm:py-10 py-5">
                 <style>{styleCss}</style>
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
                     <div className="hidden md:block col-span-3 ">
-                        <div className="w-full rounded-xl h-max p-4 shadow-2xl bg-white">
-                            <h3 className="font-medium text-[#252525] text-xl px-4 mb-4 ">
-                                Categories
-                            </h3>
+                        <div className="w-full rounded-xl h-max p-4 shadow-md bg-white">
                             {category?.map((item: any) => (
                                 <SingleCat
                                     key={item?.id}
@@ -73,13 +70,13 @@ const TwentyOne = ({ design, store_id }: any) => {
                                 />
                             ))}
                         </div>
-                        <div className="rounded-xl h-max p-4 shadow-2xl bg-white mt-6">
+                        <div className="rounded-xl h-max p-4 shadow-md bg-white mt-6">
                             <FilterByBrandNew />
                         </div>
-                        <div className="rounded-xl h-max p-4 shadow-2xl bg-white my-6">
+                        <div className="rounded-xl h-max p-4 shadow-md bg-white my-6">
                             <FilterByColorNew />
                         </div>
-                        <div className="rounded-xl h-max p-4 shadow-2xl bg-white">
+                        <div className="rounded-xl h-max p-4 shadow-md bg-white">
                             <FilterByPriceNew />
                         </div>
                     </div>
@@ -124,7 +121,7 @@ const TwentyOne = ({ design, store_id }: any) => {
     );
 };
 
-export default TwentyOne;
+export default FortyFour;
 
 const ShopProductSection = ({
     grid,
@@ -301,7 +298,7 @@ const ShopProductSection = ({
                                         ease: 'linear',
                                     }}
                                 >
-                                    <Card45
+                                    <Card75
                                         item={item}
                                         type={'single_product_page'}
                                     />
@@ -332,18 +329,6 @@ const ShopProductSection = ({
                 </div>
             )}
         </>
-    );
-};
-
-const Location = () => {
-    return (
-        <div className="w-full bg-[#f1f1f1] flex flex-col justify-center items-center py-5 mb-5">
-            <h1 className="text-3xl font-medium ">Product</h1>
-            <div className="flex items-center gap-1">
-                <p>Home</p>
-                <p>/ Shop</p>
-            </div>
-        </div>
     );
 };
 
@@ -392,63 +377,64 @@ const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
 };
 
 const SingleCat = ({ item, select, setSelect }: any) => {
-    const [show, setShow] = useState(false);
-
     return (
-        <div className="">
-            <div className="w-full border mb-2">
-                <div className="flex items-center px-4 py-3">
-                    <Link
-                        onClick={() => setSelect(item.id)}
-                        href={'/category/' + item?.id}
-                        className={`flex-1 text-lg font-medium ${
-                            select === item.id
-                                ? 'text-red-500'
-                                : 'text-gray-900'
-                        }`}
-                    >
-                        <p>{item.name}</p>
-                    </Link>
-                    {item?.subcategories ? (
-                        <div className="px-4 h-full">
-                            {show ? (
-                                <MinusIcon
-                                    onClick={() => setShow(!show)}
-                                    className="h-4 w-4 lg:cursor-pointer text-gray-800"
-                                />
-                            ) : (
-                                <PlusIcon
-                                    onClick={() => setShow(!show)}
-                                    className="h-4 w-4 lg:cursor-pointer text-gray-800"
-                                />
-                            )}
+        <div className="w-full mb-2">
+            {/* Main Category */}
+            <div className="">
+                <Link
+                    onClick={() => setSelect(item.id)}
+                    href={'/category/' + item?.id}
+                    className="block"
+                >
+                    <div className="flex items-center justify-between px-4 py-3 hover:bg-gray-50">
+                        <div className="flex items-center">
+                            <input 
+                                type="checkbox" 
+                                className="mr-2"
+                                onChange={(e) => e.preventDefault()}
+                            />
+                            <span className={`text-lg font-medium ${
+                                select === item.id ? 'text-red-500' : 'text-gray-900'
+                            }`}>
+                                {item.name}
+                            </span>
                         </div>
-                    ) : null}
-                </div>
-                {show && (
-                    <>
-                        <div className="">
-                            {item?.subcategories?.map((sub: any, idx: any) => (
-                                <div className="border-t" key={idx}>
-                                    <Link
-                                        onClick={() => setSelect(sub.id)}
-                                        href={'/category/' + sub?.id}
-                                    >
-                                        <p
-                                            className={`py-2 px-4 text-sm ${
-                                                select === sub.id
-                                                    ? 'text-red-500'
-                                                    : 'text-gray-500'
-                                            }`}
-                                        >
-                                            {sub?.name}
-                                        </p>
-                                    </Link>
+                        <span className="text-sm bg-gray-200 rounded-3xl px-1">
+                            {item.total_products}
+                        </span>
+                    </div>
+                </Link>
+            </div>
+
+            {/* Subcategories */}
+            <div className="">
+                {item?.subcategories?.map((sub: any, idx: any) => (
+                    <div className="" key={idx}>
+                        <Link
+                            onClick={() => setSelect(sub.id)}
+                            href={'/category/' + sub?.id}
+                            className="block"
+                        >
+                            <div className="flex items-center justify-between pl-8 py-2 hover:bg-gray-50">
+                                <div className="flex items-center">
+                                    <input 
+                                        type="checkbox" 
+                                        className="mr-2"
+                                        onChange={(e) => e.preventDefault()}
+                                    />
+                                    <span className={`text-sm ${
+                                        select === sub.id ? 'text-red-500' : 'text-gray-500'
+                                    }`}>
+                                        {sub.name}
+                                    </span>
                                 </div>
-                            ))}
-                        </div>
-                    </>
-                )}
+                                <span className="text-sm mr-4 bg-gray-200 rounded-3xl px-1">
+                                    {sub.total_products}
+                                </span>
+                            </div>
+                        </Link>
+                    </div>
+                ))}
             </div>
         </div>
     );
