@@ -22,10 +22,10 @@ import {
     Controller,
 } from 'swiper/modules';
 
-const GridSliderFive = ({ nextEl, prevEl, children, loop, ...rest }: any) => {
+const GridSliderFive = ({ nextEl, prevEl, children, ...rest }: any) => {
     return (
         <Swiper
-            loop={loop}
+            loop={false}
             slidesPerView={4}
             spaceBetween={10}
             autoplay={{
@@ -33,7 +33,7 @@ const GridSliderFive = ({ nextEl, prevEl, children, loop, ...rest }: any) => {
             }}
             grid={{
                 rows: 2,
-                fill: 'row' // Crucial for horizontal layout
+                fill: 'row'  // Crucial for horizontal layout
             }}
             modules={[Grid, Navigation, Autoplay, A11y, EffectFade, Controller]}
             navigation={{

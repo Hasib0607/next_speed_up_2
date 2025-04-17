@@ -76,7 +76,9 @@ const BestSellerSix = ({ product, design, headersetting }: any) => {
                                 {product[1]?.name.charAt(0).toUpperCase() +
                                     product[1]?.name.slice(1)}
                             </div>
+
                             <BDT price={price} />
+
                             <div>
                                 <button
                                     onClick={handleAddToCart}
@@ -93,11 +95,9 @@ const BestSellerSix = ({ product, design, headersetting }: any) => {
                     </div>
                     <div className="lg:col-span-2 md:col-span-2 relative bestSellerCustomHover">
                         <ArrowSeventeenHero nextEl={next} prevEl={prev} />
-                        {/* start here */}
                         <GridSliderFive
                             prevEl={prev}
                             nextEl={next}
-                            loop={product?.length > 3}
                         >
                             {product?.length > 0 &&
                                 product?.map((item: any) => (
