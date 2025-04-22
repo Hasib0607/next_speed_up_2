@@ -23,6 +23,7 @@ export default async function getDomain() {
     // url = "lokmantraders.shop";
     // url = "nayeil.com";
     // url = "bikroyhutbd.com";
+    // url = '10starbd.com';
     url = 'shr.localhost:3000';
 
     return url;

@@ -10,12 +10,14 @@ import { btnhover } from '@/site-settings/style';
 import { toast } from 'react-toastify';
 import { useLogInMutation } from '@/redux/features/auth/authApi';
 import Loading from '../loaders/loading';
+import { getActiveAuthTypes } from '@/helpers/getActiveAuthTypes';
 
 export const cls =
     'py-2 px-4 md:px-5 w-full appearance-none transition duration-150 ease-in-out border text-input text-xs lg:text-sm font-body rounded-md placeholder-body min-h-12 bg-white border-gray-300 focus:outline-none focus:border-heading h-11 md:h-12';
 
 const LoginSeven = ({ headersetting, appStore, activeModule }: any) => {
     const store_id = appStore?.id || null;
+    const authTypes = getActiveAuthTypes(appStore);
 
     const [loading, setLoading] = useState(false);
     const [show, setShow] = useState(false);
@@ -59,6 +61,10 @@ const LoginSeven = ({ headersetting, appStore, activeModule }: any) => {
                 setLoading(false);
             });
     };
+    // console.log(
+    //     'vdsv',
+    //     !authTypes.EasyOrder || !authTypes.EmailEasyOrder || activeModule
+    // );
 
     return (
         <div>
@@ -91,8 +97,7 @@ const LoginSeven = ({ headersetting, appStore, activeModule }: any) => {
                                     </h2>
                                 </div>
                                 <form onSubmit={handleSubmit(onSubmit)}>
-                                    {appStore?.auth_type === 'phone' ||
-                                    appStore?.auth_type === 'EasyOrder' ? (
+                                    {authTypes.phone || authTypes.EasyOrder ? (
                                         <div className="mb-6">
                                             <label
                                                 htmlFor="email"
@@ -183,7 +188,8 @@ const LoginSeven = ({ headersetting, appStore, activeModule }: any) => {
                                     </div>
                                 </form>
 
-                                {(appStore?.auth_type !== 'EasyOrder' ||
+                                {(!authTypes.EasyOrder ||
+                                    !authTypes.EmailEasyOrder ||
                                     activeModule) && (
                                     <p className="text-base font-medium text-[#5A5A5A]">
                                         Don&apos;t have any account?

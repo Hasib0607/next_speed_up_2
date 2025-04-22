@@ -1,9 +1,16 @@
+import { getActiveAuthTypes } from './getActiveAuthTypes';
+
 export const checkEasyNotUser = (
-    store: any,
+    appStore: any,
     easyOrderValue: any,
     defaultValue: any,
     isAuthenticated: boolean
-) =>
-    store?.auth_type === 'EasyOrder' && !isAuthenticated
-        ? easyOrderValue
-        : defaultValue;
+) => {
+    const authTypes = getActiveAuthTypes(appStore);
+
+    if ((authTypes.EasyOrder || authTypes.EmailEasyOrder) && !isAuthenticated) {
+        return easyOrderValue;
+    }
+
+    return defaultValue;
+};

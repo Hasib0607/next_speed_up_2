@@ -1,8 +1,12 @@
 'use client';
 
 import { numberParser } from '@/helpers/numberParser';
-import { useGetBookingFormFieldsQuery } from '@/redux/features/checkOut/checkOutApi';
+import { useGetBookingFormFieldsQuery, useGetFormFieldsQuery } from '@/redux/features/checkOut/checkOutApi';
 import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
+import {
+    useGetCountryQuery,
+    useGetDistrictQuery,
+} from '@/redux/features/checkOut/checkOutApi';
 import {
     setGrandTotal,
     setPurchaseList,
@@ -20,7 +24,7 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 
 const useCheckoutPageEntry = ({ headersetting }: any) => {
-    const store_id = headersetting?.store_id || null;
+    const store_id = numberParser(headersetting?.store_id) || null;
     const dispatch: AppDispatch = useAppDispatch();
     const module_id = 108;
 
@@ -29,6 +33,9 @@ const useCheckoutPageEntry = ({ headersetting }: any) => {
         isLoading: userBookingFormFieldsLoading,
         isSuccess: userBookingFormFieldsSuccess,
     } = useGetBookingFormFieldsQuery({ store_id, module_id });
+
+    useGetDistrictQuery({});
+    useGetCountryQuery({});
 
     const [tax, setTax] = useState<any>(0);
     const [bookingData, setBookingData] = useState<any>(null);

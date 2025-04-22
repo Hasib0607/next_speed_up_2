@@ -7,12 +7,14 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Loading from '../loaders/loading';
 import { toast } from 'react-toastify';
+import { getActiveAuthTypes } from '@/helpers/getActiveAuthTypes';
 
 export const cls =
     'w-full rounded-md border border-[#E9EDF4] py-3 px-5 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-primary ';
 
 const LoginFive = ({ appStore, activeModule }: any) => {
     const store_id = appStore?.id || null;
+    const authTypes = getActiveAuthTypes(appStore);
 
     const [loading, setLoading] = useState(false);
 
@@ -67,8 +69,7 @@ const LoginFive = ({ appStore, activeModule }: any) => {
                         <div className="w-full px-4">
                             <div className="max-w-[560px] mx-auto text-center bg-white relative overflow-hidden  py-6 px-6 sm:px-8 md:px-[60px] drop-shadow-xl">
                                 <form onSubmit={handleSubmit(onSubmit)}>
-                                    {appStore?.auth_type === 'phone' ||
-                                    appStore?.auth_type === 'EasyOrder' ? (
+                                    {authTypes.phone || authTypes.EasyOrder ? (
                                         <div className="flex items-center text-left">
                                             <label
                                                 htmlFor="city"
@@ -125,7 +126,8 @@ const LoginFive = ({ appStore, activeModule }: any) => {
                                 </form>
                                 <div className="h-[1px] w-full bg-gray-300 mb-2"></div>
 
-                                {(appStore?.auth_type !== 'EasyOrder' ||
+                                {(!authTypes.EasyOrder ||
+                                    !authTypes.EmailEasyOrder ||
                                     activeModule) && (
                                     <p className="text-base text-[#423b3b]">
                                         <Link

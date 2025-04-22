@@ -3,8 +3,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const initialState: any = {
     checkoutFromData: null,
     checkoutBookingFromData: null,
-    districtArr: null,
-    countryArr: null,
+    districtArr: [],
+    countryArr: [],
+    formFieldsArr: [],
 };
 
 export const checkOutSlice = createSlice({
@@ -18,10 +19,23 @@ export const checkOutSlice = createSlice({
             state.checkoutBookingFromData = action.payload;
         },
         setDistrictArr: (state, action: PayloadAction<any>) => {
-            state.districtArr = action.payload;
+            if (
+                JSON.stringify(state.districtArr) !==
+                JSON.stringify(action.payload)
+            ) {
+                state.districtArr = action.payload;
+            }
         },
         setCountryArr: (state, action: PayloadAction<any>) => {
-            state.countryArr = action.payload;
+            if (
+                JSON.stringify(state.countryArr) !==
+                JSON.stringify(action.payload)
+            ) {
+                state.countryArr = action.payload;
+            }
+        },
+        setFormFieldsArr: (state, action: PayloadAction<any>) => {
+            state.formFieldsArr = action.payload;
         },
     },
 });
@@ -31,6 +45,7 @@ export const {
     setCheckoutBookingFromData,
     setDistrictArr,
     setCountryArr,
+    setFormFieldsArr
 } = checkOutSlice.actions;
 
 // Export the reducer

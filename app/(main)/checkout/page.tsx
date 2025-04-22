@@ -1,7 +1,9 @@
 import CheckoutGtm from '@/app/(main)/checkout/CheckoutGtm';
+import GuestLayer from '@/app/GuestLayer';
 import ProtectedLayer from '@/app/ProtectedLayer';
 import Checkout from '@/components/Checkout';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
+import { getActiveAuthTypes } from '@/helpers/getActiveAuthTypes';
 import { imgUrl } from '@/site-settings/siteUrl';
 import getDesign from '@/utils/fetcher/getDesign';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
@@ -21,19 +23,11 @@ export default async function CheckoutPage() {
     const appStore = await getStore();
     const design = await getDesign();
     const headersetting = await getHeaderSetting();
+    const authTypes = getActiveAuthTypes(appStore);
 
     return (
         <>
-            {appStore?.auth_type !== 'EasyOrder' ? (
-                <ProtectedLayer>
-                    <CheckoutGtm headersetting={headersetting} />
-                    <Checkout
-                        design={design}
-                        appStore={appStore}
-                        headersetting={headersetting}
-                    />
-                </ProtectedLayer>
-            ) : (
+            {authTypes.EasyOrder || authTypes.EmailEasyOrder ? (
                 <>
                     <CheckoutGtm headersetting={headersetting} />
                     <Checkout
@@ -42,6 +36,15 @@ export default async function CheckoutPage() {
                         headersetting={headersetting}
                     />
                 </>
+            ) : (
+                <ProtectedLayer>
+                    <CheckoutGtm headersetting={headersetting} />
+                    <Checkout
+                        design={design}
+                        appStore={appStore}
+                        headersetting={headersetting}
+                    />
+                </ProtectedLayer>
             )}
         </>
     );

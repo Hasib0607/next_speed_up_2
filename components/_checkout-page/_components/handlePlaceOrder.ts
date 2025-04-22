@@ -1,6 +1,7 @@
 import { clearCartList } from '@/redux/features/cart/cartSlice';
 import { checkOutApi } from '@/redux/features/checkOut/checkOutApi';
 import { AppDispatch } from '@/redux/store';
+import { OrderRequireTypes } from '@/types';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 
@@ -52,68 +53,98 @@ export const placeOrder = (
         });
 };
 
+export const placeOrderWithSwal = (
+    formData: any,
+    dispatch: AppDispatch,
+    setIsLoading: Function
+) => {
+    Swal.fire({
+        title: 'Do you want to continue?',
+        text: 'Your vendor does not have any SMS left!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Continue',
+        reverseButtons: true,
+    }).then((result: any) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You cannot get SMS for order confirmation and also cannot receive login credentials!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Proceed',
+                reverseButtons: true,
+            }).then((result: any) => {
+                if (result.isConfirmed) {
+                    placeOrder(formData, dispatch, setIsLoading, true);
+                }
+            });
+        }
+    });
+};
+
 export const handlePlaceOrder = async (
     isAbleToOrder: boolean,
     smsCount: number,
     formData: any,
     dispatch: AppDispatch,
-    setIsLoading: Function
+    setIsLoading: Function,
+    orderRequire: OrderRequireTypes,
+    data: any
 ) => {
-    // if (!userAddress && !data.address) {
-    //     toast.warning('Please Select The Address', {
-    //         toastId: userAddress,
-    //     });
-    // }
-    // if (!userPhone && !user) {
-    //     toast.warning('Please write your phone number', {
-    //         toastId: userPhone,
-    //     });
-    // }
-    // if (!userName && !user) {
-    //     toast.warning('Please write your name', { toastId: userName });
-    // }
-    // if (!data.payment_type) {
-    //     toast.warning('Please Select Payment Method', {
-    //         toastId: data.payment_type,
-    //     });
-    // }
-    // if (data.shipping === null) {
-    //     toast.warning('Please Select Shipping Area', {
-    //         toastId: data.shipping,
-    //     });
-    // }
 
+    
     if (isAbleToOrder) {
-        if (smsCount > 0) {
-            placeOrder(formData, dispatch, setIsLoading);
+        if (orderRequire?.isPhoneRequired && data?.phone) {
+            if (smsCount > 0) {
+                placeOrder(formData, dispatch, setIsLoading);
+            } else {
+                placeOrderWithSwal(formData, dispatch, setIsLoading);
+            }
+        } else if (orderRequire?.isEmailRequired && data?.email) {
+            if (smsCount > 0) {
+                placeOrder(formData, dispatch, setIsLoading);
+            } else {
+                placeOrderWithSwal(formData, dispatch, setIsLoading);
+            }
         } else {
-            Swal.fire({
-                title: 'Do you want to continue?',
-                text: 'Your vendor does not have any SMS left!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Continue',
-                reverseButtons: true,
-            }).then((result: any) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: 'You cannot get SMS for order confirmation and also cannot receive login credentials!',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Proceed',
-                        reverseButtons: true,
-                    }).then((result: any) => {
-                        if (result.isConfirmed) {
-                            placeOrder(formData, dispatch, setIsLoading, true);
-                        }
-                    });
-                }
-            });
+            // if (!userAddress && !data.address) {
+            //     toast.warning('Please Select The Address', {
+            //         toastId: userAddress,
+            //     });
+            // }
+            // if (!userPhone && !user) {
+            //     toast.warning('Please write your phone number', {
+            //         toastId: userPhone,
+            //     });
+            // }
+            // if (!userName && !user) {
+            //     toast.warning('Please write your name', { toastId: userName });
+            // }
+            // if (!data.payment_type) {
+            //     toast.warning('Please Select Payment Method', {
+            //         toastId: data.payment_type,
+            //     });
+            // }
+            // if (data.shipping === null) {
+            //     toast.warning('Please Select Shipping Area', {
+            //         toastId: data.shipping,
+            //     });
+            // }
+            if (orderRequire?.isPhoneRequired && !data?.phone) {
+                toast.error(
+                    'Phone number is mandatory!'
+                );
+            }
+            if (orderRequire?.isEmailRequired && !data?.email) {
+                toast.error(
+                    'Email is mandatory!'
+                );
+            }
         }
     }
 };

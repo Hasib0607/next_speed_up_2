@@ -3,8 +3,6 @@
 import { EMAIL_REGEX, ONE, TWENTY_EIGHT } from '@/consts';
 import useAuth from '@/hooks/useAuth';
 import {
-    useGetCountryQuery,
-    useGetDistrictQuery,
     useGetFormFieldsQuery,
     useUserAddressSaveMutation,
     useUserAddressUpdateMutation,
@@ -48,24 +46,15 @@ const CheckoutFrom = ({
     const [userData, setUserData] = useState<any>({});
     const [fields, setFields] = useState<any>([]);
     const [phoneCode, setPhoneCode] = useState('');
-    const [countryInfoArr, setCountryInfoArr] = useState<any>([]);
-    const [districtArr, setDistrictArr] = useState<any>([]);
+
+    const countryInfoArr = useSelector(
+        (state: RootState) => state.checkout.countryArr
+    );
+    const districtArr = useSelector(
+        (state: RootState) => state.checkout.districtArr
+    );
 
     const store_id = appStore?.id || null;
-
-    const {
-        data: countryData,
-        isLoading: countryLoading,
-        isSuccess: countrySuccess,
-        refetch: countryRefetch,
-    } = useGetCountryQuery({});
-
-    const {
-        data: districtData,
-        isLoading: districtLoading,
-        isSuccess: districtSuccess,
-        refetch: districtRefetch,
-    } = useGetDistrictQuery({});
 
     const {
         data: userFormFieldsData,
@@ -253,22 +242,6 @@ const CheckoutFrom = ({
         }
     }, [setCountryCode, setValue, edit, editItem]);
 
-    // Extracting country db
-    useEffect(() => {
-        const allCountryInfo = countryData?.data || [];
-        if (countrySuccess) {
-            setCountryInfoArr(allCountryInfo);
-        }
-    }, [countryData, countrySuccess]);
-
-    // Extracting district db
-    useEffect(() => {
-        const districtFormSelectFields = districtData?.data || [];
-        if (districtSuccess) {
-            setDistrictArr(districtFormSelectFields);
-        }
-    }, [districtData, districtSuccess]);
-
     // Extracting language from db
     useEffect(() => {
         const userFormFields = userFormFieldsData?.data || [];
@@ -303,7 +276,7 @@ const CheckoutFrom = ({
     const fieldStyle = formFieldStyle
         ? formFieldStyle
         : 'mt-1 focus:ring-0 focus:border-gray-400 block w-full shadow-md sm:text-md border-2 border-gray-300 rounded-lg p-3 text-gray-700';
-        
+
     const labelStyle = 'block text-sm font-medium text-gray-700 capitalize';
 
     return (

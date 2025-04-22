@@ -14,6 +14,7 @@ import {
     useRegisterByEmailMutation,
     useRegisterByPhoneMutation,
 } from '@/redux/features/auth/authApi';
+import { getActiveAuthTypes } from '@/helpers/getActiveAuthTypes';
 
 export const cls =
     'w-full rounded-md border border-[#E9EDF4] py-3 px-5 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-primary ';
@@ -29,6 +30,7 @@ type FormValues = {
 const RegisterFour = ({ headersetting, appStore }: any) => {
     const module_id = 120;
     const store_id = appStore?.id || null;
+    const authTypes = getActiveAuthTypes(appStore);
 
     const router = useRouter();
 
@@ -61,17 +63,14 @@ const RegisterFour = ({ headersetting, appStore }: any) => {
         formState: { errors },
     } = useForm<FormValues>();
 
-    const onSubmit = (data: any, e: any) => {
+    const onSubmit = (data: any) => {
         saveToLocalStorage(
             localStorageAuthTypeName,
             data?.email || data?.phone
         );
         setLoading(true);
 
-        if (
-            appStore?.auth_type === 'phone' ||
-            appStore?.auth_type === 'EasyOrder'
-        ) {
+        if (authTypes.phone || authTypes.EasyOrder) {
             registerByPhone({ ...data, store_id })
                 .unwrap()
                 .then((res: any) => {
@@ -116,9 +115,7 @@ const RegisterFour = ({ headersetting, appStore }: any) => {
                         <div className="w-full px-4">
                             <div className="max-w-[525px] mx-auto text-center bg-white rounded-lg relative overflow-hidden py-16 px-10 sm:px-12 md:px-[60px]">
                                 <div className="mb-10 md:mb-16 text-center">
-                                    <div
-                                        className="inline-block max-w-[160px] mx-auto"
-                                    >
+                                    <div className="inline-block max-w-[160px] mx-auto">
                                         {headersetting?.logo === null ? (
                                             <Link href="/">
                                                 <p className="text-xl uppercase">
@@ -142,9 +139,8 @@ const RegisterFour = ({ headersetting, appStore }: any) => {
                                     </div>
                                 </div>
                                 <form onSubmit={handleSubmit(onSubmit)}>
-                                    {(appStore?.auth_type === 'phone' ||
-                                        appStore?.auth_type ===
-                                            'EasyOrder') && (
+                                    {(authTypes.phone ||
+                                        authTypes.EasyOrder) && (
                                         <div className="mb-6">
                                             <input
                                                 autoComplete="tel"
@@ -158,47 +154,47 @@ const RegisterFour = ({ headersetting, appStore }: any) => {
                                         </div>
                                     )}
 
-                                    {appStore?.auth_type === 'email' && (
-                                        <div className="mb-6">
-                                            <input
-                                                autoComplete="email"
-                                                type="Email"
-                                                placeholder="Email"
-                                                {...register('email', {
-                                                    required: true,
-                                                })}
-                                                className={cls}
-                                            />
-                                        </div>
-                                    )}
-
-                                    {appStore?.auth_type === 'email' && (
-                                        <div className="mb-6 relative">
-                                            <input
-                                                autoComplete="new-password"
-                                                type={`${show ? 'text' : 'password'}`}
-                                                placeholder="Password"
-                                                {...register('password', {
-                                                    required: true,
-                                                })}
-                                                className={cls}
-                                            />
-                                            <div className="absolute right-2 top-1/2 -translate-y-1/2 z-[2] lg:cursor-pointer">
-                                                {show ? (
-                                                    <BsEye
-                                                        onClick={() =>
-                                                            setShow(!show)
-                                                        }
-                                                    />
-                                                ) : (
-                                                    <BsEyeSlash
-                                                        onClick={() =>
-                                                            setShow(!show)
-                                                        }
-                                                    />
-                                                )}
+                                    {authTypes.email && (
+                                        <>
+                                            <div className="mb-6">
+                                                <input
+                                                    autoComplete="email"
+                                                    type="Email"
+                                                    placeholder="Email"
+                                                    {...register('email', {
+                                                        required: true,
+                                                    })}
+                                                    className={cls}
+                                                />
                                             </div>
-                                        </div>
+
+                                            <div className="mb-6 relative">
+                                                <input
+                                                    autoComplete="new-password"
+                                                    type={`${show ? 'text' : 'password'}`}
+                                                    placeholder="Password"
+                                                    {...register('password', {
+                                                        required: true,
+                                                    })}
+                                                    className={cls}
+                                                />
+                                                <div className="absolute right-2 top-1/2 -translate-y-1/2 z-[2] lg:cursor-pointer">
+                                                    {show ? (
+                                                        <BsEye
+                                                            onClick={() =>
+                                                                setShow(!show)
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        <BsEyeSlash
+                                                            onClick={() =>
+                                                                setShow(!show)
+                                                            }
+                                                        />
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </>
                                     )}
 
                                     {/* User Type Selection Dropdown */}
@@ -218,9 +214,12 @@ const RegisterFour = ({ headersetting, appStore }: any) => {
                                                 } // Update the userType state based on selection
                                                 className={cls}
                                             >
-                                                <option value="customer">
-                                                    Customer
-                                                </option>
+                                                {(authTypes.phone ||
+                                                    authTypes.email) && (
+                                                    <option value="customer">
+                                                        Customer
+                                                    </option>
+                                                )}
                                                 <option value="customerAffiliate">
                                                     Affiliator
                                                 </option>
