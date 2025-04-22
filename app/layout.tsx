@@ -11,7 +11,7 @@ import SetFavicon from '@/utils/useSetFavicon';
 import NextTopLoader from 'nextjs-toploader';
 import { GoogleTagManager } from '@next/third-parties/google';
 import FacebookPixel from '@/utils/FacebookPixel';
-import CustomPageView from '@/utils/CustomPageView';
+// import CustomPageView from '@/utils/CustomPageView';
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -53,8 +53,8 @@ export default async function RootLayout({
     const googleAnalytics = headersetting?.google_analytics;
     const googleSearchConsole = headersetting?.google_search_console;
 
-    // console.log("googleAnalytics",googleAnalytics);
-    // console.log("googleSearchConsole",googleSearchConsole);
+    // console.log("headersetting",headersetting);
+    // console.log("FACEBOOK_PIXEL_ID",!FACEBOOK_PIXEL_ID);
 
     return (
         <html lang="en">
@@ -78,6 +78,7 @@ export default async function RootLayout({
                         </Script>
                     </>
                 )}
+
                 {googleSearchConsole && (
                     <meta
                         name="google-site-verification"
@@ -117,17 +118,6 @@ export default async function RootLayout({
                     </>
                 )}
 
-                {/* NoScript Fallback for Users with Disabled JavaScript */}
-                <noscript>
-                    <img
-                        height="1"
-                        width="1"
-                        style={{ display: 'none' }}
-                        src={`https://www.facebook.com/tr?id=${FACEBOOK_PIXEL_ID}&ev=PageView&noscript=1`}
-                        alt="Facebook Pixel"
-                    />
-                </noscript>
-
                 <NextTopLoader
                     color={'#29D'}
                     initialPosition={0.08}
@@ -138,8 +128,6 @@ export default async function RootLayout({
                     easing="ease"
                     speed={200}
                 />
-
-                <CustomPageView />
 
                 <AppWrapper design={design} appStore={appStore}>
                     {children}

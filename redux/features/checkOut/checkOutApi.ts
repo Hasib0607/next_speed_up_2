@@ -2,7 +2,11 @@ import { toast } from 'react-toastify';
 import { apiSlice } from '../api/apiSlice';
 import { userLoggedIn } from '../auth/authSlice';
 import { setCouponResult } from '../filters/couponSlice';
-import { setCountryArr, setDistrictArr } from './checkOutSlice';
+import {
+    setCountryArr,
+    setDistrictArr,
+    setFormFieldsArr,
+} from './checkOutSlice';
 
 // Inject the getHome mutation endpoint into apiSlice
 export const checkOutApi = apiSlice.injectEndpoints({
@@ -128,6 +132,17 @@ export const checkOutApi = apiSlice.injectEndpoints({
                 url: `checkout-page/form-field/${store_id}`,
                 method: 'GET',
             }),
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                try {
+                    const response = await queryFulfilled;
+                    const formFieldsArr = response?.data?.data || [];
+                    if (response?.data?.status && formFieldsArr) {
+                        dispatch(setFormFieldsArr(formFieldsArr));
+                    }
+                } catch (error) {
+                    // console.error("Error in getFormFields mutation:", error);
+                }
+            },
         }),
         easyOrderAddressSave: builder.mutation<any, any>({
             query: (data) => ({

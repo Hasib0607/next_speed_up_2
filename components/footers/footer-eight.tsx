@@ -26,6 +26,7 @@ const FooterEight = ({
     store_id,
 }: any) => {
     const date = new Date().getFullYear();
+
     const result = page.filter(
         (item: any) => !menu.find((menuItem: any) => menuItem.url === item.link)
     );
@@ -85,7 +86,10 @@ const FooterEight = ({
                         {menu?.map((m: any) =>
                             m?.name !== 'Category' ? (
                                 <p key={m?.id}>
-                                    <Link href={m?.url} className="menu-hover">
+                                    <Link
+                                        href={m?.custom_link ?? m?.url}
+                                        className="menu-hover"
+                                    >
                                         {' '}
                                         {m?.name}
                                     </Link>

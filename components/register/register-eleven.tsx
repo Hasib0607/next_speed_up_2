@@ -17,9 +17,10 @@ import {
 import { saveToLocalStorage } from '@/helpers/localStorage';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { useRouter } from 'next/navigation';
+import { getActiveAuthTypes } from '@/helpers/getActiveAuthTypes';
 
 export const cls =
-    'py-2 px-4 md:px-5 w-full appearance-none transition duration-150 ease-in-out border text-input text-xs lg:text-sm font-body rounded-md placeholder-body min-h-12 bg-white border-gray-300 focus:outline-none focus:border-heading h-11 md:h-12';
+    'py-2 px-4 md:px-5 w-full appearance-none transition duration-150 ease-in-out border text-gray-900 text-xs lg:text-sm font-body rounded-md placeholder-body min-h-12 bg-white border-gray-300 focus:outline-none focus:border-heading h-11 md:h-12';
 
 type FormValues = {
     email: string;
@@ -32,6 +33,7 @@ type FormValues = {
 const RegisterEleven = ({ headersetting, appStore }: any) => {
     const module_id = 120;
     const store_id = appStore?.id || null;
+    const authTypes = getActiveAuthTypes(appStore);
 
     const router = useRouter();
 
@@ -64,17 +66,14 @@ const RegisterEleven = ({ headersetting, appStore }: any) => {
         formState: { errors },
     } = useForm<FormValues>();
 
-    const onSubmit = (data: any, e: any) => {
+    const onSubmit = (data: any) => {
         saveToLocalStorage(
             localStorageAuthTypeName,
             data?.email || data?.phone
         );
         setLoading(true);
 
-        if (
-            appStore?.auth_type === 'phone' ||
-            appStore?.auth_type === 'EasyOrder'
-        ) {
+        if (authTypes.EasyOrder || authTypes.phone) {
             registerByPhone({ ...data, store_id })
                 .unwrap()
                 .then((res: any) => {
@@ -139,9 +138,8 @@ const RegisterEleven = ({ headersetting, appStore }: any) => {
                                     </Link>
                                 </div>
                                 <form onSubmit={handleSubmit(onSubmit)}>
-                                    {(appStore?.auth_type === 'phone' ||
-                                        appStore?.auth_type ===
-                                            'EasyOrder') && (
+                                    {(authTypes.EasyOrder ||
+                                        authTypes.EmailEasyOrder) && (
                                         <div className="mb-6 text-left">
                                             <label
                                                 htmlFor="email"
@@ -159,77 +157,85 @@ const RegisterEleven = ({ headersetting, appStore }: any) => {
                                             />
                                         </div>
                                     )}
-                                    {appStore?.auth_type === 'email' && (
-                                        <div className="mb-6 text-left">
-                                            <label
-                                                htmlFor="email"
-                                                className="block text-gray-600 font-semibold text-sm leading-none mb-3 lg:cursor-pointer"
-                                            >
-                                                Email
-                                            </label>
-                                            <input
-                                                autoComplete="email"
-                                                type="email"
-                                                {...register('email', {
-                                                    required: true,
-                                                    pattern: {
-                                                        value: EMAIL_REGEX,
-                                                        message:
-                                                            'Entered value does not match email format',
-                                                    },
-                                                })}
-                                                className={cls}
-                                            />
-                                            {errors.email && (
-                                                <span
-                                                    role="alert"
-                                                    className="text-red-500 text-sm"
+                                    {authTypes.email && (
+                                        <>
+                                            <div className="mb-6 text-left">
+                                                <label
+                                                    htmlFor="email"
+                                                    className="block text-gray-600 font-semibold text-sm leading-none mb-3 lg:cursor-pointer"
                                                 >
-                                                    {errors.email?.message}
-                                                </span>
-                                            )}
-                                        </div>
-                                    )}
-                                    {appStore?.auth_type === 'email' && (
-                                        <div className="mb-6 text-left">
-                                            <label
-                                                htmlFor="email"
-                                                className="block text-gray-600 font-semibold text-sm leading-none mb-3 lg:cursor-pointer"
-                                            >
-                                                Password
-                                            </label>
-                                            <div className="relative">
+                                                    Email
+                                                </label>
                                                 <input
-                                                    autoComplete="new-password"
-                                                    type={`${show ? 'text' : 'password'}`}
-                                                    {...register('password', {
+                                                    autoComplete="email"
+                                                    type="email"
+                                                    {...register('email', {
                                                         required: true,
+                                                        pattern: {
+                                                            value: EMAIL_REGEX,
+                                                            message:
+                                                                'Entered value does not match email format',
+                                                        },
                                                     })}
                                                     className={cls}
                                                 />
-                                                <div className="absolute right-2 top-1/2 -translate-y-1/2 z-[2] lg:cursor-pointer">
-                                                    {show ? (
-                                                        <BsEye
-                                                            onClick={() =>
-                                                                setShow(!show)
+                                                {errors.email && (
+                                                    <span
+                                                        role="alert"
+                                                        className="text-red-500 text-sm"
+                                                    >
+                                                        {errors.email?.message}
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            <div className="mb-6 text-left">
+                                                <label
+                                                    htmlFor="email"
+                                                    className="block text-gray-600 font-semibold text-sm leading-none mb-3 lg:cursor-pointer"
+                                                >
+                                                    Password
+                                                </label>
+                                                <div className="relative">
+                                                    <input
+                                                        autoComplete="new-password"
+                                                        type={`${show ? 'text' : 'password'}`}
+                                                        {...register(
+                                                            'password',
+                                                            {
+                                                                required: true,
                                                             }
-                                                        />
-                                                    ) : (
-                                                        <BsEyeSlash
-                                                            onClick={() =>
-                                                                setShow(!show)
-                                                            }
-                                                        />
-                                                    )}
+                                                        )}
+                                                        className={cls}
+                                                    />
+                                                    <div className="absolute right-2 top-1/2 -translate-y-1/2 z-[2] lg:cursor-pointer">
+                                                        {show ? (
+                                                            <BsEye
+                                                                onClick={() =>
+                                                                    setShow(
+                                                                        !show
+                                                                    )
+                                                                }
+                                                            />
+                                                        ) : (
+                                                            <BsEyeSlash
+                                                                onClick={() =>
+                                                                    setShow(
+                                                                        !show
+                                                                    )
+                                                                }
+                                                            />
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </>
                                     )}
 
                                     {/* User Type Selection Dropdown */}
                                     {moduleIdDetailSuccess && activeModule && (
                                         <div className="mb-6">
-                                            <label className="block mb-2 text-sm text-gray-500">
+                                            <label className="block mb-2 text-sm text-gray-900">
                                                 Select User Type
                                             </label>
                                             <select
@@ -243,9 +249,12 @@ const RegisterEleven = ({ headersetting, appStore }: any) => {
                                                         ),
                                                 })}
                                             >
-                                                <option value="customer">
-                                                    Customer
-                                                </option>
+                                                {!authTypes.EasyOrder ||
+                                                    (!authTypes.EmailEasyOrder && (
+                                                        <option value="customer">
+                                                            Customer
+                                                        </option>
+                                                    ))}
                                                 <option value="customerAffiliate">
                                                     Affiliator
                                                 </option>

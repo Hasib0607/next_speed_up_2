@@ -6,17 +6,18 @@ import useAuth from '@/hooks/useAuth';
 
 interface UnProtectedProps {
     children: ReactNode;
+    path?: string | undefined;
 }
 
-const GuestLayer: FC<UnProtectedProps> = ({ children }) => {
+const GuestLayer: FC<UnProtectedProps> = ({ children, path = '/profile' }) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
     useEffect(() => {
         if (isAuthenticated) {
-            router.push('/profile');
+            router.push(path);
         }
-    }, [isAuthenticated, router]);
+    }, [isAuthenticated, router, path]);
 
     if (isAuthenticated) {
         return null; // Prevent rendering until redirection

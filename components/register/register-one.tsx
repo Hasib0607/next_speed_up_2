@@ -12,6 +12,7 @@ import {
     useRegisterByEmailMutation,
     useRegisterByPhoneMutation,
 } from '@/redux/features/auth/authApi';
+import { getActiveAuthTypes } from '@/helpers/getActiveAuthTypes';
 
 const cls =
     'py-3 px-4 border border-gray-300 rounded-md placeholder:text-gray-500 text-sm focus:outline-0 w-full';
@@ -27,6 +28,7 @@ type FormValues = {
 const RegisterOne = ({ design, appStore }: any) => {
     const module_id = 120;
     const store_id = appStore?.id || null;
+    const authTypes = getActiveAuthTypes(appStore);
 
     const router = useRouter();
 
@@ -59,17 +61,14 @@ const RegisterOne = ({ design, appStore }: any) => {
         formState: { errors },
     } = useForm<FormValues>();
 
-    const onSubmit = (data: any, e: any) => {
+    const onSubmit = (data: any) => {
         saveToLocalStorage(
             localStorageAuthTypeName,
             data?.email || data?.phone
         );
         setLoading(true);
 
-        if (
-            appStore?.auth_type === 'phone' ||
-            appStore?.auth_type === 'EasyOrder'
-        ) {
+        if (authTypes.phone || authTypes.EasyOrder) {
             registerByPhone({ ...data, store_id })
                 .unwrap()
                 .then((res: any) => {
@@ -120,48 +119,50 @@ const RegisterOne = ({ design, appStore }: any) => {
                     throughout this website, to manage access to your account,
                     and for other purposes described in our privacy policy
                 </p>
-                {(appStore?.auth_type === 'phone' ||
-                    appStore?.auth_type === 'EasyOrder') && (
-                    <div className="mb-6">
-                        <input
-                            autoComplete="tel"
-                            type="Number"
-                            placeholder="Phone"
-                            {...register('phone', { required: true })}
-                            className={cls}
-                        />
-                    </div>
-                )}
-
-                {appStore?.auth_type === 'email' && (
-                    <div className="mb-6">
-                        <input
-                            autoComplete="email"
-                            type="Email"
-                            placeholder="Email"
-                            {...register('email', { required: true })}
-                            className={cls}
-                        />
-                    </div>
-                )}
-
-                {appStore?.auth_type === 'email' && (
-                    <div className="mb-6 relative">
-                        <input
-                            autoComplete="new-password"
-                            type={`${show ? 'text' : 'password'}`}
-                            placeholder="Password"
-                            {...register('password', { required: true })}
-                            className={cls}
-                        />
-                        <div className="absolute right-2 top-1/2 -translate-y-1/2 z-[2] lg:cursor-pointer">
-                            {show ? (
-                                <BsEye onClick={() => setShow(!show)} />
-                            ) : (
-                                <BsEyeSlash onClick={() => setShow(!show)} />
-                            )}
+                {authTypes.phone ||
+                    (authTypes.EasyOrder && (
+                        <div className="mb-6">
+                            <input
+                                autoComplete="tel"
+                                type="Number"
+                                placeholder="Phone"
+                                {...register('phone', { required: true })}
+                                className={cls}
+                            />
                         </div>
-                    </div>
+                    ))}
+
+                {authTypes.email && (
+                    <>
+                        <div className="mb-6">
+                            <input
+                                autoComplete="email"
+                                type="Email"
+                                placeholder="Email"
+                                {...register('email', { required: true })}
+                                className={cls}
+                            />
+                        </div>
+
+                        <div className="mb-6 relative">
+                            <input
+                                autoComplete="new-password"
+                                type={`${show ? 'text' : 'password'}`}
+                                placeholder="Password"
+                                {...register('password', { required: true })}
+                                className={cls}
+                            />
+                            <div className="absolute right-2 top-1/2 -translate-y-1/2 z-[2] lg:cursor-pointer">
+                                {show ? (
+                                    <BsEye onClick={() => setShow(!show)} />
+                                ) : (
+                                    <BsEyeSlash
+                                        onClick={() => setShow(!show)}
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    </>
                 )}
 
                 <p className="text-red-400">
@@ -184,7 +185,9 @@ const RegisterOne = ({ design, appStore }: any) => {
                             onChange={(e) => setUserType(e.target.value)} // Update the userType state based on selection
                             className={cls}
                         >
-                            <option value="customer">Customer</option>
+                            {(authTypes.phone || authTypes.email) && (
+                                <option value="customer">Customer</option>
+                            )}
                             <option value="customerAffiliate">
                                 Affiliator
                             </option>

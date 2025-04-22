@@ -9,11 +9,11 @@ import { productImg } from '@/site-settings/siteUrl';
 import { addToCart } from '@/utils/_cart-utils/cart-utils';
 import ArrowSeventeenHero from '@/utils/arrow-seventeen-hero';
 import BDT from '@/utils/bdt';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
 import './best-seller-six.css';
-import Image from 'next/image';
 
 const BestSellerSix = ({ product, design, headersetting }: any) => {
     const dispatch = useDispatch();
@@ -95,10 +95,7 @@ const BestSellerSix = ({ product, design, headersetting }: any) => {
                     </div>
                     <div className="lg:col-span-2 md:col-span-2 relative bestSellerCustomHover">
                         <ArrowSeventeenHero nextEl={next} prevEl={prev} />
-                        <GridSliderFive
-                            prevEl={prev}
-                            nextEl={next}
-                        >
+                        <GridSliderFive prevEl={prev} nextEl={next}>
                             {product?.length > 0 &&
                                 product?.map((item: any) => (
                                     <SwiperSlide key={item?.id}>

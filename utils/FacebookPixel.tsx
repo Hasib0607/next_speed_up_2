@@ -1,6 +1,9 @@
 import Script from 'next/script';
+import CustomPageView from './CustomPageView';
 
 const FacebookPixel = ({ pixelId }: any) => {
+    if (!pixelId) return null;
+    
     return (
         <>
             {/* Facebook Pixel Script */}
@@ -21,6 +24,19 @@ const FacebookPixel = ({ pixelId }: any) => {
                 `,
                 }}
             />
+
+            {/* NoScript Fallback for Users with Disabled JavaScript */}
+            <noscript>
+                <img
+                    height="1"
+                    width="1"
+                    style={{ display: 'none' }}
+                    src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
+                    alt="Facebook Pixel"
+                />
+            </noscript>
+
+            <CustomPageView />
         </>
     );
 };

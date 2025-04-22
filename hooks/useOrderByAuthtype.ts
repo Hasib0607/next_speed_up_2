@@ -1,8 +1,9 @@
 import { getActiveAuthTypes } from '@/helpers/getActiveAuthTypes';
 import { showfieldStatus } from '@/lib/schema';
+import { OrderRequireTypes } from '@/types';
 import { useEffect, useState } from 'react';
 
-const useOrderByAuthtype = (appStore:any, formFieldsArr: any) => {
+const useOrderByAuthtype = (appStore: any, formFieldsArr: any) => {
     const [isEmailRequired, setIsEmailRequired] = useState(false);
     const [isPhoneRequired, setIsPhoneRequired] = useState(false);
 
@@ -20,7 +21,7 @@ const useOrderByAuthtype = (appStore:any, formFieldsArr: any) => {
         }
     }, [authTypes, formFieldsArr]);
 
-    return { isEmailRequired, isPhoneRequired };
+    return { isEmailRequired, isPhoneRequired } as OrderRequireTypes;
 };
 
 export default useOrderByAuthtype;

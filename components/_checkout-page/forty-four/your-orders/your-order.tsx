@@ -46,6 +46,9 @@ import {
     setShippingAreaCost,
 } from '@/redux/features/filters/shippingAreaFilterSlice';
 import { handleCouponRemove } from '@/helpers/handleCouponRemove';
+import { showfieldStatus } from '@/lib/schema';
+import { getActiveAuthTypes } from '@/helpers/getActiveAuthTypes';
+import useOrderByAuthtype from '@/hooks/useOrderByAuthtype';
 
 const YourOrders = ({
     design,
@@ -80,10 +83,10 @@ const YourOrders = ({
         email: userEmail,
         address: userAddress,
         district: userDistrict,
-        phoneCode: userPhoneCode,
+        phone_code: userPhoneCode,
     } = checkoutFromData || {};
 
-    const { districtArr, countryArr } = useSelector(
+    const { districtArr, countryArr, formFieldsArr } = useSelector(
         (state: RootState) => state?.checkout
     );
 
@@ -103,7 +106,13 @@ const YourOrders = ({
         [countryArr, userPhoneCode]
     );
 
+    const orderRequire = useOrderByAuthtype(appStore, formFieldsArr);
+    // console.log('isEmailRequired ', orderRequire.isEmailRequired);
+    // console.log('isPhoneRequired ', isPhoneRequired);
+
     // console.log("selectedCountry",selectedCountry);
+    // console.log(getActiveAuthTypes(appStore));
+    // console.log( showfieldStatus('district',formFieldsArr))
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 
@@ -320,9 +329,17 @@ const YourOrders = ({
             smsCount,
             formData,
             dispatch,
-            setIsLoading
+            setIsLoading,
+            orderRequire,
+            data
         );
     };
+
+    // const handleBeforeCheckout = () => {
+    //     console.log("dfasdf");
+
+    //     handleBeforePlaceOrder(orderRequire, data);
+    // };
 
     // shippingCost by district
     useEffect(() => {
