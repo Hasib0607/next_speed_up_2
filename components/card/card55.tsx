@@ -141,13 +141,10 @@ const Card55 = ({ item }: any) => {
                                     className="h-full"
                                 />
                                 <p className="text-[11px] text-white absolute top-2 left-3 leading-[12px]">
-                                    {item.discount_type === 'fixed'
-                                        ? 'BDT'
-                                        : ''}{' '}
+                                    {item.discount_type === 'fixed' && <BDT />}{' '}
                                     {Math.trunc(item.discount_price)}{' '}
-                                    {item.discount_type === 'percent'
-                                        ? '% off'
-                                        : ''}
+                                    {item.discount_type === 'percent' &&
+                                        '% off'}
                                 </p>
                             </div>
                         )}

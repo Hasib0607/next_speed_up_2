@@ -10,12 +10,13 @@ import img1 from './bg-img/17/bg.webp';
 import image from './bg-img/17/show_divider_5_69x61.webp';
 import './new-arrival-product-seventeen.css';
 import SectionHeadingSeventeen from '../../section-heading/section-heading-seventeen';
+import { getDataByType } from '@/helpers/getCustomDataByType';
 
 const NewArrivalProductSeventeen = ({ product, headersetting }: any) => {
-    const { custom_design } = headersetting || {};
-    const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
+    const customDesignData = getDataByType(headersetting, 'new_arrival');
+
     const { title = 'Default Title', title_color = '#000' } =
-        newArrivalProduct || {};
+        customDesignData || {};
 
     return (
         <div className="relative z-0 h-full overflow-hidden py-4 ">
@@ -35,9 +36,9 @@ const NewArrivalProductSeventeen = ({ product, headersetting }: any) => {
                 </ParallaxProvider>
             </div>
             <div className="lg:absolute top-1/2 lg:-translate-y-1/2 left-1/2 lg:-translate-x-1/2 z-[1] sm:container px-5 xl:px-80 mx-auto">
-                <div className="flex justify-center ">
+                <div className="flex justify-center">
                     <SectionHeadingSeventeen
-                        text={title || 'Crazy Flavor Cakes'}
+                        title={title || 'Crazy Flavor Cakes'}
                         title_color={title_color || '#000'}
                     />
                 </div>

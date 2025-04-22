@@ -27,8 +27,8 @@ const Card32 = ({ item }: any) => {
     const [open, setOpen] = useState(false);
     const [id, setId] = useState(0);
 
-    const bgColor = "var(--header-color)";
-    const textColor = "var(--text-color)";
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
 
     const styleCss = `
     .searchHover:hover {
@@ -99,9 +99,9 @@ const Card32 = ({ item }: any) => {
                     {save > 0 && (
                         <div className="absolute text-xs px-2 py-1 bg-color text-white top-2 right-2 ">
                             <p>
-                                - {item.discount_type === 'fixed' ? 'BDT' : ''}{' '}
+                                - {item.discount_type === 'fixed' && <BDT />}{' '}
                                 {Math.trunc(item?.discount_price)}{' '}
-                                {item?.discount_type === 'percent' ? '%' : ''}
+                                {item?.discount_type === 'percent' && '%'}
                             </p>
                         </div>
                     )}

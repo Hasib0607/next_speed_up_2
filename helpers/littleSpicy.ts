@@ -3,6 +3,11 @@ import { numberParser } from './numberParser';
 import { getPrice } from './getPrice';
 import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 
+// check subunits are greater than 0
+export const hasSubunits = (price: number): boolean => {
+    return price % 1 === 0;
+};
+
 export const getShippingAreaIdByCost = (
     cost: number,
     headersetting: any
@@ -106,10 +111,28 @@ export const productCurrentPrice = (product: any, variantId?: any) => {
         const calculatedVariantPrice =
             regularPrice + additionalPrice - (calculatedDiscount ?? 0);
 
-        return numberParser(calculatedVariantPrice, true);
+        const isSubunits = hasSubunits(calculatedVariantPrice);
+
+        return numberParser(calculatedVariantPrice, isSubunits);
+        // if (isSubunits) {
+        //     return numberParser(calculatedVariantPrice, true);
+        // } else {
+        //     return numberParser(calculatedVariantPrice);
+        // }
     } else {
-        return numberParser(calculateRegularPrice, true);
+        const isSubunits = hasSubunits(calculateRegularPrice);
+        return numberParser(calculateRegularPrice, isSubunits);
     }
+};
+
+export const productMinMaxPrice = (item: any) => {
+    const price = productCurrentPrice(item);
+    const vPrice = item?.variant?.map((item: any) => item?.additional_price);
+    const minPrice = price + Math.min(...vPrice);
+    const maxPrice = price + Math.max(...vPrice);
+    const smallest = numberParser(minPrice, hasSubunits(minPrice));
+    const largest = numberParser(maxPrice, hasSubunits(maxPrice));
+    return { smallest, largest };
 };
 
 export const isRegularPriceLineThrough = (product: any) => {
@@ -133,21 +156,26 @@ export const howMuchSave = (product: any, variantId?: any) => {
     const additionalPrice = numberParser(productVariant?.additional_price);
     const regularPrice = numberParser(product?.regular_price);
     const variantRegularPrice = regularPrice + additionalPrice;
+
     const calculateRegularPrice = numberParser(
         product?.calculate_regular_price
     );
 
-    const calculateDiscount = getPrice(
-        variantRegularPrice,
-        product?.discount_price,
-        product?.discount_type,
-        true
-    );
+    const calculateDiscount =
+        getPrice(
+            variantRegularPrice,
+            product?.discount_price,
+            product?.discount_type,
+            true
+        ) || 0;
 
     if (variant?.length > 0 && variantId) {
-        return numberParser(calculateDiscount, true) ?? 0;
+        return numberParser(calculateDiscount, hasSubunits(calculateDiscount));
     } else {
-        return numberParser(regularPrice - calculateRegularPrice, true);
+        return numberParser(
+            regularPrice - calculateRegularPrice,
+            hasSubunits(regularPrice - calculateRegularPrice)
+        );
     }
 };
 

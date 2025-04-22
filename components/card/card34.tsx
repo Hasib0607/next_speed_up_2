@@ -18,8 +18,8 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import Details from '../_product-details-page/components/details';
 
 const Card34 = ({ item }: any) => {
-    const bgColor = "var(--header-color)";
-    const textColor = "var(--text-color)";
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
 
     const [open, setOpen] = useState(false);
 
@@ -49,9 +49,9 @@ const Card34 = ({ item }: any) => {
                     }}
                 >
                     <p>
-                        Save {item.discount_type === 'fixed' ? 'BDT' : ''}{' '}
+                        Save {item.discount_type === 'fixed' && <BDT />}{' '}
                         {Math.trunc(item.discount_price)}{' '}
-                        {item.discount_type === 'percent' ? '%' : ''}
+                        {item.discount_type === 'percent' && '%'}
                     </p>
                 </div>
             )}
