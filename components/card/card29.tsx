@@ -118,9 +118,9 @@ const Card29 = ({ item }: any) => {
                     {save > 0 && (
                         <div className="absolute sm:text-xs text-[10px] px-1 sm:px-2 sm:py-1 py-0 bg-color text-white top-2 right-2 ">
                             <p>
-                                {item.discount_type === 'fixed' ? 'BDT' : ''}{' '}
+                                {item.discount_type === 'fixed' && <BDT />}{' '}
                                 {numberParser(item.discount_price)}{' '}
-                                {item.discount_type === 'percent' ? '%' : ''}
+                                {item.discount_type === 'percent' && '%'}
                             </p>
                         </div>
                     )}

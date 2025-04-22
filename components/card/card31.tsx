@@ -27,8 +27,8 @@ const Card31 = ({ item }: any) => {
 
     const [open, setOpen] = useState(false);
 
-    const bgColor = "var(--header-color)";
-    const textColor = "var(--text-color)";
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
 
     const styleCss = `
     .search-bg{
@@ -91,10 +91,9 @@ const Card31 = ({ item }: any) => {
                             }}
                         >
                             <p>
-                                Save{' '}
-                                {item.discount_type === 'fixed' ? 'BDT' : ''}{' '}
+                                Save {item.discount_type === 'fixed' && <BDT />}{' '}
                                 {numberParser(item.discount_price)}{' '}
-                                {item.discount_type === 'percent' ? '%' : ''}
+                                {item.discount_type === 'percent' && '%'}
                             </p>
                         </div>
                     )}
