@@ -88,7 +88,7 @@ let urlName;
 // urlName = "ezara.shop";
 // urlName = "uniquemartbd.shop";
 // urlName = "bikroyhutbd.com";
-urlName = "moon.localhost:3000";
+urlName = "ashnaa.localhost:3000";
 
 if (process.env.NODE_ENV === 'production') {
     urlName = url();
