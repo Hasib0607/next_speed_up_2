@@ -10,6 +10,7 @@ import Loading from '../loaders/loading';
 import { btnhover } from '@/site-settings/style';
 import { toast } from 'react-toastify';
 import { useLogInMutation } from '@/redux/features/auth/authApi';
+import { getActiveAuthTypes } from '@/helpers/getActiveAuthTypes';
 
 export const cls =
     'w-full rounded-md border border-[#E9EDF4] py-3 px-5 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-primary ';
@@ -21,6 +22,7 @@ const LoginTwentyOne = ({
     activeModule,
 }: any) => {
     const store_id = appStore?.id || null;
+    const authTypes = getActiveAuthTypes(appStore);
 
     const [loading, setLoading] = useState(false);
     const [show, setShow] = useState(false);
@@ -120,8 +122,7 @@ const LoginTwentyOne = ({
                                     </div>
                                 </div>
                                 <form onSubmit={handleSubmit(onSubmit)}>
-                                    {appStore?.auth_type === 'phone' ||
-                                    appStore?.auth_type === 'EasyOrder' ? (
+                                    {authTypes.phone || authTypes.EasyOrder ? (
                                         <div className="mb-6">
                                             <input
                                                 autoComplete="tel"
@@ -190,7 +191,8 @@ const LoginTwentyOne = ({
                                 >
                                     Forgot Password?
                                 </Link>
-                                {(appStore?.auth_type !== 'EasyOrder' ||
+                                {(!authTypes.EasyOrder ||
+                                    !authTypes.EmailEasyOrder ||
                                     activeModule) && (
                                     <p className="text-base text-[#adadad]">
                                         Don&apos;t Have an Account?

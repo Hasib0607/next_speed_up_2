@@ -13,10 +13,10 @@ import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 import './hero-seventeen.css';
 import { sliderImg } from '@/site-settings/siteUrl';
+import ArrowSeventeenHero from '@/utils/arrow-seventeen-hero';
 
 const HeroSeventeen = ({ slider, design }: any) => {
     let menu = [''];
@@ -65,7 +65,6 @@ const HeroSeventeen = ({ slider, design }: any) => {
         border-radius: 25px;
         transition-duration: 500ms;
         background: ${bgColor};
-
     }
     `;
 
@@ -73,35 +72,12 @@ const HeroSeventeen = ({ slider, design }: any) => {
         <div className=" mt-0 xl:mt-0 bg-white relative z-[2]">
             <style>{styleCss}</style>
             <div className="xl:px-[0px] lg:px-0 md:px-0 px-0  ">
-                <div className="group  z-0 relative ">
+                <div className="group z-0 relative">
                     <div>
                         <div className="swiper-pagination-seventeen"></div>
                     </div>
-
-                    <div className=" gap-2 relative md:group-hover:flex hidden">
-                        <div
-                            className={`${prevEl} lg:cursor-pointer bg-gray-500 hover:bg-black text-white transition-all duration-500  ease-linear absolute left-10 lg2:top-[200px] xl:top-[325px] top-[150px] z-10 `}
-                        >
-                            <ChevronLeftIcon
-                                className="h-8 text-2xl font-serif font-bold"
-                                style={{
-                                    background: design?.header_color,
-                                    color: design?.text_color,
-                                }}
-                            />
-                        </div>
-                        <div
-                            className={`${nextEl} lg:cursor-pointer bg-gray-500 hover:bg-black text-white transition-all duration-500  ease-linear absolute right-10 lg2:top-[200px] xl:top-[325px] top-[150px] z-10 `}
-                        >
-                            <ChevronRightIcon
-                                className="h-8 text-2xl font-serif font-bold"
-                                style={{
-                                    background: design?.header_color,
-                                    color: design?.text_color,
-                                }}
-                            />
-                        </div>
-                    </div>
+            
+                    <ArrowSeventeenHero nextEl={nextEl} prevEl={prevEl} />
 
                     <Swiper
                         navigation={{
@@ -125,11 +101,11 @@ const HeroSeventeen = ({ slider, design }: any) => {
                         className="mySwiper relative"
                     >
                         {slider?.map((s: any) => (
-                            <SwiperSlide key={s.id} className="rounded-lg">
+                            <SwiperSlide key={s?.id} className="rounded-lg">
                                 <a href={s?.link}>
                                     <img
                                         className="min-w-full h-auto"
-                                        src={sliderImg + s.image}
+                                        src={sliderImg + s?.image}
                                         alt=""
                                     />
                                 </a>

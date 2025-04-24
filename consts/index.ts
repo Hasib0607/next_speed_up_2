@@ -69,7 +69,6 @@ export const TRACK_DEVIATION = 120 //  10 * 60 * 1000
 // blog page
 export const BLOG_PAGE_NUMBER = 1;
 
-
 // host
 export function url() {
     if (typeof window !== 'undefined') {
@@ -85,10 +84,11 @@ let urlName;
 // urlName = '10starbd.com';
 // urlName = "kc.design";
 // urlName = "swifttrading.store";
-// urlName = "ezara.shop";
-// urlName = "uniquemartbd.shop";
+// urlName = "lokmantraders.shop";
+// urlName = "nayeil.com";
 // urlName = "bikroyhutbd.com";
-urlName = "ashnaa.localhost:3000";
+// urlName = "beworthsbynature.ebitans.store";
+urlName = "shr.localhost:3000";
 
 if (process.env.NODE_ENV === 'production') {
     urlName = url();

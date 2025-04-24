@@ -10,6 +10,7 @@ import PaymentGatewayFortyFour from './payment-gateway-forty-four/payment-gatewa
 import PaymentConditionsFortyFour from './payment-conditions-forty-four';
 import useCheckoutPageEntry from '@/hooks/useCheckoutPageEntry';
 
+
 const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
     const [checked, setChecked] = useState<boolean>(false);
     const [selectAddress, setSelectAddress] = useState(null);

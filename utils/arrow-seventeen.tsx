@@ -20,7 +20,7 @@ const ArrowSeventeen = ({ nextEl, prevEl, design }: any) => {
             <style>{customDesign}</style>
 
             <div
-                className={`${prevEl} p-3 icon rounded-md  border bg-white  relative  text-gray-400 hover:text-white transition-all duration-500  ease-linear arrowDesign`}
+                className={`${prevEl} p-3 icon rounded-md border bg-white  relative  text-gray-400 hover:text-white transition-all duration-500  ease-linear arrowDesign`}
             >
                 <ChevronLeftIcon className="h-4 w-4 text-2xl font-serif font-bold" />
             </div>

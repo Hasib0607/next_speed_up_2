@@ -72,7 +72,7 @@ const Card35 = ({ item }: any) => {
                         />
                     </Link>
 
-                    {productAvailablity && (
+                    {productAvailablity && save > 0 && (
                         <div
                             className="absolute text-xs px-2  py-2 top-2 right-2 rounded-md"
                             style={{
@@ -82,9 +82,9 @@ const Card35 = ({ item }: any) => {
                         >
                             <p>
                                 Save{' '}
-                                {item.discount_type === 'fixed' ? 'BDT' : ''}{' '}
+                                {item.discount_type === 'fixed' && <BDT/>}{' '}
                                 {numberParser(item.discount_price)}{' '}
-                                {item.discount_type === 'percent' ? '%' : ''}
+                                {item.discount_type === 'percent' && '%' }
                             </p>
                         </div>
                     )}

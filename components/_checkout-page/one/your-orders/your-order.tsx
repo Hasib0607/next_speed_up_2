@@ -42,6 +42,7 @@ import {
     setSelectedShippingArea,
     setShippingAreaCost,
 } from '@/redux/features/filters/shippingAreaFilterSlice';
+import useOrderByAuthtype from '@/hooks/useOrderByAuthtype';
 
 const YourOrders = ({
     design,
@@ -76,7 +77,7 @@ const YourOrders = ({
         phone_code: userPhoneCode,
     } = checkoutFromData || {};
 
-    const { districtArr, countryArr } = useSelector(
+    const { districtArr, countryArr, formFieldsArr } = useSelector(
         (state: RootState) => state?.checkout
     );
 
@@ -95,6 +96,8 @@ const YourOrders = ({
             ),
         [countryArr, userPhoneCode]
     );
+
+    const orderRequire = useOrderByAuthtype(appStore, formFieldsArr);
 
     const { cartList } = useSelector((state: RootState) => state.cart);
 
@@ -289,7 +292,9 @@ const YourOrders = ({
             smsCount,
             formData,
             dispatch,
-            setIsLoading
+            setIsLoading,
+            orderRequire,
+            data
         );
     };
 

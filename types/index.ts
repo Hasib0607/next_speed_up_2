@@ -1,4 +1,8 @@
 // define types
+export type AuthType = 'phone' | 'EasyOrder' | 'email' | 'EmailEasyOrder';
+export type RequiredItems = 'isPhoneRequired' | 'isEmailRequired';
+export type OrderRequireTypes = Record<RequiredItems, boolean>;
+
 export type VercelGeo = {
     city?: string;
     country?: string;

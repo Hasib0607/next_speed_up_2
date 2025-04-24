@@ -6,9 +6,11 @@ import { productImg } from '@/site-settings/siteUrl';
 import BDT from '@/utils/bdt';
 
 import {
+    hasSubunits,
     howMuchSave,
     isAvailable,
     productCurrentPrice,
+    productMinMaxPrice,
 } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
 import { RootState } from '@/redux/store';
@@ -17,7 +19,7 @@ import ProdMultiCategory from '@/utils/prod-multi-category';
 import QuickView from '@/utils/quick-view';
 import Rate from '@/utils/rate';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Details from '../_product-details-page/components/details';
 
@@ -52,12 +54,10 @@ const Card54 = ({ item }: any) => {
         }
     };
 
-    const vPrice = item?.variant?.map((item: any) => item?.additional_price);
-    const smallest = Math.min(...vPrice);
-    const largest = Math.max(...vPrice);
+    const priceRange = useMemo(() => productMinMaxPrice(item), [item]);
 
-    const bgColor = "var(--header-color)";
-    const textColor = "var(--text-color)";
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
 
     const styleCss = `
     .searchHover:hover {
@@ -106,6 +106,7 @@ const Card54 = ({ item }: any) => {
       }
 
   `;
+    console.log('save > 0', save);
 
     return (
         <div className="group overlay-group relative px-2">
@@ -137,14 +138,15 @@ const Card54 = ({ item }: any) => {
                                     alt=""
                                     className="h-full"
                                 />
-                                <p className="text-[11px] text-white absolute top-2 left-3 leading-[12px]">
-                                    {item.discount_type === 'fixed'
-                                        ? 'BDT'
-                                        : ''}{' '}
-                                    {Math.trunc(item.discount_price)}{' '}
-                                    {item.discount_type === 'percent'
-                                        ? '% off'
-                                        : ''}
+
+                                <p className="text-[11px] text-white absolute top-[14px] left-[6px] leading-[12px]">
+                                    {item.discount_type === 'fixed' && <BDT />}
+                                    {numberParser(
+                                        item.discount_price,
+                                        hasSubunits(item.discount_price)
+                                    )}
+                                    {item.discount_type === 'percent' &&
+                                        '% off'}
                                 </p>
                             </div>
                         )}
@@ -221,13 +223,13 @@ const Card54 = ({ item }: any) => {
                             {item?.variant?.length !== 0 && (
                                 <div className="flex items-center gap-1">
                                     <p className="text-color text-sm font-bold">
-                                        <BDT />
-                                        {price + smallest}
+                                        <BDT price={priceRange.smallest} />
                                     </p>
-                                    {largest > smallest && (
+                                    {priceRange.largest >
+                                        priceRange.smallest && (
                                         <p className="text-color text-sm font-bold">
-                                            {' '}
-                                            - <BDT /> {price + largest}
+                                            <span> - </span>
+                                            <BDT price={priceRange.largest} />
                                         </p>
                                     )}
                                 </div>

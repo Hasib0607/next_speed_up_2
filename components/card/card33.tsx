@@ -27,8 +27,8 @@ const Card33 = ({ item }: any) => {
 
     const [open, setOpen] = useState(false);
 
-    const bgColor = "var(--header-color)";
-    const textColor = "var(--text-color)";
+    const bgColor = 'var(--header-color)';
+    const textColor = 'var(--text-color)';
 
     const styleCss = `
     .search-bg{
@@ -128,25 +128,20 @@ const Card33 = ({ item }: any) => {
                         />
                     </Link>
                     {save > 0 && (
-                            <div
-                                className="absolute text-xs px-2  py-2 top-3 right-2 rounded-md"
-                                style={{
-                                    background: `${bgColor}`,
-                                    color: `${textColor}`,
-                                }}
-                            >
-                                <p>
-                                    Save{' '}
-                                    {item.discount_type === 'fixed'
-                                        ? 'BDT'
-                                        : ''}{' '}
-                                    {numberParser(item.discount_price)}{' '}
-                                    {item.discount_type === 'percent'
-                                        ? '%'
-                                        : ''}
-                                </p>
-                            </div>
-                        )}
+                        <div
+                            className="absolute text-xs px-2  py-2 top-3 right-2 rounded-md"
+                            style={{
+                                background: `${bgColor}`,
+                                color: `${textColor}`,
+                            }}
+                        >
+                            <p>
+                                Save {item.discount_type === 'fixed' && <BDT />}{' '}
+                                {numberParser(item.discount_price)}{' '}
+                                {item.discount_type === 'percent' && '%'}
+                            </p>
+                        </div>
+                    )}
                     <div className="h-[80px]  absolute opacity-0 group-hover:opacity-100 bottom-0 left-[50%] translate-x-[-50%] translate-y-10 group-hover:translate-y-0 transition-all duration-500 ease-linear flex divide-x-2 lg:cursor-pointer gap-4  ">
                         <div
                             className="border-4 border-white h-12 w-12 flex justify-center items-center rounded-full search-bg hover:bg-blue-300 duration-300"

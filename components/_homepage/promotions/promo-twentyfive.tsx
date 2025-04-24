@@ -12,7 +12,7 @@ const PromoTwentyFive = ({ banner }: any) => {
                 {banner?.length > 0 &&
                     banner?.map((b: any) => (
                         <Link
-                            href={b?.link}
+                            href={b?.link ?? "#"}
                             key={b?.id}
                             target="_blank"
                             rel="noopener noreferrer"

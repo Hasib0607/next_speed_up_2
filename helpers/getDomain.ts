@@ -20,10 +20,11 @@ export default async function getDomain() {
     // url = '10starbd.com';
     // url = 'kc.design';
     // url = "swifttrading.store";
-    // url = "ezara.shop";
-    // url = "uniquemartbd.shop";
+    // url = "lokmantraders.shop";
+    // url = "nayeil.com";
     // url = "bikroyhutbd.com";
-    url = 'ashnaa.localhost:3000';
+    // url = 'beworthsbynature.ebitans.store';
+    url = 'shr.localhost:3000';
 
     return url;
 }

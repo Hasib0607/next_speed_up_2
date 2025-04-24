@@ -3,8 +3,6 @@
 import { EMAIL_REGEX } from '@/consts';
 import useAuth from '@/hooks/useAuth';
 import {
-    useGetCountryQuery,
-    useGetDistrictQuery,
     useGetFormFieldsQuery,
     useUserAddressSaveMutation,
     useUserAddressUpdateMutation,
@@ -14,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import {
     checkValidPhoneNumberByCode,
@@ -26,6 +24,7 @@ import { FormValues } from '@/types';
 import { generateDynamicSchema, showfieldByKey } from '@/lib/schema';
 import { usePathname } from 'next/navigation';
 import { getUserDataFromCookies } from '@/app/actions';
+import { RootState } from '@/redux/store';
 
 const CheckoutFromFortyfour = ({
     appStore,
@@ -45,24 +44,20 @@ const CheckoutFromFortyfour = ({
     const [userData, setUserData] = useState<any>({});
     const [fields, setFields] = useState<any>([]);
     const [phoneCode, setPhoneCode] = useState('');
-    const [countryInfoArr, setCountryInfoArr] = useState<any>([]);
-    const [districtArr, setDistrictArr] = useState<any>([]);
+
+    const countryInfoArr = useSelector(
+        (state: RootState) => state.checkout.countryArr
+    );
+    const districtArr = useSelector(
+        (state: RootState) => state.checkout.districtArr
+    );
 
     const store_id = appStore?.id || null;
 
-    const {
-        data: countryData,
-        isLoading: countryLoading,
-        isSuccess: countrySuccess,
-        refetch: countryRefetch,
-    } = useGetCountryQuery({});
-
-    const {
-        data: districtData,
-        isLoading: districtLoading,
-        isSuccess: districtSuccess,
-        refetch: districtRefetch,
-    } = useGetDistrictQuery({});
+    // const { isEmailRequired, isPhoneRequired } = useOrderByAuthtype(
+    //     appStore,
+    //     fields
+    // );
 
     const {
         data: userFormFieldsData,
@@ -250,21 +245,19 @@ const CheckoutFromFortyfour = ({
         }
     }, [setCountryCode, setValue, edit, editItem]);
 
-    // Extracting country db
-    useEffect(() => {
-        const allCountryInfo = countryData?.data || [];
-        if (countrySuccess) {
-            setCountryInfoArr(allCountryInfo);
-        }
-    }, [countryData, countrySuccess]);
-
-    // Extracting district db
-    useEffect(() => {
-        const districtFormSelectFields = districtData?.data || [];
-        if (districtSuccess) {
-            setDistrictArr(districtFormSelectFields);
-        }
-    }, [districtData, districtSuccess]);
+    // useEffect(() => {
+    //     let formData = getValues();
+    //  if (isPhoneRequired && !formData.phone) {
+    //         setError('phone', {
+    //             type: 'manual',
+    //             message: 'Phone number must be provide!',
+    //         });
+    //         // toast.warning(
+    //         //     'Phone number is mandatory for phone and Easy Order!'
+    //         // );
+    //     }
+    // }, [isPhoneRequired,setError,getValues,watchedFields])
+    
 
     // Extracting language from db
     useEffect(() => {
@@ -286,6 +279,7 @@ const CheckoutFromFortyfour = ({
     const fieldStyle = formFieldStyle
         ? formFieldStyle
         : 'focus:ring-0 focus:border-gray-400 block w-full shadow-md sm:text-md border-2 border-gray-300 rounded-lg p-3 text-gray-700';
+        
 
     return (
         <>

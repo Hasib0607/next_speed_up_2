@@ -11,12 +11,14 @@ import { imgUrl } from '@/site-settings/siteUrl';
 import { btnhover } from '@/site-settings/style';
 import { toast } from 'react-toastify';
 import { useLogInMutation } from '@/redux/features/auth/authApi';
+import { getActiveAuthTypes } from '@/helpers/getActiveAuthTypes';
 
 export const cls =
     'w-full rounded-md border border-[#E9EDF4] py-3 px-5 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-primary ';
 
 const LoginFour = ({ headersetting, appStore, activeModule }: any) => {
     const store_id = appStore?.id || null;
+    const authTypes = getActiveAuthTypes(appStore);
 
     const [loading, setLoading] = useState(false);
     const [show, setShow] = useState(false);
@@ -91,8 +93,7 @@ const LoginFour = ({ headersetting, appStore, activeModule }: any) => {
                                     </h2>
                                 </div>
                                 <form onSubmit={handleSubmit(onSubmit)}>
-                                    {appStore?.auth_type === 'phone' ||
-                                    appStore?.auth_type === 'EasyOrder' ? (
+                                    {authTypes.phone || authTypes.EasyOrder ? (
                                         <div className="mb-6">
                                             <input
                                                 autoComplete="tel"
@@ -107,7 +108,7 @@ const LoginFour = ({ headersetting, appStore, activeModule }: any) => {
                                     ) : (
                                         <div className="mb-6">
                                             <input
-                                                autoComplete="tel"
+                                                autoComplete="email"
                                                 type="email"
                                                 placeholder="Email"
                                                 {...register('phone', {
@@ -161,7 +162,8 @@ const LoginFour = ({ headersetting, appStore, activeModule }: any) => {
                                 >
                                     Forgot Password?
                                 </Link>
-                                {(appStore?.auth_type !== 'EasyOrder' ||
+                                {(!authTypes.EasyOrder ||
+                                    !authTypes.EmailEasyOrder ||
                                     activeModule) && (
                                     <p className="text-base text-[#adadad]">
                                         Not a member yet?

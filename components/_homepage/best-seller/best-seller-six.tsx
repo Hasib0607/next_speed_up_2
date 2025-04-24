@@ -3,44 +3,44 @@
 import Card7 from '@/components/card/card7';
 import SectionHeadingSix from '@/components/section-heading/section-heading-six';
 import GridSliderFive from '@/components/slider/grid-slider/grid-slider-five';
+import { productCurrentPrice } from '@/helpers/littleSpicy';
+import { RootState } from '@/redux/store';
 import { productImg } from '@/site-settings/siteUrl';
-import ArrowSquare from '@/utils/arrow-square';
+import { addToCart } from '@/utils/_cart-utils/cart-utils';
+import ArrowSeventeenHero from '@/utils/arrow-seventeen-hero';
+import BDT from '@/utils/bdt';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { SwiperSlide } from 'swiper/react';
-import BDT from '@/utils/bdt';
 import './best-seller-six.css';
-import { RootState } from '@/redux/store';
-import { productCurrentPrice } from '@/helpers/littleSpicy';
-import { useState } from 'react';
-import { addToCart } from '@/utils/_cart-utils/cart-utils';
 
 const BestSellerSix = ({ product, design, headersetting }: any) => {
     const dispatch = useDispatch();
+    const router = useRouter();
 
     const { cartList } = useSelector((state: RootState) => state.cart);
-
-    const [open, setOpen] = useState(false);
 
     const prev = 'feature_product_prev';
     const next = 'feature_product_next';
 
-    const price = productCurrentPrice(product);
+    const price = productCurrentPrice(product[1]);
 
     const { custom_design } = headersetting || {};
     const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
 
     const handleAddToCart = () => {
-        if (product?.variant?.length > 0) {
-            setOpen(!open);
+        if (product[1]?.variant?.length > 0) {
+            router.push('/product/' + product[1]?.id + '/' + product[1]?.slug);
         } else {
             addToCart({
                 dispatch,
-                product: product,
+                product: product[1],
                 cartList,
                 price,
                 qty: 1,
-                productQuantity: product?.quantity,
+                productQuantity: product[1]?.quantity,
             });
         }
     };
@@ -53,17 +53,16 @@ const BestSellerSix = ({ product, design, headersetting }: any) => {
                     subtitle={''}
                     title_color={title_color || '#000'}
                 />
-                <div
-                    className="grid grid-cols-1 mt-10 lg:grid-cols-3 md:grid-cols-2 py-3 group"
-                    style={{ border: '2px solid #f5f5f5', padding: '10px' }}
-                >
-                    <div className="lg:col-span-1 md:col-span-2 mt-4 px-4">
-                        <img
-                            className="w-full xl:h-[520px] lg:h-[520px] block m-auto h-auto object-cover object-center"
+                <div className="grid grid-cols-1 mt-10 lg:grid-cols-3 md:grid-cols-2 gap-2 p-4 group border-2 border-[#f5f5f5]">
+                    <div className="flex flex-col gap-y-2 lg:col-span-1 md:col-span-2">
+                        <Image
+                            className="w-full xl:h-[520px] lg:h-[520px] block h-auto object-cover object-center"
                             src={productImg + product[1]?.image[0]}
-                            alt=""
+                            alt={`${product[1]?.name}`}
+                            width={500}
+                            height={500}
                         />
-                        <div className="mt-3">
+                        <div>
                             <div
                                 className="font-sans text-lg sm:text-base font-normal antialiased mb-2 card5itemCategory"
                                 style={{
@@ -77,9 +76,12 @@ const BestSellerSix = ({ product, design, headersetting }: any) => {
                                 {product[1]?.name.charAt(0).toUpperCase() +
                                     product[1]?.name.slice(1)}
                             </div>
+
                             <BDT price={price} />
-                            <div onClick={handleAddToCart}>
+
+                            <div>
                                 <button
+                                    onClick={handleAddToCart}
                                     className="border py-2 px-6 mt-2 font-semibold font-six"
                                     style={{
                                         background: design?.header_color,
@@ -91,30 +93,17 @@ const BestSellerSix = ({ product, design, headersetting }: any) => {
                             </div>
                         </div>
                     </div>
-                    {product?.length > 0 && (
-                        <div className="lg:col-span-2 md:col-span-2 relative bestSellerCustomHover">
-                            <div className="flex px-1 -top-10 absolute inset-1 items-center">
-                                <ArrowSquare prevEl={prev} nextEl={next}>
-                                    {' '}
-                                </ArrowSquare>
-                            </div>
-                            {/* start here */}
-                            <GridSliderFive
-                                prevEl={prev}
-                                nextEl={next}
-                                isLoop={product?.length > 1}
-                            >
-                                {product?.map((item: any) => (
-                                    <SwiperSlide
-                                        className="swiperjs-slide"
-                                        key={item?.id}
-                                    >
+                    <div className="lg:col-span-2 md:col-span-2 relative bestSellerCustomHover">
+                        <ArrowSeventeenHero nextEl={next} prevEl={prev} />
+                        <GridSliderFive prevEl={prev} nextEl={next}>
+                            {product?.length > 0 &&
+                                product?.map((item: any) => (
+                                    <SwiperSlide key={item?.id}>
                                         <Card7 item={item} />
                                     </SwiperSlide>
                                 ))}
-                            </GridSliderFive>
-                        </div>
-                    )}
+                        </GridSliderFive>
+                    </div>
                 </div>
             </div>
         </div>
