@@ -34,7 +34,10 @@ const FooterFortyFour = ({ design, headersetting, menu, page }: any) => {
     return (
         <div className="mt-[60px] bg-gray-50 xl:mt-0 md:mt-[25px] lg:mt-0">
             <div className="sm:container px-5 py-10 mt-8">
-                <PaymantGatewayFortyFour headersetting={headersetting} />
+                <PaymantGatewayFortyFour
+                    headersetting={headersetting}
+                    store_id={store_id}
+                />
             </div>
 
             <NewsletterFortyFour

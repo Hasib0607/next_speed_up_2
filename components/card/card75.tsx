@@ -17,6 +17,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import Details from '../_product-details-page/components/details';
+import { FaCartPlus } from 'react-icons/fa';
 
 const Card75 = ({ item }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
@@ -79,7 +80,7 @@ const Card75 = ({ item }: any) => {
                 {!productAvailablity && (
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
                         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-[1]">
-                            <p className="bg-red-600 text-white px-2 py-1 w-max">
+                            <p className="bg-red-500 text-white px-2 py-1 w-max">
                                 Out of Stock
                             </p>
                         </div>
@@ -98,13 +99,13 @@ const Card75 = ({ item }: any) => {
                     </Link>
                 </div>
 
-                <div className="absolute z-[3] top-0 right-0 bg-[#ff576d] px-[5px] py-[2px] h-[22px] text-white flex justify-center items-center text-xs font-semibold">
+                <div className="absolute z-[3] top-0 right-0 bg-[#ee2f48] px-[8px] py-[3px] h-[22px] text-white flex justify-center items-center text-xs">
                     <p>SALE</p>
                 </div>
 
-                <div className="py-2 px-3 space-y-2 flex justify-center flex-col items-center">
+                <div className="space-y-2 flex justify-center flex-col items-center">
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
-                        <h3 className="text-sm text-gray-800 font-bold antialiased whitespace-nowrap overflow-hidden text-ellipsis sm:max-w-[170px] max-w-[150px]">
+                        <h3 className="text-gray-800 font-bold antialiased whitespace-nowrap overflow-hidden text-ellipsis sm:max-w-[170px] max-w-[150px]">
                             {item?.name}
                         </h3>
                     </Link>
@@ -125,12 +126,8 @@ const Card75 = ({ item }: any) => {
                         </div>
                     )}
 
-                    <div className="flex flex-col items-center gap-1">
+                    <div className="flex flex-col items-center gap-1 w-full">
                         <div className="text-base antialiased flex items-center gap-2">
-                            <div className="">
-                                <BDT />
-                                {price}
-                            </div>
                             {priceLineThrough && (
                                 <p className="line-through text-gray-400">
                                     <BDT
@@ -140,13 +137,20 @@ const Card75 = ({ item }: any) => {
                                     />
                                 </p>
                             )}
+                            <div className="">
+                                <BDT />
+                                {price}
+                            </div>
                         </div>
                         {productAvailablity && (
                             <div
-                                className="text-xs py-1 w-[100%] font-semibold lg:cursor-pointer bg-[var(--header-color)] text-[var(--text-color)]"
+                                className="py-2 w-full font-semibold lg:cursor-pointer bg-[var(--header-color)] text-[var(--text-color)]"
                                 onClick={handleAddToCart}
                             >
-                                Add to Cart
+                                <div className="flex items-center justify-center gap-2">
+                                    <FaCartPlus />
+                                    <p className="text-xs">Add to Cart</p>
+                                </div>
                             </div>
                         )}
                     </div>

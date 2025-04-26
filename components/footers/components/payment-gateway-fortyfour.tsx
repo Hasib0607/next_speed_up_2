@@ -6,8 +6,16 @@ import AmarPayImg from '@/assets/paymentMethodLogo/amar-pay.png';
 import { FaLock } from 'react-icons/fa6';
 import { FaRegFaceSmile } from "react-icons/fa6";
 import { GrDeliver } from "react-icons/gr";
+import { useGetCourierNameQuery } from '@/redux/features/courier/courierApi';
 
-const PaymantGatewayFortyFour = ({ headersetting }: any) => {
+const PaymantGatewayFortyFour = ({ headersetting, store_id }: any) => {
+    const {
+        isLoading: courierLoading,
+        isSuccess: courierSuccess,
+        isError: courierError,
+        data: courierData,
+    } = useGetCourierNameQuery({ store_id });
+
     const isAnyPaymentActive =
         headersetting?.amarpay === 'active' ||
         headersetting?.bkash === 'active' ||

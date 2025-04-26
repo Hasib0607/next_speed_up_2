@@ -1,17 +1,14 @@
 'use client';
-import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
-import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
-import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
+
 import Card6 from '@/components/card/card6';
-import Card75 from '@/components/card/card75';
-import InfiniteLoader from '@/components/loaders/infinite-loader';
 import Skeleton from '@/components/loaders/skeleton';
 import Pagination from '@/components/paginations/pagination';
 import { numberParser } from '@/helpers/numberParser';
 import { setSort } from '@/redux/features/filters/filterSlice';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
+import { NotFoundMsg } from '@/utils/little-components';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
@@ -20,8 +17,13 @@ import { useEffect, useState } from 'react';
 import { IoGridSharp } from 'react-icons/io5';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
+import InfiniteLoader from '../loaders/infinite-loader';
+import FilterByColorNew from './components/filter-by-color-new';
+import FilterByPriceNew from './components/filter-by-price-new';
+import FilterByBrandNew from './components/filter-by-brand-new';
+import Card75 from '../card/card75';
 
-const FortyFour = ({ design, store_id }: any) => {
+const CategoryFortyFour = ({ catId, store_id, design }: any) => {
     const module_id = 105;
     const dispatch = useDispatch();
     const { id: data }: any = useParams<{ id: string }>();
@@ -33,37 +35,37 @@ const FortyFour = ({ design, store_id }: any) => {
     const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
     const [select, setSelect] = useState<any>(parseInt(data?.id));
 
-    const categoryStore = useSelector((state: RootState) => state?.category);
-
+    const categoryStore = useSelector((state: any) => state?.category);
     const category = categoryStore?.categories || [];
+
 
     const paginationModule = modules?.find(
         (item: any) => item?.modulus_id === module_id
     );
-    const isPagination = parseInt(paginationModule?.status) === 1;
+    const isPagination = numberParser(paginationModule?.status) === 1;
 
     const styleCss = `
-    .grid-active {
-      color:  ${design?.header_color};
-      border: 1px solid ${design?.header_color};
-  }
- `;
+        .grid-active {
+            color:  ${design?.header_color};
+            border: 1px solid ${design?.header_color};
+        }
+    `;
 
     return (
         <div>
             <div className="sm:container px-5 sm:py-10 py-5">
                 <style>{styleCss}</style>
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-                    <div className="hidden md:block col-span-3 ">
-                        <div className="w-full rounded-xl h-max p-4 shadow-md bg-white">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                    <div className="hidden lg:block col-span-3 ">
+                        <div className="w-full rounded-xl h-max p-4 shadow-2xl">
                             {category?.map((item: any) => (
                                 <SingleCat
                                     key={item?.id}
                                     item={item}
+                                    design={design}
                                     setSelect={setSelect}
                                     select={select}
                                 />
@@ -79,25 +81,23 @@ const FortyFour = ({ design, store_id }: any) => {
                             <FilterByPriceNew />
                         </div>
                     </div>
-
-                    <div className="col-span-1 md:col-span-9 flex flex-col min-h-[100vh-200px] h-full">
+                    <div className="col-span-1 lg:col-span-9 flex flex-col min-h-[100vh-200px] h-full gap-2">
                         <Filter
                             onChange={(e: any) => {
                                 dispatch(setSort(e.target.value));
                                 setPage(1);
                             }}
+                            grid={grid}
                             setGrid={setGrid}
                             setOpen={setOpen}
                             open={open}
                             paginate={paginate}
                         />
                         <div className="flex-1">
-                            <ShopProductSection
+                            <ProductSection
+                                catId={catId}
                                 grid={grid}
-                                open={open}
-                                hasMore={hasMore}
                                 paginate={paginate}
-                                setHasMore={setHasMore}
                                 page={page}
                                 setPage={setPage}
                                 isPagination={isPagination}
@@ -120,58 +120,40 @@ const FortyFour = ({ design, store_id }: any) => {
     );
 };
 
-export default FortyFour;
+export default CategoryFortyFour;
 
-const ShopProductSection = ({
+const ProductSection = ({
     grid,
-    open,
+    catId,
     page,
     setPage,
-    hasMore,
     paginate,
-    setHasMore,
     isPagination,
     setPaginate,
 }: any) => {
     const filtersData = useSelector((state: RootState) => state.filters);
     // get the activecolor, pricevalue, selectedSort
     const { color: activeColor, price: priceValue } = filtersData || {};
-
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
     const [infiniteProducts, setInfiniteProducts] = useState<any[]>([]);
 
     const {
-        data: shopPageProductsData,
-        isLoading: shopPageProductsLoading,
-        isFetching: shopPageProductsFetching,
-        isSuccess: shopPageProductsSuccess,
-        isError: shopPageProductsError,
-        refetch: shopPageProductsRefetch,
-    } = useGetShopPageProductsQuery({ page, filtersData });
+        data: categoryPageProductsData,
+        isLoading: categoryPageProductsLoading,
+        isFetching: categoryPageProductsFetching,
+        isError: categoryPageProductsError,
+        isSuccess: categoryPageProductsSuccess,
+        refetch: categoryPageProductsRefetch,
+    } = useGetCategoryPageProductsQuery({ catId, page, filtersData });
 
     const nextPageFetch = () => {
         setPage((prevPage: number) => prevPage + 1);
     };
 
-    const categoryStore = useSelector((state: RootState) => state?.category);
-
-    const category = categoryStore?.categories || [];
-
     useEffect(() => {
-        shopPageProductsRefetch();
-        if (paginate?.total > 0) {
-            const more = numberParser(paginate?.total / 8, true) > page;
-            setHasMore(more);
-        }
-    }, [
-        page,
-        activeColor,
-        shopPageProductsRefetch,
-        priceValue,
-        paginate,
-        setHasMore,
-    ]);
+        categoryPageProductsRefetch();
+    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -180,19 +162,20 @@ const ShopProductSection = ({
     }, [activeColor, priceValue, setPage]);
 
     useEffect(() => {
-        if (shopPageProductsSuccess) {
-            const productsData = shopPageProductsData?.data?.products || [];
-            const paginationData = shopPageProductsData?.data?.pagination || {};
+        if (categoryPageProductsSuccess) {
+            const productsData = categoryPageProductsData?.data?.products || [];
+            const paginationData =
+                categoryPageProductsData?.data?.pagination || {};
 
             setPaginate(paginationData);
             setProducts(productsData);
         }
     }, [
-        shopPageProductsData,
-        shopPageProductsSuccess,
+        categoryPageProductsData,
+        categoryPageProductsSuccess,
+        categoryPageProductsFetching,
         page,
         setPaginate,
-        shopPageProductsFetching,
     ]);
 
     useEffect(() => {
@@ -217,66 +200,74 @@ const ShopProductSection = ({
             {/* show loading */}
             <div className="col-span-12 lg:col-span-9">
                 {isPagination &&
-                ((shopPageProductsLoading && !shopPageProductsError) ||
-                    shopPageProductsFetching)
+                ((categoryPageProductsLoading && !categoryPageProductsError) ||
+                    categoryPageProductsFetching)
                     ? Array.from({ length: 8 })?.map((_, index) => (
                           <Skeleton key={index} />
                       ))
                     : null}
             </div>
-
             {!isPagination ? (
                 <div>
                     <InfiniteScroll
                         style={{ height: 'auto', overflow: 'hidden' }}
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
-                        hasMore={hasMore}
-                        loader={<InfiniteLoader />}
+                        hasMore={paginate?.has_more_pages}
+                        loader={
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            (categoryPageProductsLoading && <InfiniteLoader />)
+                        }
                         endMessage={
-                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                No More Products
-                            </p>
+                            paginate?.has_more_pages ||
+                            categoryPageProductsFetching ||
+                            categoryPageProductsLoading ? (
+                                <InfiniteLoader />
+                            ) : (
+                                <NotFoundMsg message={'No More Products'} />
+                            )
                         }
                     >
                         {grid === 'H' && (
-                            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-1 sm:gap-4 ">
-                                {infiniteProducts?.map((item: any) => (
-                                    <motion.div
-                                        key={item?.id}
-                                        initial={{ scale: 0 }}
-                                        animate={{ scale: 1 }}
-                                        exit={{ scale: 0 }}
-                                        transition={{
-                                            duration: 0.5,
-                                            ease: 'linear',
-                                        }}
-                                    >
-                                        <Card75
-                                            item={item}
-                                            type={'single_product_page'}
-                                        />
-                                    </motion.div>
-                                ))}
+                            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-1 sm:gap-4">
+                                {infiniteProducts?.map(
+                                    (item: any, key: number) => (
+                                        <motion.div
+                                            key={key}
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            exit={{ scale: 0 }}
+                                            transition={{
+                                                duration: 0.5,
+                                                ease: 'linear',
+                                            }}
+                                        >
+                                            <Card75 item={item} />
+                                        </motion.div>
+                                    )
+                                )}
                             </div>
                         )}
                         <AnimatePresence>
                             {grid === 'V' && (
-                                <div className="grid grid-cols-1 gap-1 sm:gap-4 ">
-                                    {infiniteProducts?.map((item: any) => (
-                                        <motion.div
-                                            key={item?.id}
-                                            initial={{ translateX: 200 }}
-                                            animate={{ translateX: 0 }}
-                                            transition={{
-                                                duration: 0.5,
-                                                ease: 'linear',
-                                                type: 'tween',
-                                            }}
-                                        >
-                                            <Card6 item={item} />
-                                        </motion.div>
-                                    ))}
+                                <div className="grid grid-cols-1 gap-1 sm:gap-4">
+                                    {infiniteProducts?.map(
+                                        (item: any, key: number) => (
+                                            <motion.div
+                                                key={key}
+                                                initial={{ translateX: 200 }}
+                                                animate={{ translateX: 0 }}
+                                                transition={{
+                                                    duration: 0.5,
+                                                    ease: 'linear',
+                                                    type: 'tween',
+                                                }}
+                                            >
+                                                <Card6 item={item} />
+                                            </motion.div>
+                                        )
+                                    )}
                                 </div>
                             )}
                         </AnimatePresence>
@@ -286,9 +277,9 @@ const ShopProductSection = ({
                 <div>
                     {grid === 'H' && (
                         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-1 sm:gap-4">
-                            {products?.map((item: any) => (
+                            {products?.map((item: any, key: number) => (
                                 <motion.div
-                                    key={item?.id}
+                                    key={key}
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
                                     exit={{ scale: 0 }}
@@ -297,10 +288,7 @@ const ShopProductSection = ({
                                         ease: 'linear',
                                     }}
                                 >
-                                    <Card75
-                                        item={item}
-                                        type={'single_product_page'}
-                                    />
+                                    <Card75 item={item} />
                                 </motion.div>
                             ))}
                         </div>
@@ -308,9 +296,9 @@ const ShopProductSection = ({
                     <AnimatePresence>
                         {grid === 'V' && (
                             <div className="grid grid-cols-1 gap-1 sm:gap-4">
-                                {products?.map((item: any) => (
+                                {products?.map((item: any, key: number) => (
                                     <motion.div
-                                        key={item?.id}
+                                        key={key}
                                         initial={{ translateX: 200 }}
                                         animate={{ translateX: 0 }}
                                         transition={{
@@ -333,15 +321,15 @@ const ShopProductSection = ({
 
 const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
     return (
-        <div className="border-t border-b border-[#f1f1f1] py-3 mb-5 mt-6 md:mt-0 flex flex-wrap justify-between items-center px-2">
+        <div className="border-t border-b border-[#f1f1f1] py-3 flex flex-wrap justify-between items-center px-2">
             <div className="text-gray-500 font-medium">
                 Showing {paginate?.from}-{paginate?.to} of {paginate?.total}{' '}
-                results
+                results{' '}
             </div>
             <div className="flex items-center gap-1 mb-3 md:mb-0">
                 <div
                     onClick={() => setGrid('H')}
-                    className={` rounded-full p-2 ${
+                    className={` rounded-full p-2 lg:cursor-pointer ${
                         grid === 'H' ? 'grid-active' : 'border'
                     }`}
                 >
@@ -349,20 +337,19 @@ const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
                 </div>
                 <div
                     onClick={() => setGrid('V')}
-                    className={`rounded-full p-2 ${
+                    className={`rounded-full p-2 lg:cursor-pointer ${
                         grid === 'V' ? 'grid-active' : 'border'
                     }`}
                 >
                     <Bars3Icon className="h-4 w-4" />
                 </div>
             </div>
-
             {/* Short by  */}
-            <div className="flex items-center gap-2 text-sm max-w-md w-full font-medium">
+            <div className="flex items-center gap-2 text-sm max-w-md w-full">
                 <label className="max-w-fit"> Sort by:</label>
                 <select
                     onChange={onChange}
-                    className="h-9 border border-gray-200 rounded  outline-0 ring-0 focus:ring-0 font-medium text-sm flex-1 bg-white"
+                    className="h-9 border border-gray-200 rounded  outline-0 ring-0 focus:ring-0 text-xs flex-1 bg-white"
                 >
                     <option>Select One</option>
                     <option value="az">Name, A to Z</option>
