@@ -20,6 +20,9 @@ import { useEffect, useState } from 'react';
 import { IoGridSharp } from 'react-icons/io5';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
+import { BsSearch } from 'react-icons/bs';
+import { AiOutlineClose } from 'react-icons/ai';
+import Search3 from '@/components/headers/components/search3';
 
 const FortyFour = ({ design, store_id }: any) => {
     const module_id = 105;
@@ -36,6 +39,9 @@ const FortyFour = ({ design, store_id }: any) => {
     const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
     const [select, setSelect] = useState<any>(parseInt(data?.id));
+    const [searchTxt, setSearch] = useState('');
+    const [searchTxtUp, setSearchUp] = useState('');
+    const [searchInput, setSearchInput] = useState(false);
 
     const categoryStore = useSelector((state: RootState) => state?.category);
 
@@ -45,6 +51,12 @@ const FortyFour = ({ design, store_id }: any) => {
         (item: any) => item?.modulus_id === module_id
     );
     const isPagination = parseInt(paginationModule?.status) === 1;
+
+    const handleClose = () => {
+        setSearchInput(false);
+        setSearch('');
+        setSearchUp('');
+    };
 
     const styleCss = `
     .grid-active {
@@ -81,11 +93,18 @@ const FortyFour = ({ design, store_id }: any) => {
                     </div>
 
                     <div className="col-span-1 md:col-span-9 flex flex-col min-h-[100vh-200px] h-full">
+                        <Search
+                            searchTxt={searchTxt}
+                            setSearch={setSearch}
+                            design={design}
+                            handleClose={handleClose}
+                        />
                         <Filter
                             onChange={(e: any) => {
                                 dispatch(setSort(e.target.value));
                                 setPage(1);
                             }}
+                            grid={grid}
                             setGrid={setGrid}
                             setOpen={setOpen}
                             open={open}
@@ -213,7 +232,7 @@ const ShopProductSection = ({
     }, [isPagination, paginate, page, products]);
 
     return (
-        <>
+        <div className='mt-10'>
             {/* show loading */}
             <div className="col-span-12 lg:col-span-9">
                 {isPagination &&
@@ -327,7 +346,7 @@ const ShopProductSection = ({
                     </AnimatePresence>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 
@@ -338,7 +357,7 @@ const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
                 Showing {paginate?.from}-{paginate?.to} of {paginate?.total}{' '}
                 results
             </div>
-            <div className="flex items-center gap-1 mb-3 md:mb-0">
+            <div className="flex items-center gap-1 mb-3 md:mb-0 lg:cursor-pointer">
                 <div
                     onClick={() => setGrid('H')}
                     className={` rounded-full p-2 ${
@@ -375,6 +394,45 @@ const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
     );
 };
 
+const Search = ({ searchTxt, setSearch, design, handleClose }: any) => {
+    return (
+        <div className="lg:block hidden w-full">
+            <div className="relative">
+                <div className=" relative overflow-hidden">
+                    <div>
+                        <input
+                            value={searchTxt}
+                            onChange={(e) => setSearch(e.target.value)}
+                            type="text"
+                            placeholder="Search a product"
+                            className="w-full pl-3 py-2 border outline-none focus:outline-none focus:border-gray-200 border-gray-200 focus:ring-0"
+                        />
+                    </div>
+                    <div className=" lg:cursor-pointer absolute right-0 top-0 px-4 font-thin py-3">
+                        {searchTxt.length === 0 ? (
+                            <BsSearch className="text-xl" />
+                        ) : (
+                            <AiOutlineClose
+                                onClick={handleClose}
+                                className="text-xl lg:cursor-pointer"
+                            />
+                        )}
+                    </div>
+                </div>
+                {searchTxt && (
+                    <div className="absolute z-[15] top-2 left-0 pl-16 w-full">
+                        <Search3
+                            design={design}
+                            search={searchTxt}
+                            setSearch={setSearch}
+                        />
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
 const SingleCat = ({ item, select, setSelect }: any) => {
     return (
         <div className="w-full mb-2">
@@ -387,14 +445,18 @@ const SingleCat = ({ item, select, setSelect }: any) => {
                 >
                     <div className="flex items-center justify-between px-4 hover:bg-gray-50">
                         <div className="flex items-center">
-                            <input 
-                                type="checkbox" 
+                            <input
+                                type="checkbox"
                                 className="mr-2"
                                 onChange={(e) => e.preventDefault()}
                             />
-                            <span className={`text-lg font-medium ${
-                                select === item.id ? 'text-red-500' : 'text-gray-900'
-                            }`}>
+                            <span
+                                className={`text-lg font-medium ${
+                                    select === item.id
+                                        ? 'text-red-500'
+                                        : 'text-gray-900'
+                                }`}
+                            >
                                 {item.name}
                             </span>
                         </div>
@@ -416,14 +478,18 @@ const SingleCat = ({ item, select, setSelect }: any) => {
                         >
                             <div className="flex items-center justify-between pl-8 py-1 hover:bg-gray-50">
                                 <div className="flex items-center">
-                                    <input 
-                                        type="checkbox" 
+                                    <input
+                                        type="checkbox"
                                         className="mr-2"
                                         onChange={(e) => e.preventDefault()}
                                     />
-                                    <span className={`text-sm ${
-                                        select === sub.id ? 'text-red-500' : 'text-gray-500'
-                                    }`}>
+                                    <span
+                                        className={`text-sm ${
+                                            select === sub.id
+                                                ? 'text-red-500'
+                                                : 'text-gray-500'
+                                        }`}
+                                    >
                                         {sub.name}
                                     </span>
                                 </div>

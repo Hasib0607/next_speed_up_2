@@ -99,9 +99,11 @@ const Card75 = ({ item }: any) => {
                     </Link>
                 </div>
 
-                <div className="absolute z-[3] top-0 right-0 bg-[#ee2f48] px-[8px] py-[3px] h-[22px] text-white flex justify-center items-center text-xs">
-                    <p>SALE</p>
-                </div>
+                {productAvailablity && (
+                    <div className="absolute z-[3] top-0 right-0 bg-[#ee2f48] px-[8px] py-[3px] h-[22px] text-white flex justify-center items-center text-xs">
+                        <p>SALE</p>
+                    </div>
+                )}
 
                 <div className="space-y-2 flex justify-center flex-col items-center">
                     <Link href={'/product/' + item?.id + '/' + item?.slug}>
