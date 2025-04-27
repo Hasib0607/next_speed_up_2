@@ -1,20 +1,20 @@
 'use client';
 
-import { FaFacebookF } from 'react-icons/fa';
+import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import MotionLink from '@/utils/motion-link';
+import Link from 'next/link';
 import {
     AiFillLinkedin,
     AiFillYoutube,
     AiOutlineWhatsApp,
 } from 'react-icons/ai';
+import { FaFacebookF } from 'react-icons/fa';
 import { RiInstagramLine } from 'react-icons/ri';
-import Newsletter from './components/newsletter';
-import Link from 'next/link';
-import MenuList from './components/menu-list';
-import WhatsApp from './components/whatsApp';
 import AllPaymantGateway from './components/all-payment-gateway';
+import MenuList from './components/menu-list';
+import Newsletter from './components/newsletter';
 import PageList from './components/page-list';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import MotionLink from '@/utils/motion-link';
+import WhatsApp from './components/whatsApp';
 
 const FooterOne = ({ headersetting, design, menu, page }: any) => {
     const store_id = design?.store_id || null;
@@ -219,7 +219,7 @@ const FooterOne = ({ headersetting, design, menu, page }: any) => {
                 </div>
             </div>
             {/* <Messenger /> */}
-            <WhatsApp />
+            <WhatsApp headersetting={headersetting} />
         </footer>
     );
 };

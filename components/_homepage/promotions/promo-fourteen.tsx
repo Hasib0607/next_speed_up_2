@@ -13,7 +13,7 @@ const PromoFourteen = ({ banner }: any) => {
                                 ?.map((item: any, index: number) => (
                                     <div className="col-span-1" key={index}>
                                         <Link
-                                            href={item?.link}
+                                            href={item?.link ?? "#"}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                         >

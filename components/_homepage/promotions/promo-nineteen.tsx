@@ -13,7 +13,7 @@ const PromoNineteen = ({ banner }: any) => {
                                 className="h-auto min-w-full overflow-hidden"
                             >
                                 <Link
-                                    href={item?.link}
+                                    href={item?.link ?? "#"}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >

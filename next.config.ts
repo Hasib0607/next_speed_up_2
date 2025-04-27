@@ -12,7 +12,11 @@ const nextConfig: NextConfig = {
             {
                 protocol: 'https',
                 hostname: 'testing.ebitans.com',
-            }
+            },
+            {
+                protocol: 'https',
+                hostname: 'www.dummyimage.com',
+            },
         ],
     },
     experimental: {

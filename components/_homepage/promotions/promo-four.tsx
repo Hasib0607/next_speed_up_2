@@ -45,7 +45,7 @@ const PromoFour = ({ banner, design }: any) => {
                             <SwiperSlide key={b?.id}>
                                 <div className="">
                                     <Link
-                                        href={b?.link}
+                                        href={b?.link ?? "#"}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >

@@ -1,16 +1,17 @@
+import { hexToRgba } from '@/helpers/littleSpicy';
+import { imgUrl } from '@/site-settings/siteUrl';
+import FacebookPixel from '@/utils/FacebookPixel';
+import getDesign from '@/utils/fetcher/getDesign';
+import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
+import getStore from '@/utils/fetcher/getStore';
+import SetFavicon from '@/utils/useSetFavicon';
+import { GoogleTagManager } from '@next/third-parties/google';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import './globals.css';
-import getDesign from '@/utils/fetcher/getDesign';
-import AppWrapper from './AppWrapper';
-import getStore from '@/utils/fetcher/getStore';
 import Script from 'next/script';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
-import { imgUrl } from '@/site-settings/siteUrl';
-import SetFavicon from '@/utils/useSetFavicon';
 import NextTopLoader from 'nextjs-toploader';
-import { GoogleTagManager } from '@next/third-parties/google';
-import FacebookPixel from '@/utils/FacebookPixel';
+import AppWrapper from './AppWrapper';
+import './globals.css';
 // import CustomPageView from '@/utils/CustomPageView';
 
 const geistSans = localFont({
@@ -53,7 +54,10 @@ export default async function RootLayout({
     const googleAnalytics = headersetting?.google_analytics;
     const googleSearchConsole = headersetting?.google_search_console;
 
-    // console.log("headersetting",headersetting);
+    const headerColorRgb = hexToRgba(design?.header_color);
+    const textColorRgb = hexToRgba(design?.text_color);
+
+    // console.log("headerColorRgb",headerColorRgb);
     // console.log("FACEBOOK_PIXEL_ID",!FACEBOOK_PIXEL_ID);
 
     return (
@@ -95,7 +99,9 @@ export default async function RootLayout({
                 style={
                     {
                         '--header-color': design?.header_color,
+                        '--header-color-rgb': headerColorRgb,
                         '--text-color': design?.text_color,
+                        '--text-color-rgb': textColorRgb,
                     } as React.CSSProperties
                 }
             >
