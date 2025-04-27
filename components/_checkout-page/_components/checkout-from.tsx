@@ -279,6 +279,12 @@ const CheckoutFrom = ({
 
     const labelStyle = 'block text-sm font-medium text-gray-700 capitalize';
 
+    const bn =
+        design?.template_id === '29' ||
+        design?.checkout_page === ONE ||
+        design?.checkout_page === TWENTY_EIGHT ||
+        store_id === 3601;
+
     return (
         <>
             {userFormFieldsLoading ? (
@@ -308,12 +314,7 @@ const CheckoutFrom = ({
                                         htmlFor={'name'}
                                         className={labelStyle}
                                     >
-                                        {design?.template_id === '29' ||
-                                        design?.checkout_page ===
-                                            (ONE || TWENTY_EIGHT) ||
-                                        store_id === 3601
-                                            ? getValueByKey('name')
-                                            : 'name'}
+                                        {bn ? getValueByKey('name') : 'name'}
                                     </label>
                                     <input
                                         {...register('name')}
@@ -323,7 +324,9 @@ const CheckoutFrom = ({
                                         onInput={() =>
                                             handleFieldChange('name')
                                         }
-                                        placeholder={'full name'}
+                                        placeholder={
+                                            bn ? 'পুরো নাম' : 'full name'
+                                        }
                                         autoComplete="address-level1"
                                         className={classNames(
                                             fieldStyle,
@@ -348,12 +351,7 @@ const CheckoutFrom = ({
                                         htmlFor={'email'}
                                         className={labelStyle}
                                     >
-                                        {design?.template_id === '29' ||
-                                        design?.checkout_page ===
-                                            (ONE || TWENTY_EIGHT) ||
-                                        store_id === 3601
-                                            ? getValueByKey('email')
-                                            : 'email'}
+                                        {bn ? getValueByKey('email') : 'email'}
                                     </label>
                                     <input
                                         {...register('email')}
@@ -363,7 +361,7 @@ const CheckoutFrom = ({
                                         onInput={() =>
                                             handleFieldChange('email')
                                         }
-                                        placeholder={'email'}
+                                        placeholder={bn ? 'ইমেল' : 'email'}
                                         autoComplete="address-level1"
                                         className={classNames(
                                             fieldStyle,
@@ -387,12 +385,7 @@ const CheckoutFrom = ({
                                         htmlFor={'phone'}
                                         className={labelStyle}
                                     >
-                                        {design?.template_id === '29' ||
-                                        design?.checkout_page ===
-                                            (ONE || TWENTY_EIGHT) ||
-                                        store_id === 3601
-                                            ? getValueByKey('phone')
-                                            : 'phone'}
+                                        {bn ? getValueByKey('phone') : 'phone'}
                                     </label>
                                     <div className="flex items-center justify-between gap-2 h-10">
                                         <select
@@ -434,7 +427,9 @@ const CheckoutFrom = ({
                                             onInput={() =>
                                                 handleFieldChange('phone')
                                             }
-                                            placeholder={'phone number'}
+                                            placeholder={
+                                                bn ? 'ফোন' : 'phone number'
+                                            }
                                             autoComplete="address-level1"
                                             className={classNames(
                                                 fieldStyle,
@@ -459,10 +454,7 @@ const CheckoutFrom = ({
                                         htmlFor={'address'}
                                         className={labelStyle}
                                     >
-                                        {design?.template_id === '29' ||
-                                        design?.checkout_page ===
-                                            (ONE || TWENTY_EIGHT) ||
-                                        store_id === 3601
+                                        {bn
                                             ? getValueByKey('address')
                                             : 'address'}
                                     </label>
@@ -473,7 +465,9 @@ const CheckoutFrom = ({
                                         onInput={() =>
                                             handleFieldChange('address')
                                         }
-                                        placeholder={'detailed address'}
+                                        placeholder={
+                                            bn ? 'ঠিকানা' : 'detailed address'
+                                        }
                                         autoComplete={'address-level1'}
                                         className={classNames(fieldStyle)}
                                     />
@@ -496,10 +490,7 @@ const CheckoutFrom = ({
                                         htmlFor={'district'}
                                         className={labelStyle}
                                     >
-                                        {design?.template_id === '29' ||
-                                        design?.checkout_page ===
-                                            (ONE || TWENTY_EIGHT) ||
-                                        store_id === 3601
+                                        {bn
                                             ? getValueByKey('district')
                                             : 'district'}
                                     </label>
@@ -553,12 +544,7 @@ const CheckoutFrom = ({
                                         htmlFor={'note'}
                                         className={labelStyle}
                                     >
-                                        {design?.template_id === '29' ||
-                                        design?.checkout_page ===
-                                            (ONE || TWENTY_EIGHT) ||
-                                        store_id === 3601
-                                            ? getValueByKey('note')
-                                            : 'note'}
+                                        {bn ? getValueByKey('note') : 'note'}
                                     </label>
                                     <textarea
                                         {...register('note')}
@@ -567,7 +553,9 @@ const CheckoutFrom = ({
                                         onInput={() =>
                                             handleFieldChange('note')
                                         }
-                                        placeholder={'note (optional)'}
+                                        placeholder={
+                                            bn ? 'নোট' : 'note (optional)'
+                                        }
                                         autoComplete={'note-level1'}
                                         className={classNames(
                                             fieldStyle,

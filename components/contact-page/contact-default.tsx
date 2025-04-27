@@ -1,4 +1,6 @@
+import bgImg from '@/assets/bg-image/left.jpg';
 import { GMAP_IFRAME_SRC_LINK } from '@/consts';
+import { AdSizes } from '@/types/ads';
 import Link from 'next/link';
 import {
     FaFacebookF,
@@ -6,6 +8,7 @@ import {
     FaLinkedinIn,
     FaYoutube,
 } from 'react-icons/fa';
+import EbitansAd from '../Ads/EbitansAd';
 
 const ContactPage = async ({ headersetting }: any) => {
     const bangla = false;
@@ -86,8 +89,33 @@ const ContactPage = async ({ headersetting }: any) => {
                                 <FaLinkedinIn className="w-5 h-5 fill-current" />
                             </Link>
                         </div>
+
                         <hr className="w-[20%]" />
                     </div>
+
+                    {/* <EbitansAd
+                        size={AdSizes.LEADERBOARD}
+                        className="my-8"
+                        adContent={{
+                            title: 'Summer not Sale!',
+                            description:
+                                'Not Get up to 50% off on selected items. Limited time offer!',
+                            imageUrl: `${bgImg.src}`,
+                            cta: 'Learn More 1',
+                        }}
+                    />
+                    <EbitansAd size={AdSizes.SKYSCRAPER} />
+                    <EbitansAd size={AdSizes.LARGE_RECTANGLE} adContent={{
+                            title: 'Summer not Sale!',
+                            description:
+                                'Not Get up to 50% off on selected items. Limited time offer!',
+                            imageUrl: `${bgImg.src}`,
+                            cta: 'Learn More 1',
+                        }} adInfo/>
+                    <EbitansAd size={AdSizes.WIDE_SKYSCRAPER}  adInfo/>
+                    <EbitansAd size={AdSizes.MEDIUM_RECTANGLE} />
+                    <EbitansAd size={AdSizes.LARGE_RECTANGLE} />
+                    <EbitansAd size={AdSizes.LEADERBOARD} /> */}
 
                     <div className="grid grid-cols-1 gap-12 mt-10 lg:grid-cols-3">
                         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-1">

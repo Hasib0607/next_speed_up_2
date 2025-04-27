@@ -1,31 +1,70 @@
-// components/WhatsAppIcon.js
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import whatsapp2 from './../../../assets/img/icons/whatsApp_icon.webp';
+'use client';
 
-const WhatsApp = ({ headersetting }: any) => {
-    // Check if whatsapp_phone exists
-    const hasWhatsAppPhone = headersetting?.whatsapp_phone;
+import Link from 'next/link';
+import styles from '@/styles/contact.module.css';
+import { numberParser } from '@/helpers/numberParser';
+import { classNames } from '@/helpers/littleSpicy';
+import { useState } from 'react';
+import { FaComments, FaTimes, FaWhatsapp, FaPhone } from 'react-icons/fa';
+
+const FloatingPopup = ({ headersetting }: any) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const { button_status, rtl_status, whatsapp_phone, phone } =
+        headersetting || {};
+
+    // Check if floating Msg on
+    const floatingMsg = numberParser(button_status) === 1;
+    const rtlStatus = numberParser(rtl_status) === 0;
+
+    const toggleServices = () => {
+        setIsOpen((prev) => !prev); // Toggle icons visibility
+    };
 
     return (
-        hasWhatsAppPhone && ( // Render the icon only if whatsapp_phone is available
-            <Link
-                className="fixed bottom-16 left-12 z-50"
-                href={`https://api.whatsapp.com/send?phone=${hasWhatsAppPhone}`}
-                target="_blank"
-                rel="noopener noreferrer"
+        floatingMsg &&
+        whatsapp_phone && ( // Render the icon only if whatsapp_phone is available
+            <div
+                className={classNames(
+                    'fixed bottom-16 z-50',
+                    rtlStatus ? 'left-12' : 'right-12'
+                )}
             >
-                <Image
-                    src={whatsapp2}
-                    alt="WhatsApp Chat"
-                    className="w-16 h-16 animate-pulse"
-                    width={64}
-                    height={64}
-                />
-            </Link>
+                <div id="sy-whatshelp">
+                    {/* Floating service icons */}
+                    <div
+                        className={`${styles.services} ${isOpen ? styles.active : ''}`}
+                    >
+                        <Link
+                            href={`https://api.whatsapp.com/send?phone=${whatsapp_phone}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`${styles.serviceItem} ${styles.whatsapp}`}
+                            title="WhatsApp"
+                        >
+                            <FaWhatsapp />
+                        </Link>
+                        <a
+                            href={`tel:${phone}`}
+                            className={`${styles.serviceItem} ${styles.call}`}
+                            title="Call"
+                        >
+                            <FaPhone />
+                        </a>
+                    </div>
+
+                    {/* Floating button that toggles icons */}
+                    <button
+                        onClick={toggleServices}
+                        className={`${styles.openServices} bg-[var(--header-color)] text-[var(--text-color)]`}
+                        title="Contact Us"
+                    >
+                        {isOpen ? <FaTimes /> : <FaComments />}
+                    </button>
+                </div>
+            </div>
         )
     );
 };
 
-export default WhatsApp;
+export default FloatingPopup;

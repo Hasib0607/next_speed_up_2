@@ -81,7 +81,7 @@ export function url() {
 
 let urlName;
 
-// urlName = '10starbd.com';
+// urlName = 'muazuddinfurniture.ebitans.store';
 // urlName = "kc.design";
 // urlName = "swifttrading.store";
 // urlName = "lokmantraders.shop";

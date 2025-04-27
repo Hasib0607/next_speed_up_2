@@ -17,7 +17,7 @@ export default async function getDomain() {
         return url;
     }
 
-    // url = '10starbd.com';
+    // url = 'muazuddinfurniture.ebitans.store';
     // url = 'kc.design';
     // url = "swifttrading.store";
     // url = "lokmantraders.shop";
