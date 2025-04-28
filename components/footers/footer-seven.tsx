@@ -31,7 +31,8 @@ const FooterSeven = ({
         font-weight: 700;
     }
     `;
-
+    console.log('menu', menu);
+    console.log('result', result);
     return (
         <div>
             <style>{styleCss}</style>
@@ -147,8 +148,9 @@ const FooterSeven = ({
                                         <p key={m?.id}>
                                             <Link
                                                 href={
-                                                    m?.custom_link ??
-                                                    `/${m?.url}`
+                                                    m?.custom_link
+                                                        ? m?.custom_link
+                                                        : `/${m?.url}`
                                                 }
                                                 className="menu-hover"
                                             >
