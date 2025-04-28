@@ -25,7 +25,7 @@ const PromoTwentyEight = ({ banner }: any) => {
                         subtitle={'ভাল জিনিস আপনার জন্য অপেক্ষা করছে'}
                     />
                 </div>
-                <div className=" gap-2 flex lg:cursor-pointer">
+                <div className="gap-2 flex lg:cursor-pointer">
                     <div
                         className={`${prevEl} text-gray-600 arrow-color  h-10 w-10 flex justify-center items-center bg-white rounded-full left-4 top-[50%] -translate-y-1/2`}
                     >
@@ -84,7 +84,7 @@ const PromoTwentyEight = ({ banner }: any) => {
                             >
                                 <div className="relative">
                                     <Link
-                                        href={b?.link}
+                                        href={b?.link ?? '#'}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >

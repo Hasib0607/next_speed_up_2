@@ -1,7 +1,9 @@
 import { bannerImg } from '@/site-settings/siteUrl';
 import Link from 'next/link';
+import './promo-three.css';
 
 const PromoTwentyNine = ({ banner }: any) => {
+    
     return (
         <div className="sm:container px-5 sm:py-10 py-5">
             <div className="grid xl:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-6 ">
@@ -9,7 +11,7 @@ const PromoTwentyNine = ({ banner }: any) => {
                     banner?.map((ban: any) => (
                         <div
                             key={ban?.id}
-                            className="relative overflow-hidden shine-three shine-three-one"
+                            className="shine-three shine-three-one"
                         >
                             <Link
                                 href={ban?.link ?? '#'}

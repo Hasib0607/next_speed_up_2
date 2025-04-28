@@ -1,8 +1,10 @@
 'use client';
+
 import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
 import { bannerImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const PromoBottomFifteen = ({ banner }: any) => {
     return (
@@ -44,8 +46,8 @@ const PromoBottomFifteen = ({ banner }: any) => {
                         {banner?.map((item: any) => (
                             <SwiperSlide key={item?.id}>
                                 <div className="relative group">
-                                    <a
-                                        href={item?.link}
+                                    <Link
+                                        href={item?.link ?? '#'}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
@@ -54,7 +56,7 @@ const PromoBottomFifteen = ({ banner }: any) => {
                                             alt=""
                                             className="h-auto min-w-full rounded-md"
                                         />
-                                    </a>
+                                    </Link>
                                 </div>
                             </SwiperSlide>
                         ))}

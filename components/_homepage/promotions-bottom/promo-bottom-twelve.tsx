@@ -1,4 +1,5 @@
 import { bannerImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const PromoBottomTwelve = ({ banner }: any) => {
     return (
@@ -12,14 +13,14 @@ const PromoBottomTwelve = ({ banner }: any) => {
                             className="min-w-full object-cover h-auto object-center rounded-md"
                         />
                         {ban?.link && (
-                            <a
+                            <Link
                                 href={ban?.link ?? '#'}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="absolute z-[1] left-1/2 -translate-x-1/2 bottom-[10%] font-bold bg-black text-white px-10 py-2 text-sm rounded-sm border-2 duration-500 border-black hover:bg-white hover:text-black w-max"
                             >
                                 Go To Collection
-                            </a>
+                            </Link>
                         )}
                     </div>
                 ))}
