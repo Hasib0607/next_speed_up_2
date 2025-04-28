@@ -1,17 +1,17 @@
 import { bannerImg } from '@/site-settings/siteUrl';
 import Link from 'next/link';
 
-const PromoThirtyFive = ({ banner, design }: any) => {
+const PromoThirtyFive = ({ banner }: any) => {
     const styleCss = `
-    .promo-bg {
-        color:  ${design?.text_color};
-        background: ${design?.header_color};
-        border: 1px solid ${design?.text_color};
-    }
-    .shadow-banner{
-        box-shadow: 5px 5px black,5px 5px 0 2px white;
-    }
-      `;
+        .promo-bg {
+            color: var(--text-color);
+            background-color: var(--header-color);
+            border: 1px solid var(--text-color);
+        }
+        .shadow-banner{
+            box-shadow: 5px 5px black,5px 5px 0 2px white;
+        }
+    `;
 
     return (
         <div className="">

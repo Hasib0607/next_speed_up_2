@@ -8,7 +8,7 @@ const PromoTwo = ({ banner }: any) => {
                 banner?.map((b: any) => (
                     <div key={b?.id} className="relative overflow-hidden">
                         <Link
-                            href={b?.link}
+                            href={b?.link ?? '#'}
                             target="_blank"
                             rel="noopener noreferrer"
                         >

@@ -9,7 +9,7 @@ const PromoThirtyThree = ({ banner }: any) => {
                     banner?.map((ban: any) => (
                         <div key={ban?.id} className="relative overflow-hidden">
                             <Link
-                                href={`${ban?.link}`}
+                                href={ban?.link ?? '#'}
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >

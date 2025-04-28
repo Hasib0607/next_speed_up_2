@@ -1,8 +1,7 @@
 import { IoMdArrowDroprightCircle } from 'react-icons/io';
-
 import { bannerImg } from '@/site-settings/siteUrl';
-import './promo-three.css';
 import Link from 'next/link';
+import './promo-three.css';
 
 const PromoThree = ({ banner }: any) => {
     return (
@@ -18,7 +17,7 @@ const PromoThree = ({ banner }: any) => {
                         >
                             <div
                                 key={ban?.id}
-                                className="relative overflow-hidden shine-three shine-three-one"
+                                className=" shine-three shine-three-one"
                             >
                                 {ban?.link && (
                                     <div className="flex lg:px-5 font-bold px-2 lg:py-2 py-1 text-white text-base w-max z-[1] absolute xl:bottom-20 lg:bottom-32 bottom-10 lg:cursor-pointer xl:left-[60px] lg:left-32 md:left-[120px] left-[60px] bg-transparent menu-hover duration-500 items-center space-x-1">

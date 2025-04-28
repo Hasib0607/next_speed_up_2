@@ -1,6 +1,5 @@
-'use client';
-
 import { bannerImg } from '@/site-settings/siteUrl';
+import Link from 'next/link';
 
 const PromoFortyThree = ({ banner }: any) => {
     return (
@@ -30,7 +29,7 @@ const PromoFortyThree = ({ banner }: any) => {
                                     src={bannerImg + ban?.image}
                                 />
                             </div>
-                            <a
+                            <Link
                                 href={ban?.link ?? '#'}
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -41,7 +40,7 @@ const PromoFortyThree = ({ banner }: any) => {
                                 >
                                     Details
                                 </div>
-                            </a>
+                            </Link>
                             <div className="h-0 md:h-36"></div>
                         </div>
                     ))}
@@ -50,15 +49,15 @@ const PromoFortyThree = ({ banner }: any) => {
                 {/* Details Button for Third Image */}
                 {banner?.length > 0 && (
                     <div className="mt-28 flex justify-center relative z-10">
-                        <a
-                            href={banner[0]?.link}
+                        <Link
+                            href={banner[0]?.link ?? '#'}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
                             <div className="border border-[var(--text-color)] hover:border-[var(--header-color)] px-6 py-3 duration-300 uppercase text-sm font-medium text-[var(--text-color)] hover:bg-[var(--header-color)]">
                                 Details
                             </div>
-                        </a>
+                        </Link>
                     </div>
                 )}
             </div>
