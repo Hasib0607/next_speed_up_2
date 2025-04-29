@@ -1,6 +1,4 @@
-import bgImg from '@/assets/bg-image/left.jpg';
-import { GMAP_IFRAME_SRC_LINK } from '@/consts';
-import { AdSizes } from '@/types/ads';
+import { IFRAME_SRC_PATTERN } from '@/consts';
 import Link from 'next/link';
 import {
     FaFacebookF,
@@ -8,7 +6,6 @@ import {
     FaLinkedinIn,
     FaYoutube,
 } from 'react-icons/fa';
-import EbitansAd from '../Ads/EbitansAd';
 
 const ContactPage = async ({ headersetting }: any) => {
     const bangla = false;
@@ -24,7 +21,7 @@ const ContactPage = async ({ headersetting }: any) => {
         map_address,
     }: any = headersetting || {};
 
-    const srcMatch = map_address?.match(GMAP_IFRAME_SRC_LINK);
+    const srcMatch = map_address?.match(IFRAME_SRC_PATTERN);
     const iframeSrc = srcMatch ? srcMatch[1] : null;
 
     return (
