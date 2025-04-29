@@ -5,6 +5,7 @@ import { bannerImg, brandImg } from '@/site-settings/siteUrl';
 import { SwiperSlide } from 'swiper/react';
 import DefaultSlider from '../../slider/default-slider';
 import Link from 'next/link';
+import { DynamicImage } from '@/utils/image-controller';
 
 const PromoBottomTwentySix = ({ banner }: any) => {
     const {
@@ -13,6 +14,7 @@ const PromoBottomTwentySix = ({ banner }: any) => {
         isSuccess: brandSuccess,
     } = useGetSliderQuery({});
     const brand = brandData?.data || [];
+    // console.log("ba");
 
     return (
         banner?.length > 0 &&
@@ -25,6 +27,15 @@ const PromoBottomTwentySix = ({ banner }: any) => {
                             alt=""
                             className="min-w-full object-cover h-auto object-center rounded-md"
                         />
+
+                        {/* <DynamicImage
+                            src={bannerImg + ban?.image}
+                            // width={'auto'}
+                            // height={'auto'}
+                            alt={'adTitle'}
+                            className={"relative min-w-full object-cover h-full object-center rounded-full"}
+                        /> */}
+
                         {ban?.link && (
                             <Link
                                 href={ban?.link ?? '#'}
@@ -37,7 +48,7 @@ const PromoBottomTwentySix = ({ banner }: any) => {
                         )}
                     </div>
                 ))}
-                {brand?.length > 0 && (
+                {brand?.length > 3 && (
                     <div className="sm:mt-10 mt-5">
                         <DefaultSlider
                             breakpoints={{

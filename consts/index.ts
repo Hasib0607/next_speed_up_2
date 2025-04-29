@@ -51,7 +51,8 @@ export const TextColor = 'var(--text-color)';
 
 // regex
 export const HTML_TAG_PATTERN = /<[^>]*>/g;
-export const GMAP_IFRAME_SRC_LINK = /src="([^"]+)"/;
+export const IFRAME_SRC_PATTERN = /src="([^"]+)"/;
+
 // export const PHONE_NUMBER_REGEX = /^(01\d{9}|8801\d{9}|\+8801\d{9})$/;
 export const PHONE_NUMBER_REGEX = /^\+?[1-9]\d{1,14}$/;
 
