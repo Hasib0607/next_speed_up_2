@@ -6,6 +6,14 @@ import {
     FaLinkedinIn,
     FaYoutube,
 } from 'react-icons/fa';
+import EbitansAd from '../Ads/EbitansAd';
+import { AdSizes } from '@/types/ads';
+import bgImg from '@/assets/bg-image/left.jpg'
+import SKYSCRAPER from '@/assets/ads/300.600.png'
+import LARGE_RECTANGLE from '@/assets/ads/336.280.png'
+import WIDE_SKYSCRAPER from '@/assets/ads/160.600.png'
+import MEDIUM_RECTANGLE from '@/assets/ads/300.250.png'
+import LEADERBOARD from '@/assets/ads/728.90.png'
 
 const ContactPage = async ({ headersetting }: any) => {
     const bangla = false;
@@ -89,8 +97,8 @@ const ContactPage = async ({ headersetting }: any) => {
 
                         <hr className="w-[20%]" />
                     </div>
-
-                    {/* <EbitansAd
+{/* 
+                    <EbitansAd
                         size={AdSizes.LEADERBOARD}
                         className="my-8"
                         adContent={{
@@ -102,17 +110,28 @@ const ContactPage = async ({ headersetting }: any) => {
                         }}
                     />
                     <EbitansAd size={AdSizes.SKYSCRAPER} />
-                    <EbitansAd size={AdSizes.LARGE_RECTANGLE} adContent={{
-                            title: 'Summer not Sale!',
+                    <EbitansAd size={AdSizes.LEADERBOARD} adContent={{
+                            title: 'Summer LEADERBOARD',
                             description:
                                 'Not Get up to 50% off on selected items. Limited time offer!',
-                            imageUrl: `${bgImg.src}`,
-                            cta: 'Learn More 1',
+                            imageUrl: `${LEADERBOARD.src}`,
+                            cta: 'LEADERBOARD',
                         }} adInfo/>
-                    <EbitansAd size={AdSizes.WIDE_SKYSCRAPER}  adInfo/>
-                    <EbitansAd size={AdSizes.MEDIUM_RECTANGLE} />
-                    <EbitansAd size={AdSizes.LARGE_RECTANGLE} />
-                    <EbitansAd size={AdSizes.LEADERBOARD} /> */}
+                    <EbitansAd size={AdSizes.WIDE_SKYSCRAPER} adContent={{
+                            imageUrl: `${WIDE_SKYSCRAPER.src}`,
+                        }} />
+                    <EbitansAd size={AdSizes.MEDIUM_RECTANGLE} adContent={{
+                            imageUrl: `${MEDIUM_RECTANGLE.src}`,
+                        }} />
+                    <EbitansAd size={AdSizes.LARGE_RECTANGLE} adContent={{
+                            imageUrl: `${LARGE_RECTANGLE.src}`,
+                        }} />
+                    <EbitansAd size={AdSizes.LEADERBOARD} adContent={{
+                            imageUrl: `${LEADERBOARD.src}`,
+                        }} />
+                    <EbitansAd size={AdSizes.SKYSCRAPER} adContent={{
+                            imageUrl: `${SKYSCRAPER.src}`,
+                        }} /> */}
 
                     <div className="grid grid-cols-1 gap-12 mt-10 lg:grid-cols-3">
                         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-1">

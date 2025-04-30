@@ -9,12 +9,12 @@ export async function getUserDataFromCookies() {
     const cookieStore = await cookies();
 
     const previousUrl =
-        cookieStore.get('previousUrl')?.value || 'No previousUrl found';
+        cookieStore.get('previousUrl')?.value || null;
     const currentUrl =
-        cookieStore.get('currentUrl')?.value || 'No currentUrl found';
-    const userIp = cookieStore.get('currentIp')?.value || 'No IP found';
+        cookieStore.get('currentUrl')?.value || null;
+    const userIp = cookieStore.get('currentIp')?.value || null;
     const countryCode = cookieStore.get('countryCode')?.value || 'BD';
-    const city = cookieStore.get('city')?.value || 'No countryCode found';
+    const city = cookieStore.get('city')?.value || null;
 
     // for params
     const routeParamsCookie = cookieStore.get('routeParams');
