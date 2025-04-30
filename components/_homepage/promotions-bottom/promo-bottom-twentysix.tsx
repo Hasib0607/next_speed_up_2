@@ -5,7 +5,7 @@ import { bannerImg, brandImg } from '@/site-settings/siteUrl';
 import { SwiperSlide } from 'swiper/react';
 import DefaultSlider from '../../slider/default-slider';
 import Link from 'next/link';
-import { DynamicImage } from '@/utils/image-controller';
+import { MasterImage } from '@/utils/image-controller';
 
 const PromoBottomTwentySix = ({ banner }: any) => {
     const {
@@ -14,7 +14,6 @@ const PromoBottomTwentySix = ({ banner }: any) => {
         isSuccess: brandSuccess,
     } = useGetSliderQuery({});
     const brand = brandData?.data || [];
-    // console.log("ba");
 
     return (
         banner?.length > 0 &&
@@ -22,19 +21,12 @@ const PromoBottomTwentySix = ({ banner }: any) => {
             <div className="sm:container px-5 sm:py-10 py-5">
                 {banner?.map((ban: any) => (
                     <div className="relative group" key={ban?.id}>
-                        <img
-                            src={bannerImg + ban?.image}
-                            alt=""
-                            className="min-w-full object-cover h-auto object-center rounded-md"
-                        />
-
-                        {/* <DynamicImage
-                            src={bannerImg + ban?.image}
-                            // width={'auto'}
-                            // height={'auto'}
-                            alt={'adTitle'}
-                            className={"relative min-w-full object-cover h-full object-center rounded-full"}
-                        /> */}
+                        <div className="h-[30vh] md:h-[100vh] w-auto">
+                            <MasterImage
+                                src={bannerImg + ban?.image}
+                                alt={'adTitle'}
+                            />
+                        </div>
 
                         {ban?.link && (
                             <Link

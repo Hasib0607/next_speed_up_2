@@ -27,27 +27,19 @@ export const getSizeClasses = (size: AdSizes) => {
 };
 
 export const getContainerMaxWidth = (size: AdSizes) => {
-    const [width] = getAdDimensions(size);
-    
     switch (size) {
         case AdSizes.LARGE_RECTANGLE:
-            return 'max-w-[336px]';
+            return "hidden md:block";
         case AdSizes.MEDIUM_RECTANGLE:
-            return 'max-w-[300px]';
+            return "block";
         case AdSizes.WIDE_SKYSCRAPER:
-            return 'max-w-[160px]';
+            return "hidden md:block";
         case AdSizes.SKYSCRAPER:
-            return 'max-w-[300px]';
+            return "hidden md:block";
         case AdSizes.LEADERBOARD:
-            return 'max-w-[728px]';
+            return "hidden md:block";
         default:
-            return `max-w-[${width}px]`;
-        // // For leaderboard (728x90), use the full width up to the ad size
-        // case AdSizes.LEADERBOARD:
-        //     return `max-w-[${width}px]`;
-        // default:
-        //     // For other sizes, constrain to the ad width
-        //     return `max-w-[${width}px]`;
+            return "hidden";
     }
 };
 

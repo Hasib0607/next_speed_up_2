@@ -1,5 +1,5 @@
 import { BaseAdProps } from '@/types/ads';
-import { DynamicImage } from '@/utils/image-controller';
+import { MasterImage } from '@/utils/image-controller';
 
 const BaseAd = ({
     adContent = {
@@ -32,13 +32,7 @@ const BaseAd = ({
             style={{ width, height, position: 'relative' }}
         >
             <div className="relative flex flex-col h-full">
-                <DynamicImage
-                    src={adImageUrl}
-                    width={width}
-                    height={height}
-                    alt={adTitle}
-                    className={outerStyle}
-                />
+                <MasterImage src={adImageUrl} alt={adTitle} />
                 {showInfo && !isDummyImg && (
                     <div className="absolute p-4 flex flex-col gap-1 bottom-2 z-20">
                         {adTitle.length > 0 && (

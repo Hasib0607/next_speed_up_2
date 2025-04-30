@@ -4,9 +4,9 @@ import { getPrice } from './getPrice';
 import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 
 export const hexToRgba = (hexColor: string = ''): string => {
-    if (hexColor === null) return '#000'
+    if (hexColor === null) return `${255}, ${0}, ${0}`;
     const hexColorArr: any = hexColor.match(/\w\w/g);
-    
+
     const [r, g, b] =
         hexColorArr?.length > 0 &&
         hexColorArr.map((c: string) => parseInt(c, 16));

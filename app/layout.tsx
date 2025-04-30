@@ -54,11 +54,10 @@ export default async function RootLayout({
     const googleAnalytics = headersetting?.google_analytics;
     const googleSearchConsole = headersetting?.google_search_console;
 
-    const headerColorRgb = hexToRgba(design?.header_color);
-    const textColorRgb = hexToRgba(design?.text_color);
+    const headerColorRgb = !appStore ? '255 0 0' : hexToRgba(design?.header_color);
+    const textColorRgb = !appStore ? '255 0 0' : hexToRgba(design?.text_color);
 
     // console.log("headerColorRgb",headerColorRgb);
-    // console.log("FACEBOOK_PIXEL_ID",!FACEBOOK_PIXEL_ID);
 
     return (
         <html lang="en">
