@@ -4,6 +4,7 @@ import Link from 'next/link';
 import whatsapp2 from './../../../assets/img/icons/whatsApp_icon.webp';
 
 const WhatsApp = ({ headersetting }: any) => {
+    
     // Check if whatsapp_phone exists
     const hasWhatsAppPhone = headersetting?.whatsapp_phone;
 
