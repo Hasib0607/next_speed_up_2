@@ -84,7 +84,7 @@ const FooterNineteen = ({ headersetting, design, page, menu }: any) => {
                     </div>
                 </div>
             </div>
-            <WhatsApp />
+            <WhatsApp headersetting={headersetting} />
             {/* <Messenger /> */}
         </>
     );

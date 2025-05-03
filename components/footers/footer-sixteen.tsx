@@ -136,7 +136,7 @@ const FooterSixteen = ({ headersetting, menu, page, design }: any) => {
                 </div>
             </div>
             {/* <Messenger /> */}
-            <WhatsApp />
+            <WhatsApp headersetting={headersetting} />
         </div>
     );
 };

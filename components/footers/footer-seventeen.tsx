@@ -240,7 +240,7 @@ const FooterSeventeen = ({
                 </div>
             </div>
             {/* <Messenger /> */}
-            <WhatsApp />
+            <WhatsApp headersetting={headersetting} />
         </div>
     );
 };

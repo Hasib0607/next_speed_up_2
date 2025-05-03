@@ -1,5 +1,4 @@
 'use client';
-
 import Link from 'next/link';
 import styles from '@/styles/contact.module.css';
 import { numberParser } from '@/helpers/numberParser';
@@ -7,14 +6,14 @@ import { classNames } from '@/helpers/littleSpicy';
 import { useState } from 'react';
 import { FaComments, FaTimes, FaWhatsapp, FaPhone } from 'react-icons/fa';
 
-const FloatingPopup = ({ headersetting }: any) => {
+const WhatsApp = ({ headersetting }: any) => {
     const [isOpen, setIsOpen] = useState(false);
-
     const { button_status, rtl_status, whatsapp_phone, phone } =
         headersetting || {};
 
     // Check if floating Msg on
     const floatingMsg = numberParser(button_status) === 1;
+
     const rtlStatus = numberParser(rtl_status) === 0;
 
     const toggleServices = () => {
@@ -52,7 +51,6 @@ const FloatingPopup = ({ headersetting }: any) => {
                             <FaPhone />
                         </a>
                     </div>
-
                     {/* Floating button that toggles icons */}
                     <button
                         onClick={toggleServices}
@@ -67,4 +65,4 @@ const FloatingPopup = ({ headersetting }: any) => {
     );
 };
 
-export default FloatingPopup;
+export default WhatsApp;

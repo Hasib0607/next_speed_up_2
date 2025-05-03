@@ -22,6 +22,9 @@ import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
 import FilterByBrandNew from './components/filter-by-brand-new';
 import Card75 from '../card/card75';
+import { BsSearch } from 'react-icons/bs';
+import { AiOutlineClose } from 'react-icons/ai';
+import Search3 from '@/components/headers/components/search3';
 
 const CategoryFortyFour = ({ catId, store_id, design }: any) => {
     const module_id = 105;
@@ -37,15 +40,23 @@ const CategoryFortyFour = ({ catId, store_id, design }: any) => {
     const [page, setPage] = useState(1);
     const [paginate, setPaginate] = useState<any>({});
     const [select, setSelect] = useState<any>(parseInt(data?.id));
+    const [searchTxt, setSearch] = useState('');
+    const [searchTxtUp, setSearchUp] = useState('');
+    const [searchInput, setSearchInput] = useState(false);
 
     const categoryStore = useSelector((state: any) => state?.category);
     const category = categoryStore?.categories || [];
-
 
     const paginationModule = modules?.find(
         (item: any) => item?.modulus_id === module_id
     );
     const isPagination = numberParser(paginationModule?.status) === 1;
+
+    const handleClose = () => {
+        setSearchInput(false);
+        setSearch('');
+        setSearchUp('');
+    };
 
     const styleCss = `
         .grid-active {
@@ -82,6 +93,12 @@ const CategoryFortyFour = ({ catId, store_id, design }: any) => {
                         </div>
                     </div>
                     <div className="col-span-1 lg:col-span-9 flex flex-col min-h-[100vh-200px] h-full gap-2">
+                        <Search
+                            searchTxt={searchTxt}
+                            setSearch={setSearch}
+                            design={design}
+                            handleClose={handleClose}
+                        />
                         <Filter
                             onChange={(e: any) => {
                                 dispatch(setSort(e.target.value));
@@ -196,7 +213,7 @@ const ProductSection = ({
     }, [isPagination, paginate, page, products]);
 
     return (
-        <>
+        <div className="mt-10">
             {/* show loading */}
             <div className="col-span-12 lg:col-span-9">
                 {isPagination &&
@@ -315,13 +332,13 @@ const ProductSection = ({
                     </AnimatePresence>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 
 const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
     return (
-        <div className="border-t border-b border-[#f1f1f1] py-3 flex flex-wrap justify-between items-center px-2">
+        <div className="border-t border-b border-[#f1f1f1] py-3 mb-5 mt-6 md:mt-0 flex flex-wrap justify-between items-center px-2">
             <div className="text-gray-500 font-medium">
                 Showing {paginate?.from}-{paginate?.to} of {paginate?.total}{' '}
                 results{' '}
@@ -362,6 +379,45 @@ const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
     );
 };
 
+const Search = ({ searchTxt, setSearch, design, handleClose }: any) => {
+    return (
+        <div className="lg:block hidden w-full">
+            <div className="relative">
+                <div className=" relative overflow-hidden">
+                    <div>
+                        <input
+                            value={searchTxt}
+                            onChange={(e) => setSearch(e.target.value)}
+                            type="text"
+                            placeholder="Search a product"
+                            className="w-full pl-3 py-2 border outline-none focus:outline-none focus:border-gray-200 border-gray-200 focus:ring-0"
+                        />
+                    </div>
+                    <div className=" lg:cursor-pointer absolute right-0 top-0 px-4 font-thin py-3">
+                        {searchTxt.length === 0 ? (
+                            <BsSearch className="text-xl" />
+                        ) : (
+                            <AiOutlineClose
+                                onClick={handleClose}
+                                className="text-xl lg:cursor-pointer"
+                            />
+                        )}
+                    </div>
+                </div>
+                {searchTxt && (
+                    <div className="absolute z-[15] top-2 left-0 pl-16 w-full">
+                        <Search3
+                            design={design}
+                            search={searchTxt}
+                            setSearch={setSearch}
+                        />
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
 const SingleCat = ({ item, select, setSelect }: any) => {
     return (
         <div className="w-full mb-2">
@@ -374,14 +430,18 @@ const SingleCat = ({ item, select, setSelect }: any) => {
                 >
                     <div className="flex items-center justify-between px-4 hover:bg-gray-50">
                         <div className="flex items-center">
-                            <input 
-                                type="checkbox" 
+                            <input
+                                type="checkbox"
                                 className="mr-2"
                                 onChange={(e) => e.preventDefault()}
                             />
-                            <span className={`text-lg font-medium ${
-                                select === item.id ? 'text-red-500' : 'text-gray-900'
-                            }`}>
+                            <span
+                                className={`text-lg font-medium ${
+                                    select === item.id
+                                        ? 'text-red-500'
+                                        : 'text-gray-900'
+                                }`}
+                            >
                                 {item.name}
                             </span>
                         </div>
@@ -403,14 +463,18 @@ const SingleCat = ({ item, select, setSelect }: any) => {
                         >
                             <div className="flex items-center justify-between pl-8 py-1 hover:bg-gray-50">
                                 <div className="flex items-center">
-                                    <input 
-                                        type="checkbox" 
+                                    <input
+                                        type="checkbox"
                                         className="mr-2"
                                         onChange={(e) => e.preventDefault()}
                                     />
-                                    <span className={`text-sm ${
-                                        select === sub.id ? 'text-red-500' : 'text-gray-500'
-                                    }`}>
+                                    <span
+                                        className={`text-sm ${
+                                            select === sub.id
+                                                ? 'text-red-500'
+                                                : 'text-gray-500'
+                                        }`}
+                                    >
                                         {sub.name}
                                     </span>
                                 </div>

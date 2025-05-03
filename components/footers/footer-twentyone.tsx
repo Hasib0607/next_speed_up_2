@@ -357,7 +357,7 @@ const FooterTwentyOne = ({ headersetting, brand, menu, page }: any) => {
                     </div>
                 </div>
                 {/* <Messenger /> */}
-                <WhatsApp />
+                <WhatsApp headersetting={headersetting} />
             </div>
         </>
     );

@@ -147,7 +147,7 @@ const FooterFortyFour = ({ design, headersetting, menu, page }: any) => {
                 </div>
             </div>
 
-            <WhatsApp />
+            <WhatsApp headersetting={headersetting} />
         </div>
     );
 };

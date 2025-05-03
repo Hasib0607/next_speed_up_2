@@ -92,6 +92,7 @@ const DetailsLandingPage = ({
         });
     };
 
+    // set which color is selected
     useEffect(() => {
         setFilterV(
             variant?.filter((item: any) => item?.color === color?.color)
@@ -437,6 +438,7 @@ const DetailsLandingPage = ({
                     setActiveImg={setActiveImg}
                     setUnit={setUnit}
                     price={price}
+                    save={save}
                     handleCheckout={handleCheckout}
                 />
             </div>
