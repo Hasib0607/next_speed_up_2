@@ -249,7 +249,7 @@ const Discount = ({
                                     htmlFor="shippingArea"
                                     className="block text-xl font-semibold text-gray-700"
                                 >
-                                    Shipping Area
+                                    { bn ? 'শিপিং এরিয়া' : "Shipping Area"}
                                 </label>
                                 <div className="flex flex-col gap-2">
                                     {/* Radio button for Shipping Area 1 */}
@@ -338,7 +338,7 @@ const Discount = ({
                                     htmlFor="shippingArea"
                                     className="block text-xl font-semibold text-gray-700"
                                 >
-                                    Shipping Area
+                                    { bn ? 'শিপিং এরিয়া' : "Shipping Area"}
                                 </label>
                                 <div>
                                     <select

@@ -1,4 +1,4 @@
-import { GMAP_IFRAME_SRC_LINK } from '@/consts';
+import { IFRAME_SRC_PATTERN } from '@/consts';
 import Link from 'next/link';
 import {
     FaFacebookF,
@@ -6,6 +6,14 @@ import {
     FaLinkedinIn,
     FaYoutube,
 } from 'react-icons/fa';
+import EbitansAd from '../Ads/EbitansAd';
+import { AdSizes } from '@/types/ads';
+import bgImg from '@/assets/bg-image/left.jpg'
+import SKYSCRAPER from '@/assets/ads/300.600.png'
+import LARGE_RECTANGLE from '@/assets/ads/336.280.png'
+import WIDE_SKYSCRAPER from '@/assets/ads/160.600.png'
+import MEDIUM_RECTANGLE from '@/assets/ads/300.250.png'
+import LEADERBOARD from '@/assets/ads/728.90.png'
 
 const ContactPage = async ({ headersetting }: any) => {
     const bangla = false;
@@ -21,7 +29,7 @@ const ContactPage = async ({ headersetting }: any) => {
         map_address,
     }: any = headersetting || {};
 
-    const srcMatch = map_address?.match(GMAP_IFRAME_SRC_LINK);
+    const srcMatch = map_address?.match(IFRAME_SRC_PATTERN);
     const iframeSrc = srcMatch ? srcMatch[1] : null;
 
     return (
@@ -86,8 +94,44 @@ const ContactPage = async ({ headersetting }: any) => {
                                 <FaLinkedinIn className="w-5 h-5 fill-current" />
                             </Link>
                         </div>
+
                         <hr className="w-[20%]" />
                     </div>
+{/* 
+                    <EbitansAd
+                        size={AdSizes.LEADERBOARD}
+                        className="my-8"
+                        adContent={{
+                            title: 'Summer not Sale!',
+                            description:
+                                'Not Get up to 50% off on selected items. Limited time offer!',
+                            imageUrl: `${bgImg.src}`,
+                            cta: 'Learn More 1',
+                        }}
+                    />
+                    <EbitansAd size={AdSizes.SKYSCRAPER} />
+                    <EbitansAd size={AdSizes.LEADERBOARD} adContent={{
+                            title: 'Summer LEADERBOARD',
+                            description:
+                                'Not Get up to 50% off on selected items. Limited time offer!',
+                            imageUrl: `${LEADERBOARD.src}`,
+                            cta: 'LEADERBOARD',
+                        }} adInfo/>
+                    <EbitansAd size={AdSizes.WIDE_SKYSCRAPER} adContent={{
+                            imageUrl: `${WIDE_SKYSCRAPER.src}`,
+                        }} />
+                    <EbitansAd size={AdSizes.MEDIUM_RECTANGLE} adContent={{
+                            imageUrl: `${MEDIUM_RECTANGLE.src}`,
+                        }} />
+                    <EbitansAd size={AdSizes.LARGE_RECTANGLE} adContent={{
+                            imageUrl: `${LARGE_RECTANGLE.src}`,
+                        }} />
+                    <EbitansAd size={AdSizes.LEADERBOARD} adContent={{
+                            imageUrl: `${LEADERBOARD.src}`,
+                        }} />
+                    <EbitansAd size={AdSizes.SKYSCRAPER} adContent={{
+                            imageUrl: `${SKYSCRAPER.src}`,
+                        }} /> */}
 
                     <div className="grid grid-cols-1 gap-12 mt-10 lg:grid-cols-3">
                         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-1">

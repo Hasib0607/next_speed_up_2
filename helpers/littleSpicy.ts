@@ -3,6 +3,16 @@ import { numberParser } from './numberParser';
 import { getPrice } from './getPrice';
 import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 
+export const hexToRgba = (hexColor: string = ''): string => {
+    if (hexColor === null) return `${255}, ${0}, ${0}`;
+    const hexColorArr: any = hexColor.match(/\w\w/g);
+
+    const [r, g, b] =
+        hexColorArr?.length > 0 &&
+        hexColorArr.map((c: string) => parseInt(c, 16));
+    return `${r}, ${g}, ${b}`;
+};
+
 // check subunits are greater than 0
 export const hasSubunits = (price: number): boolean => {
     return price % 1 === 0;
@@ -49,8 +59,13 @@ export const getVariantDetailsById = (product: any) => {
 
 // varivable value converter
 export const getCssVariableHex = (variable: string) => {
-    const body = document.body; // Select body instead of documentElement
-    return getComputedStyle(body).getPropertyValue(variable).trim();
+    if (typeof window !== 'undefined') {
+        const body = document.body; // Select body instead of documentElement
+        return (
+            getComputedStyle(body).getPropertyValue(variable).trim() ??
+            '#ff0000'
+        );
+    }
 };
 
 // Utility function to truncate the string

@@ -18,16 +18,17 @@ export default async function getStore() {
             notFound();
         }
 
-        // Clone the response if needed elsewhere
+        //   Clone the response if needed elsewhere
         const clonedResponse = response.clone();
         const clonedResponseData = await clonedResponse.json();
 
         // const resData = await response.json();
-        const storeDetails = clonedResponseData?.data;
+        const storeDetails = clonedResponseData?.status
+            ? clonedResponseData?.data
+            : null;
 
         return storeDetails;
     } catch (error) {
-        console.error('Fetch get-store data error:', error);
         return null;
     }
 }

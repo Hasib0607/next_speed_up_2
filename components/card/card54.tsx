@@ -106,7 +106,6 @@ const Card54 = ({ item }: any) => {
       }
 
   `;
-    console.log('save > 0', save);
 
     return (
         <div className="group overlay-group relative px-2">

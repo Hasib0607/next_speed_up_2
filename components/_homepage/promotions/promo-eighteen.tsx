@@ -4,7 +4,6 @@ import Link from 'next/link';
 const PromoEighteen = ({ banner }: any) => {
     return (
         <div className="bg-white sm:container px-5 sm:py-10 py-5">
-            <div className="">
                 <div className="grid sm:grid-cols-2 gap-6">
                     {banner?.length > 0 &&
                         banner?.map((ban: any) => (
@@ -27,7 +26,6 @@ const PromoEighteen = ({ banner }: any) => {
                             </div>
                         ))}
                 </div>
-            </div>
         </div>
     );
 };

@@ -3,16 +3,16 @@ import Link from 'next/link';
 
 const PromoTwenty = ({ banner }: any) => {
     return (
-        <div className="bg-white ">
-            <div className="sm:container px-5 sm:py-10 py-5">
-                <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-1 justify-center sm:justify-between gap-4">
-                    {banner?.length > 0 && banner?.map((item: any) => (
+        <div className="bg-white sm:container px-5 sm:py-10 py-5">
+            <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-1 justify-center sm:justify-between gap-4">
+                {banner?.length > 0 &&
+                    banner?.map((item: any) => (
                         <div
                             key={item?.id}
                             className="h-auto min-w-full w-full overflow-hidden"
                         >
                             <Link
-                                href={item?.link}
+                                href={item?.link ?? '#'}
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
@@ -24,7 +24,6 @@ const PromoTwenty = ({ banner }: any) => {
                             </Link>
                         </div>
                     ))}
-                </div>
             </div>
         </div>
     );

@@ -5,6 +5,7 @@ import Address from '../_components/address/address';
 import YourOrders from './your-orders/your-order';
 import Discount from '../_components/discount/discount';
 import useCheckoutPageEntry from '@/hooks/useCheckoutPageEntry';
+import { ONE, TWENTY_EIGHT } from '@/consts';
 
 const CheckOutTwentyOne = ({ design, appStore, headersetting }: any) => {
     const store_id = appStore?.id || null;
@@ -39,7 +40,12 @@ const CheckOutTwentyOne = ({ design, appStore, headersetting }: any) => {
         >
             <div className="sm:container px-5 xl:px-24">
                 <h2 className="py-10 text-4xl font-semibold text-center">
-                    {design?.template_id === '29' ? 'চেকআউট' : 'Checkout'}
+                    {design?.template_id === '29' ||
+                    design?.checkout_page === TWENTY_EIGHT ||
+                    design?.checkout_page === ONE ||
+                    store_id === 3601
+                        ? 'চেকআউট'
+                        : 'Checkout'}
                 </h2>
                 <div className="container">
                     <div className="lg:grid lg:grid-cols-2 lg:gap-6 mt-1 py-4">
@@ -68,6 +74,7 @@ const CheckOutTwentyOne = ({ design, appStore, headersetting }: any) => {
                                     />
                                 </div>
                             </div>
+
                             <Discount
                                 design={design}
                                 appStore={appStore}

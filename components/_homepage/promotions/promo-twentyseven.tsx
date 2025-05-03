@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React from 'react';
 
@@ -94,42 +94,43 @@ const PromoTwentySeven = ({ banner }: any) => {
                         }}
                         className="mySwiper"
                     >
-                        {banner?.length > 0 && banner?.map((b: any, index: number) => (
-                            <SwiperSlide key={b.id}>
-                                <div
-                                    className={`grid grid-cols-2 rounded-lg overflow-hidden h-48 md:h-72 ${
-                                        index === 0
-                                            ? 'bg-[#F8F6E3]'
-                                            : index === 1
-                                              ? 'bg-[#FEF2F2]'
-                                              : index === 2
-                                                ? 'bg-[#EFF6FF]'
-                                                : index === 3
-                                                  ? 'bg-[#F0FDF4]'
-                                                  : null
-                                    }`}
-                                >
-                                    <div className="relative">
-                                        <Link
-                                            href={b?.link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            <h1 className="absolute bottom-5 left-4 rounded-full px-5 lg:py-2 py-2 bg-white duration-300 lg:text-lg text-xs text-center w-max mx-auto lg:cursor-pointer font-medium">
-                                                Show me all
-                                            </h1>
-                                        </Link>
+                        {banner?.length > 0 &&
+                            banner?.map((b: any, index: number) => (
+                                <SwiperSlide key={b.id}>
+                                    <div
+                                        className={`grid grid-cols-2 rounded-lg overflow-hidden h-48 md:h-72 ${
+                                            index === 0
+                                                ? 'bg-[#F8F6E3]'
+                                                : index === 1
+                                                  ? 'bg-[#FEF2F2]'
+                                                  : index === 2
+                                                    ? 'bg-[#EFF6FF]'
+                                                    : index === 3
+                                                      ? 'bg-[#F0FDF4]'
+                                                      : null
+                                        }`}
+                                    >
+                                        <div className="relative">
+                                            <Link
+                                                href={b?.link ?? '#'}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                <h1 className="absolute bottom-5 left-4 rounded-full px-5 lg:py-2 py-2 bg-white duration-300 lg:text-lg text-xs text-center w-max mx-auto lg:cursor-pointer font-medium">
+                                                    Show me all
+                                                </h1>
+                                            </Link>
+                                        </div>
+                                        <div className="flex justify-center items-center">
+                                            <img
+                                                className="md:w-40 md:h-40 w-32 h-32 object-cover object-center"
+                                                src={bannerImg + b?.image}
+                                                alt=""
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="flex justify-center items-center">
-                                        <img
-                                            className="md:w-40 md:h-40 w-32 h-32 object-cover object-center"
-                                            src={bannerImg + b?.image}
-                                            alt=""
-                                        />
-                                    </div>
-                                </div>
-                            </SwiperSlide>
-                        ))}
+                                </SwiperSlide>
+                            ))}
                     </Swiper>
                 </div>
             </div>

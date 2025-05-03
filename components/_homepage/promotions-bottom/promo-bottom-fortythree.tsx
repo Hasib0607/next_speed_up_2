@@ -1,30 +1,26 @@
 'use client';
-import React from 'react';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { bannerImg } from '@/site-settings/siteUrl';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 
 const PromoBottomFortyThree = ({ banner, design }: any) => {
     const prevEl = 'promo-slider-prev';
     const nextEl = 'promo-slider-next';
 
-    const bgColor = design?.header_color;
-    const textColor = design?.text_color;
-
     const styleCss = `
-    .arrow-hover-five {
-        color: ${bgColor};
-        
-    }
-    .arrow-hover-five:hover {
-        background: ${bgColor};
-        color: ${textColor};
-        border: 1px solid ${bgColor};
-        
-    }
+        .arrow-hover-five {
+             color: var(--header-color); 
+        }
+        .arrow-hover-five:hover {
+            color: var(--text-color);
+            background-color: var(--header-color);
+            border: 1px solid var(--text-color);
+        }
       `;
 
     return (
@@ -74,7 +70,7 @@ const PromoBottomFortyThree = ({ banner, design }: any) => {
                         {banner?.map((ban: any) => (
                             <SwiperSlide key={ban?.id}>
                                 <div className="relative overflow-hidden">
-                                    <a
+                                    <Link
                                         href={ban?.link ?? '#'}
                                         target="_blank"
                                         rel="noopener noreferrer"
@@ -84,7 +80,7 @@ const PromoBottomFortyThree = ({ banner, design }: any) => {
                                             className="min-w-full h-auto hover:scale-105 lg:cursor-pointer ease-in-out duration-700"
                                             src={bannerImg + ban?.image}
                                         />
-                                    </a>
+                                    </Link>
                                 </div>
                             </SwiperSlide>
                         ))}

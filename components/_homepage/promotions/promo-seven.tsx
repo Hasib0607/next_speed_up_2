@@ -15,7 +15,6 @@ import Link from 'next/link';
 const PromoSeven = ({ banner }: any) => {
     const prevEl = 'promo_seven_Prev';
     const nextEl = 'promo_seven_Next';
-    console.log('banner', banner);
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5 bg-white">
