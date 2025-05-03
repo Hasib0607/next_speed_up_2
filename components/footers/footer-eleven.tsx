@@ -267,7 +267,7 @@ const FooterEleven = ({ design, headersetting, menu, page }: any) => {
                 </div>
             </div>
             {/* <Messenger /> */}
-            <WhatsApp />
+            <WhatsApp headersetting={headersetting} />
         </div>
     );
 };
