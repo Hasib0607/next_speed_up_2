@@ -24,7 +24,7 @@ export default async function getDomain() {
     // url = "nayeil.com";
     // url = "bikroyhutbd.com";
     // url = 'beworthsbynature.ebitans.store';
-    url = 'shr.localhost:3000';
+    url = 'watchtimebd.com';
 
     return url;
 }

@@ -1,4 +1,5 @@
 import './section-heading-seventeen.css';
+
 const SectionHeadingSeventeen = ({ title, title_color = '#000' }: any) => {
     return (
         <div className="py-1">

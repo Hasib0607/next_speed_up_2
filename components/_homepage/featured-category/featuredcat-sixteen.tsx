@@ -12,27 +12,27 @@ import { iconImg } from '@/site-settings/siteUrl';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-const FeaturedSixteen = ({ category, design, headersetting }: any) => {
+const FeaturedSixteen = ({ category, headersetting }: any) => {
     const prevEl = 'feature-category-prev';
     const nextEl = 'feature-category-next';
     let isLoop = category.length > 1;
+
     const styleCss = `
-    .feature-category-prev:hover {
-      color:  ${design?.text_color};
-      background: ${design?.header_color};
-    }
-      .feature-category-next:hover {
-        color:  ${design?.text_color};
-        background: ${design?.header_color};
-    }
-    .category-hover:hover {
-      border: 1px solid ${design?.header_color};
-      background: white;
-    }
-    .category-hover:hover img {
-      transform: scale(1.1);
-    }
- 
+        .feature-category-prev:hover {
+            color:  var(--text-color);
+            background: var(--header-color);
+        }
+        .feature-category-next:hover {
+            color:  var(--text-color);
+            background: var(--header-color);
+        }
+        .category-hover:hover {
+            border: 1px solid var(--header-color);
+            background: white;
+        }
+        .category-hover:hover img {
+            transform: scale(1.1);  
+        }
     `;
 
     const { custom_design } = headersetting || {};
@@ -109,24 +109,23 @@ const FeaturedSixteen = ({ category, design, headersetting }: any) => {
 export default FeaturedSixteen;
 
 const Card = ({ item }: any) => {
-    const [open, setOpen] = useState(false);
     return (
-            <div className="flex flex-col items-center justify-center gap-8 overflow-hidden h-60 rounded-lg border-[1px] category-hover duration-500 bg-gray-100">
-                <div className="" onClick={() => setOpen(!open)}>
-                    <img
-                        src={iconImg + item.icon}
-                        alt="Mountain"
-                        className="h-28 w-28 duration-500"
-                    />
-                </div>
-
-                <div className="text-center font-twelve">
-                    <Link href={'/category/' + item.id}>
-                        <p className="uppercase text-sm font-semibold text-gray-800 mb-4">
-                            {item.name}
-                        </p>
-                    </Link>
-                </div>
+        <div className="flex flex-col items-center justify-center gap-8 overflow-hidden h-60 rounded-lg border-[1px] category-hover duration-500 bg-gray-100">
+            <div className="">
+                <img
+                    src={iconImg + item.icon}
+                    alt="Mountain"
+                    className="h-28 w-28 duration-500"
+                />
             </div>
+
+            <div className="text-center font-twelve">
+                <Link href={'/category/' + item.id}>
+                    <p className="uppercase text-sm font-semibold text-gray-800 mb-4">
+                        {item.name}
+                    </p>
+                </Link>
+            </div>
+        </div>
     );
 };

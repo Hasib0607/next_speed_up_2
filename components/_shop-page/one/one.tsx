@@ -112,21 +112,19 @@ const One = ({ store_id }: any) => {
 
     return (
         <>
-            <div className="sm:container px-5 sm:py-10 py-5 ">
-                <div className="">
-                    <div className="text-sm md:mt-6 my-4 ">
-                        <ul className="flex items-center gap-x-2">
-                            <li>
-                                <Link href="/">Home</Link>
-                            </li>
-                            <li>{'>'}</li>
-                            <li>{currentPath}</li>
-                        </ul>
-                    </div>
+            <div className="container  px-5 py-5">
+                <div className="text-sm md:mt-6 my-4 ">
+                    <ul className="flex items-center gap-x-2">
+                        <li>
+                            <Link href="/">Home</Link>
+                        </li>
+                        <li>{'>'}</li>
+                        <li>{currentPath}</li>
+                    </ul>
                 </div>
             </div>
 
-            <div className="sm:container px-5 pb-10">
+            <div className="sm:container md:px-5 pb-10">
                 <div className="grid grid-cols-12">
                     <div className="hidden lg:block lg:col-span-3">
                         <div className="flex flex-col gap-4">
@@ -156,13 +154,13 @@ const One = ({ store_id }: any) => {
                         </div>
                     </div>
 
-                    <div className="col-span-12 lg:col-span-9 w-full ml-4">
+                    <div className="col-span-12 lg:col-span-9 w-full px-4">
                         <div className="flex items-center justify-start mb-3">
                             <div className="bg-gray-300 py-1 px-3 rounded-lg">
                                 <p className="text-sm text-gray-700">
                                     Showing{' '}
                                     <span className="font-medium">
-                                        {paginate?.from}
+                                        {isPagination ? paginate?.from : '1'}
                                     </span>{' '}
                                     to{' '}
                                     <span className="font-medium">
@@ -207,7 +205,7 @@ const One = ({ store_id }: any) => {
                                         </p>
                                     }
                                 >
-                                    <div className="grid md:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
+                                    <div className="grid md:grid-cols-3 xl:grid-cols-4 grid-cols-2 gap-5">
                                         {infiniteProducts?.map(
                                             (i: any, index: number) => (
                                                 <ProductCardOne
@@ -222,7 +220,7 @@ const One = ({ store_id }: any) => {
                         ) : (
                             <div>
                                 {products?.length ? (
-                                    <div className="grid md:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
+                                    <div className="grid md:grid-cols-3 xl:grid-cols-4 grid-cols-2 gap-5">
                                         {products?.map((i: any) => (
                                             <ProductCardOne
                                                 key={i?.id}

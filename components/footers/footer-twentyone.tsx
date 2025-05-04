@@ -18,12 +18,11 @@ import MyAccount from './components/myaccount';
 import NewsletterThree from './components/newsletter-three';
 import WhatsApp from './components/whatsApp';
 import { customizeFooter } from '@/utils/customizeDesign';
-import AnimateMarquee from '../slider/animate-marquee';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 import PageList from './components/page-list';
 import AllPaymantGateway from './components/all-payment-gateway';
 
-const FooterTwentyOne = ({ headersetting, brand, menu, page }: any) => {
+const FooterTwentyOne = ({ headersetting, menu, page }: any) => {
     const store_id = headersetting?.store_id || null;
     const [heading, setHeading] = useState(null);
 
@@ -35,8 +34,6 @@ const FooterTwentyOne = ({ headersetting, brand, menu, page }: any) => {
     const footerData = customizeFooter.find((item) => item.id == store_id);
 
     return (
-        <>
-            {location.pathname === '/' && <AnimateMarquee brand={brand} />}
             <div className="bg-black mt-10 pb-24 lg:pb-10">
                 <div className="sm:container px-5 sm:py-10 py-5">
                     <NewsletterThree store_id={store_id} />
@@ -359,7 +356,6 @@ const FooterTwentyOne = ({ headersetting, brand, menu, page }: any) => {
                 {/* <Messenger /> */}
                 <WhatsApp />
             </div>
-        </>
     );
 };
 
