@@ -9,8 +9,8 @@ type SkeletonWrapperProps = {
 
 const SkeletonWrapper: FC<SkeletonWrapperProps> = ({
     children,
-    loadingStatus,
     className,
+    loadingStatus,
 }) => {
     return (
         <>

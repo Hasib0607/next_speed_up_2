@@ -54,8 +54,8 @@ export default async function RootLayout({
     const googleAnalytics = headersetting?.google_analytics;
     const googleSearchConsole = headersetting?.google_search_console;
 
-    const headerColorRgb = !appStore ? '255 0 0' : hexToRgba(design?.header_color);
-    const textColorRgb = !appStore ? '255 0 0' : hexToRgba(design?.text_color);
+    const headerColorRgb = !appStore ? '235, 100, 47' : hexToRgba(design?.header_color);
+    const textColorRgb = !appStore ? '20, 20, 20' : hexToRgba(design?.text_color);
 
     // console.log("headerColorRgb",headerColorRgb);
 

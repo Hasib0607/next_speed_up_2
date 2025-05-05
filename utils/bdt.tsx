@@ -11,7 +11,7 @@ const BDT = ({ price }: any) => {
         <>
             {currency?.symbol && numberParser(currency?.status) === 1
                 ? currency?.symbol
-                : currency?.code}
+                : currency?.code}{' '}
             {price}
         </>
     );

@@ -1,21 +1,21 @@
 import { brandImg } from '@/site-settings/siteUrl';
+import { MasterImage } from '@/utils/image-controller';
 import React from 'react';
 import Marquee from 'react-fast-marquee';
 
-const AnimateMarquee = ({ brand }: any) => {
+const AnimateMarquee = ({ brands }: any) => {
     return (
-        <div className="py-3 bg-white">
-            <Marquee>
-                {brand?.map((item: any, index: any) => (
-                    <img
-                        key={index}
-                        src={brandImg + item?.image}
-                        alt=""
+        <Marquee>
+            {brands?.map((brand: any, index: any) => (
+                <div className="py-3" key={index}>
+                    <MasterImage
+                        src={brandImg + brand?.image}
+                        alt={brand.name}
                         className="h-40 px-10"
                     />
-                ))}
-            </Marquee>
-        </div>
+                </div>
+            ))}
+        </Marquee>
     );
 };
 
