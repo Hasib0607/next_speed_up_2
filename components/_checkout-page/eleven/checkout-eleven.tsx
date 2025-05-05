@@ -70,6 +70,7 @@ const CheckOutEleven = ({ design, appStore, headersetting }: any) => {
                                     appStore={appStore}
                                     headersetting={headersetting}
                                     btnStyleClass={btnStyleClass}
+                                    note
                                 />
                             </div>
                         </div>
