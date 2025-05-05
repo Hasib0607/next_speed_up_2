@@ -350,9 +350,20 @@ const HeaderFortyFive = ({ headersetting, design, menu }: any) => {
                 <h2 className="flex justify-center items-center gap-2 text-[var(--text-color)] text-sm md:text-base text-center">
                     আমাদের যে কোন পণ্য অর্ডার করতে কল বা WhatsApp করুন:
                     <MdOutlinePhone className="text-xl" />
-                    {headersetting?.whatsapp_phone} |
+                    <a
+                        href={`tel:${headersetting?.whatsapp_phone}`}
+                        className="lg:cursor-pointer"
+                    >
+                        {headersetting?.whatsapp_phone}
+                    </a>
+                    |
                     <MdOutlinePhoneEnabled className="text-xl" /> হট লাইন:{' '}
-                    {headersetting?.phone}
+                    <a
+                        href={`tel:${headersetting?.phone}`}
+                        className="lg:cursor-pointer"
+                    >
+                        {headersetting?.phone}
+                    </a>
                 </h2>
             </div>
 
