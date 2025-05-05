@@ -415,7 +415,7 @@ const HeaderFortyTwo = ({ headersetting, design, menu }: any) => {
                         }
                     `}
                 </style>
-                <div className="sm:container py-3 px-5 flex justify-center w-max  overflow-x-auto whitespace-nowrap text-white">
+                <div className="sm:container py-3 px-5 flex justify-center w-max whitespace-nowrap text-white">
                     {category?.slice(0, 5)?.map((cat: any, index: number) => (
                         <div key={cat.id} className="flex items-center">
                             <Link href={'/category/' + cat?.id}>

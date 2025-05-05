@@ -165,7 +165,11 @@ const DetailsFortyTwo = ({
         () => productCurrentPrice(product, variantId),
         [product, variantId]
     );
-    const save = howMuchSave(product);
+
+    const save = useMemo(
+        () => howMuchSave(product, variantId),
+        [product, variantId]
+    );
 
     const handleAddToCart = () => {
         addToCart({
@@ -270,16 +274,18 @@ const DetailsFortyTwo = ({
 
                     <div className="flex justify-start items-center gap-x-4">
                         <div className="text-[#212121] text-2xl flex justify-start items-center gap-4">
+                            <BDT price={price} />
                             {save > 0 && (
-                                <span className="text-gray-500 font-thin line-through text-xl font-seven">
-                                    <BDT />
-                                    {numberParser(product?.regular_price)}
-                                </span>
-                            )}{' '}
-                            {save > 0 && (
-                                <p className="bg-color text-white z-[2] px-2 text-sm w-max">
-                                    You Save <BDT /> {save}
-                                </p>
+                                <>
+                                    <span className="text-gray-500 font-thin line-through text-xl font-seven">
+                                        <BDT />
+                                        {numberParser(product?.regular_price)}
+                                    </span>
+
+                                    <p className="bg-color text-white z-[2] px-2 text-sm w-max">
+                                        You Save <BDT /> {save}
+                                    </p>
+                                </>
                             )}
                         </div>
                     </div>

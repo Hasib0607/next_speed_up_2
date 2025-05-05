@@ -152,10 +152,18 @@ export const customizeMobileNavThree = [
   },
 ];
 
-export const customizeCards = [
+export const customizedRating = [
   // for watch-time-bd rating not show in card 58, store id: 10064
   {
     id: 10064,
+    rating_not_show: true,
+  },
+  {
+    id: 10218,
+    rating_not_show: true,
+  },
+  {
+    id: 9024,
     rating_not_show: true,
   },
 ];
