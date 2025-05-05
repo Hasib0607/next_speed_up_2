@@ -95,7 +95,7 @@ const FooterTwentyFive = ({ headersetting, design, menu, page }: any) => {
                 <CopyrightAll headersetting={headersetting} />
             </div>
             {/* <Messenger /> */}
-            <WhatsApp />
+            <WhatsApp headersetting={headersetting} />
         </footer>
     );
 };

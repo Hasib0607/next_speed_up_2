@@ -47,14 +47,13 @@ const CheckOutForm = ({
     children,
     buttonStyle,
     price,
+    save,
     handleCheckout,
 }: any) => {
     const store_id = appStore?.id || null;
     const dispatch: AppDispatch = useAppDispatch();
     const { cartList } = useSelector((state: RootState) => state.cart);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-
-    // console.log('product', product);
 
     useEffect(() => {
         dispatch(setPurchaseList([]));
@@ -315,9 +314,7 @@ const CheckOutForm = ({
                                                     <p className="text-sm justify-self-end flex items-center gap-x-2">
                                                         <BDT />
                                                         <span className="font-bold text-xl text-gray-500">
-                                                            {
-                                                                product?.regular_price
-                                                            }
+                                                            {price}
                                                         </span>
                                                     </p>
                                                 </div>
@@ -337,7 +334,7 @@ const CheckOutForm = ({
                                         <p>
                                             <BDT
                                                 price={numberParser(
-                                                    product?.regular_price * qty
+                                                    price * qty
                                                 )}
                                             />
                                         </p>
@@ -349,7 +346,7 @@ const CheckOutForm = ({
                                         <p>
                                             <BDT
                                                 price={numberParser(
-                                                    product?.regular_price * qty
+                                                    price * qty
                                                 )}
                                             />
                                         </p>

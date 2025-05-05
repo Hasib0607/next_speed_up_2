@@ -44,6 +44,7 @@ export const FORTY_ONE = 'fortyone';
 export const FORTY_TWO = 'fortytwo';
 export const FORTY_THREE = 'fortythree';
 export const FORTY_FOUR = 'fortyfour';
+export const FORTY_FIVE = 'fortyfive';
 
 // dynamic colors
 export const HeaderColor = 'var(--header-color)';
@@ -89,7 +90,7 @@ let urlName;
 // urlName = "nayeil.com";
 // urlName = "bikroyhutbd.com";
 // urlName = "beworthsbynature.ebitans.store";
-urlName = "shr.localhost:3000";
+urlName = "moon.localhost:3000";
 
 if (process.env.NODE_ENV === 'production') {
     urlName = url();

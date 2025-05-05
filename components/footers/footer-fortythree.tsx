@@ -181,7 +181,7 @@ const FooterFortyThree = ({ design, headersetting, menu, page }: any) => {
                     <CopyrightAll headersetting={headersetting} />
                 </div>
             </div>
-            <WhatsApp />
+            <WhatsApp headersetting={headersetting} />
         </div>
     );
 };

@@ -187,7 +187,7 @@ const FooterTwelve = ({ headersetting, design, page, menu }: any) => {
                 <CopyrightAll headersetting={headersetting} />
             </div>
             {/* <Messenger /> */}
-            <WhatsApp />
+            <WhatsApp headersetting={headersetting} />
         </div>
     );
 };

@@ -92,6 +92,7 @@ const DetailsLandingPage = ({
         });
     };
 
+    // set which color is selected
     useEffect(() => {
         setFilterV(
             variant?.filter((item: any) => item?.color === color?.color)
@@ -335,18 +336,6 @@ const DetailsLandingPage = ({
                                         <div className="flex items-center gap-4">
                                             <BDT />
                                             {price}{' '}
-                                            {save > 0 &&
-                                                price !==
-                                                    product?.calculate_regular_price && (
-                                                    <span className="text-gray-500 font-thin line-through">
-                                                        <BDT />
-                                                        {variantId !== null
-                                                            ? save
-                                                            : numberParser(
-                                                                  product?.calculate_regular_price
-                                                              )}
-                                                    </span>
-                                                )}{' '}
                                         </div>
                                     </div>
                                 </div>
@@ -437,6 +426,7 @@ const DetailsLandingPage = ({
                     setActiveImg={setActiveImg}
                     setUnit={setUnit}
                     price={price}
+                    save={save}
                     handleCheckout={handleCheckout}
                 />
             </div>

@@ -1,4 +1,4 @@
-import { FORTY_FOUR, FORTY_THREE, FORTY_TWO } from '@/consts';
+import { FORTY_FIVE, FORTY_FOUR, FORTY_THREE, FORTY_TWO } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const headers: any = {
@@ -118,5 +118,8 @@ export const headers: any = {
     ),
     [FORTY_FOUR]: dynamic(
         () => import('@/components/headers/header-fortyfour/header-fortyfour')
+    ),
+    [FORTY_FIVE]: dynamic(
+        () => import('@/components/headers/header-fortyfive/header-fortyfive')
     ),
 };
