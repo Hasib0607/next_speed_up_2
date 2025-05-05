@@ -89,7 +89,7 @@ let urlName;
 // urlName = "nayeil.com";
 // urlName = "bikroyhutbd.com";
 // urlName = "beworthsbynature.ebitans.store";
-urlName = "watchtimebd.com";
+urlName = "shr.localhost:3000";
 
 if (process.env.NODE_ENV === 'production') {
     urlName = url();

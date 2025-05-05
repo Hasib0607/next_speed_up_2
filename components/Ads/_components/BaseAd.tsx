@@ -1,3 +1,4 @@
+import { dymmyImgBaseUrl } from '@/site-settings/siteUrl';
 import { BaseAdProps } from '@/types/ads';
 import { MasterImage } from '@/utils/image-controller';
 
@@ -5,7 +6,7 @@ const BaseAd = ({
     adContent = {
         title: 'Summer Sale!',
         description: 'Get up to 50% off on selected items. Limited time offer!',
-        imageUrl: 'https://www.dummyimage.com',
+        imageUrl: dymmyImgBaseUrl,
         cta: 'Learn More',
     },
     width,
@@ -14,7 +15,7 @@ const BaseAd = ({
 }: BaseAdProps) => {
     const isDummyImg = adContent.imageUrl
         .toString()
-        .includes('www.dummyimage.com');
+        .includes(dymmyImgBaseUrl.substring(8));
 
     const adTitle = adContent.title ?? '';
     const adDescription = adContent.description ?? '';
