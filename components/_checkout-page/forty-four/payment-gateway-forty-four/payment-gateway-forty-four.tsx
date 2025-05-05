@@ -1,9 +1,11 @@
 'use client';
 
 import bkashLogo from '@/assets/paymentMethodLogo/bkashLogo.png';
-import nagadLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
-import paypalLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
-import stripeLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
+import {
+    default as nagadLogo,
+    default as paypalLogo,
+    default as stripeLogo,
+} from '@/assets/paymentMethodLogo/nagad-logo.png';
 import { classNames } from '@/helpers/littleSpicy';
 import { setSelectPayment } from '@/redux/features/filters/paymentFilterSlice';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
@@ -14,6 +16,7 @@ import {
 import { AppDispatch, RootState } from '@/redux/store';
 import Image from 'next/image';
 import { useEffect } from 'react';
+import CustomWriting from '../../_components/custom-writing';
 
 const PaymentGatewayFortyFour = ({
     design,
@@ -291,14 +294,9 @@ const PaymentGatewayFortyFour = ({
                     </div>
                 )}
             </div>
-            {headersetting?.custom_writing && (
-                <em>
-                    <p className="mt-2 text-sm">
-                        <span className="font-semibold">Note: </span>{' '}
-                        {headersetting?.custom_writing}
-                    </p>
-                </em>
-            )}
+
+            {/* showing custom notes */}
+            <CustomWriting headersetting={headersetting} />
         </div>
     );
 };

@@ -23,7 +23,7 @@ const DefaultBrand = ({ headersetting, brands }: any) => {
             <div className="relative z-[2]">
                 <div className=" gap-2 lg:cursor-pointer lg:group-hover:opacity-100  lg:opacity-0 duration-500">
                     <div
-                        className={`${prevEl} bg-gray-400 hover:bg-[var(--header-color)] text-[var(--text-color)]  rounded-full transition-all duration-500  ease-linear absolute -left-4  top-28 `}
+                        className={`${prevEl} bg-gray-400 hover:bg-[var(--header-color)] text-[var(--text-color)]  rounded-full transition-all duration-500 ease-linear absolute -left-4 top-28`}
                     >
                         <ChevronLeftIcon className="h-8 text-2xl font-serif font-bold" />
                     </div>
