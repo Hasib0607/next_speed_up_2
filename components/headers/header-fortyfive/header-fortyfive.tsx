@@ -351,7 +351,7 @@ const HeaderFortyFive = ({ headersetting, design, menu }: any) => {
                     আমাদের যে কোন পণ্য অর্ডার করতে কল বা WhatsApp করুন:
                     <MdOutlinePhone className="text-xl" />
                     {headersetting?.whatsapp_phone} |
-                    <MdOutlinePhoneEnabled className="text-xl" />
+                    <MdOutlinePhoneEnabled className="text-xl" /> হট লাইন:{' '}
                     {headersetting?.phone}
                 </h2>
             </div>
