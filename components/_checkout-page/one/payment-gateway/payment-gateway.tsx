@@ -1,8 +1,6 @@
 'use client';
 
 import bkashLogo from '@/assets/paymentMethodLogo/bkashLogo.png';
-import paypalLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
-import stripeLogo from '@/assets/paymentMethodLogo/nagad-logo.png';
 import { classNames } from '@/helpers/littleSpicy';
 import { setSelectPayment } from '@/redux/features/filters/paymentFilterSlice';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
@@ -13,8 +11,9 @@ import {
 import { AppDispatch, RootState } from '@/redux/store';
 import { useEffect } from 'react';
 import { FaTruck } from 'react-icons/fa';
+import CustomWriting from '../../_components/custom-writing';
 
-const PaymentGateway = ({ design, appStore, headersetting }: any) => {
+const PaymentGateway = ({ appStore, headersetting }: any) => {
     const store_id = appStore?.id || null;
     const module_id = 106;
 
@@ -26,7 +25,8 @@ const PaymentGateway = ({ design, appStore, headersetting }: any) => {
         isError: moduleIdDetailError,
         isSuccess: moduleIdDetailSuccess,
     } = useGetModuleStatusQuery({ store_id, module_id });
-    const activeModule = moduleIdDetailsData?.status || false;
+    const activeModule =
+        (moduleIdDetailSuccess && moduleIdDetailsData?.status) || false;
 
     const selectedPayment = useAppSelector(
         (state: RootState) => state.paymentFilter.paymentMethod
@@ -259,6 +259,8 @@ const PaymentGateway = ({ design, appStore, headersetting }: any) => {
                         </label>
                     )}
                 </div>
+                {/* showing custom notes */}
+                <CustomWriting headersetting={headersetting} />
             </div>
         </div>
     );

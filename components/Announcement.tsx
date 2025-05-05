@@ -1,8 +1,8 @@
 'use client';
 
-import Marquee from 'react-fast-marquee';
 import { useEffect, useState } from 'react';
 import { useGetAnnouncementQuery } from '@/redux/features/home/homeApi';
+import AnimateMarquee from './slider/animate-marquee';
 
 // import useAnnouncementScroll from '@/utils/use-annoucement-height';
 
@@ -25,26 +25,21 @@ const Announcement = ({ design }: any) => {
     // console.log("aH",aH);
 
     return (
-        store_id &&
-        design &&
         announcements?.length > 0 && (
-            <div id="annoucement" style={{ background: design?.header_color }}>
-                <div className="relative flex overflow-x-hidden container">
-                    <Marquee speed={50} pauseOnHover={true}>
-                        <div className="py-2  whitespace-nowrap">
+            <div id="annoucement" className="bg-[var(--header-color)]">
+                <div className="relative overflow-x-hidden container">
+                    <AnimateMarquee>
+                        <div className="p-1 md:py-2 whitespace-nowrap">
                             {announcements?.map((an: any, index: number) => (
                                 <span
-                                    style={{
-                                        color: design?.text_color,
-                                    }}
                                     key={index}
-                                    className="text-[9px] md:text-xl mx-4"
+                                    className="text-sm md:text-xl mx-4 text-[var(--text-color)]"
                                 >
                                     {an.announcement}
                                 </span>
                             ))}
                         </div>
-                    </Marquee>
+                    </AnimateMarquee>
                 </div>
             </div>
         )
