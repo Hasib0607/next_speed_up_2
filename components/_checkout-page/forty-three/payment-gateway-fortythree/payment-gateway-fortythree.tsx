@@ -14,6 +14,7 @@ import {
 import { AppDispatch, RootState } from '@/redux/store';
 import Image from 'next/image';
 import { useEffect } from 'react';
+import CustomWriting from '../../_components/custom-writing';
 
 const PaymentGatewayFortyThree = ({
     design,
@@ -57,7 +58,7 @@ const PaymentGatewayFortyThree = ({
     return (
         <div
             className={
-                className ? className : 'col-span-6 sm:col-span-4 ml-2 md:ml-5'
+                className ? className : 'col-span-6 sm:col-span-4'
             }
         >
             <div className="flex justify-between items-center pb-3">
@@ -308,6 +309,8 @@ const PaymentGatewayFortyThree = ({
                     </div>
                 )}
             </div>
+            {/* showing custom notes */}
+            <CustomWriting headersetting={headersetting} />
         </div>
     );
 };

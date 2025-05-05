@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import YourOrders from './your-orders/your-order';
-import PaymentGateway from '../_components/payment-gateway/payment-gateway';
 import AddressFortyThree from './address-fortythree.tsx/address-fortythree';
 import DiscountFortyThree from './discount-fortythree/discount-fortythree';
 import useCheckoutPageEntry from '@/hooks/useCheckoutPageEntry';
+import PaymentGatewayFortyThree from './payment-gateway-fortythree/payment-gateway-fortythree';
 
 const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
     const [selectAddress, setSelectAddress] = useState(null);
@@ -58,7 +58,7 @@ const CheckOutFortyThree = ({ design, appStore, headersetting }: any) => {
                             appStore={appStore}
                             headersetting={headersetting}
                         />
-                        <PaymentGateway
+                        <PaymentGatewayFortyThree
                             design={design}
                             appStore={appStore}
                             headersetting={headersetting}

@@ -431,6 +431,7 @@ const YourOrders = ({
                     appStore={appStore}
                     headersetting={headersetting}
                     btnStyleClass={btnStyleClass}
+                    note
                 />
             </div>
 
