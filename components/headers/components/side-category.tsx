@@ -18,10 +18,10 @@ const SideCategory = ({ design }: any) => {
     const [heading, setHeading] = useState('');
 
     const styleCss = `
-    .text-hover:hover {
-      color: ${design?.header_color};
-    }
-`;
+        .text-hover:hover {
+            color: ${design?.header_color};
+        }
+    `;
 
     return (
         <nav>

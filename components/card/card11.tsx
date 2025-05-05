@@ -36,7 +36,7 @@ const Card11 = ({ item }: any) => {
                         </h6>{' '}
                     </Link>
                     {Array.isArray(category) && category?.length > 0 && (
-                        <ProdMultiCategory category={category} />
+                        <ProdMultiCategory category={category} count={1} />
                     )}
                     <div className="flex flex-wrap items-center gap-y-1 gap-x-4 xl:gap-4 md:gap-4 lg:gap-4">
                         <div className="text-base font-semibold">
