@@ -15,6 +15,7 @@ import {
 import { AppDispatch, RootState } from '@/redux/store';
 import Image from 'next/image';
 import { useEffect } from 'react';
+import CustomWriting from '../custom-writing';
 
 const PaymentGateway = ({
     design,
@@ -22,6 +23,7 @@ const PaymentGateway = ({
     headersetting,
     className,
     btnStyleClass,
+    note,
 }: any) => {
     const store_id = appStore?.id || null;
     const module_id = 106;
@@ -335,6 +337,9 @@ const PaymentGateway = ({
                     </div>
                 )}
             </div>
+
+            {/* showing custom notes */}
+            {note && <CustomWriting headersetting={headersetting} />}
         </div>
     );
 };

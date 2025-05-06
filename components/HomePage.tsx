@@ -5,6 +5,7 @@ const RenderSection = dynamic(
 );
 
 const HomePage = ({ design, headersetting, banner, layout, slider }: any) => {
+    // const layout = ["brand"]
     return (
         layout.length > 0 &&
         layout.map((componentType: string, index: number) => {

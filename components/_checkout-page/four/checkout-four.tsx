@@ -18,7 +18,6 @@ const CheckOutFour = ({ design, appStore, headersetting }: any) => {
     const { tax, gTotal, totalDis, isCartEmpty } =
         useCheckoutPageEntry(headersetting);
 
-
     useEffect(() => {
         if (store_id !== 8729) {
             setChecked(true);
@@ -41,7 +40,7 @@ const CheckOutFour = ({ design, appStore, headersetting }: any) => {
     }
 
     const formFieldStyle =
-    'w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:border-gray-400';
+        'w-full border border-gray-400 rounded px-3 py-2 focus:outline-none focus:border-gray-400';
 
     return (
         <div className="" style={{ backgroundColor: '#F3F4F6' }}>
@@ -60,11 +59,11 @@ const CheckOutFour = ({ design, appStore, headersetting }: any) => {
                         >
                             <div className="px-4 py-5 space-y-6 sm:p-6">
                                 <Address
-                                   design={design}
-                                   appStore={appStore}
-                                   selectAddress={selectAddress}
-                                   setSelectAddress={setSelectAddress}
-                                   formFieldStyle={formFieldStyle}
+                                    design={design}
+                                    appStore={appStore}
+                                    selectAddress={selectAddress}
+                                    setSelectAddress={setSelectAddress}
+                                    formFieldStyle={formFieldStyle}
                                 />
                             </div>
                         </div>
@@ -82,6 +81,7 @@ const CheckOutFour = ({ design, appStore, headersetting }: any) => {
                                     design={design}
                                     appStore={appStore}
                                     headersetting={headersetting}
+                                    note
                                 />
                             </div>
                         </div>

@@ -93,6 +93,7 @@ const CheckOutSeven = ({ design, appStore, headersetting }: any) => {
                                 design={design}
                                 appStore={appStore}
                                 headersetting={headersetting}
+                                note
                             />
                         </div>
                     </div>
