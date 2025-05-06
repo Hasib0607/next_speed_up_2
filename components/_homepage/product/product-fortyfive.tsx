@@ -2,7 +2,6 @@ import Card76 from '@/components/card/card76';
 
 const ProductFortyFive = ({ product, headersetting, design }: any) => {
     const { custom_design } = headersetting || {};
-
     const sectionHeadingData = custom_design?.product?.[0] || {};
     const { title = 'Default Title', title_color = '#000' } =
         sectionHeadingData || {};
