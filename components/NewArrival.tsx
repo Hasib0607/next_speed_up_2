@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 const NewArrival = ({ design, headersetting }: any) => {
     const NewArrivalComponent =
-        new_arrival[design?.new_arrival] || new_arrival[DEFAULT];
+        new_arrival[design?.new_arrival] ;
 
     const products = useSelector((state: RootState) => state?.products);
     const product = products?.product || [];

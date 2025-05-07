@@ -7,6 +7,12 @@ export const new_arrival: any = {
                 '@/components/_homepage/new-arrival/new-arrival-product-five'
             )
     ),
+    one: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-one'
+            )
+    ),
     two: dynamic(
         () =>
             import(
