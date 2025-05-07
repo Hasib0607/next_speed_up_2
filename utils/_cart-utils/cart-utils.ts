@@ -12,7 +12,6 @@ import {
     increaseQuantity,
     removeFromCartList,
 } from '@/redux/features/cart/cartSlice';
-
 import { AppDispatch } from '@/redux/store';
 import { sendGTMEvent } from '@next/third-parties/google';
 import { toast } from 'react-toastify';

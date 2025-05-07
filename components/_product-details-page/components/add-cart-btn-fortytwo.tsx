@@ -141,8 +141,11 @@ const AddCartBtnFortyTwo = ({
     };
 
     const buy_now = () => {
+        if (variant?.length > 0 && variantId !== null || variant?.length == 0) {
+            onClick();
+            router.push('/checkout');
+        }
         onClick();
-        router.push('/checkout');
     };
 
     useEffect(() => {
