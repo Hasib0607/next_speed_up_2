@@ -1,4 +1,4 @@
-import { FORTY_THREE } from '@/consts';
+import { FORTY_FIVE, FORTY_THREE } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const feature_categories: any = {
@@ -154,5 +154,8 @@ export const feature_categories: any = {
     ),
     [FORTY_THREE]: dynamic(
         () => import('@/components/_homepage/featured-category/featuredcat-fortythree')
+    ),
+    [FORTY_FIVE]: dynamic(
+        () => import('@/components/_homepage/featured-category/featuredcat-fortyfive')
     ),
 };

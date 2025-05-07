@@ -17,8 +17,9 @@ import { getDataByType } from '@/helpers/getCustomDataByType';
 import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
 import { classNames } from '@/helpers/littleSpicy';
 import { IoMdCart } from 'react-icons/io';
+import { FaCreditCard, FaWhatsappSquare } from 'react-icons/fa';
 
-const AddCartBtn = ({
+const AddCartBtnFortyFive = ({
     setQty,
     qty,
     variant,
@@ -98,6 +99,17 @@ const AddCartBtn = ({
             toast.warning('Cannot add more than available stock', {
                 toastId: product?.id,
             });
+        }
+    };
+
+    const whatsapp_message = () => {
+        const phone = headersetting?.whatsapp_phone;
+        const message = encodeURIComponent("Hello! I'm interested in your product.");
+        
+        if (phone) {
+            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+        } else {
+            alert("WhatsApp number is not available.");
         }
     };
 
@@ -245,7 +257,7 @@ const AddCartBtn = ({
     };
 
     const buy_now = () => {
-        if (variant?.length > 0 && variantId !== null || variant?.length == 0) {
+        if(variant?.length > 0 && variantId !== null || variant?.length == 0){
             onClick();
             router.push('/checkout');
         }
@@ -262,23 +274,15 @@ const AddCartBtn = ({
     .c_button {
         color:  ${button_color};
         background: ${button_bg_color};
-        border: 2px solid transparent;
+        border: 2px solid ${button_color};
     }
-    .c_button:hover {
-        color:  ${button_bg_color};
-        background: transparent;
-        border: 2px solid black;
-    }
+    
     .c_button1 {
         color:  ${button1_color};
         background: ${button1_bg_color};
         border: 2px solid transparent;
     }
-    .c_button1:hover {
-        color:  ${button1_bg_color};
-        background: transparent;
-        border: 2px solid black;
-    }
+    
     `;
 
     return (
@@ -289,7 +293,7 @@ const AddCartBtn = ({
             }
         >
             <style>{cssStyle}</style>
-            {roundedBtn ? (
+            {/* {roundedBtn ? (
                 <div className="w-max flex items-center">
                     <button
                         className="px-4 py-3 border border-gray-100 rounded-tl-full rounded-bl-full text-xl bg-gray-50 text-black"
@@ -347,7 +351,7 @@ const AddCartBtn = ({
                         <PlusIcon width={15} />
                     </div>
                 </div>
-            )}
+            )} */}
 
             {productQuantity === 0 ? (
                 <button className={buttonOne}>Out of Stock</button>
@@ -375,7 +379,7 @@ const AddCartBtn = ({
                                 buttonOne
                                     ? buttonOne
                                     : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`,
-                                'c_button'
+                                'c_button rounded-md w-full'
                             )}
                             onClick={
                                 numberParser(is_buy_now_cart) == 1
@@ -383,7 +387,7 @@ const AddCartBtn = ({
                                     : onClick
                             }
                         >
-                            <p className="center gap-2">
+                            <p className="center gap-2 font-bold">
                                 <IoMdCart />
                                 {button}
                             </p>
@@ -396,7 +400,7 @@ const AddCartBtn = ({
                                 buttonOne
                                     ? buttonOne
                                     : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`,
-                                'c_button1'
+                                'c_button1 rounded-md'
                             )}
                         >
                             <p className="center gap-2">
@@ -417,19 +421,41 @@ const AddCartBtn = ({
                                 buttonOne
                                     ? buttonOne
                                     : `cart-btn-twenty-one mt-3 font-bold py-[11px] px-10 w-full rounded-full`,
-                                'c_button1'
+                                'c_button1 rounded-md'
                             )}
                         >
-                            <p className="center gap-2">
+                            <p className="center gap-2 font-bold">
                                 <IoMdCart />
                                 {button1}
                             </p>
                         </button>
                     )}
+
+                    <button
+                        onClick={buy_now}
+                        type="submit"
+                        className={`bg-[#f1d301] mt-3 font-bold py-[11px] px-10 w-full rounded-md`}
+                    >
+                        <p className="center gap-2 font-bold">
+                            <FaCreditCard />
+                            Pay Online
+                        </p>
+                    </button>
+
+                    <button
+                        onClick={whatsapp_message}
+                        type="submit"
+                        className={`bg-black text-white mt-3 font-bold py-[11px] px-10 w-full rounded-md`}
+                    >
+                        <p className="center gap-2 font-bold">
+                            <FaWhatsappSquare />
+                            WhatsApp Us
+                        </p>
+                    </button>
                 </>
             )}
         </div>
     );
 };
 
-export default AddCartBtn;
+export default AddCartBtnFortyFive;

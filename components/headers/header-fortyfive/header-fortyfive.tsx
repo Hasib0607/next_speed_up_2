@@ -4,7 +4,6 @@ import { CartSideBar } from '@/components/_shopping-cart/_components/cart-side-b
 import { REDUX_PERSIST } from '@/consts';
 import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
-import { numberParser } from '@/helpers/numberParser';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
 import {
@@ -23,25 +22,20 @@ import { BiShoppingBag } from 'react-icons/bi';
 import { HiMenu } from 'react-icons/hi';
 import { IoIosClose, IoIosSearch } from 'react-icons/io';
 import { useSelector } from 'react-redux';
-import SideMenu from '../components/side-menu';
 import Search45 from '../components/search45';
-import { MdOutlinePhone } from 'react-icons/md';
-import { MdOutlinePhoneEnabled } from 'react-icons/md';
+import { MdOutlinePhone, MdOutlinePhoneEnabled, MdClose } from 'react-icons/md';
+import SideCategoryFortyFive from '../components/side-category-fortyfive';
 
 const HeaderFortyFive = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
-    const store_id = numberParser(design?.store_id) || null;
-
     const [openCat, setOpenCat] = useState(false);
     const [searchTxt, setSearch] = useState('');
     const [searchTxtUp, setSearchUp] = useState('');
-    const [heading, setHeading] = useState('');
     const [active, setActive] = useState(true);
     const [border, setBorder] = useState(true);
     const [open, setOpen] = useState(false);
-    const [openMenu, setOpenMenu] = useState(false);
     const [openCart, setOpenCart] = useState(false);
     const [searchInput, setSearchInput] = useState(false);
 
@@ -90,37 +84,23 @@ const HeaderFortyFive = ({ headersetting, design, menu }: any) => {
         }, 1000);
     }
 
+    // for scroll stop when sidebar open
     useEffect(() => {
-        // sticky navbar
-        const changeNavbar = () => {
-            if (window.scrollY >= 120) {
-                setOpenMenu(true);
-                setOpenCat(false);
-            } else {
-                setOpenMenu(false);
-            }
+        if (open) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+
+        return () => {
+            document.body.style.overflow = '';
         };
-        window.addEventListener('scroll', changeNavbar);
-    }, []);
+    }, [open]);
 
     // CSS START FROM HERE
     const styleCss = `
         @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin&display=swap');
-        @media (max-width: 1023px) {
-            .mobile-sticky {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 50;
-            background: white;
-            padding-top: 0.75rem;
-            padding-bottom: 0.75rem;
-            }
-        }
-
     `;
-
-    console.log('headersetting', headersetting);
 
     return (
         <div className="">
@@ -156,7 +136,7 @@ const HeaderFortyFive = ({ headersetting, design, menu }: any) => {
                 </div>
 
                 <div className="sm:container px-5 xl:px-24 w-full relative">
-                    <div className="flex justify-between pt-5">
+                    <div className="flex justify-between pt-7">
                         <h1 className="text-sm font-medium">
                             Search our store
                         </h1>
@@ -179,7 +159,7 @@ const HeaderFortyFive = ({ headersetting, design, menu }: any) => {
                         <IoIosSearch className="text-2xl absolute top-3 right-2 lg:cursor-pointer text-gray-500" />
                     </div>
                     <div className="mt-3 mb-6 md:text-center">
-                        <div className="hidden lg:flex items-center justify-center gap-3 flex-wrap">
+                        <div className="flex justify-center items-center gap-3 flex-wrap">
                             <span className="font-medium text-gray-500">
                                 Popular Searches:
                             </span>
@@ -209,7 +189,7 @@ const HeaderFortyFive = ({ headersetting, design, menu }: any) => {
                 </div>
 
                 <div className="hidden lg:block">
-                    <div className="flex items-center gap-3 ">
+                    <div className="flex items-center gap-3">
                         {/* Authenticate routes dropdown */}
                         {isAuthenticated ? (
                             <Menu
@@ -346,24 +326,41 @@ const HeaderFortyFive = ({ headersetting, design, menu }: any) => {
                 </div>
             </div>
 
-            <div className="bg-[var(--header-color)] py-2">
-                <h2 className="flex justify-center items-center gap-2 text-[var(--text-color)] text-sm md:text-base text-center">
+            <div className="bg-[var(--header-color)] py-2 px-5">
+                <h2 className="flex flex-wrap justify-center items-center gap-2 text-[var(--text-color)] text-sm md:text-base text-center">
                     আমাদের যে কোন পণ্য অর্ডার করতে কল বা WhatsApp করুন:
                     <MdOutlinePhone className="text-xl" />
-                    {headersetting?.whatsapp_phone} |
+                    <a
+                        href={`tel:${headersetting?.whatsapp_phone}`}
+                        className="lg:cursor-pointer"
+                    >
+                        {headersetting?.whatsapp_phone}
+                    </a>
+                    |
                     <MdOutlinePhoneEnabled className="text-xl" /> হট লাইন:{' '}
-                    {headersetting?.phone}
+                    <a
+                        href={`tel:${headersetting?.phone}`}
+                        className="lg:cursor-pointer"
+                    >
+                        {headersetting?.phone}
+                    </a>
                 </h2>
             </div>
 
             {/* middle menu */}
             <div className="pt-3">
-                <div className="flex justify-between items-center md:px-52 pb-3 mobile-sticky">
+                <div className="flex justify-between items-center md:px-52 pb-3">
                     <div
                         onClick={() => setOpen(!open)}
-                        className="lg:hidden block"
+                        className="lg:hidden block transition-transform duration-300 ease-in-out"
                     >
-                        <HiMenu className="text-3xl" />
+                        <div className="transition-transform duration-300 ease-in-out transform">
+                            {open ? (
+                                <MdClose className="text-3xl rotate-90 scale-110 transition-all duration-300" />
+                            ) : (
+                                <HiMenu className="text-3xl rotate-0 scale-100 transition-all duration-300" />
+                            )}
+                        </div>
                     </div>
 
                     {/* Left (Search icon - only for lg and up) */}
@@ -561,18 +558,18 @@ const HeaderFortyFive = ({ headersetting, design, menu }: any) => {
             {open && (
                 <div
                     onClick={() => setOpen(false)}
-                    className="bottom-0 right-0 left-0 fixed top-0 z-[6] bg-black bg-opacity-40 lg:cursor-pointer"
+                    className="bottom-0 right-0 left-0 fixed top-0 z-[6] lg:cursor-pointer"
                 ></div>
             )}
 
-            <div className="block lg:hidden">
+            <div className="block lg:hidden mt-6">
                 <ul
-                    className={`lg:hidden bg-white fixed sm:w-[350px] md:w-[400px] w-[250px] top-0 overflow-y-auto bottom-0 pb-5 duration-1000 z-10 lg:cursor-pointer ${
+                    className={`lg:hidden bg-white fixed sm:w-[350px] md:w-[400px] w-[250px] top-32 overflow-y-auto bottom-0 pb-5 duration-1000 z-10 lg:cursor-pointer ${
                         open ? 'left-0' : 'left-[-160%]'
                     } `}
                 >
-                    <div className="px-6">
-                        <SideMenu
+                    <div className="px-3 mt-6">
+                        <SideCategoryFortyFive
                             setOpen={setOpen}
                             design={design}
                             menu={menu}
