@@ -104,12 +104,14 @@ const AddCartBtnFortyFive = ({
 
     const whatsapp_message = () => {
         const phone = headersetting?.whatsapp_phone;
-        const message = encodeURIComponent("Hello! I'm interested in your product.");
-        
+        const message = encodeURIComponent(
+            "Hello! I'm interested in your product."
+        );
+
         if (phone) {
             window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
         } else {
-            alert("WhatsApp number is not available.");
+            alert('WhatsApp number is not available.');
         }
     };
 
@@ -257,11 +259,8 @@ const AddCartBtnFortyFive = ({
     };
 
     const buy_now = () => {
-        if(variant?.length > 0 && variantId !== null || variant?.length == 0){
-            onClick();
-            router.push('/checkout');
-        }
         onClick();
+        router.push('/checkout');
     };
 
     useEffect(() => {
