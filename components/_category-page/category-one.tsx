@@ -226,7 +226,7 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
                                             )
                                         }
                                     >
-                                        <div className="grid md:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
+                                        <div className="grid md:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 grid-cols-2 gap-5">
                                             {infiniteProducts?.map(
                                                 (i: any, index: number) => (
                                                     <ProductCardOne
@@ -241,7 +241,7 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
                             ) : (
                                 <div>
                                     {products?.length ? (
-                                        <div className="grid md:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
+                                        <div className="grid md:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 grid-cols-2 gap-5">
                                             {products?.map((i: any) => (
                                                 <ProductCardOne
                                                     key={i.id}

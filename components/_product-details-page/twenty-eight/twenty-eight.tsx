@@ -99,7 +99,8 @@ const TwentyEight = ({ store_id, productId, design }: any) => {
     }
 `;
 
-    const buttonTwentyEight = 'h-12 font-bold py-2 px-10 w-full w-max border border-gray-300 rounded';
+    const buttonTwentyEight =
+        'h-12 font-bold py-2 px-10 w-full w-max border border-gray-300 rounded';
 
     return (
         <div className="sm:container px-5 pt-10 bg-white">
@@ -108,11 +109,7 @@ const TwentyEight = ({ store_id, productId, design }: any) => {
                     <p>Home</p>
                 </Link>
                 <RiArrowRightSLine />
-                <ProdMultiCategory
-                    category={category}
-                    count={1}
-                    linkOff
-                />
+                <ProdMultiCategory category={category} count={1} linkOff />
                 <RiArrowRightSLine />
                 <p>{product?.name}</p>
             </div>
