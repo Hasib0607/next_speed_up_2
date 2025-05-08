@@ -60,7 +60,7 @@ const RenderSection = ({
                         </div>
                     }
                 >
-                    <Hero design={design} slider={slider} />
+                    <Hero design={design} slider={slider} banner={banner} />
                 </Suspense>
             );
         case 'feature_category':

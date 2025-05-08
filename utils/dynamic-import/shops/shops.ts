@@ -1,4 +1,4 @@
-import { FORTY_THREE } from '@/consts';
+import { FORTY_FIVE, FORTY_FOUR, FORTY_THREE } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const shops: any = {
@@ -91,5 +91,11 @@ export const shops: any = {
     // ),
     [FORTY_THREE]: dynamic(
         () => import("@/components/_shop-page/forty-three/forty-three")
+      ),
+    [FORTY_FOUR]: dynamic(
+        () => import("@/components/_shop-page/forty-four/forty-four")
+      ),
+    [FORTY_FIVE]: dynamic(
+        () => import("@/components/_shop-page/forty-five/forty-five")
       ),
 };
