@@ -45,6 +45,7 @@ export const FORTY_TWO = 'fortytwo';
 export const FORTY_THREE = 'fortythree';
 export const FORTY_FOUR = 'fortyfour';
 export const FORTY_FIVE = 'fortyfive';
+export const FORTY_SIX = 'fortysix';
 
 // dynamic colors
 export const HeaderColor = 'var(--header-color)';
