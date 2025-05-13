@@ -1,5 +1,6 @@
+import { handleClearCart } from '@/utils/_cart-utils/cart-utils';
 import { apiSlice } from '../api/apiSlice';
-import { userLoggedIn, userLoggedOut } from './authSlice';
+import { setHasSynced, userLoggedIn, userLoggedOut } from './authSlice';
 import { toast } from 'react-toastify';
 
 export const authApi = apiSlice.injectEndpoints({
@@ -35,6 +36,7 @@ export const authApi = apiSlice.injectEndpoints({
                                 referral: data?.referral,
                             }) // Dispatch the action with the received data
                         );
+                        dispatch(setHasSynced(false));
                     }
                 } catch (error) {
                     // console.error("Error in getHome mutation:", error);
@@ -53,7 +55,9 @@ export const authApi = apiSlice.injectEndpoints({
                         dispatch(
                             userLoggedOut()
                         );
+                        handleClearCart(dispatch,true);
                         toast.success(data?.success || "Logout Successful")
+                        dispatch(setHasSynced(false));
                     }
                 } catch (error) {
                     // console.error("Error in getHome mutation:", error);

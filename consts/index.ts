@@ -47,6 +47,9 @@ export const FORTY_FOUR = 'fortyfour';
 export const FORTY_FIVE = 'fortyfive';
 export const FORTY_SIX = 'fortysix';
 
+// modules
+export const ABANDAN_CART = 131
+
 // dynamic colors
 export const HeaderColor = 'var(--header-color)';
 export const TextColor = 'var(--text-color)';
@@ -57,7 +60,6 @@ export const IFRAME_SRC_PATTERN = /src="([^"]+)"/;
 
 // export const PHONE_NUMBER_REGEX = /^(01\d{9}|8801\d{9}|\+8801\d{9})$/;
 export const PHONE_NUMBER_REGEX = /^\+?[1-9]\d{1,14}$/;
-
 export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 // all persist localStorage key
@@ -65,6 +67,8 @@ export const REDUX_PERSIST = 'persist:root';
 export const ANALYTICS_PERSIST = 'analytics:data';
 export const TRIGGER_E_TRACK = 'trigger:trackVisitor';
 export const ANALYTICS_PREV_PERSIST = 'analytics-prev:data';
+export const FINGERPRINT_DATA_PERSIST = 'resultId';
+export const DB_CART_STATUS = 'dbCart:status'
 
 // tracking deviation
 export const TRACK_DEVIATION = 120 //  10 * 60 * 1000

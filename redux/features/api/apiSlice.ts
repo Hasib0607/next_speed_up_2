@@ -3,9 +3,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { clearLocalStorage } from '@/helpers/localStorage';
 import { userLoggedOut } from '../auth/authSlice';
-// import { RootState } from '@/redux/store';
-
-type RootState = any;
+import { RootState } from '@/redux/store';
 
 const baseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_REACT_APP_BASE_URL,
@@ -13,8 +11,14 @@ const baseQuery = fetchBaseQuery({
         const state = getState() as RootState;
 
         const token = state?.auth?.accessToken || undefined;
+        const sessionToken = state?.auth?.sessionToken || undefined
+
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
+        }
+
+        if (sessionToken) {
+            headers.set('X-App-Session-ID', `${sessionToken}`);
         }
 
         return headers;

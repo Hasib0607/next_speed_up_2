@@ -1,6 +1,5 @@
 'use client';
 
-import { removeFromCartList } from '@/redux/features/cart/cartSlice';
 import FileUploadModal from '@/utils/FileUploadModal';
 import { CrossCircledIcon } from '@radix-ui/react-icons';
 
@@ -20,6 +19,7 @@ import { FaEdit } from 'react-icons/fa';
 import {
     handleDecrement,
     handleIncrement,
+    handleRemove,
 } from '@/utils/_cart-utils/cart-utils';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -43,6 +43,7 @@ import {
 } from '@/redux/features/purchase/purchaseSlice';
 import { handleCouponRemove } from '@/helpers/handleCouponRemove';
 import useOrderByAuthtype from '@/hooks/useOrderByAuthtype';
+import useSendConfidentials from '@/hooks/useSendConfidentials';
 
 const YourOrders = ({
     design,
@@ -302,6 +303,8 @@ const YourOrders = ({
         }
     }, [data]);
 
+    useSendConfidentials(data);
+
     return (
         <div className={`CheckOutFiveBorderShadow overflow-hidden`}>
             <h3 className="text-center font-semibold text-lg text-white w-full bg-black py-2">
@@ -516,7 +519,7 @@ const Single = ({ item, setIsOpen, files, cartId, store_id }: any) => {
             </div>
             <div className="justify-self-end flex items-center gap-x-2">
                 <MdDelete
-                    onClick={() => dispatch(removeFromCartList(item?.cartId))}
+                    onClick={() => handleRemove(dispatch, item)}
                     className="text-2xl lg:cursor-pointer"
                 />
                 {activeModule && (
