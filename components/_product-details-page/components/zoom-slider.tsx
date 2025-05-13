@@ -11,8 +11,8 @@ import Slider from 'react-slick';
 
 import ImageMagnifier from './image-magnifier';
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const ZoomHSlider = ({
     product,
@@ -313,4 +313,4 @@ const ZoomHSlider = ({
     );
 };
 
-export default ZoomHSlider
+export default ZoomHSlider;
