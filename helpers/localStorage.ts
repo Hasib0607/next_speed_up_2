@@ -3,7 +3,7 @@ export const saveToLocalStorage = (key: string, value: any): void => {
         try {
             localStorage.setItem(key, JSON.stringify(value));
         } catch (error) {
-            console.error('Failed to save to localStorage:', error);
+            console.warn('Failed to save to localStorage:', error);
         }
     }
 };
@@ -14,7 +14,7 @@ export const getFromLocalStorage = (key: string): any => {
         const value = localStorage.getItem(key);
         return value ? JSON.parse(value) : null;
     } catch (error) {
-        console.error(`Error parsing localStorage key "${key}":`, error);
+        console.warn(`Error parsing localStorage key "${key}":`, error);
         return null;
     }
 };
@@ -24,7 +24,7 @@ export const removeFromLocalStorage = (key: string): any => {
         try {
             localStorage.removeItem(key);
         } catch (error) {
-            console.error('Failed to remove from localStorage:', error);
+            console.warn('Failed to remove from localStorage:', error);
         }
     }
 };
@@ -34,7 +34,7 @@ export const clearLocalStorage = (): void => {
         try {
             localStorage.clear();
         } catch (error) {
-            console.error('Unable to clear localStorage:', error);
+            console.warn('Unable to clear localStorage:', error);
         }
     }
 };

@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import {
     handleDecrement,
     handleIncrement,
+    handleRemove,
 } from '@/utils/_cart-utils/cart-utils';
 import BDT from '@/utils/bdt';
 import Link from 'next/link';
@@ -20,7 +21,6 @@ import {
 } from '@heroicons/react/24/outline';
 import { useMemo } from 'react';
 import { numberParser } from '@/helpers/numberParser';
-import { removeFromCartList } from '@/redux/features/cart/cartSlice';
 import { DialogTitle } from '@headlessui/react';
 import { getVariantDetailsById } from '@/helpers/littleSpicy';
 
@@ -107,11 +107,7 @@ export const SingleCartProduct = ({ product, design, incDecOff }: any) => {
                             </Link>
                             <div className="ml-4 min-w-fit lg:cursor-pointer">
                                 <TrashIcon
-                                    onClick={() =>
-                                        dispatch(
-                                            removeFromCartList(product?.cartId)
-                                        )
-                                    }
+                                   onClick={() => handleRemove(dispatch, product)}
                                     width={15}
                                     className={'text-gray-700'}
                                 />{' '}

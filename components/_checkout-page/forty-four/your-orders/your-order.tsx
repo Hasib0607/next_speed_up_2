@@ -1,7 +1,5 @@
 'use client';
 
-import { removeFromCartList } from '@/redux/features/cart/cartSlice';
-
 import FileUploadModal from '@/utils/FileUploadModal';
 import { CrossCircledIcon } from '@radix-ui/react-icons';
 import { AiOutlineUpload } from 'react-icons/ai';
@@ -16,6 +14,7 @@ import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
     getCampainOfferDeliveryFee,
+    handleRemove,
     subTotal,
 } from '@/utils/_cart-utils/cart-utils';
 
@@ -46,9 +45,8 @@ import {
     setShippingAreaCost,
 } from '@/redux/features/filters/shippingAreaFilterSlice';
 import { handleCouponRemove } from '@/helpers/handleCouponRemove';
-import { showfieldStatus } from '@/lib/schema';
-import { getActiveAuthTypes } from '@/helpers/getActiveAuthTypes';
 import useOrderByAuthtype from '@/hooks/useOrderByAuthtype';
+import useSendConfidentials from '@/hooks/useSendConfidentials';
 
 const YourOrders = ({
     design,
@@ -394,6 +392,8 @@ const YourOrders = ({
         }
     }, [data, bookingStatus, checked, headersetting]);
 
+    useSendConfidentials(data);
+
     return (
         <div className="py-10 px-8 bg-[#F4F4F4] rounded-md">
             <h3 className="text-2xl px-2 w-full py-2 font-medium">
@@ -611,9 +611,7 @@ const Single = ({ item, setIsOpen, files, cartId, store_id }: any) => {
                         </p>
                     </div>
                     <MdDelete
-                        onClick={() =>
-                            dispatch(removeFromCartList(item?.cartId))
-                        }
+                        onClick={() => handleRemove(dispatch, item)}
                         className="text-2xl lg:cursor-pointer"
                     />
                     {activeModule && (

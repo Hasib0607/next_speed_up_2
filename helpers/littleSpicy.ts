@@ -42,10 +42,20 @@ export const getShippingCostByAreaId = (
 // check phone number
 export const checkValidPhoneNumberByCode = (
     phone: string,
-    countryCode: CountryCode = 'BD'
+    countryCode: CountryCode = 'BD',
 ) => {
-    const phoneNumber = parsePhoneNumberFromString(phone, countryCode);
-    return phoneNumber?.isValid() || false;
+    if (!phone || !countryCode) return;
+
+    // Remove leading 0s — they're not needed for parsing with country code
+    // const cleaned = normalize ? phone.replace(/^0+/, '') : phone;
+    const cleaned = phone.replace(/^0+/, '');
+
+    const parsedPhoneNumber = parsePhoneNumberFromString(cleaned, countryCode);
+    const isValidNumber = parsedPhoneNumber?.isValid() || false;
+    const normalizedNumber = parsedPhoneNumber?.format('E.164') || null;
+
+    return { number: normalizedNumber, valid: isValidNumber }; //  as needed
+
 };
 
 // find variant and get details

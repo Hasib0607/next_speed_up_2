@@ -47,16 +47,16 @@ const HeaderMenu = ({ headersetting, menu, design }: any) => {
     }, []);
 
     const styleCss = `
-    .navbarSixteen.openMenu {
-        display: block;
-        position: fixed;
-        background: white;
-        width: 100%;
-        z-index: 5;
-        top:0;
-        animation: fadeIn 0.2s ease-in both;
+        .navbarSixteen.openMenu {
+            display: block;
+            position: fixed;
+            background: white;
+            width: 100%;
+            z-index: 5;
+            top:0;
+            animation: fadeIn 0.2s ease-in both;
 
-      }
+        }
     `;
 
     return (

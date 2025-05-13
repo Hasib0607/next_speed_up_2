@@ -12,6 +12,8 @@ import Script from 'next/script';
 import NextTopLoader from 'nextjs-toploader';
 import AppWrapper from './AppWrapper';
 import './globals.css';
+import getModuleStatus from '@/utils/fetcher/getModuleStatus';
+import { ABANDAN_CART } from '@/consts';
 // import CustomPageView from '@/utils/CustomPageView';
 
 const geistSans = localFont({
@@ -46,6 +48,7 @@ export default async function RootLayout({
     const appStore = await getStore();
     const design = await getDesign();
     const headersetting = await getHeaderSetting();
+    const dbCart = await getModuleStatus(appStore?.id, ABANDAN_CART);
 
     const favicon = imgUrl + headersetting?.favicon;
 
@@ -54,8 +57,12 @@ export default async function RootLayout({
     const googleAnalytics = headersetting?.google_analytics;
     const googleSearchConsole = headersetting?.google_search_console;
 
-    const headerColorRgb = !appStore ? '235, 100, 47' : hexToRgba(design?.header_color);
-    const textColorRgb = !appStore ? '20, 20, 20' : hexToRgba(design?.text_color);
+    const headerColorRgb = !appStore
+        ? '235, 100, 47'
+        : hexToRgba(design?.header_color);
+    const textColorRgb = !appStore
+        ? '20, 20, 20'
+        : hexToRgba(design?.text_color);
 
     // console.log("headerColorRgb",headerColorRgb);
 
@@ -134,7 +141,7 @@ export default async function RootLayout({
                     speed={200}
                 />
 
-                <AppWrapper design={design} appStore={appStore}>
+                <AppWrapper design={design} appStore={appStore} dbCart={dbCart}>
                     {children}
                 </AppWrapper>
             </body>

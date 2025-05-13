@@ -146,7 +146,7 @@ const CheckoutFrom = ({
                 phoneWithCode,
                 selectedCountryCode
             );
-            if (!isValidPhone) {
+            if (!isValidPhone?.valid) {
                 setError('phone', {
                     type: 'manual',
                     // message: 'Need 11 digits',

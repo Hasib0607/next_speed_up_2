@@ -2,12 +2,13 @@
 
 import { trackServerConversion } from '@/app/actions/meta-conversions';
 import { AddToCart } from '@/helpers/fbTracking';
-import { generateEventId } from '@/helpers/getBakedId';
+import { generateEventId, makeUniqueid } from '@/helpers/getBakedId';
 import { isDeliveryChargeDiscount } from '@/helpers/getTypeWiseDiscount';
 import { getCampainOfferDiscount } from '@/helpers/littleSpicy';
 import { numberParser } from '@/helpers/numberParser';
 import {
     addToCartList,
+    clearCartList,
     decreaseQuantity,
     increaseQuantity,
     removeFromCartList,
@@ -16,6 +17,13 @@ import {
 import { AppDispatch } from '@/redux/store';
 import { sendGTMEvent } from '@next/third-parties/google';
 import { toast } from 'react-toastify';
+import { OpsType } from '@/types/cart';
+import {
+    addCartItemInDb,
+    clearCartItemInDb,
+    removeCartItemInDb,
+    updateCartItemInDb,
+} from '@/helpers/cartDbOps';
 
 export const handleIncrement = (dispatch: AppDispatch, item: any): void => {
     if (item?.qty >= item?.availability) {
@@ -23,6 +31,7 @@ export const handleIncrement = (dispatch: AppDispatch, item: any): void => {
             toastId: item?.availability,
         });
     } else {
+        updateCartItemInDb(dispatch, item, { operations: OpsType.INC });
         dispatch(increaseQuantity(item?.cartId));
         toast.success('Successfully added to cart', {
             toastId: item?.cartId,
@@ -32,15 +41,31 @@ export const handleIncrement = (dispatch: AppDispatch, item: any): void => {
 
 export const handleDecrement = (dispatch: AppDispatch, item: any): void => {
     if (item?.qty - 1 <= 0) {
-        dispatch(removeFromCartList(item?.cartId));
+        handleRemove(dispatch, item);
         toast.warning('Successfully Removed from cart', {
             toastId: item?.cartId,
         });
     } else {
+        updateCartItemInDb(dispatch, item, { operations: OpsType.DEC });
         dispatch(decreaseQuantity(item?.cartId));
         toast.success('Successfully decreased from cart', {
             toastId: item?.id,
         });
+    }
+};
+
+export const handleRemove = (dispatch: AppDispatch, item: any): void => {
+    removeCartItemInDb(dispatch, item);
+    dispatch(removeFromCartList(item?.cartId));
+};
+
+export const handleClearCart = (
+    dispatch: AppDispatch,
+    skipDbClear?: boolean
+): void => {
+    dispatch(clearCartList());
+    if (!skipDbClear) {
+        clearCartItemInDb(dispatch);
     }
 };
 
@@ -138,7 +163,7 @@ export const getCampainOfferDeliveryFee = (
         return offer ?? false;
     });
 
-    return campainOfferDiscountList.some(Boolean)
+    return campainOfferDiscountList.some(Boolean);
 };
 
 export const grandTotal = (
@@ -203,8 +228,11 @@ export const addToCart = ({
 
     const addOnBoard = async () => {
         if (productQuantity !== 0 && price !== 0) {
+            const cartId = makeUniqueid(100);
+
             dispatch(
                 addToCartList({
+                    cartId,
                     price,
                     qty,
                     availability: productQuantity,
@@ -212,6 +240,17 @@ export const addToCart = ({
                     ...product,
                 })
             );
+
+            const payload = {
+                cartId,
+                price,
+                qty,
+                variant_id: variantId,
+                product_id: product.id,
+            };
+
+            addCartItemInDb(dispatch, payload);
+
             sendGTMEvent({
                 event: 'add_to_cart',
                 value: {
@@ -224,7 +263,7 @@ export const addToCart = ({
                 event_id,
             });
 
-            AddToCart(product,event_id);
+            AddToCart(product, event_id);
 
             await trackServerConversion('AddToCart', {
                 event_id, // Use the same event_id
