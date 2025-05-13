@@ -5,74 +5,78 @@ import { Checkout } from '@/helpers/fbTracking';
 import { generateEventId } from '@/helpers/getBakedId';
 import { RootState } from '@/redux/store';
 import { sendGTMEvent } from '@next/third-parties/google';
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 const CheckoutGtm = ({ headersetting }: any) => {
     const hasTracked = useRef(false);
-
     const cartList = useSelector((state: RootState) => state.cart.cartList);
 
-    const allCheckoutEvent = useCallback(async () => {
-        const event_id = generateEventId();
-        const currency = headersetting?.code;
+    useEffect(() => {
+        if (hasTracked.current || !Array.isArray(cartList) || cartList.length === 0) return;
 
-        const items = cartList.map((item: any) => ({
+        // ✅ Only include valid (non-null, non-zero qty) items
+        const filteredCart = cartList.filter(item => item && item.qty > 0);
+
+        if (filteredCart.length === 0) return;
+
+        hasTracked.current = true;
+
+        const event_id = generateEventId();
+        const currency = headersetting?.code || 'BDT';
+
+        const items = filteredCart.map((item: any) => ({
             item_name: item?.name,
             item_category_id: item?.category_id,
             item_category: item?.category || '',
-            item_category2: item.subcategory || 'General',
+            item_category2: item?.subcategory || 'General',
             item_id: item?.SKU,
-            discount: parseFloat(item.discount_price) || 0,
-            item_variant: item.color || 'default',
-            price: parseFloat(item.price) || 0,
+            discount: parseFloat(item?.discount_price) || 0,
+            item_variant: item?.color || 'default',
+            price: parseFloat(item?.price) || 0,
             quantity: item?.qty,
-            tax_rate: parseFloat(item.tax_rate) || 0,
-            shipping_fee: item.shipping_fee || 0,
+            tax_rate: parseFloat(item?.tax_rate) || 0,
+            shipping_fee: parseFloat(item?.shipping_fee) || 0,
         }));
 
-        const contents = cartList.map((item: any) => ({
+        const contents = filteredCart.map((item: any) => ({
             id: item?.id,
-            item_price: parseFloat(item.price) || 0,
+            item_price: parseFloat(item?.price) || 0,
             quantity: item?.qty,
         }));
 
-        const totalPrice = cartList.reduce((accumulator: any, item: any) => {
-            return accumulator + item.price * item.qty;
-        }, 0);
+        const totalPrice = filteredCart.reduce(
+            (acc: number, item: any) => acc + item.price * item.qty,
+            0
+        );
 
-        const sku = cartList.map((item: { SKU: any }) => item.SKU);
+        const sku = filteredCart.map((item: any) => item.SKU);
 
+        // ✅ Send clean data to GTM
         sendGTMEvent({
             event: 'begin_checkout',
             pageType: 'Checkout',
             ecommerce: {
-                currency: currency || 'BDT',
-                value: parseFloat(totalPrice) || 0,
-                items: items,
+                currency,
+                value: parseFloat(totalPrice.toFixed(2)),
+                items,
             },
-            event_id, // Pass event_id for deduplication
+            event_id,
         });
 
+        // Meta Pixel
         Checkout(totalPrice, sku, currency, event_id);
 
-        // Send data to Facebook Conversion API
-        await trackServerConversion('Checkout', {
-            event_id, // Use the same event_id
+        // Meta CAPI
+        trackServerConversion('Checkout', {
+            event_id,
             custom_data: {
-                currency: currency || 'BDT',
-                value: parseFloat(totalPrice) || 0,
+                currency,
+                value: parseFloat(totalPrice.toFixed(2)),
                 contents,
             },
         });
     }, [cartList, headersetting]);
-
-    useEffect(() => {
-        if (!hasTracked.current) {
-            hasTracked.current = true;
-            allCheckoutEvent();
-        }
-    });
 
     return null;
 };
