@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 
 const CheckoutGtm = ({ headersetting }: any) => {
     const hasTracked = useRef(false);
+    
     const cartList = useSelector((state: RootState) => state.cart.cartList);
 
     useEffect(() => {
