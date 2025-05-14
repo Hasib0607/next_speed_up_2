@@ -1,7 +1,8 @@
-import { clearCartList } from '@/redux/features/cart/cartSlice';
 import { checkOutApi } from '@/redux/features/checkOut/checkOutApi';
 import { AppDispatch } from '@/redux/store';
 import { OrderRequireTypes } from '@/types';
+import { handleClearCart } from '@/utils/_cart-utils/cart-utils';
+
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 
@@ -19,7 +20,7 @@ export const placeOrder = (
             const { order, url } = data || {};
 
             if (status) {
-                dispatch(clearCartList());
+                handleClearCart(dispatch)
                 if (url) {
                     window.location.replace(url);
                 } else {
@@ -96,8 +97,6 @@ export const handlePlaceOrder = async (
     orderRequire: OrderRequireTypes,
     data: any
 ) => {
-
-    
     if (isAbleToOrder) {
         if (orderRequire?.isPhoneRequired && data?.phone) {
             if (smsCount > 0) {

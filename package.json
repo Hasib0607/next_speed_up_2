@@ -10,6 +10,7 @@
         "prettier": "prettier --write ."
     },
     "dependencies": {
+        "@fingerprintjs/fingerprintjs": "^4.6.2",
         "@headlessui/react": "^2.2.0",
         "@heroicons/react": "^2.1.5",
         "@hookform/resolvers": "^3.9.1",

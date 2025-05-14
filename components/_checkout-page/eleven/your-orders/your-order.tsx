@@ -1,6 +1,5 @@
 'use client';
 
-import { removeFromCartList } from '@/redux/features/cart/cartSlice';
 import FileUploadModal from '@/utils/FileUploadModal';
 import { CrossCircledIcon } from '@radix-ui/react-icons';
 import { productImg } from '@/site-settings/siteUrl';
@@ -12,8 +11,8 @@ import Link from 'next/link';
 
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { AppDispatch, RootState } from '@/redux/store';
-import { subTotal } from '@/utils/_cart-utils/cart-utils';
-import { useEffect, useMemo, useState } from 'react';
+import { handleRemove, subTotal } from '@/utils/_cart-utils/cart-utils';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 
@@ -21,8 +20,11 @@ import { useSelector } from 'react-redux';
 import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
 import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
-import { TWENTY_EIGHT } from '@/consts';
-import { howMuchSave } from '@/helpers/littleSpicy';
+import { DB_CART_STATUS, TWENTY_EIGHT } from '@/consts';
+import {
+    checkValidPhoneNumberByCode,
+    howMuchSave,
+} from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
 import { handlePlaceOrder } from '@/components/_checkout-page/_components/handlePlaceOrder';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
@@ -33,6 +35,8 @@ import {
 } from '@/redux/features/purchase/purchaseSlice';
 import { handleCouponRemove } from '@/helpers/handleCouponRemove';
 import useOrderByAuthtype from '@/hooks/useOrderByAuthtype';
+import { sendContactToDb } from '@/helpers/cartDbOps';
+import useSendConfidentials from '@/hooks/useSendConfidentials';
 
 const YourOrders = ({
     design,
@@ -45,7 +49,6 @@ const YourOrders = ({
 }: any) => {
     const store_id = appStore?.id || null;
     const isAuthenticated = useAuth();
-
     const referral_code = getFromLocalStorage('referralCode');
 
     const [isAbleToOrder, setIsAbleToOrder] = useState<boolean>(false);
@@ -292,6 +295,8 @@ const YourOrders = ({
         }
     }, [data]);
 
+    useSendConfidentials(data);
+
     return (
         <div
             className={`${
@@ -533,9 +538,7 @@ const Single = ({ item, setIsOpen, files, cartId, store_id }: any) => {
                 </div>
                 <div className="">
                     <MdDelete
-                        onClick={() =>
-                            dispatch(removeFromCartList(item?.cartId))
-                        }
+                        onClick={() => handleRemove(dispatch, item)}
                         className="text-2xl lg:cursor-pointer"
                     />
                 </div>

@@ -1,6 +1,5 @@
 'use client';
 
-import { removeFromCartList } from '@/redux/features/cart/cartSlice';
 import FileUploadModal from '@/utils/FileUploadModal';
 import { CrossCircledIcon } from '@radix-ui/react-icons';
 
@@ -15,6 +14,7 @@ import {
     getCampainOfferDeliveryFee,
     handleDecrement,
     handleIncrement,
+    handleRemove,
 } from '@/utils/_cart-utils/cart-utils';
 
 import { AppDispatch, RootState } from '@/redux/store';
@@ -43,6 +43,7 @@ import {
     setShippingAreaCost,
 } from '@/redux/features/filters/shippingAreaFilterSlice';
 import useOrderByAuthtype from '@/hooks/useOrderByAuthtype';
+import useSendConfidentials from '@/hooks/useSendConfidentials';
 
 const YourOrders = ({
     design,
@@ -340,6 +341,8 @@ const YourOrders = ({
         }
     }, [data]);
 
+    useSendConfidentials(data);
+
     return (
         <div className="border p-5 sm:rounded-md shadow">
             <div className="mb-12">
@@ -606,9 +609,7 @@ const Single = ({ item }: any) => {
                 </p>
                 <div className="justify-self-end flex items-center gap-x-2">
                     <span
-                        onClick={() =>
-                            dispatch(removeFromCartList(item?.cartId))
-                        }
+                        onClick={() => handleRemove(dispatch, item)}
                         className="lg:cursor-pointer underline text-sm"
                     >
                         Remove

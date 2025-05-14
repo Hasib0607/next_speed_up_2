@@ -15,8 +15,7 @@ import { ANALYTICS_PREV_PERSIST, TRIGGER_E_TRACK } from '@/consts';
 import { formattedDateTime } from '@/helpers/getTime';
 import { removeFbclid } from '@/helpers/urlCleaner';
 
-const EbitansAnalytics = ({ design, headersetting }: any) => {
-    const store_id = design?.store_id || null;
+const EbitansAnalytics = ({ store_id }: any) => {
     const { address, fetchAddress } = useGeoLocation();
     const { browser } = useBrowserInfo();
     const pathname = usePathname();

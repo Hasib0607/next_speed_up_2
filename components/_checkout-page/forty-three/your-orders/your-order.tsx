@@ -30,6 +30,7 @@ import {
 } from '@/redux/features/purchase/purchaseSlice';
 import { handleCouponRemove } from '@/helpers/handleCouponRemove';
 import useOrderByAuthtype from '@/hooks/useOrderByAuthtype';
+import useSendConfidentials from '@/hooks/useSendConfidentials';
 
 const YourOrders = ({
     design,
@@ -289,6 +290,8 @@ const YourOrders = ({
         }
     }, [data]);
 
+    useSendConfidentials(data);
+
     return (
         <div>
             <h3 className="text-base text-black bg-[#FAEBD7] p-5 block md:hidden">
@@ -484,9 +487,7 @@ const Single = ({ item, setIsOpen, files, cartId, store_id }: any) => {
                 </div>
                 {/* <div className="">
                     <MdDelete
-                        onClick={() =>
-                            dispatch(removeFromCartList(item?.cartId))
-                        }
+                         onClick={() => handleRemove(dispatch, item)}
                         className="text-2xl lg:cursor-pointer"
                     />
                 </div> */}

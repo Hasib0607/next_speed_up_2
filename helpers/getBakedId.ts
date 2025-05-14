@@ -1,4 +1,4 @@
-export const makeid = (length: any) => {
+export const makeUniqueid = (length: any) => {
     let result = '';
     let characters =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
