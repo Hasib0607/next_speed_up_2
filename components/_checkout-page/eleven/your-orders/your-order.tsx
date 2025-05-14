@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { AppDispatch, RootState } from '@/redux/store';
 import { handleRemove, subTotal } from '@/utils/_cart-utils/cart-utils';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import {  useEffect, useMemo, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 
@@ -20,9 +20,8 @@ import { useSelector } from 'react-redux';
 import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
 import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
-import { DB_CART_STATUS, TWENTY_EIGHT } from '@/consts';
+import { TWENTY_EIGHT } from '@/consts';
 import {
-    checkValidPhoneNumberByCode,
     howMuchSave,
 } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
@@ -35,7 +34,6 @@ import {
 } from '@/redux/features/purchase/purchaseSlice';
 import { handleCouponRemove } from '@/helpers/handleCouponRemove';
 import useOrderByAuthtype from '@/hooks/useOrderByAuthtype';
-import { sendContactToDb } from '@/helpers/cartDbOps';
 import useSendConfidentials from '@/hooks/useSendConfidentials';
 
 const YourOrders = ({
