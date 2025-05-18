@@ -252,7 +252,8 @@ export const addToCart = ({
 
             sendGTMEvent({
                 event: 'add_to_cart',
-                value: {
+                value: numberParser(price * qty),
+                items: {
                     price,
                     qty,
                     availability: productQuantity,
