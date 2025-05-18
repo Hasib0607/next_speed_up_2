@@ -1,16 +1,16 @@
 'use client';
-
-import CategoryBreadcrumb from '@/components/_category-page/components/CategoryBreadcrumb';
-import Card45 from '@/components/card/card45';
+import FilterByBrandNew from '@/components/_category-page/components/filter-by-brand-new';
+import FilterByColorNew from '@/components/_category-page/components/filter-by-color-new';
+import FilterByPriceNew from '@/components/_category-page/components/filter-by-price-new';
 import Card6 from '@/components/card/card6';
+import InfiniteLoader from '@/components/loaders/infinite-loader';
 import Skeleton from '@/components/loaders/skeleton';
 import Pagination from '@/components/paginations/pagination';
 import { numberParser } from '@/helpers/numberParser';
 import { setSort } from '@/redux/features/filters/filterSlice';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
-import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
+import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
-import { NotFoundMsg } from '@/utils/little-components';
 import { Bars3Icon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
@@ -19,70 +19,74 @@ import { useEffect, useState } from 'react';
 import { IoGridSharp } from 'react-icons/io5';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
-import InfiniteLoader from '../loaders/infinite-loader';
-import FilterByColorNew from './components/filter-by-color-new';
-import FilterByPriceNew from './components/filter-by-price-new';
-import FilterByBrandNew from './components/filter-by-brand-new';
+import { catImg } from '@/site-settings/siteUrl';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import ProductCardOne from '@/components/card/product-card/product-card-one';
 
-const CategoryTwentyOne = ({ catId, store_id, design }: any) => {
+const FortySix = ({ design, store_id }: any) => {
     const module_id = 105;
     const dispatch = useDispatch();
+    const { id: data }: any = useParams<{ id: string }>();
+
+    const { data: modulesData } = useGetModulesQuery({ store_id });
+    const modules = modulesData?.data || [];
 
     const [grid, setGrid] = useState('H');
     const [open, setOpen] = useState(false);
     // setting the initial page number
     const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState<any>(true);
     const [paginate, setPaginate] = useState<any>({});
+    const [select, setSelect] = useState<any>(parseInt(data?.id));
 
-    const categoryStore = useSelector((state: any) => state?.category);
+    const categoryStore = useSelector((state: RootState) => state?.category);
+
     const category = categoryStore?.categories || [];
-
-    const { data: modulesData } = useGetModulesQuery({ store_id });
-    const modules = modulesData?.data || [];
 
     const paginationModule = modules?.find(
         (item: any) => item?.modulus_id === module_id
     );
-    const isPagination = numberParser(paginationModule?.status) === 1;
+    const isPagination = parseInt(paginationModule?.status) === 1;
 
     const styleCss = `
-        .grid-active {
-        color:  ${design?.header_color};
-        border: 1px solid ${design?.header_color};
-        }
-    `;
+    .grid-active {
+      color:  ${design?.header_color};
+      border: 1px solid ${design?.header_color};
+  }
+ `;
 
     return (
         <div>
-            <CategoryBreadcrumb catId={catId} />
-
+            {/* <Location /> */}
             <div className="sm:container px-5 sm:py-10 py-5">
                 <style>{styleCss}</style>
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-                    <div className=" hidden lg:block col-span-3 ">
-                        <div className="w-full rounded-xl h-max p-4 shadow-2xl">
-                            <h3 className="font-medium text-[#252525] text-xl px-4 mb-4 ">
-                                Categories
-                            </h3>
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+                    <div className="hidden md:block col-span-3 ">
+                        <div className="w-full rounded-xl h-max p-4 bg-white">
                             {category?.map((item: any) => (
                                 <SingleCat
                                     key={item?.id}
                                     item={item}
-                                    design={design}
+                                    setSelect={setSelect}
+                                    select={select}
                                 />
                             ))}
                         </div>
-                        <div className="bg-white rounded-xl h-max p-4 shadow-2xl mt-6">
+                        <div className="rounded-xl h-max p-4 bg-white mt-6">
                             <FilterByBrandNew />
                         </div>
-                        <div className="bg-white my-6 rounded-xl h-max p-4 shadow-2xl">
+                        <div className="rounded-xl h-max p-4 bg-white my-6">
                             <FilterByColorNew />
                         </div>
-                        <div className="bg-white rounded-xl h-max p-4 shadow-2xl">
+                        <div className="rounded-xl h-max p-4 bg-white">
                             <FilterByPriceNew />
                         </div>
                     </div>
-                    <div className="col-span-1 lg:col-span-9 flex flex-col min-h-[100vh-200px] h-full ">
+
+                    <div className="col-span-1 md:col-span-9 flex flex-col min-h-[100vh-200px] h-full">
                         <Filter
                             onChange={(e: any) => {
                                 dispatch(setSort(e.target.value));
@@ -94,14 +98,18 @@ const CategoryTwentyOne = ({ catId, store_id, design }: any) => {
                             paginate={paginate}
                         />
                         <div className="flex-1">
-                            <ProductSection
+                            <ShopProductSection
                                 grid={grid}
-                                catId={catId}
+                                open={open}
+                                hasMore={hasMore}
+                                paginate={paginate}
+                                setHasMore={setHasMore}
                                 page={page}
                                 setPage={setPage}
-                                paginate={paginate}
                                 isPagination={isPagination}
                                 setPaginate={setPaginate}
+                                setSelect={setSelect}
+                                select={select}
                             />
                         </div>
                         {isPagination && paginate?.total > 7 ? (
@@ -120,40 +128,60 @@ const CategoryTwentyOne = ({ catId, store_id, design }: any) => {
     );
 };
 
-export default CategoryTwentyOne;
+export default FortySix;
 
-const ProductSection = ({
+const ShopProductSection = ({
     grid,
-    catId,
+    open,
     page,
     setPage,
+    hasMore,
     paginate,
+    setHasMore,
     isPagination,
     setPaginate,
+    setSelect,
+    select,
 }: any) => {
     const filtersData = useSelector((state: RootState) => state.filters);
     // get the activecolor, pricevalue, selectedSort
     const { color: activeColor, price: priceValue } = filtersData || {};
+
     // setting the products to be shown on the ui initially zero residing on an array
     const [products, setProducts] = useState<any[]>([]);
     const [infiniteProducts, setInfiniteProducts] = useState<any[]>([]);
 
     const {
-        data: categoryPageProductsData,
-        isLoading: categoryPageProductsLoading,
-        isFetching: categoryPageProductsFetching,
-        isError: categoryPageProductsError,
-        isSuccess: categoryPageProductsSuccess,
-        refetch: categoryPageProductsRefetch,
-    } = useGetCategoryPageProductsQuery({ catId, page, filtersData });
+        data: shopPageProductsData,
+        isLoading: shopPageProductsLoading,
+        isFetching: shopPageProductsFetching,
+        isSuccess: shopPageProductsSuccess,
+        isError: shopPageProductsError,
+        refetch: shopPageProductsRefetch,
+    } = useGetShopPageProductsQuery({ page, filtersData });
 
     const nextPageFetch = () => {
         setPage((prevPage: number) => prevPage + 1);
     };
 
+    const categoryStore = useSelector((state: RootState) => state?.category);
+
+    const category = categoryStore?.categories || [];
+
     useEffect(() => {
-        categoryPageProductsRefetch();
-    }, [page, activeColor, priceValue, catId, categoryPageProductsRefetch]);
+        shopPageProductsRefetch();
+        if (paginate?.total > 0) {
+            const more = numberParser(paginate?.total / 8, true) > page;
+            setHasMore(more);
+        }
+    }, [
+        page,
+        activeColor,
+        shopPageProductsRefetch,
+        priceValue,
+        paginate,
+        setHasMore,
+    ]);
 
     useEffect(() => {
         if (activeColor !== null || priceValue !== null) {
@@ -162,19 +190,19 @@ const ProductSection = ({
     }, [activeColor, priceValue, setPage]);
 
     useEffect(() => {
-        if (categoryPageProductsSuccess) {
-            const productsData = categoryPageProductsData?.data?.products || [];
-            const paginationData =
-                categoryPageProductsData?.data?.pagination || {};
+        if (shopPageProductsSuccess) {
+            const productsData = shopPageProductsData?.data?.products || [];
+            const paginationData = shopPageProductsData?.data?.pagination || {};
+
             setPaginate(paginationData);
             setProducts(productsData);
         }
     }, [
-        categoryPageProductsData,
-        categoryPageProductsSuccess,
-        categoryPageProductsFetching,
+        shopPageProductsData,
+        shopPageProductsSuccess,
         page,
         setPaginate,
+        shopPageProductsFetching,
     ]);
 
     useEffect(() => {
@@ -199,12 +227,58 @@ const ProductSection = ({
             {/* show loading */}
             <div className="col-span-12 lg:col-span-9">
                 {isPagination &&
-                ((categoryPageProductsLoading && !categoryPageProductsError) ||
-                    categoryPageProductsFetching)
+                ((shopPageProductsLoading && !shopPageProductsError) ||
+                    shopPageProductsFetching)
                     ? Array.from({ length: 8 })?.map((_, index) => (
                           <Skeleton key={index} />
                       ))
                     : null}
+            </div>
+
+            <div className="my-10">
+                <Swiper
+                    modules={[Navigation]}
+                    navigation
+                    speed={800}
+                    loop={false}
+                    autoplay={false}
+                    breakpoints={{
+                        350: { slidesPerView: 2, spaceBetween: 5 },
+                        640: { slidesPerView: 3, spaceBetween: 5 },
+                        768: { slidesPerView: 4, spaceBetween: 5 },
+                        1024: { slidesPerView: 5, spaceBetween: 5 },
+                        1280: { slidesPerView: 5, spaceBetween: 5 },
+                    }}
+                >
+                    {category?.map((item: any) =>
+                        item?.subcategories?.map((sub: any, idx: number) => (
+                            <SwiperSlide key={sub.id}>
+                                <Link
+                                    href={'/category/' + sub?.id}
+                                    onClick={() => setSelect(sub.id)}
+                                    className="flex flex-col items-center text-center"
+                                >
+                                    <div className="bg-[#e5f3f3] px-16 py-5 rounded-xl">
+                                        <img
+                                            src={catImg + sub.banner}
+                                            alt={sub?.name}
+                                            className="w-24 h-24 object-cover"
+                                        />
+                                    </div>
+                                    <p
+                                        className={`font-bold py-2 ${
+                                            select === sub.id
+                                                ? 'text-red-500'
+                                                : 'text-gray-500'
+                                        }`}
+                                    >
+                                        {sub?.name}
+                                    </p>
+                                </Link>
+                            </SwiperSlide>
+                        ))
+                    )}
+                </Swiper>
             </div>
 
             {!isPagination ? (
@@ -213,61 +287,52 @@ const ProductSection = ({
                         style={{ height: 'auto', overflow: 'hidden' }}
                         dataLength={infiniteProducts?.length}
                         next={nextPageFetch}
-                        hasMore={paginate?.has_more_pages}
-                        loader={
-                            paginate?.has_more_pages ||
-                            categoryPageProductsFetching ||
-                            (categoryPageProductsLoading && <InfiniteLoader />)
-                        }
+                        hasMore={hasMore}
+                        loader={<InfiniteLoader />}
                         endMessage={
-                            paginate?.has_more_pages ||
-                            categoryPageProductsFetching ||
-                            categoryPageProductsLoading ? (
-                                <InfiniteLoader />
-                            ) : (
-                                <NotFoundMsg message={'No More Products'} />
-                            )
+                            <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
+                                No More Products
+                            </p>
                         }
                     >
                         {grid === 'H' && (
-                            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-1 sm:gap-4">
-                                {infiniteProducts?.map(
-                                    (item: any, key: number) => (
-                                        <motion.div
-                                            key={key}
-                                            initial={{ scale: 0 }}
-                                            animate={{ scale: 1 }}
-                                            exit={{ scale: 0 }}
-                                            transition={{
-                                                duration: 0.5,
-                                                ease: 'linear',
-                                            }}
-                                        >
-                                            <Card45 item={item} />
-                                        </motion.div>
-                                    )
-                                )}
+                            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-1 sm:gap-4 ">
+                                {infiniteProducts?.map((item: any) => (
+                                    <motion.div
+                                        key={item?.id}
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        exit={{ scale: 0 }}
+                                        transition={{
+                                            duration: 0.5,
+                                            ease: 'linear',
+                                        }}
+                                    >
+                                        <ProductCardOne
+                                            item={item}
+                                            type={'single_product_page'}
+                                        />
+                                    </motion.div>
+                                ))}
                             </div>
                         )}
                         <AnimatePresence>
                             {grid === 'V' && (
-                                <div className="grid grid-cols-1 gap-1 sm:gap-4">
-                                    {infiniteProducts?.map(
-                                        (item: any, key: number) => (
-                                            <motion.div
-                                                key={key}
-                                                initial={{ translateX: 200 }}
-                                                animate={{ translateX: 0 }}
-                                                transition={{
-                                                    duration: 0.5,
-                                                    ease: 'linear',
-                                                    type: 'tween',
-                                                }}
-                                            >
-                                                <Card6 item={item} />
-                                            </motion.div>
-                                        )
-                                    )}
+                                <div className="grid grid-cols-1 gap-1 sm:gap-4 ">
+                                    {infiniteProducts?.map((item: any) => (
+                                        <motion.div
+                                            key={item?.id}
+                                            initial={{ translateX: 200 }}
+                                            animate={{ translateX: 0 }}
+                                            transition={{
+                                                duration: 0.5,
+                                                ease: 'linear',
+                                                type: 'tween',
+                                            }}
+                                        >
+                                            <Card6 item={item} />
+                                        </motion.div>
+                                    ))}
                                 </div>
                             )}
                         </AnimatePresence>
@@ -277,9 +342,9 @@ const ProductSection = ({
                 <div>
                     {grid === 'H' && (
                         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-1 sm:gap-4">
-                            {products?.map((item: any, key: number) => (
+                            {products?.map((item: any) => (
                                 <motion.div
-                                    key={key}
+                                    key={item?.id}
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
                                     exit={{ scale: 0 }}
@@ -288,7 +353,10 @@ const ProductSection = ({
                                         ease: 'linear',
                                     }}
                                 >
-                                    <Card45 item={item} />
+                                    <ProductCardOne
+                                        item={item}
+                                        type={'single_product_page'}
+                                    />
                                 </motion.div>
                             ))}
                         </div>
@@ -296,9 +364,9 @@ const ProductSection = ({
                     <AnimatePresence>
                         {grid === 'V' && (
                             <div className="grid grid-cols-1 gap-1 sm:gap-4">
-                                {products?.map((item: any, key: number) => (
+                                {products?.map((item: any) => (
                                     <motion.div
-                                        key={key}
+                                        key={item?.id}
                                         initial={{ translateX: 200 }}
                                         animate={{ translateX: 0 }}
                                         transition={{
@@ -319,12 +387,24 @@ const ProductSection = ({
     );
 };
 
+const Location = () => {
+    return (
+        <div className="w-full bg-[#f1f1f1] flex flex-col justify-center items-center py-5 mb-5">
+            <h1 className="text-3xl font-medium ">Product</h1>
+            <div className="flex items-center gap-1">
+                <p>Home</p>
+                <p>/ Shop</p>
+            </div>
+        </div>
+    );
+};
+
 const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
     return (
         <div className="border-t border-b border-[#f1f1f1] py-3 mb-5 flex flex-wrap justify-between items-center px-2">
             <div className="text-gray-500 font-medium">
                 Showing {paginate?.from}-{paginate?.to} of {paginate?.total}{' '}
-                results{' '}
+                results
             </div>
             <div className="flex items-center gap-1 mb-3 md:mb-0">
                 <div
@@ -344,12 +424,13 @@ const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
                     <Bars3Icon className="h-4 w-4" />
                 </div>
             </div>
+
             {/* Short by  */}
-            <div className="flex items-center gap-2 text-sm max-w-md w-full">
+            <div className="flex items-center gap-2 text-sm max-w-md w-full font-medium">
                 <label className="max-w-fit"> Sort by:</label>
                 <select
                     onChange={onChange}
-                    className="h-9 border border-gray-200 rounded  outline-0 ring-0 focus:ring-0 text-xs flex-1 bg-white"
+                    className="h-9 border border-gray-200 rounded  outline-0 ring-0 focus:ring-0 font-medium text-sm flex-1 bg-white"
                 >
                     <option>Select One</option>
                     <option value="az">Name, A to Z</option>
@@ -362,36 +443,22 @@ const Filter = ({ paginate, onChange, setGrid, grid }: any) => {
     );
 };
 
-const SingleCat = ({ item, design }: any) => {
+const SingleCat = ({ item, select, setSelect }: any) => {
     const [show, setShow] = useState(false);
-    const { id }: any = useParams<{ id: string }>();
-    useEffect(() => {
-        if (item.cat) {
-            for (let i = 0; i < item.cat.length; i++) {
-                item.cat[i].id == id && setShow(true);
-            }
-        }
-    }, [item?.cat, id]);
 
-    const activeColor = `text-[${design?.header_color}] flex-1 text-lg font-medium`;
-    const inactiveColor = 'text-gray-500 flex-1 text-lg font-medium';
-    const activesub = `text-[${design?.header_color}] py-2 px-4 text-sm`;
-    const inactivesub = `text-gray-600 py-2 px-4 text-sm`;
     return (
         <div className="">
             <div className="w-full border mb-2">
                 <div className="flex items-center px-4 py-3">
                     <Link
-                        style={
-                            parseInt(id) === parseInt(item?.id)
-                                ? { color: `${design.header_color}` }
-                                : {}
-                        }
-                        onClick={() => setShow(!show)}
+                        onClick={() => setSelect(item.id)}
                         href={'/category/' + item?.id}
-                        className={id == item?.id ? activeColor : inactiveColor}
+                        className={`flex-1 text-lg font-medium ${
+                            select === item.id
+                                ? 'text-red-500'
+                                : 'text-gray-900'
+                        }`}
                     >
-                        {' '}
                         <p>{item.name}</p>
                     </Link>
                     {item?.subcategories ? (
@@ -413,32 +480,24 @@ const SingleCat = ({ item, design }: any) => {
                 {show && (
                     <>
                         <div className="">
-                            {item?.subcategories?.map(
-                                (sub: any, key: number) => (
-                                    <div className="border-t" key={key}>
-                                        <Link href={'/category/' + sub?.id}>
-                                            {' '}
-                                            <p
-                                                style={
-                                                    parseInt(id) ===
-                                                    parseInt(sub?.id)
-                                                        ? {
-                                                              color: `${design.header_color}`,
-                                                          }
-                                                        : {}
-                                                }
-                                                className={
-                                                    id == sub?.id
-                                                        ? activesub
-                                                        : inactivesub
-                                                }
-                                            >
-                                                {sub?.name}
-                                            </p>
-                                        </Link>
-                                    </div>
-                                )
-                            )}
+                            {item?.subcategories?.map((sub: any, idx: any) => (
+                                <div className="border-t" key={idx}>
+                                    <Link
+                                        onClick={() => setSelect(sub.id)}
+                                        href={'/category/' + sub?.id}
+                                    >
+                                        <p
+                                            className={`py-2 px-4 text-sm ${
+                                                select === sub.id
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-500'
+                                            }`}
+                                        >
+                                            {sub?.name}
+                                        </p>
+                                    </Link>
+                                </div>
+                            ))}
                         </div>
                     </>
                 )}

@@ -8,8 +8,7 @@ export default async function BrandSection({ design, headersetting }: any) {
     const brands = await getBrands(name);
 
     const BrandComponent = 
-    // brand_sections[design?.brand] || brand_sections[DEFAULT];
-    brand_sections[ONE];
+    brand_sections[design?.brand] || brand_sections[DEFAULT];
 
     return (
         design?.brand !== 'null' &&

@@ -14,7 +14,7 @@ const BrandFortyThree = ({ headersetting, brands }: any) => {
                 style={{
                     backgroundImage: `url(${brandBgImg + brandData?.[0]?.bg_image || ''})`,
                     backgroundAttachment: 'fixed',
-                }}
+                }}                    
             >
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-black/50 bg-gradient-to-t from-black/60 to-transparent" />

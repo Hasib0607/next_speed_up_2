@@ -1,7 +1,5 @@
 'use client';
 
-import CategoryBreadcrumb from '@/components/_category-page/components/CategoryBreadcrumb';
-import Card45 from '@/components/card/card45';
 import Card6 from '@/components/card/card6';
 import Skeleton from '@/components/loaders/skeleton';
 import Pagination from '@/components/paginations/pagination';
@@ -11,7 +9,8 @@ import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetCategoryPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
 import { NotFoundMsg } from '@/utils/little-components';
-import { Bars3Icon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon } from '@heroicons/react/24/outline';
+import { IoIosArrowForward } from 'react-icons/io';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -23,10 +22,17 @@ import InfiniteLoader from '../loaders/infinite-loader';
 import FilterByColorNew from './components/filter-by-color-new';
 import FilterByPriceNew from './components/filter-by-price-new';
 import FilterByBrandNew from './components/filter-by-brand-new';
+import { catImg } from '@/site-settings/siteUrl';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import ProductCardOne from '../card/product-card/product-card-one';
 
-const CategoryTwentyOne = ({ catId, store_id, design }: any) => {
+const CategoryFortySix = ({ catId, store_id, design }: any) => {
     const module_id = 105;
     const dispatch = useDispatch();
+    const { id: data }: any = useParams<{ id: string }>();
 
     const [grid, setGrid] = useState('H');
     const [open, setOpen] = useState(false);
@@ -54,16 +60,13 @@ const CategoryTwentyOne = ({ catId, store_id, design }: any) => {
 
     return (
         <div>
-            <CategoryBreadcrumb catId={catId} />
+            {/* <CategoryBreadcrumb catId={catId} /> */}
 
             <div className="sm:container px-5 sm:py-10 py-5">
                 <style>{styleCss}</style>
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
                     <div className=" hidden lg:block col-span-3 ">
-                        <div className="w-full rounded-xl h-max p-4 shadow-2xl">
-                            <h3 className="font-medium text-[#252525] text-xl px-4 mb-4 ">
-                                Categories
-                            </h3>
+                        <div className="w-full rounded-xl h-max p-4">
                             {category?.map((item: any) => (
                                 <SingleCat
                                     key={item?.id}
@@ -72,13 +75,13 @@ const CategoryTwentyOne = ({ catId, store_id, design }: any) => {
                                 />
                             ))}
                         </div>
-                        <div className="bg-white rounded-xl h-max p-4 shadow-2xl mt-6">
+                        <div className="bg-white rounded-xl h-max p-4 mt-6">
                             <FilterByBrandNew />
                         </div>
-                        <div className="bg-white my-6 rounded-xl h-max p-4 shadow-2xl">
+                        <div className="bg-white my-6 rounded-xl h-max p-4">
                             <FilterByColorNew />
                         </div>
-                        <div className="bg-white rounded-xl h-max p-4 shadow-2xl">
+                        <div className="bg-white rounded-xl h-max p-4">
                             <FilterByPriceNew />
                         </div>
                     </div>
@@ -102,6 +105,7 @@ const CategoryTwentyOne = ({ catId, store_id, design }: any) => {
                                 paginate={paginate}
                                 isPagination={isPagination}
                                 setPaginate={setPaginate}
+                                design={design}
                             />
                         </div>
                         {isPagination && paginate?.total > 7 ? (
@@ -120,7 +124,7 @@ const CategoryTwentyOne = ({ catId, store_id, design }: any) => {
     );
 };
 
-export default CategoryTwentyOne;
+export default CategoryFortySix;
 
 const ProductSection = ({
     grid,
@@ -130,6 +134,7 @@ const ProductSection = ({
     paginate,
     isPagination,
     setPaginate,
+    design,
 }: any) => {
     const filtersData = useSelector((state: RootState) => state.filters);
     // get the activecolor, pricevalue, selectedSort
@@ -177,6 +182,10 @@ const ProductSection = ({
         setPaginate,
     ]);
 
+    const categoryStore = useSelector((state: RootState) => state?.category);
+
+    const category = categoryStore?.categories || [];
+
     useEffect(() => {
         if (!isPagination) {
             setInfiniteProducts((prev) => {
@@ -205,6 +214,18 @@ const ProductSection = ({
                           <Skeleton key={index} />
                       ))
                     : null}
+            </div>
+
+            <div className="">
+                {category?.map((item: any) =>
+                    item?.id == catId ? (
+                        <SubcategoryGrid
+                            key={item.id}
+                            subcategories={item?.subcategories}
+                            design={design}
+                        />
+                    ) : null
+                )}
             </div>
 
             {!isPagination ? (
@@ -243,7 +264,7 @@ const ProductSection = ({
                                                 ease: 'linear',
                                             }}
                                         >
-                                            <Card45 item={item} />
+                                            <ProductCardOne item={item} />
                                         </motion.div>
                                     )
                                 )}
@@ -288,7 +309,7 @@ const ProductSection = ({
                                         ease: 'linear',
                                     }}
                                 >
-                                    <Card45 item={item} />
+                                    <ProductCardOne item={item} />
                                 </motion.div>
                             ))}
                         </div>
@@ -394,21 +415,16 @@ const SingleCat = ({ item, design }: any) => {
                         {' '}
                         <p>{item.name}</p>
                     </Link>
-                    {item?.subcategories ? (
-                        <div className="px-4 h-full">
-                            {show ? (
-                                <MinusIcon
-                                    onClick={() => setShow(!show)}
-                                    className="h-4 w-4 lg:cursor-pointer text-gray-800"
-                                />
-                            ) : (
-                                <PlusIcon
-                                    onClick={() => setShow(!show)}
-                                    className="h-4 w-4 lg:cursor-pointer text-gray-800"
-                                />
-                            )}
+                    {item?.subcategories && (
+                        <div className="px-4 h-full flex items-center">
+                            <IoIosArrowForward
+                                onClick={() => setShow(!show)}
+                                className={`h-4 w-4 lg:cursor-pointer text-gray-800 transform transition-transform duration-300 ${
+                                    show ? 'rotate-90' : 'rotate-0'
+                                }`}
+                            />
                         </div>
-                    ) : null}
+                    )}
                 </div>
                 {show && (
                     <>
@@ -443,6 +459,60 @@ const SingleCat = ({ item, design }: any) => {
                     </>
                 )}
             </div>
+        </div>
+    );
+};
+
+const SubcategoryGrid = ({ subcategories, design }: any) => {
+    const { id }: any = useParams();
+
+    return (
+        <div className="my-5">
+            <Swiper
+                modules={[Navigation]}
+                navigation
+                speed={800}
+                loop={false}
+                autoplay={false}
+                breakpoints={{
+                    350: { slidesPerView: 2, spaceBetween: 5 },
+                    640: { slidesPerView: 3, spaceBetween: 5 },
+                    768: { slidesPerView: 4, spaceBetween: 5 },
+                    1024: { slidesPerView: 5, spaceBetween: 5 },
+                    1280: { slidesPerView: 5, spaceBetween: 5 },
+                }}
+            >
+                {subcategories?.map((sub: any, idx: any) => (
+                    <SwiperSlide key={sub?.id || idx}>
+                        <Link
+                            href={'/category/' + sub?.id}
+                            className="flex flex-col items-center text-center"
+                        >
+                            <div className="bg-[#e5f3f3] px-8 md:px-12 py-5 rounded-xl">
+                                <img
+                                    src={catImg + sub.banner}
+                                    alt={sub?.name}
+                                    className="w-24 h-24 object-cover"
+                                />
+                            </div>
+                            <p
+                                style={
+                                    parseInt(id) === parseInt(sub?.id)
+                                        ? { color: `${design.header_color}` }
+                                        : {}
+                                }
+                                className={
+                                    id == sub?.id
+                                        ? 'text-red-500 font-bold py-2'
+                                        : 'text-gray-500 font-bold py-2'
+                                }
+                            >
+                                {sub?.name}
+                            </p>
+                        </Link>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
         </div>
     );
 };
