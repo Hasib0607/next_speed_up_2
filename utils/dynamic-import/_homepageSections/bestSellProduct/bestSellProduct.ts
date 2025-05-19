@@ -1,3 +1,4 @@
+import { FORTY_SEVEN } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const best_sell_products: any = {
@@ -108,5 +109,9 @@ export const best_sell_products: any = {
     thirtynine: dynamic(
         () =>
             import('@/components/_homepage/best-seller/best-seller-thritynine')
+    ),
+    [FORTY_SEVEN]: dynamic(
+        () =>
+            import('@/components/_homepage/best-seller/best-seller-fortyseven')
     ),
 };
