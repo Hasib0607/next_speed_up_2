@@ -1,32 +1,29 @@
-'use client'
-
 import { DEFAULT } from '@/consts';
-import { useGetTestimonialQuery } from '@/redux/features/home/homeApi';
+import { getInitialAppData } from '@/lib/getInitialAppData';
+// import { useGetTestimonialQuery } from '@/redux/features/home/homeApi';
 import { all_testimonials } from '@/utils/dynamic-import/_homepageSections/testimonial/testimonial';
 
-const Testimonial = ({ design }: any) => {
+const Testimonial = async ({ design }: any) => {
     const TestimonialComponent =
         all_testimonials[design?.testimonial] || all_testimonials[DEFAULT];
 
-    const {
-        data: testimonialsData,
-        isLoading: testimonialsLoading,
-        isSuccess: testimonialsSuccess,
-    } = useGetTestimonialQuery({});
+    const { testimonials } = await getInitialAppData({
+        testimonials: true,
+    });
 
-    const testimonials = testimonialsData?.data || [];
+    // const {
+    //     data: testimonialsData,
+    //     isLoading: testimonialsLoading,
+    //     isSuccess: testimonialsSuccess,
+    // } = useGetTestimonialQuery({});
+
+    // const testimonials = testimonialsData?.data || [];
 
     return (
-        <>
-
-            {design?.testimonial !== "null"  && testimonialsSuccess && TestimonialComponent && (
-
-                <TestimonialComponent
-                    design={design}
-                    testimonials={testimonials}
-                />
-            )}
-        </>
+        design?.testimonial !== 'null' &&
+        TestimonialComponent && (
+            <TestimonialComponent design={design} testimonials={testimonials} />
+        )
     );
 };
 

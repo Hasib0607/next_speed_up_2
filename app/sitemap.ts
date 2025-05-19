@@ -1,16 +1,14 @@
-import getDomain from '@/helpers/getDomain';
 import type { MetadataRoute } from 'next';
 import { fetchBlogSitemapData } from './(main)/blog/helper/api';
-import getStore from '@/utils/fetcher/getStore';
-import getMenu from '@/utils/fetcher/getMenu';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const domain = await getDomain();
-    const appStore = await getStore();
-    const store_id = appStore?.id || null;
+    const { menu, appStore, domain } = await getInitialAppData({
+        menu: true,
+        appStore: true,
+    });
 
-    // for website links
-    const menu = (await getMenu()) ?? [];
+    const store_id = appStore?.id || null;
 
     const menuSitemap = Array.isArray(menu)
         ? menu.map((item: any) => ({

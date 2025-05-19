@@ -162,8 +162,4 @@ export const customizedRating = [
     id: 10218,
     rating_not_show: true,
   },
-  {
-    id: 9024,
-    rating_not_show: true,
-  },
 ];

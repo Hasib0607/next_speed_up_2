@@ -1,4 +1,4 @@
-import { DEFAULT } from '@/consts';
+import { AFFILIATE_MARKETING, DEFAULT } from '@/consts';
 import GuestLayer from '@/app/GuestLayer';
 import { redirect } from 'next/navigation';
 import { register_pages } from '@/utils/dynamic-import/registerPages/registerPages';
@@ -9,9 +9,8 @@ export default async function Register({
     appStore,
     headersetting,
 }: any) {
-    const module_id = 120;
-    const store_id = appStore?.id || null;
-    const activeModule = await getModuleStatus(store_id, module_id);
+    const storeId = appStore?.id || null;
+    const activeModule = await getModuleStatus(storeId, AFFILIATE_MARKETING);
 
     const RegisterComponent =
         register_pages[design?.login_page] || register_pages[DEFAULT];

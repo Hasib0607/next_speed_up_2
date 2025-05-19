@@ -1,40 +1,37 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-
 import { imgUrl, productImg } from '@/site-settings/siteUrl';
-// components
 import ProductDetails from '@/components/ProductDetails';
 import ViewContentGtm from './ViewContentGtm';
-// helper
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
-import getDomain from '@/helpers/getDomain';
-// data fetchers
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import getProductDetails from '@/utils/fetcher/getProductDetails';
-import getDesign from '@/utils/fetcher/getDesign';
+
 import { ProductDetailsParamProps } from '@/types';
 import { htmlTagsRemover } from '@/helpers/littleSpicy';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 
 export async function generateMetadata({
     params,
 }: ProductDetailsParamProps): Promise<Metadata> {
-    const productId = (await params).productId;
-    const url = await getDomain();
+     const { domain, headersetting, paramsResult } = await getInitialAppData(
+        {
+            headersetting: true,
+            paramsResult: true,
+        },
+        params
+    );
 
-    const headersetting = await getHeaderSetting();
+    const productId = paramsResult.productId;
 
-    const store_id = headersetting?.store_id;
+    const storeId = headersetting?.store_id;
 
-    const websiteName = capitalizeFirstLetter(headersetting?.website_name);
-
-    const productData = await getProductDetails({
-        store_id,
-        productId,
-    });
+    const productData = await getProductDetails(storeId, productId);
 
     if (productData == undefined || productData == null) {
         redirect('/');
     }
+
+    const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
     const { name, description, seo_keywords, image } = productData || {};
 
@@ -53,7 +50,7 @@ export async function generateMetadata({
         openGraph: {
             title: `${websiteName} | ${name}`,
             description: description || `Check out ${name} on ${websiteName}`,
-            url,
+            url: domain,
             images: [
                 {
                     url: productImageUrl || fallbackImage,
@@ -69,16 +66,20 @@ export async function generateMetadata({
 export default async function SingleProductDetails({
     params,
 }: ProductDetailsParamProps) {
-    const productId = (await params).productId;
-    const design = await getDesign();
-    const headersetting = await getHeaderSetting();
+    const { design, headersetting, paramsResult } = await getInitialAppData(
+        {
+            design: true,
+            headersetting: true,
+            paramsResult: true,
+        },
+        params
+    );
 
-    const store_id = headersetting?.store_id;
+    const productId = paramsResult.productId;
 
-    const productData = await getProductDetails({
-        store_id,
-        productId,
-    });
+    const storeId = headersetting?.store_id;
+
+    const productData = await getProductDetails(storeId, productId);
 
     if (productData == undefined || productData == null) {
         redirect('/');

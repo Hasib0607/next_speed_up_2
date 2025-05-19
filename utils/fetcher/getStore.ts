@@ -1,16 +1,11 @@
-import getDomain from '@/helpers/getDomain';
 import { notFound } from 'next/navigation';
 
-export default async function getStore() {
-    const name = await getDomain();
-
+export default async function getStore(name: string) {
     try {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}store/${name}/info`,
             {
-                next: {
-                    revalidate: 60,
-                },
+                cache: 'no-store',
             }
         );
 
@@ -18,14 +13,12 @@ export default async function getStore() {
             notFound();
         }
 
-        //   Clone the response if needed elsewhere
-        const clonedResponse = response.clone();
-        const clonedResponseData = await clonedResponse.json();
+        // Clone the response if needed elsewhere
+        // const clonedResponse = response.clone();
+        // const clonedResponseData = await clonedResponse.json();
 
-        // const resData = await response.json();
-        const storeDetails = clonedResponseData?.status
-            ? clonedResponseData?.data
-            : null;
+        const resData = await response.json();
+        const storeDetails = resData?.status ? resData?.data : null;
 
         return storeDetails;
     } catch (error) {

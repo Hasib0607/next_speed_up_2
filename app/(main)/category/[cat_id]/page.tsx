@@ -1,14 +1,17 @@
 import { imgUrl } from '@/site-settings/siteUrl';
+
 // helper imports
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 
 // components imports
 import Category from '@/components/Category';
-import getDesign from '@/utils/fetcher/getDesign';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 
 export async function generateMetadata() {
-    const headersetting = await getHeaderSetting();
+    const { headersetting } = await getInitialAppData({
+        headersetting: true,
+    });
+
     const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
     return {
@@ -22,8 +25,15 @@ export default async function SubcategoryPage({
 }: {
     params: Promise<{ cat_id: any }>;
 }) {
-    const design = await getDesign();
-    const catId = (await params).cat_id;
+    const { design, paramsResult } = await getInitialAppData(
+        {
+            design: true,
+            paramsResult: true,
+        },
+        params
+    );
+    
+    const catId = paramsResult.cat_id;
 
     return <Category design={design} catId={catId} />;
 }

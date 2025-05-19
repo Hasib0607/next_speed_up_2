@@ -1,12 +1,12 @@
 import { notFound } from 'next/navigation';
 
-export default async function getDesign(name: string) {
+export default async function getFeatureProducts(name: string) {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}get-domain/${name}/design`,
+            `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}get-domain/${name}/feature_product`,
             {
                 next: {
-                    revalidate: 10,
+                    revalidate: 60,
                 },
             }
         );
@@ -20,11 +20,11 @@ export default async function getDesign(name: string) {
         // const clonedResponseData = await clonedResponse.json();
 
         const resData = await response.json();
-        const designDetails = resData?.data;
+        const products = resData?.data;
 
-        return designDetails;
+        return products;
     } catch (error) {
-        console.error('Fetch get-design data error:', error);
+        console.error('Fetch get-product-details data error:', error);
         return null;
     }
 }

@@ -7,7 +7,7 @@ import { useState, useCallback } from 'react';
 import CatgoryProductsList from './category-products-list';
 import FeatureCategory from './feature-category';
 
-const ProductFortyFour = ({ design, category, headersetting, banner }: any) => {
+const ProductFortyFour = ({ category, banner }: any) => {
     const [productCounts, setProductCounts] = useState<{
         [key: string]: number;
     }>({});

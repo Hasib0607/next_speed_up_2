@@ -1,10 +1,10 @@
-import React from 'react';
-import getDesign from '@/utils/fetcher/getDesign';
-import getStore from '@/utils/fetcher/getStore';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 import ChangePassword from '@/components/ChangePassword';
 
 export default async function ChangePasswordPage() {
-    const design = await getDesign();
-    const appStore = await getStore();
+    const { design, appStore } = await getInitialAppData({
+        design: true,
+        appStore: true,
+    });
     return <ChangePassword design={design} appStore={appStore} />;
 }

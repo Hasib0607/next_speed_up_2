@@ -1,11 +1,11 @@
 import OrderComponent from '@/components/OrderComponent';
-import React from 'react';
-import getStore from '@/utils/fetcher/getStore';
-import getDesign from '@/utils/fetcher/getDesign';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 
 export default async function OrderPage() {
-    const design = await getDesign();
-    const appStore = await getStore();
+    const { design, appStore } = await getInitialAppData({
+        design: true,
+        appStore: true,
+    });
 
     return <OrderComponent design={design} appStore={appStore} />;
 }

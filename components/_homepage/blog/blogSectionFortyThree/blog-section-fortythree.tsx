@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { fetchAllBlogData } from '@/app/(main)/blog/helper/api';
 import BlogCardFortyThree from './blog-card-fortythree';
 import React from 'react';
@@ -13,9 +13,11 @@ const BlogSectionFortyThree = ({ design }: any) => {
     const [allBlogs, setBlogs] = useState<any>([]);
     const [loading, setLoading] = useState<any>(true);
 
+    const handleFetch = useRef(false);
+
     useEffect(() => {
         const fetchNextBlogData = async () => {
-            const allBlogData = (await fetchAllBlogData(store_id)) ?? {};
+            const allBlogData = (await fetchAllBlogData(store_id, 1)) ?? {};
             const { data: BlogData } = allBlogData || {};
 
             if (BlogData?.data?.length > 0) {
@@ -24,8 +26,11 @@ const BlogSectionFortyThree = ({ design }: any) => {
                 setLoading(false);
             }
         };
-        fetchNextBlogData();
-    }, [store_id]);
+        if (!handleFetch.current) {
+            fetchNextBlogData();
+            handleFetch.current = true;
+        }
+    }, [store_id, handleFetch]);
 
     let content = null;
     if (loading && allBlogs.length <= 0) {
@@ -41,7 +46,9 @@ const BlogSectionFortyThree = ({ design }: any) => {
 
                 <div className="grid xl:grid-cols-3 md:grid-cols-2 gap-8">
                     {allBlogs?.slice(0, 3)?.map((item: any) => {
-                        return <BlogCardFortyThree key={item?.id} item={item} />;
+                        return (
+                            <BlogCardFortyThree key={item?.id} item={item} />
+                        );
                     })}
                 </div>
 

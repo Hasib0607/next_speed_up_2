@@ -17,9 +17,9 @@ import CopyrightAll from './components/copyrightall';
 import WhatsApp from './components/whatsApp';
 import PageList from './components/page-list';
 import AllPaymantGateway from './components/all-payment-gateway';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+// import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
 
-const FooterThirtyFive = ({ headersetting, design, page, menu }: any) => {
+const FooterThirtyFive = ({ headersetting, design, page, menu,category }: any) => {
     const store_id = design?.store_id || null;
 
     const styleCss = `
@@ -28,8 +28,8 @@ const FooterThirtyFive = ({ headersetting, design, page, menu }: any) => {
     }
     `;
 
-    const { data: categoryData } = useGetCategoryQuery({});
-    const category = categoryData?.data || [];
+    // const { data: categoryData } = useGetCategoryQuery({});
+    // const category = categoryData?.data || [];
 
     return (
         <div className="pt-10 pb-24 lg:pb-5">

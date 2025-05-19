@@ -1,13 +1,14 @@
 import { notFound } from 'next/navigation';
 
-export default async function getProductDetails({ store_id, productId }: any) {
+export default async function getProductDetails(
+    store_id: string,
+    product_id: string
+) {
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}product-details/${store_id}/${productId}`,
+            `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}product-details/${store_id}/${product_id}`,
             {
-                next: {
-                    revalidate: 60,
-                },
+                cache: 'no-store',
             }
         );
 
@@ -16,11 +17,11 @@ export default async function getProductDetails({ store_id, productId }: any) {
         }
 
         // Clone the response if needed elsewhere
-        const clonedResponse = response.clone();
-        const clonedResponseData = await clonedResponse.json();
+        // const clonedResponse = response.clone();
+        // const clonedResponseData = await clonedResponse.json();
 
-        // const resData = await response.json();
-        const productDetails = clonedResponseData?.data;
+        const resData = await response.json();
+        const productDetails = resData?.data;
 
         return productDetails;
     } catch (error) {

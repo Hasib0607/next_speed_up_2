@@ -1,60 +1,61 @@
-'use client';
-
 import { DEFAULT } from '@/consts';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import { all_products } from '@/utils/dynamic-import/_homepageSections/product/product';
-import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
-import {
-    useGetBestSellProductQuery,
-    useGetFeatureProductQuery,
-} from '@/redux/features/products/productApi';
-import { numberParser } from '@/helpers/numberParser';
+// import { numberParser } from '@/helpers/numberParser';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 
-const Product = ({ design, headersetting, banner }: any) => {
+const Product = async ({
+    design,
+    headersetting,
+    products,
+    category,
+    banner,
+}: any) => {
     const ProductComponent =
         all_products[design?.product] || all_products[DEFAULT];
 
-    const { data: categoryData } = useGetCategoryQuery({});
-    const category = categoryData?.data || [];
+    // const { data: categoryData } = useGetCategoryQuery({});
+    // const category = categoryData?.data || [];
 
-    const products = useSelector((state: RootState) => state?.products);
-    const product = products?.product || [];
+    const { featureProduct, bestSellProducts } = await getInitialAppData({
+        featureProduct: true,
+        bestSellProducts: true,
+    });
 
-    const bannerType =
-            banner?.filter((item: any) => numberParser(item?.type) === 0) || [];
+    // const products = useSelector((state: RootState) => state?.products);
+    // const product = products?.product || [];
 
-    const {
-        data: bestSellProductData,
-        isLoading: bestSellProductLoading,
-        isSuccess: bestSellProductSuccess,
-    } = useGetBestSellProductQuery({});
-    const best_sell_product = bestSellProductData?.data || [];
+    // const bannerType =
+    //     banner?.filter((item: any) => numberParser(item?.type) === 0) || [];
 
-    const {
-        data: featureProductData,
-        isLoading: featureProductLoading,
-        isSuccess: featureProductSuccess,
-    } = useGetFeatureProductQuery({});
-    const feature_product = featureProductData?.data || [];
+    // const {
+    //     data: bestSellProductData,
+    //     isLoading: bestSellProductLoading,
+    //     isSuccess: bestSellProductSuccess,
+    // } = useGetBestSellProductQuery({});
+    // const best_sell_product = bestSellProductData?.data || [];
+
+    // const {
+    //     data: featureProductData,
+    //     isLoading: featureProductLoading,
+    //     isSuccess: featureProductSuccess,
+    // } = useGetFeatureProductQuery({});
+    // const feature_product = featureProductData?.data || [];
 
     return (
-        <>
-            {design?.product !== 'null' &&
-                category?.length > 0 &&
-                ProductComponent && (
-                    <ProductComponent
-                        design={design}
-                        headersetting={headersetting}
-                        product={product}
-                        category={category}
-                        categoryId={category[0]?.id}
-                        best_sell_product={best_sell_product}
-                        feature_product={feature_product}
-                        banner={bannerType}
-                    />
-                )}
-        </>
+        design?.product !== 'null' &&
+        category?.length > 0 &&
+        ProductComponent && (
+            <ProductComponent
+                design={design}
+                headersetting={headersetting}
+                product={products}
+                category={category}
+                categoryId={category[0]?.id}
+                feature_product={featureProduct}
+                best_sell_product={bestSellProducts}
+                banner={banner}
+            />
+        )
     );
 };
 

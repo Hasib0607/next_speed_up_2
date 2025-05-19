@@ -1,26 +1,10 @@
-
 import { headers } from '@/utils/dynamic-import/header/header';
-import getDesign from '@/utils/fetcher/getDesign';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
-import getMenu from '@/utils/fetcher/getMenu';
 
-export default async function Header(){
-    const design = await getDesign();
-    const headersetting = await getHeaderSetting();
-    const menu = await getMenu();
-
-    const HeaderComponent = headers[design?.header];
+export default async function Header(props: any) {
+    const HeaderComponent = headers[props?.design?.header];
 
     return (
-        <>
-            {design?.header !== 'null' && HeaderComponent && (
-                <HeaderComponent
-                    design={design}
-                    headersetting={headersetting}
-                    menu={menu}
-                />
-            )}
-        </>
+        props?.design?.header !== 'null' &&
+        HeaderComponent && <HeaderComponent {...props} />
     );
 }
-

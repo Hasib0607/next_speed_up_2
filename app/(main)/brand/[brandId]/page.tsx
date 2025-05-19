@@ -2,14 +2,16 @@ import { imgUrl } from '@/site-settings/siteUrl';
 
 // helper imports
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 
 // components imports
-import getDesign from '@/utils/fetcher/getDesign';
 import SubBrand from '@/components/SubBrandPage';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 
 export async function generateMetadata() {
-    const headersetting = await getHeaderSetting();
+    const { headersetting } = await getInitialAppData({
+        headersetting: true,
+    });
+
     const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
     return {
@@ -23,8 +25,16 @@ export default async function SubBrandPage({
 }: {
     params: Promise<{ brandId: any }>;
 }) {
-    const design = await getDesign();
-    const brandId = (await params).brandId;
+    const { design, brands, paramsResult } = await getInitialAppData(
+        {
+            design: true,
+            brands: true,
+            paramsResult: true,
+        },
+        params
+    );
 
-    return <SubBrand design={design} brandId={brandId} />;
+    const brandId = paramsResult.brandId;
+
+    return <SubBrand design={design} brands={brands} brandId={brandId} />;
 }

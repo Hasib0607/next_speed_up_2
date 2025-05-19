@@ -4,14 +4,13 @@ import React from 'react';
 import { setColor } from '@/redux/features/filters/filterSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import {
-    useGetColorsQuery
-} from '@/redux/features/shop/shopApi';
+import { useGetColorsQuery } from '@/redux/features/shop/shopApi';
+import { getFromLocalStorage } from '@/helpers/localStorage';
+import { EXTRACT_HEADER_INFORMATION } from '@/consts';
 
 const FilterByColorFortyFive = () => {
-
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
+    const headerSettingData = getFromLocalStorage(EXTRACT_HEADER_INFORMATION);
+    const store_id = headerSettingData?.store_id || null;
 
     const {
         data: colorsData,
@@ -34,7 +33,6 @@ const FilterByColorFortyFive = () => {
 
     return (
         <>
-            
             <div className="flex flex-wrap gap-2 mt-3 mb-5 pl-1">
                 <div
                     onClick={() => handleClick(null)}

@@ -8,7 +8,6 @@ import { SwiperSlide } from 'swiper/react';
 const BestSellerTwentyEight = ({
     design,
     best_sell_product,
-    bestSellProductLoading,
     headersetting,
 }: any) => {
     const prevEl = 'best-product-prev';
@@ -55,15 +54,15 @@ const BestSellerTwentyEight = ({
 
     let content = null;
 
-    if (bestSellProductLoading) {
-        content = <p>Loading.....</p>;
-    }
+    // if (bestSellProductLoading) {
+    //     content = <p>Loading.....</p>;
+    // }
 
     // if (!bestSellProductLoading && best_sell_product?.length == 0) {
     //     content = <p>Not product Found!</p>;
     // }
 
-    if (!bestSellProductLoading && best_sell_product?.length > 0) {
+    if (best_sell_product?.length > 0) {
         content = (
             <div className="sm:container px-5 sm:py-10 py-5">
                 <style>{styleCss}</style>
