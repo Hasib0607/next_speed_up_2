@@ -46,6 +46,7 @@ export const FORTY_THREE = 'fortythree';
 export const FORTY_FOUR = 'fortyfour';
 export const FORTY_FIVE = 'fortyfive';
 export const FORTY_SIX = 'fortysix';
+export const FORTY_SEVEN = 'fortyseven';
 
 // modules
 export const ABANDAN_CART = 131

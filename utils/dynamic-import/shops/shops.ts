@@ -1,4 +1,4 @@
-import { FORTY_FIVE, FORTY_FOUR, FORTY_THREE } from '@/consts';
+import { FORTY_FIVE, FORTY_FOUR, FORTY_SIX, FORTY_THREE } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const shops: any = {
@@ -54,7 +54,7 @@ export const shops: any = {
     //   () => import("@/components/headers/header-twentyseven/header-twentyseven")
     // ),
     twentyeight: dynamic(
-      () => import("@/components/_shop-page/twenty-eight/twenty-eight")
+        () => import("@/components/_shop-page/twenty-eight/twenty-eight")
     ),
     // twentynine: dynamic(
     //   () => import("@/components/headers/header-twentynine/header-twentynine")
@@ -84,18 +84,21 @@ export const shops: any = {
     //   () => import("@/components/headers/header-thirtyeight/header-thirtyeight")
     // ),
     thirtynine: dynamic(
-      () => import("@/components/_shop-page/thirty-nine/thirty-nine")
+        () => import("@/components/_shop-page/thirty-nine/thirty-nine")
     ),
     // forty: dynamic(
     //   () => import("@/components/headers/header-forty/header-forty")
     // ),
     [FORTY_THREE]: dynamic(
         () => import("@/components/_shop-page/forty-three/forty-three")
-      ),
+    ),
     [FORTY_FOUR]: dynamic(
         () => import("@/components/_shop-page/forty-four/forty-four")
-      ),
+    ),
     [FORTY_FIVE]: dynamic(
         () => import("@/components/_shop-page/forty-five/forty-five")
-      ),
+    ),
+    [FORTY_SIX]: dynamic(
+        () => import("@/components/_shop-page/forty-six/forty-six")
+    ),
 };

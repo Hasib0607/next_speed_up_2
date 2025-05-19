@@ -18,8 +18,9 @@ import { Colors, ColorsOnly, Sizes, Units } from './imageVariations-fortysix';
 import { ProductSlider } from '../components/product-slider';
 import { HSlider } from '../components/slider';
 import ZoomHSlider from '../components/zoom-slider';
-import { IoIosArrowForward } from "react-icons/io";
-import { PiTruckTrailer } from 'react-icons/pi';
+import { IoIosArrowForward } from 'react-icons/io';
+import { useGetBrandQuery } from '@/redux/features/home/homeApi';
+import BrandForFortySix from '@/components/_product-details-page/forty-six/brand-for-fortysix';
 
 const DetailsFortySix = ({
     product,
@@ -37,6 +38,8 @@ const DetailsFortySix = ({
     const { referralCode } = useSelector((state: RootState) => state.auth); // Access updated Redux statei
 
     const dispatch: AppDispatch = useDispatch();
+
+    const brands = useGetBrandQuery({});
 
     const { variant, variant_color, category } = product || [];
 
@@ -219,7 +222,9 @@ const DetailsFortySix = ({
     return (
         <div className="bg-white h-full ">
             <style>{styleCss}</style>
-            <p className="py-2 flex items-center">Home <IoIosArrowForward /> {product?.name}</p>
+            <p className="py-2 flex items-center">
+                Home <IoIosArrowForward /> {product?.name}
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-10 gap-5">
                 <div className="md:col-span-5 border p-5 rounded-md">
                     {zoomable ? (
@@ -428,9 +433,11 @@ const DetailsFortySix = ({
                                 {/* copy from here */}
                             </div>
                         )}
-                        <p className="flex items-center gap-2 my-2">
-                            <PiTruckTrailer /> Estimated deliver 5-7 days
+                        <p className="font-bold text-xl my-2">
+                             Other Brands
                         </p>
+                        <div className='border'></div>
+                        <div className='mt-5'><BrandForFortySix headersetting={headersetting} brands={brands} /></div>
                     </div>
                 </div>
             </div>

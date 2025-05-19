@@ -8,9 +8,8 @@ export default async function BrandSection({ design, headersetting }: any) {
         brands: true,
     });
 
-    const BrandComponent =
-        // brand_sections[design?.brand] || brand_sections[DEFAULT];
-        brand_sections[ONE];
+    const BrandComponent = 
+    brand_sections[design?.brand] || brand_sections[DEFAULT];
 
     return (
         <Suspense fallback={<p>Loading brand...</p>}>
