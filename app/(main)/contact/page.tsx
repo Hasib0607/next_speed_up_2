@@ -1,11 +1,13 @@
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
-import Contact from '@/components/Contact';
-import getDesign from '@/utils/fetcher/getDesign';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 import { imgUrl } from '@/site-settings/siteUrl';
+import Contact from '@/components/Contact';
 
 export async function generateMetadata() {
-    const headersetting = await getHeaderSetting();
+    const { headersetting } = await getInitialAppData({
+        headersetting: true,
+    });
+
     const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
     return {
@@ -15,8 +17,10 @@ export async function generateMetadata() {
 }
 
 const ContactPage = async () => {
-    const design = await getDesign();
-    const headersetting = await getHeaderSetting();
+    const { design, headersetting } = await getInitialAppData({
+        design: true,
+        headersetting: true,
+    });
 
     return <Contact design={design} headersetting={headersetting} />;
 };

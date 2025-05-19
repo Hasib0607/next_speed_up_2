@@ -4,13 +4,13 @@ import React from 'react';
 import { setColor } from '@/redux/features/filters/filterSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import {
-    useGetColorsQuery
-} from '@/redux/features/shop/shopApi';
+import { useGetColorsQuery } from '@/redux/features/shop/shopApi';
+import { EXTRACT_HEADER_INFORMATION } from '@/consts';
+import { getFromLocalStorage } from '@/helpers/localStorage';
 
 const FilterByColorNew = () => {
-    const store = useSelector((state: RootState) => state.appStore.store);
-    const store_id = store?.id || null;
+    const headerSettingData = getFromLocalStorage(EXTRACT_HEADER_INFORMATION);
+    const store_id = headerSettingData?.store_id || null;
 
     const {
         data: colorsData,

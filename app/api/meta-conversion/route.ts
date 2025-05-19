@@ -1,9 +1,11 @@
+import getDomain from '@/helpers/getDomain';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
-    const headersetting = await getHeaderSetting();
+    const domain = await getDomain();
+    const headersetting = await getHeaderSetting(domain);
     const headersList = await headers();
 
     const FACEBOOK_PIXEL_ID = headersetting?.facebook_pixel;

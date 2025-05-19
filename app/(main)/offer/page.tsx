@@ -1,11 +1,13 @@
-import Offer from '@/components/Offer';
-import { imgUrl } from '@/site-settings/siteUrl';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
-import getDesign from '@/utils/fetcher/getDesign';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
+import { getInitialAppData } from '@/lib/getInitialAppData';
+import { imgUrl } from '@/site-settings/siteUrl';
+import Offer from '@/components/Offer';
 
 export async function generateMetadata() {
-    const headersetting = await getHeaderSetting();
+    const { headersetting } = await getInitialAppData({
+        headersetting: true,
+    });
+
     const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
     return {
@@ -15,7 +17,9 @@ export async function generateMetadata() {
 }
 
 export default async function OfferPage() {
-    const design = await getDesign();
+    const { design } = await getInitialAppData({
+        design: true,
+    });
 
     return <Offer design={design} />;
 }

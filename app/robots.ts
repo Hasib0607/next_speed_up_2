@@ -10,9 +10,11 @@ type CustomRobots = MetadataRoute.Robots & {
 export default async function robots(): Promise<CustomRobots> {
     connection(); // Opt out of static generation
 
-    const disallowedPaths = await getDisallowedPaths();
-    const sitemapUrl = await getSitemapUrl();
-    const domain = await getDomain();
+    const [disallowedPaths, sitemapUrl, domain] = await Promise.all([
+        getDisallowedPaths(),
+        getSitemapUrl(),
+        getDomain(),
+    ]);
 
     const robotsObject: CustomRobots = {
         rules: [
@@ -72,8 +74,8 @@ export default async function robots(): Promise<CustomRobots> {
     return robotsObject;
 }
 
+// Insert paths which you want to disallow
 async function getDisallowedPaths(): Promise<string[]> {
-    // Implement your logic to determine which paths to disallow
     return [
         '/helps',
         '/privacy_policy',

@@ -1,9 +1,6 @@
 import { hexToRgba } from '@/helpers/littleSpicy';
 import { imgUrl } from '@/site-settings/siteUrl';
 import FacebookPixel from '@/utils/FacebookPixel';
-import getDesign from '@/utils/fetcher/getDesign';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
-import getStore from '@/utils/fetcher/getStore';
 import SetFavicon from '@/utils/useSetFavicon';
 import { GoogleTagManager } from '@next/third-parties/google';
 import type { Metadata } from 'next';
@@ -14,7 +11,7 @@ import AppWrapper from './AppWrapper';
 import './globals.css';
 import getModuleStatus from '@/utils/fetcher/getModuleStatus';
 import { ABANDAN_CART } from '@/consts';
-// import CustomPageView from '@/utils/CustomPageView';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -28,7 +25,10 @@ const geistMono = localFont({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-    const headersetting = await getHeaderSetting();
+    const { headersetting } = await getInitialAppData({
+        headersetting: true,
+    });
+
     const title = headersetting?.website_name;
     const description = headersetting?.short_description;
     const keywords = 'eBitans, eCommerce builder platform';
@@ -45,9 +45,12 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const appStore = await getStore();
-    const design = await getDesign();
-    const headersetting = await getHeaderSetting();
+    const { appStore, design, headersetting } = await getInitialAppData({
+        appStore: true,
+        design: true,
+        headersetting: true,
+    });
+
     const dbCart = await getModuleStatus(appStore?.id, ABANDAN_CART);
 
     const favicon = imgUrl + headersetting?.favicon;
@@ -63,8 +66,6 @@ export default async function RootLayout({
     const textColorRgb = !appStore
         ? '20, 20, 20'
         : hexToRgba(design?.text_color);
-
-    // console.log("headerColorRgb",headerColorRgb);
 
     return (
         <html lang="en">
@@ -141,7 +142,7 @@ export default async function RootLayout({
                     speed={200}
                 />
 
-                <AppWrapper design={design} appStore={appStore} dbCart={dbCart}>
+                <AppWrapper design={design} appStore={appStore} headersetting={headersetting} dbCart={dbCart}>
                     {children}
                 </AppWrapper>
             </body>

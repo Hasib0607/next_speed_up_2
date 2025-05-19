@@ -1,25 +1,23 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { useGetAnnouncementQuery } from '@/redux/features/home/homeApi';
+import getAnnouncement from '@/utils/fetcher/getAnnouncement';
 import AnimateMarquee from './slider/animate-marquee';
 
 // import useAnnouncementScroll from '@/utils/use-annoucement-height';
 
-const Announcement = ({ design }: any) => {
-    const store_id = design?.store_id || null;
+const Announcement = async ({ design }: any) => {
+    const storeId = design?.store_id || null;
 
-    const [announcements, setAnnouncements] = useState([]);
+    const announcements = await getAnnouncement(storeId) || []
+    // const [announcements, setAnnouncements] = useState([]);
 
-    const { data: announcementsData, isSuccess: announcementsSuccess } =
-        useGetAnnouncementQuery({ store_id });
+    // const { data: announcementsData, isSuccess: announcementsSuccess } =
+    //     useGetAnnouncementQuery({ store_id });
 
-    useEffect(() => {
-        if (announcementsSuccess) {
-            const announcementsArr = announcementsData?.data || [];
-            setAnnouncements(announcementsArr);
-        }
-    }, [announcementsData, announcementsSuccess]);
+    // useEffect(() => {
+    //     if (announcementsSuccess) {
+    //         const announcementsArr = announcementsData?.data || [];
+    //         setAnnouncements(announcementsArr);
+    //     }
+    // }, [announcementsData, announcementsSuccess]);
 
     // const aH = useAnnouncementScroll()
     // console.log("aH",aH);

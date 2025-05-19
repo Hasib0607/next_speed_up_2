@@ -1,13 +1,12 @@
+import { imgUrl } from '@/site-settings/siteUrl';
 import CustomPage from '@/components/CustomPage';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
-import { imgUrl } from '@/site-settings/siteUrl';
-import getDesign from '@/utils/fetcher/getDesign';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
-import getMenu from '@/utils/fetcher/getMenu';
-import getPage from '@/utils/fetcher/getPage';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 
 export async function generateMetadata() {
-    const headersetting = await getHeaderSetting();
+    const { headersetting } = await getInitialAppData({
+        headersetting: true,
+    });
     const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
     return {
@@ -17,9 +16,11 @@ export async function generateMetadata() {
 }
 
 export default async function AboutPage() {
-    const design = await getDesign();
-    const menu = await getMenu();
-    const page = await getPage();
+    const { design, menu, page } = await getInitialAppData({
+        design: true,
+        menu: true,
+        page: true,
+    });
 
     return <CustomPage design={design} menu={menu} page={page} />;
 }

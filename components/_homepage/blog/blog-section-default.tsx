@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import BlogCard from '@/app/(main)/blog/_components/blog-card';
 import { fetchAllBlogData } from '@/app/(main)/blog/helper/api';
 
@@ -10,9 +10,11 @@ const BlogSection = ({ design }: any) => {
     const [allBlogs, setBlogs] = useState<any>([]);
     const [loading, setLoading] = useState<any>(true);
 
+    const handleFetch = useRef(false);
+
     useEffect(() => {
         const fetchNextBlogData = async () => {
-            const allBlogData = (await fetchAllBlogData(store_id)) ?? {};
+            const allBlogData = (await fetchAllBlogData(store_id, 1)) ?? {};
             const { data: BlogData } = allBlogData || {};
 
             if (BlogData?.data?.length > 0) {
@@ -21,8 +23,11 @@ const BlogSection = ({ design }: any) => {
                 setLoading(false);
             }
         };
-        fetchNextBlogData();
-    }, [store_id]);
+        if (!handleFetch.current) {
+            fetchNextBlogData();
+            handleFetch.current = true;
+        }
+    }, [store_id, handleFetch]);
 
     let content = null;
     if (loading && allBlogs.length <= 0) {

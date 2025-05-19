@@ -1,9 +1,12 @@
-import ThankYou from '@/components/ThankYou';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import PurchaseGtmSuccess from '../payment/success/PurchaseGtmSuccess';
+import { getInitialAppData } from '@/lib/getInitialAppData';
+import ThankYou from '@/components/ThankYou';
 
 export default async function ThankYouPage() {
-    const headersetting = await getHeaderSetting();
+    const { headersetting } = await getInitialAppData({
+        headersetting: true,
+    });
+    
     return (
         <>
             <PurchaseGtmSuccess headersetting={headersetting} />

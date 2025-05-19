@@ -6,8 +6,8 @@ import { persistReducer, persistStore } from 'redux-persist';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 import rootReducer from './rootReducer';
 
-import { storeApi } from './features/appStore/appStoreApi';
-import { productApi } from './features/products/productApi';
+// import { storeApi } from './features/appStore/appStoreApi';
+// import { productApi } from './features/products/productApi';
 
 // Create a fallback for environments where localStorage is not available
 const createNoopStorage = () => {
@@ -56,16 +56,17 @@ const store = configureStore({
 });
 
 // Initialize Redux
-const initializeApp = async () => {
-    await store.dispatch(storeApi.endpoints.getStore.initiate({}));
-    await store.dispatch(productApi.endpoints.getProduct.initiate({}));
-};
+// const initializeApp = async () => {
+    // await store.dispatch(storeApi.endpoints.getStore.initiate({}));
+    // await store.dispatch(productApi.endpoints.getProduct.initiate({}));
+// };
 
-initializeApp();
+// initializeApp();
 
 export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export type ReduxStore = typeof store;
 
 export default store;

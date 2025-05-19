@@ -1,9 +1,6 @@
-import getDomain from '@/helpers/getDomain';
 import { notFound } from 'next/navigation';
 
-export default async function getBanner() {
-    const name = await getDomain();
-
+export default async function getBanner(name: string) {
     try {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}get-domain/${name}/banner`,
@@ -19,11 +16,11 @@ export default async function getBanner() {
         }
 
         // Clone the response if needed elsewhere
-        const clonedResponse = response.clone();
-        const clonedResponseData = await clonedResponse.json();
+        // const clonedResponse = response.clone();
+        // const clonedResponseData = await clonedResponse.json();
 
-        // const resData = await response.json();
-        const bannerDetails = clonedResponseData?.data;
+        const resData = await response.json();
+        const bannerDetails = resData?.data;
 
         return bannerDetails;
     } catch (error) {

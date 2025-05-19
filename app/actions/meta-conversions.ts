@@ -3,12 +3,14 @@
 import { cookies, headers } from 'next/headers';
 // import { createHash } from 'crypto';
 import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
+import getDomain from '@/helpers/getDomain';
 
 export async function trackServerConversion(
     eventName: string,
     customData: any
 ) {
-    const headersetting = await getHeaderSetting();
+    const domain = await getDomain();
+    const headersetting = await getHeaderSetting(domain);
     const headersList = await headers();
 
     const FACEBOOK_PIXEL_ID = headersetting?.facebook_pixel;
@@ -47,7 +49,6 @@ export async function trackServerConversion(
     };
 
     // console.log("payload server",payload);
-    
 
     // Send to Meta Conversions API
     const response = await fetch(

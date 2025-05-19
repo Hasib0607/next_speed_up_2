@@ -51,6 +51,7 @@ export const MasterImage = ({
             // placeholder="blur"
             // blurDataURL={"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk4G4vAgABqwEGEzLyIQAAAABJRU5ErkJggg=="}
             // sizes={`${typeof width === 'number' ? `(max-width: ${width}px) 100vw, (max-width: ${width * 2 - (width * 2 > 336 ? 336 : 0)}px) 50vw, 33vw` : '100vw'}`}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
     );
 };
