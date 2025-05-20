@@ -1,174 +1,19 @@
 'use client';
 
-import {
-    checkOutApi,
-    useCheckCouponAvailabilityQuery,
-} from '@/redux/features/checkOut/checkOutApi';
-import { AppDispatch, RootState } from '@/redux/store';
-import { numberParser } from '@/helpers/numberParser';
+import { classNames } from '@/helpers/littleSpicy';
+import useDiscountCalculation from '@/hooks/discount/useDiscountCalculation';
 import { btnhover } from '@/site-settings/style';
-import { getCampainOfferDeliveryFee, subTotal } from '@/utils/_cart-utils/cart-utils';
-import { useEffect, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import { setDiscount } from '@/helpers/setDiscount';
-import { classNames, getShippingCostByAreaId } from '@/helpers/littleSpicy';
-import { setCouponDiscount } from '@/redux/features/filters/couponSlice';
-import { setShippingAreaCost } from '@/redux/features/filters/shippingAreaFilterSlice';
 
-const DiscountFortyFour = ({
-    headersetting,
-    className,
-}: any) => {
+const DiscountFortyFour = ({ headersetting, className }: any) => {
     const {
+        couponAvailable,
+        loading,
         register,
         handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm();
-
-    const dispatch: AppDispatch = useDispatch();
-    const store_id = headersetting?.store_id || null;
-
-    const cartList = useSelector((state: RootState) => state.cart.cartList);
-    const selectedPayment = useSelector(
-        (state: RootState) => state.paymentFilter.paymentMethod
-    );
-
-    const { selectedShippingArea,shippingAreaCost } = useSelector(
-        (state: RootState) => state.shippingAreaFilter
-    );
-    const sTotal = subTotal(cartList);
-    const total = numberParser(sTotal);
-
-    const [loading, setLoading] = useState(false);
-    const [couponAvailable, setCouponAvailable] = useState(false);
-
-    const {
-        data: couponData,
-        isLoading: couponLoading,
-        isSuccess: couponSuccess,
-        refetch: couponRefetch,
-    } = useCheckCouponAvailabilityQuery({ store_id });
-
-     const isDeliveryOfferExitsInCart = useMemo(
-            () => getCampainOfferDeliveryFee(cartList, selectedShippingArea),
-            [cartList, selectedShippingArea]
-        );
-
-    const onSubmit = ({ coupon_code }: any) => {
-        setLoading(true);
-        if (coupon_code != '') {
-            dispatch(
-                checkOutApi.endpoints.checkCouponValidation.initiate(
-                    {
-                        store_id,
-                        coupon_code,
-                        total,
-                        selectedShippingArea,
-                        selectedPayment,
-                    },
-                    { forceRefetch: true }
-                )
-            )
-                .unwrap()
-                .then((res: any) => {
-                    const couponValidation = res?.data || {};
-                    if (res?.status) {
-                        const result = setDiscount(
-                            couponValidation,
-                            total,
-                            shippingAreaCost
-                        );
-                        dispatch(setCouponDiscount(result));
-                        toast.success(
-                            'Successfully Applied Coupon',
-                            couponValidation?.id
-                        );
-                        reset();
-                        setLoading(false);
-                    }
-                })
-                .catch((couponValidationError: any) => {
-                    const { status } = couponValidationError || {};
-                    if (status == 404) {
-                        dispatch(setCouponDiscount(0));
-                        setLoading(false);
-                    }
-                });
-        }
-    };
-
-     useEffect(() => {
-            const selectedCost = getShippingCostByAreaId(
-                selectedShippingArea,
-                headersetting
-            );
-    
-            if (isDeliveryOfferExitsInCart) {
-                dispatch(setShippingAreaCost(0));
-            } else {
-                dispatch(setShippingAreaCost(selectedCost));
-            }
-        }, [
-            headersetting,
-            isDeliveryOfferExitsInCart,
-            selectedShippingArea,
-            dispatch,
-        ]);
-
-    // set auto coupon
-    useEffect(() => {
-        if (total > 0 && selectedShippingArea !== null) {
-            dispatch(
-                checkOutApi.endpoints.couponAutoApply.initiate(
-                    {
-                        store_id,
-                        total,
-                        selectedShippingArea,
-                        selectedPayment,
-                    },
-                    { forceRefetch: true }
-                )
-            )
-                .unwrap()
-                .then((res: any) => {
-                    const autoCouponValidation = res?.data || {};
-                    if (res?.status) {
-                        const result = setDiscount(
-                            autoCouponValidation,
-                            total,
-                            shippingAreaCost
-                        );
-                        
-                        dispatch(setCouponDiscount(result));
-                    }
-                })
-                .catch((couponAutoValidationError: any) => {
-                    const { status } = couponAutoValidationError || {};
-                    if (status == 404) {
-                        dispatch(setCouponDiscount(0));
-                    }
-                });
-        }
-    }, [
-        dispatch,
-        store_id,
-        total,
-        shippingAreaCost,
-        selectedShippingArea,
-        selectedPayment,
-    ]);
-
-    // get coupon status
-    useEffect(() => {
-        const isCoupon = couponData?.status || false;
-        if (couponSuccess) {
-            setCouponAvailable(isCoupon);
-        }
-    }, [couponData, couponSuccess]);
+        onSubmit,
+        errors,
+    } = useDiscountCalculation({ headersetting });
 
     return (
         <div className={className ? className : 'flex flex-wrap justify-start'}>
@@ -193,7 +38,8 @@ const DiscountFortyFour = ({
                             </div>
                             <div
                                 className={classNames(
-                                    'center px-4 py-2 w-48 font-normal rounded text-[var(--text-color)] bg-[var(--header-color)] lg:cursor-pointer text-base',`${btnhover}`
+                                    'center px-4 py-2 w-48 font-normal rounded text-[var(--text-color)] bg-[var(--header-color)] lg:cursor-pointer text-base',
+                                    `${btnhover}`
                                 )}
                             >
                                 {loading ? (

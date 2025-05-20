@@ -305,7 +305,8 @@ const YourOrders = ({
             data?.product &&
             data?.name &&
             (data?.phone || data?.email) &&
-            data?.shipping !== null
+            data?.shipping !== undefined &&
+            headersetting?.allowOrder
         ) {
             if (bookingStatus && !data?.address) {
                 setIsAbleToOrder(true);
@@ -317,7 +318,7 @@ const YourOrders = ({
         } else {
             setIsAbleToOrder(false);
         }
-    }, [data, bookingStatus]);
+    }, [data, bookingStatus, headersetting]);
 
     useSendConfidentials(data);
 

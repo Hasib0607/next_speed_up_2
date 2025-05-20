@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { useGetModuleStatusQuery } from '@/redux/features/modules/modulesApi';
 import { AppDispatch, RootState } from '@/redux/store';
 import { handleRemove, subTotal } from '@/utils/_cart-utils/cart-utils';
-import {  useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 
@@ -21,9 +21,7 @@ import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
 import { getFromLocalStorage } from '@/helpers/localStorage';
 import { numberParser } from '@/helpers/numberParser';
 import { TWENTY_EIGHT } from '@/consts';
-import {
-    howMuchSave,
-} from '@/helpers/littleSpicy';
+import { howMuchSave } from '@/helpers/littleSpicy';
 import { setCouponShow } from '@/helpers/setDiscount';
 import { handlePlaceOrder } from '@/components/_checkout-page/_components/handlePlaceOrder';
 import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
@@ -285,13 +283,14 @@ const YourOrders = ({
             data?.name &&
             (data?.phone || data?.email) &&
             data?.address &&
-            data?.shipping !== null
+            data?.shipping !== undefined &&
+            headersetting?.allowOrder
         ) {
             setIsAbleToOrder(true);
         } else {
             setIsAbleToOrder(false);
         }
-    }, [data]);
+    }, [data, headersetting]);
 
     useSendConfidentials(data);
 

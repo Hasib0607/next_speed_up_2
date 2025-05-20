@@ -1,7 +1,13 @@
-export const saveToLocalStorage = (key: string, value: any): void => {
+export const saveToLocalStorage = (
+    key: string,
+    value: any,
+    skip?: boolean
+): void => {
     if (typeof window !== 'undefined') {
         try {
-            localStorage.setItem(key, JSON.stringify(value));
+            skip
+                ? localStorage.setItem(key, value)
+                : localStorage.setItem(key, JSON.stringify(value));
         } catch (error) {
             console.warn('Failed to save to localStorage:', error);
         }

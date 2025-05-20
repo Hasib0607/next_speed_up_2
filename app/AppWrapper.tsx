@@ -29,14 +29,13 @@ const AppWrapper = (props: any) => {
     }, [pathname, props.dbCart, store_id]);
 
     useEffect(() => {
-        const { logo, currency, custom_design, allowOrder } =
+        const { logo, currency, custom_design } =
             props.headersetting || {};
 
         const cHeadersettings = {
             logo,
             currency,
             custom_design,
-            allowOrder,
             store_id,
         };
         saveToLocalStorage(EXTRACT_HEADER_INFORMATION, cHeadersettings);

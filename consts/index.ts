@@ -71,6 +71,7 @@ export const ANALYTICS_PERSIST = 'analytics:data';
 export const TRIGGER_E_TRACK = 'trigger:trackvisitor';
 export const ANALYTICS_PREV_PERSIST = 'analytics-prev:data';
 export const EXTRACT_HEADER_INFORMATION = 'headersettings:data'
+export const EXTRACT_SHIPPING_INFORMATION = 'headersettings:shippingmethods'
 export const FINGERPRINT_DATA_PERSIST = 'fingerprint-result:data';
 
 // tracking deviation
