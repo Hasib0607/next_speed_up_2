@@ -17,5 +17,6 @@ export const themeImg =
 export const blogImg = process.env.NEXT_PUBLIC_BASE + '/BlogImages/';
 export const brandImg = process.env.NEXT_PUBLIC_BASE + '/assets/images/brand/';
 export const brandBgImg = process.env.NEXT_PUBLIC_BASE + '/assets/images/design/';
+export const footerBgImg = process.env.NEXT_PUBLIC_BASE + '/assets/images/design/';
 export const youtubeBgImg = process.env.NEXT_PUBLIC_BASE + '/assets/images/design/';
 export const dymmyImgBaseUrl = 'https://www.dummyimage.com';
