@@ -1,7 +1,7 @@
 'use client';
 
 import { numberParser } from '@/helpers/numberParser';
-import { useGetBookingFormFieldsQuery, useGetFormFieldsQuery } from '@/redux/features/checkOut/checkOutApi';
+import { useGetBookingFormFieldsQuery } from '@/redux/features/checkOut/checkOutApi';
 import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
 import {
     useGetCountryQuery,

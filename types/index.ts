@@ -42,7 +42,7 @@ export interface Product {
 export interface Category {
     id: number;
     name: string;
-    [key: string]: any; // Allows additional optional properties
+    [key: string]: any; 
 }
 
 export interface CategoryProducts {

@@ -282,13 +282,14 @@ const YourOrders = ({
             data?.name &&
             (data?.phone || data?.email) &&
             data?.address &&
-            data?.shipping !== null
+            data?.shipping !== undefined &&
+            headersetting?.allowOrder
         ) {
             setIsAbleToOrder(true);
         } else {
             setIsAbleToOrder(false);
         }
-    }, [data]);
+    }, [data, headersetting]);
 
     useSendConfidentials(data);
 

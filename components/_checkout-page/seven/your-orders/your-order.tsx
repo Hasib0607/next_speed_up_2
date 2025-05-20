@@ -305,7 +305,8 @@ const YourOrders = ({
             data?.product &&
             data?.name &&
             (data?.phone || data?.email) &&
-            data.shipping !== null
+            data?.shipping !== undefined &&
+            headersetting?.allowOrder
         ) {
             if (bookingStatus && !data?.address) {
                 setIsAbleToOrder(true);
@@ -317,7 +318,7 @@ const YourOrders = ({
         } else {
             setIsAbleToOrder(false);
         }
-    }, [data, bookingStatus]);
+    }, [data, bookingStatus, headersetting]);
 
     useSendConfidentials(data);
 
@@ -488,7 +489,7 @@ const Single = ({ item, setIsOpen, files, cartId, store_id }: any) => {
             </div>
             <div className="justify-self-end flex items-center gap-x-2">
                 <MdDelete
-                     onClick={() => handleRemove(dispatch, item)}
+                    onClick={() => handleRemove(dispatch, item)}
                     className="text-2xl lg:cursor-pointer"
                 />
                 {activeModule && (
