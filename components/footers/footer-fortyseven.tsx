@@ -16,8 +16,8 @@ import PageList from './components/page-list';
 import WhatsApp from './components/whatsApp';
 import { footerBgImg, imgUrl } from '@/site-settings/siteUrl';
 import { FaLocationArrow } from 'react-icons/fa';
-import { BsFillTelephoneFill } from "react-icons/bs";
-import { MdOutlineMail } from "react-icons/md";
+import { BsFillTelephoneFill } from 'react-icons/bs';
+import { MdOutlineMail } from 'react-icons/md';
 import CategoryList from './components/category-list';
 
 const FooterFortySeven = ({ headersetting, design, menu, page }: any) => {
@@ -190,15 +190,46 @@ const FooterFortySeven = ({ headersetting, design, menu, page }: any) => {
                             </div>
                         </div>
                         <div className="my-20">
-                            <div className="flex flex-col sm:items-center space-y-4 bg-black bg-opacity-50 px-6 py-14 md:py-20 rounded-xl shadow">
-                                <div className="mb-10 space-y-5 text-[--text-color]">
-                                    <div className="font-semibold text-lg">
-                                        Menu
+                            <div className=" bg-black bg-opacity-50 px-6 py-14 md:py-20 rounded-xl shadow">
+                                <div className="flex flex-row gap-10 md:gap-20 sm:items-start space-y-4">
+                                    <div className="flex flex-col">
+                                        <div className="mb-10 space-y-5 text-[--text-color]">
+                                            <div className="font-semibold text-lg">
+                                                Menu & Legal
+                                            </div>
+                                            <div className="">
+                                                <MenuList
+                                                    cls={cls}
+                                                    menu={menu}
+                                                />
+                                                <PageList
+                                                    cls={cls}
+                                                    page={page}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="">
-                                        <MenuList cls={cls} menu={menu} />
+
+                                    <div className="text-[--text-color]">
+                                        <ul className="flex flex-col gap-2">
+                                            <Link href="/login">
+                                                <li> Sign In</li>
+                                            </Link>
+                                            <Link href="/sign-up">
+                                                <li> Sign Up</li>
+                                            </Link>
+                                            <Link href="/profile">
+                                                <li>Profile</li>
+                                            </Link>
+                                        </ul>
                                     </div>
                                 </div>
+                                <Link
+                                    href="/shop"
+                                    className="block text-center bg-[--header-color] text-[--text-color] font-semibold py-2 px-4 rounded md:cursor-pointer w-full"
+                                >
+                                    Go to Shop
+                                </Link>
                             </div>
                         </div>
                     </div>
