@@ -1,15 +1,17 @@
 import { imgUrl } from '@/site-settings/siteUrl';
 // helper imports
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 
 // components imports
 import Shop from '@/components/Shop';
-import getDesign from '@/utils/fetcher/getDesign';
 import ResetFilter from '@/utils/ResetFilter';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 
 export async function generateMetadata() {
-    const headersetting = await getHeaderSetting();
+    const { headersetting } = await getInitialAppData({
+        headersetting: true,
+    });
+
     const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
     return {
@@ -19,7 +21,9 @@ export async function generateMetadata() {
 }
 
 export default async function ShopPage() {
-    const design = await getDesign();
+    const { design } = await getInitialAppData({
+        design: true,
+    });
 
     return (
         <>

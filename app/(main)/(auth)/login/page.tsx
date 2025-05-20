@@ -1,12 +1,13 @@
 import { imgUrl } from '@/site-settings/siteUrl';
 import LogIn from '@/components/LogIn';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
-import getDesign from '@/utils/fetcher/getDesign';
-import getStore from '@/utils/fetcher/getStore';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 
 export async function generateMetadata() {
-    const headersetting = await getHeaderSetting();
+    const { headersetting } = await getInitialAppData({
+        headersetting: true,
+    });
+
     const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
     return {
@@ -16,9 +17,11 @@ export async function generateMetadata() {
 }
 
 export default async function LoginPage() {
-    const design = await getDesign();
-    const appStore = await getStore();
-    const headersetting = await getHeaderSetting();
+    const { design, appStore, headersetting } = await getInitialAppData({
+        design: true,
+        appStore: true,
+        headersetting: true,
+    });
 
     return (
         <LogIn

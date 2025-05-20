@@ -15,6 +15,8 @@ import {
     useForgotVerifyUserPasswordMutation,
     useResetUserPasswordMutation,
 } from '@/redux/features/user/userApi';
+import { getFromLocalStorage } from '@/helpers/localStorage';
+import { EXTRACT_HEADER_INFORMATION } from '@/consts';
 
 const ForgotSeven = ({ design, appStore, headersetting }: any) => {
     const [user, setUser] = useState({});
@@ -57,12 +59,9 @@ const ForgotSeven = ({ design, appStore, headersetting }: any) => {
 
 export default ForgotSeven;
 
-const Finding = ({ setPage, setUser }: any) => {
-    const home = useSelector((state: RootState) => state?.home);
-    const { design, headersetting } = home || {};
-
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+const Finding = ({ appStore, setPage, setUser }: any) => {
+    const headerSettingData = getFromLocalStorage(EXTRACT_HEADER_INFORMATION);
+    const store_id = appStore?.id || null;
 
     const [loading, setLoading] = useState(false);
 
@@ -107,7 +106,7 @@ const Finding = ({ setPage, setUser }: any) => {
                 <Link href="/" className="inline-block max-w-[160px]  mx-auto">
                     <img
                         className="max-h-[50px] w-full h-full object-fill"
-                        src={imgUrl + headersetting?.logo}
+                        src={imgUrl + headerSettingData?.logo}
                         alt="logo"
                     />
                 </Link>
@@ -116,8 +115,8 @@ const Finding = ({ setPage, setUser }: any) => {
                 </h2>
             </div>
 
-            {store?.auth_type === 'phone' ||
-            store?.auth_type === 'EasyOrder' ? (
+            {appStore?.auth_type === 'phone' ||
+            appStore?.auth_type === 'EasyOrder' ? (
                 <div className="flex justify-start flex-col items-start mb-6">
                     <label
                         htmlFor="email"
@@ -165,11 +164,7 @@ const Finding = ({ setPage, setUser }: any) => {
                 <input
                     type="submit"
                     value="Find Your Account"
-                    className={`text-center py-3 px-8 rounded-md  font-sans font-bold tracking-wider ${btnhover}`}
-                    style={{
-                        backgroundColor: design?.header_color,
-                        color: design?.text_color,
-                    }}
+                    className={`text-center py-3 px-8 rounded-md bg-[var(--header-color)] text-[var(--text-color)] font-sans font-bold tracking-wider ${btnhover}`}
                 />
             )}
 
@@ -177,6 +172,7 @@ const Finding = ({ setPage, setUser }: any) => {
         </form>
     );
 };
+
 const Verifying = ({ setPage, setUser, user, design, headersetting }: any) => {
     const [loading, setLoading] = useState(false);
 

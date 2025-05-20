@@ -1,6 +1,6 @@
-import Skeleton from '@/components/loaders/TextSkeleton';
+import { getInitialAppData } from '@/lib/getInitialAppData';
+import { RenderSectionProps } from '@/types/render';
 import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
 
 const Hero = dynamic(() => import('@/components/Hero'));
 const FeaturedCategory = dynamic(() => import('@/components/FeaturedCategory'));
@@ -15,59 +15,27 @@ const BlogSection = dynamic(() => import('@/components/BlogSection'));
 const BrandSection = dynamic(() => import('@/components/BrandSection'));
 const Testimonial = dynamic(() => import('@/components/Testimonial'));
 
-// type ComponentType =
-//     | 'header'
-//     | 'hero_slider'
-//     | 'feature_category'
-//     | 'banner'
-//     | 'banner_bottom'
-//     | 'product'
-//     | 'new_arrival'
-//     | 'best_sell_product'
-//     | 'feature_product'
-//     | 'testimonial'
-//     | 'youtube'
-//     | 'blog'
-//     | 'brand'
-//     | 'footer';
+const RenderSection = async (props: RenderSectionProps) => {
+    const { design, headersetting, banner, slider, products, category } =
+        await getInitialAppData({
+            design: true,
+            headersetting: true,
+            products: true,
+            slider: true,
+            banner: true,
+            category: true,
+        });
 
-interface RenderSectionProps {
-    component: string;
-    design: any;
-    headersetting: any;
-    banner: any;
-    slider: any;
-}
-
-const RenderSection = ({
-    component,
-    design,
-    headersetting,
-    banner,
-    slider,
-}: RenderSectionProps) => {
-    switch (component) {
+    switch (props.sections) {
         case 'hero_slider':
-            return (
-                <Suspense
-                    fallback={
-                        <div className="relative xl:px-20 lg:px-10 md:px-10 px-5 bg-gray-400 pb-5">
-                            <Skeleton
-                                className={
-                                    'rounded-lg h-[200px] w-full xl:h-[700px] lg:h-[480px] md:h-[310px]'
-                                }
-                            />
-                        </div>
-                    }
-                >
-                    <Hero design={design} slider={slider} banner={banner} />
-                </Suspense>
-            );
+            return <Hero design={design} slider={slider} banner={banner} />;
         case 'feature_category':
             return (
                 <FeaturedCategory
                     design={design}
                     headersetting={headersetting}
+                    products={products}
+                    category={category}
                 />
             );
         case 'banner':
@@ -75,33 +43,48 @@ const RenderSection = ({
         case 'banner_bottom':
             return <PromoBottom design={design} banner={banner} />;
         case 'product':
-            return <Product design={design} headersetting={headersetting} banner={banner} />;
+            return (
+                <Product
+                    design={design}
+                    headersetting={headersetting}
+                    banner={banner}
+                    products={products}
+                    category={category}
+                />
+            );
         case 'new_arrival':
-            return <NewArrival design={design} headersetting={headersetting} />;
+            return (
+                <NewArrival
+                    design={design}
+                    headersetting={headersetting}
+                    products={products}
+                />
+            );
         case 'best_sell_product':
             return (
                 <BestSellProduct
                     design={design}
                     headersetting={headersetting}
+                    products={products}
                 />
             );
         case 'feature_product':
             return (
-                <FeatureProduct design={design} headersetting={headersetting} />
+                <FeatureProduct
+                    design={design}
+                    headersetting={headersetting}
+                    products={products}
+                />
             );
         case 'youtube':
-            return <YouTubeSection design={design} headersetting={headersetting} />;
-        case 'blog':
             return (
-                <Suspense fallback={<p>Loading blog...</p>}>
-                    <BlogSection design={design} />
-                </Suspense>
+                <YouTubeSection design={design} headersetting={headersetting} />
             );
+        case 'blog':
+            return <BlogSection design={design} />;
         case 'brand':
             return (
-                <Suspense fallback={<p>Loading brand...</p>}>
-                    <BrandSection design={design} headersetting={headersetting} />
-                </Suspense>
+                <BrandSection design={design} headersetting={headersetting} />
             );
         case 'testimonial':
             return <Testimonial design={design} />;

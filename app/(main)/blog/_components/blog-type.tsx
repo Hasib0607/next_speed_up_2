@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { fetchTypeWiseBlogData } from '../helper/api';
 import BlogCard from './blog-card';
 
-const BlogType = ({ blogTypeData, url }: any) => {
+const BlogType = ({ blogTypeData }: any) => {
     const [blogType, setBlogType] = useState<any>('');
     const [blogTypeId, setBlogTypeId] = useState(blogTypeData[0]?.id);
     const [page, setPage] = useState(1);
@@ -20,7 +20,7 @@ const BlogType = ({ blogTypeData, url }: any) => {
             setTypePagination(data);
         };
         blogTypeWiseFetcher();
-    }, [blogTypeId, url, page]);
+    }, [blogTypeId, page]);
 
     return (
         <>

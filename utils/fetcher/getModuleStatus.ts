@@ -20,7 +20,7 @@ export default async function getModuleStatus(
 
         const resData = await response.json();
         const moduleIdDetails = resData?.status;
-        
+
         return moduleIdDetails;
     } catch (error) {
         console.error('Fetch module id data error:', error);

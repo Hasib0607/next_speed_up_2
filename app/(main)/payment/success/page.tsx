@@ -1,9 +1,11 @@
-import ThankYou from '@/components/ThankYou';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 import PurchaseGtmSuccess from './PurchaseGtmSuccess';
+import ThankYou from '@/components/ThankYou';
 
 export default async function SuccessPage() {
-    const headersetting = await getHeaderSetting();
+    const { headersetting } = await getInitialAppData({
+        headersetting: true,
+    });
 
     return (
         <>

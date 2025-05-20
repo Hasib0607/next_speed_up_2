@@ -3,7 +3,7 @@ export default async function getBrands(name: string) {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_REACT_APP_BASE_URL}get-domain/${name}/brand`,
             {
-                next: { revalidate: 10 }, // Revalidates every 10 seconds
+                next: { revalidate: 60 }, // Revalidates every 10 seconds
             }
         );
 

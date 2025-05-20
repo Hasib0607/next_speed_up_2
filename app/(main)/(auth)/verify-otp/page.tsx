@@ -1,12 +1,13 @@
-import VerifyOtp from '@/components/VerifyOtp';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 import { imgUrl } from '@/site-settings/siteUrl';
-import getDesign from '@/utils/fetcher/getDesign';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
-import getStore from '@/utils/fetcher/getStore';
+import VerifyOtp from '@/components/VerifyOtp';
 
 export async function generateMetadata() {
-    const headersetting = await getHeaderSetting();
+    const { headersetting } = await getInitialAppData({
+        headersetting: true,
+    });
+
     const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
     return {
@@ -16,9 +17,11 @@ export async function generateMetadata() {
 }
 
 export default async function VerifyOtpPage() {
-    const appStore = await getStore();
-    const design = await getDesign();
-    const headersetting = await getHeaderSetting();
+    const { design, appStore, headersetting } = await getInitialAppData({
+        design: true,
+        appStore: true,
+        headersetting: true,
+    });
 
     return (
         <VerifyOtp

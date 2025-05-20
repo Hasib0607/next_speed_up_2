@@ -2,19 +2,25 @@ import moment from 'moment';
 import Image from 'next/image';
 import Link from 'next/link';
 import { fetchAllBlogData, fetchBlogDetailsData } from '../helper/api';
-import getDomain from '@/helpers/getDomain';
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
-import getStore from '@/utils/fetcher/getStore';
 import { notFound } from 'next/navigation';
 import { truncateString } from '@/helpers/littleSpicy';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 
 export async function generateMetadata({ params }: any) {
-    const url = await getDomain();
-    const headersetting = await getHeaderSetting();
-    const slug = (await params).slug;
-    const details = (await fetchBlogDetailsData(slug, url)) ?? {};
+    const { headersetting, domain, paramsResult } = await getInitialAppData(
+        {
+            headersetting: true,
+            paramsResult: true,
+        },
+        params
+    );
+
+    const slug = paramsResult.slug;
+
+    const details = (await fetchBlogDetailsData(slug, domain)) ?? {};
+
     const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
     return {
@@ -38,19 +44,29 @@ export async function generateMetadata({ params }: any) {
 }
 
 const BlogDetails = async ({ params }: any) => {
-    const url = await getDomain();
-    const appStore = await getStore();
+    const { appStore, domain, paramsResult } = await getInitialAppData(
+        {
+            appStore: true,
+            paramsResult: true,
+        },
+        params
+    );
     const store_id = appStore?.id || null;
-    const slug = (await params).slug;
-    const details = (await fetchBlogDetailsData(slug, url)) ?? {};
-    const allBlogData = (await fetchAllBlogData(store_id)) ?? {};
+    const slug = paramsResult.slug;
+
+    const [blogDetails = {}, allBlogData = {}] = await Promise.all([
+        fetchBlogDetailsData(slug, domain),
+        fetchAllBlogData(store_id),
+    ]);
+
     const blogData = allBlogData?.data?.data ?? [];
 
     const filterBlog = blogData?.filter(
-        (blog: any) => blog?.type === details?.type && blog?.id !== details?.id
+        (blog: any) =>
+            blog?.type === blogDetails?.type && blog?.id !== blogDetails?.id
     );
 
-    if (Object.keys(details).length === 0) {
+    if (Object.keys(blogDetails).length === 0) {
         notFound();
     }
 
@@ -62,21 +78,21 @@ const BlogDetails = async ({ params }: any) => {
                         <Image
                             width={500}
                             height={500}
-                            src={details?.image}
-                            alt={truncateString(details?.title || '', 80)}
+                            src={blogDetails?.image}
+                            alt={truncateString(blogDetails?.title || '', 80)}
                             className="h-auto min-w-full"
                         />
                     </div>
                     <div className="bg-black bg-opacity-50 lg:absolute bottom-0 left-0 w-full md:p-10 p-5">
                         <h1 className="lg:text-4xl text-xl font-bold my-2 text-white">
-                            {details?.title}
+                            {blogDetails?.title}
                         </h1>
                         <p className="xl:text-lg text-sm font-medium my-2 text-white">
-                            {details?.sub_title}
+                            {blogDetails?.sub_title}
                         </p>
                         <p className="text-white">
                             Date:{' '}
-                            {moment(new Date(details?.created_at)).format(
+                            {moment(new Date(blogDetails?.created_at)).format(
                                 'MMMM Do, YYYY'
                             )}
                         </p>
@@ -85,7 +101,9 @@ const BlogDetails = async ({ params }: any) => {
 
                 <div className="flex lg:flex-row flex-col gap-5 py-10">
                     <div className="lg:w-[70%] w-full">
-                        <DangerouslySafeHTML content={details?.description} />
+                        <DangerouslySafeHTML
+                            content={blogDetails?.description}
+                        />
                     </div>
                     <div className="lg:w-[30%] w-full">
                         <h1 className="text-2xl pb-5">Related Blogs</h1>

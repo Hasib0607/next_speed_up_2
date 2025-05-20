@@ -35,6 +35,7 @@ import BDT from '@/utils/bdt';
 import { customizeHeader } from '@/utils/customizeDesign';
 import { useRouter } from 'next/navigation';
 import { SingleCat } from '../components/single-cat';
+import { numberParser } from '@/helpers/numberParser';
 
 const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
@@ -69,8 +70,7 @@ const HeaderThirtyFour = ({ headersetting, design, menu }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
     const total = subTotal(cartList);
 
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const store_id = numberParser(headersetting?.store_id) || null;
 
     // custom
     const headerData = customizeHeader.find((item) => item.id == store_id);

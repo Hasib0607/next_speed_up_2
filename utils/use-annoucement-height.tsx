@@ -1,13 +1,13 @@
 'use client';
 
+import { EXTRACT_HEADER_INFORMATION } from '@/consts';
+import { getFromLocalStorage } from '@/helpers/localStorage';
 import { useGetAnnouncementQuery } from '@/redux/features/home/homeApi';
-import { RootState } from '@/redux/store';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 const useAnnouncementScroll = () => {
-    const { store } = useSelector((state: RootState) => state.appStore); // Access updated Redux state
-    const store_id = store?.id || null;
+    const headerSettingData = getFromLocalStorage(EXTRACT_HEADER_INFORMATION);
+    const store_id = headerSettingData?.store_id || null;
 
     const [announcements, setAnnouncements] = useState([]);
 

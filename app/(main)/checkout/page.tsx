@@ -1,16 +1,16 @@
-import CheckoutGtm from '@/app/(main)/checkout/CheckoutGtm';
-import GuestLayer from '@/app/GuestLayer';
-import ProtectedLayer from '@/app/ProtectedLayer';
-import Checkout from '@/components/Checkout';
 import capitalizeFirstLetter from '@/helpers/capitalizeFirstLetter';
 import { getActiveAuthTypes } from '@/helpers/getActiveAuthTypes';
+import CheckoutGtm from '@/app/(main)/checkout/CheckoutGtm';
+import { getInitialAppData } from '@/lib/getInitialAppData';
+import ProtectedLayer from '@/app/ProtectedLayer';
 import { imgUrl } from '@/site-settings/siteUrl';
-import getDesign from '@/utils/fetcher/getDesign';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
-import getStore from '@/utils/fetcher/getStore';
+import Checkout from '@/components/Checkout';
 
 export async function generateMetadata() {
-    const headersetting = await getHeaderSetting();
+    const { headersetting } = await getInitialAppData({
+        headersetting: true,
+    });
+
     const websiteName = capitalizeFirstLetter(headersetting?.website_name);
 
     return {
@@ -20,32 +20,31 @@ export async function generateMetadata() {
 }
 
 export default async function CheckoutPage() {
-    const appStore = await getStore();
-    const design = await getDesign();
-    const headersetting = await getHeaderSetting();
+    const { design, appStore, headersetting } = await getInitialAppData({
+        design: true,
+        appStore: true,
+        headersetting: true,
+    });
+
     const authTypes = getActiveAuthTypes(appStore);
 
-    return (
+    return authTypes.EasyOrder || authTypes.EmailEasyOrder ? (
         <>
-            {authTypes.EasyOrder || authTypes.EmailEasyOrder ? (
-                <>
-                    <CheckoutGtm headersetting={headersetting} />
-                    <Checkout
-                        design={design}
-                        appStore={appStore}
-                        headersetting={headersetting}
-                    />
-                </>
-            ) : (
-                <ProtectedLayer>
-                    <CheckoutGtm headersetting={headersetting} />
-                    <Checkout
-                        design={design}
-                        appStore={appStore}
-                        headersetting={headersetting}
-                    />
-                </ProtectedLayer>
-            )}
+            <CheckoutGtm headersetting={headersetting} />
+            <Checkout
+                design={design}
+                appStore={appStore}
+                headersetting={headersetting}
+            />
         </>
+    ) : (
+        <ProtectedLayer>
+            <CheckoutGtm headersetting={headersetting} />
+            <Checkout
+                design={design}
+                appStore={appStore}
+                headersetting={headersetting}
+            />
+        </ProtectedLayer>
     );
 }

@@ -1,23 +1,16 @@
 'use client';
 
-import { DEFAULT } from '@/consts';
-import { RootState } from '@/redux/store';
 import { new_arrival } from '@/utils/dynamic-import/_homepageSections/NewArrival/NewArrival';
-import { useSelector } from 'react-redux';
 
-const NewArrival = ({ design, headersetting }: any) => {
-    const NewArrivalComponent =
-        new_arrival[design?.new_arrival] ;
-
-    const products = useSelector((state: RootState) => state?.products);
-    const product = products?.product || [];
+const NewArrival = ({ design, headersetting, products }: any) => {
+    const NewArrivalComponent = new_arrival[design?.new_arrival];
 
     return (
         design?.new_arrival !== 'null' &&
         NewArrivalComponent &&
-        product && (
+        products.length > 0 && (
             <NewArrivalComponent
-                product={product}
+                product={products}
                 design={design}
                 headersetting={headersetting}
             />

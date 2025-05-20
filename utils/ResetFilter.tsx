@@ -5,14 +5,13 @@ import { usePathname } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { resetFilters } from '@/redux/features/filters/filterSlice';
 
-// Your Redux filter slice
 const ResetFilter = () => {
     const pathname = usePathname();
     const dispatch = useDispatch();
     const prevPathname = useRef(pathname); // Store previous path
 
     useEffect(() => {
-        const isCategoryPage = pathname === '/category'; // Main category page
+        const isCategoryPage = pathname === '/category'; // category page
         const isShopPage = pathname === '/shop'; // Shop page
 
         if (isCategoryPage || isShopPage) {
@@ -21,6 +20,7 @@ const ResetFilter = () => {
 
         prevPathname.current = pathname; // Update previous path
     }, [pathname, dispatch]);
-    return null; // Component doesn't render anything
+
+    return null;
 };
 export default ResetFilter;

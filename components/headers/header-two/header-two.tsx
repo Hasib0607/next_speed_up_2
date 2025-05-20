@@ -17,10 +17,10 @@ import { classNames } from '@/helpers/littleSpicy';
 import { removeFromLocalStorage } from '@/helpers/localStorage';
 import useAuth from '@/hooks/useAuth';
 import { useLogOutMutation } from '@/redux/features/auth/authApi';
-import {
-    useGetCategoryQuery,
-    useGetSubCategoryQuery,
-} from '@/redux/features/category/categoryApi';
+// import {
+//     useGetCategoryQuery,
+//     useGetSubCategoryQuery,
+// } from '@/redux/features/category/categoryApi';
 import { RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
@@ -28,15 +28,21 @@ import Search from '../components/search';
 import SideCategory from './side-category';
 import SideMenu from './side-menu';
 
-const HeaderTwo = ({ headersetting, design, menu }: any) => {
+const HeaderTwo = ({
+    headersetting,
+    design,
+    menu,
+    category,
+    subcategory,
+}: any) => {
     const router = useRouter();
     const isAuthenticated = useAuth();
 
-    const { data: categoryData } = useGetCategoryQuery({});
-    const { data: subCategoryData } = useGetSubCategoryQuery({});
+    // const { data: categoryData } = useGetCategoryQuery({});
+    // const { data: subCategoryData } = useGetSubCategoryQuery({});
 
-    const category = categoryData?.data || [];
-    const subCategory = subCategoryData?.data || [];
+    // const category = categoryData?.data || [];
+    // const subCategory = subCategoryData?.data || [];
 
     const [open, setOpen] = useState(false);
     const [searchInput, setSearchInput] = useState(false);
@@ -292,7 +298,7 @@ const HeaderTwo = ({ headersetting, design, menu }: any) => {
                         <div className="mt-5 ml-36 z-50 lg:block hidden">
                             <SideCategory
                                 category={category}
-                                subCategory={subCategory}
+                                subCategory={subcategory}
                                 design={design}
                             />
                         </div>
