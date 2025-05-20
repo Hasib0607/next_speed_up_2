@@ -59,7 +59,7 @@ export default function QuickView({
                                     design?.template_id === '34'
                                         ? 'bg-thirty-one border border-white'
                                         : 'bg-white'
-                                }  rounded-lg text-left ${auto ? `h-auto w-auto` : `h-[80%] w-[60%]`} scrollbar-thin shadow-xl transform transition-all`}
+                                }  rounded-lg text-left ${auto ? `h-auto w-auto` : `md:h-[80%] md:w-[60%]`} scrollbar-thin shadow-xl transform transition-all`}
                             >
                                 <div
                                     className={`relative ${
