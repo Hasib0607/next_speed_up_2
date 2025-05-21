@@ -1,5 +1,7 @@
 export type AppDataOptions = {
     paramsResult?: boolean;
+    headersList?: boolean;
+    cookieStore?: boolean;
     appStore?: boolean;
     design?: boolean;
     headersetting?: boolean;
