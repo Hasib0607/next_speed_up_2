@@ -124,7 +124,7 @@ const HeaderFortySeven = ({ headersetting, design, menu }: any) => {
                 <style>{styleCss}</style>
                 <div className="flex flex-row justify-between items-center nav-menu sm:container px-5 py-2 md:py-5 gap-3 lg:gap-0">
                     <div
-                        className={`w-full bg-white fixed top-20 md:top-24 left-0 h-[300px] md:h-[200px] z-[100] duration-500 ${
+                        className={`w-full bg-white fixed top-[60px] md:top-24 left-0 h-[300px] md:h-[200px] z-[100] duration-500 ${
                             searchInput === true
                                 ? 'mt-0'
                                 : '-mt-[500px] md:-mt-[300]'
