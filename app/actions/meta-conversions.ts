@@ -1,25 +1,28 @@
 'use server';
 
-import { cookies, headers } from 'next/headers';
 // import { createHash } from 'crypto';
-import getHeaderSetting from '@/utils/fetcher/getHeaderSetting';
-import getDomain from '@/helpers/getDomain';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 
 export async function trackServerConversion(
     eventName: string,
     customData: any
 ) {
-    const domain = await getDomain();
-    const headersetting = await getHeaderSetting(domain);
-    const headersList = await headers();
+    // const domain = await getDomain();
+    // const headersetting = await getHeaderSetting(domain);
+    // const headersList = await headers();
+
+    const { headersetting, headersList } = await getInitialAppData({
+        headersetting: true,
+        headersList: true,
+    });
 
     const FACEBOOK_PIXEL_ID = headersetting?.facebook_pixel;
     const FACEBOOK_ACCESS_TOKEN = headersetting?.facebook_access_token;
     const FACEBOOK_TEST_EVENT_CODE = headersetting?.facebook_test_event_code;
 
-    const userAgent = headersList.get('user-agent') || '';
-    const clientIp = headersList.get('x-forwarded-for') || '';
-    const referer = headersList.get('referer') || '';
+    const userAgent = headersList?.get('user-agent') || '';
+    const clientIp = headersList?.get('x-forwarded-for') || '';
+    const referer = headersList?.get('referer') || '';
 
     // Get user identifiers from cookies if available
     //   const cookieStore = await cookies();

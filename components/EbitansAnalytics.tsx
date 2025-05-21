@@ -3,7 +3,7 @@
 import { getUserDataFromCookies } from '@/app/actions';
 import useBrowserInfo from '@/hooks/useBrowserInfo';
 import useGeoLocation from '@/hooks/useGeoLocation';
-import { RootState } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
 import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -14,31 +14,44 @@ import {
 import { ANALYTICS_PREV_PERSIST, TRIGGER_E_TRACK } from '@/consts';
 import { formattedDateTime } from '@/helpers/getTime';
 import { removeFbclid } from '@/helpers/urlCleaner';
+import { analyticsApi } from '@/redux/features/analytics/analyticsApi';
+import { useAppDispatch } from '@/redux/features/rtkHooks/rtkHooks';
 
 const EbitansAnalytics = ({ store_id }: any) => {
     const { address, fetchAddress } = useGeoLocation();
     const { browser } = useBrowserInfo();
     const pathname = usePathname();
+    const dispatch: AppDispatch = useAppDispatch();
     const previousPath = useRef<string | null>(null);
 
     const visitTime = formattedDateTime();
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    const updateVisitorData = async (visitorData: any) => {
-        try {
-            const response = await fetch('/api/track-visitor', {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(visitorData),
-            });
-            const data = await response.json(); // Parse JSON response
-            return data; // Return data for further processing if needed
-        } catch (error) {
-            console.error('Error sending visitor data:', error);
-            return null; // Return null or handle the error gracefully
-        }
+    const updateVisitorData = (visitorData: any) => {
+        dispatch(
+                analyticsApi.endpoints.patchAnalytics.initiate({
+                    payload: visitorData,
+                })
+            )
+                .unwrap()
+                .then((response: any) => {
+                    const resData = response?.data?.data || {};
+                    saveToLocalStorage(ANALYTICS_PREV_PERSIST, resData);
+                })
+        // try {
+        //     const response = await fetch('/api/track-visitor', {
+        //         method: 'PATCH',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(visitorData),
+        //     });
+        //     const data = await response.json(); // Parse JSON response
+        //     return data; // Return data for further processing if needed
+        // } catch (error) {
+        //     console.error('Error sending visitor data:', error);
+        //     return null; // Return null or handle the error gracefully
+        // }
     };
 
     if (previousPath.current !== pathname) {
@@ -118,23 +131,23 @@ const EbitansAnalytics = ({ store_id }: any) => {
 
     // analytics info
     useEffect(() => {
-        const sendVisitorData = async (visitorData: any) => {
-            try {
-                const response = await fetch('/api/track-visitor', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(visitorData),
-                });
-                const data = await response.json(); // Parse JSON response
-                // console.log('Server Response:', data);
-                return data; // Return data for further processing if needed
-            } catch (error) {
-                console.error('Error sending visitor data:', error);
-                return null; // Return null or handle the error gracefully
-            }
-        };
+        // const sendVisitorData = async (visitorData: any) => {
+        //     try {
+        //         const response = await fetch('/api/track-visitor', {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //             },
+        //             body: JSON.stringify(visitorData),
+        //         });
+        //         const data = await response.json(); // Parse JSON response
+        //         // console.log('Server Response:', data);
+        //         return data; // Return data for further processing if needed
+        //     } catch (error) {
+        //         console.error('Error sending visitor data:', error);
+        //         return null; // Return null or handle the error gracefully
+        //     }
+        // };
 
         const cleanedCurrentUrl = removeFbclid(
             userData?.currentUrl,
@@ -174,10 +187,20 @@ const EbitansAnalytics = ({ store_id }: any) => {
         const sendCommand = getFromLocalStorage(TRIGGER_E_TRACK);
 
         if (sendCommand) {
-            sendVisitorData(analyticsData).then((response: any) => {
-                const resData = response?.data?.data || {};
-                saveToLocalStorage(ANALYTICS_PREV_PERSIST, resData);
-            });
+            dispatch(
+                analyticsApi.endpoints.postAnalytics.initiate({
+                    payload: analyticsData,
+                })
+            )
+                .unwrap()
+                .then((response: any) => {
+                    const resData = response?.data?.data || {};
+                    saveToLocalStorage(ANALYTICS_PREV_PERSIST, resData);
+                });
+            // sendVisitorData(analyticsData).then((response: any) => {
+            //     const resData = response?.data?.data || {};
+            //     saveToLocalStorage(ANALYTICS_PREV_PERSIST, resData);
+            // });
         }
     }, [
         store_id,
@@ -197,6 +220,7 @@ const EbitansAnalytics = ({ store_id }: any) => {
         longitude,
         visitTime,
         timeZone,
+        dispatch,
     ]);
 
     return null;
