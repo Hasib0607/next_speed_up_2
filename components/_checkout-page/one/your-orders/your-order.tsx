@@ -311,9 +311,9 @@ const YourOrders = ({
         }
 
         if (data?.district_id && data?.district_id === 1) {
-            dispatch(setSelectedShippingArea('1'));
+            dispatch(setSelectedShippingArea(1));
         } else if (data?.district_id) {
-            dispatch(setSelectedShippingArea('2'));
+            dispatch(setSelectedShippingArea(2));
         } else {
             dispatch(setSelectedShippingArea(null));
         }
@@ -333,13 +333,13 @@ const YourOrders = ({
             data?.name &&
             (data?.phone || data?.email) &&
             data?.address &&
-            data?.district
+            data?.district && headersetting?.allowOrder
         ) {
             setIsAbleToOrder(true);
         } else {
             setIsAbleToOrder(false);
         }
-    }, [data]);
+    }, [data,headersetting]);
 
     useSendConfidentials(data);
 

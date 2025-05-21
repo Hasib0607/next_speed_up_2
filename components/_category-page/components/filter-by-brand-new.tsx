@@ -1,16 +1,17 @@
 'use client';
 
 import { setActiveBrands } from '@/redux/features/filters/filterSlice';
+import { useGetBrandQuery } from '@/redux/features/home/homeApi';
 import {
     useAppDispatch,
     useAppSelector,
 } from '@/redux/features/rtkHooks/rtkHooks';
 import { AppDispatch, RootState } from '@/redux/store';
-import { useCallback, useEffect, useState } from 'react';
 
 const FilterByBrandNew = () => {
     const dispatch: AppDispatch = useAppDispatch();
-    const [brands, setBrands] = useState<any>([]);
+    const { data: brandsData } = useGetBrandQuery({});
+    // const [brands, setBrands] = useState<any>([]);
 
     const { activeBrands } = useAppSelector(
         (state: RootState) => state.filters
@@ -29,20 +30,20 @@ const FilterByBrandNew = () => {
         dispatch(setActiveBrands(updatedBrands));
     };
 
-    const fetchBrandsData = useCallback(async () => {
-        try {
-            const response = await fetch('/api/brands');
+    // const fetchBrandsData = useCallback(async () => {
+    //     try {
+    //         const response = await fetch('/api/brands');
 
-            const allBrands = await response.json();
-            setBrands(allBrands?.data);
-        } catch (error) {
-            console.log('Error fetchting brands');
-        }
-    }, []);
+    //         const allBrands = await response.json();
+    //         setBrands(allBrands?.data);
+    //     } catch (error) {
+    //         console.log('Error fetchting brands');
+    //     }
+    // }, []);
 
-    useEffect(() => {
-        fetchBrandsData();
-    }, [fetchBrandsData]);
+    // useEffect(() => {
+    //     fetchBrandsData();
+    // }, [fetchBrandsData]);
 
     return (
         <>
@@ -50,7 +51,7 @@ const FilterByBrandNew = () => {
                 Filter by Brand
             </h1>
             <div className="flex flex-wrap gap-4 mt-3">
-                {brands?.map((brand: any) => (
+                {brandsData?.data?.map((brand: any) => (
                     <label
                         key={brand.id}
                         className="flex items-center gap-2 cursor-pointer"

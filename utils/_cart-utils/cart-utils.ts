@@ -24,6 +24,7 @@ import {
     updateCartItemInDb,
 } from '@/helpers/cartDbOps';
 
+
 export const handleIncrement = (dispatch: AppDispatch, item: any): void => {
     if (item?.qty >= item?.availability) {
         toast.warning('Out of Stock', {
@@ -172,7 +173,7 @@ export const grandTotal = (
     totalDis?: any
 ) => {
     const gTotal =
-        shippingArea === '--Select Area--' || shippingArea === null
+        shippingArea === '--Select Area--' || shippingArea === null || shippingArea === undefined
             ? numberParser(total) + numberParser(tax) - numberParser(totalDis)
             : numberParser(total) +
               numberParser(tax) +

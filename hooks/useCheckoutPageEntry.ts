@@ -1,7 +1,7 @@
 'use client';
 
 import { numberParser } from '@/helpers/numberParser';
-import { useGetBookingFormFieldsQuery, useGetFormFieldsQuery } from '@/redux/features/checkOut/checkOutApi';
+import { useGetBookingFormFieldsQuery } from '@/redux/features/checkOut/checkOutApi';
 import { setTotalCampainOfferDis } from '@/redux/features/filters/offerFilterSlice';
 import {
     useGetCountryQuery,
@@ -28,14 +28,14 @@ const useCheckoutPageEntry = ({ headersetting }: any) => {
     const dispatch: AppDispatch = useAppDispatch();
     const module_id = 108;
 
+    useGetDistrictQuery({});
+    useGetCountryQuery({});
+
     const {
         data: userBookingFormFieldsData,
         isLoading: userBookingFormFieldsLoading,
         isSuccess: userBookingFormFieldsSuccess,
     } = useGetBookingFormFieldsQuery({ store_id, module_id });
-
-    useGetDistrictQuery({});
-    useGetCountryQuery({});
 
     const [tax, setTax] = useState<any>(0);
     const [bookingData, setBookingData] = useState<any>(null);

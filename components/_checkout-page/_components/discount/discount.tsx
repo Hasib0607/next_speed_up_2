@@ -1,228 +1,39 @@
 'use client';
 
-import {
-    checkOutApi,
-    useCheckCouponAvailabilityQuery,
-} from '@/redux/features/checkOut/checkOutApi';
 import { TWENTY_EIGHT } from '@/consts';
-import { FaRegArrowAltCircleRight } from 'react-icons/fa';
-import { AppDispatch, RootState } from '@/redux/store';
-import { numberParser } from '@/helpers/numberParser';
+import { RootState } from '@/redux/store';
 import { btnhover } from '@/site-settings/style';
-import {
-    getCampainOfferDeliveryFee,
-    subTotal,
-} from '@/utils/_cart-utils/cart-utils';
-import { useEffect, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { RotatingLines } from 'react-loader-spinner';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import { setDiscount } from '@/helpers/setDiscount';
-import {
-    setSelectedShippingArea,
-    setShippingAreaCost,
-} from '@/redux/features/filters/shippingAreaFilterSlice';
-import {
-    getShippingAreaIdByCost,
-    getShippingCostByAreaId,
-} from '@/helpers/littleSpicy';
-import { setCouponDiscount } from '@/redux/features/filters/couponSlice';
+import { FaRegArrowAltCircleRight } from 'react-icons/fa';
+import { useAppSelector } from '@/redux/features/rtkHooks/rtkHooks';
+import useDiscountCalculation from '@/hooks/discount/useDiscountCalculation';
+import { numberParser } from '@/helpers/numberParser';
 
 const Discount = ({
     design,
-    appStore,
     headersetting,
     shippingColOne,
     shippingOff,
     select,
     bn,
 }: any) => {
+    const store_id = numberParser(headersetting?.store_id) || null;
+
     const {
+        shippingMethods,
+        couponAvailable,
+        loading,
+        handleShippingChange,
+        handleShippingSelectChange,
         register,
         handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm();
+        onSubmit,
+        errors
+    } = useDiscountCalculation({ headersetting });
 
-    const dispatch: AppDispatch = useDispatch();
-    const store_id = appStore?.id || null;
-
-    const cartList = useSelector((state: RootState) => state.cart.cartList);
-    const selectedPayment = useSelector(
-        (state: RootState) => state.paymentFilter.paymentMethod
-    );
-
-    const { selectedShippingArea, shippingAreaCost } = useSelector(
+    const { selectedShippingArea } = useAppSelector(
         (state: RootState) => state.shippingAreaFilter
     );
-
-    const sTotal = useMemo(() => subTotal(cartList), [cartList]);
-    const total = useMemo(() => numberParser(sTotal), [sTotal]);
-
-    const [loading, setLoading] = useState(false);
-    const [couponAvailable, setCouponAvailable] = useState(false);
-
-    const {
-        data: couponData,
-        isLoading: couponLoading,
-        isSuccess: couponSuccess,
-        refetch: couponRefetch,
-    } = useCheckCouponAvailabilityQuery({ store_id });
-
-    const isDeliveryOfferExitsInCart = useMemo(
-        () => getCampainOfferDeliveryFee(cartList, selectedShippingArea),
-        [cartList, selectedShippingArea]
-    );
-
-    const onSubmit = ({ coupon_code }: any) => {
-        setLoading(true);
-        if (coupon_code != '') {
-            dispatch(
-                checkOutApi.endpoints.checkCouponValidation.initiate(
-                    {
-                        store_id,
-                        coupon_code,
-                        total,
-                        selectedShippingArea,
-                        selectedPayment,
-                    },
-                    { forceRefetch: true }
-                )
-            )
-                .unwrap()
-                .then((res: any) => {
-                    const couponValidation = res?.data || {};
-                    if (res?.status) {
-                        const result = setDiscount(
-                            couponValidation,
-                            total,
-                            selectedShippingArea
-                        );
-                        dispatch(setCouponDiscount(result));
-                        toast.success(
-                            'Successfully Applied Coupon',
-                            couponValidation?.id
-                        );
-                        reset();
-                        setLoading(false);
-                    }
-                })
-                .catch((couponValidationError: any) => {
-                    const { status } = couponValidationError || {};
-                    if (status == 404) {
-                        dispatch(setCouponDiscount(0));
-                        setLoading(false);
-                    }
-                });
-        }
-    };
-
-    const handleShippingSelectChange = (
-        e: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        const areaId = e.target.value;
-        const selectedCost = getShippingCostByAreaId(areaId, headersetting);
-        if (areaId) {
-            dispatch(setSelectedShippingArea(areaId));
-            dispatch(setShippingAreaCost(selectedCost));
-        }
-    };
-
-    const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedCost = numberParser(e.target.value);
-        const areaId = getShippingAreaIdByCost(selectedCost, headersetting);
-        if (areaId) {
-            dispatch(setSelectedShippingArea(areaId));
-            dispatch(setShippingAreaCost(selectedCost));
-        }
-    };
-
-    useEffect(() => {
-        if (headersetting?.selected_shipping_area) {
-            dispatch(
-                setSelectedShippingArea(headersetting?.selected_shipping_area)
-            );
-            const initialAreaCost =
-                headersetting?.[
-                    `shipping_area_${headersetting?.selected_shipping_area}_cost`
-                ];
-
-            if (initialAreaCost >= 0) {
-                dispatch(setShippingAreaCost(initialAreaCost));
-            }
-        } else {
-            dispatch(setSelectedShippingArea(null));
-        }
-    }, [headersetting, dispatch]);
-
-    useEffect(() => {
-        const selectedCost = getShippingCostByAreaId(
-            selectedShippingArea,
-            headersetting
-        );
-
-        if (isDeliveryOfferExitsInCart) {
-            dispatch(setShippingAreaCost(0));
-        } else {
-            dispatch(setShippingAreaCost(selectedCost));
-        }
-    }, [
-        headersetting,
-        isDeliveryOfferExitsInCart,
-        selectedShippingArea,
-        dispatch,
-    ]);
-
-    // set auto coupon
-    useEffect(() => {
-        if (total > 0 && selectedShippingArea !== null) {
-            dispatch(
-                checkOutApi.endpoints.couponAutoApply.initiate(
-                    {
-                        store_id,
-                        total,
-                        selectedShippingArea,
-                        selectedPayment,
-                    },
-                    { forceRefetch: true }
-                )
-            )
-                .unwrap()
-                .then((res: any) => {
-                    const autoCouponValidation = res?.data || {};
-                    if (res?.status) {
-                        const result = setDiscount(
-                            autoCouponValidation,
-                            total,
-                            shippingAreaCost
-                        );
-                        dispatch(setCouponDiscount(result));
-                    }
-                })
-                .catch((couponAutoValidationError: any) => {
-                    const { status } = couponAutoValidationError || {};
-                    if (status == 404) {
-                        dispatch(setCouponDiscount(0));
-                    }
-                });
-        }
-    }, [
-        dispatch,
-        store_id,
-        total,
-        shippingAreaCost,
-        selectedShippingArea,
-        selectedPayment,
-    ]);
-
-    // get coupon status
-    useEffect(() => {
-        const isCoupon = couponData?.status || false;
-        if (couponSuccess) {
-            setCouponAvailable(isCoupon);
-        }
-    }, [couponData, couponSuccess]);
 
     return (
         <div
@@ -249,83 +60,40 @@ const Discount = ({
                                     htmlFor="shippingArea"
                                     className="block text-xl font-semibold text-gray-700"
                                 >
-                                    { bn ? 'শিপিং এরিয়া' : "Shipping Area"}
+                                    {bn ? 'শিপিং এরিয়া' : 'Shipping Area'}
                                 </label>
                                 <div className="flex flex-col gap-2">
                                     {/* Radio button for Shipping Area 1 */}
-                                    {headersetting?.shipping_area_1 && (
-                                        <div className="flex items-center">
-                                            <input
-                                                type="radio"
-                                                id="shippingArea1"
-                                                name="shippingArea"
-                                                value={
-                                                    headersetting?.shipping_area_1_cost
-                                                }
-                                                checked={
-                                                    selectedShippingArea === '1'
-                                                }
-                                                onChange={handleShippingChange}
-                                                className="mr-2"
-                                            />
-                                            <label
-                                                htmlFor="shippingArea1"
-                                                className="text-lg font-semibold"
+                                    {Array.isArray(shippingMethods) &&
+                                        shippingMethods?.length > 0 &&
+                                        shippingMethods?.map((item: any) => (
+                                            <div
+                                                className="flex items-center"
+                                                key={item.id}
                                             >
-                                                {headersetting?.shipping_area_1}
-                                            </label>
-                                        </div>
-                                    )}
-
-                                    {/* Radio button for Shipping Area 2 */}
-                                    {headersetting?.shipping_area_2 && (
-                                        <div className="flex items-center">
-                                            <input
-                                                type="radio"
-                                                id="shippingArea2"
-                                                name="shippingArea"
-                                                value={
-                                                    headersetting?.shipping_area_2_cost
-                                                }
-                                                checked={
-                                                    selectedShippingArea === '2'
-                                                }
-                                                onChange={handleShippingChange}
-                                                className="mr-2"
-                                            />
-                                            <label
-                                                htmlFor="shippingArea2"
-                                                className="text-lg font-semibold"
-                                            >
-                                                {headersetting?.shipping_area_2}
-                                            </label>
-                                        </div>
-                                    )}
-
-                                    {/* Radio button for Shipping Area 3 */}
-                                    {headersetting?.shipping_area_3 && (
-                                        <div className="flex items-center">
-                                            <input
-                                                type="radio"
-                                                id="shippingArea3"
-                                                name="shippingArea"
-                                                value={
-                                                    headersetting?.shipping_area_3_cost
-                                                }
-                                                checked={
-                                                    selectedShippingArea === '3'
-                                                }
-                                                onChange={handleShippingChange}
-                                                className="mr-2"
-                                            />
-                                            <label
-                                                htmlFor="shippingArea3"
-                                                className="text-lg font-semibold"
-                                            >
-                                                {headersetting?.shipping_area_3}
-                                            </label>
-                                        </div>
-                                    )}
+                                                <input
+                                                    type="radio"
+                                                    name="shippingArea"
+                                                    value={item.cost}
+                                                    checked={
+                                                        selectedShippingArea ===
+                                                        item.id
+                                                    }
+                                                    onChange={() =>
+                                                        handleShippingChange(
+                                                            item
+                                                        )
+                                                    }
+                                                    className="mr-2"
+                                                />
+                                                <label
+                                                    htmlFor="shippingArea1"
+                                                    className="text-lg font-semibold"
+                                                >
+                                                    {item.area}
+                                                </label>
+                                            </div>
+                                        ))}
                                 </div>
                             </div>
                         </div>
@@ -338,7 +106,7 @@ const Discount = ({
                                     htmlFor="shippingArea"
                                     className="block text-xl font-semibold text-gray-700"
                                 >
-                                    { bn ? 'শিপিং এরিয়া' : "Shipping Area"}
+                                    {bn ? 'শিপিং এরিয়া' : 'Shipping Area'}
                                 </label>
                                 <div>
                                     <select
@@ -347,27 +115,24 @@ const Discount = ({
                                         onChange={(e: any) =>
                                             handleShippingSelectChange(e)
                                         }
-                                        value={selectedShippingArea || ''}
+                                        value={selectedShippingArea ?? 0}
                                         className="mt-1 block sm:w-full w-36 py-2 font-semibold border capitalize border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                                     >
-                                        <option value={'0'}>
+                                        <option value={0}>
                                             --Select Area--
                                         </option>
-                                        {headersetting?.shipping_area_1 && (
-                                            <option value={'1'}>
-                                                {headersetting?.shipping_area_1}
-                                            </option>
-                                        )}
-                                        {headersetting?.shipping_area_2 && (
-                                            <option value={'2'}>
-                                                {headersetting?.shipping_area_2}
-                                            </option>
-                                        )}
-                                        {headersetting?.shipping_area_3 && (
-                                            <option value={'3'}>
-                                                {headersetting?.shipping_area_3}
-                                            </option>
-                                        )}
+                                        {Array.isArray(shippingMethods) &&
+                                            shippingMethods?.length > 0 &&
+                                            shippingMethods?.map(
+                                                (item: any) => (
+                                                    <option
+                                                        value={item.id}
+                                                        key={item.id}
+                                                    >
+                                                        {item.area}
+                                                    </option>
+                                                )
+                                            )}
                                     </select>
                                 </div>
                             </div>

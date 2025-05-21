@@ -1,7 +1,8 @@
-import { HTML_TAG_PATTERN } from '@/consts';
+import { EXTRACT_SHIPPING_INFORMATION, HTML_TAG_PATTERN } from '@/consts';
 import { numberParser } from './numberParser';
 import { getPrice } from './getPrice';
 import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
+import { getFromLocalStorage } from './localStorage';
 
 export const hexToRgba = (hexColor: string = ''): string => {
     if (hexColor === null) return `${255}, ${0}, ${0}`;
@@ -21,28 +22,41 @@ export const hasSubunits = (price: number): boolean => {
 export const getShippingAreaIdByCost = (
     cost: number,
     headersetting: any
-): string | null => {
-    for (let i = 1; i <= 3; i++) {
-        if (cost === headersetting?.[`shipping_area_${i}_cost`]) {
-            return i.toString();
-        }
-    }
+): number | null => {
+        const shippingMethods = JSON.parse(headersetting?.shipping_methods)
 
-    return null;
+
+    const shippingAreaId = shippingMethods.find(
+        (item: any) => item.cost === cost
+    );
+
+    // for (let i = 1; i <= 3; i++) {
+    //     if (cost === headersetting?.[`shipping_area_${i}_cost`]) {
+    //         return i.toString();
+    //     }
+    // }
+
+    return shippingAreaId?.id ?? null;
 };
 
 export const getShippingCostByAreaId = (
-    id: string,
+    id: number,
     headersetting: any
-): number | null => {
-    if (id) return headersetting?.[`shipping_area_${id}_cost`];
-    return null;
+): number => {
+        const shippingMethods = JSON.parse(headersetting?.shipping_methods)
+
+    const shippingArea =
+        Array.isArray(shippingMethods) &&
+        shippingMethods?.find((item: any) => item.id === id);
+
+    // if (id) return headersetting?.[`shipping_area_${id}_cost`];
+    return shippingArea?.cost;
 };
 
 // check phone number
 export const checkValidPhoneNumberByCode = (
     phone: string,
-    countryCode: CountryCode = 'BD',
+    countryCode: CountryCode = 'BD'
 ) => {
     if (!phone || !countryCode) return;
 
@@ -55,7 +69,6 @@ export const checkValidPhoneNumberByCode = (
     const normalizedNumber = parsedPhoneNumber?.format('E.164') || null;
 
     return { number: normalizedNumber, valid: isValidNumber }; //  as needed
-
 };
 
 // find variant and get details

@@ -14,6 +14,7 @@ import getFeatureProducts from '@/utils/fetcher/getFeatureProducts';
 import getBestSellProducts from '@/utils/fetcher/getBestSellProducts';
 import getCategorys from '@/utils/fetcher/getCategorys';
 import getTestimonial from '@/utils/fetcher/getTestimonial';
+import { cookies, headers } from 'next/headers';
 
 export async function getInitialAppData(
     options?: AppDataOptions,
@@ -41,6 +42,14 @@ export async function getInitialAppData(
         paramsResult: {
             type: 'custom',
             fetcher: () => getParamsResult(params),
+        }, // Special case with different params
+        headersList: {
+            type: 'custom',
+            fetcher: () => headers(),
+        }, // Special case with different params
+        cookieStore: {
+            type: 'custom',
+            fetcher: () => cookies(),
         }, // Special case with different params
     };
 
@@ -140,6 +149,8 @@ export async function getInitialAppData(
 
     const appData = data as {
         paramsResult?: Awaited<ReturnType<typeof getParamsResult>>;
+        headersList?: Awaited<ReturnType<typeof headers>>;
+        cookieStore?: Awaited<ReturnType<typeof cookies>>;
         appStore?: Awaited<ReturnType<typeof getStore>>;
         design?: Awaited<ReturnType<typeof getDesign>>;
         headersetting?: Awaited<ReturnType<typeof getHeaderSetting>>;

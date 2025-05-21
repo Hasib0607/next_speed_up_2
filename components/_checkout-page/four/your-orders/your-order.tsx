@@ -287,13 +287,14 @@ const YourOrders = ({
             data?.name &&
             (data?.phone || data?.email) &&
             data?.address &&
-            data?.shipping !== null
+            data?.shipping !== undefined &&
+            headersetting?.allowOrder
         ) {
             setIsAbleToOrder(true);
         } else {
             setIsAbleToOrder(false);
         }
-    }, [data, checked]);
+    }, [data, checked, headersetting]);
 
     useSendConfidentials(data);
 
@@ -313,9 +314,9 @@ const YourOrders = ({
             {cartList ? (
                 <>
                     <div className="my-6">
-                        <div className="flex flex-col justify-between bg-white shadow-xl">
+                        <div className="flex flex-col justify-between bg-white shadow-xl h-96">
                             {/* Replace with your content */}
-                            <div className="px-4 sm:px-2 h-2/3 overflow-y-scroll">
+                            <div className="px-4 sm:px-3 overflow-y-scroll">
                                 {cartList?.map((item: any, index: any) => (
                                     <div
                                         key={index}

@@ -351,9 +351,9 @@ const YourOrders = ({
         }
 
         if (data?.district_id && data?.district_id === 1) {
-            dispatch(setSelectedShippingArea('1'));
+            dispatch(setSelectedShippingArea(1));
         } else if (data?.district_id) {
-            dispatch(setSelectedShippingArea('2'));
+            dispatch(setSelectedShippingArea(2));
         } else {
             dispatch(setSelectedShippingArea(null));
         }
@@ -372,7 +372,8 @@ const YourOrders = ({
             data?.product &&
             data?.name &&
             (data?.phone || data?.email) &&
-            data?.shipping !== null
+            data?.shipping !== undefined &&
+            headersetting?.allowOrder
         ) {
             if (
                 (bookingStatus && !data?.address) ||
@@ -403,25 +404,23 @@ const YourOrders = ({
 
             {cartList ? (
                 <>
-                    <div className="">
-                        <div className=" flex flex-col justify-between pt-5">
-                            {/* Replace with your content */}
-                            <div className="px-4 sm:px-2 h-2/3 overflow-y-scroll ">
-                                {cartList?.map((item: any, index: any) => (
-                                    <div
-                                        key={index}
-                                        onClick={() => setCartId(item?.cartId)}
-                                    >
-                                        <Single
-                                            files={files}
-                                            cartId={item?.cartId}
-                                            item={item}
-                                            setIsOpen={setIsOpen}
-                                            store_id={store_id}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
+                    <div className=" flex flex-col justify-between pt-5 h-96">
+                        {/* Replace with your content */}
+                        <div className="px-4 sm:px-2  overflow-y-scroll">
+                            {cartList?.map((item: any, index: any) => (
+                                <div
+                                    key={index}
+                                    onClick={() => setCartId(item?.cartId)}
+                                >
+                                    <Single
+                                        files={files}
+                                        cartId={item?.cartId}
+                                        item={item}
+                                        setIsOpen={setIsOpen}
+                                        store_id={store_id}
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </>

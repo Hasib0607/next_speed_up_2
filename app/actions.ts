@@ -1,23 +1,23 @@
 'use server';
 
-import getDomain from '@/helpers/getDomain';
-import { cookies } from 'next/headers';
+import { getInitialAppData } from '@/lib/getInitialAppData';
 
 // Get the stored referrer
 export async function getUserDataFromCookies() {
-    const domain = await getDomain();
-    const cookieStore = await cookies();
+    // const domain = await getDomain();
+    // const cookieStore = await cookies();
+    const { domain, cookieStore } = await getInitialAppData({
+        cookieStore: true,
+    });
 
-    const previousUrl =
-        cookieStore.get('previousUrl')?.value || null;
-    const currentUrl =
-        cookieStore.get('currentUrl')?.value || null;
-    const userIp = cookieStore.get('currentIp')?.value || null;
-    const countryCode = cookieStore.get('countryCode')?.value || 'BD';
-    const city = cookieStore.get('city')?.value || null;
+    const previousUrl = cookieStore?.get('previousUrl')?.value || null;
+    const currentUrl = cookieStore?.get('currentUrl')?.value || null;
+    const userIp = cookieStore?.get('currentIp')?.value || null;
+    const countryCode = cookieStore?.get('countryCode')?.value || 'BD';
+    const city = cookieStore?.get('city')?.value || null;
 
     // for params
-    const routeParamsCookie = cookieStore.get('routeParams');
+    const routeParamsCookie = cookieStore?.get('routeParams');
 
     let routeParams: Record<string, string> = {};
 
