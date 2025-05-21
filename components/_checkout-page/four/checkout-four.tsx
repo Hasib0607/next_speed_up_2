@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
 import Address from '../_components/address/address';
 import YourOrders from './your-orders/your-order';
 import Discount from '../_components/discount/discount';
@@ -74,6 +73,7 @@ const CheckOutFour = ({ design, appStore, headersetting }: any) => {
                             shippingColOne
                             shippingOff
                             select
+                            note
                         />
                         <div className="shadow sm:rounded-md sm:overflow-hidden my-5">
                             <div className="px-4 py-5 bg-white space-y-6 sm:p-6">

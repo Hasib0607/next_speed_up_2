@@ -23,7 +23,7 @@ export default async function getDomain() {
     // url = "lokmantraders.shop";
     // url = "nayeil.com";
     // url = "bikroyhutbd.com";
-    // url = 'beworthsbynature.ebitans.store';
+    // url = 'mangomood.store';
     url = 'moon.localhost:3000';
 
     return url;
