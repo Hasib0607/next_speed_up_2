@@ -338,8 +338,6 @@ const PaymentGateway = ({
                 )}
             </div>
 
-            {/* showing custom notes */}
-            {note && <CustomWriting headersetting={headersetting} />}
         </div>
     );
 };

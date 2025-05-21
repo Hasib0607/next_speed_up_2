@@ -8,6 +8,7 @@ import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 import { useAppSelector } from '@/redux/features/rtkHooks/rtkHooks';
 import useDiscountCalculation from '@/hooks/discount/useDiscountCalculation';
 import { numberParser } from '@/helpers/numberParser';
+import CustomWriting from '../custom-writing';
 
 const Discount = ({
     design,
@@ -16,6 +17,7 @@ const Discount = ({
     shippingOff,
     select,
     bn,
+    note
 }: any) => {
     const store_id = numberParser(headersetting?.store_id) || null;
 
@@ -233,6 +235,8 @@ const Discount = ({
                         )}
                     </div>
                 </div>
+                {/* showing custom notes */}
+            {note && <CustomWriting headersetting={headersetting} />}
             </div>
         </div>
     );
