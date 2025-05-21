@@ -1,4 +1,4 @@
-import { FORTY_FIVE, FORTY_FOUR, FORTY_SIX, FORTY_THREE } from '@/consts';
+import { FORTY_FIVE, FORTY_FOUR, FORTY_SEVEN, FORTY_SIX, FORTY_THREE } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const categories: any = {
@@ -114,5 +114,8 @@ export const categories: any = {
     ),
     [FORTY_SIX]: dynamic(
         () => import('@/components/_category-page/category-fortysix')
+    ),
+    [FORTY_SEVEN]: dynamic(
+        () => import('@/components/_category-page/category-fortyseven')
     ),
 };
