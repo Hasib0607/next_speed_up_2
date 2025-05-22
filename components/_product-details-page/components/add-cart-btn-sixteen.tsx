@@ -12,6 +12,9 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useGetHeaderSettingsQuery } from '@/redux/features/home/homeApi';
+import { useRouter } from 'next/navigation';
+import { getDataByType } from '@/helpers/getCustomDataByType';
+import { numberParser } from '@/helpers/numberParser';
 
 const AddCartBtnSixteen = ({
     setQty,
@@ -29,14 +32,31 @@ const AddCartBtnSixteen = ({
     product,
 }: any) => {
     const { cartList } = useSelector((state: RootState) => state.cart);
+    const router = useRouter();
 
     const inputRef = useRef<HTMLInputElement>(null);
 
     const { data: headerData } = useGetHeaderSettingsQuery({});
     const headersetting = headerData?.data || {};
 
-    const { button } =
-        headersetting?.custom_design?.single_product_page?.[0] || {};
+    // const { button } =
+    //     headersetting?.custom_design?.single_product_page?.[0] || {};
+
+    const customDesignData = getDataByType(
+        headersetting,
+        'single_product_page'
+    );
+
+    const {
+        button,
+        button_color,
+        button_bg_color,
+        button1,
+        button1_color,
+        button1_bg_color,
+        is_buy_now_cart,
+        is_buy_now_cart1,
+    } = customDesignData || {};
 
     const isDisabled = useMemo(
         () => isEqlQty(product, variantId, cartList),
@@ -138,6 +158,11 @@ const AddCartBtnSixteen = ({
         setQty((prevCount: any) => (prevCount > 1 ? prevCount - 1 : 1));
     };
 
+    const buy_now = () => {
+        onClick();
+        router.push('/checkout');
+    };
+
     useEffect(() => {
         if (variantId) {
             setQty(1);
@@ -181,7 +206,9 @@ const AddCartBtnSixteen = ({
                     </button>
                 </div>
                 <button
-                    onClick={onClick}
+                    onClick={
+                        numberParser(is_buy_now_cart) == 1 ? buy_now : onClick
+                    }
                     type="submit"
                     className={
                         buttonOne
@@ -189,7 +216,7 @@ const AddCartBtnSixteen = ({
                             : 'flex group bg-gray-200 lg:cursor-pointer'
                     }
                 >
-                    {button || '+ ADD TO CART'}
+                    {button || '+ BUY NOW'}
                 </button>
             </div>
         </div>
