@@ -1,3 +1,5 @@
+'use client';
+
 import img2 from '@/components/_homepage/featured-category/seventeen-bg-img/border.webp';
 import img1 from '@/components/_homepage/featured-category/seventeen-bg-img/icon_wrapper_bg_1.webp';
 import image from '@/components/_homepage/featured-category/seventeen-bg-img/show_divider_1_104x62.webp';
