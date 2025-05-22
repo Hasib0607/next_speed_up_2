@@ -23,8 +23,8 @@ export default async function getDomain() {
     // url = "lokmantraders.shop";
     // url = "nayeil.com";
     // url = "bikroyhutbd.com";
-    url = 'jabirdigitalshop.ebitans.store';
-    // url = 'moon.localhost:3000';
+    // url = 'jabirdigitalshop.ebitans.store';
+    url = 'moon.localhost:3000';
 
     return url;
 }
