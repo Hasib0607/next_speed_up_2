@@ -7,6 +7,7 @@ import {
     FIVE,
     FORTY,
     FORTY_FOUR,
+    FORTY_SEVEN,
     FORTY_THREE,
     FOUR,
     FOURTEEN,
@@ -167,5 +168,8 @@ export const checkout_pages: any = {
     ),
     [FORTY_FOUR]: dynamic(
         () => import('@/components/_checkout-page/forty-four/checkout-forty-four')
+    ),
+    [FORTY_SEVEN]: dynamic(
+        () => import('@/components/_checkout-page/forty-seven/checkout-fortyseven')
     ),
 };

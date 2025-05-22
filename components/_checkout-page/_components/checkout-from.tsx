@@ -28,6 +28,8 @@ import { FormValues } from '@/types';
 import { RootState } from '@/redux/store';
 
 const CheckoutFrom = ({
+    lang,
+    distLang,
     design,
     appStore,
     setOpen,
@@ -279,7 +281,7 @@ const CheckoutFrom = ({
 
     const labelStyle = 'block text-sm font-medium text-gray-700 capitalize';
 
-    const bn =
+    const bn = lang || 
         design?.template_id === '29' ||
         design?.checkout_page === ONE ||
         design?.checkout_page === TWENTY_EIGHT ||
@@ -466,7 +468,7 @@ const CheckoutFrom = ({
                                             handleFieldChange('address')
                                         }
                                         placeholder={
-                                            bn ? 'ঠিকানা' : 'detailed address'
+                                            bn ? 'ঠিকানা' : 'Detailed address'
                                         }
                                         autoComplete={'address-level1'}
                                         className={classNames(fieldStyle)}
@@ -520,7 +522,7 @@ const CheckoutFrom = ({
                                                     value={item?.id}
                                                     key={index}
                                                 >
-                                                    {item?.bn_name}
+                                                    {distLang === "bn" ? item?.bn_name : item?.name}
                                                 </option>
                                             )
                                         )}

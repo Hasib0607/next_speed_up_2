@@ -2,10 +2,8 @@
 
 import Card54 from '@/components/card/card54';
 import DefaultSlider from '@/components/slider/default-slider';
-
 import { profileImg } from '@/site-settings/siteUrl';
 import Rate from '@/utils/rate';
-
 import moment from 'moment';
 import { SwiperSlide } from 'swiper/react';
 import Skeleton from '@/components/loaders/skeleton';
@@ -16,13 +14,22 @@ import {
     useGetReviewsQuery,
 } from '@/redux/features/products/productApi';
 import DangerouslySafeHTML from '@/utils/dangerously-safe-html';
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
+import {
+    Disclosure,
+    Tab,
+    TabGroup,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Transition,
+} from '@headlessui/react';
 import { useEffect, useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-
-import DetailsSix from '../components/details-six';
 import { NotFoundMsg } from '@/utils/little-components';
 import VideoPlayer from '../components/video-player';
+import DetailsFortySeven from './details-fortyseven';
+import { ChevronUpIcon } from 'lucide-react';
+import Card77 from '@/components/card/card77';
 
 const FortySeven = ({ store_id, productId, design }: any) => {
     const {
@@ -104,10 +111,10 @@ const FortySeven = ({ store_id, productId, design }: any) => {
         'cart-btn-thirty font-bold py-[11px] px-10 w-max border border-gray-300 rounded';
 
     return (
-        <div className="sm:container px-5 sm:py-10 py-5">
+        <div className="sm:container px-5 sm:py-10 py-5 mt-14">
             <style>{styleCss}</style>
             {detailsContentSkeleton}
-            <DetailsSix
+            <DetailsFortySeven
                 design={design}
                 product={product}
                 buttonStyle={buttonThirty}
@@ -116,48 +123,60 @@ const FortySeven = ({ store_id, productId, design }: any) => {
             />
 
             {/* ************************ tab component start ***************************** */}
-            <div className="mt-14">
-                <TabGroup>
-                    <TabList className="pb-5">
-                        <Tab
-                            className={({ selected }) =>
-                                selected
-                                    ? 'underline text-xl focus:outline-none underline-offset-8 border-hidden active-des-review '
-                                    : 'text-xl'
-                            }
-                        >
-                            Description
-                        </Tab>
-                        <Tab
-                            className={({ selected }) =>
-                                selected
-                                    ? 'underline text-xl focus:outline-none underline-offset-8 active-des-review border-hidden ml-8'
-                                    : 'ml-8 text-xl'
-                            }
-                        >
-                            Reviews
-                        </Tab>
-                    </TabList>
-                    <TabPanels className="mb-8">
-                        <TabPanel>
-                            <div className="p-5 ">
-                                <DangerouslySafeHTML
-                                    content={product?.description}
+            <div className="mt-14 space-y-10">
+                {/* Description Section */}
+                <div>
+                    <h2 className="text-xl font-semibold mb-4">Description</h2>
+                    <div className="">
+                        <DangerouslySafeHTML content={product?.description} />
+                    </div>
+                </div>
+
+                {/* Reviews Section */}
+                <Disclosure>
+                    {({ open }) => (
+                        <div className="">
+                            <Disclosure.Button className="w-full flex gap-3 justify-center items-center px-5 py-3 text-left text-xl font-semibold border rounded transition-colors duration-300">
+                                <span>Reviews</span>
+                                <ChevronUpIcon
+                                    className={`h-5 w-5 text-gray-500 transition-transform duration-500 ${
+                                        open ? 'rotate-180' : ''
+                                    }`}
                                 />
-                            </div>
-                        </TabPanel>
-                        <TabPanel>
-                            {reviews?.status && reviewsArr.length > 0 ? (
-                                reviewsArr?.map((item: any, index: any) => (
-                                    <UserReview review={item} key={index} />
-                                ))
-                            ) : (
-                                <NotFoundMsg message={reviews?.message} />
-                            )}
-                        </TabPanel>
-                    </TabPanels>
-                </TabGroup>
+                            </Disclosure.Button>
+
+                            <Transition
+                                show={open}
+                                enter="transition duration-500 ease-out"
+                                enterFrom="opacity-0 scale-95"
+                                enterTo="opacity-100 scale-100"
+                                leave="transition duration-500 ease-in"
+                                leaveFrom="opacity-100 scale-100"
+                                leaveTo="opacity-0 scale-95"
+                            >
+                                <Disclosure.Panel className="p-5 bg-white border-t">
+                                    {reviews?.status &&
+                                    reviewsArr.length > 0 ? (
+                                        reviewsArr.map(
+                                            (item: any, index: any) => (
+                                                <UserReview
+                                                    review={item}
+                                                    key={index}
+                                                />
+                                            )
+                                        )
+                                    ) : (
+                                        <NotFoundMsg
+                                            message={reviews?.message}
+                                        />
+                                    )}
+                                </Disclosure.Panel>
+                            </Transition>
+                        </div>
+                    )}
+                </Disclosure>
             </div>
+
             {/* ************************ tab component end ***************************** */}
 
             {product && product?.video_link && (
@@ -232,8 +251,8 @@ background: white;
     return (
         <div className="pb-10 w-full">
             <style>{styleCss}</style>
-            <div className="pb-5 text-center text-3xl">
-                <p>Recommended products</p>
+            <div className="pb-5 text-xl uppercase mt-10">
+                <p>You May Interested In...</p>
             </div>
             <div className="arrow-hov relative">
                 <div className="">
@@ -257,11 +276,11 @@ background: white;
                     loop={true}
                     breakpoints={{
                         250: {
-                            slidesPerView: 1,
+                            slidesPerView: 2,
                             spaceBetween: 10,
                         },
                         480: {
-                            slidesPerView: 1,
+                            slidesPerView: 2,
                             spaceBetween: 10,
                         },
                         768: {
@@ -269,22 +288,22 @@ background: white;
                             spaceBetween: 10,
                         },
                         1024: {
-                            slidesPerView: 3,
+                            slidesPerView: 4,
                             spaceBetween: 10,
                         },
                         1200: {
-                            slidesPerView: 3,
+                            slidesPerView: 4,
                             spaceBetween: 20,
                         },
                         1440: {
-                            slidesPerView: 4,
+                            slidesPerView: 6,
                             spaceBetween: 20,
                         },
                     }}
                 >
                     {product?.slice(0, 10)?.map((productData: any) => (
                         <SwiperSlide key={productData.id}>
-                            <Card54 item={productData} />
+                            <Card77 item={productData} />
                         </SwiperSlide>
                     ))}
                 </DefaultSlider>
