@@ -17,7 +17,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 
-
 // Helper function to conditionally select a value
 import { checkEasyNotUser } from '@/helpers/checkEasyNotUser';
 import { getFromLocalStorage } from '@/helpers/localStorage';
@@ -396,15 +395,16 @@ const YourOrders = ({
                 </div>
 
                 {isLoading ? (
-                    <div className="flex justify-center items-center font-semibold tracking-wider my-1 rounded-full border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] border-gray-300 w-full py-3">
+                    <div className="flex justify-center items-center font-semibold tracking-wider my-6 border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] border-gray-300 w-[90%] mx-auto py-3">
                         Loading
                     </div>
                 ) : (
                     <button
                         disabled={!isAbleToOrder}
-                        className={`flex justify-center items-center font-semibold tracking-wider my-1 rounded-full border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] hover:bg-transparent border-gray-300 w-full py-3 disabled:border disabled:bg-gray-400 disabled:cursor-not-allowed disabled:border-gray-300  ${!isAbleToOrder ? btnhover : null}`}
+                        className={`flex justify-center items-center font-semibold tracking-wider my-6 border-2 border-[var(--header-color)] text-[var(--text-color)] bg-[var(--header-color)] hover:bg-transparent border-gray-300 w-[90%] mx-auto py-3 disabled:border disabled:bg-gray-400 disabled:cursor-not-allowed disabled:border-gray-300  ${!isAbleToOrder ? btnhover : null}`}
                         onClick={handleCheckout}
-                    >Place Order
+                    >
+                        Place Order
                     </button>
                 )}
                 <FileUploadModal

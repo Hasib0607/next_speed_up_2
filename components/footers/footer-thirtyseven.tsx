@@ -62,7 +62,7 @@ const FooterThirtySeven = ({
                     </div>
 
                     <div className="xl:col-span-2 lg:col-span-2">
-                        <div className="grid xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4 py-8 ">
+                        <div className="grid xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-2 sm:grid-cols-1 gap-4 py-8 ">
                             <div>
                                 <h1 className="footerFiveBorder footerThirtySeven text-lg font-semibold">
                                     Products
@@ -85,17 +85,31 @@ const FooterThirtySeven = ({
                                     Pages
                                 </h1>
                                 <div className="mt-5 list-none">
-                                    {menu?.map((m: any) => (
-                                        <li key={m?.id}>
-                                            <Link
-                                                href={m?.url}
-                                                className="text-base footerColor font-normal leading-relaxed "
-                                            >
-                                                {' '}
-                                                {m?.name}
-                                            </Link>
-                                        </li>
-                                    ))}
+                                    {menu?.map(
+                                        (m: any) =>
+                                            m?.status == 1 && (
+                                                <li key={m?.id}>
+                                                    <Link
+                                                        href={
+                                                            m?.custom_link ||
+                                                            (m?.url
+                                                                ? `/${m?.url}`
+                                                                : '/')
+                                                        }
+                                                        className="text-base footerColor font-normal leading-relaxed"
+                                                    >
+                                                        {m?.name}
+                                                    </Link>
+                                                </li>
+                                            )
+                                    )}
+                                </div>
+                            </div>
+                            <div>
+                                <h1 className="footerFiveBorder footerThirtySeven text-lg font-semibold">
+                                    Legal
+                                </h1>
+                                <div className="mt-5 list-none">
                                     {result?.map((m: any) => (
                                         <li key={m?.id}>
                                             <Link

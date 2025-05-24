@@ -98,7 +98,7 @@ let urlName;
 // urlName = "lokmantraders.shop";
 // urlName = "nayeil.com";
 // urlName = "bikroyhutbd.com";
-// urlName = "jabirdigitalshop.ebitans.store";
+// urlName = "witnessclassic.com";
 urlName = "moon.localhost:3000";
 
 if (process.env.NODE_ENV === 'production') {
