@@ -241,20 +241,20 @@ const DetailsThirtyFour = ({
 
             <div className="grid grid-cols-1 lg2:grid-cols-9 gap-5">
                 <div className="lg2:col-span-4 justify-self-center">
-                    <HSliderThirtyFour
-                        design={design}
-                        product={product}
-                        variant={variant}
-                        activeImg={activeImg}
-                        setActiveImg={setActiveImg}
-                    />
-                     {/* <ZoomHSlider
+                    {/* <HSliderThirtyFour
                         design={design}
                         product={product}
                         variant={variant}
                         activeImg={activeImg}
                         setActiveImg={setActiveImg}
                     /> */}
+                     <ZoomHSlider
+                        design={design}
+                        product={product}
+                        variant={variant}
+                        activeImg={activeImg}
+                        setActiveImg={setActiveImg}
+                    />
                 </div>
 
                 <div className="lg2:col-span-5 space-y-5 sticky top-28 h-max">

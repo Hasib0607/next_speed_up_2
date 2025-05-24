@@ -21,8 +21,8 @@ import MenuFortySeven from './menu-fortyseven';
 import SideMenuFortySeven from './side-menu-fortyseven';
 import { CgProfile } from 'react-icons/cg';
 import { IoIosClose, IoIosSearch } from 'react-icons/io';
-import Search3 from '../components/search3';
 import { useGetCategoryQuery } from '@/redux/features/category/categoryApi';
+import Search45 from '../components/search45';
 
 const HeaderFortySeven = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
@@ -87,7 +87,6 @@ const HeaderFortySeven = ({ headersetting, design, menu }: any) => {
 
      .navbarSeven.openMenu {
         display: block;
-        // position: fixed;
         width: 100%;
         background: ${design?.header_color};
         z-index: 10;
@@ -183,8 +182,8 @@ const HeaderFortySeven = ({ headersetting, design, menu }: any) => {
                                 </div>
                             </div>
                             {searchTxtUp && (
-                                <div className="relative -top-3">
-                                    <Search3
+                                <div className="relative">
+                                    <Search45
                                         design={design}
                                         search={searchTxtUp}
                                         setSearch={setSearchUp}
