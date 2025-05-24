@@ -1,6 +1,6 @@
 'use client';
 
-import { TWENTY_EIGHT } from '@/consts';
+import { FORTY_SEVEN, TWENTY_EIGHT } from '@/consts';
 import { RootState } from '@/redux/store';
 import { btnhover } from '@/site-settings/style';
 import { RotatingLines } from 'react-loader-spinner';
@@ -43,7 +43,7 @@ const Discount = ({
                 design?.template_id === '34'
                     ? 'bg-thirty-one border border-white'
                     : 'bg-white'
-            }  shadow sm:rounded-md sm:overflow-hidden my-5`}
+            } sm:rounded-md sm:overflow-hidden my-5 ${design?.checkout_page === FORTY_SEVEN ? '' : 'shadow' }`}
         >
             <div className="px-4 py-5 space-y-6 sm:p-6">
                 <div

@@ -17,6 +17,8 @@ const Address = ({
     setSelectAddress,
     className,
     formFieldStyle,
+    distLang,
+    bn
 }: any) => {
     const isAuthenticated = useAuth();
     const [addressArr, setAddressArr] = useState<any>([]);
@@ -148,6 +150,8 @@ const Address = ({
                         formFieldStyle={formFieldStyle}
                         addressRefetch={addressRefetch}
                         setOpen={setOpen}
+                        lang = {bn}
+                        distLang = {distLang}
                     />
                 ) : (
                     <div>
@@ -158,6 +162,8 @@ const Address = ({
                                 formFieldStyle={formFieldStyle}
                                 addressRefetch={addressRefetch}
                                 setOpen={setOpen}
+                                lang = {bn}
+                                distLang = {distLang}
                                 cancelBtn={addressArr?.length > 0}
                             />
                         ) : (
@@ -176,6 +182,8 @@ const Address = ({
                             addressRefetch={addressRefetch}
                             setOpen={setOpen}
                             editItem={editItem}
+                            lang = {bn}
+                            distLang = {distLang}
                             cancelBtn
                             modal
                             edit
@@ -189,6 +197,8 @@ const Address = ({
                             setOpen={setOpen}
                             cancelBtn={addressArr?.length > 0}
                             modal
+                            lang = {bn}
+                            distLang = {distLang}
                         />
                     )}
                 </>

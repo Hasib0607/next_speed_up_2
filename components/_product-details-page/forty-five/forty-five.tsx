@@ -6,10 +6,6 @@ import {
     useGetRelatedProductsQuery,
     useGetReviewsQuery,
 } from '@/redux/features/products/productApi';
-import { profileImg } from '@/site-settings/siteUrl';
-import Arrow from '@/utils/arrow';
-import Rate from '@/utils/rate';
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import parse from 'html-react-parser';
 import Skeleton from '@/components/loaders/skeleton';
 import { NotFoundMsg } from '@/utils/little-components';
