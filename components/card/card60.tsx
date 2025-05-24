@@ -109,9 +109,10 @@ const Card60 = ({ item, type = '' }: any) => {
         color:  ${button_color};
         background: ${button_bg_color};
         border: 2px solid transparent;
+        transition: all 0.3s ease; 
     }
     .c60_button:hover {
-        color:  ${button_bg_color};
+        color:  ${button_color};
         background: transparent;
         border: 2px solid ${button_color};
     }
@@ -121,7 +122,7 @@ const Card60 = ({ item, type = '' }: any) => {
         border: 2px solid transparent;
     }
     .c60_button1:hover {
-        color:  ${button1_bg_color};
+        color:  ${button1_color};
         background: transparent;
         border: 2px solid ${button1_color};
     }

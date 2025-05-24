@@ -39,7 +39,7 @@ const Search45 = ({ search, setSearch, design }: any) => {
             initial={{ y: -20 }}
             animate={{ y: 0 }}
             transition={{ ease: 'easeOut', duration: 1 }}
-            className=" overflow-hidden bg-white absolute top-10 left-0 md:-left-40 right-0 md:-right-40 z-10"
+            className=" overflow-hidden bg-white absolute left-0 md:-left-40 right-0 md:-right-40 z-10"
         >
             <style>{styleCss}</style>
             <h3 className="text-xl font-semibold mx-6 py-1 text-center text-gray-400">
