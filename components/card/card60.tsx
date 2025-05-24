@@ -113,6 +113,7 @@ const Card60 = ({ item, type = '' }: any) => {
     }
     .c60_button:hover {
         color:  ${button_color};
+        filter: brightness(0.6);
         background: transparent;
         border: 2px solid ${button_color};
     }
