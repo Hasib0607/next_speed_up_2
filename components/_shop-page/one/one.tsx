@@ -12,10 +12,11 @@ import { numberParser } from '@/helpers/numberParser';
 import { useGetModulesQuery } from '@/redux/features/modules/modulesApi';
 import { useGetShopPageProductsQuery } from '@/redux/features/shop/shopApi';
 import { RootState } from '@/redux/store';
+import { NotFoundMsg } from '@/utils/little-components';
 import MotionLink from '@/utils/motion-link';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
 
@@ -60,9 +61,14 @@ const One = ({ store_id }: any) => {
 
     const isPagination = numberParser(paginationModule?.status) === 1;
 
-    const nextPageFetch = () => {
+    // const nextPageFetch = () => {
+    //     console.log('Fetching next page...');
+    //     setPage((prevPage) => prevPage + 1);
+    // };
+
+    const nextPageFetch = useCallback(() => {
         setPage((prevPage) => prevPage + 1);
-    };
+    }, []);
 
     useEffect(() => {
         shopPageProductsRefetch();
@@ -109,6 +115,26 @@ const One = ({ store_id }: any) => {
             });
         }
     }, [isPagination, paginate, page, products]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (
+                window.innerHeight + window.scrollY >=
+                document.documentElement.scrollHeight - 400
+            ) {
+                nextPageFetch();
+            }
+        };
+
+        if (!isPagination && hasMore) {
+            window.addEventListener('scroll', handleScroll);
+
+            // Trigger initial check in case we're already at the bottom (especially on mobile)
+            requestAnimationFrame(() => handleScroll());
+
+            return () => window.removeEventListener('scroll', handleScroll);
+        }
+    }, [isPagination, hasMore, nextPageFetch]);
 
     return (
         <>
@@ -198,11 +224,28 @@ const One = ({ store_id }: any) => {
                                     dataLength={infiniteProducts?.length}
                                     next={nextPageFetch}
                                     hasMore={hasMore}
-                                    loader={<InfiniteLoader />}
+                                    // loader={<InfiniteLoader />}
+                                    loader={
+                                        (paginate?.has_more_pages ||
+                                            shopPageProductsFetching) && (
+                                            <InfiniteLoader />
+                                        )
+                                    }
+                                    // endMessage={
+                                    //     <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
+                                    //         No More Products
+                                    //     </p>
+                                    // }
                                     endMessage={
-                                        <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                            No More Products
-                                        </p>
+                                        paginate?.has_more_pages ||
+                                        shopPageProductsFetching ||
+                                        shopPageProductsLoading ? (
+                                            <InfiniteLoader />
+                                        ) : (
+                                            <NotFoundMsg
+                                                message={'No More Products'}
+                                            />
+                                        )
                                     }
                                 >
                                     <div className="grid md:grid-cols-3 xl:grid-cols-4 grid-cols-2 gap-5">
