@@ -238,9 +238,8 @@ const ProductSection = ({
                         next={nextPageFetch}
                         hasMore={paginate?.has_more_pages}
                         loader={
-                            paginate?.has_more_pages ||
-                            brandPageProductsFetching ||
-                            (brandPageProductsLoading && <InfiniteLoader />)
+                            (paginate?.has_more_pages ||
+                                brandPageProductsFetching) && <InfiniteLoader />
                         }
                         endMessage={
                             paginate?.has_more_pages ||
