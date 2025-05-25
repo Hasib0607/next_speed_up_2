@@ -111,6 +111,8 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
         (item: any) => item?.id == currentSecondPath
     );
 
+    console.log('categoryPageProductsLoading', categoryPageProductsLoading);
+
     return (
         <>
             <div className="sm:container px-5 sm:py-10 py-5 ">
@@ -208,11 +210,10 @@ const CategoryOne = ({ catId, store_id, design }: any) => {
                                         next={nextPageFetch}
                                         hasMore={paginate?.has_more_pages}
                                         loader={
-                                            paginate?.has_more_pages ||
-                                            categoryPageProductsFetching ||
-                                            (categoryPageProductsLoading && (
+                                            (paginate?.has_more_pages ||
+                                                categoryPageProductsFetching) && (
                                                 <InfiniteLoader />
-                                            ))
+                                            )
                                         }
                                         endMessage={
                                             paginate?.has_more_pages ||
