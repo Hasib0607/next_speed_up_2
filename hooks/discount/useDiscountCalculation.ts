@@ -64,6 +64,7 @@ const useDiscountCalculation = ({ headersetting }: any) => {
         [cartList, selectedShippingArea]
     );
 
+
     const onSubmit = ({ coupon_code }: any) => {
         setLoading(true);
         if (coupon_code != '') {
@@ -86,7 +87,7 @@ const useDiscountCalculation = ({ headersetting }: any) => {
                         const result = setDiscount(
                             couponValidation,
                             total,
-                            selectedShippingArea
+                            shippingAreaCost
                         );
                         dispatch(setCouponDiscount(result));
                         toast.success(
@@ -111,7 +112,7 @@ const useDiscountCalculation = ({ headersetting }: any) => {
         e: React.ChangeEvent<HTMLInputElement>
     ) => {
         const areaId = numberParser(e.target.value);
-        
+
         const selectedCost = getShippingCostByAreaId(areaId, headersetting);
         dispatch(setShippingAreaCost(selectedCost));
         if (areaId === 0) {
