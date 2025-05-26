@@ -16,7 +16,7 @@ import { NotFoundMsg } from '@/utils/little-components';
 import MotionLink from '@/utils/motion-link';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
 
@@ -61,14 +61,10 @@ const One = ({ store_id }: any) => {
 
     const isPagination = numberParser(paginationModule?.status) === 1;
 
-    // const nextPageFetch = () => {
-    //     console.log('Fetching next page...');
-    //     setPage((prevPage) => prevPage + 1);
-    // };
-
-    const nextPageFetch = useCallback(() => {
+    const nextPageFetch = () => {
+        console.log('Featching next page...');
         setPage((prevPage) => prevPage + 1);
-    }, []);
+    };
 
     useEffect(() => {
         shopPageProductsRefetch();
@@ -115,26 +111,6 @@ const One = ({ store_id }: any) => {
             });
         }
     }, [isPagination, paginate, page, products]);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            if (
-                window.innerHeight + window.scrollY >=
-                document.documentElement.scrollHeight - 400
-            ) {
-                nextPageFetch();
-            }
-        };
-
-        if (!isPagination && hasMore) {
-            window.addEventListener('scroll', handleScroll);
-
-            // Trigger initial check in case we're already at the bottom (especially on mobile)
-            requestAnimationFrame(() => handleScroll());
-
-            return () => window.removeEventListener('scroll', handleScroll);
-        }
-    }, [isPagination, hasMore, nextPageFetch]);
 
     return (
         <>
@@ -215,7 +191,15 @@ const One = ({ store_id }: any) => {
 
                         {/* main products in here  */}
                         {!isPagination ? (
-                            <div>
+                            <div
+                                id="scrollableDiv"
+                                style={{
+                                    height: '100vh',
+                                    overflowY: 'auto',
+                                    scrollbarWidth: 'none', // Firefox
+                                    msOverflowStyle: 'none', // IE 10+
+                                }}
+                            >
                                 <InfiniteScroll
                                     style={{
                                         height: 'auto',
@@ -224,18 +208,9 @@ const One = ({ store_id }: any) => {
                                     dataLength={infiniteProducts?.length}
                                     next={nextPageFetch}
                                     hasMore={hasMore}
-                                    // loader={<InfiniteLoader />}
-                                    loader={
-                                        (paginate?.has_more_pages ||
-                                            shopPageProductsFetching) && (
-                                            <InfiniteLoader />
-                                        )
-                                    }
-                                    // endMessage={
-                                    //     <p className="text-center mt-10 pb-10 text-xl font-bold mb-3">
-                                    //         No More Products
-                                    //     </p>
-                                    // }
+                                    loader={<InfiniteLoader />}
+                                    scrollThreshold="150px"
+                                    scrollableTarget="scrollableDiv"
                                     endMessage={
                                         paginate?.has_more_pages ||
                                         shopPageProductsFetching ||

@@ -19,9 +19,10 @@ import { BsSearch } from 'react-icons/bs';
 import { FaUserCircle, FaShoppingCart } from 'react-icons/fa';
 import { HiMenu } from 'react-icons/hi';
 import { RxHamburgerMenu } from 'react-icons/rx';
+import { BsTelephoneFill } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import Search3 from '../components/search3';
-import SideMenu from '../components/side-menu';
+import SideMenuFortyEight from './side-menu-fortyeight';
 
 const HeaderFortyEight = ({ headersetting, design, menu }: any) => {
     const router = useRouter();
@@ -30,6 +31,7 @@ const HeaderFortyEight = ({ headersetting, design, menu }: any) => {
     const [open, setOpen] = useState(false);
     const [searchTxt, setSearch] = useState('');
     const [openCart, setOpenCart] = useState(false);
+    const [openMenu, setOpenMenu] = useState(false);
 
     const { data: categoryData } = useGetCategoryQuery({});
 
@@ -68,7 +70,7 @@ const HeaderFortyEight = ({ headersetting, design, menu }: any) => {
 
     return (
         <>
-            <div className="bg-white h-20 flex items-center">
+            <div className="bg-white h-16 md:h-20 flex items-center">
                 <style>{styleCss}</style>
                 {/* CartSideBar open  */}
                 <CartSideBar
@@ -77,6 +79,13 @@ const HeaderFortyEight = ({ headersetting, design, menu }: any) => {
                     design={design}
                 />
                 <div className="sm:container px-5 flex justify-between items-center gap-x-5 w-full">
+                    <div
+                        onClick={() => setOpen(!open)}
+                        className="lg:hidden block"
+                    >
+                        <HiMenu className="text-3xl" />
+                    </div>
+
                     <div className="lg:mr-20">
                         <div className="w-max">
                             {headersetting?.logo === null ? (
@@ -88,7 +97,7 @@ const HeaderFortyEight = ({ headersetting, design, menu }: any) => {
                             ) : (
                                 <Link href="/">
                                     <img
-                                        className="h-[50px] w-auto overflow-hidden"
+                                        className="h-[45px] w-auto overflow-hidden"
                                         src={imgUrl + headersetting?.logo}
                                         alt="logo"
                                     />
@@ -96,12 +105,7 @@ const HeaderFortyEight = ({ headersetting, design, menu }: any) => {
                             )}
                         </div>
                     </div>
-                    <div
-                        onClick={() => setOpen(!open)}
-                        className="lg:hidden block"
-                    >
-                        <HiMenu className="text-3xl" />
-                    </div>
+
                     <div className="w-full lg:flex items-center hidden relative">
                         <input
                             value={searchTxt}
@@ -130,19 +134,19 @@ const HeaderFortyEight = ({ headersetting, design, menu }: any) => {
                             </div>
                         )}
                     </div>
-                    <div className="hidden lg:flex gap-5 items-center w-max ml-28">
+                    <div className="flex gap-5 items-center w-max md:ml-28">
                         <div
                             onClick={() => setOpenCart(!openCart)}
                             className="flex items-center lg:cursor-pointer bg-[--header-color] rounded-md py-2 px-2 shadow relative"
                         >
                             <p className={`lg:cursor-pointer`}>
-                                <FaShoppingCart className="text-2xl font-thin menu-hover" />
+                                <FaShoppingCart className="text-xl font-thin" />
                             </p>
                             <p className="text-sm rounded-full w-fit px-1.5 h-fit bg-black text-white absolute bottom-7 left-7">
                                 {cartList.length}
                             </p>
                         </div>
-                        <div>
+                        <div className='hidden lg:block'>
                             {/* Authenticate routes dropdown  */}
                             {isAuthenticated ? (
                                 <Menu as="div" className="ml-3 relative">
@@ -260,8 +264,8 @@ const HeaderFortyEight = ({ headersetting, design, menu }: any) => {
                     </div>
                 </div>
             </div>
-            <div className="bg-[--header-color] text-[--text-color] h-10 lg:flex items-center hidden">
-                <div className="sm:container px-5 flex justify-start gap-x-5">
+            <div className="bg-[--header-color] text-[--text-color] h-10 lg:flex items-center justify-between hidden">
+                <div className="px-20 flex gap-x-5">
                     <div className="relative group">
                         <div className="flex items-center gap-4 cursor-pointer">
                             <RxHamburgerMenu />
@@ -325,6 +329,13 @@ const HeaderFortyEight = ({ headersetting, design, menu }: any) => {
                         </div>
                     ))}
                 </div>
+                <a
+                    href={`tel:${headersetting?.phone}`}
+                    className="px-20 flex items-center gap-2 no-underline"
+                >
+                    <BsTelephoneFill />
+                    {headersetting?.phone}
+                </a>
             </div>
             {/* screen touch menu close  */}
             {open && (
@@ -365,11 +376,11 @@ const HeaderFortyEight = ({ headersetting, design, menu }: any) => {
                     </div>
 
                     <div className="px-6">
-                        <SideMenu
+                        <SideMenuFortyEight
                             setOpen={setOpen}
                             design={design}
-                            menu={menu}
-                            menuLoading={false}
+                            categoryLoading={false}
+                            openMenu={openMenu}
                         />
                     </div>
                 </ul>
