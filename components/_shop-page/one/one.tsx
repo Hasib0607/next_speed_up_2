@@ -111,6 +111,7 @@ const One = ({ store_id }: any) => {
             });
         }
     }, [isPagination, paginate, page, products]);
+    
 
     return (
         <>
@@ -191,26 +192,22 @@ const One = ({ store_id }: any) => {
 
                         {/* main products in here  */}
                         {!isPagination ? (
-                            <div
-                                id="scrollableDiv"
-                                style={{
-                                    height: '100vh',
-                                    overflowY: 'auto',
-                                    scrollbarWidth: 'none', // Firefox
-                                    msOverflowStyle: 'none', // IE 10+
-                                }}
-                            >
+                            <div>
                                 <InfiniteScroll
                                     style={{
                                         height: 'auto',
                                         overflow: 'hidden',
+                                        marginTop: 32,
                                     }}
                                     dataLength={infiniteProducts?.length}
                                     next={nextPageFetch}
                                     hasMore={hasMore}
-                                    loader={<InfiniteLoader />}
-                                    scrollThreshold="150px"
-                                    scrollableTarget="scrollableDiv"
+                                    loader={
+                                        <div style={{ marginTop: 200 }}>
+                                            <InfiniteLoader />
+                                        </div>
+                                    }
+                                    scrollThreshold={0.7}
                                     endMessage={
                                         paginate?.has_more_pages ||
                                         shopPageProductsFetching ||

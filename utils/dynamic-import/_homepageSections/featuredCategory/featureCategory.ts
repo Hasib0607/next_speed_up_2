@@ -1,4 +1,4 @@
-import { FORTY_FIVE, FORTY_SEVEN, FORTY_THREE } from '@/consts';
+import { FORTY_EIGHT, FORTY_FIVE, FORTY_SEVEN, FORTY_THREE } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const feature_categories: any = {
@@ -160,5 +160,8 @@ export const feature_categories: any = {
     ),
     [FORTY_SEVEN]: dynamic(
         () => import('@/components/_homepage/featured-category/featuredcat-fortyseven')
+    ),
+    [FORTY_EIGHT]: dynamic(
+        () => import('@/components/_homepage/featured-category/featuredcat-fortyeight')
     ),
 };
