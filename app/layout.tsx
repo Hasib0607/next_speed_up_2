@@ -1,3 +1,4 @@
+import './globals.css';
 import { hexToRgba } from '@/helpers/littleSpicy';
 import { imgUrl } from '@/site-settings/siteUrl';
 import FacebookPixel from '@/utils/FacebookPixel';
@@ -8,7 +9,6 @@ import localFont from 'next/font/local';
 import Script from 'next/script';
 import NextTopLoader from 'nextjs-toploader';
 import AppWrapper from './AppWrapper';
-import './globals.css';
 import getModuleStatus from '@/utils/fetcher/getModuleStatus';
 import { ABANDAN_CART } from '@/consts';
 import { getInitialAppData } from '@/lib/getInitialAppData';
@@ -31,12 +31,19 @@ export async function generateMetadata(): Promise<Metadata> {
 
     const title = headersetting?.website_name;
     const description = headersetting?.short_description;
+    const domainVerificationCode = headersetting?.domain_verification_code;
+    const googleSearchConsole = headersetting?.google_search_console;
     const keywords = 'eBitans, eCommerce builder platform';
+
     return {
         title: `${title}`,
         description: description,
         icons: { icon: imgUrl + headersetting?.favicon },
         keywords: keywords,
+        other: {
+            'facebook-domain-verification': domainVerificationCode,
+            'google-site-verification': googleSearchConsole,
+        },
     };
 }
 
@@ -54,7 +61,7 @@ export default async function RootLayout({
     const dbCart = await getModuleStatus(appStore?.id, ABANDAN_CART);
 
     const favicon = imgUrl + headersetting?.favicon;
-
+    const domainVerificationCode = headersetting?.domain_verification_code;
     const FACEBOOK_PIXEL_ID = headersetting?.facebook_pixel;
     const gtmId = headersetting?.gtm;
     const googleAnalytics = headersetting?.google_analytics;
@@ -94,6 +101,13 @@ export default async function RootLayout({
                     <meta
                         name="google-site-verification"
                         content={googleSearchConsole}
+                    />
+                )}
+
+                {domainVerificationCode && (
+                    <meta
+                        name="facebook-domain-verification"
+                        content={domainVerificationCode}
                     />
                 )}
 
@@ -142,7 +156,12 @@ export default async function RootLayout({
                     speed={200}
                 />
 
-                <AppWrapper design={design} appStore={appStore} headersetting={headersetting} dbCart={dbCart}>
+                <AppWrapper
+                    design={design}
+                    appStore={appStore}
+                    headersetting={headersetting}
+                    dbCart={dbCart}
+                >
                     {children}
                 </AppWrapper>
             </body>
