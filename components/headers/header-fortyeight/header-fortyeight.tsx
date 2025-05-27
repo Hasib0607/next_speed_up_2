@@ -273,8 +273,8 @@ const HeaderFortyEight = ({ headersetting, design, menu }: any) => {
                         </div>
 
                         {/* Full-width dropdown on hover of hamburger */}
-                        <div className="absolute -left-20 top-8 w-screen bg-white text-black shadow-md z-50 py-4 px-6 hidden group-hover:flex">
-                            <div className="flex flex-col gap-2 pl-12 relative">
+                        <div className="absolute -left-24 top-8 w-screen bg-white text-black shadow-md z-50 py-4 px-6 hidden group-hover:flex">
+                            <div className="flex flex-col gap-2 pl-16 relative">
                                 <Link href="/shop">
                                     <p className="text-sm font-medium hover:text-[var(--header-color)]">
                                         shop now
