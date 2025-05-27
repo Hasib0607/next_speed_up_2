@@ -72,7 +72,7 @@ const HeaderFortyThree = ({ design, headersetting, menu }: any) => {
 
      .navbarSeven.openMenu {
         display: block;
-        // position: fixed;
+        position: fixed;
         width: 100%;
         background: ${design?.header_color};
         z-index: 10;
@@ -102,7 +102,7 @@ const HeaderFortyThree = ({ design, headersetting, menu }: any) => {
     return (
         <div>
             <div
-                className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out ${
+                className={`top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out ${
                     isScrollingDown ? '-translate-y-full' : 'translate-y-0'
                 } ${openMenu && 'navbarSeven openMenu'} bg-seven-header`}
             >

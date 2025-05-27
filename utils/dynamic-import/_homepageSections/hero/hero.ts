@@ -1,4 +1,4 @@
-import { FORTY_FIVE, FORTY_FOUR, FORTY_SEVEN, FORTY_THREE } from '@/consts';
+import { FORTY_EIGHT, FORTY_FIVE, FORTY_FOUR, FORTY_SEVEN, FORTY_THREE } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const hero: any = {
@@ -97,5 +97,8 @@ export const hero: any = {
     ),
     [FORTY_SEVEN]: dynamic(
         () => import('@/components/_homepage/hero/hero-fortyseven')
+    ),
+    [FORTY_EIGHT]: dynamic(
+        () => import('@/components/_homepage/hero/hero-fortyeight')
     ),
 };

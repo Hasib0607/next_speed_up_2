@@ -20,6 +20,7 @@ import 'swiper/css/effect-fade';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { IoSearchCircleOutline } from 'react-icons/io5';
 import { sliderImg } from '@/site-settings/siteUrl';
+import { BiRightArrowAlt } from 'react-icons/bi';
 
 const HeroTwentyEight = ({ slider, design }: any) => {
     let menu = [''];
@@ -148,6 +149,22 @@ const HeroTwentyEight = ({ slider, design }: any) => {
                                 <h1 className="xl:text-4xl md:text-[28px] text-[22px] font-medium">
                                     {s?.title}
                                 </h1>
+                                {s?.link && (
+                                    <a
+                                        href={s?.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <h1
+                                            className={`px-2 md:px-6 md:py-2 py-1 btn-slider duration-300 lg:text-lg text-xs sm:text-center w-max md:mx-auto lg:cursor-pointer bg-black text-white rounded-full font-medium ${
+                                                !s?.title && 'sm:mt-20 mt-10'
+                                            }`}
+                                        >
+                                            Shop Now{' '}
+                                            <BiRightArrowAlt className="inline" />
+                                        </h1>
+                                    </a>
+                                )}
                             </div>
                         </div>
 
