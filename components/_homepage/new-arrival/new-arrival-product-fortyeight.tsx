@@ -5,15 +5,22 @@ import DefaultSlider from '@/components/slider/default-slider';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { SwiperSlide } from 'swiper/react';
 
-const BestSellerFortyEight = ({
-    best_sell_product,
-    design,
+const NewArrivalProductFortyEight = ({
+    product,
     headersetting,
+    design,
 }: any) => {
+
+    const { custom_design } = headersetting || {};
+
+    const newArrivalProduct = custom_design?.new_arrival?.[0] || {};
+    const { title = 'Default Title', title_color = '#000' } =
+        newArrivalProduct || {};
+
     const prevEl = 'best-product-prev';
     const nextEl = 'best-product-next';
 
-    let isLoop = best_sell_product.length > 1;
+    let isLoop = newArrivalProduct.length > 1;
 
     const styleCss = `
     .best-product-prev {
@@ -37,10 +44,6 @@ const BestSellerFortyEight = ({
       background: white;
     }
  `;
-
-    const { custom_design } = headersetting || {};
-    const bestSellProduct = custom_design?.best_sell_product?.[0] || {};
-    const { title = 'Default Title', title_color = '#000' } = bestSellProduct;
 
     return (
         <div className="sm:container px-5 sm:py-10 py-5 relative">
@@ -95,12 +98,13 @@ const BestSellerFortyEight = ({
                         },
                     }}
                 >
-                    {best_sell_product?.length > 0 &&
-                        best_sell_product?.slice(0, 10)?.map((item: any) => (
+                    {product?.length > 0 &&
+                        product?.slice(0, 10)?.map((item: any) => (
                             <SwiperSlide key={item?.id}>
                                 <Card78
                                     item={item}
-                                    type={'best_sell_product'}
+                                    key={item.id}
+                                    type={'new_arrival'}
                                 />
                             </SwiperSlide>
                         ))}
@@ -110,4 +114,4 @@ const BestSellerFortyEight = ({
     );
 };
 
-export default BestSellerFortyEight;
+export default NewArrivalProductFortyEight;

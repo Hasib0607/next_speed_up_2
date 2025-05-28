@@ -1,3 +1,4 @@
+import { FORTY_EIGHT } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const all_testimonials: any = {
@@ -51,6 +52,9 @@ export const all_testimonials: any = {
     ),
     thirtysix: dynamic(
         () => import('@/components/_homepage/testimonial/testimonial-twentyseven')
+    ),
+    [FORTY_EIGHT]: dynamic(
+        () => import('@/components/_homepage/testimonial/testimonial-fortyeight')
     ),
 
 };

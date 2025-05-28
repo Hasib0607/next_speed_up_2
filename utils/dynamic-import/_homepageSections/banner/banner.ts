@@ -1,4 +1,4 @@
-import { FORTY_FOUR, FORTY_SEVEN, FORTY_THREE } from '@/consts';
+import { FORTY_EIGHT, FORTY_FOUR, FORTY_SEVEN, FORTY_THREE } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const banners: any = {
@@ -114,5 +114,8 @@ export const banners: any = {
     ),
     [FORTY_SEVEN]: dynamic(
         () => import('@/components/_homepage/promotions/promo-fortyseven')
+    ),
+    [FORTY_EIGHT]: dynamic(
+        () => import('@/components/_homepage/promotions/promo-fortyeight')
     ),
 };
