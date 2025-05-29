@@ -1,4 +1,4 @@
-import { FORTY_FIVE, FORTY_FOUR, FORTY_SEVEN, FORTY_THREE } from '@/consts';
+import { FORTY_EIGHT, FORTY_FIVE, FORTY_FOUR, FORTY_SEVEN, FORTY_THREE } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const footers: any = {
@@ -62,4 +62,5 @@ export const footers: any = {
     [FORTY_FOUR]: dynamic(() => import('@/components/footers/footer-fortyfour')),
     [FORTY_FIVE]: dynamic(() => import('@/components/footers/footer-fortyfive')),
     [FORTY_SEVEN]: dynamic(() => import('@/components/footers/footer-fortyseven')),
+    [FORTY_EIGHT]: dynamic(() => import('@/components/footers/footer-fortyeight')),
 };

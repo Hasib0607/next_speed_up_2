@@ -4,8 +4,7 @@ import { product_details_pages } from '@/utils/dynamic-import/productDetailsPage
 
 const ProductDetails = ({ design, headersetting, product, productId }: any) => {
     const ProductDetailsPageComponent =
-        product_details_pages[design?.single_product_page] ||
-        product_details_pages[DEFAULT];
+        product_details_pages[design?.single_product_page] || product_details_pages[DEFAULT];
 
     const store_id = numberParser(design?.store_id) || null;
 

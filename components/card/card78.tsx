@@ -90,9 +90,6 @@ const Card78 = ({ item, type = '' }: any) => {
         color:  white;
         background: #83C341;
     }
-    .text-color-thirty {
-        color:  ${bgColor};
-    }
     .text-hover:hover {
         color: ${bgColor};
         text-decoration: underline;
@@ -188,12 +185,12 @@ const Card78 = ({ item, type = '' }: any) => {
                             </div>
                         </Link>
                         <div className="flex items-center justify-center gap-2">
-                            <div className="text-sm py-1 rounded-lg text-[#83C341] font-bold">
+                            <div className="text-sm py-1 rounded-lg text-[--header-color] font-bold">
                                 <BDT />
                                 {price}
                             </div>
                             {save > 0 && (
-                                <p className="line-through text-xs text-color-thirty">
+                                <p className="line-through text-xs text-gray-500 font-bold">
                                     {' '}
                                     <BDT
                                         price={numberParser(
@@ -208,7 +205,7 @@ const Card78 = ({ item, type = '' }: any) => {
                             <Link
                                 href={'/product/' + item?.id + '/' + item?.slug}
                             >
-                                <div className="flex py-2 searchHover duration-500 bg-color justify-center gap-1 items-center relative rounded-md z-[1] lg:cursor-pointer font-bold ">
+                                <div className="flex py-2 mx-3 searchHover duration-500 bg-color justify-center gap-1 items-center relative rounded-md z-[1] lg:cursor-pointer font-bold ">
                                     <HiOutlineDocumentText className="text-lg" />
                                     <p className="text-sm">View Details</p>
                                 </div>
