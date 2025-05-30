@@ -6,7 +6,9 @@ const Category = ({ design, catId }: any) => {
     const store_id = numberParser(design?.store_id) || null;
 
     const CategoryComponent =
-        categories[design?.shop_page] || categories[DEFAULT];
+        categories["fortyeight"]; 
+        
+        // || categories[DEFAULT];
 
     return (
         design?.shop_page !== 'null' &&

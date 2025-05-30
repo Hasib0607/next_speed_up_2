@@ -29,6 +29,7 @@ import {
 import AddCartBtnThirtyFour from '../components/add-cart-btn-thirtyfour';
 import ZoomHSlider from '../components/zoom-slider';
 import { HSlider } from '../components/slider';
+import AddCartBtnFortyEight from './add-cart-btn-fortyeight';
 
 const DetailsFortyEight = ({
     design,
@@ -347,7 +348,7 @@ const DetailsFortyEight = ({
                     )}
 
                     {productQuantity !== 0 && price !== 0 && (
-                        <AddCartBtnThirtyFour
+                        <AddCartBtnFortyEight
                             qty={qty}
                             setQty={setQty}
                             variant={variant}
