@@ -195,14 +195,19 @@ const CategoryFour = ({ catId, store_id }: any) => {
                             </div>
                         ) : (
                             <div>
-                                <div className="flex flex-wrap gap-4 justify-center my-10">
-                                    {products?.map((product: any) => (
-                                        <ProductCardTwo
-                                            key={product.id}
-                                            item={product}
-                                        />
-                                    ))}
-                                </div>
+                                {categoryPageProductsFetching ||
+                                categoryPageProductsLoading ? (
+                                    <InfiniteLoader />
+                                ) : (
+                                    <div className="flex flex-wrap gap-4 justify-center my-10">
+                                        {products?.map((product: any) => (
+                                            <ProductCardTwo
+                                                key={product.id}
+                                                item={product}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         )}
                     </BreadcrumbHeadingWrapper>
