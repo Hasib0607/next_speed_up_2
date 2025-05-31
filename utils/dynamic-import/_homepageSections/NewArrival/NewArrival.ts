@@ -1,4 +1,4 @@
-import { FORTY_SEVEN } from '@/consts';
+import { FORTY_EIGHT, FORTY_SEVEN } from '@/consts';
 import dynamic from 'next/dynamic';
 
 export const new_arrival: any = {
@@ -158,6 +158,12 @@ export const new_arrival: any = {
         () =>
             import(
                 '@/components/_homepage/new-arrival/new-arrival-product-fortyseven'
+            )
+    ),
+    [FORTY_EIGHT]: dynamic(
+        () =>
+            import(
+                '@/components/_homepage/new-arrival/new-arrival-product-fortyeight'
             )
     ),
 };

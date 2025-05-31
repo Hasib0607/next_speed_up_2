@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { catImg, bannerImg } from '@/site-settings/siteUrl'; // Ensure bannerImg is imported
+import { catImg, bannerImg } from '@/site-settings/siteUrl';
 import { useState, useCallback } from 'react';
 import CatgoryProductsList from './category-products-list';
 import FeatureCategory from './feature-category';
